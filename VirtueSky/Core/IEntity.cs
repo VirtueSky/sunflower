@@ -12,6 +12,7 @@
         void FixedTick();
         void CleanUp();
         void DoDisable();
+        void DoDestroy();
         void StopListenEvents();
         void UnbindVariable();
     }

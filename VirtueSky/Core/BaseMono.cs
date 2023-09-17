@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Attributes;
+using VirtueSky.Misc;
 using VirtueSky.ObjectPooling;
 using VirtueSky.Utils;
-using System.IO;
 
 namespace VirtueSky.Core
 {
-    
     public class BaseMono : MonoBehaviour, IEntity
     {
         [Header("Base")] [SerializeField, NamedId]
@@ -123,44 +121,23 @@ namespace VirtueSky.Core
         }
 
 #if UNITY_EDITOR
-        void Reset()
+        protected virtual void Reset()
         {
             ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
             if (ticker == null)
             {
-                CreateSettingAssets<Ticker>();
+                Common.CreateSettingAssets<Ticker>();
                 ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
             }
 
             pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
             if (pools == null)
             {
-                CreateSettingAssets<Pools>();
+                Common.CreateSettingAssets<Pools>();
                 pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
             }
 
             EditorUtility.SetDirty(this);
-        }
-
-        private void CreateSettingAssets<T>() where T : ScriptableObject
-        {
-            var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
-            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath()}/{typeof(T).Name}.asset");
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-
-            Debug.Log($"{typeof(T).Name} was created ad {DefaultResourcesPath()}/{typeof(T).Name}.asset");
-        }
-
-        private string DefaultResourcesPath()
-        {
-            const string defaultResourcePath = "Assets/_Root/Resources";
-            if (!Directory.Exists(defaultResourcePath))
-            {
-                Directory.CreateDirectory(defaultResourcePath);
-            }
-
-            return defaultResourcePath;
         }
 #endif
     }

@@ -84,7 +84,7 @@ namespace VirtueSky.Events
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(BaseEvent), true)]
-    public class BaseEventEditor : Editor
+    public class BaseEventEditor : UnityEditor.Editor
     {
         BaseEvent baseEvent;
 
