@@ -4,7 +4,7 @@
 
 ### Add the lines below to `Packages/manifest.json`
 
-for version `1.0.2`
+for version `1.0.3`
 ```csharp
-"com.virtuesky.scriptableobject.architecture":"https://github.com/VirtueSky/SO.Architecture.git#1.0.2",
+"com.virtuesky.scriptableobject.architecture":"https://github.com/VirtueSky/SO.Architecture.git#1.0.3",
 ```
