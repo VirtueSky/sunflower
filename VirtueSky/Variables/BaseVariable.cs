@@ -9,6 +9,7 @@ namespace VirtueSky.Variables
     {
         [SerializeField] TType initializeValue;
         [SerializeField] bool isSavable;
+        [SerializeField] private bool isSaveInStorage;
         [SerializeField] bool isRaiseEvent;
         [NonSerialized] TType runtimeValue;
 
@@ -20,6 +21,10 @@ namespace VirtueSky.Variables
                 if (isSavable)
                 {
                     GameData.Set(Id, value);
+                    if (isSaveInStorage)
+                    {
+                        GameData.Save();
+                    }
                 }
                 else
                 {

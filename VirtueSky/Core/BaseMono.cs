@@ -123,6 +123,12 @@ namespace VirtueSky.Core
 #if UNITY_EDITOR
         protected virtual void Reset()
         {
+            GetTickerAndPools();
+        }
+
+        [ContextMenu("GetTickerAndPools")]
+        void GetTickerAndPools()
+        {
             ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
             if (ticker == null)
             {
