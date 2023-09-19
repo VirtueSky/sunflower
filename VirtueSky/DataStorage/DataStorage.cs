@@ -79,7 +79,7 @@ namespace VirtueSky.DataStorage
                 Serialize(data, stream);
             }
 
-            Debug.LogFormat("Saving {0} successfully", path);
+            Debug.LogFormat("<color=Green>Saving {0} successfully</color>", path);
         }
 
         string GetDataPath(string name)
