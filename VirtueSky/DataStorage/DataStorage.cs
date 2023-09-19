@@ -175,5 +175,13 @@ namespace VirtueSky.DataStorage
         {
             data.Store(persistentData, root);
         }
+
+        public void DelFileDataInStorage(string name)
+        {
+            if (File.Exists(GetDataPath(name)))
+            {
+                File.Delete(name);
+            }
+        }
     }
 }

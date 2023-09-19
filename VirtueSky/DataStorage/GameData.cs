@@ -6,9 +6,10 @@ namespace VirtueSky.DataStorage
     {
         const string LAST_LOGIN_TIME_KEY = "LAST_LOGIN_TIME";
         const string LAST_ACTIVE_TIME_KEY = "LAST_ACTIVE_TIME";
+        private const string fileNameData = "data.dat";
 
         static DataStorage _storage;
-        static DataStorage Storage => _storage ?? (_storage = new DataStorage("data.dat"));
+        static DataStorage Storage => _storage ?? (_storage = new DataStorage(fileNameData));
 
         public static double LastLoginTime
         {
@@ -50,6 +51,11 @@ namespace VirtueSky.DataStorage
         public static void Clear()
         {
             _storage = null;
+        }
+
+        public static void DelDataInStorage()
+        {
+            Storage.DelFileDataInStorage(fileNameData);
         }
     }
 }
