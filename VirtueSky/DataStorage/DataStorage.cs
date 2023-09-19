@@ -180,7 +180,7 @@ namespace VirtueSky.DataStorage
         {
             if (File.Exists(GetDataPath(name)))
             {
-                File.Delete(name);
+                File.Delete(GetDataPath(name));
             }
         }
     }
