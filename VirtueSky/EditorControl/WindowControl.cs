@@ -4,7 +4,7 @@ using VirtueSky.DataStorage;
 
 namespace VirtueSky.EditorControl
 {
-    public class DataControl : EditorWindow
+    public class WindowControl : EditorWindow
     {
         [MenuItem("DataControl/Clear Data %F1")]
         public static void ClearAllData()
