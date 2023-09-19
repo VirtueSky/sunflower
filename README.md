@@ -1,4 +1,4 @@
-# ScriptableobjectArchitecture
+# Core ScriptableObject architecture for building Unity games
 
 ## How To Install
 
