@@ -1,10 +1,10 @@
-﻿#if UNITY_EDITOR
-using System;
+﻿using System;
 using System.Reflection;
 using UnityEditor;
 
 namespace VirtueSky.Utils
 {
+#if UNITY_EDITOR
     public class GameViewUtils
     {
         public const int DefaultSizeCount = 18;
@@ -79,6 +79,8 @@ namespace VirtueSky.Utils
             return (getDisplayTexts.Invoke(group, null) as string[]).Length;
         }
     }
+#endif
+
 
     [Serializable]
     public class Resolution
@@ -95,4 +97,3 @@ namespace VirtueSky.Utils
         }
     }
 }
-#endif

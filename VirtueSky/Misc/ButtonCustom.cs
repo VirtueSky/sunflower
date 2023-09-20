@@ -1,13 +1,10 @@
-using System;
 using System.Linq;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VirtueSky.Core;
+using VirtueSky.EditorUtils;
 using VirtueSky.Events;
 using VirtueSky.Utils;
 
@@ -74,7 +71,7 @@ namespace VirtueSky.Misc
                 .FirstOrDefault();
             if (clickButtonEvent == null)
             {
-                Common.CreateSettingAssets<ClickButtonEvent>();
+                ScriptableSetting.CreateSettingAssets<ClickButtonEvent>();
                 clickButtonEvent = AssetUtils.FindAssetAtFolder<ClickButtonEvent>(new string[] { "Assets" })
                     .FirstOrDefault();
             }
@@ -82,6 +79,8 @@ namespace VirtueSky.Misc
 #endif
     }
 
+
+#if UNITY_EDITOR
     [CustomEditor(typeof(ButtonCustom), true)]
     [CanEditMultipleObjects]
     public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
@@ -109,4 +108,5 @@ namespace VirtueSky.Misc
             serializedObject.Update();
         }
     }
+#endif
 }

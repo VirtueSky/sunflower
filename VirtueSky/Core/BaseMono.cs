@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Attributes;
+using VirtueSky.EditorUtils;
 using VirtueSky.Misc;
 using VirtueSky.ObjectPooling;
 using VirtueSky.Utils;
@@ -132,14 +133,14 @@ namespace VirtueSky.Core
             ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
             if (ticker == null)
             {
-                Common.CreateSettingAssets<Ticker>();
+                ScriptableSetting.CreateSettingAssets<Ticker>();
                 ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
             }
 
             pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
             if (pools == null)
             {
-                Common.CreateSettingAssets<Pools>();
+                ScriptableSetting.CreateSettingAssets<Pools>();
                 pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
             }
 

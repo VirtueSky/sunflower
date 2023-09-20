@@ -1,9 +1,9 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
 namespace VirtueSky.EditorUtils
 {
+#if UNITY_EDITOR
     public static class EditorGUIUtils
     {
         public class DisabledGUI : System.IDisposable
@@ -188,5 +188,5 @@ namespace VirtueSky.EditorUtils
             }
         }
     }
-}
 #endif
+}

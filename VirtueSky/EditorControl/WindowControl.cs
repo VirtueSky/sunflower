@@ -4,6 +4,7 @@ using VirtueSky.DataStorage;
 
 namespace VirtueSky.EditorControl
 {
+#if UNITY_EDITOR
     public class WindowControl : EditorWindow
     {
         [MenuItem("DataControl/Clear Data %F1")]
@@ -21,4 +22,5 @@ namespace VirtueSky.EditorControl
             GameData.Save();
         }
     }
+#endif
 }
