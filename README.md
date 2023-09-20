@@ -9,3 +9,4 @@ for version `1.0.7`
 "com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#1.0.7",
 ```
 
+- If you are missing some of the libraries used in the package, you can download them [here](https://drive.google.com/drive/folders/1OdT5EfMDfkQsEleMM6C2-HHav9o0neTS)
