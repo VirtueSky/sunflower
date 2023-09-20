@@ -10,3 +10,7 @@ for version `1.0.7`
 ```
 
 - If you are missing some of the libraries used in the package, you can download them [here](https://drive.google.com/drive/folders/1OdT5EfMDfkQsEleMM6C2-HHav9o0neTS)
+- If you are missing newtonsoft json, please paste the line below into add package from git URl at Window > Package Manager
+  ```
+  com.unity.nuget.newtonsoft-json
+  ```
