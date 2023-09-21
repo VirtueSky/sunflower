@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using VirtueSky.Core;
-using VirtueSky.Variables;
+
 
 namespace VirtueSky.Events
 {
@@ -13,6 +12,7 @@ namespace VirtueSky.Events
         where TResponse : UnityEvent
     {
         [SerializeField] private BindingListener bindingListener;
+
         [SerializeField] private List<EventResponseData> listEventResponseDatas = new List<EventResponseData>();
         private readonly Dictionary<BaseEvent, UnityEvent> _dictionary = new Dictionary<BaseEvent, UnityEvent>();
 

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Attributes;
@@ -12,13 +13,29 @@ namespace VirtueSky.Core
 {
     public class BaseSO : ScriptableObject, IEntity
     {
-        [SerializeField, NamedId] string id;
-        [Header("Base")] [SerializeField] public Pools pools;
-        [SerializeField] public Ticker ticker;
-        [SerializeField] bool earlyTick;
-        [SerializeField] bool tick;
-        [SerializeField] bool lateTick;
-        [SerializeField] bool fixedTick;
+        [Header("Base SO")] [SerializeField, NamedId]
+        string id;
+
+        [SerializeField] [TextArea(2, 5)] private string description;
+
+        [FoldoutGroup("Ticker")] [SerializeField]
+        public Ticker ticker;
+
+        [FoldoutGroup("Ticker")] [SerializeField]
+        bool earlyTick;
+
+        [FoldoutGroup("Ticker")] [InfoBox("<color=green>Tick same with Update</color>")] [SerializeField]
+        bool tick;
+
+        [FoldoutGroup("Ticker")] [InfoBox("<color=green>LateTick same with LateUpdate</color>")] [SerializeField]
+        bool lateTick;
+
+        [FoldoutGroup("Ticker")] [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")] [SerializeField]
+        bool fixedTick;
+
+        [FoldoutGroup("Pools")] [SerializeField]
+        public Pools pools;
+
 
         public string Id => id;
 

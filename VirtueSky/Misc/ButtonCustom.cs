@@ -13,9 +13,9 @@ namespace VirtueSky.Misc
     public class ButtonCustom : Button
     {
         [Header("Motion")] public Ease ease = Ease.OutQuint;
+
         public float scale = 0.9f;
         public ClickButtonEvent clickButtonEvent;
-        public GameObject test;
         Vector3 originScale = Vector3.one;
 
         protected override void OnEnable()
