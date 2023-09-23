@@ -1,5 +1,7 @@
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using VirtueSky.Utils;
 
 namespace VirtueSky.EditorUtils
 {
@@ -27,6 +29,18 @@ namespace VirtueSky.EditorUtils
             }
 
             return defaultResourcePath;
+        }
+
+        public static T CreateAndGetScriptableAsset<T>() where T : ScriptableObject
+        {
+            var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            if (so == null)
+            {
+                ScriptableSetting.CreateSettingAssets<T>();
+                so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            }
+
+            return so;
         }
     }
 }

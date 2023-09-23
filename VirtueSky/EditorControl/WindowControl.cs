@@ -7,7 +7,7 @@ namespace VirtueSky.EditorControl
 #if UNITY_EDITOR
     public class WindowControl : EditorWindow
     {
-        [MenuItem("DataControl/Clear Data %F1")]
+        [MenuItem("GameControl/Clear Data %F1")]
         public static void ClearAllData()
         {
             GameData.DelDataInStorage();
@@ -16,7 +16,7 @@ namespace VirtueSky.EditorControl
             Debug.Log($"<color=Green>Clear data succeed</color>");
         }
 
-        [MenuItem("DataControl/Save Data %F2")]
+        [MenuItem("GameControl/Save Data %F2")]
         public static void SaveData()
         {
             GameData.Save();

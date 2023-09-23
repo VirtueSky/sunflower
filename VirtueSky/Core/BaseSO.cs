@@ -142,20 +142,8 @@ namespace VirtueSky.Core
         [ContextMenu("GetTickerAndPools")]
         void GetTickerAndPools()
         {
-            ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
-            if (ticker == null)
-            {
-                ScriptableSetting.CreateSettingAssets<Ticker>();
-                ticker = AssetUtils.FindAssetAtFolder<Ticker>(new string[] { "Assets" }).FirstOrDefault();
-            }
-
-            pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
-            if (pools == null)
-            {
-                ScriptableSetting.CreateSettingAssets<Pools>();
-                pools = AssetUtils.FindAssetAtFolder<Pools>(new string[] { "Assets" }).FirstOrDefault();
-            }
-
+            ticker = ScriptableSetting.CreateAndGetScriptableAsset<Ticker>();
+            pools = ScriptableSetting.CreateAndGetScriptableAsset<Pools>();
             EditorUtility.SetDirty(this);
         }
 #endif
