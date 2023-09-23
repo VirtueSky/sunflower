@@ -4,9 +4,9 @@
 
 ### Add the lines below to `Packages/manifest.json`
 
-for version `1.0.9`
+for version `1.1.0`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#1.0.9",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#1.1.0",
 ```
 
 - If you are missing some of the libraries used in the package, you can download them [here](https://drive.google.com/drive/folders/1OdT5EfMDfkQsEleMM6C2-HHav9o0neTS)

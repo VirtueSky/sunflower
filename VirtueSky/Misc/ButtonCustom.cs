@@ -67,14 +67,7 @@ namespace VirtueSky.Misc
         protected override void Reset()
         {
             base.Reset();
-            clickButtonEvent = AssetUtils.FindAssetAtFolder<ClickButtonEvent>(new string[] { "Assets" })
-                .FirstOrDefault();
-            if (clickButtonEvent == null)
-            {
-                ScriptableSetting.CreateSettingAssets<ClickButtonEvent>();
-                clickButtonEvent = AssetUtils.FindAssetAtFolder<ClickButtonEvent>(new string[] { "Assets" })
-                    .FirstOrDefault();
-            }
+            clickButtonEvent = ScriptableSetting.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
         }
 #endif
     }

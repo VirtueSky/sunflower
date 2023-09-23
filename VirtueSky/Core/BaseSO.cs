@@ -142,8 +142,8 @@ namespace VirtueSky.Core
         [ContextMenu("GetTickerAndPools")]
         void GetTickerAndPools()
         {
-            ticker = ScriptableSetting.CreateAndGetScriptableAsset<Ticker>();
-            pools = ScriptableSetting.CreateAndGetScriptableAsset<Pools>();
+            ticker = ScriptableSetting.CreateAndGetScriptableAsset<Ticker>("/Core");
+            pools = ScriptableSetting.CreateAndGetScriptableAsset<Pools>("/Core");
             EditorUtility.SetDirty(this);
         }
 #endif
