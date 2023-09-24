@@ -18,6 +18,18 @@ namespace VirtueSky.EditorUtils
 
             Debug.Log($"{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset");
         }
+
+        public static T CreateAndGetScriptableAsset<T>(string path = "") where T : ScriptableObject
+        {
+            var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            if (so == null)
+            {
+                ScriptableSetting.CreateSettingAssets<T>(path);
+                so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
+            }
+
+            return so;
+        }
 #endif
 
 
@@ -30,18 +42,6 @@ namespace VirtueSky.EditorUtils
             }
 
             return defaultResourcePath + path;
-        }
-
-        public static T CreateAndGetScriptableAsset<T>(string path = "") where T : ScriptableObject
-        {
-            var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
-            if (so == null)
-            {
-                ScriptableSetting.CreateSettingAssets<T>(path);
-                so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
-            }
-
-            return so;
         }
     }
 }
