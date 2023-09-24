@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace VirtueSky.Misc
 {
-    public static class Common
+    public static partial class Common
     {
         public static bool IsInteger(float value)
         {
@@ -66,6 +66,14 @@ namespace VirtueSky.Misc
         {
             obj.tag = tag;
             obj.GetComponentsInChildren<Transform>().ToList().ForEach(x => { x.gameObject.tag = tag; });
+        }
+
+        public static void CallActionAndClean(ref Action action)
+        {
+            if (action == null) return;
+            var a = action;
+            a();
+            action = null;
         }
     }
 }
