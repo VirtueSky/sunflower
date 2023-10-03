@@ -11,10 +11,28 @@ namespace VirtueSky.Global
     {
         private readonly List<Action> _toMainThreads = new();
         private volatile bool _isToMainThreadQueueEmpty = true;
+        private List<Action> _localToMainThreads = new();
         internal event Action<bool> OnGamePause;
         internal event Action OnGameQuit;
         internal event Action<bool> OnGameFocus;
 
+
+        private void Update()
+        {
+            if (_isToMainThreadQueueEmpty) return;
+            _localToMainThreads.Clear();
+            lock (_toMainThreads)
+            {
+                _localToMainThreads.AddRange(_toMainThreads);
+                _toMainThreads.Clear();
+                _isToMainThreadQueueEmpty = true;
+            }
+
+            for (int i = 0; i < _localToMainThreads.Count; i++)
+            {
+                _localToMainThreads[i].Invoke();
+            }
+        }
 
         private void OnApplicationFocus(bool hasFocus)
         {
