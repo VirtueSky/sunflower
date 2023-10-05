@@ -3,7 +3,6 @@
     public interface IEntity
     {
         void BindVariable();
-        void ListenEvents();
         void DoEnable();
         void Initialize();
         void EarlyTick();
@@ -13,7 +12,6 @@
         void CleanUp();
         void DoDisable();
         void DoDestroy();
-        void StopListenEvents();
         void UnbindVariable();
     }
 }

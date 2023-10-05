@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -10,6 +11,7 @@ namespace VirtueSky.Events
     public class BaseEvent : BaseSO, IEvent
     {
         readonly List<IEventListener> listeners = new List<IEventListener>();
+        private Action onRaised = null;
 
         public void Raise()
         {
@@ -20,6 +22,24 @@ namespace VirtueSky.Events
             {
                 listeners[i].OnEventRaised(this);
             }
+
+            onRaised?.Invoke();
+        }
+
+        public event Action OnRaised
+        {
+            add => onRaised += value;
+            remove => onRaised -= value;
+        }
+
+        public void AddListener(Action action)
+        {
+            onRaised += action;
+        }
+
+        public void RemoveListener(Action action)
+        {
+            onRaised -= action;
         }
 
         public void AddListener(IEventListener listener)
@@ -41,12 +61,14 @@ namespace VirtueSky.Events
         public void RemoveAll()
         {
             listeners.Clear();
+            onRaised = null;
         }
     }
 
     public class BaseEvent<TType> : BaseSO, IEvent<TType>
     {
         readonly List<IEventListener<TType>> listeners = new List<IEventListener<TType>>();
+        private Action<TType> onRaised = null;
 
         public virtual void Raise(TType value)
         {
@@ -57,6 +79,24 @@ namespace VirtueSky.Events
             {
                 listeners[i].OnEventRaised(this, value);
             }
+
+            onRaised?.Invoke(value);
+        }
+
+        public event Action<TType> OnRaised
+        {
+            add => onRaised += value;
+            remove => onRaised -= value;
+        }
+
+        public void AddListener(Action<TType> action)
+        {
+            onRaised += action;
+        }
+
+        public void RemoveListener(Action<TType> action)
+        {
+            onRaised -= action;
         }
 
         public void AddListener(IEventListener<TType> listener)
@@ -78,6 +118,7 @@ namespace VirtueSky.Events
         public void RemoveAll()
         {
             listeners.Clear();
+            onRaised = null;
         }
     }
 

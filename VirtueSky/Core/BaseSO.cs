@@ -52,7 +52,6 @@ namespace VirtueSky.Core
         public void Enable()
         {
             BindVariable();
-            ListenEvents();
             SubTick();
             DoEnable();
         }
@@ -61,15 +60,10 @@ namespace VirtueSky.Core
         {
             DoDisable();
             UnsubTick();
-            //StopListenEvents();
             UnbindVariable();
         }
 
         public virtual void BindVariable()
-        {
-        }
-
-        public virtual void ListenEvents()
         {
         }
 
@@ -123,10 +117,6 @@ namespace VirtueSky.Core
             if (tick) ticker.UnsubTick(this);
             if (lateTick) ticker.UnsubLateTick(this);
             if (fixedTick) ticker.UnsubFixedTick(this);
-        }
-
-        public virtual void StopListenEvents()
-        {
         }
 
         public virtual void UnbindVariable()

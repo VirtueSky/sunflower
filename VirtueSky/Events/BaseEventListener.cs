@@ -7,7 +7,7 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Events
 {
-    public class BaseEventListener<TEvent, TResponse> : BaseMono, IEventListener
+    public class BaseEventListener<TEvent, TResponse> : MonoBehaviour, IEventListener
         where TEvent : BaseEvent
         where TResponse : UnityEvent
     {
@@ -23,23 +23,23 @@ namespace VirtueSky.Events
             public TResponse response;
         }
 
-        public override void ListenEvents()
+        public void ToggleListenerEvent(bool isListenerEvent)
         {
-            base.ListenEvents();
-            foreach (var t in listEventResponseDatas)
+            if (isListenerEvent)
             {
-                t.@event.AddListener(this);
-                _dictionary.TryAdd(t.@event, t.response);
+                foreach (var t in listEventResponseDatas)
+                {
+                    t.@event.AddListener(this);
+                    _dictionary.TryAdd(t.@event, t.response);
+                }
             }
-        }
-
-        public override void StopListenEvents()
-        {
-            base.StopListenEvents();
-            foreach (var t in listEventResponseDatas)
+            else
             {
-                t.@event.RemoveListener(this);
-                if (_dictionary.ContainsKey(t.@event)) _dictionary.Remove(t.@event);
+                foreach (var t in listEventResponseDatas)
+                {
+                    t.@event.RemoveListener(this);
+                    if (_dictionary.ContainsKey(t.@event)) _dictionary.Remove(t.@event);
+                }
             }
         }
 
@@ -48,23 +48,41 @@ namespace VirtueSky.Events
             _dictionary[eventRaise].Invoke();
         }
 
-        public override void DoDisable()
+        #region Binding Listener
+
+        private void Awake()
         {
-            base.DoDisable();
-            if (bindingListener == BindingListener.UNTIL_DISABLE)
+            if (bindingListener == BindingListener.UNTIL_DESTROY)
             {
-                StopListenEvents();
+                ToggleListenerEvent(true);
             }
         }
 
-        public override void DoDestroy()
+        private void OnEnable()
         {
-            base.DoDestroy();
-            if (bindingListener == BindingListener.UNTIL_DESTROY)
+            if (bindingListener == BindingListener.UNTIL_DISABLE)
             {
-                StopListenEvents();
+                ToggleListenerEvent(true);
             }
         }
+
+        private void OnDisable()
+        {
+            if (bindingListener == BindingListener.UNTIL_DISABLE)
+            {
+                ToggleListenerEvent(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (bindingListener == BindingListener.UNTIL_DESTROY)
+            {
+                ToggleListenerEvent(false);
+            }
+        }
+
+        #endregion
     }
 
     public class BaseEventListener<TType, TEvent, TResponse> : BaseMono, IEventListener<TType>
@@ -85,23 +103,23 @@ namespace VirtueSky.Events
             public TResponse response;
         }
 
-        public override void ListenEvents()
+        public void ToggleListenerEvent(bool isListenerEvent)
         {
-            base.ListenEvents();
-            foreach (var t in listEventResponseDatas)
+            if (isListenerEvent)
             {
-                t.@event.AddListener(this);
-                _dictionary.TryAdd(t.@event, t.response);
+                foreach (var t in listEventResponseDatas)
+                {
+                    t.@event.AddListener(this);
+                    _dictionary.TryAdd(t.@event, t.response);
+                }
             }
-        }
-
-        public override void StopListenEvents()
-        {
-            base.StopListenEvents();
-            foreach (var t in listEventResponseDatas)
+            else
             {
-                t.@event.RemoveListener(this);
-                if (_dictionary.ContainsKey(t.@event)) _dictionary.Remove(t.@event);
+                foreach (var t in listEventResponseDatas)
+                {
+                    t.@event.RemoveListener(this);
+                    if (_dictionary.ContainsKey(t.@event)) _dictionary.Remove(t.@event);
+                }
             }
         }
 
@@ -110,23 +128,41 @@ namespace VirtueSky.Events
             _dictionary[eventRaise].Invoke(value);
         }
 
-        public override void DoDisable()
+        #region Binding Listener
+
+        private void Awake()
         {
-            base.DoDisable();
-            if (bindingListener == BindingListener.UNTIL_DISABLE)
+            if (bindingListener == BindingListener.UNTIL_DESTROY)
             {
-                StopListenEvents();
+                ToggleListenerEvent(true);
             }
         }
 
-        public override void DoDestroy()
+        private void OnEnable()
         {
-            base.DoDestroy();
-            if (bindingListener == BindingListener.UNTIL_DESTROY)
+            if (bindingListener == BindingListener.UNTIL_DISABLE)
             {
-                StopListenEvents();
+                ToggleListenerEvent(true);
             }
         }
+
+        private void OnDisable()
+        {
+            if (bindingListener == BindingListener.UNTIL_DISABLE)
+            {
+                ToggleListenerEvent(false);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (bindingListener == BindingListener.UNTIL_DESTROY)
+            {
+                ToggleListenerEvent(false);
+            }
+        }
+
+        #endregion
     }
 }
 
