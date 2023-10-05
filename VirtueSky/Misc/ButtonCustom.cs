@@ -1,5 +1,7 @@
 using System.Linq;
+using Codice.CM.Client.Differences;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,10 +14,14 @@ namespace VirtueSky.Misc
 {
     public class ButtonCustom : Button
     {
-        [Header("Motion")] public Ease ease = Ease.OutQuint;
-
-        public float scale = 0.9f;
         public ClickButtonEvent clickButtonEvent;
+        [SerializeField] private bool isMotion = true;
+
+        [ShowIf(nameof(isMotion), true)] [Header("Motion")]
+        public Ease ease = Ease.OutQuint;
+
+        [ShowIf(nameof(isMotion), true)] public float scale = 0.9f;
+
         Vector3 originScale = Vector3.one;
 
         protected override void OnEnable()
@@ -49,19 +55,24 @@ namespace VirtueSky.Misc
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
-            // m_OnClick.Invoke();
         }
 
         void DoScale()
         {
-            DOTween.Kill(this);
-            transform.DOScale(originScale * scale, 0.15f).SetEase(ease).SetUpdate(true).SetTarget(this).Play();
+            if (isMotion)
+            {
+                DOTween.Kill(this);
+                transform.DOScale(originScale * scale, 0.15f).SetEase(ease).SetUpdate(true).SetTarget(this).Play();
+            }
         }
 
         void ResetScale()
         {
-            DOTween.Kill(this);
-            transform.localScale = originScale;
+            if (isMotion)
+            {
+                DOTween.Kill(this);
+                transform.localScale = originScale;
+            }
         }
 #if UNITY_EDITOR
         protected override void Reset()
@@ -78,6 +89,7 @@ namespace VirtueSky.Misc
     [CanEditMultipleObjects]
     public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     {
+        private SerializedProperty _isMotion;
         private SerializedProperty _ease;
         private SerializedProperty _scale;
         private SerializedProperty _clickButtonEvent;
@@ -85,6 +97,7 @@ namespace VirtueSky.Misc
         protected override void OnEnable()
         {
             base.OnEnable();
+            _isMotion = serializedObject.FindProperty("isMotion");
             _ease = serializedObject.FindProperty("ease");
             _scale = serializedObject.FindProperty("scale");
             _clickButtonEvent = serializedObject.FindProperty("clickButtonEvent");
@@ -94,9 +107,14 @@ namespace VirtueSky.Misc
         {
             base.OnInspectorGUI();
             serializedObject.Update();
-            EditorGUILayout.PropertyField(_ease);
-            EditorGUILayout.PropertyField(_scale);
             EditorGUILayout.PropertyField(_clickButtonEvent);
+            EditorGUILayout.PropertyField(_isMotion);
+            if (_isMotion.boolValue == true)
+            {
+                EditorGUILayout.PropertyField(_ease);
+                EditorGUILayout.PropertyField(_scale);
+            }
+
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
         }
