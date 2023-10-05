@@ -1,5 +1,3 @@
-using System.Linq;
-using Codice.CM.Client.Differences;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -8,7 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VirtueSky.EditorUtils;
 using VirtueSky.Events;
-using VirtueSky.Utils;
 
 namespace VirtueSky.Misc
 {
