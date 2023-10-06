@@ -7,7 +7,7 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Events
 {
-    public class BaseEventListener<TEvent, TResponse> : BaseMono, IEventListener
+    public class BaseEventListener<TEvent, TResponse> : MonoBehaviour, IEventListener
         where TEvent : BaseEvent
         where TResponse : UnityEvent
     {
@@ -85,7 +85,7 @@ namespace VirtueSky.Events
         #endregion
     }
 
-    public class BaseEventListener<TType, TEvent, TResponse> : BaseMono, IEventListener<TType>
+    public class BaseEventListener<TType, TEvent, TResponse> : MonoBehaviour, IEventListener<TType>
         where TEvent : BaseEvent<TType>
         where TResponse : UnityEvent<TType>
     {
@@ -138,7 +138,7 @@ namespace VirtueSky.Events
             }
         }
 
-        private void OnEnable()
+        public virtual void OnEnable()
         {
             if (bindingListener == BindingListener.UNTIL_DISABLE)
             {

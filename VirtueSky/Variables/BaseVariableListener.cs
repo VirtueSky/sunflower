@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 using VirtueSky.Events;
 
@@ -8,12 +9,12 @@ namespace VirtueSky.Variables
         where TEvent : BaseVariable<TType>
         where TResponse : UnityEvent<TType>
     {
-        [SerializeField] bool setOnEnable;
+        [SerializeField] private bool isRaisedOnStart;
+        [SerializeField] private bool isRaisedOnEnable;
 
-        public override void Initialize()
+        private void Start()
         {
-            base.Initialize();
-            if (setOnEnable)
+            if (isRaisedOnStart)
             {
                 foreach (var t in listEventResponseDatas)
                 {
@@ -22,10 +23,10 @@ namespace VirtueSky.Variables
             }
         }
 
-        public override void DoEnable()
+        public override void OnEnable()
         {
-            base.DoEnable();
-            if (setOnEnable)
+            base.OnEnable();
+            if (isRaisedOnEnable)
             {
                 foreach (var t in listEventResponseDatas)
                 {
