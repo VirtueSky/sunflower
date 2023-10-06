@@ -9,6 +9,7 @@ namespace VirtueSky.Misc
     [RequireComponent(typeof(Image))]
     public class ButtonUI_TMP : ButtonCustom
     {
+#if UNITY_EDITOR
         protected override void Reset()
         {
             base.Reset();
@@ -24,5 +25,6 @@ namespace VirtueSky.Misc
             rectTransform.localScale = rectTransformParent.localScale;
             rectTransform.position = rectTransformParent.position;
         }
+#endif
     }
 }
