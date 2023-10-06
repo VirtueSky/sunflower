@@ -2,83 +2,121 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Internal;
+using VirtueSky.Core;
 
 namespace VirtueSky.Global
 {
     public struct App
     {
-        private static MonoGlobalComponent monoGlobalComponent;
+        private static MonoGlobal _monoGlobal;
 
-        public static void InitMonoGlobalComponent(MonoGlobalComponent _monoGlobalComponent)
+        public static void InitMonoGlobalComponent(MonoGlobal monoGlobal)
         {
-            App.monoGlobalComponent = _monoGlobalComponent;
+            App._monoGlobal = monoGlobal;
         }
 
         public static void AddPauseCallback(Action<bool> callback)
         {
-            monoGlobalComponent.OnGamePause -= callback;
-            monoGlobalComponent.OnGamePause += callback;
+            _monoGlobal.OnGamePause -= callback;
+            _monoGlobal.OnGamePause += callback;
         }
 
         public static void RemovePauseCallback(Action<bool> callback)
         {
-            monoGlobalComponent.OnGamePause -= callback;
+            _monoGlobal.OnGamePause -= callback;
         }
 
         public static void AddFocusCallback(Action<bool> callback)
         {
-            monoGlobalComponent.OnGameFocus -= callback;
-            monoGlobalComponent.OnGameFocus += callback;
+            _monoGlobal.OnGameFocus -= callback;
+            _monoGlobal.OnGameFocus += callback;
         }
 
         public static void RemoveFocusCallback(Action<bool> callback)
         {
-            monoGlobalComponent.OnGameFocus -= callback;
+            _monoGlobal.OnGameFocus -= callback;
         }
 
         public static void AddQuitCallback(Action callback)
         {
-            monoGlobalComponent.OnGameQuit -= callback;
-            monoGlobalComponent.OnGameQuit += callback;
+            _monoGlobal.OnGameQuit -= callback;
+            _monoGlobal.OnGameQuit += callback;
         }
 
         public static void RemoveQuitCallback(Action callback)
         {
-            monoGlobalComponent.OnGameQuit -= callback;
+            _monoGlobal.OnGameQuit -= callback;
         }
 
+        #region Update
+
+        public static void SubTick(IEntity tick)
+        {
+            _monoGlobal.AddTickProcess(tick);
+        }
+
+        public static void SubFixedTick(IEntity fixedTick)
+        {
+            _monoGlobal.AddFixedTickProcess(fixedTick);
+        }
+
+        public static void SubLateTick(IEntity lateTick)
+        {
+            _monoGlobal.AddLateTickProcess(lateTick);
+        }
+
+        public static void UnSubTick(IEntity tick)
+        {
+            _monoGlobal.RemoveTickProcess(tick);
+        }
+
+        public static void UnSubFixedTick(IEntity fixedTick)
+        {
+            _monoGlobal.RemoveFixedTickProcess(fixedTick);
+        }
+
+        public static void UnSubLateTick(IEntity lateTick)
+        {
+            _monoGlobal.RemoveLateTickProcess(lateTick);
+        }
+
+        #endregion
+
+        #region Effective
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Coroutine StartCoroutine(IEnumerator routine) => monoGlobalComponent.StartCoroutineImpl(routine);
+        public static Coroutine StartCoroutine(IEnumerator routine) => _monoGlobal.StartCoroutineImpl(routine);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Coroutine StartCoroutine(string methodName, [DefaultValue("null")] object value) => monoGlobalComponent.StartCoroutineImpl(methodName, value);
+        public static Coroutine StartCoroutine(string methodName, [DefaultValue("null")] object value) => _monoGlobal.StartCoroutineImpl(methodName, value);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Coroutine StartCoroutine(string methodName) => monoGlobalComponent.StartCoroutineImpl(methodName);
+        public static Coroutine StartCoroutine(string methodName) => _monoGlobal.StartCoroutineImpl(methodName);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static void StopCoroutine(IEnumerator routine) => monoGlobalComponent.StopCoroutineImpl(routine);
+        public static void StopCoroutine(IEnumerator routine) => _monoGlobal.StopCoroutineImpl(routine);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static void StopCoroutine(string methodName) => monoGlobalComponent.StopCoroutineImpl(methodName);
+        public static void StopCoroutine(string methodName) => _monoGlobal.StopCoroutineImpl(methodName);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static void StopAllCoroutine() => monoGlobalComponent.StopAllCoroutinesImpl();
+        public static void StopAllCoroutine() => _monoGlobal.StopAllCoroutinesImpl();
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Action ToMainThread(Action action) => monoGlobalComponent.ToMainThreadImpl(action);
+        public static Action ToMainThread(Action action) => _monoGlobal.ToMainThreadImpl(action);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Action<T> ToMainThread<T>(Action<T> action) => monoGlobalComponent.ToMainThreadImpl(action);
+        public static Action<T> ToMainThread<T>(Action<T> action) => _monoGlobal.ToMainThreadImpl(action);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Action<T1, T2> ToMainThread<T1, T2>(Action<T1, T2> action) => monoGlobalComponent.ToMainThreadImpl(action);
+        public static Action<T1, T2> ToMainThread<T1, T2>(Action<T1, T2> action) => _monoGlobal.ToMainThreadImpl(action);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static Action<T1, T2, T3> ToMainThread<T1, T2, T3>(Action<T1, T2, T3> action) => monoGlobalComponent.ToMainThreadImpl(action);
+        public static Action<T1, T2, T3> ToMainThread<T1, T2, T3>(Action<T1, T2, T3> action) => _monoGlobal.ToMainThreadImpl(action);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static void RunOnMainThread(Action action) => monoGlobalComponent.RunOnMainThreadImpl(action);
+        public static void RunOnMainThread(Action action) => _monoGlobal.RunOnMainThreadImpl(action);
+
+        #endregion
     }
 }

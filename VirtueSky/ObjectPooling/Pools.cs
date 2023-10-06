@@ -30,7 +30,7 @@ namespace VirtueSky.ObjectPooling
 
             waitPool = new Dictionary<GameObject, Queue<GameObject>>();
             activePool = new LinkedList<GameObject>();
-            container = new GameObject("Pool").transform;
+            container = new GameObject("PoolContainer").transform;
             DontDestroyOnLoad(container.gameObject);
 
             PreSpawn();

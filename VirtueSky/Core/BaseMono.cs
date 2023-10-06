@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Attributes;
 using VirtueSky.EditorUtils;
-using VirtueSky.Misc;
+using VirtueSky.Global;
 using VirtueSky.ObjectPooling;
-using VirtueSky.Utils;
 
 namespace VirtueSky.Core
 {
@@ -15,19 +13,13 @@ namespace VirtueSky.Core
         [Header("Base Mono")] [SerializeField, NamedId]
         string id;
 
-        [FoldoutGroup("Ticker")] [SerializeField]
-        public Ticker ticker;
-
-        [FoldoutGroup("Ticker")] [SerializeField]
-        bool earlyTick;
-
-        [FoldoutGroup("Ticker")] [InfoBox("<color=green>Tick same with Update</color>")] [SerializeField]
+        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>Tick same with Update</color>")] [SerializeField]
         bool tick;
 
-        [FoldoutGroup("Ticker")] [InfoBox("<color=green>LateTick same with LateUpdate</color>")] [SerializeField]
+        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>LateTick same with LateUpdate</color>")] [SerializeField]
         bool lateTick;
 
-        [FoldoutGroup("Ticker")] [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")] [SerializeField]
+        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")] [SerializeField]
         bool fixedTick;
 
         [FoldoutGroup("Pools")] [SerializeField]
@@ -46,7 +38,6 @@ namespace VirtueSky.Core
 
         void OnEnable()
         {
-            BindVariable();
             SubTick();
             DoEnable();
         }
@@ -54,9 +45,7 @@ namespace VirtueSky.Core
         void OnDisable()
         {
             DoDisable();
-            UnsubTick();
-            //   StopListenEvents();
-            UnbindVariable();
+            UnSubTick();
         }
 
         private void OnDestroy()
@@ -64,17 +53,11 @@ namespace VirtueSky.Core
             DoDestroy();
         }
 
-        public virtual void BindVariable()
-        {
-        }
-
-
         void SubTick()
         {
-            if (earlyTick) ticker.SubEarlyTick(this);
-            if (tick) ticker.SubTick(this);
-            if (lateTick) ticker.SubLateTick(this);
-            if (fixedTick) ticker.SubFixedTick(this);
+            if (tick) App.SubTick(this);
+            if (lateTick) App.SubLateTick(this);
+            if (fixedTick) App.SubFixedTick(this);
         }
 
         public virtual void DoEnable()
@@ -113,28 +96,22 @@ namespace VirtueSky.Core
         {
         }
 
-        void UnsubTick()
+        void UnSubTick()
         {
-            if (earlyTick) ticker.UnsubEarlyTick(this);
-            if (tick) ticker.UnsubTick(this);
-            if (lateTick) ticker.UnsubLateTick(this);
-            if (fixedTick) ticker.UnsubFixedTick(this);
-        }
-
-        public virtual void UnbindVariable()
-        {
+            if (tick) App.UnSubTick(this);
+            if (lateTick) App.UnSubLateTick(this);
+            if (fixedTick) App.UnSubFixedTick(this);
         }
 
 #if UNITY_EDITOR
         protected virtual void Reset()
         {
-            GetTickerAndPools();
+            GetPools();
         }
 
-        [ContextMenu("GetTickerAndPools")]
-        void GetTickerAndPools()
+        [ContextMenu("GetPools")]
+        void GetPools()
         {
-            ticker = ScriptableSetting.CreateAndGetScriptableAsset<Ticker>("/Core");
             pools = ScriptableSetting.CreateAndGetScriptableAsset<Pools>("/Core");
             EditorUtility.SetDirty(this);
         }

@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal;
+using VirtueSky.Core;
 using VirtueSky.DataStorage;
 
 namespace VirtueSky.Global
 {
-    public class MonoGlobalComponent : MonoBehaviour
+    public class MonoGlobal : MonoBehaviour
     {
         private readonly List<Action> _toMainThreads = new();
         private volatile bool _isToMainThreadQueueEmpty = true;
@@ -15,10 +16,53 @@ namespace VirtueSky.Global
         internal event Action<bool> OnGamePause;
         internal event Action OnGameQuit;
         internal event Action<bool> OnGameFocus;
+        readonly List<IEntity> tickProcesses = new List<IEntity>(1024);
+        readonly List<IEntity> fixedTickProcesses = new List<IEntity>(512);
+        readonly List<IEntity> lateTickProcesses = new List<IEntity>(256);
 
+        #region Sub / UnSub For Update Procresses
+
+        internal void AddTickProcess(IEntity tick)
+        {
+            tickProcesses.Add(tick);
+        }
+
+        internal void AddFixedTickProcess(IEntity fixedTick)
+        {
+            fixedTickProcesses.Add(fixedTick);
+        }
+
+        internal void AddLateTickProcess(IEntity lateTick)
+        {
+            lateTickProcesses.Add(lateTick);
+        }
+
+        internal void RemoveTickProcess(IEntity tick)
+        {
+            tickProcesses.Remove(tick);
+        }
+
+        internal void RemoveFixedTickProcess(IEntity fixedTick)
+        {
+            fixedTickProcesses.Remove(fixedTick);
+        }
+
+        internal void RemoveLateTickProcess(IEntity lateTick)
+        {
+            lateTickProcesses.Remove(lateTick);
+        }
+
+        #endregion
+
+        #region Update Handle
 
         private void Update()
         {
+            for (int i = 0; i < tickProcesses.Count; i++)
+            {
+                tickProcesses[i]?.Tick();
+            }
+
             if (_isToMainThreadQueueEmpty) return;
             _localToMainThreads.Clear();
             lock (_toMainThreads)
@@ -33,6 +77,26 @@ namespace VirtueSky.Global
                 _localToMainThreads[i].Invoke();
             }
         }
+
+        private void FixedUpdate()
+        {
+            for (int i = 0; i < fixedTickProcesses.Count; i++)
+            {
+                fixedTickProcesses[i]?.FixedTick();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            for (int i = 0; i < lateTickProcesses.Count; i++)
+            {
+                lateTickProcesses[i]?.LateTick();
+            }
+        }
+
+        #endregion
+
+        #region App Handle
 
         private void OnApplicationFocus(bool hasFocus)
         {
@@ -53,6 +117,8 @@ namespace VirtueSky.Global
             OnGameQuit?.Invoke();
             GameData.Save();
         }
+
+        #endregion
 
         #region Effective
 
