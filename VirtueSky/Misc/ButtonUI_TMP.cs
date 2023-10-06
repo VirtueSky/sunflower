@@ -1,8 +1,6 @@
-﻿using DG.DemiEditor;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using VirtueSky.Utils;
 
 namespace VirtueSky.Misc
 {

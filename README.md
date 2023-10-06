@@ -4,9 +4,9 @@
 
 ### Add the lines below to `Packages/manifest.json`
 
-for version `1.1.7`
+for version `1.1.8`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#1.1.7",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#1.1.8",
 ```
 
 #### Note: Architecture uses `Newtonsoft`, `Dotween` and `Odin Inspector` libraries
