@@ -45,7 +45,7 @@ namespace VirtueSky.Events
 
         public virtual void OnEventRaised(BaseEvent eventRaise)
         {
-            _dictionary[eventRaise].Invoke();
+            _dictionary[eventRaise]?.Invoke();
         }
 
         #region Binding Listener
@@ -125,7 +125,7 @@ namespace VirtueSky.Events
 
         public virtual void OnEventRaised(BaseEvent<TType> eventRaise, TType value)
         {
-            _dictionary[eventRaise].Invoke(value);
+            _dictionary[eventRaise]?.Invoke(value);
         }
 
         #region Binding Listener
