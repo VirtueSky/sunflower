@@ -82,6 +82,7 @@ namespace VirtueSky.Misc
         void GetClickButtonEvent()
         {
             clickButtonEvent = ScriptableSetting.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
+            EditorUtility.SetDirty(this);
         }
 #endif
     }
