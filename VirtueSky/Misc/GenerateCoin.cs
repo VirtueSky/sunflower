@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.ObjectPooling;
 
 namespace VirtueSky.Misc
 {
@@ -19,6 +20,7 @@ namespace VirtueSky.Misc
         [SerializeField] private Ease easeNear;
         [SerializeField] private Ease easeTarget;
         [SerializeField] private float scale = 1;
+        [SerializeField] private Pools pools;
         private System.Action moveOneCoinDone;
         private bool isScaleIconTo = false;
 

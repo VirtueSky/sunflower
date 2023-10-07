@@ -11,7 +11,7 @@ using VirtueSky.Utils;
 
 namespace VirtueSky.ObjectPooling
 {
-    //  [CreateAssetMenu(menuName = "ObjectPooling/Pools")]
+    [CreateAssetMenu(menuName = "ObjectPooling/Pools")]
     public class Pools : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] PoolData[] poolDatas;
@@ -200,30 +200,6 @@ namespace VirtueSky.ObjectPooling
         {
             initialized = false;
         }
-
-#if UNITY_EDITOR
-        [ContextMenu("Auto Bind")]
-        public void AutoBind()
-        {
-            var soes = AssetUtils.FindAssetAtFolder<BaseSO>(new string[] { "Assets" });
-            foreach (var so in soes)
-            {
-                so.pools = this;
-                EditorUtility.SetDirty(so);
-            }
-
-            var goes = AssetUtils.FindAssetAtFolder<GameObject>(new string[] { "Assets" });
-            foreach (var go in goes)
-            {
-                var monoes = go.GetComponentsInChildren<BaseMono>(true);
-                foreach (var mono in monoes)
-                {
-                    mono.pools = this;
-                    EditorUtility.SetDirty(mono);
-                }
-            }
-        }
-#endif
     }
 
     [Serializable]

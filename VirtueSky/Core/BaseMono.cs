@@ -16,14 +16,15 @@ namespace VirtueSky.Core
         [FoldoutGroup("Validate Update")] [InfoBox("<color=green>Tick same with Update</color>")] [SerializeField]
         bool tick;
 
-        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>LateTick same with LateUpdate</color>")] [SerializeField]
+        [FoldoutGroup("Validate Update")]
+        [InfoBox("<color=green>LateTick same with LateUpdate</color>")]
+        [SerializeField]
         bool lateTick;
 
-        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")] [SerializeField]
+        [FoldoutGroup("Validate Update")]
+        [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")]
+        [SerializeField]
         bool fixedTick;
-
-        [FoldoutGroup("Pools")] [SerializeField]
-        public Pools pools;
 
         public string Id => id;
 
@@ -102,19 +103,5 @@ namespace VirtueSky.Core
             if (lateTick) App.UnSubLateTick(this);
             if (fixedTick) App.UnSubFixedTick(this);
         }
-
-#if UNITY_EDITOR
-        protected virtual void Reset()
-        {
-            GetPools();
-        }
-
-        [ContextMenu("GetPools")]
-        void GetPools()
-        {
-            pools = ScriptableSetting.CreateAndGetScriptableAsset<Pools>("/Core");
-            EditorUtility.SetDirty(this);
-        }
-#endif
     }
 }
