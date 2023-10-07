@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Events
 {
-    [CreateAssetMenu(menuName = "Event/Integer Event")]
+    [CreateAssetMenu(menuName = "ScriptableObject Event/Integer Event")]
     public class IntegerEvent : BaseEvent<int>
     {
     }

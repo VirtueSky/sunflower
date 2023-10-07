@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Variables
 {
-    [CreateAssetMenu(menuName = "Variables/Transform")]
+    [CreateAssetMenu(menuName = "ScriptableObject Variables/Transform")]
     public class TransformVariable : BaseVariable<Transform>
     {
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Events
 {
-    [CreateAssetMenu(menuName = "Event/String Event")]
+    [CreateAssetMenu(menuName = "ScriptableObject Event/String Event")]
     public class StringEvent : BaseEvent<string>
     {
     }

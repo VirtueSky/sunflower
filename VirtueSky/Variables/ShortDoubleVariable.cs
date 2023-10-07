@@ -3,7 +3,7 @@ using VirtueSky.DataType;
 
 namespace VirtueSky.Variables
 {
-    [CreateAssetMenu(menuName = "Variables/ShortDouble")]
+    [CreateAssetMenu(menuName = "ScriptableObject Variables/ShortDouble")]
     public class ShortDoubleVariable : BaseVariable<ShortDouble>
     {
     }

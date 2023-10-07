@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VirtueSky.Events
 {
-    [CreateAssetMenu(menuName = "Event/Play Audio Event")]
+    [CreateAssetMenu(menuName = "ScriptableObject Event/Play Audio Event")]
     public class PlayAudioEvent : BaseEvent<AudioClip>, ISerializationCallbackReceiver
     {
         Dictionary<AudioClip, float> lastTimePlayDict = new Dictionary<AudioClip, float>();

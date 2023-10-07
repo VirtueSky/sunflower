@@ -3,7 +3,7 @@ using VirtueSky.Variables;
 
 namespace VirtueSky.Variables
 {
-    [CreateAssetMenu(menuName = "Variables/Boolean")]
+    [CreateAssetMenu(menuName = "ScriptableObject Variables/Boolean")]
     public class BooleanVariable : BaseVariable<bool>
     {
     }
