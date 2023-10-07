@@ -75,6 +75,12 @@ namespace VirtueSky.Misc
         protected override void Reset()
         {
             base.Reset();
+            GetClickButtonEvent();
+        }
+
+        [ContextMenu("GetClickButtonEvent")]
+        void GetClickButtonEvent()
+        {
             clickButtonEvent = ScriptableSetting.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
         }
 #endif
