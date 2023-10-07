@@ -13,19 +13,6 @@ namespace VirtueSky.Core
         [Header("Base Mono")] [SerializeField, NamedId]
         string id;
 
-        [FoldoutGroup("Validate Update")] [InfoBox("<color=green>Tick same with Update</color>")] [SerializeField]
-        bool tick;
-
-        [FoldoutGroup("Validate Update")]
-        [InfoBox("<color=green>LateTick same with LateUpdate</color>")]
-        [SerializeField]
-        bool lateTick;
-
-        [FoldoutGroup("Validate Update")]
-        [InfoBox("<color=green>FixedTick same with FixedUpdate</color>")]
-        [SerializeField]
-        bool fixedTick;
-
         public string Id => id;
 
 #if UNITY_EDITOR
@@ -56,9 +43,9 @@ namespace VirtueSky.Core
 
         void SubTick()
         {
-            if (tick) App.SubTick(this);
-            if (lateTick) App.SubLateTick(this);
-            if (fixedTick) App.SubFixedTick(this);
+            App.SubTick(this);
+            App.SubLateTick(this);
+            App.SubFixedTick(this);
         }
 
         public virtual void DoEnable()
@@ -99,9 +86,9 @@ namespace VirtueSky.Core
 
         void UnSubTick()
         {
-            if (tick) App.UnSubTick(this);
-            if (lateTick) App.UnSubLateTick(this);
-            if (fixedTick) App.UnSubFixedTick(this);
+            App.UnSubTick(this);
+            App.UnSubLateTick(this);
+            App.UnSubFixedTick(this);
         }
     }
 }
