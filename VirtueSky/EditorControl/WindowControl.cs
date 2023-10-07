@@ -13,7 +13,7 @@ namespace VirtueSky.EditorControl
     {
         #region Data
 
-        [MenuItem("Sunflower/Clear Data %F1")]
+        [MenuItem("Sunflower/Clear Data")]
         public static void ClearAllData()
         {
             GameData.DelDataInStorage();
@@ -22,7 +22,7 @@ namespace VirtueSky.EditorControl
             Debug.Log($"<color=Green>Clear data succeed</color>");
         }
 
-        [MenuItem("Sunflower/Save Data %F2")]
+        [MenuItem("Sunflower/Save Data")]
         public static void SaveData()
         {
             GameData.Save();
