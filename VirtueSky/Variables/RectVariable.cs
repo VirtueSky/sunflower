@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Variables
 {
-    [CreateAssetMenu(menuName = "ScriptableObject Variables/Rect")]
+    [CreateAssetMenu(menuName = "Variables/Rect")]
     public class RectVariable : BaseVariable<Rect>
     {
     }

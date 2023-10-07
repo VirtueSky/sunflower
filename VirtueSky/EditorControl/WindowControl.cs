@@ -33,62 +33,63 @@ namespace VirtueSky.EditorControl
         #region Create ScriptableObject Event
 
         private const string pathEvent = "/Event";
+        private const string menuEvent = "Sunflower/Create Event/";
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/EventNoParam")]
+        [MenuItem(menuEvent + "EventNoParam")]
         public static void CreateEventNoParam()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<EventNoParam>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/String Event")]
+        [MenuItem(menuEvent + "String Event")]
         public static void CreateEventString()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<StringEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Float Event")]
+        [MenuItem(menuEvent + "Float Event")]
         public static void CreateEventFloat()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<FloatEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Integer Event")]
+        [MenuItem(menuEvent + "Integer Event")]
         public static void CreateEventInt()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<IntegerEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Boolean Event")]
+        [MenuItem(menuEvent + "Boolean Event")]
         public static void CreateEventBoolean()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<BooleanEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Object Event")]
+        [MenuItem(menuEvent + "Object Event")]
         public static void CreateEventObject()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<ObjectEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Play Audio Event")]
+        [MenuItem(menuEvent + "Play Audio Event")]
         public static void CreateEventPlayAudio()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<PlayAudioEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Short Double Event")]
+        [MenuItem(menuEvent + "Short Double Event")]
         public static void CreateEventShortDouble()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<ShortDoubleEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Dictionary Event")]
+        [MenuItem(menuEvent + "Dictionary Event")]
         public static void CreateEventDictionary()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<DictionaryEvent>(pathEvent);
         }
 
-        [MenuItem("Sunflower/Create ScriptableObject Event/Vector3 Event")]
+        [MenuItem(menuEvent + "Vector3 Event")]
         public static void CreateEventVector3()
         {
             ScriptableSetting.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent);
@@ -99,7 +100,7 @@ namespace VirtueSky.EditorControl
         #region Create ScriptableObject Variable
 
         private const string pathVariable = "/Variable";
-        private const string menuVariable = "Sunflower/Create ScriptableObject Variable/";
+        private const string menuVariable = "Sunflower/Create Variable/";
 
         [MenuItem(menuVariable + "Transform Variable")]
         public static void CreateVariableTransform()
@@ -159,7 +160,7 @@ namespace VirtueSky.EditorControl
 
         #region Create ScriptableObject Pools
 
-        [MenuItem("Sunflower/Create ScriptableObject Pools")]
+        [MenuItem("Sunflower/Create Pools")]
         public static void CreatePools()
         {
             ScriptableSetting.CreateScriptableAssets<Pools>("/Pools");

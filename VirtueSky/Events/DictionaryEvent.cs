@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VirtueSky.Events
 {
-    [CreateAssetMenu(menuName = "ScriptableObject Event/DictionaryEvent")]
+    [CreateAssetMenu(menuName = "Event/DictionaryEvent")]
     public class DictionaryEvent : BaseEvent<Dictionary<string, object>>
     {
     }
