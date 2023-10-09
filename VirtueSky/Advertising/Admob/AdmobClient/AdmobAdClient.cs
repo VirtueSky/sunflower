@@ -1,7 +1,6 @@
 #if VIRTUESKY_ADS && ADS_ADMOB
 using GoogleMobileAds.Api;
 #endif
-using UnityEngine;
 using VirtueSky.Global;
 
 namespace VirtueSky.Ads
@@ -105,9 +104,9 @@ namespace VirtueSky.Ads
 #endif
         }
 #if VIRTUESKY_ADS && ADS_ADMOB
-        void RegisterAppStateChange()
+        public void RegisterAppStateChange()
         {
-            //GoogleMobileAds.Api.AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
+            GoogleMobileAds.Api.AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
         }
 
         void OnAppStateChanged(GoogleMobileAds.Common.AppState state)
