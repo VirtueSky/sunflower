@@ -43,7 +43,6 @@ namespace VirtueSky.Ads
         public override bool IsInterstitialReady()
         {
 #if VIRTUESKY_ADS && ADS_ADMOB
-            Debug.Log("inter : " + adSetting.AdmobInterVariable.IsReady());
             return adSetting.AdmobInterVariable.IsReady();
 #else
             return false;
@@ -60,7 +59,6 @@ namespace VirtueSky.Ads
         public override bool IsRewardedReady()
         {
 #if VIRTUESKY_ADS && ADS_ADMOB
-            Debug.Log("reward : " + adSetting.AdmobRewardVariable.IsReady());
             return adSetting.AdmobRewardVariable.IsReady();
 #else
             return false;
