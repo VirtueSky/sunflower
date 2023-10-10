@@ -76,6 +76,10 @@ namespace VirtueSky.Ads
             switch (size)
             {
                 case BannerSize.Adaptive: return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+                case BannerSize.MediumRectangle: return AdSize.MediumRectangle;
+                case BannerSize.Leaderboard: return AdSize.Leaderboard;
+                case BannerSize.IABBanner: return AdSize.IABBanner;
+                //case BannerSize.SmartBanner: return AdSize.SmartBanner;
                 default: return AdSize.Banner;
             }
         }

@@ -313,6 +313,10 @@ namespace VirtueSky.Ads
     public enum BannerSize
     {
         Banner = 0, // 320x50
-        Adaptive = 5 // full width
+        Adaptive = 5, // full width
+        MediumRectangle = 1, // 300x250
+        IABBanner = 2, // 468x60
+        Leaderboard = 3, // 728x90
+        //    SmartBanner = 4,
     }
 }
