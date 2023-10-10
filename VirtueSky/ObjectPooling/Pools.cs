@@ -166,7 +166,7 @@ namespace VirtueSky.ObjectPooling
 
             if (initialize)
             {
-                Initialize(gameObject);
+                InitializeObj(gameObject);
             }
 
             activePool.AddLast(gameObject);
@@ -174,7 +174,7 @@ namespace VirtueSky.ObjectPooling
             return gameObject;
         }
 
-        void Initialize(GameObject go)
+        void InitializeObj(GameObject go)
         {
             var monos = go.GetComponentsInChildren<BaseMono>(true);
             foreach (var mono in monos)
