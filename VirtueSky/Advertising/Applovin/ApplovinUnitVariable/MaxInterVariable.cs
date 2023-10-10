@@ -30,6 +30,7 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.Interstitial.OnAdDisplayFailedEvent += OnAdDisplayFailed;
                 _registerCallback = true;
             }
+
             MaxSdk.LoadInterstitial(Id);
 #endif
         }
