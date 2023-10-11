@@ -1,0 +1,20 @@
+{
+    "name": "virtuesky.sunflower.advertising",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fca7ec166e04dc948b624a983315e2c9",
+        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:c282fd4f3fc2c7540914e85842a013c7",
+        "GUID:32dbaa332e571bf429b7de517f75f074",
+        "GUID:bd40169efe8642149b1d2b72ba4903ce"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

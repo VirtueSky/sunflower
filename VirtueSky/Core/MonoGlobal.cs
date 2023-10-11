@@ -6,7 +6,7 @@ using UnityEngine.Internal;
 using VirtueSky.Core;
 using VirtueSky.DataStorage;
 
-namespace VirtueSky.Global
+namespace VirtueSky.Core
 {
     public class MonoGlobal : MonoBehaviour
     {

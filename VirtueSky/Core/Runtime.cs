@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VirtueSky.Global
+namespace VirtueSky.Core
 {
     public class Runtime
     {

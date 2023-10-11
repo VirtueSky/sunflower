@@ -1,8 +1,11 @@
 ﻿using System.Text;
 using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using VirtueSky.EditorUtils;
-using VirtueSky.Utils;
+#endif
+
 
 namespace VirtueSky.Attributes
 {
@@ -14,6 +17,7 @@ namespace VirtueSky.Attributes
     }
 
 #if UNITY_EDITOR
+
     [CustomPropertyDrawer(typeof(NamedIdAttribute))]
     public class NamedIdAttributeDrawer : PropertyDrawer
     {

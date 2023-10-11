@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using VirtueSky.EditorUtils;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
@@ -124,32 +124,32 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         void CreateMaxAds()
         {
-            maxAdClient = ScriptableSetting.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
+            maxAdClient = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
         }
 
         void CreateMaxBanner()
         {
-            maxBannerVariable = ScriptableSetting.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
+            maxBannerVariable = CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
         }
 
         void CreateMaxInter()
         {
-            maxInterVariable = ScriptableSetting.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
+            maxInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
         }
 
         void CreateMaxReward()
         {
-            maxRewardVariable = ScriptableSetting.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
+            maxRewardVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
         }
 
         void CreateMaxRewardInter()
         {
-            maxRewardInterVariable = ScriptableSetting.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
+            maxRewardInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
         }
 
         void CreateMaxAppOpen()
         {
-            maxAppOpenVariable = ScriptableSetting.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
+            maxAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
         }
 
 #endif
@@ -253,33 +253,33 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         void CreateAdmodAds()
         {
-            admobAdClient = ScriptableSetting.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
+            admobAdClient = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
         }
 
         void CreateAdmobBanner()
         {
-            admobBannerVariable = ScriptableSetting.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
+            admobBannerVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
         }
 
         void CreateAdmobInter()
         {
-            admobInterVariable = ScriptableSetting.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
+            admobInterVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
         }
 
         void CreateAdmobAppOpen()
         {
-            admobAppOpenVariable = ScriptableSetting.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+            admobAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
         }
 
         void CreateAdmobRewardInter()
         {
             admobRewardInterVariable =
-                ScriptableSetting.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
+                CreateAsset.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
         }
 
         void CreateAdmobReward()
         {
-            admobRewardVariable = ScriptableSetting.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
+            admobRewardVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
         }
 #endif
 

@@ -4,8 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VirtueSky.EditorUtils;
 using VirtueSky.Events;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Misc
 {
@@ -81,7 +81,7 @@ namespace VirtueSky.Misc
         [ContextMenu("GetClickButtonEvent")]
         void GetClickButtonEvent()
         {
-            clickButtonEvent = ScriptableSetting.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
+            clickButtonEvent = CreateAsset.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
             EditorUtility.SetDirty(this);
         }
 #endif

@@ -2,7 +2,7 @@
 {
     using UnityEngine;
     using System.Collections;
-    using VirtueSky.Global;
+    using VirtueSky.Core;
 #if UNITY_IOS
      using UnityEngine.iOS;
 #elif UNITY_ANDROID

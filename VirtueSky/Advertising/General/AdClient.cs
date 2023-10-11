@@ -1,7 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using VirtueSky.EditorUtils;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
@@ -23,7 +23,7 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         private void Reset()
         {
-            adSetting = ScriptableSetting.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
+            adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
         }
 #endif
     }

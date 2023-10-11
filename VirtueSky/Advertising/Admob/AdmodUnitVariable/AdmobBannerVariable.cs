@@ -5,7 +5,7 @@ using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
 using VirtueSky.Ads;
-using VirtueSky.Global;
+using VirtueSky.Core;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads

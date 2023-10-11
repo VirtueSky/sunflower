@@ -1,0 +1,17 @@
+{
+    "name": "virtuesky.sunflower.core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c745b3a02c5cf794da41685c5d4c9baa",
+        "GUID:32dbaa332e571bf429b7de517f75f074"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

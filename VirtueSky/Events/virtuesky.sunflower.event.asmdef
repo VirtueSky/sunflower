@@ -1,0 +1,18 @@
+{
+    "name": "virtuesky.sunflower.event",
+    "rootNamespace": "",
+    "references": [
+        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:540154dd0c5ed9a4dbbe695c402232fb",
+        "GUID:c282fd4f3fc2c7540914e85842a013c7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

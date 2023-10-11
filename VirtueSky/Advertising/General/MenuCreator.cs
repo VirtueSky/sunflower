@@ -1,6 +1,6 @@
 #if UNITY_EDITOR
 using UnityEditor;
-using VirtueSky.EditorUtils;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/AdSetting %E", false)]
         public static void MenuOpenAdSettings()
         {
-            var adSetting = ScriptableSetting.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
+            var adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
             Selection.activeObject = adSetting;
             EditorUtility.FocusProjectWindow();
         }

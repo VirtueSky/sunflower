@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Internal;
 using VirtueSky.Core;
 
-namespace VirtueSky.Global
+namespace VirtueSky.Core
 {
     public struct App
     {
