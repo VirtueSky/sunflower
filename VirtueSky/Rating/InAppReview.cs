@@ -3,9 +3,10 @@
     using UnityEngine;
     using System.Collections;
     using VirtueSky.Core;
+
 #if UNITY_IOS
      using UnityEngine.iOS;
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && VIRTUESKY_RATING
     using Google.Play.Review;
 #endif
 
