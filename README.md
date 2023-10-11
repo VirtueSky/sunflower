@@ -1,5 +1,5 @@
 # Core ScriptableObject architecture for building Unity games
-
+- Unity 2022.3 LTS
 ## How To Install
 
 ### Add the lines below to `Packages/manifest.json`
