@@ -1,0 +1,16 @@
+{
+    "name": "virtuesky.sunflower.vibration",
+    "rootNamespace": "",
+    "references": [
+        "GUID:32dbaa332e571bf429b7de517f75f074"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
