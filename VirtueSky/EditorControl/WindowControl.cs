@@ -4,6 +4,7 @@ using VirtueSky.DataStorage;
 using VirtueSky.EditorUtils;
 using VirtueSky.Events;
 using VirtueSky.ObjectPooling;
+using VirtueSky.Rating;
 using VirtueSky.Variables;
 
 namespace VirtueSky.EditorControl
@@ -164,6 +165,16 @@ namespace VirtueSky.EditorControl
         public static void CreatePools()
         {
             ScriptableSetting.CreateScriptableAssets<Pools>("/Pools");
+        }
+
+        #endregion
+
+        #region In App Review
+
+        [MenuItem("Sunflower/ScriptableObject/Create InAppReview")]
+        public static void CreateInAppReview()
+        {
+            ScriptableSetting.CreateScriptableAssets<InAppReview>("/InAppReview", "in_app_review");
         }
 
         #endregion

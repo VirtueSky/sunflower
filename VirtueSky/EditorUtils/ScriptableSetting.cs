@@ -10,19 +10,29 @@ namespace VirtueSky.EditorUtils
     public static class ScriptableSetting
     {
 #if UNITY_EDITOR
-        public static void CreateScriptableAssets<T>(string path = "", bool isOnlyNameWithTime = false)
+        public static void CreateScriptableAssets<T>(string path = "")
             where T : ScriptableObject
         {
-            string name = isOnlyNameWithTime == false
-                ? typeof(T).Name
-                : $"{typeof(T).Name}_{DateTime.Now:yyyyMMddHHmmss}";
             var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
-            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{name}.asset");
+            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{typeof(T).Name}.asset");
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
 
             Debug.Log(
-                $"<color=Green>{name} was created ad {DefaultResourcesPath(path)}/{name}.asset</color>");
+                $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
+        }
+
+        public static void CreateScriptableAssets<T>(string path = "", string name = "")
+            where T : ScriptableObject
+        {
+            string newName = name == "" ? typeof(T).Name : name;
+            var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
+            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{newName}.asset");
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+
+            Debug.Log(
+                $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
         }
 
         public static void CreateScriptableAssetsOnlyName<T>(string path = "") where T : ScriptableObject

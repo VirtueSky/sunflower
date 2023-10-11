@@ -157,6 +157,11 @@ namespace VirtueSky.Global
             if (routine != null) StopCoroutine(routine);
         }
 
+        internal void StopCoroutineImpl(Coroutine routine)
+        {
+            if (routine != null) StopCoroutine(routine);
+        }
+
         internal void StopCoroutineImpl(string methodName)
         {
             if (!string.IsNullOrEmpty(methodName))

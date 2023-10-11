@@ -97,6 +97,9 @@ namespace VirtueSky.Global
         public static void StopCoroutine(IEnumerator routine) => _monoGlobal.StopCoroutineImpl(routine);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static void StopCoroutine(Coroutine routine) => _monoGlobal.StopCoroutineImpl(routine);
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static void StopCoroutine(string methodName) => _monoGlobal.StopCoroutineImpl(methodName);
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
