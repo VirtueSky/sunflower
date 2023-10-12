@@ -16,4 +16,4 @@ for version `2.0.3`
   com.unity.nuget.newtonsoft-json
   ```
 
-- [Document](https://github.com/VirtueSky/sunflower/wiki)
+- [See Document](https://github.com/VirtueSky/sunflower/wiki)
