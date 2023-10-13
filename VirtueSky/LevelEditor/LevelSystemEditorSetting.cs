@@ -17,7 +17,7 @@ namespace VirtueSky.LevelEditor
 
     public static class UtilitiesLevelSystemDrawer
     {
-        [MenuItem("Sunflower/LevelEditor")]
+        [MenuItem("Sunflower/LevelEditor &3")]
         public static void OpenLevelEditor()
         {
             OnInspectorGUI();
@@ -30,8 +30,6 @@ namespace VirtueSky.LevelEditor
             {
                 GUI.enabled = !EditorApplication.isCompiling;
                 GUI.backgroundColor = Uniform.Pink;
-                //   if (GUILayout.Button("Install Level System", GUILayout.Height(40)))
-                //   {
                 var setting = ScriptableObject.CreateInstance<LevelSystemEditorSetting>();
                 const string path = "Assets/_Sunflower/Editor/Resources";
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -41,22 +39,24 @@ namespace VirtueSky.LevelEditor
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 Debug.Log($"{nameof(LevelSystemEditorSetting)} was created ad {path}/{nameof(LevelSystemEditorSetting)}.asset");
-                //  }
-
                 GUI.backgroundColor = Color.white;
                 GUI.enabled = true;
+
+                OpenWindowLevelEditor();
             }
             else
             {
-                //    if (GUILayout.Button("Open Level Editor", GUILayout.MaxHeight(40)))
-                //  {
-                var window = EditorWindow.GetWindow<LevelEditor>("Level Editor", true);
-                if (window)
-                {
-                    window.minSize = new Vector2(275, 0);
-                    window.Show(true);
-                }
-                // }
+                OpenWindowLevelEditor();
+            }
+        }
+
+        static void OpenWindowLevelEditor()
+        {
+            var window = EditorWindow.GetWindow<LevelEditor>("Level Editor", true);
+            if (window)
+            {
+                window.minSize = new Vector2(275, 0);
+                window.Show(true);
             }
         }
     }
