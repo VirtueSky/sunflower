@@ -4,7 +4,7 @@ using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
-    public class MenuCreator : EditorWindow
+    public class AdsWindowEditor : EditorWindow
     {
         [MenuItem("Sunflower/AdSetting %E", false)]
         public static void MenuOpenAdSettings()

@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
     public class Advertising : MonoBehaviour
     {
         [SerializeField] private AdSetting adSetting;
-        private BooleanEvent changePreventDisplayAppOpenEvent;
+        [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
         private float _lastTimeLoadRewardedTimestamp = DEFAULT_TIMESTAMP;
@@ -30,6 +30,8 @@ namespace VirtueSky.Ads
                     currentAdClient = adSetting.AdmobAdClient;
                     break;
             }
+
+            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
 
             currentAdClient.Initialize();
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
