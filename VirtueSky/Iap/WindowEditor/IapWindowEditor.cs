@@ -13,6 +13,12 @@ namespace VirtueSky.Iap
             Selection.activeObject = iapSetting;
             EditorUtility.FocusProjectWindow();
         }
+
+        [MenuItem("Sunflower/Create Variable/Iap Data Variable")]
+        public static void CreateVariableTransform()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IapDataVariable>("/Iap");
+        }
     }
 }
 #endif
