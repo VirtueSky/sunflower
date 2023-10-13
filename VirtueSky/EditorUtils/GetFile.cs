@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace VirtueSky.Misc
+namespace VirtueSky.EditorUtils
 {
 #if UNITY_EDITOR
     public static class GetFile
@@ -90,6 +91,42 @@ namespace VirtueSky.Misc
                 return result;
 
             return null;
+        }
+
+        public static T FindAssetWithPath<T>(string fullPath) where T : Object
+        {
+            string path = GetPathInCurrentEnvironent(fullPath);
+            var t = AssetDatabase.LoadAssetAtPath(path, typeof(T));
+            if (t == null) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t as T;
+        }
+
+        public static T FindAssetWithPath<T>(string nameAsset, string relativePath) where T : Object
+        {
+            string path = AssetInPackagePath(relativePath, nameAsset);
+            var t = AssetDatabase.LoadAssetAtPath(path, typeof(T));
+            if (t == null) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t as T;
+        }
+
+        public static T[] FindAssetsWithPath<T>(string nameAsset, string relativePath) where T : Object
+        {
+            string path = AssetInPackagePath(relativePath, nameAsset);
+            var t = AssetDatabase.LoadAllAssetsAtPath(path).OfType<T>().ToArray();
+            if (t.Length == 0) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
+            return t;
+        }
+
+        public static string AssetInPackagePath(string relativePath, string nameAsset)
+        {
+            return GetPathInCurrentEnvironent($"{relativePath}/{nameAsset}");
+        }
+
+        public static string GetPathInCurrentEnvironent(string fullRelativePath)
+        {
+            var upmPath = $"Packages/com.virtuesky.sunflower/{fullRelativePath}";
+            var normalPath = $"Assets/Sunflower/{fullRelativePath}";
+            return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
         }
     }
 #endif

@@ -1,7 +1,10 @@
 {
-    "name": "virtuesky.sunflower.editorutils",
+    "name": "virtuesky.sunflower.leveleditor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:41555b880c64e2246bc1bdf7d678b424",
+        "GUID:c282fd4f3fc2c7540914e85842a013c7"
+    ],
     "includePlatforms": [
         "Editor"
     ],
