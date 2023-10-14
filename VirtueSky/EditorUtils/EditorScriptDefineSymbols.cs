@@ -139,6 +139,25 @@ namespace VirtueSky.EditorUtils
 
         #endregion
 
+        #region Iap
+
+        private const string menuPathIAP = "Sunflower/ScriptDefineSymbols/VIRTUESKY_IAP";
+
+        [MenuItem(menuPathIAP)]
+        public static void IapConfigFlag()
+        {
+            SwitchFlag("VIRTUESKY_IAP");
+        }
+
+        [MenuItem(menuPathIAP, true)]
+        public static bool IsIapFlagEnable()
+        {
+            Menu.SetChecked(menuPathIAP, IsFlagEnabled("VIRTUESKY_IAP"));
+            return true;
+        }
+
+        #endregion
+
         #region Base Functions
 
         static void SwitchFlag(string flag)

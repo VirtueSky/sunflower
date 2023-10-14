@@ -1,3 +1,4 @@
+#if VIRTUESKY_IAP
 using System;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -91,3 +92,4 @@ namespace VirtueSky.Iap
 #endif
     }
 }
+#endif
