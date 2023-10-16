@@ -10,9 +10,19 @@ namespace VirtueSky.Iap
     {
         [SerializeField] private List<IapData> skusData = new List<IapData>();
         [ReadOnly] [SerializeField] private List<IapDataVariable> products = new List<IapDataVariable>();
+
 #if UNITY_EDITOR
         [SerializeField, TextArea] private string googlePlayStoreKey;
 #endif
+        [Button("Generate Product From Sku")]
+        public void GenerateProduct()
+        {
+        }
+
+        [Button("Obfuscator Key")]
+        private void ObfuscatorKey()
+        {
+        }
 
         public List<IapDataVariable> Products => products;
     }
