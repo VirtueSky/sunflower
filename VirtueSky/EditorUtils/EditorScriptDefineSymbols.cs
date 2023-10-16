@@ -158,6 +158,25 @@ namespace VirtueSky.EditorUtils
 
         #endregion
 
+        #region Ratting
+
+        private const string menuPathRatting = "Sunflower/ScriptDefineSymbols/VIRTUESKY_RATING";
+
+        [MenuItem(menuPathRatting)]
+        public static void RattingConfigFlag()
+        {
+            SwitchFlag("VIRTUESKY_RATING");
+        }
+
+        [MenuItem(menuPathRatting, true)]
+        public static bool IsRattingConfigFlagEnable()
+        {
+            Menu.SetChecked(menuPathRatting, IsFlagEnabled("VIRTUESKY_RATING"));
+            return true;
+        }
+
+        #endregion
+
         #region Base Functions
 
         static void SwitchFlag(string flag)

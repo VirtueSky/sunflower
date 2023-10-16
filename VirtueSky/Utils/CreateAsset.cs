@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -58,12 +56,12 @@ namespace VirtueSky.Utils
         }
 
 
-        public static T CreateAndGetScriptableAsset<T>(string path = "") where T : ScriptableObject
+        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "") where T : ScriptableObject
         {
             var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             if (so == null)
             {
-                CreateScriptableAssets<T>(path);
+                CreateScriptableAssets<T>(path, assetName);
                 so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             }
 
