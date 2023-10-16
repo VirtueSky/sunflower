@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -47,12 +48,5 @@ namespace VirtueSky.Iap
     {
         public string id;
         public ProductType productType;
-    }
-
-    public enum ProductType
-    {
-        Consumable,
-        NonConsumable,
-        Subscription
     }
 }

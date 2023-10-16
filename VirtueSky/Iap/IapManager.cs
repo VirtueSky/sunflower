@@ -1,5 +1,7 @@
 #if VIRTUESKY_IAP
 using System;
+using Unity.Services.Core;
+using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
@@ -20,6 +22,7 @@ namespace VirtueSky.Iap
 
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
+        public bool IsInitialized { get; set; }
 
         public override void DoEnable()
         {
@@ -37,6 +40,29 @@ namespace VirtueSky.Iap
 #if UNITY_IOS
              restoreEvent.RemoveListener(RestorePurchase);
 #endif
+        }
+
+        private void Start()
+        {
+            Init();
+        }
+
+        private async void Init()
+        {
+            var options = new InitializationOptions().SetEnvironmentName("production");
+            await UnityServices.InitializeAsync(options);
+            InitImpl();
+        }
+
+        void InitImpl()
+        {
+            if (IsInitialized) return;
+            var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+            RequestProductData(builder);
+            builder.Configure<IGooglePlayConfiguration>();
+
+            UnityPurchasing.Initialize(this, builder);
+            IsInitialized = true;
         }
 
         private bool IsPurchasedProduct(IapDataVariable product)
@@ -171,6 +197,14 @@ namespace VirtueSky.Iap
         }
 
         #endregion
+
+        private void RequestProductData(ConfigurationBuilder builder)
+        {
+            foreach (var p in iapSetting.Products)
+            {
+                builder.AddProduct(p.id, p.productType);
+            }
+        }
 
 #if UNITY_IOS
         private void RestorePurchase()
