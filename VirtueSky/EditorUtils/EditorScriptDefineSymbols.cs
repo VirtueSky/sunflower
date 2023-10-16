@@ -139,20 +139,20 @@ namespace VirtueSky.EditorUtils
 
         #endregion
 
-        #region Rating
+        #region Iap
 
-        private const string menuPathRatting = "Sunflower/ScriptDefineSymbols/VIRTUESKY_RATING";
+        private const string menuPathIAP = "Sunflower/ScriptDefineSymbols/VIRTUESKY_IAP";
 
-        [MenuItem(menuPathRatting)]
-        public static void RattingConfigFlag()
+        [MenuItem(menuPathIAP)]
+        public static void IapConfigFlag()
         {
-            SwitchFlag("VIRTUESKY_RATING");
+            SwitchFlag("VIRTUESKY_IAP");
         }
 
-        [MenuItem(menuPathRatting, true)]
-        public static bool IsRattingConfigFlagEnable()
+        [MenuItem(menuPathIAP, true)]
+        public static bool IsIapFlagEnable()
         {
-            Menu.SetChecked(menuPathRatting, IsFlagEnabled("VIRTUESKY_RATING"));
+            Menu.SetChecked(menuPathIAP, IsFlagEnabled("VIRTUESKY_IAP"));
             return true;
         }
 
