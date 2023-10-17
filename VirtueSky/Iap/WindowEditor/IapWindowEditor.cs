@@ -6,7 +6,7 @@ namespace VirtueSky.Iap
 {
     public class IapWindowEditor : EditorWindow
     {
-        [MenuItem("Sunflower/Iap %W", false)]
+        [MenuItem("Sunflower/Iap/IapSetting %W", false)]
         public static void MenuOpenAdSettings()
         {
             var iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
@@ -14,10 +14,16 @@ namespace VirtueSky.Iap
             EditorUtility.FocusProjectWindow();
         }
 
-        [MenuItem("Sunflower/Create Variable/Iap Data Variable")]
+        [MenuItem("Sunflower/Iap/Iap Data Variable")]
         public static void CreateVariableTransform()
         {
-            CreateAsset.CreateScriptableAssetsOnlyName<IapDataVariable>("/Iap");
+            CreateAsset.CreateScriptableAssetsOnlyName<IapDataVariable>("/Iap/Products");
+        }
+
+        [MenuItem("Sunflower/Iap/Iap Purchase Product Event")]
+        public static void CreateIapProductEvent()
+        {
+            CreateAsset.CreateScriptableAssets<EventIapProduct>("/Iap", "iap_purchase_product");
         }
     }
 }
