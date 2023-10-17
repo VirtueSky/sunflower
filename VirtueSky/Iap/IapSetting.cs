@@ -4,11 +4,10 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using VirtueSky.EditorUtils;
-
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
+using VirtueSky.EditorUtils;
 #endif
 using VirtueSky.Utils;
 
