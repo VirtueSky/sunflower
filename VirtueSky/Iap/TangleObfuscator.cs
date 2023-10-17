@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Linq;
 
 namespace VirtueSky.Iap
@@ -57,3 +58,4 @@ namespace VirtueSky.Iap
         }
     }
 }
+#endif

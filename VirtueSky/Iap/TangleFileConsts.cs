@@ -1,4 +1,5 @@
-﻿namespace VirtueSky.Iap
+﻿#if UNITY_EDITOR
+namespace VirtueSky.Iap
 {
     public class TangleFileConsts
     {
@@ -10,3 +11,4 @@
         internal const string k_ObfuscationClassSuffix = "Tangle.cs";
     }
 }
+#endif
