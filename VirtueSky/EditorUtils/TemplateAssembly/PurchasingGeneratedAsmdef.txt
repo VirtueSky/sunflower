@@ -1,0 +1,17 @@
+{
+    "name": "virtuesky.purchasing.generate",
+    "rootNamespace": "",
+    "references": [
+        "GUID:94e1de2458b07d0bf1e9f13e6ae06443",
+        "GUID:d0bf1e9f644394e1de13e6ae02458b07"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
