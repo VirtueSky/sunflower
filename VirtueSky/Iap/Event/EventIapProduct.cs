@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if VIRTUESKY_IAP
+using UnityEngine;
 using VirtueSky.Events;
 
 namespace VirtueSky.Iap
@@ -8,3 +9,4 @@ namespace VirtueSky.Iap
     {
     }
 }
+#endif

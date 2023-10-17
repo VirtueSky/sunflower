@@ -48,14 +48,14 @@ namespace VirtueSky.Ads
         {
             switch (unit)
             {
-                case AdmobInterVariable inter:
-
+                case AdmobInterVariable admobInter:
+                    admobInter.completedCallback = onCompleted;
                     return unit;
-                case AdmobRewardVariable reward:
-
+                case AdmobRewardVariable admobReward:
+                    admobReward.completedCallback = onCompleted;
                     return unit;
-                case AdmobRewardInterVariable rewardInter:
-
+                case AdmobRewardInterVariable admobRewardInter:
+                    admobRewardInter.completedCallback = onCompleted;
                     return unit;
                 case MaxInterVariable maxInter:
                     maxInter.completedCallback = onCompleted;
@@ -75,11 +75,11 @@ namespace VirtueSky.Ads
         {
             switch (unit)
             {
-                case AdmobRewardVariable reward:
-
+                case AdmobRewardVariable admobReward:
+                    admobReward.skippedCallback = onSkipped;
                     return unit;
-                case AdmobRewardInterVariable rewardInter:
-
+                case AdmobRewardInterVariable admobRewardInter:
+                    admobRewardInter.skippedCallback = onSkipped;
                     return unit;
                 case MaxRewardVariable maxReward:
                     maxReward.skippedCallback = onSkipped;

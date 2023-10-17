@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if VIRTUESKY_IAP
+using System;
 using VirtueSky.Events;
 
 namespace VirtueSky.Iap
@@ -29,3 +30,4 @@ namespace VirtueSky.Iap
         //  public static bool IsPurchased(this IapDataVariable product, ScriptableEventIAPFuncProduct @event) { return @event.Raise(product); }
     }
 }
+#endif

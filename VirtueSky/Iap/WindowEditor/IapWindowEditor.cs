@@ -6,6 +6,7 @@ namespace VirtueSky.Iap
 {
     public class IapWindowEditor : EditorWindow
     {
+#if VIRTUESKY_IAP
         [MenuItem("Sunflower/Iap/IapSetting %W", false)]
         public static void MenuOpenAdSettings()
         {
@@ -25,6 +26,7 @@ namespace VirtueSky.Iap
         {
             CreateAsset.CreateScriptableAssets<EventIapProduct>("/Iap", "iap_purchase_product");
         }
+#endif
     }
 }
 #endif

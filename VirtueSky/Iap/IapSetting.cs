@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if VIRTUESKY_IAP
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
@@ -58,8 +59,12 @@ namespace VirtueSky.Iap
                 appleError: ref googleError,
                 googleError: ref appleError,
                 googlePlayPublicKey: googlePlayStoreKey);
-            string pathAsmdef = GetFile.GetPathInCurrentEnvironent($"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdef.txt");
-            string pathAsmdefMeta = GetFile.GetPathInCurrentEnvironent($"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdefMeta.txt");
+            string pathAsmdef =
+                GetFile.GetPathInCurrentEnvironent(
+                    $"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdef.txt");
+            string pathAsmdefMeta =
+                GetFile.GetPathInCurrentEnvironent(
+                    $"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdefMeta.txt");
             var asmdef = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdef, typeof(TextAsset));
             var meta = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdefMeta, typeof(TextAsset));
             string path = Path.Combine(TangleFileConsts.k_OutputPath, "virtuesky.purchasing.generate.asmdef");
@@ -93,3 +98,4 @@ namespace VirtueSky.Iap
         public ProductType productType;
     }
 }
+#endif
