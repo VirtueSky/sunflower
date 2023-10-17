@@ -26,6 +26,7 @@ namespace VirtueSky.Iap
 #endif
         public List<IapDataVariable> Products => products;
 
+        #region Button
 
 #if UNITY_EDITOR
         private string path = CreateAsset.DefaultResourcesPath("/Iap/Products");
@@ -82,6 +83,8 @@ namespace VirtueSky.Iap
         }
 
 #endif
+
+        #endregion
     }
 
     [Serializable]
