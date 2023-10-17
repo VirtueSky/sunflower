@@ -3,7 +3,7 @@
   "displayName": "Sunflower",
   "description": "Core ScriptableObject Architecture for building Unity games",
   "version": "2.0.5",
-  "unity": "2021.3",
+  "unity": "2022.3",
   "category": "virtuesky",
   "keywords": [
     "ScriptableObjectArchitecture",
