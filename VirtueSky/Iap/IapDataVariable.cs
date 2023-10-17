@@ -20,10 +20,17 @@ namespace VirtueSky.Iap
 
         [NonSerialized] public Action purchaseSuccessCallback;
         [NonSerialized] public Action purchaseFailedCallback;
+        private IStoreController _controller;
+
+        internal void InitIStoreController(IStoreController controller)
+        {
+            this._controller = controller;
+        }
 
         public bool IsPurchased()
         {
-            return false;
+            if (_controller == null) return false;
+            return productType == ProductType.NonConsumable && _controller.products.WithID(id).hasReceipt;
         }
     }
 }

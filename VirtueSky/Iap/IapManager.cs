@@ -65,7 +65,7 @@ namespace VirtueSky.Iap
             IsInitialized = true;
         }
 
-        private bool IsPurchasedProduct(IapDataVariable product)
+        public bool IsPurchasedProduct(IapDataVariable product)
         {
             if (_controller == null) return false;
             return product.productType == ProductType.NonConsumable && _controller.products.WithID(product.id).hasReceipt;
@@ -109,6 +109,10 @@ namespace VirtueSky.Iap
                 if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
             }
 #endif
+            foreach (var product in iapSetting.Products)
+            {
+                product.InitIStoreController(_controller);
+            }
         }
 
         private IapDataVariable PurchaseProductInternal(IapDataVariable product)
