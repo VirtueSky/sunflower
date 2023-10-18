@@ -120,6 +120,64 @@ namespace VirtueSky.Events
         }
     }
 
+    public class BaseEvent<TType, TResult> : BaseSO, IEvent<TType, TResult>
+    {
+        readonly List<IEventListener<TType, TResult>> listeners = new List<IEventListener<TType, TResult>>();
+        private Func<TType, TResult> onRaised = null;
+
+        public TResult Raise(TType value)
+        {
+            TResult result = default;
+            if (!Application.isPlaying) return result;
+            for (var i = listeners.Count - 1; i >= 0; i--)
+            {
+                listeners[i].OnEventRaised(this, value);
+            }
+
+            if (onRaised != null) result = onRaised.Invoke(value);
+            return result;
+        }
+
+        public event Func<TType, TResult> OnRaised
+        {
+            add { onRaised += value; }
+            remove { onRaised -= value; }
+        }
+
+
+        public void AddListener(Func<TType, TResult> func)
+        {
+            onRaised += func;
+        }
+
+        public void RemoveListener(Func<TType, TResult> func)
+        {
+            onRaised -= func;
+        }
+
+        public void AddListener(IEventListener<TType, TResult> listener)
+        {
+            if (!listeners.Contains(listener))
+            {
+                listeners.Add(listener);
+            }
+        }
+
+        public void RemoveListener(IEventListener<TType, TResult> listener)
+        {
+            if (listeners.Contains(listener))
+            {
+                listeners.Remove(listener);
+            }
+        }
+
+        public void RemoveAll()
+        {
+            listeners.Clear();
+            onRaised = null;
+        }
+    }
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(BaseEvent), true)]
     public class BaseEventEditor : UnityEditor.Editor
@@ -140,44 +198,5 @@ namespace VirtueSky.Events
             }
         }
     }
-    //
-    // [CustomEditor(typeof(BaseEvent<>), true)]
-    // public class TypedBaseEventEditor : Editor
-    // {
-    //     public override void OnInspectorGUI()
-    //     {
-    //         base.OnInspectorGUI();
-    //
-    //         var debugProperty = serializedObject.FindProperty("debugValue");
-    //
-    //         if (debugProperty != null)
-    //         {
-    //             using (new EditorGUIUtils.VerticalHelpBox())
-    //             {
-    //                 using (var scope = new EditorGUI.ChangeCheckScope())
-    //                 {
-    //                     EditorGUILayout.PropertyField(debugProperty, GUIContent.none);
-    //
-    //                     if (scope.changed)
-    //                     {
-    //                         serializedObject.ApplyModifiedProperties();
-    //                     }
-    //                 }
-    //
-    //                 if (GUILayout.Button("Raise"))
-    //                 {
-    //                     var targetType = target.GetType();
-    //                     var targetField = targetType.GetFieldRecursive("debugValue",
-    //                         BindingFlags.Instance | BindingFlags.NonPublic);
-    //                     var debugValue = targetField.GetValue(target);
-    //
-    //                     var raiseMethod = targetType.BaseType.GetMethod("Raise",
-    //                         BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-    //                     raiseMethod?.Invoke(target, new[] {debugValue});
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 #endif
 }

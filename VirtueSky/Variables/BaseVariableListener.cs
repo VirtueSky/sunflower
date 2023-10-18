@@ -23,9 +23,8 @@ namespace VirtueSky.Variables
             }
         }
 
-        public override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             if (isRaisedOnEnable)
             {
                 foreach (var t in listEventResponseDatas)

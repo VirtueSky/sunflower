@@ -15,6 +15,7 @@ namespace VirtueSky.Iap
     {
         [SerializeField] private IapSetting iapSetting;
         [SerializeField] private EventIapProduct eventIapProduct;
+        [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
 #if UNITY_IOS
         [SerializeField] private EventNoParam restoreEvent;
@@ -28,6 +29,7 @@ namespace VirtueSky.Iap
         {
             base.DoEnable();
             eventIapProduct.AddListener(PurchaseProduct);
+            eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
 #if UNITY_IOS
              restoreEvent.AddListener(RestorePurchase);
 #endif
@@ -37,6 +39,7 @@ namespace VirtueSky.Iap
         {
             base.DoDisable();
             eventIapProduct.RemoveListener(PurchaseProduct);
+            eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
 #if UNITY_IOS
              restoreEvent.RemoveListener(RestorePurchase);
 #endif
@@ -109,10 +112,6 @@ namespace VirtueSky.Iap
                 if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
             }
 #endif
-            foreach (var product in iapSetting.Products)
-            {
-                product.InitIStoreController(_controller);
-            }
         }
 
         private IapDataVariable PurchaseProductInternal(IapDataVariable product)
