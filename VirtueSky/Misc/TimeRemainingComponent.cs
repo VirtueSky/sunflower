@@ -5,7 +5,7 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
-    public class TimeRemaining : BaseMono
+    public class TimeRemainingComponent : BaseMono
     {
         [HorizontalGroup("Year-Month-Day"), LabelWidth(90)] [SerializeField]
         private int targetYear;

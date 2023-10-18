@@ -3,10 +3,9 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
-    public class GoRotate : BaseMono
+    public class RotateComponent : BaseMono
     {
-        [Header("(Note: Tick in fixed tick to rotate)")] [Header("Attributes")]
-        public bool ignoreTimeScale;
+        [Header("Attributes")] public bool ignoreTimeScale;
 
         public float speed = 1f;
         public bool rotateX;

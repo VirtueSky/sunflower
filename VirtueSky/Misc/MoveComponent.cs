@@ -7,9 +7,8 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
-    public class GoMove : BaseMono
+    public class MoveComponent : BaseMono
     {
-        [Header("(Note: Tick in tick to move)")]
         public GameObject movingObject;
 
         public List<Transform> points; // List of points the object will move through

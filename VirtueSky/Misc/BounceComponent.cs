@@ -3,10 +3,9 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
-    public class GoBounce : BaseMono
+    public class BounceComponent : BaseMono
     {
-        [Header("(Note: Tick in fixed tick to Bounce)")] [Header("Attributes")]
-        public bool isRotate = false;
+        [Header("Attributes")] public bool isRotate = false;
 
         public float degreesPerSecond = 15.0f;
         public float amplitude = 0.5f;
