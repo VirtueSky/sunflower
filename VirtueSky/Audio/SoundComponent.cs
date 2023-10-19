@@ -40,7 +40,7 @@ namespace VirtueSky.Audio
             audioSource.Play();
             if (!isLooping)
             {
-                StartCoroutine(Delay(audioClip.length, OnCompletedInvoke));
+                App.StartCoroutine(Delay(audioClip.length, OnCompletedInvoke));
             }
         }
 
@@ -49,6 +49,33 @@ namespace VirtueSky.Audio
             yield return new WaitForSeconds(delayTime);
             action?.Invoke();
         }
+
+        IEnumerator FadeInVolumeMusic(float endValue, float duration)
+        {
+            audioSource.volume = 0;
+            audioSource.Play();
+
+            while (audioSource.volume < endValue)
+            {
+                audioSource.volume += Time.deltaTime / duration;
+                yield return null;
+            }
+
+            audioSource.volume = endValue;
+        }
+
+        IEnumerator FadeOutVolumeMusic(float duration)
+        {
+            while (audioSource.volume > 0)
+            {
+                audioSource.volume -= Time.deltaTime / duration;
+                yield return null;
+            }
+
+            audioSource.volume = 0;
+            audioSource.Stop();
+        }
+
 
         internal void Resume()
         {
@@ -73,7 +100,25 @@ namespace VirtueSky.Audio
             if (!audioSource.loop) return;
             audioSource.loop = false;
             float remainingTime = audioSource.clip.length - audioSource.time;
-            StartCoroutine(Delay(remainingTime, OnCompletedInvoke));
+            App.StartCoroutine(Delay(remainingTime, OnCompletedInvoke));
+        }
+
+        internal void FadePlayMusic(AudioClip audioClip, float volume, float durationOut, float durationIn)
+        {
+            if (audioSource.isPlaying)
+            {
+                App.StartCoroutine(FadeOutVolumeMusic(durationOut));
+                App.StartCoroutine(Delay(durationOut, () =>
+                {
+                    PlayAudioClip(audioClip, true, 0);
+                    App.StartCoroutine(FadeInVolumeMusic(volume, durationIn));
+                }));
+            }
+            else
+            {
+                PlayAudioClip(audioClip, true, 0);
+                App.StartCoroutine(FadeInVolumeMusic(volume, durationIn));
+            }
         }
 
         private void OnCompletedInvoke()

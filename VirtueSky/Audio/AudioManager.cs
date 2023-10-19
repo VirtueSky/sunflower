@@ -105,34 +105,45 @@ namespace VirtueSky.Audio
 
         private void StopSfx(SoundData soundData)
         {
-            StopAndCleanAudioComponent(GetAudioComponent(soundData));
-            listAudioDatas.Remove(soundData);
+            var soundComponent = GetAudioComponent(soundData);
+            if (soundComponent == null) return;
+            StopAndCleanAudioComponent(soundComponent);
+            if (listAudioDatas.Count > 0)
+            {
+                listAudioDatas.Remove(soundData);
+            }
         }
 
         private void PauseSfx(SoundData soundData)
         {
-            GetAudioComponent(soundData).Pause();
+            var soundComponent = GetAudioComponent(soundData);
+            if (soundComponent == null || !soundComponent.IsPlaying) return;
+            soundComponent.Pause();
         }
 
         private void ResumeSfx(SoundData soundData)
         {
-            GetAudioComponent(soundData).Resume();
+            var soundComponent = GetAudioComponent(soundData);
+            if (soundComponent == null || soundComponent.IsPlaying) return;
+            soundComponent.Resume();
         }
 
         private void FinishSfx(SoundData soundData)
         {
-            var audioComponent = GetAudioComponent(soundData);
-            audioComponent.Finish();
-            audioComponent.OnCompleted += OnFinishPlayingAudio;
+            var soundComponent = GetAudioComponent(soundData);
+            if (soundComponent == null || !soundComponent.IsPlaying) return;
+            soundComponent.Finish();
+            soundComponent.OnCompleted += OnFinishPlayingAudio;
         }
 
         private void StopAllSfx()
         {
-            for (int i = 0; i < listSoundComponents.Count; i++)
+            foreach (var soundComponent in listSoundComponents)
             {
-                StopAndCleanAudioComponent(listSoundComponents[i]);
-                listAudioDatas.Remove(listAudioDatas[i]);
+                StopAndCleanAudioComponent(soundComponent);
             }
+
+            listAudioDatas.Clear();
         }
 
         #endregion
@@ -141,17 +152,14 @@ namespace VirtueSky.Audio
 
         private void PlayMusic(SoundData soundData)
         {
-            if (music != null && music.IsPlaying)
-            {
-                music.PlayAudioClip(soundData.GetAudioClip(), true, soundData.volume * musicVolume.Value);
-                music.OnCompleted += StopAudioMusic;
-            }
-            else
+            if (music == null || !music.IsPlaying)
             {
                 music = pool.Spawn(soundComponentPrefab);
-                music.PlayAudioClip(soundData.GetAudioClip(), true, soundData.volume * musicVolume.Value);
-                music.OnCompleted += StopAudioMusic;
             }
+
+            music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume, soundData.isMusicFadeInVolume ? soundData.fadeOutDuration : 0,
+                soundData.isMusicFadeInVolume ? soundData.fadeInDuration : 0);
+            music.OnCompleted += StopAudioMusic;
         }
 
         private void StopMusic()
