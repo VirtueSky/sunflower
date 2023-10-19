@@ -47,12 +47,6 @@ namespace VirtueSky.Events
             CreateAsset.CreateScriptableAssetsOnlyName<ObjectEvent>(pathEvent);
         }
 
-        [MenuItem(menuEvent + "Play Audio Event")]
-        public static void CreateEventPlayAudio()
-        {
-            CreateAsset.CreateScriptableAssetsOnlyName<PlayAudioEvent>(pathEvent);
-        }
-
         [MenuItem(menuEvent + "Short Double Event")]
         public static void CreateEventShortDouble()
         {
