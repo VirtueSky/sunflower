@@ -2,10 +2,10 @@
 using UnityEngine;
 using VirtueSky.Core;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Audio
 {
-    [CreateAssetMenu(menuName = "Audio/Audio Data", fileName = "audio_data")]
-    public class AudioData : BaseSO
+    [CreateAssetMenu(menuName = "Audio/Sound Data", fileName = "sound_data")]
+    public class SoundData : BaseSO
     {
         [Space] public bool loop;
         [Range(0f, 1f)] public float volume = 1;

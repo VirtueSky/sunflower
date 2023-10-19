@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using VirtueSky.Events;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Audio
 {
     [CreateAssetMenu(menuName = "Audio/Event Handle Audio", fileName = "event_handle_audio")]
-    public class EventHandleAudio : BaseEvent<AudioData>
+    public class EventAudioHandle : BaseEvent<SoundData>
     {
     }
 }
