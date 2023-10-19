@@ -2,14 +2,14 @@
 {
     public interface IEntity
     {
-        void DoEnable();
+        // void DoEnable();
         void Initialize();
         void Tick();
         void LateTick();
         void FixedTick();
         void CleanUp();
-        void DoDisable();
+        // void DoDisable();
 
-        void DoDestroy();
+        //  void DoDestroy();
     }
 }

@@ -21,39 +21,21 @@ namespace VirtueSky.Core
         }
 #endif
 
-        void OnEnable()
+        public virtual void OnEnable()
         {
             SubTick();
-            DoEnable();
         }
 
-        void OnDisable()
+        public virtual void OnDisable()
         {
-            DoDisable();
             UnSubTick();
         }
 
-        private void OnDestroy()
-        {
-            DoDestroy();
-        }
-
-        void SubTick()
-        {
-            App.SubTick(this);
-            App.SubLateTick(this);
-            App.SubFixedTick(this);
-        }
-
-        public virtual void DoEnable()
+        public virtual void OnDestroy()
         {
         }
 
         public virtual void Initialize()
-        {
-        }
-
-        public virtual void EarlyTick()
         {
         }
 
@@ -73,12 +55,11 @@ namespace VirtueSky.Core
         {
         }
 
-        public virtual void DoDisable()
+        void SubTick()
         {
-        }
-
-        public virtual void DoDestroy()
-        {
+            App.SubTick(this);
+            App.SubLateTick(this);
+            App.SubFixedTick(this);
         }
 
         void UnSubTick()

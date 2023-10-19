@@ -25,9 +25,9 @@ namespace VirtueSky.Iap
         private IExtensionProvider _extensionProvider;
         public bool IsInitialized { get; set; }
 
-        public override void DoEnable()
+        public override void OnEnable()
         {
-            base.DoEnable();
+            base.OnEnable();
             eventIapProduct.AddListener(PurchaseProduct);
             eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
 #if UNITY_IOS
@@ -35,9 +35,9 @@ namespace VirtueSky.Iap
 #endif
         }
 
-        public override void DoDisable()
+        public override void OnDisable()
         {
-            base.DoDisable();
+            base.OnDisable();
             eventIapProduct.RemoveListener(PurchaseProduct);
             eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
 #if UNITY_IOS

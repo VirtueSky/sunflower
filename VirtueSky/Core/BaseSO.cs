@@ -27,17 +27,11 @@ namespace VirtueSky.Core
         public void Enable()
         {
             SubTick();
-            DoEnable();
         }
 
         public void Disable()
         {
-            DoDisable();
             UnSubTick();
-        }
-
-        public void DoEnable()
-        {
         }
 
         void SubTick()
@@ -67,11 +61,7 @@ namespace VirtueSky.Core
         {
         }
 
-        public void DoDisable()
-        {
-        }
-
-        public virtual void DoDestroy()
+        public virtual void Destroy()
         {
         }
 

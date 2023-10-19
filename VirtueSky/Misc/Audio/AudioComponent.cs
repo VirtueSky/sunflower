@@ -62,6 +62,14 @@ namespace VirtueSky.Misc
             audioSource.Stop();
         }
 
+        internal void Finish()
+        {
+            if (!audioSource.loop) return;
+            audioSource.loop = false;
+            float remainingTime = audioSource.clip.length - audioSource.time;
+            StartCoroutine(Delay(remainingTime, OnCompletedInvoke));
+        }
+
         private void OnCompletedInvoke()
         {
             OnCompleted?.Invoke(this);
