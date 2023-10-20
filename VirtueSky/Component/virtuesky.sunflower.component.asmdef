@@ -1,9 +1,8 @@
 {
-    "name": "virtuesky.sunflower.misc",
+    "name": "virtuesky.sunflower.component",
     "rootNamespace": "",
     "references": [
-        "GUID:acb3cac55c622ec459c8caadf707623a",
-        "GUID:ce8c6e3f188ed064f933ef35b46bf8bd"
+        "GUID:acb3cac55c622ec459c8caadf707623a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using VirtueSky.Core;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Component
 {
     public class TimeRemainingComponent : BaseMono
     {

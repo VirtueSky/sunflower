@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 using VirtueSky.Core;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Component
 {
     public class MoveComponent : BaseMono
     {

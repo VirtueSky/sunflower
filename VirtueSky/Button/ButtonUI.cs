@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(Image))]
     public class ButtonUI : ButtonCustom

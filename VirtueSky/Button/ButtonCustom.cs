@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using VirtueSky.Events;
 using VirtueSky.Utils;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.UIButton
 {
     public class ButtonCustom : Button
     {

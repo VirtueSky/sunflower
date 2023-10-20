@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class ButtonTMP : ButtonCustom

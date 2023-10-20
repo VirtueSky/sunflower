@@ -1,7 +1,7 @@
 using UnityEngine;
 using VirtueSky.Core;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Component
 {
     public class RotateComponent : BaseMono
     {
