@@ -103,6 +103,7 @@ namespace VirtueSky.Audio
         private void PlaySfx(SoundData soundData)
         {
             var sfxComponent = pool.Spawn(soundComponentPrefab);
+            sfxComponent.transform.SetParent(this.transform);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * sfxVolume.Value);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             listAudioDatas.Add(soundData);
@@ -161,6 +162,7 @@ namespace VirtueSky.Audio
             if (music == null || !music.IsPlaying)
             {
                 music = pool.Spawn(soundComponentPrefab);
+                music.transform.SetParent(this.transform);
             }
 
             music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume, soundData.isMusicFadeInVolume ? soundData.fadeOutDuration : 0,
