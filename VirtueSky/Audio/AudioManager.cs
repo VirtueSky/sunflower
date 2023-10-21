@@ -9,7 +9,6 @@ namespace VirtueSky.Audio
 {
     public class AudioManager : BaseMono
     {
-        [Space] [SerializeField] private bool isDontDestroyOnLoad = false;
         [Space] [SerializeField] private Pools pool;
         [SerializeField] private SoundComponent soundComponentPrefab;
 
@@ -40,11 +39,7 @@ namespace VirtueSky.Audio
 
         private void Awake()
         {
-            if (isDontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(this.gameObject);
-            }
-
+            DontDestroyOnLoad(this.gameObject);
             pool.Initialize();
             sfxVolume.AddListener(OnSfxVolumeChanged);
             musicVolume.AddListener(OnMusicVolumeChanged);
@@ -112,32 +107,33 @@ namespace VirtueSky.Audio
 
         private void StopSfx(SoundData soundData)
         {
-            var soundComponent = GetAudioComponent(soundData);
+            var soundComponent = GetSoundComponent(soundData);
             if (soundComponent == null) return;
             StopAndCleanAudioComponent(soundComponent);
             if (listAudioDatas.Count > 0)
             {
+                listSoundComponents.Remove(GetSoundComponent(soundData));
                 listAudioDatas.Remove(soundData);
             }
         }
 
         private void PauseSfx(SoundData soundData)
         {
-            var soundComponent = GetAudioComponent(soundData);
+            var soundComponent = GetSoundComponent(soundData);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
             soundComponent.Pause();
         }
 
         private void ResumeSfx(SoundData soundData)
         {
-            var soundComponent = GetAudioComponent(soundData);
+            var soundComponent = GetSoundComponent(soundData);
             if (soundComponent == null || soundComponent.IsPlaying) return;
             soundComponent.Resume();
         }
 
         private void FinishSfx(SoundData soundData)
         {
-            var soundComponent = GetAudioComponent(soundData);
+            var soundComponent = GetSoundComponent(soundData);
             if (soundComponent == null || !soundComponent.IsPlaying) return;
             soundComponent.Finish();
             soundComponent.OnCompleted += OnFinishPlayingAudio;
@@ -150,6 +146,7 @@ namespace VirtueSky.Audio
                 StopAndCleanAudioComponent(soundComponent);
             }
 
+            listSoundComponents.Clear();
             listAudioDatas.Clear();
         }
 
@@ -165,8 +162,9 @@ namespace VirtueSky.Audio
                 music.transform.SetParent(this.transform);
             }
 
-            music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume, soundData.isMusicFadeInVolume ? soundData.fadeOutDuration : 0,
-                soundData.isMusicFadeInVolume ? soundData.fadeInDuration : 0);
+            music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume,
+                soundData.isMusicFadeVolume ? soundData.fadeOutDuration : 0,
+                soundData.isMusicFadeVolume ? soundData.fadeInDuration : 0);
             music.OnCompleted += StopAudioMusic;
         }
 
@@ -220,7 +218,7 @@ namespace VirtueSky.Audio
             pool.Despawn(soundComponent.gameObject);
         }
 
-        SoundComponent GetAudioComponent(SoundData soundData)
+        SoundComponent GetSoundComponent(SoundData soundData)
         {
             int index = listAudioDatas.FindIndex(x => x = soundData);
             if (index < 0)

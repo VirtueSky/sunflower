@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VirtueSky.Core;
 
 namespace VirtueSky.Audio
@@ -13,12 +12,12 @@ namespace VirtueSky.Audio
         [Range(0f, 1f)] public float volume = 1;
 
         [Header("Fade Volume - Only Music"), Tooltip("Only Music Background")]
-        public bool isMusicFadeInVolume = false;
+        public bool isMusicFadeVolume = false;
 
-        [ShowIf(nameof(isMusicFadeInVolume), true)]
+        [ShowIf(nameof(isMusicFadeVolume), true)]
         public float fadeInDuration = .5f;
 
-        [ShowIf(nameof(isMusicFadeInVolume), true)]
+        [ShowIf(nameof(isMusicFadeVolume), true)]
         public float fadeOutDuration = .5f;
 
         [Space] [SerializeField] private List<AudioClip> audioClips;
