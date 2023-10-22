@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DG.Tweening;
 using UnityEngine;
 
 namespace VirtueSky.Misc
@@ -65,6 +66,21 @@ namespace VirtueSky.Misc
         {
             obj.tag = tag;
             obj.GetComponentsInChildren<Transform>().ToList().ForEach(x => { x.gameObject.tag = tag; });
+        }
+
+        public static void Bounce(this Transform transformObj, float time, float strength = .1f,
+            Action completed = null)
+        {
+            Vector3 baseScale = transformObj.localScale;
+            Vector3 targetBounceX = new Vector3(1 + strength, 1 - strength) * baseScale.x;
+            Vector3 targetBounceY = new Vector3(1 - strength, 1 + strength) * baseScale.y;
+            transformObj.DOScale(targetBounceX, time / 3).OnComplete(() =>
+            {
+                transformObj.DOScale(targetBounceY, time / 3).OnComplete(() =>
+                {
+                    transformObj.DOScale(baseScale, time / 3).OnComplete(() => { completed?.Invoke(); });
+                });
+            });
         }
 
         public static void CallActionAndClean(ref Action action)
