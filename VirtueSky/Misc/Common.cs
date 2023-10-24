@@ -76,10 +76,7 @@ namespace VirtueSky.Misc
             Vector3 targetBounceY = new Vector3(1 - strength, 1 + strength) * baseScale.y;
             transformObj.DOScale(targetBounceX, time / 3).OnComplete(() =>
             {
-                transformObj.DOScale(targetBounceY, time / 3).OnComplete(() =>
-                {
-                    transformObj.DOScale(baseScale, time / 3).OnComplete(() => { completed?.Invoke(); });
-                });
+                transformObj.DOScale(targetBounceY, time / 3).OnComplete(() => { transformObj.DOScale(baseScale, time / 3).OnComplete(() => { completed?.Invoke(); }); });
             });
         }
 
@@ -89,6 +86,13 @@ namespace VirtueSky.Misc
             var a = action;
             a();
             action = null;
+        }
+
+        public static T PickRandom<T>(this T[] collection)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+            return collection.Length == 0 ? default : collection[UnityEngine.Random.Range(0, collection.Length)];
         }
     }
 }
