@@ -4,9 +4,9 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Cysharp.Threading.Tasks.CompilerServices;
+using VirtueSky.Threading.Tasks.CompilerServices;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     [AsyncMethodBuilder(typeof(AsyncUniTaskVoidMethodBuilder))]
     public readonly struct UniTaskVoid
@@ -16,4 +16,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

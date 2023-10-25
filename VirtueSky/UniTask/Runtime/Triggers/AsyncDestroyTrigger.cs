@@ -3,7 +3,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Triggers
+namespace VirtueSky.Threading.Tasks.Triggers
 {
     public static partial class AsyncTriggerExtensions
     {
@@ -37,6 +37,7 @@ namespace Cysharp.Threading.Tasks.Triggers
                         PlayerLoopHelper.AddAction(PlayerLoopTiming.Update, new AwakeMonitor(this));
                     }
                 }
+
                 return cancellationTokenSource.Token;
             }
         }
@@ -87,9 +88,9 @@ namespace Cysharp.Threading.Tasks.Triggers
                     trigger.OnDestroy();
                     return false;
                 }
+
                 return true;
             }
         }
     }
 }
-

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public abstract class MoveNextSource : IUniTaskSource<bool>
     {

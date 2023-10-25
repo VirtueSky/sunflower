@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public interface IReadOnlyAsyncReactiveProperty<T> : IUniTaskAsyncEnumerable<T>
     {
@@ -27,10 +27,7 @@ namespace Cysharp.Threading.Tasks
 
         public T Value
         {
-            get
-            {
-                return latestValue;
-            }
+            get { return latestValue; }
             set
             {
                 this.latestValue = value;
@@ -280,6 +277,7 @@ namespace Cysharp.Threading.Tasks
                     completionSource.TrySetCanceled(cancellationToken);
                     parent.triggerEvent.Remove(this);
                 }
+
                 return default;
             }
 
@@ -321,10 +319,7 @@ namespace Cysharp.Threading.Tasks
 
         public T Value
         {
-            get
-            {
-                return latestValue;
-            }
+            get { return latestValue; }
         }
 
         public ReadOnlyAsyncReactiveProperty(T initialValue, IUniTaskAsyncEnumerable<T> source, CancellationToken cancellationToken)
@@ -597,6 +592,7 @@ namespace Cysharp.Threading.Tasks
                     completionSource.TrySetCanceled(cancellationToken);
                     parent.triggerEvent.Remove(this);
                 }
+
                 return default;
             }
 
@@ -636,7 +632,8 @@ namespace Cysharp.Threading.Tasks
             return new ReadOnlyAsyncReactiveProperty<T>(source, cancellationToken);
         }
 
-        public static ReadOnlyAsyncReactiveProperty<T> ToReadOnlyAsyncReactiveProperty<T>(this IUniTaskAsyncEnumerable<T> source, T initialValue, CancellationToken cancellationToken)
+        public static ReadOnlyAsyncReactiveProperty<T> ToReadOnlyAsyncReactiveProperty<T>(this IUniTaskAsyncEnumerable<T> source, T initialValue,
+            CancellationToken cancellationToken)
         {
             return new ReadOnlyAsyncReactiveProperty<T>(initialValue, source, cancellationToken);
         }

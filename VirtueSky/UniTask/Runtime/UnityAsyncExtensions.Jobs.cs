@@ -6,7 +6,7 @@ using System.Threading;
 using Unity.Jobs;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static partial class UnityAsyncExtensions
     {

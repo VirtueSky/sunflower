@@ -3,13 +3,13 @@
 #if UNITY_2018_4 || UNITY_2019_4_OR_NEWER
 #if UNITASK_ASSETBUNDLE_SUPPORT
 
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static partial class UnityAsyncExtensions
     {
@@ -24,7 +24,8 @@ namespace Cysharp.Threading.Tasks
             return AwaitForAllAssets(asyncOperation, null, PlayerLoopTiming.Update, cancellationToken: cancellationToken);
         }
 
-        public static UniTask<UnityEngine.Object[]> AwaitForAllAssets(this AssetBundleRequest asyncOperation, IProgress<float> progress = null, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask<UnityEngine.Object[]> AwaitForAllAssets(this AssetBundleRequest asyncOperation, IProgress<float> progress = null,
+            PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
         {
             Error.ThrowArgumentNullException(asyncOperation, nameof(asyncOperation));
             if (cancellationToken.IsCancellationRequested) return UniTask.FromCanceled<UnityEngine.Object[]>(cancellationToken);
@@ -100,10 +101,10 @@ namespace Cysharp.Threading.Tasks
 
             AssetBundleRequestAllAssetsConfiguredSource()
             {
-
             }
 
-            public static IUniTaskSource<UnityEngine.Object[]> Create(AssetBundleRequest asyncOperation, PlayerLoopTiming timing, IProgress<float> progress, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource<UnityEngine.Object[]> Create(AssetBundleRequest asyncOperation, PlayerLoopTiming timing, IProgress<float> progress,
+                CancellationToken cancellationToken, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {

@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public interface IResolvePromise
     {
@@ -56,6 +56,7 @@ namespace Cysharp.Threading.Tasks
                 calledGet = true;
                 GC.SuppressFinalize(this);
             }
+
             return exception;
         }
 
@@ -90,6 +91,7 @@ namespace Cysharp.Threading.Tasks
             {
                 version += 1; // incr version.
             }
+
             completedCount = 0;
             result = default;
             error = null;
@@ -138,6 +140,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
+
                 return true;
             }
 
@@ -166,6 +169,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
+
                 return true;
             }
 
@@ -185,6 +189,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
+
                 return true;
             }
 
@@ -203,9 +208,9 @@ namespace Cysharp.Threading.Tasks
         {
             ValidateToken(token);
             return (continuation == null || (completedCount == 0)) ? UniTaskStatus.Pending
-                 : (error == null) ? UniTaskStatus.Succeeded
-                 : (error is OperationCanceledException) ? UniTaskStatus.Canceled
-                 : UniTaskStatus.Faulted;
+                : (error == null) ? UniTaskStatus.Succeeded
+                : (error is OperationCanceledException) ? UniTaskStatus.Canceled
+                : UniTaskStatus.Faulted;
         }
 
         /// <summary>Gets the status of the operation without token validation.</summary>
@@ -214,9 +219,9 @@ namespace Cysharp.Threading.Tasks
         public UniTaskStatus UnsafeGetStatus()
         {
             return (continuation == null || (completedCount == 0)) ? UniTaskStatus.Pending
-                 : (error == null) ? UniTaskStatus.Succeeded
-                 : (error is OperationCanceledException) ? UniTaskStatus.Canceled
-                 : UniTaskStatus.Faulted;
+                : (error == null) ? UniTaskStatus.Succeeded
+                : (error is OperationCanceledException) ? UniTaskStatus.Canceled
+                : UniTaskStatus.Faulted;
         }
 
         /// <summary>Gets the result of the operation.</summary>
@@ -262,6 +267,7 @@ namespace Cysharp.Threading.Tasks
             {
                 throw new ArgumentNullException(nameof(continuation));
             }
+
             ValidateToken(token);
 
             /* no use ValueTaskSourceOnCOmpletedFlags, always no capture ExecutionContext and SynchronizationContext. */
@@ -341,6 +347,7 @@ namespace Cysharp.Threading.Tasks
             {
                 result = new AutoResetUniTaskCompletionSource();
             }
+
             result.version = result.core.Version;
             TaskTracker.TrackActiveTask(result, 2);
             return result;
@@ -375,11 +382,7 @@ namespace Cysharp.Threading.Tasks
 
         public UniTask Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask(this, core.Version);
-            }
+            [DebuggerHidden] get { return new UniTask(this, core.Version); }
         }
 
         [DebuggerHidden]
@@ -465,6 +468,7 @@ namespace Cysharp.Threading.Tasks
             {
                 result = new AutoResetUniTaskCompletionSource<T>();
             }
+
             result.version = result.core.Version;
             TaskTracker.TrackActiveTask(result, 2);
             return result;
@@ -499,11 +503,7 @@ namespace Cysharp.Threading.Tasks
 
         public UniTask<T> Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask<T>(this, core.Version);
-            }
+            [DebuggerHidden] get { return new UniTask<T>(this, core.Version); }
         }
 
         [DebuggerHidden]
@@ -599,11 +599,7 @@ namespace Cysharp.Threading.Tasks
 
         public UniTask Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask(this, 0);
-            }
+            [DebuggerHidden] get { return new UniTask(this, 0); }
         }
 
         [DebuggerHidden]
@@ -696,6 +692,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         secondaryContinuationList = new List<(Action<object>, object)>();
                     }
+
                     secondaryContinuationList.Add((continuation, state));
                 }
             }
@@ -745,8 +742,10 @@ namespace Cysharp.Threading.Tasks
                     singleState = null;
                     secondaryContinuationList = null;
                 }
+
                 return true;
             }
+
             return false;
         }
     }
@@ -781,11 +780,7 @@ namespace Cysharp.Threading.Tasks
 
         public UniTask<T> Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask<T>(this, 0);
-            }
+            [DebuggerHidden] get { return new UniTask<T>(this, 0); }
         }
 
         [DebuggerHidden]
@@ -887,6 +882,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         secondaryContinuationList = new List<(Action<object>, object)>();
                     }
+
                     secondaryContinuationList.Add((continuation, state));
                 }
             }
@@ -936,9 +932,11 @@ namespace Cysharp.Threading.Tasks
                     singleState = null;
                     secondaryContinuationList = null;
                 }
+
                 return true;
             }
+
             return false;
         }
-   }
+    }
 }

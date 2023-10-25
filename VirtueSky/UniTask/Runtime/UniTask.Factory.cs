@@ -1,19 +1,16 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask
     {
-        static readonly UniTask CanceledUniTask = new Func<UniTask>(() =>
-        {
-            return new UniTask(new CanceledResultSource(CancellationToken.None), 0);
-        })();
+        static readonly UniTask CanceledUniTask = new Func<UniTask>(() => { return new UniTask(new CanceledResultSource(CancellationToken.None), 0); })();
 
         static class CanceledUniTaskCache<T>
         {
@@ -208,6 +205,7 @@ namespace Cysharp.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
             }
 
@@ -252,6 +250,7 @@ namespace Cysharp.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
                 return default;
             }
@@ -263,6 +262,7 @@ namespace Cysharp.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
             }
 
@@ -489,7 +489,7 @@ namespace Cysharp.Threading.Tasks
 
     internal static class CompletedTasks
     {
-        public static readonly UniTask<AsyncUnit> AsyncUnit = UniTask.FromResult(Cysharp.Threading.Tasks.AsyncUnit.Default);
+        public static readonly UniTask<AsyncUnit> AsyncUnit = UniTask.FromResult(VirtueSky.Threading.Tasks.AsyncUnit.Default);
         public static readonly UniTask<bool> True = UniTask.FromResult(true);
         public static readonly UniTask<bool> False = UniTask.FromResult(false);
         public static readonly UniTask<int> Zero = UniTask.FromResult(0);

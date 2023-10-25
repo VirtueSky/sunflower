@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     // Add, Remove, Enumerate with sweep. All operations are thread safe(in spinlock).
     internal class WeakDictionary<TKey, TValue>
@@ -209,15 +209,18 @@ namespace Cysharp.Threading.Tasks.Internal
                 {
                     buckets[hashIndex] = entry.Next;
                 }
+
                 if (entry.Prev != null)
                 {
                     entry.Prev.Next = entry.Next;
                 }
+
                 if (entry.Next != null)
                 {
                     entry.Next.Prev = entry.Prev;
                 }
             }
+
             size--;
         }
 
@@ -293,6 +296,7 @@ namespace Cysharp.Threading.Tasks.Internal
             {
                 size = 8;
             }
+
             return size;
         }
 
@@ -326,9 +330,9 @@ namespace Cysharp.Threading.Tasks.Internal
                     count++;
                     n = n.Next;
                 }
+
                 return count;
             }
         }
     }
 }
-

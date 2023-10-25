@@ -1,11 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Internal;
-using Cysharp.Threading.Tasks.Linq;
+﻿using VirtueSky.Threading.Tasks;
+using VirtueSky.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Linq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -27,7 +27,8 @@ namespace Cysharp.Threading.Tasks.Linq
             return source.Do(onNext, null, onCompleted);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> Do<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Action<TSource> onNext, Action<Exception> onError, Action onCompleted)
+        public static IUniTaskAsyncEnumerable<TSource> Do<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Action<TSource> onNext, Action<Exception> onError,
+            Action onCompleted)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             return new Do<TSource>(source, onNext, onError, onCompleted);
@@ -250,9 +251,9 @@ namespace Cysharp.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
+
                 return default;
             }
         }
     }
-
 }

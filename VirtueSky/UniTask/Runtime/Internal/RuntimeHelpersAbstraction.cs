@@ -5,7 +5,7 @@ using System;
 using UnityEngine;
 #endif
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal static class RuntimeHelpersAbstraction
     {
@@ -61,4 +61,3 @@ namespace Cysharp.Threading.Tasks.Internal
         }
     }
 }
-

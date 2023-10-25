@@ -1,8 +1,8 @@
-﻿using Cysharp.Threading.Tasks.Internal;
+﻿using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -31,7 +31,6 @@ namespace Cysharp.Threading.Tasks.Linq
         class _OfType : AsyncEnumeratorBase<object, TResult>
         {
             public _OfType(IUniTaskAsyncEnumerable<object> source, CancellationToken cancellationToken)
-
                 : base(source, cancellationToken)
             {
             }

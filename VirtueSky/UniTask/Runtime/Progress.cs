@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     /// <summary>
     /// Lightweight IProgress[T] factory.
@@ -31,7 +31,6 @@ namespace Cysharp.Threading.Tasks
 
             NullProgress()
             {
-
             }
 
             public void Report(T value)

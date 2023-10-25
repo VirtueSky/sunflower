@@ -1,9 +1,9 @@
-﻿using Cysharp.Threading.Tasks.Internal;
+﻿using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -12,7 +12,8 @@ namespace Cysharp.Threading.Tasks.Linq
             return ContainsAsync(source, value, EqualityComparer<TSource>.Default, cancellationToken);
         }
 
-        public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken = default)
+        public static UniTask<Boolean> ContainsAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer,
+            CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(comparer, nameof(comparer));
@@ -23,7 +24,8 @@ namespace Cysharp.Threading.Tasks.Linq
 
     internal static class Contains
     {
-        internal static async UniTask<bool> ContainsAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<bool> ContainsAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer,
+            CancellationToken cancellationToken)
         {
             var e = source.GetAsyncEnumerator(cancellationToken);
             try

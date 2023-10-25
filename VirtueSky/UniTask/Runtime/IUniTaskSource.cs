@@ -3,16 +3,19 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public enum UniTaskStatus
     {
         /// <summary>The operation has not yet completed.</summary>
         Pending = 0,
+
         /// <summary>The operation completed successfully.</summary>
         Succeeded = 1,
+
         /// <summary>The operation completed with an error.</summary>
         Faulted = 2,
+
         /// <summary>The operation completed due to cancellation.</summary>
         Canceled = 3
     }
@@ -60,7 +63,6 @@ namespace Cysharp.Threading.Tasks
         new T GetResult(short token);
 
 #if !UNITY_2018_3_OR_NEWER && !NETSTANDARD2_0
-
         new public UniTaskStatus GetStatus(short token)
         {
             return ((IUniTaskSource)this).GetStatus(token);
@@ -121,4 +123,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

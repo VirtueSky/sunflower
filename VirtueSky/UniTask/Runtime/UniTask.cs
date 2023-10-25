@@ -1,14 +1,14 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CS0436
 
-using Cysharp.Threading.Tasks.CompilerServices;
+using VirtueSky.Threading.Tasks.CompilerServices;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     internal static class AwaiterActions
     {
@@ -70,7 +70,6 @@ namespace Cysharp.Threading.Tasks
         }
 
 #if !UNITY_2018_3_OR_NEWER
-
         public static implicit operator System.Threading.Tasks.ValueTask(in UniTask self)
         {
             if (self.source == null)
@@ -118,7 +117,7 @@ namespace Cysharp.Threading.Tasks
                 this.source.GetResult(this.token);
                 return CompletedTasks.AsyncUnit;
             }
-            else if(this.source is IUniTaskSource<AsyncUnit> asyncUnitSource)
+            else if (this.source is IUniTaskSource<AsyncUnit> asyncUnitSource)
             {
                 return new UniTask<AsyncUnit>(asyncUnitSource, this.token);
             }
@@ -241,6 +240,7 @@ namespace Cysharp.Threading.Tasks
                         {
                             status = UniTaskStatus.Faulted;
                         }
+
                         throw;
                     }
                     finally
@@ -298,10 +298,7 @@ namespace Cysharp.Threading.Tasks
             {
                 [DebuggerHidden]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-                    return task.Status.IsCompleted();
-                }
+                get { return task.Status.IsCompleted(); }
             }
 
             [DebuggerHidden]
@@ -392,10 +389,7 @@ namespace Cysharp.Threading.Tasks
         {
             [DebuggerHidden]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return (source == null) ? UniTaskStatus.Succeeded : source.GetStatus(token);
-            }
+            get { return (source == null) ? UniTaskStatus.Succeeded : source.GetStatus(token); }
         }
 
         [DebuggerHidden]
@@ -441,7 +435,6 @@ namespace Cysharp.Threading.Tasks
         }
 
 #if !UNITY_2018_3_OR_NEWER
-
         public static implicit operator System.Threading.Tasks.ValueTask<T>(in UniTask<T> self)
         {
             if (self.source == null)
@@ -473,8 +466,9 @@ namespace Cysharp.Threading.Tasks
 
         public override string ToString()
         {
-            return (this.source == null) ? result?.ToString()
-                 : "(" + this.source.UnsafeGetStatus() + ")";
+            return (this.source == null)
+                ? result?.ToString()
+                : "(" + this.source.UnsafeGetStatus() + ")";
         }
 
         sealed class IsCanceledSource : IUniTaskSource<(bool, T)>
@@ -550,6 +544,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         exception.Throw();
                     }
+
                     return result;
                 }
                 else
@@ -571,6 +566,7 @@ namespace Cysharp.Threading.Tasks
                         {
                             status = UniTaskStatus.Faulted;
                         }
+
                         throw;
                     }
                     finally
@@ -633,10 +629,7 @@ namespace Cysharp.Threading.Tasks
             {
                 [DebuggerHidden]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-                    return task.Status.IsCompleted();
-                }
+                get { return task.Status.IsCompleted(); }
             }
 
             [DebuggerHidden]
@@ -704,4 +697,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

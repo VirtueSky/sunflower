@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -11,7 +11,8 @@ namespace Cysharp.Threading.Tasks.Linq
             return new Timer(dueTime, null, updateTiming, ignoreTimeScale);
         }
 
-        public static IUniTaskAsyncEnumerable<AsyncUnit> Timer(TimeSpan dueTime, TimeSpan period, PlayerLoopTiming updateTiming = PlayerLoopTiming.Update, bool ignoreTimeScale = false)
+        public static IUniTaskAsyncEnumerable<AsyncUnit> Timer(TimeSpan dueTime, TimeSpan period, PlayerLoopTiming updateTiming = PlayerLoopTiming.Update,
+            bool ignoreTimeScale = false)
         {
             return new Timer(dueTime, period, updateTiming, ignoreTimeScale);
         }
@@ -37,6 +38,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 throw new ArgumentOutOfRangeException("Delay does not allow minus delayFrameCount. dueTimeFrameCount:" + dueTimeFrameCount);
             }
+
             if (periodFrameCount < 0)
             {
                 throw new ArgumentOutOfRangeException("Delay does not allow minus periodFrameCount. periodFrameCount:" + dueTimeFrameCount);
@@ -51,6 +53,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 throw new ArgumentOutOfRangeException("Delay does not allow minus intervalFrameCount. intervalFrameCount:" + intervalFrameCount);
             }
+
             return new TimerFrame(intervalFrameCount, intervalFrameCount, updateTiming);
         }
     }
@@ -130,6 +133,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
+
                 return default;
             }
 
@@ -252,6 +256,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
+
                 return default;
             }
 

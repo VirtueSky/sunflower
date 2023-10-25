@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     // UniTask has no scheduler like TaskScheduler.
     // Only handle unobserved exception.
@@ -28,7 +28,7 @@ namespace Cysharp.Threading.Tasks
         /// Dispatch exception event to Unity MainThread. Default is true.
         /// </summary>
         public static bool DispatchUnityMainThread = true;
-        
+
         // cache delegate.
         static readonly SendOrPostCallback handleExceptionInvoke = InvokeUnobservedTaskException;
 
@@ -72,6 +72,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         msg = "UnobservedTaskException: " + ex.ToString();
                     }
+
                     switch (UnobservedExceptionWriteLogType)
                     {
                         case UnityEngine.LogType.Error:
@@ -100,4 +101,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

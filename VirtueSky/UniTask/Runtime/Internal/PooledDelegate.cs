@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal sealed class PooledDelegate<T> : ITaskPoolNode<PooledDelegate<T>>
     {

@@ -3,9 +3,9 @@
 using System;
 using System.Runtime.ExceptionServices;
 using System.Threading;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static class UniTaskObservableExtensions
     {
@@ -285,7 +285,7 @@ namespace Cysharp.Threading.Tasks
     }
 }
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     // Bridges for Rx.
 
@@ -295,7 +295,6 @@ namespace Cysharp.Threading.Tasks.Internal
 
         EmptyDisposable()
         {
-
         }
 
         public void Dispose()
@@ -309,14 +308,20 @@ namespace Cysharp.Threading.Tasks.Internal
         IDisposable current;
         bool disposed;
 
-        public bool IsDisposed { get { lock (gate) { return disposed; } } }
-
-        public IDisposable Disposable
+        public bool IsDisposed
         {
             get
             {
-                return current;
+                lock (gate)
+                {
+                    return disposed;
+                }
             }
+        }
+
+        public IDisposable Disposable
+        {
+            get { return current; }
             set
             {
                 var old = default(IDisposable);
@@ -385,13 +390,13 @@ namespace Cysharp.Threading.Tasks.Internal
 
         public bool HasObservers
         {
-            get
-            {
-                return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed;
-            }
+            get { return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed; }
         }
 
-        public bool IsCompleted { get { return isStopped; } }
+        public bool IsCompleted
+        {
+            get { return isStopped; }
+        }
 
         public void OnCompleted()
         {
@@ -523,7 +528,7 @@ namespace Cysharp.Threading.Tasks.Internal
         {
             if (isDisposed) throw new ObjectDisposedException("");
         }
-        
+
         class Subscription : IDisposable
         {
             readonly object gate = new object();
@@ -627,7 +632,6 @@ namespace Cysharp.Threading.Tasks.Internal
 
         EmptyObserver()
         {
-
         }
 
         public void OnCompleted()
@@ -649,7 +653,6 @@ namespace Cysharp.Threading.Tasks.Internal
 
         ThrowObserver()
         {
-
         }
 
         public void OnCompleted()
@@ -672,7 +675,6 @@ namespace Cysharp.Threading.Tasks.Internal
 
         DisposedObserver()
         {
-
         }
 
         public void OnCompleted()
@@ -743,8 +745,8 @@ namespace Cysharp.Threading.Tasks.Internal
                 // ImmutableList only use for IObserver(no worry for boxed)
                 if (object.Equals(data[i], value)) return i;
             }
+
             return -1;
         }
     }
 }
-

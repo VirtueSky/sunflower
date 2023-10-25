@@ -3,13 +3,13 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal static class Error
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowArgumentNullException<T>(T value, string paramName)
-          where T : class
+            where T : class
         {
             if (value == null) ThrowArgumentNullExceptionCore(paramName);
         }
@@ -58,7 +58,7 @@ namespace Cysharp.Threading.Tasks.Internal
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowWhenContinuationIsAlreadyRegistered<T>(T continuationField)
-          where T : class
+            where T : class
         {
             if (continuationField != null) ThrowInvalidOperationExceptionCore("continuation is already registered.");
         }
@@ -76,4 +76,3 @@ namespace Cysharp.Threading.Tasks.Internal
         }
     }
 }
-

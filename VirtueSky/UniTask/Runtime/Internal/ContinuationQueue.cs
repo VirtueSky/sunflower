@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal sealed class ContinuationQueue
     {
@@ -45,6 +45,7 @@ namespace Cysharp.Threading.Tasks.Internal
                         Array.Copy(waitingList, newArray, waitingListCount);
                         waitingList = newArray;
                     }
+
                     waitingList[waitingListCount] = continuation;
                     waitingListCount++;
                 }
@@ -60,6 +61,7 @@ namespace Cysharp.Threading.Tasks.Internal
                         Array.Copy(actionList, newArray, actionListCount);
                         actionList = newArray;
                     }
+
                     actionList[actionListCount] = continuation;
                     actionListCount++;
                 }
@@ -186,7 +188,6 @@ namespace Cysharp.Threading.Tasks.Internal
 
             for (int i = 0; i < actionListCount; i++)
             {
-
                 var action = actionList[i];
                 actionList[i] = null;
                 try
@@ -222,4 +223,3 @@ namespace Cysharp.Threading.Tasks.Internal
         }
     }
 }
-

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     // internally used but public, allow to user create custom operator with pooling.
 
@@ -30,7 +30,9 @@ namespace Cysharp.Threading.Tasks
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             MaxPoolSize = int.MaxValue;
         }
@@ -95,6 +97,7 @@ namespace Cysharp.Threading.Tasks
 
                 Volatile.Write(ref gate, 0);
             }
+
             result = default;
             return false;
         }
@@ -117,6 +120,7 @@ namespace Cysharp.Threading.Tasks
                     Volatile.Write(ref gate, 0);
                 }
             }
+
             return false;
         }
     }

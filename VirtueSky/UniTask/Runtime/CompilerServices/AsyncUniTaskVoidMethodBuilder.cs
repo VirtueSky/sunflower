@@ -1,5 +1,4 @@
-﻿
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System;
 using System.Diagnostics;
@@ -7,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Cysharp.Threading.Tasks.CompilerServices
+namespace VirtueSky.Threading.Tasks.CompilerServices
 {
     [StructLayout(LayoutKind.Auto)]
     public struct AsyncUniTaskVoidMethodBuilder
@@ -27,10 +26,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         {
             [DebuggerHidden]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return default;
-            }
+            get { return default; }
         }
 
         // 3. SetException
@@ -128,10 +124,10 @@ namespace Cysharp.Threading.Tasks.CompilerServices
                 {
                     debuggingId = new object();
                 }
+
                 return debuggingId;
             }
         }
 #endif
     }
 }
-

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public interface ITriggerHandler<T>
     {
@@ -249,6 +249,7 @@ namespace Cysharp.Threading.Tasks
             {
                 iteratingNode = next;
             }
+
             if (handler == iteratingHead)
             {
                 iteratingHead = next;

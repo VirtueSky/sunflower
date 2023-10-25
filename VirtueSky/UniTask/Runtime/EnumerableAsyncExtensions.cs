@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static class EnumerableAsyncExtensions
     {
@@ -30,5 +30,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-
-

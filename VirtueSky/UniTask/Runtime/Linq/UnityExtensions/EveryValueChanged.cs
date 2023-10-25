@@ -1,13 +1,14 @@
-﻿using Cysharp.Threading.Tasks.Internal;
+﻿using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
-        public static IUniTaskAsyncEnumerable<TProperty> EveryValueChanged<TTarget, TProperty>(TTarget target, Func<TTarget, TProperty> propertySelector, PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update, IEqualityComparer<TProperty> equalityComparer = null)
+        public static IUniTaskAsyncEnumerable<TProperty> EveryValueChanged<TTarget, TProperty>(TTarget target, Func<TTarget, TProperty> propertySelector,
+            PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update, IEqualityComparer<TProperty> equalityComparer = null)
             where TTarget : class
         {
             var unityObject = target as UnityEngine.Object;
@@ -15,11 +16,13 @@ namespace Cysharp.Threading.Tasks.Linq
 
             if (isUnityObject)
             {
-                return new EveryValueChangedUnityObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(), monitorTiming);
+                return new EveryValueChangedUnityObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(),
+                    monitorTiming);
             }
             else
             {
-                return new EveryValueChangedStandardObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(), monitorTiming);
+                return new EveryValueChangedStandardObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(),
+                    monitorTiming);
             }
         }
     }
@@ -31,7 +34,8 @@ namespace Cysharp.Threading.Tasks.Linq
         readonly IEqualityComparer<TProperty> equalityComparer;
         readonly PlayerLoopTiming monitorTiming;
 
-        public EveryValueChangedUnityObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming)
+        public EveryValueChangedUnityObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
+            PlayerLoopTiming monitorTiming)
         {
             this.target = target;
             this.propertySelector = propertySelector;
@@ -56,7 +60,8 @@ namespace Cysharp.Threading.Tasks.Linq
             TProperty currentValue;
             bool disposed;
 
-            public _EveryValueChanged(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, CancellationToken cancellationToken)
+            public _EveryValueChanged(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming,
+                CancellationToken cancellationToken)
             {
                 this.target = target;
                 this.targetAsUnityObject = target as UnityEngine.Object;
@@ -82,6 +87,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     {
                         return CompletedTasks.False;
                     }
+
                     this.currentValue = propertySelector(target);
                     return CompletedTasks.True;
                 }
@@ -97,6 +103,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
+
                 return default;
             }
 
@@ -140,7 +147,8 @@ namespace Cysharp.Threading.Tasks.Linq
         readonly IEqualityComparer<TProperty> equalityComparer;
         readonly PlayerLoopTiming monitorTiming;
 
-        public EveryValueChangedStandardObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming)
+        public EveryValueChangedStandardObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
+            PlayerLoopTiming monitorTiming)
         {
             this.target = new WeakReference<TTarget>(target, false);
             this.propertySelector = propertySelector;
@@ -164,7 +172,8 @@ namespace Cysharp.Threading.Tasks.Linq
             TProperty currentValue;
             bool disposed;
 
-            public _EveryValueChanged(WeakReference<TTarget> target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, CancellationToken cancellationToken)
+            public _EveryValueChanged(WeakReference<TTarget> target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
+                PlayerLoopTiming monitorTiming, CancellationToken cancellationToken)
             {
                 this.target = target;
                 this.propertySelector = propertySelector;
@@ -188,6 +197,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     {
                         return CompletedTasks.False;
                     }
+
                     this.currentValue = propertySelector(t);
                     return CompletedTasks.True;
                 }
@@ -203,6 +213,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
+
                 return default;
             }
 

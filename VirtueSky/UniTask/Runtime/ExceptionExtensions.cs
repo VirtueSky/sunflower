@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static class ExceptionExtensions
     {
@@ -11,4 +10,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

@@ -2,13 +2,11 @@
 
 using System.Threading;
 using UnityEngine;
-using Cysharp.Threading.Tasks.Triggers;
 using System;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Triggers;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
-
     public static partial class CancellationTokenSourceExtensions
     {
         readonly static Action<object> CancelCancellationTokenSourceStateDelegate = new Action<object>(CancelCancellationTokenSourceState);
@@ -19,12 +17,14 @@ namespace Cysharp.Threading.Tasks
             cts.Cancel();
         }
 
-        public static IDisposable CancelAfterSlim(this CancellationTokenSource cts, int millisecondsDelay, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
+        public static IDisposable CancelAfterSlim(this CancellationTokenSource cts, int millisecondsDelay, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
         {
             return CancelAfterSlim(cts, TimeSpan.FromMilliseconds(millisecondsDelay), delayType, delayTiming);
         }
 
-        public static IDisposable CancelAfterSlim(this CancellationTokenSource cts, TimeSpan delayTimeSpan, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
+        public static IDisposable CancelAfterSlim(this CancellationTokenSource cts, TimeSpan delayTimeSpan, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
         {
             return PlayerLoopTimer.StartNew(delayTimeSpan, false, delayType, delayTiming, cts.Token, CancelCancellationTokenSourceStateDelegate, cts);
         }
@@ -41,4 +41,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal static class ArrayPoolUtil
     {
@@ -112,4 +112,3 @@ namespace Cysharp.Threading.Tasks.Internal
         }
     }
 }
-

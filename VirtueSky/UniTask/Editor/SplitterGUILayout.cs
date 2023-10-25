@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Editor
+namespace VirtueSky.Threading.Tasks.Editor
 {
     // reflection call of UnityEditor.SplitterGUILayout
     internal static class SplitterGUILayout
@@ -59,4 +59,3 @@ namespace Cysharp.Threading.Tasks.Editor
         }
     }
 }
-

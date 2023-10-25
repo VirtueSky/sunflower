@@ -3,7 +3,7 @@
 using System;
 using System.Collections;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     // UnityEngine Bridges.
 
@@ -15,4 +15,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

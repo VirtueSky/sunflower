@@ -1,10 +1,10 @@
-﻿ #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System;
 using System.Threading;
 using UnityEngine.Rendering;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static partial class UnityAsyncExtensions
     {
@@ -20,13 +20,15 @@ namespace Cysharp.Threading.Tasks
             return ToUniTask(asyncOperation, cancellationToken: cancellationToken);
         }
 
-        public static UniTask<AsyncGPUReadbackRequest> ToUniTask(this AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask<AsyncGPUReadbackRequest> ToUniTask(this AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (asyncOperation.done) return UniTask.FromResult(asyncOperation);
             return new UniTask<AsyncGPUReadbackRequest>(AsyncGPUReadbackRequestAwaiterConfiguredSource.Create(asyncOperation, timing, cancellationToken, out var token), token);
         }
 
-        sealed class AsyncGPUReadbackRequestAwaiterConfiguredSource : IUniTaskSource<AsyncGPUReadbackRequest>, IPlayerLoopItem, ITaskPoolNode<AsyncGPUReadbackRequestAwaiterConfiguredSource>
+        sealed class AsyncGPUReadbackRequestAwaiterConfiguredSource : IUniTaskSource<AsyncGPUReadbackRequest>, IPlayerLoopItem,
+            ITaskPoolNode<AsyncGPUReadbackRequestAwaiterConfiguredSource>
         {
             static TaskPool<AsyncGPUReadbackRequestAwaiterConfiguredSource> pool;
             AsyncGPUReadbackRequestAwaiterConfiguredSource nextNode;
@@ -44,10 +46,10 @@ namespace Cysharp.Threading.Tasks
 
             AsyncGPUReadbackRequestAwaiterConfiguredSource()
             {
-
             }
 
-            public static IUniTaskSource<AsyncGPUReadbackRequest> Create(AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource<AsyncGPUReadbackRequest> Create(AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing, CancellationToken cancellationToken,
+                out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {

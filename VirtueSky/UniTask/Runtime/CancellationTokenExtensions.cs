@@ -4,7 +4,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static class CancellationTokenExtensions
     {
@@ -56,6 +56,7 @@ namespace Cysharp.Threading.Tasks
             {
                 UniTaskScheduler.PublishUnobservedTaskException(ex);
             }
+
             cts.Cancel();
             cts.Dispose();
         }
@@ -179,4 +180,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

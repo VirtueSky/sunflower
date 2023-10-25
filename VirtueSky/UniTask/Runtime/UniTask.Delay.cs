@@ -1,20 +1,22 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public enum DelayType
     {
         /// <summary>use Time.deltaTime.</summary>
         DeltaTime,
+
         /// <summary>Ignore timescale, use Time.unscaledDeltaTime.</summary>
         UnscaledDeltaTime,
+
         /// <summary>use Stopwatch.GetTimestamp().</summary>
         Realtime
     }
@@ -80,19 +82,21 @@ namespace Cysharp.Threading.Tasks
         {
             await Awaitable.EndOfFrameAsync(cancellationToken);
         }
-#else        
-        [Obsolete("Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
+#else
+        [Obsolete(
+            "Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
         public static YieldAwaitable WaitForEndOfFrame()
         {
             return UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
         }
 
-        [Obsolete("Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
+        [Obsolete(
+            "Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
         public static UniTask WaitForEndOfFrame(CancellationToken cancellationToken)
         {
             return UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
         }
-#endif        
+#endif
 
         public static UniTask WaitForEndOfFrame(MonoBehaviour coroutineRunner, CancellationToken cancellationToken = default)
         {
@@ -118,17 +122,20 @@ namespace Cysharp.Threading.Tasks
             return UniTask.Yield(PlayerLoopTiming.LastFixedUpdate, cancellationToken);
         }
 
-		public static UniTask WaitForSeconds(float duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
-		{
-			return Delay(Mathf.RoundToInt(1000 * duration), ignoreTimeScale, delayTiming, cancellationToken);
-		}
+        public static UniTask WaitForSeconds(float duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Delay(Mathf.RoundToInt(1000 * duration), ignoreTimeScale, delayTiming, cancellationToken);
+        }
 
-		public static UniTask WaitForSeconds(int duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
-		{
-			return Delay(1000 * duration, ignoreTimeScale, delayTiming, cancellationToken);
-		}
+        public static UniTask WaitForSeconds(int duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return Delay(1000 * duration, ignoreTimeScale, delayTiming, cancellationToken);
+        }
 
-		public static UniTask DelayFrame(int delayFrameCount, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask DelayFrame(int delayFrameCount, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (delayFrameCount < 0)
             {
@@ -138,25 +145,29 @@ namespace Cysharp.Threading.Tasks
             return new UniTask(DelayFramePromise.Create(delayFrameCount, delayTiming, cancellationToken, out var token), token);
         }
 
-        public static UniTask Delay(int millisecondsDelay, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(int millisecondsDelay, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var delayTimeSpan = TimeSpan.FromMilliseconds(millisecondsDelay);
             return Delay(delayTimeSpan, ignoreTimeScale, delayTiming, cancellationToken);
         }
 
-        public static UniTask Delay(TimeSpan delayTimeSpan, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(TimeSpan delayTimeSpan, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var delayType = ignoreTimeScale ? DelayType.UnscaledDeltaTime : DelayType.DeltaTime;
             return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken);
         }
 
-        public static UniTask Delay(int millisecondsDelay, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(int millisecondsDelay, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var delayTimeSpan = TimeSpan.FromMilliseconds(millisecondsDelay);
             return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken);
         }
 
-        public static UniTask Delay(TimeSpan delayTimeSpan, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(TimeSpan delayTimeSpan, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (delayTimeSpan < TimeSpan.Zero)
             {
@@ -174,18 +185,18 @@ namespace Cysharp.Threading.Tasks
             switch (delayType)
             {
                 case DelayType.UnscaledDeltaTime:
-                    {
-                        return new UniTask(DelayIgnoreTimeScalePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                    }
+                {
+                    return new UniTask(DelayIgnoreTimeScalePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
+                }
                 case DelayType.Realtime:
-                    {
-                        return new UniTask(DelayRealtimePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                    }
+                {
+                    return new UniTask(DelayRealtimePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
+                }
                 case DelayType.DeltaTime:
                 default:
-                    {
-                        return new UniTask(DelayPromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                    }
+                {
+                    return new UniTask(DelayPromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
+                }
             }
         }
 
@@ -966,7 +977,9 @@ namespace Cysharp.Threading.Tasks
 
             public bool IsCompleted => false;
 
-            public void GetResult() { }
+            public void GetResult()
+            {
+            }
 
             public void OnCompleted(Action continuation)
             {

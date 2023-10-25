@@ -1,8 +1,8 @@
-﻿using Cysharp.Threading.Tasks.Internal;
+﻿using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -11,7 +11,7 @@ namespace Cysharp.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.Select<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.Select<TSource, TResult>(source, selector);
         }
 
         public static IUniTaskAsyncEnumerable<TResult> Select<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, TResult> selector)
@@ -19,7 +19,7 @@ namespace Cysharp.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.SelectInt<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.SelectInt<TSource, TResult>(source, selector);
         }
 
         public static IUniTaskAsyncEnumerable<TResult> SelectAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TResult>> selector)
@@ -27,7 +27,7 @@ namespace Cysharp.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.SelectAwait<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.SelectAwait<TSource, TResult>(source, selector);
         }
 
         public static IUniTaskAsyncEnumerable<TResult> SelectAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, UniTask<TResult>> selector)
@@ -35,23 +35,25 @@ namespace Cysharp.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.SelectIntAwait<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.SelectIntAwait<TSource, TResult>(source, selector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
+            Func<TSource, CancellationToken, UniTask<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.SelectAwaitWithCancellation<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.SelectAwaitWithCancellation<TSource, TResult>(source, selector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<TResult>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
+            Func<TSource, Int32, CancellationToken, UniTask<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
 
-            return new Cysharp.Threading.Tasks.Linq.SelectIntAwaitWithCancellation<TSource, TResult>(source, selector);
+            return new VirtueSky.Threading.Tasks.Linq.SelectIntAwaitWithCancellation<TSource, TResult>(source, selector);
         }
     }
 
@@ -543,7 +545,8 @@ namespace Cysharp.Threading.Tasks.Linq
             UniTask<TResult>.Awaiter awaiter2;
             Action moveNextAction;
 
-            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
+            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector,
+                CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector = selector;
@@ -665,7 +668,8 @@ namespace Cysharp.Threading.Tasks.Linq
             Action moveNextAction;
             int index;
 
-            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
+            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<TResult>> selector,
+                CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector = selector;

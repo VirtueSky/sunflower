@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     internal static class DiagnosticsExtensions
     {
@@ -76,6 +76,7 @@ namespace Cysharp.Threading.Tasks.Internal
                 {
                     sb.Append(".");
                 }
+
                 sb.Append(mb.Name);
                 if (mb.IsGenericMethod)
                 {
@@ -84,6 +85,7 @@ namespace Cysharp.Threading.Tasks.Internal
                     {
                         sb.Append(BeautifyType(item, true));
                     }
+
                     sb.Append(">");
                 }
 
@@ -119,6 +121,7 @@ namespace Cysharp.Threading.Tasks.Internal
 
                 sb.AppendLine();
             }
+
             return sb.ToString();
         }
 
@@ -176,13 +179,19 @@ namespace Cysharp.Threading.Tasks.Internal
             {
                 return builtin;
             }
+
             if (t.IsGenericParameter) return t.Name;
             if (t.IsArray) return BeautifyType(t.GetElementType(), shortName) + "[]";
             if (t.FullName?.StartsWith("System.ValueTuple") ?? false)
             {
                 return "(" + string.Join(", ", t.GetGenericArguments().Select(x => BeautifyType(x, true))) + ")";
             }
-            if (!t.IsGenericType) return shortName ? t.Name : t.FullName.Replace("Cysharp.Threading.Tasks.Triggers.", "").Replace("Cysharp.Threading.Tasks.Internal.", "").Replace("Cysharp.Threading.Tasks.", "") ?? t.Name;
+
+            if (!t.IsGenericType)
+                return shortName
+                    ? t.Name
+                    : t.FullName.Replace("Cysharp.Threading.Tasks.Triggers.", "").Replace("Cysharp.Threading.Tasks.Internal.", "").Replace("Cysharp.Threading.Tasks.", "") ??
+                      t.Name;
 
             var innerFormat = string.Join(", ", t.GetGenericArguments().Select(x => BeautifyType(x, true)));
 
@@ -192,7 +201,8 @@ namespace Cysharp.Threading.Tasks.Internal
                 genericType = "Task";
             }
 
-            return typeBeautifyRegex.Replace(genericType, "").Replace("Cysharp.Threading.Tasks.Triggers.", "").Replace("Cysharp.Threading.Tasks.Internal.", "").Replace("Cysharp.Threading.Tasks.", "") + "<" + innerFormat + ">";
+            return typeBeautifyRegex.Replace(genericType, "").Replace("Cysharp.Threading.Tasks.Triggers.", "").Replace("Cysharp.Threading.Tasks.Internal.", "")
+                .Replace("Cysharp.Threading.Tasks.", "") + "<" + innerFormat + ">";
         }
 
         static bool IgnoreLine(MethodBase methodInfo)
@@ -246,4 +256,3 @@ namespace Cysharp.Threading.Tasks.Internal
         }
     }
 }
-

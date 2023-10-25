@@ -7,11 +7,11 @@ using System.Linq;
 using System.Reflection;
 using System;
 using UnityEditor.IMGUI.Controls;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Cysharp.Threading.Tasks.Editor
+namespace VirtueSky.Threading.Tasks.Editor
 {
     public class UniTaskTrackerViewItem : TreeViewItem
     {
@@ -22,6 +22,7 @@ namespace Cysharp.Threading.Tasks.Editor
         public string Status { get; set; }
 
         string position;
+
         public string Position
         {
             get { return position; }
@@ -43,6 +44,7 @@ namespace Cysharp.Threading.Tasks.Editor
                 {
                     break;
                 }
+
                 sb.Append(str[i]);
             }
 
@@ -51,7 +53,6 @@ namespace Cysharp.Threading.Tasks.Editor
 
         public UniTaskTrackerViewItem(int id) : base(id)
         {
-
         }
     }
 
@@ -64,10 +65,10 @@ namespace Cysharp.Threading.Tasks.Editor
         public UniTaskTrackerTreeView()
             : this(new TreeViewState(), new MultiColumnHeader(new MultiColumnHeaderState(new[]
             {
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("TaskType"), width = 20},
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Elapsed"), width = 10},
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Status"), width = 10},
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Position")},
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("TaskType"), width = 20 },
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Elapsed"), width = 10 },
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Status"), width = 10 },
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Position") },
             })))
         {
         }
@@ -133,7 +134,8 @@ namespace Cysharp.Threading.Tasks.Editor
 
             TaskTracker.ForEachActiveTask((trackingId, awaiterType, status, created, stackTrace) =>
             {
-                children.Add(new UniTaskTrackerViewItem(trackingId) { TaskType = awaiterType, Status = status.ToString(), Elapsed = (DateTime.UtcNow - created).TotalSeconds.ToString("00.00"), Position = stackTrace });
+                children.Add(new UniTaskTrackerViewItem(trackingId)
+                    { TaskType = awaiterType, Status = status.ToString(), Elapsed = (DateTime.UtcNow - created).TotalSeconds.ToString("00.00"), Position = stackTrace });
             });
 
             CurrentBindingItems = children;
@@ -177,6 +179,4 @@ namespace Cysharp.Threading.Tasks.Editor
             }
         }
     }
-
 }
-

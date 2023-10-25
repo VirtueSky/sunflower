@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public class CancellationTokenEqualityComparer : IEqualityComparer<CancellationToken>
     {
@@ -20,4 +20,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

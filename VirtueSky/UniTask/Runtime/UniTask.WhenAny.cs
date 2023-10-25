@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask
     {
@@ -356,4 +356,3 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
-

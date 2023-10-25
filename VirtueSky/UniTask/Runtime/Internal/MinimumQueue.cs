@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks.Internal
+namespace VirtueSky.Threading.Tasks.Internal
 {
     // optimized version of Standard Queue<T>.
     internal class MinimumQueue<T>
@@ -69,6 +69,7 @@ namespace Cysharp.Threading.Tasks.Internal
             {
                 newcapacity = array.Length + MinimumGrow;
             }
+
             SetCapacity(newcapacity);
         }
 
@@ -101,6 +102,7 @@ namespace Cysharp.Threading.Tasks.Internal
             {
                 tmp = 0;
             }
+
             index = tmp;
         }
 

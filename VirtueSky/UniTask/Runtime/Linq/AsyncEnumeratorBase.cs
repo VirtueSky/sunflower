@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     // note: refactor all inherit class and should remove this.
     // see Select and Where.
@@ -48,6 +48,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 SourceMoveNext();
             }
+
             return new UniTask<bool>(this, completionSource.Version);
         }
 
@@ -127,6 +128,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 return enumerator.DisposeAsync();
             }
+
             return default;
         }
     }
@@ -173,8 +175,18 @@ namespace Cysharp.Threading.Tasks.Linq
                 return (false, true);
             }
         }
-        protected (bool waitCallback, bool requireNextIteration) WaitAwaitCallback(out bool moveNextResult) { moveNextResult = default; return (true, false); }
-        protected (bool waitCallback, bool requireNextIteration) IterateFinished(out bool moveNextResult) { moveNextResult = false; return (false, false); }
+
+        protected (bool waitCallback, bool requireNextIteration) WaitAwaitCallback(out bool moveNextResult)
+        {
+            moveNextResult = default;
+            return (true, false);
+        }
+
+        protected (bool waitCallback, bool requireNextIteration) IterateFinished(out bool moveNextResult)
+        {
+            moveNextResult = false;
+            return (false, false);
+        }
 
         // IUniTaskAsyncEnumerator<T>
 
@@ -350,6 +362,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 return enumerator.DisposeAsync();
             }
+
             return default;
         }
     }

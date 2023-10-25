@@ -2,18 +2,18 @@
 
 #if UNITASK_ADDRESSABLE_SUPPORT
 
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static class AddressablesAsyncExtensions
     {
-#region AsyncOperationHandle
+        #region AsyncOperationHandle
 
         public static UniTask.Awaiter GetAwaiter(this AsyncOperationHandle handle)
         {
@@ -25,7 +25,8 @@ namespace Cysharp.Threading.Tasks
             return ToUniTask(handle, cancellationToken: cancellationToken);
         }
 
-        public static UniTask ToUniTask(this AsyncOperationHandle handle, IProgress<float> progress = null, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask ToUniTask(this AsyncOperationHandle handle, IProgress<float> progress = null, PlayerLoopTiming timing = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (cancellationToken.IsCancellationRequested) return UniTask.FromCanceled(cancellationToken);
 
@@ -41,6 +42,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     return UniTask.FromException(handle.OperationException);
                 }
+
                 return UniTask.CompletedTask;
             }
 
@@ -116,7 +118,8 @@ namespace Cysharp.Threading.Tasks
                 continuationAction = Continuation;
             }
 
-            public static IUniTaskSource Create(AsyncOperationHandle handle, PlayerLoopTiming timing, IProgress<float> progress, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(AsyncOperationHandle handle, PlayerLoopTiming timing, IProgress<float> progress, CancellationToken cancellationToken,
+                out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -223,9 +226,9 @@ namespace Cysharp.Threading.Tasks
             }
         }
 
-#endregion
+        #endregion
 
-#region AsyncOperationHandle_T
+        #region AsyncOperationHandle_T
 
         public static UniTask<T>.Awaiter GetAwaiter<T>(this AsyncOperationHandle<T> handle)
         {
@@ -237,7 +240,8 @@ namespace Cysharp.Threading.Tasks
             return ToUniTask(handle, cancellationToken: cancellationToken);
         }
 
-        public static UniTask<T> ToUniTask<T>(this AsyncOperationHandle<T> handle, IProgress<float> progress = null, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask<T> ToUniTask<T>(this AsyncOperationHandle<T> handle, IProgress<float> progress = null, PlayerLoopTiming timing = PlayerLoopTiming.Update,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (cancellationToken.IsCancellationRequested) return UniTask.FromCanceled<T>(cancellationToken);
 
@@ -252,6 +256,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     return UniTask.FromException<T>(handle.OperationException);
                 }
+
                 return UniTask.FromResult(handle.Result);
             }
 
@@ -282,7 +287,8 @@ namespace Cysharp.Threading.Tasks
                 continuationAction = Continuation;
             }
 
-            public static IUniTaskSource<T> Create(AsyncOperationHandle<T> handle, PlayerLoopTiming timing, IProgress<float> progress, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource<T> Create(AsyncOperationHandle<T> handle, PlayerLoopTiming timing, IProgress<float> progress, CancellationToken cancellationToken,
+                out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -394,7 +400,7 @@ namespace Cysharp.Threading.Tasks
             }
         }
 
-#endregion
+        #endregion
     }
 }
 

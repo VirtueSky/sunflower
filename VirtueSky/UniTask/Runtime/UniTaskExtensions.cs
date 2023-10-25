@@ -5,9 +5,9 @@ using System.Collections;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static partial class UniTaskExtensions
     {
@@ -369,7 +369,8 @@ namespace Cysharp.Threading.Tasks
             return new ToCoroutineEnumerator(task, exceptionHandler);
         }
 
-        public static async UniTask Timeout(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask Timeout(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -410,7 +411,8 @@ namespace Cysharp.Threading.Tasks
             }
         }
 
-        public static async UniTask<T> Timeout<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<T> Timeout<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -456,7 +458,8 @@ namespace Cysharp.Threading.Tasks
         /// <summary>
         /// Timeout with suppress OperationCanceledException. Returns (bool, IsCacneled).
         /// </summary>
-        public static async UniTask<bool> TimeoutWithoutException(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<bool> TimeoutWithoutException(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -502,7 +505,8 @@ namespace Cysharp.Threading.Tasks
         /// <summary>
         /// Timeout with suppress OperationCanceledException. Returns (bool IsTimeout, T Result).
         /// </summary>
-        public static async UniTask<(bool IsTimeout, T Result)> TimeoutWithoutException<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<(bool IsTimeout, T Result)> TimeoutWithoutException<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -608,6 +612,7 @@ namespace Cysharp.Threading.Tasks
                         await UniTask.SwitchToMainThread();
 #endif
                     }
+
                     exceptionHandler(ex);
                 }
                 catch (Exception ex2)
@@ -678,6 +683,7 @@ namespace Cysharp.Threading.Tasks
                         await UniTask.SwitchToMainThread();
 #endif
                     }
+
                     exceptionHandler(ex);
                 }
                 catch (Exception ex2)
@@ -918,4 +924,3 @@ namespace Cysharp.Threading.Tasks
 #endif
     }
 }
-

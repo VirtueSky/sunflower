@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Triggers
+namespace VirtueSky.Threading.Tasks.Triggers
 {
     public abstract class AsyncTriggerBase<T> : MonoBehaviour, IUniTaskAsyncEnumerable<T>
     {
@@ -156,6 +156,7 @@ namespace Cysharp.Threading.Tasks.Triggers
                     trigger.OnDestroy();
                     return false;
                 }
+
                 return true;
             }
         }

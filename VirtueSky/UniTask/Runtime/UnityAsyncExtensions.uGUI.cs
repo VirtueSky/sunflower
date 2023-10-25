@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public static partial class UnityAsyncExtensions
     {
@@ -392,6 +392,7 @@ namespace Cysharp.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
+
             return new UniTask(this, core.Version);
         }
 
@@ -417,6 +418,7 @@ namespace Cysharp.Threading.Tasks
                 {
                     unityEvent.RemoveListener(action);
                 }
+
                 core.TrySetCanceled(cancellationToken);
             }
         }
@@ -502,6 +504,7 @@ namespace Cysharp.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
+
             return new UniTask<T>(this, core.Version);
         }
 
@@ -671,6 +674,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
+
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -791,6 +795,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
+
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -844,6 +849,7 @@ namespace Cysharp.Threading.Tasks
                     {
                         disp.Dispose();
                     }
+
                     unityEvent.RemoveListener(unityAction);
 
                     completionSource.TrySetCanceled();

@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     // CancellationTokenSource itself can not reuse but CancelAfter(Timeout.InfiniteTimeSpan) allows reuse if did not reach timeout.
     // Similar discussion:
@@ -39,7 +39,8 @@ namespace Cysharp.Threading.Tasks
             this.delayTiming = delayTiming;
         }
 
-        public TimeoutController(CancellationTokenSource linkCancellationTokenSource, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
+        public TimeoutController(CancellationTokenSource linkCancellationTokenSource, DelayType delayType = DelayType.DeltaTime,
+            PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
         {
             this.timeoutSource = new CancellationTokenSource();
             this.originalLinkCancellationTokenSource = linkCancellationTokenSource;

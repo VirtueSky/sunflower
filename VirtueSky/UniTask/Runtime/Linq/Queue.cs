@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -68,6 +68,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     {
                         writer.TryWrite(enumerator.Current);
                     }
+
                     writer.TryComplete();
                 }
                 catch (Exception ex)
@@ -87,6 +88,7 @@ namespace Cysharp.Threading.Tasks.Linq
                 {
                     await sourceEnumerator.DisposeAsync();
                 }
+
                 if (channelEnumerator != null)
                 {
                     await channelEnumerator.DisposeAsync();

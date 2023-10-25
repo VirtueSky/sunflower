@@ -1,4 +1,4 @@
-﻿namespace Cysharp.Threading.Tasks.Linq
+﻿namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {

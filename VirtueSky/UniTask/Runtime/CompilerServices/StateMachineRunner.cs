@@ -1,12 +1,12 @@
 ﻿#pragma warning disable CS1591
 
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Cysharp.Threading.Tasks.CompilerServices
+namespace VirtueSky.Threading.Tasks.CompilerServices
 {
     // #ENABLE_IL2CPP in this file is to avoid bug of IL2CPP VM.
     // Issue is tracked on https://issuetracker.unity3d.com/issues/il2cpp-incorrect-results-when-calling-a-method-from-outside-class-in-a-struct
@@ -76,6 +76,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTaskVoid<TStateMachine>();
             }
+
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerFieldRef = result; // set runner before copied.
@@ -131,7 +132,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         static TaskPool<AsyncUniTask<TStateMachine>> pool;
 
 #if ENABLE_IL2CPP
-        readonly Action returnDelegate;  
+        readonly Action returnDelegate;
 #endif
         public Action MoveNext { get; }
 
@@ -152,6 +153,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTask<TStateMachine>();
             }
+
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerPromiseFieldRef = result; // set runner before copied.
@@ -191,11 +193,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
 
         public UniTask Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask(this, core.Version);
-            }
+            [DebuggerHidden] get { return new UniTask(this, core.Version); }
         }
 
         [DebuggerHidden]
@@ -253,7 +251,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         static TaskPool<AsyncUniTask<TStateMachine, T>> pool;
 
 #if ENABLE_IL2CPP
-        readonly Action returnDelegate;  
+        readonly Action returnDelegate;
 #endif
 
         public Action MoveNext { get; }
@@ -275,6 +273,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTask<TStateMachine, T>();
             }
+
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerPromiseFieldRef = result; // set runner before copied.
@@ -315,11 +314,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
 
         public UniTask<T> Task
         {
-            [DebuggerHidden]
-            get
-            {
-                return new UniTask<T>(this, core.Version);
-            }
+            [DebuggerHidden] get { return new UniTask<T>(this, core.Version); }
         }
 
         [DebuggerHidden]
@@ -377,4 +372,3 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         }
     }
 }
-

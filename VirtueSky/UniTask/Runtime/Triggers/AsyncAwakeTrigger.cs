@@ -3,7 +3,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace Cysharp.Threading.Tasks.Triggers
+namespace VirtueSky.Threading.Tasks.Triggers
 {
     public static partial class AsyncTriggerExtensions
     {
@@ -29,4 +29,3 @@ namespace Cysharp.Threading.Tasks.Triggers
         }
     }
 }
-

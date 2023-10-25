@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks
+namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask
     {
@@ -24,8 +24,9 @@ namespace Cysharp.Threading.Tasks
             return new UniTask(WaitUntilCanceledPromise.Create(cancellationToken, timing, out var token), token);
         }
 
-        public static UniTask<U> WaitUntilValueChanged<T, U>(T target, Func<T, U> monitorFunction, PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update, IEqualityComparer<U> equalityComparer = null, CancellationToken cancellationToken = default(CancellationToken))
-          where T : class
+        public static UniTask<U> WaitUntilValueChanged<T, U>(T target, Func<T, U> monitorFunction, PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update,
+            IEqualityComparer<U> equalityComparer = null, CancellationToken cancellationToken = default(CancellationToken))
+            where T : class
         {
             var unityObject = target as UnityEngine.Object;
             var isUnityObject = target is UnityEngine.Object; // don't use (unityObject == null)
@@ -358,7 +359,8 @@ namespace Cysharp.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource<U> Create(T target, Func<T, U> monitorFunction, IEqualityComparer<U> equalityComparer, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource<U> Create(T target, Func<T, U> monitorFunction, IEqualityComparer<U> equalityComparer, PlayerLoopTiming timing,
+                CancellationToken cancellationToken, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -481,7 +483,8 @@ namespace Cysharp.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource<U> Create(T target, Func<T, U> monitorFunction, IEqualityComparer<U> equalityComparer, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource<U> Create(T target, Func<T, U> monitorFunction, IEqualityComparer<U> equalityComparer, PlayerLoopTiming timing,
+                CancellationToken cancellationToken, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Cysharp.Threading.Tasks.Internal;
+using VirtueSky.Threading.Tasks.Internal;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
@@ -13,7 +13,7 @@ namespace Cysharp.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(first, nameof(first));
             Error.ThrowArgumentNullException(second, nameof(second));
 
-            return new Merge<T>(new [] { first, second });
+            return new Merge<T>(new[] { first, second });
         }
 
         public static IUniTaskAsyncEnumerable<T> Merge<T>(this IUniTaskAsyncEnumerable<T> first, IUniTaskAsyncEnumerable<T> second, IUniTaskAsyncEnumerable<T> third)
@@ -46,6 +46,7 @@ namespace Cysharp.Threading.Tasks.Linq
             {
                 Error.ThrowArgumentException("No source async enumerable to merge");
             }
+
             this.sources = sources;
         }
 
@@ -82,7 +83,8 @@ namespace Cysharp.Threading.Tasks.Linq
                 for (var i = 0; i < length; i++)
                 {
                     enumerators[i] = sources[i].GetAsyncEnumerator(cancellationToken);
-                    states[i] = (int)MergeSourceState.Pending;;
+                    states[i] = (int)MergeSourceState.Pending;
+                    ;
                 }
             }
 
@@ -99,6 +101,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     {
                         value = queuedResult.Dequeue();
                     }
+
                     var resultValue = value.Item1;
                     var exception = value.Item2;
                     var hasNext = value.Item3;
@@ -111,6 +114,7 @@ namespace Cysharp.Threading.Tasks.Linq
                         Current = resultValue;
                         completionSource.TrySetResult(hasNext);
                     }
+
                     return new UniTask<bool>(this, completionSource.Version);
                 }
 
@@ -127,6 +131,7 @@ namespace Cysharp.Threading.Tasks.Linq
                             continue;
                         }
                     }
+
                     var awaiter = enumerators[i].MoveNextAsync().GetAwaiter();
                     if (awaiter.IsCompleted)
                     {
@@ -137,6 +142,7 @@ namespace Cysharp.Threading.Tasks.Linq
                         awaiter.SourceOnCompleted(GetResultAtAction, StateTuple.Create(this, i, awaiter));
                     }
                 }
+
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -180,6 +186,7 @@ namespace Cysharp.Threading.Tasks.Linq
                             queuedResult.Enqueue((default, ex, default));
                         }
                     }
+
                     return;
                 }
 
@@ -188,6 +195,7 @@ namespace Cysharp.Threading.Tasks.Linq
                     states[index] = hasNext ? MergeSourceState.Pending : MergeSourceState.Completed;
                     completedAll = !hasNext && IsCompletedAll();
                 }
+
                 if (hasNext || completedAll)
                 {
                     if (Interlocked.CompareExchange(ref moveNextCompleted, 1, 0) == 0)
@@ -225,6 +233,7 @@ namespace Cysharp.Threading.Tasks.Linq
                         }
                     }
                 }
+
                 return true;
             }
         }

@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 
-namespace Cysharp.Threading.Tasks.Linq
+namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
         public static IUniTaskAsyncEnumerable<T> Never<T>()
         {
-            return Cysharp.Threading.Tasks.Linq.Never<T>.Instance;
+            return VirtueSky.Threading.Tasks.Linq.Never<T>.Instance;
         }
     }
 
