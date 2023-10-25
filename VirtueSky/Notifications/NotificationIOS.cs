@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Notifications.iOS;
 using UnityEngine;
+using VirtueSky.Threading.Tasks;
 
 namespace VirtueSky.Notifications
 {
@@ -11,19 +12,19 @@ namespace VirtueSky.Notifications
     {
         private static Dictionary<string, bool> channelRegistered = new Dictionary<string, bool>();
 
-        internal static async Task RequestAuthorization()
+        internal static async UniTask RequestAuthorization()
         {
             var authorizationOption = AuthorizationOption.Alert | AuthorizationOption.Badge | AuthorizationOption.Sound;
             using (var req = new AuthorizationRequest(authorizationOption, true))
             {
                 while (!req.IsFinished)
                 {
-                    await Task.Yield();
+                    await UniTask.Yield();
                 }
             }
         }
 
-        private static async Task RegisterNotificationChannel(string identifier, string title, string subtitle, string body, iOSNotificationTrigger trigger)
+        private static async UniTask RegisterNotificationChannel(string identifier, string title, string subtitle, string body, iOSNotificationTrigger trigger)
         {
             await RequestAuthorization();
 
@@ -71,7 +72,7 @@ namespace VirtueSky.Notifications
                 title,
                 subtitle,
                 text,
-                timeTrigger);
+                timeTrigger).Forget();
         }
 
         internal static void CancelAllScheduled()
