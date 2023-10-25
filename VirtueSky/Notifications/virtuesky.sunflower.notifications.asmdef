@@ -1,5 +1,5 @@
 {
-    "name": "virtuesky.sunflower.notifications",
+    "name": "Virtuesky.Sunflower.Notifications",
     "rootNamespace": "Virtuesky.Notifications",
     "references": [
         "GUID:ac145e6b8c6034cdbadc8c6e26aedbcf",

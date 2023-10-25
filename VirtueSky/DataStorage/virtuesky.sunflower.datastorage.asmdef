@@ -1,5 +1,5 @@
 {
-    "name": "virtuesky.sunflower.datastorage",
+    "name": "Virtuesky.Sunflower.DataStorage",
     "rootNamespace": "",
     "references": [
         "GUID:c282fd4f3fc2c7540914e85842a013c7"
