@@ -1,7 +1,8 @@
 {
-    "name": "UniTask.Editor",
+    "name": "VirtueSky.Sunflower.UniTask.Editor",
+    "rootNamespace": "",
     "references": [
-        "UniTask"
+        "VirtueSky.Sunflower.UniTask"
     ],
     "includePlatforms": [
         "Editor"

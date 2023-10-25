@@ -1,7 +1,8 @@
 {
     "name": "UniTask.Linq",
+    "rootNamespace": "",
     "references": [
-        "UniTask"
+        "VirtueSky.Sunflower.UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
