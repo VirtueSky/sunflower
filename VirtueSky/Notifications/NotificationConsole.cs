@@ -43,7 +43,7 @@ namespace VirtueSky.Notifications
             if (string.IsNullOrEmpty(smallIcon)) smallIcon = "icon_0";
             if (string.IsNullOrEmpty(largeIcon)) largeIcon = "icon_1";
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && VIRTUESKY_NOTIFICATION
             Unity.Notifications.Android.BigPictureStyle? bigPictureStyle = null;
             if (bigPicture)
             {
@@ -61,7 +61,7 @@ namespace VirtueSky.Notifications
                 bigPictureStyle,
                 repeat);
 #elif UNITY_IOS && VIRTUESKY_NOTIFICATION
-			NotificationIOS.Schedule(identifier, title, "", text, timeOffset, repeat);
+            NotificationIOS.Schedule(identifier, title, "", text, timeOffset, repeat);
 #endif
         }
 
