@@ -1,7 +1,6 @@
-﻿#if UNITY_IOS
+﻿#if UNITY_IOS && VIRTUESKY_NOTIFICATION
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unity.Notifications.iOS;
 using UnityEngine;
 using VirtueSky.Threading.Tasks;

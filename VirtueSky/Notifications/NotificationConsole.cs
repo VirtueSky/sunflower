@@ -44,7 +44,6 @@ namespace VirtueSky.Notifications
             if (string.IsNullOrEmpty(largeIcon)) largeIcon = "icon_1";
 
 #if UNITY_ANDROID
-
             Unity.Notifications.Android.BigPictureStyle? bigPictureStyle = null;
             if (bigPicture)
             {
@@ -61,24 +60,24 @@ namespace VirtueSky.Notifications
                 smallIcon,
                 bigPictureStyle,
                 repeat);
-#elif UNITY_IOS
+#elif UNITY_IOS && VIRTUESKY_NOTIFICATION
 			NotificationIOS.Schedule(identifier, title, "", text, timeOffset, repeat);
 #endif
         }
 
         internal static void CancelAllScheduled()
         {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && VIRTUESKY_NOTIFICATION
             NotificationAndroid.CancelAllScheduled();
-#elif UNITY_IOS
-			NotificationIOS.CancelAllScheduled();
+#elif UNITY_IOS && VIRTUESKY_NOTIFICATION
+            NotificationIOS.CancelAllScheduled();
 #endif
         }
 
         internal static void ClearBadgeCounteriOS()
         {
-#if UNITY_IOS
-			NotificationIOS.ClearBadgeCounter();
+#if UNITY_IOS && VIRTUESKY_NOTIFICATION
+            NotificationIOS.ClearBadgeCounter();
 #endif
         }
     }

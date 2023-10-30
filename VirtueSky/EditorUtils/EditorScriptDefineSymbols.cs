@@ -177,6 +177,25 @@ namespace VirtueSky.EditorUtils
 
         #endregion
 
+        #region Notification
+
+        private const string menuPathNotification = "Sunflower/ScriptDefineSymbols/VIRTUESKY_NOTIFICATION";
+
+        [MenuItem(menuPathNotification)]
+        public static void NotificationConfigFlag()
+        {
+            SwitchFlag("VIRTUESKY_NOTIFICATION");
+        }
+
+        [MenuItem(menuPathNotification, true)]
+        public static bool IsNotificationConfigFlagEnable()
+        {
+            Menu.SetChecked(menuPathNotification, IsFlagEnabled("VIRTUESKY_NOTIFICATION"));
+            return true;
+        }
+
+        #endregion
+
         #region Base Functions
 
         static void SwitchFlag(string flag)

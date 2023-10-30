@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID
+﻿#if UNITY_ANDROID && VIRTUESKY_NOTIFICATION
 using System;
 using System.Collections.Generic;
 using Unity.Notifications.Android;
