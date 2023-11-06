@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 namespace VirtueSky.Misc
 {
     public static partial class Common
     {
+        #region IgnoreCollision
+
         public static void IgnoreCollisionListColliderWithCollider(List<Collider> _listCollider, Collider _collider)
         {
             _listCollider.ForEach(col => { Physics.IgnoreCollision(col, _collider); });
@@ -52,5 +57,7 @@ namespace VirtueSky.Misc
                 }
             }
         }
+
+        #endregion
     }
 }
