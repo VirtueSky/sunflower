@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Networking;
+using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
@@ -163,6 +166,39 @@ namespace VirtueSky.Misc
 
             var index = UnityEngine.Random.Range(0, collection.Count);
             return collection.Count == 0 ? (default, -1) : (collection[index], index);
+        }
+
+        #endregion
+
+        #region Internet Connection
+
+        public static void CheckInternetConnection(Action actionConnected, Action actionDisconnected)
+        {
+            App.StartCoroutine(InternetConnection((isConnected) =>
+            {
+                if (isConnected)
+                {
+                    actionConnected?.Invoke();
+                }
+                else
+                {
+                    actionDisconnected?.Invoke();
+                }
+            }));
+        }
+
+        public static IEnumerator InternetConnection(Action<bool> action)
+        {
+            UnityWebRequest request = new UnityWebRequest("http://google.com");
+            yield return request.SendWebRequest();
+            if (request.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
+            }
         }
 
         #endregion
