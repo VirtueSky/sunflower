@@ -19,16 +19,30 @@ namespace VirtueSky.Misc
             return null;
         }
 
-        public static void SetLayerForAllChildObject(GameObject obj, int layerIndex)
+        public static GameObject SetLayerForAllChildObject(this GameObject obj, int layerIndex)
         {
             obj.layer = layerIndex;
             obj.GetComponentsInChildren<Transform>().ToList().ForEach(x => { x.gameObject.layer = layerIndex; });
+            return obj;
         }
 
-        public static void SetTagForAllChildObject(GameObject obj, string tag)
+        public static GameObject SetLayer(this GameObject obj, int layerIndex)
+        {
+            obj.layer = layerIndex;
+            return obj;
+        }
+
+        public static GameObject SetTagForAllChildObject(this GameObject obj, string tag)
         {
             obj.tag = tag;
             obj.GetComponentsInChildren<Transform>().ToList().ForEach(x => { x.gameObject.tag = tag; });
+            return obj;
+        }
+
+        public static GameObject SetTag(this GameObject obj, string tag)
+        {
+            obj.gameObject.tag = tag;
+            return obj;
         }
     }
 }

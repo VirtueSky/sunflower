@@ -6,13 +6,15 @@ namespace VirtueSky.Misc
 {
     public static partial class Common
     {
-        public static void ClearTransform(this Transform transform)
+        public static Transform ClearTransform(this Transform transform)
         {
             var childs = transform.childCount;
             for (int i = childs - 1; i >= 0; i--)
             {
                 UnityEngine.Object.DestroyImmediate(transform.GetChild(i).gameObject, true);
             }
+
+            return transform;
         }
 
         public static void Shrug(this Transform transformObj, float time, float strength = .1f,
