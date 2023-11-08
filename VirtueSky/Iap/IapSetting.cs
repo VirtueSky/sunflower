@@ -21,10 +21,13 @@ namespace VirtueSky.Iap
         [SerializeField] private List<IapData> skusData = new List<IapData>();
         [ReadOnly] [SerializeField] private List<IapDataVariable> products = new List<IapDataVariable>();
 
+        [Space, SerializeField] private bool isValidatePurchase;
 #if UNITY_EDITOR
-        [Space, SerializeField, TextArea] private string googlePlayStoreKey;
+        [ShowIf(nameof(isValidatePurchase), true)] [SerializeField, TextArea]
+        private string googlePlayStoreKey;
 #endif
         public List<IapDataVariable> Products => products;
+        public bool IsValidatePurchase => isValidatePurchase;
 
         #region Button
 
@@ -50,6 +53,7 @@ namespace VirtueSky.Iap
             }
         }
 
+        [ShowIf(nameof(isValidatePurchase), true)]
         [Button("Obfuscator Key")]
         void ObfuscatorKey()
         {

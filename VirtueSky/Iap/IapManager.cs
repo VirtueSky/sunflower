@@ -95,7 +95,14 @@ namespace VirtueSky.Iap
                 validatedPurchase = false;
             }
 #endif
-            if (validatedPurchase) PurchaseVerified(purchaseEvent);
+            if (iapSetting.IsValidatePurchase)
+            {
+                if (validatedPurchase) PurchaseVerified(purchaseEvent);
+            }
+            else
+            {
+                PurchaseVerified(purchaseEvent);
+            }
 
             return PurchaseProcessingResult.Complete;
         }
