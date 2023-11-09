@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using VirtueSky.Core;
 
@@ -13,7 +12,7 @@ namespace VirtueSky.Component
         [SerializeField] private float durationRotation = .3f;
         [SerializeField] private Vector3 positionStrength;
         [SerializeField] private Vector3 rotationStrength;
-        
+
         public void CameraShake()
         {
             camera.DOComplete();
