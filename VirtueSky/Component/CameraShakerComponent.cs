@@ -13,8 +13,7 @@ namespace VirtueSky.Component
         [SerializeField] private float durationRotation = .3f;
         [SerializeField] private Vector3 positionStrength;
         [SerializeField] private Vector3 rotationStrength;
-
-        [Button]
+        
         public void CameraShake()
         {
             camera.DOComplete();
