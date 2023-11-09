@@ -28,5 +28,14 @@ namespace VirtueSky.Misc
                 transformObj.DOScale(targetBounceY, time / 3).OnComplete(() => { transformObj.DOScale(baseScale, time / 3).OnComplete(() => { completed?.Invoke(); }); });
             });
         }
+
+        public static Camera CameraShake(this Camera camera, float _durationPosition, float _durationRotation, Vector3 _positionStrength,
+            Vector3 _rotationStrength)
+        {
+            camera.DOComplete();
+            camera.DOShakePosition(_durationPosition, _positionStrength);
+            camera.DOShakeRotation(_durationRotation, _rotationStrength);
+            return camera;
+        }
     }
 }
