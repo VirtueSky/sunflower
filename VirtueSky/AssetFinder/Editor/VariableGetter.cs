@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 
-namespace AssetUsageDetectorNamespace
+namespace VirtueSky.AssetFinder.Editor
 {
 	// Delegate to get the value of a variable (either field or property)
 	public delegate object VariableGetVal( object obj );

@@ -1,5 +1,3 @@
-// Asset Usage Detector - by Suleyman Yasir KULA (yasirkula@gmail.com)
-
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -14,7 +12,7 @@ using PrefabStage = UnityEditor.Experimental.SceneManagement.PrefabStage;
 using PrefabStageUtility = UnityEditor.Experimental.SceneManagement.PrefabStageUtility;
 #endif
 
-namespace AssetUsageDetectorNamespace
+namespace VirtueSky.AssetFinder.Editor
 {
     public enum Phase
     {

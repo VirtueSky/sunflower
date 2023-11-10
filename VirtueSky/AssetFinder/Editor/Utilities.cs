@@ -15,7 +15,7 @@ using PrefabStage = UnityEditor.Experimental.SceneManagement.PrefabStage;
 using PrefabStageUtility = UnityEditor.Experimental.SceneManagement.PrefabStageUtility;
 #endif
 
-namespace AssetUsageDetectorNamespace
+namespace VirtueSky.AssetFinder.Editor
 {
 	public static class Utilities
 	{
