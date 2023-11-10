@@ -242,7 +242,7 @@ namespace VirtueSky.AssetFinder.Editor
 
         // Quickly initiate search for the selected assets
         [MenuItem("GameObject/Search for References/This Object Only", priority = 49)]
-        [MenuItem("Assets/Search for References", priority = 1000)]
+        [MenuItem("Assets/Search for References %#k", priority = 1000)]
         private static void SearchSelectedAssetReferences(MenuCommand command)
         {
             // This happens when this button is clicked via hierarchy's right click context menu
@@ -272,7 +272,7 @@ namespace VirtueSky.AssetFinder.Editor
         // Show the menu item only if there is a selection in the Editor
         [MenuItem("GameObject/Search for References/This Object Only", validate = true)]
         [MenuItem("GameObject/Search for References/Include Children", validate = true)]
-        [MenuItem("Assets/Search for References", validate = true)]
+        [MenuItem("Assets/Search for References %#k", validate = true)]
         private static bool SearchSelectedAssetReferencesValidate(MenuCommand command)
         {
             return Selection.objects.Length > 0;
