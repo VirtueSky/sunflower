@@ -129,7 +129,7 @@ namespace VirtueSky.AssetFinder.Editor
             contextMenu.AddSeparator("");
 
 #if UNITY_2018_3_OR_NEWER
-            contextMenu.AddItem(new GUIContent("Settings"), false, () => SettingsService.OpenProjectSettings("Project/yasirkula/Asset Usage Detector"));
+            contextMenu.AddItem(new GUIContent("Settings"), false, () => SettingsService.OpenProjectSettings("Project/Asset Usage Detector"));
 #else
 			contextMenu.AddItem( new GUIContent( "Settings" ), false, () =>
 			{

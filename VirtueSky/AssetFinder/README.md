@@ -12,8 +12,7 @@ This tool helps you find usages of the selected asset(s) and/or scene object(s),
 
 - Open **Window - Asset Usage Detector** window, configure the settings and hit **GO!**
   - or, right click an object and select **Search For References**
-- To learn how to interpret the search results and for more instructions, please see the included [README.txt](../Plugins/AssetUsageDetector/README.txt) file
-- You can tweak most settings/colors via *Project Settings/yasirkula/Asset Usage Detector* page (on older versions, this menu is located at *Preferences* window)
+- You can tweak most settings/colors via *Project Settings/Asset Usage Detector* page (on older versions, this menu is located at *Preferences* window)
 
 ![SearchResults1](Images/SearchResults1Dark.png)
 
