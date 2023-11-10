@@ -395,7 +395,7 @@ namespace VirtueSky.AssetFinder.Editor
         [SettingsProvider]
         public static SettingsProvider CreatePreferencesGUI()
         {
-            return new SettingsProvider("Project/yasirkula/Asset Usage Detector", SettingsScope.Project)
+            return new SettingsProvider("Project/Asset Usage Detector", SettingsScope.Project)
             {
                 guiHandler = (searchContext) => PreferencesGUI(),
                 keywords = new System.Collections.Generic.HashSet<string>() { "Asset", "Usage", "Detector" }

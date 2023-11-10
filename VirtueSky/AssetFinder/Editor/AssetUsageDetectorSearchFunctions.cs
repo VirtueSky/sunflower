@@ -1475,7 +1475,6 @@ namespace VirtueSky.AssetFinder.Editor
             if (!isInPlayMode || referenceNode.nodeObject.IsAsset() || forceUseSerializedObject)
             {
 #if ASSET_USAGE_ADDRESSABLES
-                // See: https://github.com/yasirkula/UnityAssetUsageDetector/issues/29
                 if (searchParameters.addressablesSupport && ((Object)referenceNode.nodeObject).name == "Deprecated EditorExtensionImpl")
                     return;
 #endif
