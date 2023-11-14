@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using VirtueSky.EditorUtils;
+using VirtueSky.UtilsEditor;
 #endif
 
 

@@ -6,7 +6,7 @@ using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using VirtueSky.EditorUtils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.LevelEditor
 {

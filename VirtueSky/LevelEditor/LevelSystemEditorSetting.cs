@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using VirtueSky.EditorUtils;
+using VirtueSky.UtilsEditor;
 using VirtueSky.Utils;
 
 namespace VirtueSky.LevelEditor

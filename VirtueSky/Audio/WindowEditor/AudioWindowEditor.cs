@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Audio
 {

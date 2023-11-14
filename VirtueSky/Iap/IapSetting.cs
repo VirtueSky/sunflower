@@ -8,9 +8,8 @@ using UnityEngine.Purchasing;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
-using VirtueSky.EditorUtils;
 #endif
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 
 namespace VirtueSky.Iap
@@ -65,10 +64,10 @@ namespace VirtueSky.Iap
                 googlePlayPublicKey: googlePlayStoreKey);
             string pathAsmdef =
                 GetFile.GetPathInCurrentEnvironent(
-                    $"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdef.txt");
+                    $"VirtueSky/Utils/Editor/TemplateAssembly/PurchasingGeneratedAsmdef.txt");
             string pathAsmdefMeta =
                 GetFile.GetPathInCurrentEnvironent(
-                    $"VirtueSky/EditorUtils/TemplateAssembly/PurchasingGeneratedAsmdefMeta.txt");
+                    $"VirtueSky/Utils/Editor/TemplateAssembly/PurchasingGeneratedAsmdefMeta.txt");
             var asmdef = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdef, typeof(TextAsset));
             var meta = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdefMeta, typeof(TextAsset));
             string path = Path.Combine(TangleFileConsts.k_OutputPath, "virtuesky.purchasing.generate.asmdef");

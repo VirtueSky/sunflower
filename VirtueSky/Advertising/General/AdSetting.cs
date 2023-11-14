@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
 {

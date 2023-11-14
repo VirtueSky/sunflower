@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using VirtueSky.EditorUtils;
+using VirtueSky.UtilsEditor;
 using Object = UnityEngine.Object;
 
 namespace VirtueSky.LevelEditor

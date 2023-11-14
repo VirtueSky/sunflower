@@ -2,8 +2,8 @@
     "name": "Virtuesky.Sunflower.Attributes",
     "rootNamespace": "",
     "references": [
-        "GUID:41555b880c64e2246bc1bdf7d678b424",
-        "GUID:c282fd4f3fc2c7540914e85842a013c7"
+        "GUID:c282fd4f3fc2c7540914e85842a013c7",
+        "GUID:c904f6d969e991d459a0843b71c22ec5"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

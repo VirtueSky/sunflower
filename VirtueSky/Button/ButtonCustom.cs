@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VirtueSky.Events;
-using VirtueSky.Utils;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.UIButton
 {
