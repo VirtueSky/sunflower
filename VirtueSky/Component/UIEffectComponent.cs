@@ -1,6 +1,6 @@
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using VirtueSky.Attributes;
 
 namespace VirtueSky.Component
 {

@@ -1,9 +1,9 @@
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using VirtueSky.Attributes;
 using VirtueSky.Events;
 using VirtueSky.UtilsEditor;
 

@@ -1,13 +1,12 @@
 ﻿#if VIRTUESKY_IAP
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using VirtueSky.Attributes;
 
 namespace VirtueSky.Iap
 {
     [Serializable]
-    [HideMonoScript]
     [CreateAssetMenu(menuName = "Iap/Iap Data Variable", fileName = "iap_data_variables")]
     public class IapDataVariable : ScriptableObject
     {

@@ -2,7 +2,8 @@
     "name": "Virtuesky.Sunflower.Component",
     "rootNamespace": "",
     "references": [
-        "GUID:acb3cac55c622ec459c8caadf707623a"
+        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Purchasing;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
-#endif
+using VirtueSky.Attributes;
 using VirtueSky.UtilsEditor;
+#endif
 
 
 namespace VirtueSky.Iap
 {
-    [HideMonoScript]
     public class IapSetting : ScriptableObject
     {
         [SerializeField] private List<IapData> skusData = new List<IapData>();

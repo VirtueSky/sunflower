@@ -1,11 +1,12 @@
 {
-    "name": "Virtuesky.Sunflower.Attributes",
+    "name": "VirtueSky.Sunflower.Attributes.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:c282fd4f3fc2c7540914e85842a013c7",
-        "GUID:c904f6d969e991d459a0843b71c22ec5"
+        "VirtueSky.Sunflower.Attributes.Core"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

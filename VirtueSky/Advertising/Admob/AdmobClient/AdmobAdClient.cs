@@ -1,8 +1,8 @@
 #if VIRTUESKY_ADS && ADS_ADMOB
 using GoogleMobileAds.Api;
 #endif
-using Sirenix.OdinInspector;
 using UnityEngine;
+using VirtueSky.Attributes;
 using VirtueSky.Core;
 
 namespace VirtueSky.Ads

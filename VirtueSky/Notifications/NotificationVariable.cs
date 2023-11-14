@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using VirtueSky.Attributes;
 using VirtueSky.Core;
 using VirtueSky.Misc;
 
@@ -28,15 +28,15 @@ namespace VirtueSky.Notifications
         [SerializeField] private bool repeat;
         [SerializeField] internal bool bigPicture;
 
-        [ShowIf(nameof(bigPicture)), LabelText("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")] [SerializeField]
+        [ShowIf(nameof(bigPicture)), Label("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")] [SerializeField]
         internal string namePicture;
 
         [SerializeField] internal bool overrideIcon;
 
-        [SerializeField, ShowIf(nameof(overrideIcon)), LabelText("  Small Icon")]
+        [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Small Icon")]
         internal string smallIcon = "icon_0";
 
-        [SerializeField, ShowIf(nameof(overrideIcon)), LabelText("  Large Icon")]
+        [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Large Icon")]
         internal string largeIcon = "icon_1";
 
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using VirtueSky.Misc;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.LevelEditor

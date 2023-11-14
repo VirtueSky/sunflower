@@ -1,5 +1,4 @@
 ﻿using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using VirtueSky.Core;
 
@@ -7,23 +6,17 @@ namespace VirtueSky.Component
 {
     public class TimeRemainingComponent : BaseMono
     {
-        [HorizontalGroup("Year-Month-Day"), LabelWidth(90)] [SerializeField]
-        private int targetYear;
+        [SerializeField] private int targetYear;
 
-        [HorizontalGroup("Year-Month-Day"), LabelWidth(90)] [SerializeField]
-        private int targetMonth;
+        [SerializeField] private int targetMonth;
 
-        [HorizontalGroup("Year-Month-Day"), LabelWidth(90)] [SerializeField]
-        private int targetDay;
+        [SerializeField] private int targetDay;
 
-        [HorizontalGroup("Hour-Minute-Second"), LabelWidth(90)] [SerializeField]
-        private int targetHour;
+        [SerializeField] private int targetHour;
 
-        [HorizontalGroup("Hour-Minute-Second"), LabelWidth(90)] [SerializeField]
-        private int targetMinute;
+        [SerializeField] private int targetMinute;
 
-        [HorizontalGroup("Hour-Minute-Second"), LabelWidth(90)] [SerializeField]
-        private int targetSecond;
+        [SerializeField] private int targetSecond;
 
         private DateTime targetTime;
 

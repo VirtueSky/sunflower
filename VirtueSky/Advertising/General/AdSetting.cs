@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using VirtueSky.Attributes;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
@@ -38,11 +38,7 @@ namespace VirtueSky.Ads
 
         #region Max Ads
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxAds), "Create")]
-#endif
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxAdClient maxAdClient;
 
         public MaxAdClient MaxAdClient => maxAdClient;
@@ -51,12 +47,7 @@ namespace VirtueSky.Ads
 
         #region Max Banner
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxBanner), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxBannerVariable maxBannerVariable;
 
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
@@ -65,12 +56,7 @@ namespace VirtueSky.Ads
 
         #region Max Inter
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxInter), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxInterVariable maxInterVariable;
 
         public MaxInterVariable MaxInterVariable => maxInterVariable;
@@ -79,12 +65,7 @@ namespace VirtueSky.Ads
 
         #region Max Reward
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxReward), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxRewardVariable maxRewardVariable;
 
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
@@ -93,12 +74,7 @@ namespace VirtueSky.Ads
 
         #region Max RewardInter
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxRewardInter), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxRewardInterVariable maxRewardInterVariable;
 
         public MaxRewardInterVariable MaxRewardInterVariable => maxRewardInterVariable;
@@ -107,12 +83,7 @@ namespace VirtueSky.Ads
 
         #region Max AppOpen
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateMaxAppOpen), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)] [SerializeField]
         private MaxAppOpenVariable maxAppOpenVariable;
 
         public MaxAppOpenVariable MaxAppOpenVariable => maxAppOpenVariable;
@@ -122,6 +93,18 @@ namespace VirtueSky.Ads
         #region Func Create Max Variable
 
 #if UNITY_EDITOR
+        [ShowIf(nameof(adNetwork), AdNetwork.Applovin)]
+        [Button("Create MaxClient And MaxVariable")]
+        void CreateMax()
+        {
+            CreateMaxAds();
+            CreateMaxBanner();
+            CreateMaxInter();
+            CreateMaxReward();
+            CreateMaxRewardInter();
+            CreateMaxAppOpen();
+        }
+
         void CreateMaxAds()
         {
             maxAdClient = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
@@ -165,13 +148,7 @@ namespace VirtueSky.Ads
 
         #region Admob Ads
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-        [Header("Admob")]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmodAds), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [Header("Admob")] [SerializeField]
         private AdmobAdClient admobAdClient;
 
         public AdmobAdClient AdmobAdClient => admobAdClient;
@@ -180,12 +157,7 @@ namespace VirtueSky.Ads
 
         #region Admod Banner
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmobBanner), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [SerializeField]
         private AdmobBannerVariable admobBannerVariable;
 
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
@@ -194,12 +166,7 @@ namespace VirtueSky.Ads
 
         #region Admod Inter
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmobInter), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [SerializeField]
         private AdmobInterVariable admobInterVariable;
 
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
@@ -208,12 +175,7 @@ namespace VirtueSky.Ads
 
         #region Admod Reward
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmobReward), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [SerializeField]
         private AdmobRewardVariable admobRewardVariable;
 
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
@@ -222,12 +184,7 @@ namespace VirtueSky.Ads
 
         #region Admod RewardInter
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmobRewardInter), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [SerializeField]
         private AdmobRewardInterVariable admobRewardInterVariable;
 
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
@@ -236,12 +193,7 @@ namespace VirtueSky.Ads
 
         #region Admod AppOpen
 
-        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
-#if UNITY_EDITOR
-        [InlineButton(nameof(CreateAdmobAppOpen), "Create")]
-#endif
-
-        [SerializeField]
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)] [SerializeField]
         private AdmobAppOpenVariable admobAppOpenVariable;
 
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
@@ -251,7 +203,19 @@ namespace VirtueSky.Ads
         #region Func Create Admob Variable
 
 #if UNITY_EDITOR
-        void CreateAdmodAds()
+        [ShowIf(nameof(adNetwork), AdNetwork.Admob)]
+        [Button("Create AdmobClient And AdmobVariable")]
+        void CreateAdmob()
+        {
+            CreateAdmobAds();
+            CreateAdmobBanner();
+            CreateAdmobInter();
+            CreateAdmobReward();
+            CreateAdmobRewardInter();
+            CreateAdmobAppOpen();
+        }
+
+        void CreateAdmobAds()
         {
             admobAdClient = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
         }
