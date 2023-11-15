@@ -204,23 +204,29 @@
         /// </summary>
         private static bool CheckSameEnumType(IEnumerable<Type> checkTypes, Type classType, string fieldName)
         {
-            FieldInfo memberInfo;
-            string[] fields = fieldName.Split('.');
-            if (fields.Length > 1)
+            string[] fieldNames = fieldName.Split('.');
+            Type currentType = classType;
+
+            foreach (var name in fieldNames)
             {
-                memberInfo = classType.GetField(fields[0]);
-                for (int i = 1; i < fields.Length; i++)
+                FieldInfo field = currentType.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                PropertyInfo property = currentType.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (field != null)
                 {
-                    memberInfo = memberInfo.FieldType.GetField(fields[i]);
+                    currentType = field.FieldType;
+                }
+                else if (property != null)
+                {
+                    currentType = property.PropertyType;
+                }
+                else
+                {
+                    return false;
                 }
             }
-            else
-                memberInfo = classType.GetField(fieldName);
 
-            if (memberInfo != null)
-                return checkTypes.All(x => x == memberInfo.FieldType);
-
-            return false;
+            return checkTypes.All(x => x == currentType);
         }
 
         private void ShowError(Rect position, GUIContent label, string errorText)
