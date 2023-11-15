@@ -1,0 +1,19 @@
+{
+    "name": "Virtuesky.Sunflower.Advertising.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:abd57f653a468a04c8d4e281527ff293",
+        "GUID:c904f6d969e991d459a0843b71c22ec5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
