@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Linq;
+﻿#if VIRTUESKY_IAP
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.UtilsEditor;
@@ -105,3 +105,4 @@ namespace VirtueSky.Iap
         }
     }
 }
+#endif
