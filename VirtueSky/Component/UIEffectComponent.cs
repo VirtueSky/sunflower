@@ -6,8 +6,7 @@ namespace VirtueSky.Component
 {
     public class UIEffectComponent : MonoBehaviour
     {
-        [Header("Data config")] [SerializeField]
-        private AnimType animType;
+        [Header("Data config")] public AnimType animType;
 
         [SerializeField] private bool playOnAwake = true;
         [SerializeField] private float animTime = .5f;
@@ -20,7 +19,7 @@ namespace VirtueSky.Component
         private float strength = 3f;
 
         [Header("Move Effect")] // [ShowIf(nameof(animType), AnimType.Move)]
-        [ShowWhen(nameof(animType), AnimType.Move)]
+        [ShowIf(nameof(animType), AnimType.Move)]
         [SerializeField]
         private MoveType _moveType;
 

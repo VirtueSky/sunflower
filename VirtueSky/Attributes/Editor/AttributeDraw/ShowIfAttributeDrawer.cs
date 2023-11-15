@@ -9,14 +9,14 @@
     using UnityEngine;
     using UnityEditor;
 
-    [CustomPropertyDrawer(typeof(ShowWhenAttribute))]
-    public class ShowWhenDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ShowIfAttribute))]
+    public class ShowIfAttributeDrawer : PropertyDrawer
     {
         private bool showField = true;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            ShowWhenAttribute attribute = (ShowWhenAttribute)this.attribute;
+            ShowIfAttribute attribute = (ShowIfAttribute)this.attribute;
             SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
 
             // We check that exist a Field with the parameter name
@@ -60,21 +60,14 @@
                         else
                         {
                             string enumValue = Enum.GetValues(paramEnum.GetType()).GetValue(conditionField.enumValueIndex).ToString();
-                            // if (paramEnum.ToString() != enumValue)
-                            //     showField = false;
-                            // else
-                            //     showField = true;
-                            showField = paramEnum.ToString() != enumValue;
+                            if (paramEnum.ToString() != enumValue)
+                                showField = false;
+                            else
+                                showField = true;
                         }
                     }
                     else if (IsEnum(paramEnumArray))
                     {
-                        if (paramEnumArray.Any(x => x == null || !IsEnum(x)))
-                        {
-                            ShowError(position, label, "The comparation enum value array contains a non-enum or null value.");
-                            return;
-                        }
-
                         if (!CheckSameEnumType(paramEnumArray.Select(x => x.GetType()), property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
                         {
                             ShowError(position, label, "Enum Types doesn't match");
