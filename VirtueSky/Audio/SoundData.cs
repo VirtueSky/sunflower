@@ -14,10 +14,10 @@ namespace VirtueSky.Audio
         [Header("Fade Volume - Only Music"), Tooltip("Only Music Background")]
         public bool isMusicFadeVolume = false;
 
-        [ShowIf(nameof(isMusicFadeVolume), true)]
+        // [ShowIf(nameof(isMusicFadeVolume), Option.Equals, true)]
         public float fadeInDuration = .5f;
 
-        [ShowIf(nameof(isMusicFadeVolume), true)]
+        // [ShowIf(nameof(isMusicFadeVolume), Option.Equals, true)]
         public float fadeOutDuration = .5f;
 
         [Space] [SerializeField] private List<AudioClip> audioClips;

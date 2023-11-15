@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VirtueSky.Attributes;
 using VirtueSky.Events;
 using VirtueSky.UtilsEditor;
 
@@ -14,10 +13,9 @@ namespace VirtueSky.UIButton
         public ClickButtonEvent clickButtonEvent;
         [SerializeField] private bool isMotion = true;
 
-        [ShowIf(nameof(isMotion), true)] [Header("Motion")]
-        public Ease ease = Ease.OutQuint;
+        [Header("Motion")] [SerializeField] private Ease ease = Ease.OutQuint;
 
-        [ShowIf(nameof(isMotion), true)] public float scale = 0.9f;
+        [SerializeField] private float scale = 0.9f;
 
         Vector3 originScale = Vector3.one;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using VirtueSky.Attributes;
 using VirtueSky.Core;
 using VirtueSky.Misc;
 
@@ -28,16 +27,16 @@ namespace VirtueSky.Notifications
         [SerializeField] private bool repeat;
         [SerializeField] internal bool bigPicture;
 
-        [ShowIf(nameof(bigPicture)), Label("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")] [SerializeField]
-        internal string namePicture;
+        //[ShowIf(nameof(bigPicture)), Label("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
+        [SerializeField] internal string namePicture;
 
         [SerializeField] internal bool overrideIcon;
 
-        [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Small Icon")]
-        internal string smallIcon = "icon_0";
+        // [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Small Icon")]
+        [SerializeField] internal string smallIcon = "icon_0";
 
-        [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Large Icon")]
-        internal string largeIcon = "icon_1";
+        // [SerializeField, ShowIf(nameof(overrideIcon)), Label("  Large Icon")]
+        [SerializeField] internal string largeIcon = "icon_1";
 
 
         [SerializeField] private NotificationData[] datas;

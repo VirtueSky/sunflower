@@ -19,20 +19,20 @@ namespace VirtueSky.Component
         [Header("Shake Effect")] [SerializeField]
         private float strength = 3f;
 
-        [Header("Move Effect")] [ShowIf(nameof(animType), AnimType.Move)] [SerializeField]
+        [Header("Move Effect")] [SerializeField] //[ShowIf(nameof(animType), AnimType.Move)]
         private MoveType _moveType;
 
-        [ShowIf(nameof(IsShowAttributeFromPosition))] [SerializeField]
-        private Vector3 fromPosition;
+        // [ShowIf(nameof(IsShowAttributeFromPosition), true)]
+        [SerializeField] private Vector3 fromPosition;
 
-        [ShowIf(nameof(IsShowAttributesMoveDirection))] [SerializeField]
-        private DirectionType directionType;
+        //[ShowIf(nameof(IsShowAttributesMoveDirection), Option.Equals, true)]
+        [SerializeField] private DirectionType directionType;
 
-        [ShowIf(nameof(IsShowAttributesMoveDirection))] [SerializeField]
-        private float offset;
+        //[ShowIf(nameof(IsShowAttributesMoveDirection), Option.Equals, true)]
+        [SerializeField] private float offset;
 
-        [ShowIf(nameof(animType), AnimType.Move)] [ReadOnly]
-        private Vector3 _saveAnchorPosition;
+        // [ShowIf(nameof(animType), Option.Equals, AnimType.Move)]
+        [ReadOnly] private Vector3 _saveAnchorPosition;
 
         private RectTransform _rectTransform;
         private Sequence _sequence;
