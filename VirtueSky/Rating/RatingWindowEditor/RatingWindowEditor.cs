@@ -1,9 +1,11 @@
 using UnityEditor;
-using VirtueSky.UtilsEditor;
+
 
 namespace VirtueSky.Rating
 {
 #if UNITY_EDITOR
+    using VirtueSky.UtilsEditor;
+
     public class RatingWindowEditor : EditorWindow
     {
         #region In App Review

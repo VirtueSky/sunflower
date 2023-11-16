@@ -2,7 +2,9 @@
     "name": "Virtuesky.Sunflower.UtilsEdtitor",
     "rootNamespace": "",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -4,7 +4,7 @@
     using UnityEngine;
 #if UNITY_EDITOR
     using UnityEditor;
-#endif
+
 
     [AttributeUsage(AttributeTargets.Field, Inherited = true)]
     public class HelpAttribute : PropertyAttribute
@@ -28,4 +28,5 @@
             this.type = type;
         }
     }
+#endif
 }

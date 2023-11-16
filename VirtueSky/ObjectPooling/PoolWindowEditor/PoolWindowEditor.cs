@@ -1,9 +1,10 @@
 using UnityEditor;
-using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ObjectPooling
 {
 #if UNITY_EDITOR
+    using VirtueSky.UtilsEditor;
+
     public class PoolWindowEditor : EditorWindow
     {
         #region Create ScriptableObject Pools

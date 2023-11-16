@@ -1,9 +1,11 @@
 using UnityEditor;
-using VirtueSky.UtilsEditor;
+
 
 namespace VirtueSky.Events
 {
 #if UNITY_EDITOR
+    using VirtueSky.UtilsEditor;
+
     public class EventWindowEditor : EditorWindow
     {
         #region Create ScriptableObject Event
