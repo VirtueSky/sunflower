@@ -16,10 +16,13 @@
         {
             ShowIfAttribute attribute = (ShowIfAttribute)this.attribute;
 
-            FieldInfo fieldInfo = property.serializedObject.targetObject.GetType().GetField(attribute.conditionFieldName);
-
+            FieldInfo fieldInfo = property.serializedObject.targetObject.GetType()
+                .GetField(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            PropertyInfo propertyInfo = property.serializedObject.targetObject.GetType()
+                .GetProperty(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             MethodInfo methodInfo = property.serializedObject.targetObject.GetType()
                 .GetMethod(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
             if (fieldInfo != null)
             {
                 SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
@@ -178,14 +181,11 @@
 
             else if (methodInfo != null)
             {
-                if ((bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == (bool)attribute.comparationValue)
-                {
-                    showField = true;
-                }
-                else
-                {
-                    showField = false;
-                }
+                showField = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == (bool)attribute.comparationValue;
+            }
+            else if (propertyInfo != null)
+            {
+                showField = (bool)propertyInfo.GetValue(property.serializedObject.targetObject) == (bool)attribute.comparationValue;
             }
 
             if (showField)
