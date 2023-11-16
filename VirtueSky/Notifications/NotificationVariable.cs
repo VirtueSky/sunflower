@@ -29,7 +29,7 @@ namespace VirtueSky.Notifications
         [SerializeField] internal bool bigPicture;
 
         [ShowIf(nameof(bigPicture))]
-        //Label("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")
+        [Help("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
         [SerializeField]
         internal string namePicture;
 
