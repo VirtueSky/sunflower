@@ -17,7 +17,9 @@
             ShowIfAttribute attribute = (ShowIfAttribute)this.attribute;
 
             FieldInfo fieldInfo = property.serializedObject.targetObject.GetType().GetField(attribute.conditionFieldName);
-            MethodInfo methodInfo = property.serializedObject.targetObject.GetType().GetMethod(attribute.conditionFieldName);
+
+            MethodInfo methodInfo = property.serializedObject.targetObject.GetType()
+                .GetMethod(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (fieldInfo != null)
             {
                 SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
@@ -191,7 +193,7 @@
                 EditorGUI.PropertyField(position, property, true);
             }
         }
-        
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             if (showField)
