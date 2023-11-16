@@ -1,6 +1,10 @@
 using UnityEngine;
 using VirtueSky.Attributes;
+
+#if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
+#endif
+
 
 namespace VirtueSky.Ads
 {

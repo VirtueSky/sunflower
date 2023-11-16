@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
+#if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
+#endif
 using VirtueSky.Events;
 
 namespace VirtueSky.Ads

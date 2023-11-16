@@ -1,4 +1,6 @@
-﻿namespace VirtueSky.Attributes
+﻿using System.Diagnostics;
+
+namespace VirtueSky.Attributes
 {
     using System;
     using UnityEngine;
@@ -7,6 +9,7 @@
 
 
     [AttributeUsage(AttributeTargets.Field, Inherited = true)]
+    [Conditional("UNITY_EDITOR")]
     public class HelpAttribute : PropertyAttribute
     {
         public readonly string text;
