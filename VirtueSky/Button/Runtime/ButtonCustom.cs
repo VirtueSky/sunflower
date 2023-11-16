@@ -4,7 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VirtueSky.Events;
+
+#if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
+#endif
+
 
 namespace VirtueSky.UIButton
 {
@@ -76,50 +80,11 @@ namespace VirtueSky.UIButton
             GetClickButtonEvent();
         }
 
-        [ContextMenu("GetClickButtonEvent")]
-        void GetClickButtonEvent()
+        public void GetClickButtonEvent()
         {
             clickButtonEvent = CreateAsset.CreateAndGetScriptableAsset<ClickButtonEvent>("/Event");
             EditorUtility.SetDirty(this);
         }
 #endif
     }
-
-
-#if UNITY_EDITOR
-    [CustomEditor(typeof(ButtonCustom), true)]
-    [CanEditMultipleObjects]
-    public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
-    {
-        private SerializedProperty _isMotion;
-        private SerializedProperty _ease;
-        private SerializedProperty _scale;
-        private SerializedProperty _clickButtonEvent;
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            _isMotion = serializedObject.FindProperty("isMotion");
-            _ease = serializedObject.FindProperty("ease");
-            _scale = serializedObject.FindProperty("scale");
-            _clickButtonEvent = serializedObject.FindProperty("clickButtonEvent");
-        }
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            serializedObject.Update();
-            EditorGUILayout.PropertyField(_clickButtonEvent);
-            EditorGUILayout.PropertyField(_isMotion);
-            if (_isMotion.boolValue == true)
-            {
-                EditorGUILayout.PropertyField(_ease);
-                EditorGUILayout.PropertyField(_scale);
-            }
-
-            serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
-        }
-    }
-#endif
 }
