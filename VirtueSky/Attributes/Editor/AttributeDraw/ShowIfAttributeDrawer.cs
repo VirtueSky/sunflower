@@ -17,163 +17,176 @@
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             ShowIfAttribute attribute = (ShowIfAttribute)this.attribute;
-            SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
 
-            // We check that exist a Field with the parameter name
-            if (conditionField == null)
+            FieldInfo fieldInfo = property.serializedObject.targetObject.GetType().GetField(attribute.conditionFieldName);
+            MethodInfo methodInfo = property.serializedObject.targetObject.GetType().GetMethod(attribute.conditionFieldName);
+            if (fieldInfo != null)
             {
-                ShowError(position, label, "Error getting the condition Field. Check the name.");
-                return;
+                SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
+                // We check that exist a Field with the parameter name
+                if (conditionField == null)
+                {
+                    ShowError(position, label, "Error getting the condition Field. Check the name.");
+                    return;
+                }
+
+                switch (conditionField.propertyType)
+                {
+                    case SerializedPropertyType.Boolean:
+                        try
+                        {
+                            bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
+                            showField = conditionField.boolValue == comparationValue;
+                        }
+                        catch
+                        {
+                            ShowError(position, label, "Invalid comparation Value Type");
+                            return;
+                        }
+
+                        break;
+                    case SerializedPropertyType.Enum:
+                        object paramEnum = attribute.comparationValue;
+                        object[] paramEnumArray = attribute.comparationValueArray;
+
+                        if (paramEnum == null && paramEnumArray == null)
+                        {
+                            ShowError(position, label, "The comparation enum value is null");
+                            return;
+                        }
+                        else if (IsEnum(paramEnum))
+                        {
+                            if (!CheckSameEnumType(new[] { paramEnum.GetType() }, property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
+                            {
+                                ShowError(position, label, "Enum Types doesn't match");
+                                return;
+                            }
+                            else
+                            {
+                                string enumValue = Enum.GetValues(paramEnum.GetType()).GetValue(conditionField.enumValueIndex).ToString();
+                                if (paramEnum.ToString() != enumValue)
+                                    showField = false;
+                                else
+                                    showField = true;
+                            }
+                        }
+                        else if (IsEnum(paramEnumArray))
+                        {
+                            if (!CheckSameEnumType(paramEnumArray.Select(x => x.GetType()), property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
+                            {
+                                ShowError(position, label, "Enum Types doesn't match");
+                                return;
+                            }
+                            else
+                            {
+                                string enumValue = Enum.GetValues(paramEnumArray[0].GetType()).GetValue(conditionField.enumValueIndex).ToString();
+                                if (paramEnumArray.All(x => x.ToString() != enumValue))
+                                    showField = false;
+                                else
+                                    showField = true;
+                            }
+                        }
+                        else
+                        {
+                            ShowError(position, label, "The comparation enum value is not an enum");
+                            return;
+                        }
+
+                        break;
+                    case SerializedPropertyType.Integer:
+                    case SerializedPropertyType.Float:
+                        string stringValue;
+                        bool error = false;
+
+                        float conditionValue = 0;
+                        if (conditionField.propertyType == SerializedPropertyType.Integer)
+                            conditionValue = conditionField.intValue;
+                        else if (conditionField.propertyType == SerializedPropertyType.Float)
+                            conditionValue = conditionField.floatValue;
+
+                        try
+                        {
+                            stringValue = (string)attribute.comparationValue;
+                        }
+                        catch
+                        {
+                            ShowError(position, label, "Invalid comparation Value Type");
+                            return;
+                        }
+
+                        if (stringValue.StartsWith("=="))
+                        {
+                            float? value = GetValue(stringValue, "==");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue == value;
+                        }
+                        else if (stringValue.StartsWith("!="))
+                        {
+                            float? value = GetValue(stringValue, "!=");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue != value;
+                        }
+                        else if (stringValue.StartsWith("<="))
+                        {
+                            float? value = GetValue(stringValue, "<=");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue <= value;
+                        }
+                        else if (stringValue.StartsWith(">="))
+                        {
+                            float? value = GetValue(stringValue, ">=");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue >= value;
+                        }
+                        else if (stringValue.StartsWith("<"))
+                        {
+                            float? value = GetValue(stringValue, "<");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue < value;
+                        }
+                        else if (stringValue.StartsWith(">"))
+                        {
+                            float? value = GetValue(stringValue, ">");
+                            if (value == null)
+                                error = true;
+                            else
+                                showField = conditionValue > value;
+                        }
+
+                        if (error)
+                        {
+                            ShowError(position, label, "Invalid comparation instruction for Int or float value");
+                            return;
+                        }
+
+                        break;
+                    default:
+                        ShowError(position, label, "This type has not supported.");
+                        return;
+                }
             }
 
-            switch (conditionField.propertyType)
+            if (methodInfo != null)
             {
-                case SerializedPropertyType.Boolean:
-                    try
-                    {
-                        bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
-                        showField = conditionField.boolValue == comparationValue;
-                    }
-                    catch
-                    {
-                        ShowError(position, label, "Invalid comparation Value Type");
-                        return;
-                    }
-
-                    break;
-                case SerializedPropertyType.Enum:
-                    object paramEnum = attribute.comparationValue;
-                    object[] paramEnumArray = attribute.comparationValueArray;
-
-                    if (paramEnum == null && paramEnumArray == null)
-                    {
-                        ShowError(position, label, "The comparation enum value is null");
-                        return;
-                    }
-                    else if (IsEnum(paramEnum))
-                    {
-                        if (!CheckSameEnumType(new[] { paramEnum.GetType() }, property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
-                        {
-                            ShowError(position, label, "Enum Types doesn't match");
-                            return;
-                        }
-                        else
-                        {
-                            string enumValue = Enum.GetValues(paramEnum.GetType()).GetValue(conditionField.enumValueIndex).ToString();
-                            if (paramEnum.ToString() != enumValue)
-                                showField = false;
-                            else
-                                showField = true;
-                        }
-                    }
-                    else if (IsEnum(paramEnumArray))
-                    {
-                        if (!CheckSameEnumType(paramEnumArray.Select(x => x.GetType()), property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
-                        {
-                            ShowError(position, label, "Enum Types doesn't match");
-                            return;
-                        }
-                        else
-                        {
-                            string enumValue = Enum.GetValues(paramEnumArray[0].GetType()).GetValue(conditionField.enumValueIndex).ToString();
-                            if (paramEnumArray.All(x => x.ToString() != enumValue))
-                                showField = false;
-                            else
-                                showField = true;
-                        }
-                    }
-                    else
-                    {
-                        ShowError(position, label, "The comparation enum value is not an enum");
-                        return;
-                    }
-
-                    break;
-                case SerializedPropertyType.Integer:
-                case SerializedPropertyType.Float:
-                    string stringValue;
-                    bool error = false;
-
-                    float conditionValue = 0;
-                    if (conditionField.propertyType == SerializedPropertyType.Integer)
-                        conditionValue = conditionField.intValue;
-                    else if (conditionField.propertyType == SerializedPropertyType.Float)
-                        conditionValue = conditionField.floatValue;
-
-                    try
-                    {
-                        stringValue = (string)attribute.comparationValue;
-                    }
-                    catch
-                    {
-                        ShowError(position, label, "Invalid comparation Value Type");
-                        return;
-                    }
-
-                    if (stringValue.StartsWith("=="))
-                    {
-                        float? value = GetValue(stringValue, "==");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue == value;
-                    }
-                    else if (stringValue.StartsWith("!="))
-                    {
-                        float? value = GetValue(stringValue, "!=");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue != value;
-                    }
-                    else if (stringValue.StartsWith("<="))
-                    {
-                        float? value = GetValue(stringValue, "<=");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue <= value;
-                    }
-                    else if (stringValue.StartsWith(">="))
-                    {
-                        float? value = GetValue(stringValue, ">=");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue >= value;
-                    }
-                    else if (stringValue.StartsWith("<"))
-                    {
-                        float? value = GetValue(stringValue, "<");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue < value;
-                    }
-                    else if (stringValue.StartsWith(">"))
-                    {
-                        float? value = GetValue(stringValue, ">");
-                        if (value == null)
-                            error = true;
-                        else
-                            showField = conditionValue > value;
-                    }
-
-                    if (error)
-                    {
-                        ShowError(position, label, "Invalid comparation instruction for Int or float value");
-                        return;
-                    }
-
-                    break;
-                default:
-                    ShowError(position, label, "This type has not supported.");
-                    return;
+                showField = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null);
             }
 
             if (showField)
+            {
                 EditorGUI.PropertyField(position, property, true);
+            }
         }
+
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

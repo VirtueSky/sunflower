@@ -8,12 +8,13 @@
     /// <summary>
     /// Attribute used to show or hide the Field depending on certain conditions
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class ShowIfAttribute : PropertyAttribute
     {
         public readonly string conditionFieldName;
         public readonly object comparationValue;
         public readonly object[] comparationValueArray;
+
 
         /// <summary>
         /// Attribute used to show or hide the Field depending on certain conditions
@@ -34,6 +35,7 @@
             this.conditionFieldName = conditionFieldName;
             this.comparationValue = comparationValue;
         }
+
 
         /// <summary>
         /// Attribute used to show or hide the Field depending on certain conditions
