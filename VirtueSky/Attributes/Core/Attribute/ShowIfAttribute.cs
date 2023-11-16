@@ -1,7 +1,5 @@
 ﻿namespace VirtueSky.Attributes
 {
-    // DONT PUT IN EDITOR FOLDER
-
     using System;
     using UnityEngine;
 

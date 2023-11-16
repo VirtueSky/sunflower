@@ -36,8 +36,8 @@ namespace VirtueSky.Component
         private RectTransform _rectTransform;
         private Sequence _sequence;
 
-        private bool IsShowAttributeFromPosition => animType == AnimType.Move && _moveType == MoveType.Vector3;
-        private bool IsShowAttributesMoveDirection => animType == AnimType.Move && _moveType == MoveType.Direction;
+        public bool IsShowAttributeFromPosition => animType == AnimType.Move && _moveType == MoveType.Vector3;
+        public bool IsShowAttributesMoveDirection => animType == AnimType.Move && _moveType == MoveType.Direction;
 
         public void Awake()
         {

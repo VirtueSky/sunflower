@@ -1,7 +1,5 @@
 ﻿namespace VirtueSky.Attributes
 {
-    // PUT IN EDITOR FOLDER
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -176,9 +174,16 @@
                 }
             }
 
-            if (methodInfo != null)
+            else if (methodInfo != null)
             {
-                showField = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null);
+                if ((bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == (bool)attribute.comparationValue)
+                {
+                    showField = true;
+                }
+                else
+                {
+                    showField = false;
+                }
             }
 
             if (showField)
@@ -186,8 +191,7 @@
                 EditorGUI.PropertyField(position, property, true);
             }
         }
-
-
+        
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             if (showField)
