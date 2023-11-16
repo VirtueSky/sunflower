@@ -127,6 +127,7 @@ namespace VirtueSky.Attributes
 
             public override void Execute()
             {
+                // ShowIfAttribute showIfAttribute = m_MethodInfo.GetCustomAttribute<ShowIfAttribute>();
                 if (GUILayout.Button(m_GUIContent))
                 {
                     m_MethodInfo.Invoke(m_Target, null);

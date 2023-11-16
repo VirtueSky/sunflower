@@ -18,7 +18,7 @@ namespace VirtueSky.Component
         [Header("Shake Effect")] [SerializeField]
         private float strength = 3f;
 
-        [Header("Move Effect")] [ShowIf(nameof(animType), AnimType.Move)] [SerializeField]
+        [ShowIf(nameof(animType), AnimType.Move)] [Header("Move Effect")] [SerializeField]
         private MoveType _moveType;
 
         [ShowIf(nameof(IsShowAttributeFromPosition), true)] [SerializeField]
