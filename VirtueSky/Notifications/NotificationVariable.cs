@@ -30,7 +30,7 @@ namespace VirtueSky.Notifications
 
         [ShowIf(nameof(bigPicture))]
 #if UNITY_EDITOR
-        [Help("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
+        [HelpBox("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
 #endif
 
         [SerializeField]

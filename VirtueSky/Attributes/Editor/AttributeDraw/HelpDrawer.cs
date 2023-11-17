@@ -4,7 +4,7 @@ using UnityEngine;
 namespace VirtueSky.Attributes
 {
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(HelpAttribute))]
+    [CustomPropertyDrawer(typeof(HelpBoxAttribute))]
     public class HelpDrawer : PropertyDrawer
     {
         // Used for top and bottom padding between the text and the HelpBox border.
@@ -22,9 +22,9 @@ namespace VirtueSky.Attributes
         /// <summary>
         /// A wrapper which returns the PropertyDrawer.attribute field as a HelpAttribute.
         /// </summary>
-        HelpAttribute helpAttribute
+        HelpBoxAttribute HelpBoxAttribute
         {
-            get { return (HelpAttribute)attribute; }
+            get { return (HelpBoxAttribute)attribute; }
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace VirtueSky.Attributes
 
             // Calculate the height of the HelpBox using the GUIStyle on the current skin and the inspector
             // window's currentViewWidth.
-            var content = new GUIContent(helpAttribute.text);
+            var content = new GUIContent(HelpBoxAttribute.text);
             var style = GUI.skin.GetStyle("helpbox");
 
             var height = style.CalcHeight(content, EditorGUIUtility.currentViewWidth);
@@ -106,7 +106,7 @@ namespace VirtueSky.Attributes
             }
 
             // Renders the HelpBox in the Unity inspector UI.
-            EditorGUI.HelpBox(helpPos, helpAttribute.text, helpAttribute.type);
+            EditorGUI.HelpBox(helpPos, HelpBoxAttribute.text, HelpBoxAttribute.type);
 
             position.y += helpPos.height + marginHeight;
             position.height = baseHeight;

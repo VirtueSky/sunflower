@@ -10,7 +10,7 @@ namespace VirtueSky.Attributes
 
     [AttributeUsage(AttributeTargets.Field, Inherited = true)]
     [Conditional("UNITY_EDITOR")]
-    public class HelpAttribute : PropertyAttribute
+    public class HelpBoxAttribute : PropertyAttribute
     {
         public readonly string text;
 
@@ -25,7 +25,7 @@ namespace VirtueSky.Attributes
         /// </summary>
         /// <param name="text">The help text to be displayed in the HelpBox.</param>
         /// <param name="type">The icon to be displayed in the HelpBox.</param>
-        public HelpAttribute(string text, MessageType type = MessageType.Info)
+        public HelpBoxAttribute(string text, MessageType type = MessageType.Info)
         {
             this.text = text;
             this.type = type;
