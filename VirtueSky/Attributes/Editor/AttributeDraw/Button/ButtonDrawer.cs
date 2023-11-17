@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Reflection;
 using System.Collections.Generic;
 
+
 namespace VirtueSky.Attributes
 {
     public class ButtonDrawer
@@ -92,6 +93,7 @@ namespace VirtueSky.Attributes
             m_Actions = actionList.ToArray();
         }
 
+
         public void Draw()
         {
             foreach (var action in m_Actions)
@@ -107,16 +109,16 @@ namespace VirtueSky.Attributes
             Vertical
         }
 
-        abstract class UIAction
+        public abstract class UIAction
         {
             public abstract void Execute();
         }
 
-        class DrawButton : UIAction
+        public class DrawButton : UIAction
         {
-            private GUIContent m_GUIContent;
-            private MethodInfo m_MethodInfo;
-            private object m_Target;
+            protected GUIContent m_GUIContent;
+            protected MethodInfo m_MethodInfo;
+            protected object m_Target;
 
             public DrawButton(string text, MethodInfo methodInfo, object target)
             {
@@ -125,9 +127,9 @@ namespace VirtueSky.Attributes
                 m_Target = target;
             }
 
+
             public override void Execute()
             {
-                // ShowIfAttribute showIfAttribute = m_MethodInfo.GetCustomAttribute<ShowIfAttribute>();
                 if (GUILayout.Button(m_GUIContent))
                 {
                     m_MethodInfo.Invoke(m_Target, null);
@@ -143,6 +145,7 @@ namespace VirtueSky.Attributes
             {
                 if (text != null) m_GUIContent = new GUIContent(text);
             }
+
 
             public override void Execute()
             {

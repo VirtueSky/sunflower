@@ -1,34 +1,108 @@
-﻿namespace VirtueSky.Attributes
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace VirtueSky.Attributes
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using UnityEngine;
-    using UnityEditor;
-
-    [CustomPropertyDrawer(typeof(ShowIfAttribute))]
-    public class ShowIfAttributeDrawer : PropertyDrawer
+    public class ButtonShowIfDrawer
     {
-        private bool isShowButton = true;
+        private static bool s_ReverseAttributesOrder;
+        List<DrawButtonShowIf> listDrawButtons = new List<DrawButtonShowIf>();
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        [InitializeOnLoadMethod]
+        public static void CheckAttributesOrder()
         {
-            ShowIfAttribute attribute = (ShowIfAttribute)this.attribute;
+            var method = typeof(ButtonDrawer).GetMethod("CheckAttributesOrder");
+            var attributes = method.GetCustomAttributes(false);
+            s_ReverseAttributesOrder = attributes[0].GetType() != typeof(ButtonShowIfAttribute);
+        }
 
-            FieldInfo fieldInfo = property.serializedObject.targetObject.GetType()
+        public ButtonShowIfDrawer(object target)
+        {
+            BindingFlags flags =
+                BindingFlags.InvokeMethod |
+                BindingFlags.Public |
+                BindingFlags.NonPublic |
+                BindingFlags.Static |
+                BindingFlags.Instance;
+            var type = target.GetType();
+            var methods = type.GetMethods(flags);
+
+            for (int i = 0; i < methods.Length; i++)
+            {
+                MethodInfo methodInfo = methods[i];
+                var attributes = methodInfo.GetCustomAttributes(false);
+                int attributeCount = attributes.Length;
+                for (int j = 0; j < attributeCount; j++)
+                {
+                    var attribute = attributes[s_ReverseAttributesOrder ? attributeCount - j - 1 : j];
+                    var attributeType = attribute.GetType();
+                    if (attributeType == typeof(ButtonShowIfAttribute))
+                    {
+                        var eButtonAttribute = (ButtonShowIfAttribute)attribute;
+                        string text = (eButtonAttribute.text == null) ? methodInfo.Name : eButtonAttribute.text;
+
+                        listDrawButtons.Add(new DrawButtonShowIf(text, methodInfo, target));
+                    }
+                }
+            }
+        }
+
+        public void Draw()
+        {
+            foreach (var drawButton in listDrawButtons)
+            {
+                drawButton.Execute();
+            }
+        }
+    }
+
+    public class DrawButtonShowIf
+    {
+        private GUIContent m_GUIContent;
+        private MethodInfo m_MethodInfo;
+        private object m_Target;
+        private bool showField;
+
+        public DrawButtonShowIf(string text, MethodInfo methodInfo, object target)
+        {
+            m_GUIContent = new GUIContent(text);
+            m_MethodInfo = methodInfo;
+            m_Target = target;
+        }
+
+        public void Execute()
+        {
+            ConditionShowButton();
+            if (showField && GUILayout.Button(m_GUIContent))
+            {
+                m_MethodInfo.Invoke(m_Target, null);
+            }
+        }
+
+        void ConditionShowButton()
+        {
+            ButtonShowIfAttribute attribute = m_MethodInfo.GetCustomAttribute<ButtonShowIfAttribute>();
+            SerializedObject serializedObject = new SerializedObject((Object)m_Target);
+
+            FieldInfo fieldInfo = serializedObject.targetObject.GetType()
                 .GetField(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            PropertyInfo propertyInfo = property.serializedObject.targetObject.GetType()
+            PropertyInfo propertyInfo = serializedObject.targetObject.GetType()
                 .GetProperty(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            MethodInfo methodInfo = property.serializedObject.targetObject.GetType()
+            MethodInfo methodInfo = serializedObject.targetObject.GetType()
                 .GetMethod(attribute.conditionFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
             if (fieldInfo != null)
             {
-                SerializedProperty conditionField = property.serializedObject.FindProperty(attribute.conditionFieldName);
+                SerializedProperty conditionField = serializedObject.FindProperty(attribute.conditionFieldName);
                 // We check that exist a Field with the parameter name
                 if (conditionField == null)
                 {
-                    ShowError(position, label, "Error getting the condition Field. Check the name.");
+                    //ShowError(position, label, "Error getting the condition Field. Check the name.");
                     return;
                 }
 
@@ -38,11 +112,11 @@
                         try
                         {
                             bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
-                            isShowButton = conditionField.boolValue == comparationValue;
+                            showField = conditionField.boolValue == comparationValue;
                         }
                         catch
                         {
-                            ShowError(position, label, "Invalid comparation Value Type");
+                            // ShowError(position, label, "Invalid comparation Value Type");
                             return;
                         }
 
@@ -53,45 +127,48 @@
 
                         if (paramEnum == null && paramEnumArray == null)
                         {
-                            ShowError(position, label, "The comparation enum value is null");
+                            showField = true;
+                            // ShowError(position, label, "The comparation enum value is null");
                             return;
                         }
                         else if (UtilityDraw.IsEnum(paramEnum))
                         {
-                            if (!UtilityDraw.CheckSameEnumType(new[] { paramEnum.GetType() }, property.serializedObject.targetObject.GetType(), conditionField.propertyPath))
+                            if (!UtilityDraw.CheckSameEnumType(new[] { paramEnum.GetType() }, serializedObject.targetObject.GetType(), conditionField.propertyPath))
                             {
-                                ShowError(position, label, "Enum Types doesn't match");
+                                showField = true;
+                                //ShowError(position, label, "Enum Types doesn't match");
                                 return;
                             }
                             else
                             {
                                 string enumValue = Enum.GetValues(paramEnum.GetType()).GetValue(conditionField.enumValueIndex).ToString();
                                 if (paramEnum.ToString() != enumValue)
-                                    isShowButton = false;
+                                    showField = false;
                                 else
-                                    isShowButton = true;
+                                    showField = true;
                             }
                         }
                         else if (UtilityDraw.IsEnum(paramEnumArray))
                         {
-                            if (!UtilityDraw.CheckSameEnumType(paramEnumArray.Select(x => x.GetType()), property.serializedObject.targetObject.GetType(),
-                                    conditionField.propertyPath))
+                            if (!UtilityDraw.CheckSameEnumType(paramEnumArray.Select(x => x.GetType()), serializedObject.targetObject.GetType(), conditionField.propertyPath))
                             {
-                                ShowError(position, label, "Enum Types doesn't match");
+                                showField = true;
+                                //ShowError(position, label, "Enum Types doesn't match");
                                 return;
                             }
                             else
                             {
                                 string enumValue = Enum.GetValues(paramEnumArray[0].GetType()).GetValue(conditionField.enumValueIndex).ToString();
                                 if (paramEnumArray.All(x => x.ToString() != enumValue))
-                                    isShowButton = false;
+                                    showField = false;
                                 else
-                                    isShowButton = true;
+                                    showField = true;
                             }
                         }
                         else
                         {
-                            ShowError(position, label, "The comparation enum value is not an enum");
+                            showField = true;
+                            //  ShowError(position, label, "The comparation enum value is not an enum");
                             return;
                         }
 
@@ -113,7 +190,8 @@
                         }
                         catch
                         {
-                            ShowError(position, label, "Invalid comparation Value Type");
+                            showField = true;
+                            //ShowError(position, label, "Invalid comparation Value Type");
                             return;
                         }
 
@@ -123,7 +201,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue == value;
+                                showField = conditionValue == value;
                         }
                         else if (stringValue.StartsWith("!="))
                         {
@@ -131,7 +209,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue != value;
+                                showField = conditionValue != value;
                         }
                         else if (stringValue.StartsWith("<="))
                         {
@@ -139,7 +217,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue <= value;
+                                showField = conditionValue <= value;
                         }
                         else if (stringValue.StartsWith(">="))
                         {
@@ -147,7 +225,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue >= value;
+                                showField = conditionValue >= value;
                         }
                         else if (stringValue.StartsWith("<"))
                         {
@@ -155,7 +233,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue < value;
+                                showField = conditionValue < value;
                         }
                         else if (stringValue.StartsWith(">"))
                         {
@@ -163,49 +241,32 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue > value;
+                                showField = conditionValue > value;
                         }
 
                         if (error)
                         {
-                            ShowError(position, label, "Invalid comparation instruction for Int or float value");
+                            showField = true;
+                            // ShowError(position, label, "Invalid comparation instruction for Int or float value");
                             return;
                         }
 
                         break;
                     default:
-                        ShowError(position, label, "This type has not supported.");
+                        showField = true;
+                        //  ShowError(position, label, "This type has not supported.");
                         return;
                 }
             }
 
             else if (methodInfo != null)
             {
-                isShowButton = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == (bool)attribute.comparationValue;
+                showField = (bool)methodInfo.Invoke(serializedObject.targetObject, null) == (bool)attribute.comparationValue;
             }
             else if (propertyInfo != null)
             {
-                isShowButton = (bool)propertyInfo.GetValue(property.serializedObject.targetObject) == (bool)attribute.comparationValue;
+                showField = (bool)propertyInfo.GetValue(serializedObject.targetObject) == (bool)attribute.comparationValue;
             }
-
-            if (isShowButton)
-            {
-                EditorGUI.PropertyField(position, property, true);
-            }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            if (isShowButton)
-                return EditorGUI.GetPropertyHeight(property);
-            else
-                return -EditorGUIUtility.standardVerticalSpacing;
-        }
-
-        private void ShowError(Rect position, GUIContent label, string errorText)
-        {
-            EditorGUI.LabelField(position, label, new GUIContent(errorText));
-            isShowButton = true;
         }
     }
 }

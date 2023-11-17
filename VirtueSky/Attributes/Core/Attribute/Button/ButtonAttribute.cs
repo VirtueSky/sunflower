@@ -4,13 +4,14 @@
     {
         public string text;
 
+
         public ButtonAttribute()
         {
         }
 
-        public ButtonAttribute(string text)
+        public ButtonAttribute(string buttonName)
         {
-            this.text = text;
+            this.text = buttonName;
         }
     }
 }
