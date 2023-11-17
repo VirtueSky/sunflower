@@ -1,5 +1,5 @@
 {
-    "name": "VirtueSky.Sunflower.Attributes.Core",
+    "name": "VirtueSky.Sunflower.Attributes.Runtime",
     "rootNamespace": "",
     "references": [
         "GUID:c904f6d969e991d459a0843b71c22ec5",

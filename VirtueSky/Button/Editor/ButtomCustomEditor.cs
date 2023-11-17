@@ -11,6 +11,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     private SerializedProperty _isMotion;
     private SerializedProperty _ease;
     private SerializedProperty _scale;
+    private SerializedProperty _easingTypes;
     private SerializedProperty _clickButtonEvent;
 
     protected override void OnEnable()
@@ -18,7 +19,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         base.OnEnable();
         _buttonCustom = target as ButtonCustom;
         _isMotion = serializedObject.FindProperty("isMotion");
-        _ease = serializedObject.FindProperty("ease");
+        _easingTypes = serializedObject.FindProperty("easingTypes");
         _scale = serializedObject.FindProperty("scale");
         _clickButtonEvent = serializedObject.FindProperty("clickButtonEvent");
     }
@@ -40,9 +41,9 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.PropertyField(_isMotion);
-        if (_isMotion.boolValue == true)
+        if (_isMotion.boolValue)
         {
-            EditorGUILayout.PropertyField(_ease);
+            EditorGUILayout.PropertyField(_easingTypes);
             EditorGUILayout.PropertyField(_scale);
         }
 

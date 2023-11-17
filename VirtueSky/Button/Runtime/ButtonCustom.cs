@@ -1,9 +1,9 @@
-using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VirtueSky.Events;
+using VirtueSky.Tween;
 
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
@@ -17,11 +17,12 @@ namespace VirtueSky.UIButton
         public ClickButtonEvent clickButtonEvent;
         [SerializeField] private bool isMotion = true;
 
-        [Header("Motion")] [SerializeField] private Ease ease = Ease.OutQuint;
+        [Header("Motion")] [SerializeField] private EasingTypes easingTypes = EasingTypes.QuinticOut;
 
         [SerializeField] private float scale = 0.9f;
 
         Vector3 originScale = Vector3.one;
+        private Coroutine coroutine;
 
         protected override void OnEnable()
         {
@@ -50,18 +51,16 @@ namespace VirtueSky.UIButton
             ResetScale();
         }
 
-
-        public override void OnPointerClick(PointerEventData eventData)
-        {
-            base.OnPointerClick(eventData);
-        }
-
         void DoScale()
         {
             if (isMotion)
             {
-                DOTween.Kill(this);
-                transform.DOScale(originScale * scale, 0.15f).SetEase(ease).SetUpdate(true).SetTarget(this).Play();
+                if (coroutine != null)
+                {
+                    TweenManager.instance.StopTween(coroutine);
+                }
+
+                coroutine = transform.ScaleTo(originScale * scale, .15f, easingTypes);
             }
         }
 
@@ -69,7 +68,11 @@ namespace VirtueSky.UIButton
         {
             if (isMotion)
             {
-                DOTween.Kill(this);
+                if (coroutine != null)
+                {
+                    TweenManager.instance.StopTween(coroutine);
+                }
+
                 transform.localScale = originScale;
             }
         }

@@ -2,7 +2,7 @@
     "name": "VirtueSky.Sunflower.Attributes.Editor",
     "rootNamespace": "",
     "references": [
-        "VirtueSky.Sunflower.Attributes.Core"
+        "VirtueSky.Sunflower.Attributes.Runtime"
     ],
     "includePlatforms": [
         "Editor"
