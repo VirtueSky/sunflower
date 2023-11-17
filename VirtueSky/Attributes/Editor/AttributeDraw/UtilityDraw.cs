@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
 namespace VirtueSky.Attributes
 {
@@ -67,6 +69,17 @@ namespace VirtueSky.Attributes
             {
                 return null;
             }
+        }
+
+        public static void CreateLineSpacer(Rect _rect, Color _color, float _height = 2)
+        {
+            _rect.height = _height;
+
+            Color oldColour = GUI.color;
+
+            GUI.color = _color;
+            EditorGUI.DrawRect(_rect, _color);
+            GUI.color = oldColour;
         }
     }
 }
