@@ -13,6 +13,9 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     private SerializedProperty _scale;
     private SerializedProperty _easingTypes;
     private SerializedProperty _clickButtonEvent;
+    private SerializedProperty _isShrugOver;
+    private SerializedProperty _timeShrug;
+    private SerializedProperty _strength;
 
     protected override void OnEnable()
     {
@@ -22,6 +25,9 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         _easingTypes = serializedObject.FindProperty("easingTypes");
         _scale = serializedObject.FindProperty("scale");
         _clickButtonEvent = serializedObject.FindProperty("clickButtonEvent");
+        _isShrugOver = serializedObject.FindProperty("isShrugOver");
+        _timeShrug = serializedObject.FindProperty("timeShrug");
+        _strength = serializedObject.FindProperty("strength");
     }
 
     public override void OnInspectorGUI()
@@ -45,7 +51,14 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         {
             EditorGUILayout.PropertyField(_easingTypes);
             EditorGUILayout.PropertyField(_scale);
+            EditorGUILayout.PropertyField(_isShrugOver);
+            if (_isShrugOver.boolValue)
+            {
+                EditorGUILayout.PropertyField(_timeShrug);
+                EditorGUILayout.PropertyField(_strength);
+            }
         }
+
 
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();

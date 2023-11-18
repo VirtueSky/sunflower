@@ -1,9 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using VirtueSky.Attributes;
 using VirtueSky.Events;
 using VirtueSky.Tween;
+using VirtueSky.Misc;
+using Button = UnityEngine.UI.Button;
 
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
@@ -15,14 +17,21 @@ namespace VirtueSky.UIButton
     public class ButtonCustom : Button
     {
         public ClickButtonEvent clickButtonEvent;
-        [SerializeField] private bool isMotion = true;
 
-        [Header("Motion")] [SerializeField] private EasingTypes easingTypes = EasingTypes.QuinticOut;
+        [Title("Motion", CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
+        private bool isMotion = true;
+
+        [SerializeField] private EasingTypes easingTypes = EasingTypes.QuinticOut;
 
         [SerializeField] private float scale = 0.9f;
+        [SerializeField] private bool isShrugOver;
+        [SerializeField] private float timeShrug = .2f;
+        [SerializeField] private float strength = .2f;
 
         Vector3 originScale = Vector3.one;
         private Coroutine coroutine;
+        private Coroutine coroutine2;
+        private bool canShrug = true;
 
         protected override void OnEnable()
         {
@@ -51,6 +60,12 @@ namespace VirtueSky.UIButton
             ResetScale();
         }
 
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            base.OnPointerExit(eventData);
+            Shrug();
+        }
+
         void DoScale()
         {
             if (isMotion)
@@ -64,6 +79,23 @@ namespace VirtueSky.UIButton
             }
         }
 
+        void Shrug()
+        {
+            if (isMotion && isShrugOver && canShrug)
+            {
+                canShrug = false;
+                Vector3 baseScale = transform.localScale;
+                Vector3 targetBounceX = new Vector3(1 + strength, 1 - strength) * baseScale.x;
+                Vector3 targetBounceY = new Vector3(1 - strength, 1 + strength) * baseScale.y;
+                coroutine2 = transform.ScaleTo(targetBounceX, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once,
+                    () =>
+                    {
+                        transform.ScaleTo(targetBounceY, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once,
+                            () => { transform.ScaleTo(baseScale, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once, () => { canShrug = true; }); });
+                    });
+            }
+        }
+
         void ResetScale()
         {
             if (isMotion)
@@ -71,6 +103,11 @@ namespace VirtueSky.UIButton
                 if (coroutine != null)
                 {
                     TweenManager.instance.StopTween(coroutine);
+                }
+
+                if (coroutine2 != null)
+                {
+                    TweenManager.instance.StopTween(coroutine2);
                 }
 
                 transform.localScale = originScale;
