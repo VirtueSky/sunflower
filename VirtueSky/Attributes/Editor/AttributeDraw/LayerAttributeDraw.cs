@@ -10,8 +10,10 @@ namespace VirtueSky.Attributes
         {
             if (property.propertyType != SerializedPropertyType.Integer)
             {
-                Debug.LogWarning("Layer attribute must be used with 'int' property type");
-                base.OnGUI(position, property, label);
+                //Debug.LogWarning("Layer attribute must be used with 'int' property type");
+                //base.OnGUI(position, property, label);
+                EditorGUI.LabelField(position, "Layer attribute must be used with 'int' property type", new GUIStyle { normal = new GUIStyleState { textColor = Color.yellow } });
+
                 return;
             }
 

@@ -58,7 +58,7 @@
 
         public void ReplaceOrStartTween(Coroutine routine)
         {
-            callingScript = TweenManager.instance;
+            callingScript = TweenManager.GlobalTween;
             StopCoroutine();
             coroutine = routine;
         }

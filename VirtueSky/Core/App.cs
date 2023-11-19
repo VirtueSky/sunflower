@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Internal;
-using VirtueSky.Core;
 
 namespace VirtueSky.Core
 {

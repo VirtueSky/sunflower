@@ -176,13 +176,13 @@ namespace VirtueSky.Tween
 
         public void Play()
         {
-            TweenManager.instance.PlayTween(this);
+            TweenManager.PlayTween(this);
         }
 
         public void Stop()
         {
             if (animationRoutine != null)
-                TweenManager.instance.StopTween(animationRoutine);
+                TweenManager.StopTween(animationRoutine);
         }
 
         public void Reset()

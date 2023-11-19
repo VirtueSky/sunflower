@@ -25,7 +25,7 @@ namespace VirtueSky.Tween
             TweenRepeat repeat = TweenRepeat.Once,
             Action onComplete = null)
         {
-            return TweenManager.instance.PlayTween(new Tween((Vector3 pos) => { trans.position = pos; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector3 pos) => { trans.position = pos; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine MoveTo(this Transform trans, Vector3 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -54,7 +54,7 @@ namespace VirtueSky.Tween
             TweenRepeat repeat = TweenRepeat.Once,
             Action onComplete = null)
         {
-            return TweenManager.instance.PlayTween(new Tween((Vector3 pos) => { trans.localPosition = pos; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector3 pos) => { trans.localPosition = pos; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine LocalMoveTo(this Transform trans, Vector3 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -83,7 +83,7 @@ namespace VirtueSky.Tween
             TweenRepeat repeat = TweenRepeat.Once,
             Action onComplete = null)
         {
-            return TweenManager.instance.PlayTween(new Tween((Vector3 scale) => { trans.localScale = scale; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector3 scale) => { trans.localScale = scale; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine ScaleTo(this Transform trans, Vector3 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -137,7 +137,7 @@ namespace VirtueSky.Tween
             TweenRepeat repeat = TweenRepeat.Once,
             Action onComplete = null)
         {
-            return TweenManager.instance.PlayTween(new Tween((Quaternion rot) => { trans.localRotation = rot; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Quaternion rot) => { trans.localRotation = rot; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         #endregion
@@ -147,7 +147,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             float start = cgroup.alpha;
-            return TweenManager.instance.PlayTween(new Tween((float newAlpha) => { cgroup.alpha = newAlpha; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((float newAlpha) => { cgroup.alpha = newAlpha; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine EaseFill(this Image image, float target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -155,7 +155,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             float start = image.fillAmount;
-            return TweenManager.instance.PlayTween(new Tween((float newFill) => { image.fillAmount = newFill; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((float newFill) => { image.fillAmount = newFill; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine EaseLayoutMinValues(this LayoutElement layout, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -163,7 +163,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = new Vector2(layout.minWidth, layout.minHeight);
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newDimensions) =>
+            return TweenManager.PlayTween(new Tween((Vector2 newDimensions) =>
             {
                 layout.minWidth = newDimensions.x;
                 layout.minHeight = newDimensions.y;
@@ -175,7 +175,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = scrollRect.normalizedPosition;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newPosition) => { scrollRect.normalizedPosition = newPosition; }, start, target, length, easingChoice, unscaled,
+            return TweenManager.PlayTween(new Tween((Vector2 newPosition) => { scrollRect.normalizedPosition = newPosition; }, start, target, length, easingChoice, unscaled,
                 repeat, onComplete));
         }
 
@@ -184,7 +184,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             float start = scrollRect.verticalNormalizedPosition;
-            return TweenManager.instance.PlayTween(new Tween((float newPosition) => { scrollRect.verticalNormalizedPosition = newPosition; }, start, target, length, easingChoice,
+            return TweenManager.PlayTween(new Tween((float newPosition) => { scrollRect.verticalNormalizedPosition = newPosition; }, start, target, length, easingChoice,
                 unscaled, repeat, onComplete));
         }
 
@@ -193,7 +193,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             float start = scrollRect.horizontalNormalizedPosition;
-            return TweenManager.instance.PlayTween(new Tween((float newPosition) => { scrollRect.horizontalNormalizedPosition = newPosition; }, start, target, length, easingChoice,
+            return TweenManager.PlayTween(new Tween((float newPosition) => { scrollRect.horizontalNormalizedPosition = newPosition; }, start, target, length, easingChoice,
                 unscaled, repeat, onComplete));
         }
 
@@ -202,7 +202,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector3 start = rect.anchoredPosition3D;
-            return TweenManager.instance.PlayTween(new Tween((Vector3 newPosition) => { rect.anchoredPosition3D = newPosition; }, start, target, length, easingChoice, unscaled, repeat,
+            return TweenManager.PlayTween(new Tween((Vector3 newPosition) => { rect.anchoredPosition3D = newPosition; }, start, target, length, easingChoice, unscaled, repeat,
                 onComplete));
         }
 
@@ -211,7 +211,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.pivot;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newPivot) => { rect.pivot = newPivot; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newPivot) => { rect.pivot = newPivot; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine AnchorMaxEase(this RectTransform rect, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -219,7 +219,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.anchorMax;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newMax) => { rect.anchorMax = newMax; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newMax) => { rect.anchorMax = newMax; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine AnchorMinEase(this RectTransform rect, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -227,7 +227,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.anchorMin;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newMin) => { rect.anchorMin = newMin; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newMin) => { rect.anchorMin = newMin; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine OffsetMaxEase(this RectTransform rect, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -235,7 +235,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.offsetMax;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newMax) => { rect.offsetMax = newMax; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newMax) => { rect.offsetMax = newMax; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine OffsetMinEase(this RectTransform rect, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -243,7 +243,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.offsetMin;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newMin) => { rect.anchorMin = newMin; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newMin) => { rect.anchorMin = newMin; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine SizeDeltaEase(this RectTransform rect, Vector2 target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -251,7 +251,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Vector2 start = rect.sizeDelta;
-            return TweenManager.instance.PlayTween(new Tween((Vector2 newDelta) => { rect.sizeDelta = newDelta; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Vector2 newDelta) => { rect.sizeDelta = newDelta; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
 
         public static Coroutine EaseMainColor(this Material material, Color target, float length, EasingTypes easingChoice, bool unscaled = false,
@@ -259,7 +259,7 @@ namespace VirtueSky.Tween
             Action onComplete = null)
         {
             Color start = material.color;
-            return TweenManager.instance.PlayTween(new Tween((Color newColor) => { material.color = newColor; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
+            return TweenManager.PlayTween(new Tween((Color newColor) => { material.color = newColor; }, start, target, length, easingChoice, unscaled, repeat, onComplete));
         }
     }
 }

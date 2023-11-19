@@ -10,8 +10,9 @@ namespace VirtueSky.Attributes
         {
             if (property.propertyType != SerializedPropertyType.String)
             {
-                Debug.LogWarning("Tag attribute must be used with 'string' property type");
-                base.OnGUI(position, property, label);
+                //Debug.LogWarning("Tag attribute must be used with 'string' property type");
+                //base.OnGUI(position, property, label);
+                EditorGUI.LabelField(position, "Tag attribute must be used with 'string' property type", new GUIStyle { normal = new GUIStyleState { textColor = Color.yellow } });
                 return;
             }
 

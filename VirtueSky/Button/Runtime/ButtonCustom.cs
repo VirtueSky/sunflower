@@ -72,7 +72,7 @@ namespace VirtueSky.UIButton
             {
                 if (coroutine != null)
                 {
-                    TweenManager.instance.StopTween(coroutine);
+                    TweenManager.StopTween(coroutine);
                 }
 
                 coroutine = transform.ScaleTo(originScale * scale, .15f, easingTypes);
@@ -84,15 +84,10 @@ namespace VirtueSky.UIButton
             if (isMotion && isShrugOver && canShrug)
             {
                 canShrug = false;
-                Vector3 baseScale = transform.localScale;
-                Vector3 targetBounceX = new Vector3(1 + strength, 1 - strength) * baseScale.x;
-                Vector3 targetBounceY = new Vector3(1 - strength, 1 + strength) * baseScale.y;
-                coroutine2 = transform.ScaleTo(targetBounceX, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once,
-                    () =>
-                    {
-                        transform.ScaleTo(targetBounceY, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once,
-                            () => { transform.ScaleTo(baseScale, timeShrug / 3, EasingTypes.QuadraticOut, false, TweenRepeat.Once, () => { canShrug = true; }); });
-                    });
+                if (isMotion && isShrugOver)
+                {
+                    transform.Shrug(.2f, .2f, EasingTypes.QuadraticOut, () => { canShrug = true; });
+                }
             }
         }
 
@@ -102,13 +97,13 @@ namespace VirtueSky.UIButton
             {
                 if (coroutine != null)
                 {
-                    TweenManager.instance.StopTween(coroutine);
+                    TweenManager.StopTween(coroutine);
                 }
 
-                if (coroutine2 != null)
-                {
-                    TweenManager.instance.StopTween(coroutine2);
-                }
+                // if (coroutine2 != null)
+                // {
+                //     TweenManager.StopTween(coroutine2);
+                // }
 
                 transform.localScale = originScale;
             }
