@@ -2,7 +2,7 @@
 - Unity 2022.3 LTS
 ## How To Install
 
-### Add the lines below to `Packages/manifest.json`
+### Add the line below to `Packages/manifest.json`
 
 for version `2.1.8`
 ```csharp
