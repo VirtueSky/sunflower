@@ -1,0 +1,425 @@
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+
+#if PRIME_TWEEN_DOTWEEN_ADAPTER
+using System;
+using System.Collections;
+using JetBrains.Annotations;
+using UnityEngine;
+
+namespace PrimeTween {
+    public static partial class DOTweenAdapter {
+        const Ease defaultDotweenEase = Ease.OutQuad;
+        
+        static int remapFrequency(float frequency) {
+            return (int) (frequency * 1.35f);
+        }
+
+        public static Tween DOShakePosition([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool snapping =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            false, bool fadeOut = true) 
+            => DOShakePosition(target, duration, Vector3.one * strength, vibrato, randomness, snapping, fadeOut);
+        public static Tween DOShakePosition([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool snapping =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   false, bool fadeOut = true) {
+            if (Math.Abs(randomness - 90f) > 0.001f) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(randomness));
+            }
+            if (snapping) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(snapping));
+            }
+            var settings = new ShakeSettings(strength, duration, vibrato);
+            if (fadeOut) {
+                settings.enableFalloff = true;
+                settings.frequency = remapFrequency(settings.frequency);
+            }
+            return Tween.ShakeLocalPosition(target.transform, settings);
+        }
+        public static Tween DOPunchPosition([NotNull] this Component target, Vector3 punch, float duration, int vibrato = 10, float elasticity = 1, bool snapping = false) {
+            if (snapping) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(snapping));
+            }
+            var shakeSettings = new ShakeSettings(punch, duration, remapFrequency(vibrato), asymmetryFactor: 1 - elasticity);
+            return Tween.PunchLocalPosition(target.transform, shakeSettings);
+        }
+
+        public static Tween DOShakeRotation([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) 
+            => DOShakeRotation(target, duration, Vector3.one * strength, vibrato, randomness, fadeOut);
+        public static Tween DOShakeRotation([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) {
+            if (Math.Abs(randomness - 90f) > 0.001f) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(randomness));
+            }
+            var settings = new ShakeSettings(strength, duration, vibrato);
+            if (fadeOut) {
+                settings.enableFalloff = true;
+                settings.frequency = remapFrequency(settings.frequency);
+            }
+            return Tween.ShakeLocalRotation(target.transform, settings);
+        }
+        public static Tween DOPunchRotation([NotNull] this Component target, Vector3 punch, float duration, int vibrato = 10, float elasticity = 1) {
+            var shakeSettings = new ShakeSettings(punch, duration, remapFrequency(vibrato), asymmetryFactor: 1 - elasticity);
+            return Tween.PunchLocalRotation(target.transform, shakeSettings);
+        }
+
+        public static Tween DOShakeScale([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) 
+            => DOShakeScale(target, duration, Vector3.one * strength, vibrato, randomness, fadeOut);
+        public static Tween DOShakeScale([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) {
+            if (Math.Abs(randomness - 90f) > 0.001f) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(randomness));
+            }
+            var settings = new ShakeSettings(strength, duration, vibrato);
+            if (fadeOut) {
+                settings.enableFalloff = true;
+                settings.frequency = remapFrequency(settings.frequency);
+            }
+            return Tween.ShakeScale(target.transform, settings);
+        }
+        public static Tween DOPunchScale([NotNull] this Component target, Vector3 punch, float duration, int vibrato = 10, float elasticity = 1) {
+            var shakeSettings = new ShakeSettings(punch, duration, remapFrequency(vibrato), asymmetryFactor: 1 - elasticity);
+            return Tween.PunchScale(target.transform, shakeSettings);
+        }
+        
+        public static Tween DORotate([NotNull] this Transform target, Vector3 endValue, float duration) {
+            return Tween.Rotation(target, Quaternion.Euler(endValue), duration, defaultDotweenEase);
+        }
+
+        public static Tween DOLocalRotate([NotNull] this Transform target, Vector3 endValue, float duration) {
+            return Tween.LocalRotation(target, Quaternion.Euler(endValue), duration, defaultDotweenEase);
+        }
+
+        public static Tween DOScale([NotNull] this Transform target, Single endValue, float duration) {
+            return Tween.Scale(target, endValue, duration, defaultDotweenEase);
+        }
+
+        public static int DOKill([NotNull] this Component target, bool complete = false) => doKill_internal(target, complete);
+        public static int DOKill([NotNull] this Material target, bool complete = false) => doKill_internal(target, complete);
+        static int doKill_internal([NotNull] this object target, bool complete = false) {
+            if (complete) {
+                return Tween.CompleteAll(target);
+            }
+            return Tween.StopAll(target);
+        }
+        
+        // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration, defaultDotweenEase);
+    }
+
+    public static class DOTween {
+        public static Sequence Sequence() => PrimeTween.Sequence.Create();
+        
+        public static void Kill(object target, bool complete = false) {
+            if (complete) {
+                Tween.CompleteAll(target);
+            } else {
+                Tween.StopAll(target);
+            }
+        }
+        
+        public static Tween To([NotNull] Func<float> getter, [NotNull] Action<float> setter, float endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Vector2> getter, [NotNull] Action<Vector2> setter, Vector2 endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Vector3> getter, [NotNull] Action<Vector3> setter, Vector3 endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Vector4> getter, [NotNull] Action<Vector4> setter, Vector4 endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Quaternion> getter, [NotNull] Action<Quaternion> setter, Quaternion endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Color> getter, [NotNull] Action<Color> setter, Color endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+        public static Tween To([NotNull] Func<Rect> getter, [NotNull] Action<Rect> setter, Rect endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
+    }
+
+    public static class DOVirtual {
+        public static Tween DelayedCall(float delay, Action callback, bool ignoreTimeScale = true) {
+            return Tween.Delay(delay, callback, ignoreTimeScale);
+        }
+
+        public static Tween Float(float startValue, float endValue, float duration, Action<float> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
+        public static Tween Vector3(Vector3 startValue, Vector3 endValue, float duration, Action<Vector3> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
+        public static Tween Color(Color startValue, Color endValue, float duration, Action<Color> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
+    }
+    
+    public partial struct Sequence {
+        public Sequence AppendCallback([NotNull] Action callback) {
+            return ChainCallback(callback);
+        }
+
+        public Sequence SetLoops(int loops) {
+            Assert.IsTrue(isAlive);
+            return SetCycles(loops);
+        }
+
+        public Sequence Join(Tween other) {
+            var tween = other.tween;
+            var startDelay = tween.settings.startDelay;
+            if (startDelay > 0) {
+                // For some weird reason, DG.Tweening.Sequence.DoInsert shifts the lastTweenInsertTime by a tween's delay.
+                tween.settings.startDelay = 0;
+                tween.recalculateTotalDuration();
+                Group(Tween.Delay(startDelay));
+                ChainLast(other);
+                return this;
+            }
+            return Group(other);
+        }
+        
+        /// <summary>Schedules <see cref="other"/> after the last added tween.
+        /// Internal because this API is hard to understand, but needed for adapter.</summary>
+        internal Sequence ChainLast(Tween other) {
+            Assert.IsTrue(IsCreated, Constants.defaultSequenceCtorError);
+            if (!validateIsAlive()) {
+                return this;
+            }
+            return chain(other, getLastInSelf());
+        }
+
+        public Sequence Append(Tween other) {
+            var tween = other.tween;
+            var startDelay = tween.settings.startDelay;
+            if (startDelay > 0) {
+                // For some weird reason, DG.Tweening.Sequence.DoInsert shifts the lastTweenInsertTime by a tween's delay.
+                tween.settings.startDelay = 0;
+                tween.recalculateTotalDuration();
+                Chain(Tween.Delay(startDelay));
+            }
+            return Chain(other);
+        }
+
+        public Sequence AppendInterval(float delay) {
+            return Chain(Tween.Delay(delay));
+        }
+
+        public void Kill(bool complete = false) {
+            if (complete) {
+                Complete();
+            } else {
+                Stop();
+            }
+        }
+
+        public void Complete(bool withCallbacks) {
+            if (withCallbacks) {
+                Debug.LogWarning("PrimeTween doesn't support " + nameof(Sequence) + "." + nameof(Complete) + "() " + nameof(withCallbacks) + " == true");
+            }
+            Complete();
+        }
+
+        [PublicAPI]
+        public Sequence SetEase(Ease _) {
+            Debug.LogWarning("SetEase() is not supported for sequences.");
+            return this;
+        }
+
+        public Sequence SetDelay(float delay) {
+            return PrependInterval(delay);
+        }
+
+        public Sequence OnStepComplete([NotNull] Action action) {
+            return ChainCallback(action);
+        }
+
+        public Sequence PrependInterval(float interval) {
+            Assert.IsTrue(isAlive);
+            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, interval, false);
+            Assert.IsTrue(maybeDelay.HasValue);
+            var delay = maybeDelay.Value;
+            var result = Create(delay);
+            int i = 0;
+            bool chainOpEncountered = false;
+            foreach (var t in getEnumerator()) {
+                if (t.tween.waitFor.IsCreated) {
+                    Assert.AreNotEqual(0, i);
+                    chainOpEncountered = true;
+                } else if (!chainOpEncountered) {
+                    t.tween.waitFor = delay;
+                }
+                if (i == 0) {
+                    delay.tween.setNextInSequence(t);
+                    delay.tween.sequenceCycles = t.tween.sequenceCycles;
+                    delay.tween.sequenceCyclesDone = t.tween.sequenceCyclesDone;
+                    
+                    Assert.AreEqual(2, delay.tween.aliveTweensInSequence); // Sequence.Create(delay), delay.tween.setNextInSequence(t) 
+                    delay.tween.aliveTweensInSequence = t.tween.aliveTweensInSequence + 1;
+                    t.tween.aliveTweensInSequence = 0;
+                }
+                t.tween.sequence = result;
+                i++;
+            }
+            return result;
+        }
+
+        public Sequence SetUpdate(bool isIndependentUpdate) {
+            Assert.IsTrue(isAlive);
+            foreach (var t in getEnumerator(true)) {
+                t.tween.settings.useUnscaledTime = isIndependentUpdate;
+            }
+            return this;
+        }
+
+        public Sequence AsyncWaitForCompletion() => this;
+
+        public IEnumerator WaitForCompletion() => ToYieldInstruction();
+    }
+    
+    public partial struct Tween {
+        public Tween SetEase(Ease ease, float? amplitude = null, float? period = null) {
+            Assert.IsTrue(isAlive);
+            var parametricEasing = getParametricEasing(ease, amplitude, period);
+            tween.settings.SetEasing(parametricEasing);
+            return this;
+        }
+
+        static Easing getParametricEasing(Ease ease, float? maybeStrength, float? maybePeriod) {
+            #if PRIME_TWEEN_EXPERIMENTAL
+            var strength = maybeStrength ?? 1;
+            switch (ease) {
+                case Ease.OutBack:
+                    if (maybePeriod.HasValue) {
+                        Debug.LogWarning("Ease.OutBack doesn't support custom period.");
+                    }
+                    return Easing.Overshoot(strength / StandardEasing.backEaseConst);
+                case Ease.OutElastic:
+                    return Easing.Elastic(strength, maybePeriod ?? 0.3f);
+            }
+            #endif
+            Debug.LogWarning($"Custom amplitude/period is not supported for {ease} ease. Consider using custom ease curve instead.");
+            return Easing.Standard(ease);
+        }
+        
+        public Tween SetDelay(float delay) {
+            Assert.IsTrue(isAlive);
+            tween.settings.startDelay = delay;
+            tween.recalculateTotalDuration();
+            return this;
+        }
+
+        public Tween SetRelative(bool isRelative = true) {
+            Assert.IsTrue(isAlive);
+            if (isRelative) {
+                if (tween.settings.startDelay != 0) {
+                    Debug.LogWarning("SetRelative() immediately adds the dest and doesn't wait for startDelay.");
+                }
+                var getter = tween.getter;
+                if (tween.propType == PropType.Quaternion) {
+                    if (getter != null) {
+                        tween.endValue.QuaternionVal *= getter(tween).QuaternionVal;
+                    } else {
+                        tween.endValue.QuaternionVal *= tween.startValue.QuaternionVal;
+                    }
+                } else {
+                    if (getter != null) {
+                        tween.endValue.Vector4Val += getter(tween).Vector4Val;
+                    } else {
+                        tween.endValue.Vector4Val += tween.startValue.Vector4Val;
+                    }    
+                }
+            }
+            return this;
+        }
+
+        public Tween SetLoops(int loops, LoopType loopType = LoopType.Restart) {
+            Assert.IsTrue(isAlive);
+            SetCycles(loops);
+            tween.settings.cycleMode = toCycleMode(loopType);
+            return this;
+        }
+
+        static CycleMode toCycleMode(LoopType t) {
+            switch (t) {
+                case LoopType.Restart:
+                    return CycleMode.Restart;
+                case LoopType.Yoyo:
+                    // yoyo in dotween behaves like rewind. But yoyo in other tween libraries (like tween.js) preserves the normal ease 
+                    return CycleMode.Rewind;
+                case LoopType.Incremental:
+                    return CycleMode.Incremental;
+                default:
+                    throw new Exception();
+            }
+        }
+
+        public void Kill(bool complete = false) {
+            if (complete) {
+                Complete();
+            } else {
+                Stop();
+            }
+        }
+
+        public bool IsActive() => isAlive;
+        public bool active => isAlive;
+        public bool IsPlaying() => isAlive && !isPaused;
+
+        public Tween Pause() {
+            isPaused = true;
+            return this;
+        }
+
+        public Tween Play() {
+            isPaused = false;
+            return this;
+        }
+
+        public float Elapsed(bool includeLoops = true) => includeLoops ? elapsedTimeTotal : elapsedTime;
+        public float Duration(bool includeLoops = true) => includeLoops ? durationTotal : duration;
+        public int Loops() => cyclesTotal;
+        public int CompletedLoops() => cyclesDone;
+        public float ElapsedDelay() => isAlive ? Mathf.Clamp(elapsedTime, 0f, tween.settings.startDelay) : 0;
+        public float ElapsedPercentage(bool includeLoops = true) => includeLoops ? progressTotal : progress;
+        public void TogglePause() => isPaused = !isPaused;
+
+        public Tween SetEase([NotNull] AnimationCurve customCurve) {
+            Assert.IsTrue(isAlive);
+            Assert.IsNotNull(customCurve);
+            tween.settings.SetEasing(Easing.Curve(customCurve));
+            return this;
+        }
+
+        public Tween SetTarget([NotNull] object target) {
+            Assert.IsNotNull(target);
+            Assert.IsTrue(isAlive);
+            tween.target = target;
+            tween.setUnityTarget(target);
+            return this;
+        }
+
+        public IEnumerator WaitForCompletion() => ToYieldInstruction();
+
+        public Tween AsyncWaitForCompletion() => this;
+
+        public Tween SetUpdate(bool isIndependentUpdate) {
+            Assert.IsTrue(isAlive);
+            tween.settings.useUnscaledTime = isIndependentUpdate;
+            return this;
+        }
+
+        public Tween From(float fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Color fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Vector2 fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Vector3 fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Vector4 fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Quaternion fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From(Rect fromValue) => setFrom(fromValue.ToContainer());
+
+        Tween setFrom(ValueContainer fromValue) {
+            Assert.IsTrue(isAlive);
+            tween.startFromCurrent = false;
+            tween.startValue = fromValue;
+            tween.cacheDiff();
+            return this;
+        }
+        
+        public Tween From() {
+            Assert.IsTrue(isAlive);
+            var getter = tween.getter;
+            if (getter != null) {
+                tween.startFromCurrent = false;
+                tween.startValue = tween.endValue;
+                tween.endValue = getter(tween);
+            } else {
+                (tween.startValue, tween.endValue) = (tween.endValue, tween.startValue);
+            }
+            tween.cacheDiff();
+            return this;
+        }
+    }
+    
+    public enum LoopType {
+        Restart,
+        Yoyo,
+        Incremental
+    }
+}
+#endif

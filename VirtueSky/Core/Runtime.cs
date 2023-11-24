@@ -1,5 +1,4 @@
 using UnityEngine;
-using VirtueSky.Tween;
 
 namespace VirtueSky.Core
 {
@@ -11,9 +10,6 @@ namespace VirtueSky.Core
             var app = new GameObject("AppGlobal");
             App.InitMonoGlobalComponent(app.AddComponent<MonoGlobal>());
             Object.DontDestroyOnLoad(app);
-
-            var tween = new GameObject("Tween");
-            TweenManager.InitGlobalTween(tween.AddComponent<GlobalTween>());
         }
     }
 }

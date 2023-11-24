@@ -1,9 +1,9 @@
+using PrimeTween;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VirtueSky.Attributes;
 using VirtueSky.Events;
-using VirtueSky.Tween;
 using VirtueSky.Misc;
 using Button = UnityEngine.UI.Button;
 
@@ -21,7 +21,7 @@ namespace VirtueSky.UIButton
         [Title("Motion", CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
         private bool isMotion = true;
 
-        [SerializeField] private EasingTypes easingTypes = EasingTypes.QuinticOut;
+        [SerializeField] private Ease easingTypes = Ease.OutQuint;
 
         [SerializeField] private float scale = 0.9f;
         [SerializeField] private bool isShrugOver;
@@ -29,9 +29,8 @@ namespace VirtueSky.UIButton
         [SerializeField] private float strength = .2f;
 
         Vector3 originScale = Vector3.one;
-        private Coroutine coroutine;
-        private Coroutine coroutine2;
         private bool canShrug = true;
+        private Tween _tween;
 
         protected override void OnEnable()
         {
@@ -70,12 +69,7 @@ namespace VirtueSky.UIButton
         {
             if (isMotion)
             {
-                if (coroutine != null)
-                {
-                    TweenManager.StopTween(coroutine);
-                }
-
-                coroutine = transform.ScaleTo(originScale * scale, .15f, easingTypes);
+                _tween = Tween.Scale(transform, originScale * scale, .15f, easingTypes);
             }
         }
 
@@ -86,7 +80,7 @@ namespace VirtueSky.UIButton
                 canShrug = false;
                 if (isMotion && isShrugOver)
                 {
-                    transform.Shrug(.2f, .2f, EasingTypes.QuadraticOut, () => { canShrug = true; });
+                    transform.Shrug(timeShrug, strength, Ease.OutQuad, () => { canShrug = true; });
                 }
             }
         }
@@ -95,16 +89,7 @@ namespace VirtueSky.UIButton
         {
             if (isMotion)
             {
-                if (coroutine != null)
-                {
-                    TweenManager.StopTween(coroutine);
-                }
-
-                // if (coroutine2 != null)
-                // {
-                //     TweenManager.StopTween(coroutine2);
-                // }
-
+                _tween.Stop();
                 transform.localScale = originScale;
             }
         }

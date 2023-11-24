@@ -1,12 +1,12 @@
 using UnityEngine;
-using VirtueSky.Tween;
+using PrimeTween;
 
 namespace VirtueSky.Component
 {
     public class EffectAppearComponent : MonoBehaviour
     {
         [Range(0, 2f)] public float TimeScale = .7f;
-        public EasingTypes easingTypes;
+        public Ease ease = Ease.OutBack;
         public Vector3 fromScale;
         private Vector3 CurrentScale;
 
@@ -24,7 +24,7 @@ namespace VirtueSky.Component
         public void DoEffect()
         {
             if (!gameObject.activeInHierarchy) return;
-            transform.ScaleTo(CurrentScale, TimeScale, easingTypes);
+            Tween.Scale(transform, CurrentScale, TimeScale, ease);
         }
     }
 }
