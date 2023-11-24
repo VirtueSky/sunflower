@@ -4,16 +4,12 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `2.1.9`
+for version `2.2.0`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.1.9",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.2.0",
 ```
 
 #### Note:
-- If you are missing newtonsoft json, please paste the line below into add package from git URl at Window > Package Manager
-  ```
-  com.unity.nuget.newtonsoft-json
-  ```
 
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
 
