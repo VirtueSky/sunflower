@@ -9,7 +9,7 @@
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfAttributeDrawer : PropertyDrawer
     {
-        private bool isShowButton = true;
+        private bool isFieldShow = true;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -38,7 +38,7 @@
                         try
                         {
                             bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
-                            isShowButton = conditionField.boolValue == comparationValue;
+                            isFieldShow = conditionField.boolValue == comparationValue;
                         }
                         catch
                         {
@@ -67,9 +67,9 @@
                             {
                                 string enumValue = Enum.GetValues(paramEnum.GetType()).GetValue(conditionField.enumValueIndex).ToString();
                                 if (paramEnum.ToString() != enumValue)
-                                    isShowButton = false;
+                                    isFieldShow = false;
                                 else
-                                    isShowButton = true;
+                                    isFieldShow = true;
                             }
                         }
                         else if (UtilityDraw.IsEnum(paramEnumArray))
@@ -84,9 +84,9 @@
                             {
                                 string enumValue = Enum.GetValues(paramEnumArray[0].GetType()).GetValue(conditionField.enumValueIndex).ToString();
                                 if (paramEnumArray.All(x => x.ToString() != enumValue))
-                                    isShowButton = false;
+                                    isFieldShow = false;
                                 else
-                                    isShowButton = true;
+                                    isFieldShow = true;
                             }
                         }
                         else
@@ -123,7 +123,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue == value;
+                                isFieldShow = conditionValue == value;
                         }
                         else if (stringValue.StartsWith("!="))
                         {
@@ -131,7 +131,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue != value;
+                                isFieldShow = conditionValue != value;
                         }
                         else if (stringValue.StartsWith("<="))
                         {
@@ -139,7 +139,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue <= value;
+                                isFieldShow = conditionValue <= value;
                         }
                         else if (stringValue.StartsWith(">="))
                         {
@@ -147,7 +147,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue >= value;
+                                isFieldShow = conditionValue >= value;
                         }
                         else if (stringValue.StartsWith("<"))
                         {
@@ -155,7 +155,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue < value;
+                                isFieldShow = conditionValue < value;
                         }
                         else if (stringValue.StartsWith(">"))
                         {
@@ -163,7 +163,7 @@
                             if (value == null)
                                 error = true;
                             else
-                                isShowButton = conditionValue > value;
+                                isFieldShow = conditionValue > value;
                         }
 
                         if (error)
@@ -181,14 +181,16 @@
 
             else if (methodInfo != null)
             {
-                isShowButton = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == (bool)attribute.comparationValue;
+                bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
+                isFieldShow = (bool)methodInfo.Invoke(property.serializedObject.targetObject, null) == comparationValue;
             }
             else if (propertyInfo != null)
             {
-                isShowButton = (bool)propertyInfo.GetValue(property.serializedObject.targetObject) == (bool)attribute.comparationValue;
+                bool comparationValue = attribute.comparationValue == null || (bool)attribute.comparationValue;
+                isFieldShow = (bool)propertyInfo.GetValue(property.serializedObject.targetObject) == comparationValue;
             }
 
-            if (isShowButton)
+            if (isFieldShow)
             {
                 EditorGUI.PropertyField(position, property, true);
             }
@@ -196,7 +198,7 @@
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            if (isShowButton)
+            if (isFieldShow)
                 return EditorGUI.GetPropertyHeight(property);
             else
                 return -EditorGUIUtility.standardVerticalSpacing;
@@ -205,7 +207,7 @@
         private void ShowError(Rect position, GUIContent label, string errorText)
         {
             EditorGUI.LabelField(position, label, new GUIContent(errorText));
-            isShowButton = true;
+            isFieldShow = true;
         }
     }
 }
