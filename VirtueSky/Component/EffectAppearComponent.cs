@@ -9,6 +9,7 @@ namespace VirtueSky.Component
         public Ease ease = Ease.OutBack;
         public Vector3 fromScale;
         private Vector3 CurrentScale;
+        private Tween _tween;
 
         public void Awake()
         {
@@ -24,7 +25,7 @@ namespace VirtueSky.Component
         public void DoEffect()
         {
             if (!gameObject.activeInHierarchy) return;
-            Tween.Scale(transform, CurrentScale, TimeScale, ease);
+            _tween = Tween.Scale(transform, CurrentScale, TimeScale, ease).OnComplete(() => { _tween.Stop(); });
         }
     }
 }
