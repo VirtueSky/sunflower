@@ -48,8 +48,15 @@ namespace VirtueSky.UIButton
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
-            clickButtonEvent.Raise();
             DoScale();
+            if (clickButtonEvent != null)
+            {
+                clickButtonEvent.Raise();
+            }
+            else
+            {
+                Debug.Log($"Click button event ({gameObject.name}) null");
+            }
         }
 
 
