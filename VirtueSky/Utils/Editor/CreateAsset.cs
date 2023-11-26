@@ -42,7 +42,7 @@ namespace VirtueSky.UtilsEditor
             while (AssetDatabase.LoadAssetAtPath<T>(assetPath) != null)
             {
                 assetCounter++;
-                assetPath = $"{DefaultResourcesPath(path)}/{assetName} {assetCounter}.asset";
+                assetPath = $"{DefaultResourcesPath(path)}/{CreateNameBasedOnGameObjectNamingScheme(assetName, assetCounter)}.asset";
             }
 
             var setting = ScriptableObject.CreateInstance<T>();
@@ -56,7 +56,8 @@ namespace VirtueSky.UtilsEditor
         }
 
 
-        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "") where T : ScriptableObject
+        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "")
+            where T : ScriptableObject
         {
             var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             if (so == null)
@@ -66,6 +67,34 @@ namespace VirtueSky.UtilsEditor
             }
 
             return so;
+        }
+
+        // public enum NamingScheme
+        // {
+        //     /// <summary>
+        //     ///   <para>Adds a space and a number in parenthesis to the name of an instantiated or duplicated GameObject ("Prefab (1)").</para>
+        //     /// </summary>
+        //     SpaceParenthesis,
+        //     /// <summary>
+        //     ///   <para>Adds a dot followed by a number to the name of an instantiated or duplicated GameObject ("Prefab.1").</para>
+        //     /// </summary>
+        //     Dot,
+        //     /// <summary>
+        //     ///   <para>Adds an underscore and a number to the name of an instantiated or duplicated GameObject ("Prefab_1").</para>
+        //     /// </summary>
+        //     Underscore,
+        // }
+        private static string CreateNameBasedOnGameObjectNamingScheme(string baseName, int counter)
+        {
+            EditorSettings.NamingScheme currentNamingScheme = EditorSettings.gameObjectNamingScheme;
+            return currentNamingScheme switch
+            {
+                EditorSettings.NamingScheme.SpaceParenthesis => $"{baseName} ({counter})",
+                EditorSettings.NamingScheme.Dot => $"{baseName}.{counter}",
+                EditorSettings.NamingScheme.Underscore => $"{baseName}_{counter}",
+                _ => $"{baseName} ({counter})"
+            };
+            
         }
 #endif
 
