@@ -4,8 +4,8 @@ using UnityEditor;
 
 namespace VirtueSky.Attributes
 {
-    [CustomEditor(typeof(MonoBehaviour), true)]
-    public class MonoBehaviourButtonInspector : Editor
+    [CustomEditor(typeof(Object), true)]
+    public class CustomizeDrawInspector : Editor
     {
         public ButtonDrawer mButtonDrawer;
         public ButtonShowIfDrawer buttonShowIfDrawer;
@@ -19,8 +19,15 @@ namespace VirtueSky.Attributes
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            mButtonDrawer.Draw();
-            buttonShowIfDrawer.Draw();
+            if (mButtonDrawer != null)
+            {
+                mButtonDrawer.Draw();
+            }
+
+            if (buttonShowIfDrawer != null)
+            {
+                buttonShowIfDrawer.Draw();
+            }
         }
     }
 }
