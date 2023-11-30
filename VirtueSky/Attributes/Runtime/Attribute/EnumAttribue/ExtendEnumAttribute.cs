@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-[System.AttributeUsage(System.AttributeTargets.Field)]
-public class ExtendEnumAttribute : PropertyAttribute
+namespace VirtueSky.Attributes
 {
-    public readonly bool display = true;
-
-    public ExtendEnumAttribute(bool displayValues = true)
+    [System.AttributeUsage(System.AttributeTargets.Field)]
+    public class ExtendEnumAttribute : PropertyAttribute
     {
-        display = displayValues;
+        public readonly bool display = true;
+
+        public ExtendEnumAttribute(bool displayValues = true)
+        {
+            display = displayValues;
+        }
     }
 }
