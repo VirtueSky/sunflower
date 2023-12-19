@@ -27,7 +27,11 @@ namespace VirtueSky.Iap
         {
             @event.Raise();
         }
-        //  public static bool IsPurchased(this IapDataVariable product, ScriptableEventIAPFuncProduct @event) { return @event.Raise(product); }
+
+        public static bool IsPurchased(this IapDataVariable product, EventIsPurchaseProduct @event)
+        {
+            return @event.Raise(product);
+        }
     }
 }
 #endif
