@@ -46,6 +46,11 @@ namespace VirtueSky.Ads
 
         public static AdUnitVariable OnCompleted(this AdUnitVariable unit, Action onCompleted)
         {
+            if (!Application.isMobilePlatform)
+            {
+                onCompleted?.Invoke();
+            }
+
             switch (unit)
             {
                 case AdmobInterVariable admobInter:
