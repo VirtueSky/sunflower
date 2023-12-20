@@ -2,7 +2,7 @@ using PrimeTween;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 using VirtueSky.Events;
 using VirtueSky.Misc;
 using Button = UnityEngine.UI.Button;
@@ -18,7 +18,7 @@ namespace VirtueSky.UIButton
     {
         public ClickButtonEvent clickButtonEvent;
 
-        [Title("Motion", CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
+        [TitleColor("Motion", CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
         private bool isMotion = true;
 
         [SerializeField] private Ease easingTypes = Ease.OutQuint;

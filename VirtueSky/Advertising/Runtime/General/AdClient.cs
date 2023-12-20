@@ -1,5 +1,5 @@
 using UnityEngine;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;

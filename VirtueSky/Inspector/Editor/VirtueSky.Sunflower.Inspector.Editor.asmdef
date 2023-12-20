@@ -1,0 +1,19 @@
+{
+    "name": "VirtueSky.Sunflower.Inspector.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Unity.InternalAPIEditorBridge.013",
+        "VirtueSky.Sunflower.Inspector"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Iap
 {
