@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 
 
 namespace VirtueSky.Core

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 using VirtueSky.Core;
 using VirtueSky.Misc;
 

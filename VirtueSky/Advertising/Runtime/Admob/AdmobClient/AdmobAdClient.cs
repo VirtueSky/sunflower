@@ -2,7 +2,7 @@
 using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
-using VirtueSky.Attributes;
+using VirtueSky.Inspector;
 using VirtueSky.Core;
 
 namespace VirtueSky.Ads
