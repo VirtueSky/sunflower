@@ -2,13 +2,12 @@
 using System.IO;
 using UnityEngine;
 using VirtueSky.Inspector;
-using VirtueSky.Core;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Notifications
 {
     [CreateAssetMenu(fileName = "notification_channel_data.asset", menuName = "Notification Channel")]
-    public class NotificationVariable : BaseSO
+    public class NotificationVariable : ScriptableObject
     {
         [Serializable]
         public class NotificationData
@@ -30,7 +29,8 @@ namespace VirtueSky.Notifications
 
         [ShowIf(nameof(bigPicture))]
 #if UNITY_EDITOR
-        [HelpBox("File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
+        [HelpBox(
+            "File big picture must be place in folder StreamingAsset, Name Picture must contains file extension ex .jpg")]
 #endif
 
         [SerializeField]
@@ -39,11 +39,9 @@ namespace VirtueSky.Notifications
         [SerializeField] internal bool overrideIcon;
 
         [SerializeField, ShowIf(nameof(overrideIcon))]
-        // Label("  Small Icon")
         internal string smallIcon = "icon_0";
 
         [SerializeField, ShowIf(nameof(overrideIcon))]
-        //   Label("  Large Icon")
         internal string largeIcon = "icon_1";
 
 
