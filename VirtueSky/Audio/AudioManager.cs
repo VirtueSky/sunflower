@@ -162,7 +162,7 @@ namespace VirtueSky.Audio
                 music.transform.SetParent(this.transform);
             }
 
-            music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume,
+            music.FadePlayMusic(soundData.GetAudioClip(), soundData.volume * musicVolume.Value,
                 soundData.isMusicFadeVolume ? soundData.fadeOutDuration : 0,
                 soundData.isMusicFadeVolume ? soundData.fadeInDuration : 0);
             music.OnCompleted += StopAudioMusic;
