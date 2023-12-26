@@ -76,7 +76,9 @@ namespace VirtueSky.Iap
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            bool validatedPurchase = true;
+            if (iapSetting.IsValidatePurchase)
+            {
+                bool validatedPurchase = true;
 #if (UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
             var validator =
                 new UnityEngine.Purchasing.Security.CrossPlatformValidator(UnityEngine.Purchasing.Security.GooglePlayTangle.Data(),
@@ -95,8 +97,6 @@ namespace VirtueSky.Iap
                 validatedPurchase = false;
             }
 #endif
-            if (iapSetting.IsValidatePurchase)
-            {
                 if (validatedPurchase) PurchaseVerified(purchaseEvent);
             }
             else
