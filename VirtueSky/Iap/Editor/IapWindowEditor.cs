@@ -26,6 +26,12 @@ namespace VirtueSky.Iap
         {
             CreateAsset.CreateScriptableAssets<EventIapProduct>("/Iap", "iap_purchase_product");
         }
+
+        [MenuItem("Sunflower/Iap/Iap Is Purchase Product Event")]
+        public static void CreateIsPurchaseProductEvent()
+        {
+            CreateAsset.CreateScriptableAssets<EventIsPurchaseProduct>("/Iap", "iap_is_purchase_product");
+        }
 #endif
     }
 }
