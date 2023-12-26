@@ -10,7 +10,7 @@ namespace VirtueSky.Rating
     {
         #region In App Review
 
-        [MenuItem("Sunflower/ScriptableObject/InAppReview")]
+        [MenuItem("Sunflower/InAppReview")]
         public static void CreateInAppReview()
         {
             CreateAsset.CreateScriptableAssets<InAppReview>("/InAppReview", "in_app_review");
