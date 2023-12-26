@@ -29,7 +29,11 @@ namespace VirtueSky.Iap
         {
             base.OnEnable();
             eventIapProduct.AddListener(PurchaseProduct);
-            eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
+            if (eventIsPurchaseProduct != null)
+            {
+                eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
+            }
+
 #if UNITY_IOS
              restoreEvent.AddListener(RestorePurchase);
 #endif
@@ -39,7 +43,11 @@ namespace VirtueSky.Iap
         {
             base.OnDisable();
             eventIapProduct.RemoveListener(PurchaseProduct);
-            eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
+            if (eventIsPurchaseProduct != null)
+            {
+                eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
+            }
+
 #if UNITY_IOS
              restoreEvent.RemoveListener(RestorePurchase);
 #endif
