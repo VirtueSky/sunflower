@@ -237,7 +237,7 @@ namespace VirtueSky.Iap
             {
                 Debug.Log("Restore purchase started ...");
 
-                var storeProvider = _extensions.GetExtension<IAppleExtensions>();
+                var storeProvider = _extensionProvider.GetExtension<IAppleExtensions>();
                 storeProvider.RestoreTransactions(_ =>
                 {
                     // no purchase are avaiable to restore
