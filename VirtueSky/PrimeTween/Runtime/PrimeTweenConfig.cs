@@ -1,19 +1,15 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace PrimeTween
-{
+namespace PrimeTween {
     /// Global PrimeTween configuration.
     [PublicAPI]
-    public static partial class PrimeTweenConfig
-    {
-        static PrimeTweenManager Instance
-        {
-            get
-            {
-#if UNITY_EDITOR
-                Assert.IsFalse(Constants.isEditMode, Constants.editModeWarning);
-#endif
+    public static partial class PrimeTweenConfig {
+        internal static PrimeTweenManager Instance {
+            get {
+                #if UNITY_EDITOR
+                Assert.IsFalse(Constants.noInstance, Constants.editModeWarning);
+                #endif
                 return PrimeTweenManager.Instance;
             }
         }
@@ -32,57 +28,52 @@ namespace PrimeTween
         /// }
         /// </code>
         /// </example>
-        public static void SetTweensCapacity(int capacity)
-        {
+        public static void SetTweensCapacity(int capacity) {
             Assert.IsTrue(capacity >= 0);
             var instance = Instance;
-            if (instance == null)
-            {
+            if (instance == null) {
                 PrimeTweenManager.customInitialCapacity = capacity;
-            }
-            else
-            {
+            } else {
                 instance.SetTweensCapacity(capacity);
             }
         }
 
-        public static Ease defaultEase
-        {
+        public static Ease defaultEase {
             get => Instance.defaultEase;
-            set
-            {
-                Assert.AreNotEqual(Ease.Custom, value);
-                Assert.AreNotEqual(Ease.Default, value);
+            set {
+                if (value == Ease.Custom || value == Ease.Default) {
+                    Debug.LogError("defaultEase can't be Ease.Custom or Ease.Default.");
+                    return;
+                }
                 Instance.defaultEase = value;
             }
         }
-
-        public static bool warnTweenOnDisabledTarget
-        {
+        
+        public static bool warnTweenOnDisabledTarget {
             set => Instance.warnTweenOnDisabledTarget = value;
         }
-
-        public static bool warnZeroDuration
-        {
+        
+        public static bool warnZeroDuration {
             internal get => Instance.warnZeroDuration;
             set => Instance.warnZeroDuration = value;
         }
 
-        public static bool warnStructBoxingAllocationInCoroutine
-        {
+        public static bool warnStructBoxingAllocationInCoroutine {
             set => Instance.warnStructBoxingAllocationInCoroutine = value;
         }
 
-        public static bool validateCustomCurves
-        {
+        public static bool validateCustomCurves {
             set => Instance.validateCustomCurves = value;
         }
 
-        public static bool warnBenchmarkWithAsserts
-        {
+        public static bool warnBenchmarkWithAsserts {
             set => Instance.warnBenchmarkWithAsserts = value;
         }
 
         internal const bool defaultUseUnscaledTimeForShakes = false;
+
+        public static bool warnEndValueEqualsCurrent {
+            set => Instance.warnEndValueEqualsCurrent = value;
+        }
     }
 }

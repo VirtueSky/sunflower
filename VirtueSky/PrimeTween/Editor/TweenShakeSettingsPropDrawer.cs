@@ -30,6 +30,7 @@ internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
         count++; // startDelay
         count++; // endDelay
         count++; // useUnscaledTime
+        count++; // useFixedUpdate
         var result = singleLineHeight * count + standardVerticalSpacing * (count - 1);
         result += standardVerticalSpacing * 2; // extra space
         return result;

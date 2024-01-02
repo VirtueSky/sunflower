@@ -1,7 +1,6 @@
-namespace PrimeTween
-{
-    internal enum PropType
-    {
+
+namespace PrimeTween {
+    internal enum PropType {
         None = 0,
         Float,
         Color,
@@ -9,6 +8,7 @@ namespace PrimeTween
         Vector3,
         Vector4,
         Quaternion,
-        Rect
+        Rect,
+        Int
     }
 }

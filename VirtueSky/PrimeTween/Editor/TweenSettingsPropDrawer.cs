@@ -30,6 +30,7 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
         count++; // startDelay
         count++; // endDelay
         count++; // useUnscaledTime
+        count++; // useFixedUpdate
         var result = singleLineHeight * count + standardVerticalSpacing * (count - 1);
         result += standardVerticalSpacing * 2; // extra spacing
         return result;
@@ -104,6 +105,11 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
             }
         }
         { // useUnscaledTime
+            property.NextVisible(true);
+            PropertyField(rect, property);
+            moveToNextLine(ref rect);
+        }
+        { // useFixedUpdate
             property.NextVisible(true);
             PropertyField(rect, property);
             moveToNextLine(ref rect);

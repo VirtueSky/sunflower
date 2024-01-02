@@ -148,6 +148,10 @@ namespace PrimeTween {
         #endif
         #if UI_ELEMENTS_MODULE_INSTALLED
         #endif
+        #if TEXT_MESH_PRO_INSTALLED
+        public static Tween DOMaxVisibleCharacters([NotNull] this TMPro.TMP_Text target, int endValue, float duration) => Tween.TextMaxVisibleCharacters(target, endValue, duration, defaultDotweenEase);
+
+        #endif
     }
 }
 #endif

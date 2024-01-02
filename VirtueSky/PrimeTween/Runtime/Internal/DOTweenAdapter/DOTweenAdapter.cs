@@ -1,6 +1,7 @@
+// todo add Sequence.SetEase()
 // ReSharper disable UnusedMember.Global
-// ReSharper disable MemberCanBePrivate.Global
-
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedParameter.Local
 #if PRIME_TWEEN_DOTWEEN_ADAPTER
 using System;
 using System.Collections;
@@ -15,11 +16,9 @@ namespace PrimeTween {
             return (int) (frequency * 1.35f);
         }
 
-        public static Tween DOShakePosition([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool snapping =
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            false, bool fadeOut = true) 
+        public static Tween DOShakePosition([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool snapping = false, bool fadeOut = true) 
             => DOShakePosition(target, duration, Vector3.one * strength, vibrato, randomness, snapping, fadeOut);
-        public static Tween DOShakePosition([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool snapping =
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   false, bool fadeOut = true) {
+        public static Tween DOShakePosition([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool snapping = false, bool fadeOut = true) {
             if (Math.Abs(randomness - 90f) > 0.001f) {
                 Debug.LogWarning("PrimeTween doesn't support " + nameof(randomness));
             }
@@ -91,11 +90,13 @@ namespace PrimeTween {
 
         public static int DOKill([NotNull] this Component target, bool complete = false) => doKill_internal(target, complete);
         public static int DOKill([NotNull] this Material target, bool complete = false) => doKill_internal(target, complete);
-        static int doKill_internal([NotNull] this object target, bool complete = false) {
-            if (complete) {
-                return Tween.CompleteAll(target);
-            }
-            return Tween.StopAll(target);
+
+        internal static int doKill_internal([CanBeNull] object target, bool complete = false) {
+            bool prevLogCantManipulateError = PrimeTweenManager.logCantManipulateError;
+            PrimeTweenManager.logCantManipulateError = false;
+            var result = complete ? Tween.CompleteAll(target) : Tween.StopAll(target);
+            PrimeTweenManager.logCantManipulateError = prevLogCantManipulateError;
+            return result;
         }
         
         // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration, defaultDotweenEase);
@@ -104,14 +105,10 @@ namespace PrimeTween {
     public static class DOTween {
         public static Sequence Sequence() => PrimeTween.Sequence.Create();
         
-        public static void Kill(object target, bool complete = false) {
-            if (complete) {
-                Tween.CompleteAll(target);
-            } else {
-                Tween.StopAll(target);
-            }
-        }
+        public static void Kill([NotNull] object target, bool complete = false) => DOTweenAdapter.doKill_internal(target, complete);
         
+        public static void KillAll(bool complete = false) => DOTweenAdapter.doKill_internal(null, complete);
+
         public static Tween To([NotNull] Func<float> getter, [NotNull] Action<float> setter, float endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
         public static Tween To([NotNull] Func<Vector2> getter, [NotNull] Action<Vector2> setter, Vector2 endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
         public static Tween To([NotNull] Func<Vector3> getter, [NotNull] Action<Vector3> setter, Vector3 endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
@@ -137,9 +134,13 @@ namespace PrimeTween {
         }
 
         public Sequence SetLoops(int loops) {
+            // todo add LoopType parameter
             Assert.IsTrue(isAlive);
-            return SetCycles(loops);
+            SetRemainingCycles(loops);
+            return this;
         }
+
+        public Sequence Join(Sequence other) => Group(other);
 
         public Sequence Join(Tween other) {
             var tween = other.tween;
@@ -158,12 +159,13 @@ namespace PrimeTween {
         /// <summary>Schedules <see cref="other"/> after the last added tween.
         /// Internal because this API is hard to understand, but needed for adapter.</summary>
         internal Sequence ChainLast(Tween other) {
-            Assert.IsTrue(IsCreated, Constants.defaultSequenceCtorError);
-            if (!validateIsAlive()) {
+            if (!tryManipulate()) {
                 return this;
             }
-            return chain(other, getLastInSelf());
+            return chain(other, getLastInSelfOrRoot().durationWithWaitDelay);
         }
+
+        public Sequence Append(Sequence other) => Chain(other);
 
         public Sequence Append(Tween other) {
             var tween = other.tween;
@@ -211,40 +213,20 @@ namespace PrimeTween {
         }
 
         public Sequence PrependInterval(float interval) {
-            Assert.IsTrue(isAlive);
-            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, interval, false);
-            Assert.IsTrue(maybeDelay.HasValue);
-            var delay = maybeDelay.Value;
-            var result = Create(delay);
-            int i = 0;
-            bool chainOpEncountered = false;
-            foreach (var t in getEnumerator()) {
-                if (t.tween.waitFor.IsCreated) {
-                    Assert.AreNotEqual(0, i);
-                    chainOpEncountered = true;
-                } else if (!chainOpEncountered) {
-                    t.tween.waitFor = delay;
-                }
-                if (i == 0) {
-                    delay.tween.setNextInSequence(t);
-                    delay.tween.sequenceCycles = t.tween.sequenceCycles;
-                    delay.tween.sequenceCyclesDone = t.tween.sequenceCyclesDone;
-                    
-                    Assert.AreEqual(2, delay.tween.aliveTweensInSequence); // Sequence.Create(delay), delay.tween.setNextInSequence(t) 
-                    delay.tween.aliveTweensInSequence = t.tween.aliveTweensInSequence + 1;
-                    t.tween.aliveTweensInSequence = 0;
-                }
-                t.tween.sequence = result;
-                i++;
+            if (!tryManipulate() || !validateCanAddChildren()) {
+                return this;
             }
-            return result;
+            foreach (var t in getSelfChildren()) {
+                t.tween.waitDelay += interval;
+            }
+            duration += interval;
+            return this;
         }
 
         public Sequence SetUpdate(bool isIndependentUpdate) {
             Assert.IsTrue(isAlive);
-            foreach (var t in getEnumerator(true)) {
-                t.tween.settings.useUnscaledTime = isIndependentUpdate;
-            }
+            Assert.IsTrue(root.tween.isMainSequenceRoot());
+            root.tween.settings.useUnscaledTime = isIndependentUpdate;
             return this;
         }
 
@@ -262,7 +244,6 @@ namespace PrimeTween {
         }
 
         static Easing getParametricEasing(Ease ease, float? maybeStrength, float? maybePeriod) {
-            #if PRIME_TWEEN_EXPERIMENTAL
             var strength = maybeStrength ?? 1;
             switch (ease) {
                 case Ease.OutBack:
@@ -273,13 +254,12 @@ namespace PrimeTween {
                 case Ease.OutElastic:
                     return Easing.Elastic(strength, maybePeriod ?? 0.3f);
             }
-            #endif
-            Debug.LogWarning($"Custom amplitude/period is not supported for {ease} ease. Consider using custom ease curve instead.");
             return Easing.Standard(ease);
         }
         
         public Tween SetDelay(float delay) {
             Assert.IsTrue(isAlive);
+            Assert.IsFalse(tween.IsInSequence());
             tween.settings.startDelay = delay;
             tween.recalculateTotalDuration();
             return this;
@@ -311,7 +291,7 @@ namespace PrimeTween {
 
         public Tween SetLoops(int loops, LoopType loopType = LoopType.Restart) {
             Assert.IsTrue(isAlive);
-            SetCycles(loops);
+            SetRemainingCycles(loops);
             tween.settings.cycleMode = toCycleMode(loopType);
             return this;
         }

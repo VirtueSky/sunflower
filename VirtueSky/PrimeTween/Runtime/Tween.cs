@@ -1,3 +1,4 @@
+// ReSharper disable CompareOfFloatsByEqualityOperator
 #if PRIME_TWEEN_INSPECTOR_DEBUGGING && UNITY_EDITOR
 #define ENABLE_SERIALIZATION
 #endif
@@ -5,8 +6,7 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace PrimeTween
-{
+namespace PrimeTween {
     /// <summary>The main API of the PrimeTween library.<br/><br/>
     /// Use static Tween methods to start animations (tweens).<br/>
     /// Use the returned Tween struct to control the running tween and access its properties.<br/><br/>
@@ -22,171 +22,259 @@ namespace PrimeTween
     ///     Debug.Log("Animation is already completed.");
     /// }
     /// </code></example>
-#if ENABLE_SERIALIZATION
+    #if ENABLE_SERIALIZATION
     [Serializable]
-#endif
-    public
-#if !ENABLE_SERIALIZATION
+    #endif
+    public 
+        #if !ENABLE_SERIALIZATION
         readonly
-#endif
-        partial struct Tween : IEquatable<Tween>
-    {
+        #endif
+        partial struct Tween/*: ITween<Tween>*/ {
         /// Uniquely identifies the tween.
         /// Can be observed from the Debug Inspector if PRIME_TWEEN_INSPECTOR_DEBUGGING is defined. Use only for debugging purposes.
         internal
-#if !ENABLE_SERIALIZATION
+            #if !ENABLE_SERIALIZATION
             readonly
-#endif
+            #endif
             int id;
-
+            
         internal readonly ReusableTween tween;
-
-        /// This should not be part of public API. When tween IsCreated and !isAlive, it's not guaranteed to be IsCompleted, it can also be stopped.
+        
         internal bool IsCreated => id != 0;
 
-        internal Tween([NotNull] ReusableTween tween)
-        {
+        internal Tween([NotNull] ReusableTween tween) {
             Assert.IsNotNull(tween);
+            Assert.AreNotEqual(-1, tween.id);
             id = tween.id;
             this.tween = tween;
         }
 
         /// A tween is 'alive' when it has been created and is not stopped or completed yet. Paused tween is also considered 'alive'.
         public bool isAlive => id != 0 && tween.id == id && tween._isAlive;
-
+        
         /// Elapsed time of the current cycle.
-        public float elapsedTime => validateIsAlive() ? tween.elapsedTimeInCurrentCycle : 0;
+        public float elapsedTime {
+            get {
+                if (!validateIsAlive()) {
+                    return 0;
+                }
+                if (cyclesDone == cyclesTotal) {
+                    return duration;
+                }
+                var result = elapsedTimeTotal - duration * cyclesDone;
+                if (result < 0f) {
+                    return 0f;
+                }
+                Assert.IsTrue(result >= 0f);
+                return result;
+            }
+            set => setElapsedTime(value);
+        }
+
+        void setElapsedTime(float value) {
+            if (!tryManipulate()) {
+                return;
+            }
+            if (value < 0f || float.IsNaN(value)) {
+                Debug.LogError($"Invalid elapsedTime value: {value}, tween: {ToString()}");
+                return;
+            }
+            var cycleDuration = duration;
+            if (value > cycleDuration) {
+                value = cycleDuration;
+            }
+            var _cyclesDone = cyclesDone;
+            if (_cyclesDone == cyclesTotal) {
+                _cyclesDone -= 1;
+            }
+            setElapsedTimeTotal(value + cycleDuration * _cyclesDone);
+        }
 
         /// The total number of cycles. Returns -1 to indicate infinite number cycles.
         public int cyclesTotal => validateIsAlive() ? tween.settings.cycles : 0;
-
-        public int cyclesDone => validateIsAlive() ? tween.cyclesDone : 0;
-
+        
+        public int cyclesDone => validateIsAlive() ? tween.getCyclesDone() : 0;
         /// The duration of one cycle.
-        public float duration
-        {
-            get
-            {
-                if (!validateIsAlive())
-                {
+        public float duration {
+            get {
+                if (!validateIsAlive()) {
                     return 0;
                 }
-
-                var result = tween.totalDuration;
+                var result = tween.cycleDuration;
                 TweenSettings.validateFiniteDuration(result);
                 return result;
             }
         }
 
         [NotNull]
-        public override string ToString()
-        {
-            return isAlive ? tween.GetDescription() : $"DEAD / id {id}";
-        }
-
-        SharedProps sharedProps => isAlive ? new SharedProps(true, elapsedTime, cyclesTotal, cyclesDone, duration) : new SharedProps();
+        public override string ToString() => isAlive ? tween.GetDescription() : $"DEAD / id {id}";
 
         /// Elapsed time of all cycles.
-        public float elapsedTimeTotal => sharedProps.elapsedTimeTotal;
+        public float elapsedTimeTotal {
+            get => validateIsAlive() ? tween.getElapsedTimeTotal() : 0;
+            set => setElapsedTimeTotal(value);
+        }
+
+        void setElapsedTimeTotal(float value) {
+            if (!tryManipulate()) {
+                return;
+            }
+            if (value < 0f || float.IsNaN(value) || (cyclesTotal == -1 && value >= float.MaxValue)) {
+                Debug.LogError($"Invalid elapsedTimeTotal value: {value}, tween: {ToString()}");
+                return;
+            }
+            tween.SetElapsedTimeTotal(value);
+            // SetElapsedTimeTotal may complete the tween, so isAlive check is needed
+            if (isAlive && value > durationTotal) {
+                tween.elapsedTimeTotal = durationTotal;
+            }
+        }
 
         /// <summary>The duration of all cycles. If cycles == -1, returns <see cref="float.PositiveInfinity"/>.</summary>
-        public float durationTotal => sharedProps.durationTotal;
+        public float durationTotal => validateIsAlive() ? tween.getDurationTotal() : 0;
 
         /// Normalized progress of the current cycle expressed in 0..1 range.
-        public float progress => sharedProps.progress;
+        public float progress {
+            get {
+                if (!validateIsAlive()) {
+                    return 0;
+                }
+                if (duration == 0) {
+                    return 0;
+                }
+                return Mathf.Min(elapsedTime / duration, 1f);
+            }
+            set {
+                value = Mathf.Clamp01(value);
+                if (value == 1f) {
+                    bool isLastCycle = cyclesDone == cyclesTotal - 1;
+                    if (isLastCycle) {
+                        setElapsedTimeTotal(float.MaxValue);
+                        return;
+                    }
+                }
+                setElapsedTime(value * duration);
+            }
+        }
 
         /// Normalized progress of all cycles expressed in 0..1 range.
-        public float progressTotal => sharedProps.progressTotal;
+        public float progressTotal {
+            get {
+                if (!validateIsAlive()) {
+                    return 0;
+                }
+                if (cyclesTotal == -1) {
+                    return 0;
+                }
+                var _totalDuration = durationTotal;
+                Assert.IsFalse(float.IsInfinity(_totalDuration));
+                if (_totalDuration == 0) {
+                    return 0;
+                }
+                return Mathf.Min(elapsedTimeTotal / _totalDuration, 1f);
+            }
+            set {
+                if (cyclesTotal == -1) {
+                    Debug.LogError($"It's not allowed to set progressTotal on infinite tween (cyclesTotal == -1), tween: {ToString()}.");
+                    return;
+                }
+                value = Mathf.Clamp01(value);
+                if (value == 1f) {
+                    setElapsedTimeTotal(float.MaxValue);
+                    return;
+                }
+                setElapsedTimeTotal(value * durationTotal);
+            }
+        }
 
         /// <summary>The current percentage of change between 'startValue' and 'endValue' values in 0..1 range.</summary>
-        public float interpolationFactor => validateIsAlive() ? tween.easedInterpolationFactor : 0;
+        public float interpolationFactor => validateIsAlive() ? Mathf.Max(0f, tween.easedInterpolationFactor) : 0f;
 
-        public bool isPaused
-        {
-            get => validateIsAlive() && tween._isPaused;
-            set
-            {
-                if (tryManipulate())
-                {
-                    tween.trySetPause(value);
+        public bool isPaused {
+            get => tryManipulate() && tween._isPaused;
+            set {
+                if (tryManipulate() && tween.trySetPause(value)) {
+                    if (!value && cyclesDone == cyclesTotal) {
+                        if (tween.isMainSequenceRoot()) {
+                            tween.sequence.releaseTweens();
+                        } else {
+                            tween.kill();
+                        }
+                    }
                 }
             }
         }
 
         /// Interrupts the tween, ignoring onComplete callback. 
-        public void Stop()
-        {
-            if (isAlive)
-            {
+        public void Stop() {
+            if (isAlive && tryManipulate()) {
                 tween.kill();
-                tween.updateSequenceAfterKill();
             }
         }
 
         /// Immediately sets the tween to the endValue and calls onComplete.
-        public void Complete()
-        {
+        public void Complete() {
             // don't warn that tween is dead because dead tween means that it's already 'completed'
-            if (isAlive && tween.tryManipulate())
-            {
+            if (isAlive && tryManipulate()) { 
                 tween.ForceComplete();
-                tween.updateSequenceAfterKill();
             }
         }
 
-        bool tryManipulate() => validateIsAlive() && tween.tryManipulate();
+        internal bool tryManipulate() {
+            if (!validateIsAlive()) {
+                return false;
+            }
+            if (!tween.canManipulate()) {
+                Debug.LogError(Assert.TryAddStackTrace(Constants.cantManipulateNested, id));
+                return false;
+            }
+            return true;
+        }
 
         /// <summary>Stops the tween when it reaches 'startValue' or 'endValue' for the next time.<br/>
-        /// For example, if you have an infinite tween (cycles == -1) with CycleMode.Yoyo/Rewind, and you wish to stop it when it reaches the 'endValue' (odd cycle), then set <see cref="stopAtEndValue"/> to true.
-        /// To stop the animation at the 'startValue' (even cycle), set <see cref="stopAtEndValue"/> to false.</summary>
-        public void SetCycles(bool stopAtEndValue)
-        {
-            if (isAlive && (tween.settings.cycleMode == CycleMode.Restart || tween.settings.cycleMode == CycleMode.Incremental))
-            {
-                Debug.LogWarning(nameof(SetCycles) + "(bool " + nameof(stopAtEndValue) +
-                                 ") is meant to be used with CycleMode.Yoyo or Rewind. Please consider using the overload that accepts int instead.");
-            }
-
-            SetCycles(tween.cyclesDone % 2 == 0 == stopAtEndValue ? 1 : 2);
-        }
-
-        /// <summary>Sets the number of remaining cycles.
-        /// This method modifies the <see cref="cyclesTotal"/> so that the tween will complete after the number of <see cref="cycles"/>.
-        /// Setting cycles to -1 will repeat the tween indefinitely.</summary>
-        public void SetCycles(int cycles)
-        {
-            Assert.IsTrue(cycles >= -1);
-            if (!tryManipulate())
-            {
+        /// For example, if you have an infinite tween (cycles == -1) with CycleMode.Yoyo/Rewind, and you wish to stop it when it reaches the 'endValue', then set <see cref="stopAtEndValue"/> to true.
+        /// To stop the animation at the 'startValue', set <see cref="stopAtEndValue"/> to false.</summary>
+        public void SetRemainingCycles(bool stopAtEndValue) {
+            if (!tryManipulate()) {
                 return;
             }
-
-            if (cycles == -1)
-            {
-                if (tween.sequence.IsCreated)
-                {
-                    Debug.LogError(Constants.infiniteTweenInSequenceError);
-                    return;
-                }
-
-                tween.settings.cycles = -1;
+            if (tween.settings.cycleMode == CycleMode.Restart || tween.settings.cycleMode == CycleMode.Incremental) {
+                Debug.LogWarning(nameof(SetRemainingCycles) + "(bool " + nameof(stopAtEndValue) + ") is meant to be used with CycleMode.Yoyo or Rewind. Please consider using the overload that accepts int instead.");
             }
-            else
-            {
+            SetRemainingCycles(tween.getCyclesDone() % 2 == 0 == stopAtEndValue ? 1 : 2);
+        }
+        
+        /// <summary>Sets the number of remaining cycles.<br/>
+        /// This method modifies the <see cref="cyclesTotal"/> so that the tween will complete after the number of <see cref="cycles"/>.<br/>
+        /// To set the initial number of cycles, pass the 'cycles' parameter to 'Tween.' methods instead.<br/><br/>
+        /// Setting cycles to -1 will repeat the tween indefinitely.<br/></summary>
+        public void SetRemainingCycles(int cycles) {
+            Assert.IsTrue(cycles >= -1);
+            if (!tryManipulate()) {
+                return;
+            }
+            if (tween.timeScale < 0f) {
+                Debug.LogError(nameof(SetRemainingCycles) + "() doesn't work with negative " + nameof(tween.timeScale));
+            }
+            if (tween.tweenType == TweenType.Delay && tween.HasOnComplete) {
+                Debug.LogError("Applying cycles to Delay will not repeat the OnComplete() callback, but instead will increase the Delay duration.\n" +
+                               "OnComplete() is called only once when ALL tween cycles complete. To repeat the OnComplete() callback, please use the Sequence.Create(cycles: numCycles) and put the tween inside a Sequence.\n" +
+                               "More info: https://forum.unity.com/threads/1479609/page-3#post-9415922\n");
+            }
+            if (cycles == -1) {
+                tween.settings.cycles = -1;
+            } else {
                 TweenSettings.setCyclesTo1If0(ref cycles);
-                tween.settings.cycles = tween.cyclesDone + cycles;
+                tween.settings.cycles = tween.getCyclesDone() + cycles;
             }
         }
 
         /// <summary>Adds completion callback. Please consider using <see cref="OnComplete{T}"/> to prevent a possible capture of variable into a closure.</summary>
         /// <param name="warnIfTargetDestroyed">Set to 'false' to disable the error about target's destruction. Please note that the the <see cref="onComplete"/> callback will be silently ignored in the case of target's destruction. More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4</param>
-        public Tween OnComplete([NotNull] Action onComplete, bool warnIfTargetDestroyed = true)
-        {
-            if (canAddOnComplete())
-            {
+        public Tween OnComplete(Action onComplete, bool warnIfTargetDestroyed = true) {
+            if (validateIsAlive()) {
                 tween.OnComplete(onComplete, warnIfTargetDestroyed);
             }
-
             return this;
         }
 
@@ -198,83 +286,46 @@ namespace PrimeTween
         /// Tween.PositionX(transform, endValue: 1.5f, duration: 1f)
         ///     .OnComplete(transform, _transform =&gt; Destroy(_transform.gameObject));
         /// </code></example>
-        public Tween OnComplete<T>([NotNull] T target, [NotNull] Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class
-        {
-            if (canAddOnComplete())
-            {
+        public Tween OnComplete<T>(T target, Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class {
+            if (validateIsAlive()) {
                 tween.OnComplete(target, onComplete, warnIfTargetDestroyed);
             }
-
             return this;
         }
 
-        bool canAddOnComplete()
-        {
-            if (!validateIsAlive())
-            {
-                return false;
+        public Sequence Group(Tween _tween) => tryManipulate() ? Sequence.Create(this).Group(_tween) : default;
+        public Sequence Chain(Tween _tween) => tryManipulate() ? Sequence.Create(this).Chain(_tween) : default;
+        public Sequence Group(Sequence sequence) => tryManipulate() ? Sequence.Create(this).Group(sequence) : default;
+        public Sequence Chain(Sequence sequence) => tryManipulate() ? Sequence.Create(this).Chain(sequence) : default;
+
+        bool validateIsAlive() {
+            if (!IsCreated) {
+                Debug.LogError(Constants.defaultCtorError);
+            } else if (!isAlive) {
+                Debug.LogError(Assert.TryAddStackTrace(Constants.isDeadMessage, id));
             }
-
-            if (tween.warnIfTargetDestroyed())
-            {
-                return false;
-            }
-
-            return true;
+            return isAlive;
         }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Tween other && Equals(other);
-        }
-
-        public bool Equals(Tween other)
-        {
-            return id == other.id;
-        }
-
-        public override int GetHashCode()
-        {
-            return id.GetHashCode();
-        }
-
-        public Sequence Group(Tween _tween) => Sequence.Create(this).Group(_tween);
-        public Sequence Chain(Tween _tween) => Sequence.Create(this).Chain(_tween);
-        public Sequence Group(Sequence sequence) => Sequence.Create(this).Group(sequence);
-        public Sequence Chain(Sequence sequence) => Sequence.Create(this).Chain(sequence);
-
-        bool validateIsAlive() => Constants.validateIsAlive(isAlive);
 
         /// <summary>Custom timeScale. To smoothly animate timeScale over time, use <see cref="Tween.TweenTimeScale"/> method.</summary>
-        public float timeScale
-        {
-            get => validateIsAlive() ? tween.timeScale : 1;
-            set
-            {
-                if (!tryManipulate())
-                {
-                    return;
+        public float timeScale {
+            get => tryManipulate() ? tween.timeScale : 1;
+            set {
+                if (tryManipulate()) {
+                    Assert.IsFalse(float.IsNaN(value));
+                    Assert.IsFalse(float.IsInfinity(value));
+                    tween.timeScale = value;
                 }
-
-                TweenSettings.clampTimescale(ref value);
-                if (tween.IsInSequence())
-                {
-                    Debug.LogError("Setting timeScale is not allowed because this tween in a Sequence. Please use Sequence.timeScale instead.");
-                    return;
-                }
-
-                tween.timeScale = value;
             }
         }
-
-        public Tween OnUpdate<T>(T target, Action<T, Tween> onUpdate) where T : class
-        {
-            if (validateIsAlive())
-            {
+        
+        public Tween OnUpdate<T>(T target, Action<T, Tween> onUpdate) where T : class {
+            if (validateIsAlive()) {
                 tween.SetOnUpdate(target, onUpdate);
             }
-
             return this;
         }
+
+        internal float durationWithWaitDelay => tween.calcDurationWithWaitDependencies();
     }
 }

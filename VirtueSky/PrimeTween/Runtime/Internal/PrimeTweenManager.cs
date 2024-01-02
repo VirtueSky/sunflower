@@ -1,5 +1,4 @@
 // ReSharper disable Unity.RedundantHideInInspectorAttribute
-
 #if PRIME_TWEEN_SAFETY_CHECKS && UNITY_ASSERTIONS
 #define SAFETY_CHECKS
 using System.Linq;
@@ -14,51 +13,46 @@ using Debug = UnityEngine.Debug;
 using UnityEditor;
 #endif
 
-namespace PrimeTween
-{
+namespace PrimeTween {
     [AddComponentMenu("")]
-    internal class PrimeTweenManager : MonoBehaviour
-    {
+    internal class PrimeTweenManager : MonoBehaviour {
         internal static PrimeTweenManager Instance;
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         static bool isHotReload = true;
-#endif
+        #endif
         internal static int customInitialCapacity = -1;
-        const int defaultInitialCapacity = 200;
 
         /// Item can be null if the list is accessed from the <see cref="ReusableTween.updateAndCheckIfRunning"/> via onValueChange() or onComplete()
         /// Changing list to array gives about 8% performance improvement and is possible to do in the future
         ///     The current implementation is simpler and PrimeTweenManagerInspector can draw tweens with no additional code
-#if UNITY_2021_3_OR_NEWER
+        #if UNITY_2021_3_OR_NEWER
         [ItemCanBeNull]
-#endif
-        [SerializeField]
-        internal List<ReusableTween> tweens;
-
+        #endif
+        [SerializeField] internal List<ReusableTween> tweens;
+        [SerializeField] internal List<ReusableTween> fixedUpdateTweens;  
         [NonSerialized] internal List<ReusableTween> pool;
-        [HideInInspector] internal List<ReusableTween> buffer;
-        internal int currentPoolCapacity;
-        internal int maxSimultaneousTweensCount;
-
-        [HideInInspector] internal int lastId;
-        [HideInInspector] internal int lastSequenceId;
+        internal int currentPoolCapacity { get; private set; }
+        internal int maxSimultaneousTweensCount { get; private set; }
+        
+        [HideInInspector] 
+        internal int lastId = 1;
         internal Ease defaultEase = Ease.OutQuad;
-        internal const Ease defaultShakeEase = Ease.OutSine;
+        internal const Ease defaultShakeEase = Ease.OutQuad;
         internal bool warnTweenOnDisabledTarget = true;
         internal bool warnZeroDuration = true;
         internal bool warnStructBoxingAllocationInCoroutine = true;
         internal bool warnBenchmarkWithAsserts = true;
         internal bool validateCustomCurves = true;
+        internal bool warnEndValueEqualsCurrent = true;
         int processedCount;
-        int updateDepth;
+        internal int updateDepth;
         internal static readonly object dummyTarget = new object();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        static void beforeSceneLoad()
-        {
-#if UNITY_EDITOR
+        static void beforeSceneLoad() {
+            #if UNITY_EDITOR
             isHotReload = false;
-#endif
+            #endif
             Assert.IsNull(Instance);
             var go = new GameObject(nameof(PrimeTweenManager));
             DontDestroyOnLoad(go);
@@ -67,95 +61,72 @@ namespace PrimeTween
             Instance = instance;
         }
 
-        void init()
-        {
+        void init() {
+            tweens = new List<ReusableTween>(0);
+            fixedUpdateTweens = new List<ReusableTween>(0);
+            pool = new List<ReusableTween>(0);
+            const int defaultInitialCapacity = 200;
             var capacity = customInitialCapacity != -1 ? customInitialCapacity : defaultInitialCapacity;
-            tweens = new List<ReusableTween>(capacity);
-            buffer = new List<ReusableTween>(capacity);
-            pool = new List<ReusableTween>(capacity);
-            currentPoolCapacity = capacity;
+            SetTweensCapacity(capacity);
         }
 
         const string manualInstanceCreationIsNotAllowedMessage = "Please don't create the " + nameof(PrimeTweenManager) + " instance manually.";
         void Awake() => Assert.IsNull(Instance, manualInstanceCreationIsNotAllowedMessage);
-
-#if UNITY_EDITOR
+        
+        #if UNITY_EDITOR
         [InitializeOnLoadMethod]
-        static void iniOnLoad()
-        {
-            if (!isHotReload)
-            {
+        static void iniOnLoad() {
+            EditorApplication.playModeStateChanged += state => {
+                if (state == PlayModeStateChange.EnteredEditMode) {
+                    Instance = null;
+                    customInitialCapacity = -1;
+                }
+            };
+            if (!isHotReload) {
                 return;
             }
-
-            if (!Application.isPlaying)
-            {
+            if (!Application.isPlaying) {
                 return;
             }
-
             Assert.IsNull(Instance);
-            var foundInScene =
-#if UNITY_2023_1_OR_NEWER
+            var foundInScene = 
+                #if UNITY_2023_1_OR_NEWER
                 FindAnyObjectByType
-#else
+                #else
                 FindObjectOfType
-#endif
-                    <PrimeTweenManager>();
+                #endif
+                <PrimeTweenManager>();
             Assert.IsNotNull(foundInScene);
-#if PRIME_TWEEN_INSPECTOR_DEBUGGING
+            #if PRIME_TWEEN_INSPECTOR_DEBUGGING
             Debug.LogError("PRIME_TWEEN_INSPECTOR_DEBUGGING doesn't work with 'Recompile And Continue Playing' because Tween.id is serializable but Tween.tween is not.");
             return;
-#endif
-            var count = foundInScene.tweens.Count;
-            if (count > 0)
-            {
+            #endif
+            var count = foundInScene.tweensCount;
+            if (count > 0) {
                 Debug.Log($"All tweens ({count}) were stopped because of 'Recompile And Continue Playing'.");
             }
-
             foundInScene.tweens = new List<ReusableTween>();
+            foundInScene.fixedUpdateTweens = new List<ReusableTween>();
             foundInScene.pool = new List<ReusableTween>();
             foundInScene.SetTweensCapacity(foundInScene.currentPoolCapacity);
             Instance = foundInScene;
         }
 
-        void Reset()
-        {
+        void Reset() {
             Assert.IsFalse(Application.isPlaying);
             Debug.LogError(manualInstanceCreationIsNotAllowedMessage);
             DestroyImmediate(this);
         }
+        #endif
 
-        void OnEnable() => EditorApplication.pauseStateChanged += OnPauseStateChanged;
-        void OnDisable() => EditorApplication.pauseStateChanged -= OnPauseStateChanged;
-        void OnPauseStateChanged(PauseState state) => ignoreUnscaledDeltaTime = state == PauseState.Unpaused;
-        bool ignoreUnscaledDeltaTime;
-        float curUnscaledDeltaTime;
-        float getEditorUnscaledDeltaTime()
-        {
-            if (ignoreUnscaledDeltaTime)
-            {
-                ignoreUnscaledDeltaTime = false;
-                var timeScale = Time.timeScale;
-                if (timeScale != 0)
-                {
-                    curUnscaledDeltaTime = Time.deltaTime / timeScale;
-                }
-            }
-            else
-            {
-                curUnscaledDeltaTime = Time.unscaledDeltaTime;
-            }
-
-            return curUnscaledDeltaTime;
+        void Start() {
+            #if SAFETY_CHECKS
+            // Selection.activeGameObject = gameObject;
+            #endif
+            Assert.AreEqual(Instance, this, manualInstanceCreationIsNotAllowedMessage);
         }
-#endif
-
-        void Start() => Assert.AreEqual(Instance, this, manualInstanceCreationIsNotAllowedMessage);
-
-        void OnDestroy()
-        {
-            customInitialCapacity = -1;
-        }
+        
+        internal void FixedUpdate() => update(fixedUpdateTweens, Time.fixedDeltaTime, Time.fixedUnscaledDeltaTime, out _);
 
         /// <summary>
         /// The most common tween lifecycle:
@@ -165,212 +136,186 @@ namespace PrimeTween
         ///     all tweens created in previous frames will already be updated before user's script Update() (if user's script execution order is greater than -2000). 
         /// 4. PrimeTweenManager.Update() completes the tween on frame N+(duration*targetFrameRate) given that targetFrameRate is stable.
         /// </summary>
-        internal void Update()
-        {
-            if (updateDepth != 0)
-            {
-                throw new Exception("Please don't call Tween.StopAll/CompleteAll() from the OnComplete() callback or from Tween.Custom().");
+        internal void Update() => update(tweens, Time.deltaTime, Time.unscaledDeltaTime, out processedCount);
+        
+        void update(List<ReusableTween> tweens, float deltaTime, float unscaledDeltaTime, out int processedCount) {
+            if (updateDepth != 0) {
+                throw new Exception("updateDepth != 0");
             }
-
             updateDepth++;
-            var deltaTime = Time.deltaTime;
-            var unscaledDeltaTime =
-#if UNITY_EDITOR
-                getEditorUnscaledDeltaTime();
-#else
-            Time.unscaledDeltaTime;
-#endif
             // onComplete and onValueChange can create new tweens. Cache count to process only those tweens that were present when the update started
             var oldCount = tweens.Count;
             var numRemoved = 0;
             // Process tweens in the order of creation.
             // This allows to create tween duplicates because the latest tween on the same value will overwrite the previous ones.
-            for (int i = 0; i < oldCount; i++)
-            {
+            for (int i = 0; i < oldCount; i++) {
                 var tween = tweens[i];
                 var newIndex = i - numRemoved;
-#if SAFETY_CHECKS
+                #if SAFETY_CHECKS
                 Assert.IsNotNull(tween);
                 if (numRemoved > 0) {
                     Assert.IsNull(tweens[newIndex]);
                 }
-#endif
+                #endif
                 // ReSharper disable once PossibleNullReferenceException
-                // don't release a tween until all tweens in a sequence are completed
-                if (tween.updateAndCheckIfRunning(tween.settings.useUnscaledTime ? unscaledDeltaTime : deltaTime) || tween.sequence.IsCreated)
-                {
-                    if (i != newIndex)
-                    {
+                if (tween.updateAndCheckIfRunning(tween.settings.useUnscaledTime ? unscaledDeltaTime : deltaTime)) {
+                    if (i != newIndex) {
                         tweens[i] = null;
                         tweens[newIndex] = tween;
                     }
-
                     continue;
                 }
-
                 releaseTweenToPool(tween);
                 tweens[i] = null; // set to null after releaseTweenToPool() so in case of an exception, the tween will stay inspectable via Inspector 
                 numRemoved++;
             }
-
             processedCount = oldCount - numRemoved;
-#if SAFETY_CHECKS
+            #if SAFETY_CHECKS
             Assert.IsTrue(tweens.Skip(oldCount - numRemoved).Take(numRemoved).All(_ => _ == null));
             Assert.IsTrue(tweens.Skip(oldCount).All(_ => _ != null));
-#endif
+            #endif
             updateDepth--;
-            if (numRemoved == 0)
-            {
+            if (numRemoved == 0) {
                 return;
             }
-
             var newCount = tweens.Count;
-            for (int i = oldCount; i < newCount; i++)
-            {
+            for (int i = oldCount; i < newCount; i++) {
                 var tween = tweens[i];
                 var newIndex = i - numRemoved;
-#if SAFETY_CHECKS
+                #if SAFETY_CHECKS
                 Assert.IsNotNull(tween);
-#endif
+                #endif
                 tweens[newIndex] = tween;
             }
-
             tweens.RemoveRange(newCount - numRemoved, numRemoved);
             Assert.AreEqual(tweens.Count, newCount - numRemoved);
-#if SAFETY_CHECKS
+            #if SAFETY_CHECKS
             Assert.IsFalse(tweens.Any(_ => _ == null));
             Assert.AreEqual(tweens.Count, tweens.Distinct().Count());
-#endif
+            #endif
         }
 
-        void LateUpdate()
-        {
+        void LateUpdate() {
             updateDepth++;
             var cachedCount = tweens.Count;
-            for (int i = processedCount; i < cachedCount; i++)
-            {
+            for (int i = processedCount; i < cachedCount; i++) {
                 var tween = tweens[i];
                 // ReSharper disable once PossibleNullReferenceException
-                if (tween._isAlive && !tween.startFromCurrent && !tween.waitFor.isAlive && tween.settings.startDelay == 0 && !tween.isUnityTargetDestroyed() && !tween.isAdditive)
-                {
-                    Assert.AreEqual(0, tween.elapsedTime);
-                    tween.ReportOnValueChangeIfAnimation(0);
+                if (tween._isAlive && !tween.startFromCurrent && tween.settings.startDelay == 0 && !tween.isUnityTargetDestroyed() && !tween.isAdditive
+                    && tween.canManipulate()
+                    && tween.elapsedTimeTotal == 0f) {
+                    Assert.AreEqual(0f, tween.elapsedTimeTotal);
+                    tween.SetElapsedTimeTotal(0f);
                 }
             }
-
             updateDepth--;
         }
 
-        void releaseTweenToPool([NotNull] ReusableTween tween)
-        {
-#if SAFETY_CHECKS
-            foreach (var t in tweens) {
-                if (t != null) {
-                    Assert.AreNotEqual(tween.id, t.nextInSequence.id);
+        void releaseTweenToPool([NotNull] ReusableTween tween) {
+            #if SAFETY_CHECKS
+            checkNotInSequence(tweens);
+            checkNotInSequence(fixedUpdateTweens);
+            void checkNotInSequence(List<ReusableTween> list) {
+                foreach (var t in list) {
+                    if (t != null) {
+                        Assert.AreNotEqual(tween.id, t.next.id);
+                        Assert.AreNotEqual(tween.id, t.nextSibling.id);
+                        Assert.AreNotEqual(tween.id, t.prev.id);
+                    }
                 }
             }
-#endif
+            #endif
             tween.Reset();
             pool.Add(tween);
         }
 
-        internal static Tween createEmpty()
-        {
-#if UNITY_EDITOR
-            if (Constants.warnNoInstance)
-            {
+        internal static Tween createEmpty() {
+            #if UNITY_EDITOR
+            if (Constants.warnNoInstance) {
                 return default;
             }
-#endif
+            #endif
             var result = delayWithoutDurationCheck(dummyTarget, 0, false);
             Assert.IsTrue(result.HasValue);
             return result.Value;
         }
 
         // Returns null if target is a destroyed UnityEngine.Object
-        internal static Tween? delayWithoutDurationCheck([CanBeNull] object target, float duration, bool useUnscaledTime)
-        {
+        internal static Tween? delayWithoutDurationCheck([CanBeNull] object target, float duration, bool useUnscaledTime) {
             var tween = fetchTween();
             tween.propType = PropType.Float;
             tween.tweenType = TweenType.Delay;
-            var settings = new TweenSettings
-            {
+            var settings = new TweenSettings {
                 duration = duration,
                 ease = Ease.Linear,
                 useUnscaledTime = useUnscaledTime
             };
-            tween.Setup(target, ref settings, _ => { }, null, false);
+            tween.Setup(target, ref settings, _ => {}, null, false);
             var result = addTween(tween);
             // ReSharper disable once RedundantCast
             return result.IsCreated ? result : (Tween?)null;
         }
 
         [NotNull]
-        internal static ReusableTween fetchTween()
-        {
-#if UNITY_EDITOR
-            if (Constants.warnNoInstance)
-            {
+        internal static ReusableTween fetchTween() {
+            #if UNITY_EDITOR
+            if (Constants.warnNoInstance) {
                 return new ReusableTween();
             }
-#endif
+            #endif
             return Instance.fetchTween_internal();
         }
 
         [NotNull]
-        ReusableTween fetchTween_internal()
-        {
-            if (pool.Count == 0)
-            {
-                pool.Add(new ReusableTween());
+        ReusableTween fetchTween_internal() {
+            ReusableTween result;
+            if (pool.Count == 0) {
+                result = new ReusableTween();
+                if (tweensCount + 1 > currentPoolCapacity) {
+                    var newCapacity = currentPoolCapacity == 0 ? 4 : currentPoolCapacity * 2;
+                    Debug.LogWarning($"Tweens capacity has been increased from {currentPoolCapacity} to {newCapacity}. Please increase the capacity manually to prevent memory allocations at runtime by calling {Constants.setTweensCapacityMethod}.\n" +
+                                     $"To know the highest number of simultaneously running tweens, please observe the '{nameof(PrimeTweenManager)}/{Constants.maxAliveTweens}' in Inspector.\n");
+                    currentPoolCapacity = newCapacity;
+                }
+            } else {
+                var lastIndex = pool.Count - 1;
+                result = pool[lastIndex];
+                pool.RemoveAt(lastIndex);    
             }
-
-            var lastIndex = pool.Count - 1;
-            var result = pool[lastIndex];
-            pool.RemoveAt(lastIndex);
-            lastId++;
             Assert.AreEqual(-1, result.id);
             result.id = lastId;
             return result;
         }
 
-        internal static Tween Animate([NotNull] ReusableTween tween)
-        {
+        internal static Tween Animate([NotNull] ReusableTween tween) {
             checkDuration(tween.target, tween.settings.duration);
             return addTween(tween);
         }
 
-        internal static void checkDuration<T>([CanBeNull] T target, float duration) where T : class
-        {
-#if UNITY_EDITOR
-            if (Constants.noInstance)
-            {
+        internal static void checkDuration<T>([CanBeNull] T target, float duration) where T : class {
+            #if UNITY_EDITOR
+            if (Constants.noInstance) {
                 return;
             }
-#endif
-            if (Instance.warnZeroDuration && duration <= 0)
-            {
+            #endif
+            if (Instance.warnZeroDuration && duration <= 0) {
                 Debug.LogWarning($"Tween duration ({duration}) <= 0. {Constants.buildWarningCanBeDisabledMessage(nameof(warnZeroDuration))}", target as UnityEngine.Object);
             }
         }
 
-        static Tween addTween([NotNull] ReusableTween tween)
-        {
-#if UNITY_EDITOR
-            if (Constants.noInstance)
-            {
+        internal static Tween addTween([NotNull] ReusableTween tween) {
+            #if UNITY_EDITOR
+            if (Constants.noInstance) {
                 return default;
             }
-#endif
+            #endif
             return Instance.addTween_internal(tween);
         }
 
-        Tween addTween_internal([NotNull] ReusableTween tween)
-        {
+        Tween addTween_internal([NotNull] ReusableTween tween) {
             Assert.IsNotNull(tween);
             Assert.IsTrue(tween.id > 0);
-            if (tween.target == null || ReusableTween.isDestroyedUnityObject(tween.unityTarget))
-            {
+            if (tween.target == null || ReusableTween.isDestroyedUnityObject(tween.unityTarget)) {
                 Debug.LogError($"Tween's target is null: {tween.GetDescription()}. This error can mean that:\n" +
                                "- The target reference is null.\n" +
                                "- UnityEngine.Object target reference is not populated in the Inspector.\n" +
@@ -380,164 +325,144 @@ namespace PrimeTween
                 releaseTweenToPool(tween);
                 return default;
             }
-
-            if (warnTweenOnDisabledTarget)
-            {
-                if (tween.unityTarget is Component comp && !comp.gameObject.activeInHierarchy)
-                {
-                    Debug.LogWarning(
-                        $"Tween is started on GameObject that is not active in hierarchy: {comp.name}. {Constants.buildWarningCanBeDisabledMessage(nameof(warnTweenOnDisabledTarget))}",
-                        comp);
+            if (warnTweenOnDisabledTarget) {
+                if (tween.unityTarget is Component comp && !comp.gameObject.activeInHierarchy) {
+                    Debug.LogWarning($"Tween is started on GameObject that is not active in hierarchy: {comp.name}. {Constants.buildWarningCanBeDisabledMessage(nameof(warnTweenOnDisabledTarget))}", comp);
                 }
             }
-
-            // Debug.Log($"{Time.frameCount} add tween {tween.id}, {tween.GetDescription()}", tween.unityTarget);
-            tweens.Add(tween);
-#if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
-            maxSimultaneousTweensCount = Math.Max(maxSimultaneousTweensCount, tweens.Count);
-            if (warnBenchmarkWithAsserts && maxSimultaneousTweensCount > 50000)
-            {
+            #if SAFETY_CHECKS && UNITY_2019_4_OR_NEWER
+            // Debug.Log($"[frame:{Time.frameCount}] created: {tween.GetDescription()}", tween.unityTarget);
+            StackTraces.Record(tween.id);
+            #endif
+            if (tween.settings.useFixedUpdate) {
+                fixedUpdateTweens.Add(tween);
+            } else {
+                tweens.Add(tween);
+            }
+            lastId++; // increment only when tween added successfully
+            #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
+            maxSimultaneousTweensCount = Math.Max(maxSimultaneousTweensCount, tweensCount);
+            if (warnBenchmarkWithAsserts && maxSimultaneousTweensCount > 50000) {
                 warnBenchmarkWithAsserts = false;
-                var msg =
-                    "PrimeTween detected more than 50000 concurrent tweens. If you're running benchmarks, please add the PRIME_TWEEN_DISABLE_ASSERTIONS to the 'ProjectSettings/Player/Script Compilation' to disable assertions. This will ensure PrimeTween runs with the release performance.\n" +
-                    "Also disable optional convenience features: PrimeTweenConfig.warnZeroDuration and PrimeTweenConfig.warnTweenOnDisabledTarget.\n";
-                if (Application.isEditor)
-                {
+                var msg = "PrimeTween detected more than 50000 concurrent tweens. If you're running benchmarks, please add the PRIME_TWEEN_DISABLE_ASSERTIONS to the 'ProjectSettings/Player/Script Compilation' to disable assertions. This will ensure PrimeTween runs with the release performance.\n" +
+                          "Also disable optional convenience features: PrimeTweenConfig.warnZeroDuration and PrimeTweenConfig.warnTweenOnDisabledTarget.\n";
+                if (Application.isEditor) {
                     msg += "Please also run the tests in real builds, not in the Editor, to measure the performance correctly.\n";
                 }
-
                 msg += $"{Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnBenchmarkWithAsserts))}\n";
                 Debug.LogError(msg);
             }
-
-            var newCapacity = Math.Max(pool.Capacity, tweens.Capacity);
-            if (currentPoolCapacity != newCapacity)
-            {
-                Debug.LogWarning(
-                    $"Tweens capacity has been increased from {currentPoolCapacity} to {newCapacity}. Please increase the capacity manually to prevent memory allocations at runtime by calling {Constants.setTweensCapacityMethod}.\n" +
-                    $"To know the highest number of simultaneously running tweens, please observe the '{nameof(PrimeTweenManager)}/{Constants.maxAliveTweens}' in Inspector.\n");
-                currentPoolCapacity = newCapacity;
-            }
-#endif
+            #endif
             return new Tween(tween);
         }
 
-        /// <param name="onTarget">If specified, processes only tweens with such target. If null, processes all running tweens.</param>
-        /// <param name="numMinExpected">If specified, asserts that the number of processed tweens is greater than or equal to <see cref="numMinExpected"/>.</param>
-        /// <param name="numMaxExpected">If specified, asserts that the number of processed tweens is less than or equal to <see cref="numMaxExpected"/>.</param>
-        /// <returns>The number of processed tweens.</returns>
-        internal static int processAll([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate, int? numMinExpected, int? numMaxExpected)
-        {
-#if UNITY_EDITOR
-            if (Constants.warnNoInstance)
-            {
+        internal static int processAll([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate) {
+            #if UNITY_EDITOR
+            if (Constants.warnNoInstance) {
                 return default;
             }
-#endif
-            return Instance.processAll_internal(onTarget, predicate, numMinExpected, numMaxExpected);
+            #endif
+            return Instance.processAll_internal(onTarget, predicate);
         }
 
-        int processAll_internal([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate, int? minExpected, int? numMaxExpected)
-        {
-            int numProcessed = 0;
-            foreach (var tween in tweens)
-            {
-                if (tween == null)
-                {
-                    continue;
+        internal static bool logCantManipulateError = true;
+        
+        int processAll_internal([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate) {
+            return processInList(tweens) + processInList(fixedUpdateTweens);
+            int processInList(List<ReusableTween> tweens) {
+                int numProcessed = 0;
+                int totalCount = 0;
+                var count = tweens.Count; // this is not an optimization, OnComplete() may create new tweens
+                for (var i = 0; i < count; i++) {
+                    var tween = tweens[i];
+                    if (tween == null) {
+                        continue;
+                    }
+                    totalCount++;
+                    if (onTarget != null) {
+                        if (tween.target != onTarget) {
+                            continue;
+                        }
+                        if (tween.IsInSequence()) {
+                            // To support stopping sequences by target, I can add new API 'Sequence.Create(object sequenceTarget)'.
+                            // But 'sequenceTarget' is a different concept to tween's target, so I should not mix these two concepts together:
+                            //     'sequenceTarget' serves the purpose of unique 'id', while tween's target is the animated object.
+                            // In my opinion, the benefits of this new API don't outweigh the added complexity. A much more simpler approach is to store the Sequence reference and call sequence.Stop() directly. 
+                            Assert.IsFalse(tween.isMainSequenceRoot());
+                            if (logCantManipulateError) {
+                                Debug.LogError(Assert.TryAddStackTrace(Constants.cantManipulateNested, tween.id));
+                            }
+                            continue;
+                        }
+                    }
+                    if (tween._isAlive && predicate(tween)) {
+                        numProcessed++;
+                    }
                 }
-
-                if (onTarget != null && tween.target != onTarget)
-                {
-                    continue;
+                if (onTarget == null) {
+                    return totalCount;
                 }
-
-                if (tween._isAlive && predicate(tween))
-                {
-                    numProcessed++;
-                }
+                return numProcessed;
             }
-#if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
-            if (minExpected.HasValue && numProcessed < minExpected)
-            {
-                throw new Exception($"the number of processed tweens ({numProcessed}) is less than '{nameof(minExpected)}' ({minExpected.Value})");
-            }
-
-            if (numMaxExpected.HasValue && numProcessed > numMaxExpected)
-            {
-                throw new Exception($"the number of processed tweens ({numProcessed}) is greater than '{nameof(numMaxExpected)}' ({numMaxExpected.Value})");
-            }
-#endif
-            return numProcessed;
         }
 
-        internal void SetTweensCapacity(int capacity)
-        {
-            var runningTweens = tweens.Count;
-            if (capacity < runningTweens)
-            {
+        internal void SetTweensCapacity(int capacity) {
+            var runningTweens = tweensCount;
+            if (capacity < runningTweens) {
                 Debug.LogError($"New capacity ({capacity}) should be greater than the number of currently running tweens ({runningTweens}).\n" +
-                               $"You can use {nameof(Tween)}.{nameof(Tween.StopAll)}() to stop all running tweens.");
+                        $"You can use {nameof(Tween)}.{nameof(Tween.StopAll)}() to stop all running tweens.");
                 return;
             }
-
             tweens.Capacity = capacity;
-            Assert.AreEqual(0, buffer.Count);
-            buffer.Capacity = capacity;
+            fixedUpdateTweens.Capacity = capacity;
             resizeAndSetCapacity(pool, capacity - runningTweens, capacity);
             currentPoolCapacity = capacity;
             Assert.AreEqual(capacity, tweens.Capacity);
+            Assert.AreEqual(capacity, fixedUpdateTweens.Capacity);
             Assert.AreEqual(capacity, pool.Capacity);
         }
 
-        internal static void resizeAndSetCapacity([NotNull] List<ReusableTween> list, int newCount, int newCapacity)
-        {
+        internal int tweensCount => tweens.Count + fixedUpdateTweens.Count;
+        
+        internal static void resizeAndSetCapacity([NotNull] List<ReusableTween> list, int newCount, int newCapacity) {
             Assert.IsTrue(newCapacity >= newCount);
             int curCount = list.Count;
-            if (curCount > newCount)
-            {
+            if (curCount > newCount) {
                 var numToRemove = curCount - newCount;
                 list.RemoveRange(newCount, numToRemove);
                 list.Capacity = newCapacity;
-            }
-            else
-            {
+            } else {
                 list.Capacity = newCapacity;
-                if (newCount > curCount)
-                {
+                if (newCount > curCount) {
                     var numToCreate = newCount - curCount;
-                    for (int i = 0; i < numToCreate; i++)
-                    {
+                    for (int i = 0; i < numToCreate; i++) {
                         list.Add(new ReusableTween());
                     }
                 }
             }
-
             Assert.AreEqual(newCount, list.Count);
             Assert.AreEqual(newCapacity, list.Capacity);
         }
-
+        
         [Conditional("UNITY_ASSERTIONS")]
-        internal void warnStructBoxingInCoroutineOnce()
-        {
-            if (!warnStructBoxingAllocationInCoroutine)
-            {
+        internal void warnStructBoxingInCoroutineOnce() {
+            if (!warnStructBoxingAllocationInCoroutine) {
                 return;
             }
-
             warnStructBoxingAllocationInCoroutine = false;
-            Debug.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" +
+            Debug.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" + 
                              Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnStructBoxingAllocationInCoroutine)) + "\n");
         }
     }
-
-    internal enum TweenType
-    {
+    
+    internal enum TweenType {
         None,
         Delay,
         ShakeLocalPosition,
         ShakeLocalRotation,
         ShakeScale,
-        ShakeCustom
+        ShakeCustom,
+        MainSequence,
+        NestedSequence
     }
 }
