@@ -12,7 +12,7 @@ namespace VirtueSky.Iap
         private Vector2 _scrollPosition;
         private Editor _editor;
 
-        [MenuItem("Sunflower/Iap/IapSetting %#W", false)]
+        [MenuItem("Sunflower/Iap/IapSetting &W", false)]
         public static void MenuOpenAdSettings()
         {
             var iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");

@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel
     {
         private StatePanelControl statePanelControl;
 
-        [MenuItem("Sunflower/Panel %Q", false)]
+        [MenuItem("Sunflower/Panel &Q", false)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window = GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");

@@ -13,7 +13,7 @@ namespace VirtueSky.Ads
         private Editor _editor;
         private AdSetting _adSetting;
 
-        [MenuItem("Sunflower/Ads/AdSetting %E", false)]
+        [MenuItem("Sunflower/Ads/AdSetting &E", false)]
         public static void MenuOpenAdSettings()
         {
             var adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
