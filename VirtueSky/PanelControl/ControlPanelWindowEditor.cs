@@ -132,7 +132,20 @@ namespace VirtueSky.ControlPanel
         void OnDrawAdvertising()
         {
             GUILayout.Space(10);
+            // GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
             GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("AdSetting (Ctrl+E)"))
+            {
+            }
+
+            if (GUILayout.Button("AdSetting (Ctrl+E)"))
+            {
+            }
+
+            GUILayout.EndVertical();
+            // GUILayout.EndHorizontal();
         }
 
         void OnDrawIap()
