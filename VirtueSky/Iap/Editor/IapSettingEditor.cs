@@ -16,7 +16,7 @@ namespace VirtueSky.Iap
         private SerializedProperty _isValidatePurchase;
         private SerializedProperty _googlePlayStoreKey;
 
-        private void OnEnable()
+        void Initialize()
         {
             _iapSetting = target as IapSetting;
             _skusData = serializedObject.FindProperty("skusData");
@@ -29,6 +29,7 @@ namespace VirtueSky.Iap
         {
             // base.OnInspectorGUI();
             serializedObject.Update();
+            Initialize();
             EditorGUILayout.PropertyField(_skusData);
             EditorGUILayout.PropertyField(_products);
             if (GUILayout.Button("Generate Product From SkusData"))

@@ -1,5 +1,4 @@
 ﻿#if UNITY_EDITOR
-using System;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.UtilsEditor;
@@ -25,7 +24,7 @@ namespace VirtueSky.Iap
                 return;
             }
 
-            window.minSize = new Vector2(275, 0);
+            window.minSize = new Vector2(300, 0);
             window.Show();
             // Selection.activeObject = iapSetting;
             // EditorUtility.FocusProjectWindow();
