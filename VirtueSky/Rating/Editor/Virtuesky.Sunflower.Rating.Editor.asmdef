@@ -1,0 +1,19 @@
+{
+    "name": "Virtuesky.Sunflower.Rating.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c1d20589f66abf146ba53fb06bf1e096",
+        "GUID:c904f6d969e991d459a0843b71c22ec5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

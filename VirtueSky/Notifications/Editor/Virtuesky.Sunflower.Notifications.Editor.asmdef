@@ -1,13 +1,13 @@
 {
-    "name": "Virtuesky.Sunflower.Rating",
+    "name": "Virtuesky.Sunflower.Notifications.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:b4318b6f3695442c4983c360248781db",
-        "GUID:4139e191aa32f459e9eb2e331225ad7e",
-        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:3aa1a48b88c8fc84ab64d4acf89d0b4e",
         "GUID:c904f6d969e991d459a0843b71c22ec5"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

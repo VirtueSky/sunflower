@@ -1,0 +1,16 @@
+{
+    "name": "Virtuesky.Sunflower.ObjectPooling",
+    "rootNamespace": "",
+    "references": [
+        "GUID:acb3cac55c622ec459c8caadf707623a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

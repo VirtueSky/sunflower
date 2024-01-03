@@ -9,7 +9,7 @@ namespace VirtueSky.Audio
         [MenuItem("Sunflower/Audio/Event Audio Handle")]
         public static void CreateEventAudioHandle()
         {
-            CreateAsset.CreateScriptableAssets<EventAudioHandle>("/Audio", "event_audio_handle");
+            CreateAsset.CreateScriptableAssetsOnlyName<EventAudioHandle>("/Audio");
         }
 
         [MenuItem("Sunflower/Audio/Sound Data")]

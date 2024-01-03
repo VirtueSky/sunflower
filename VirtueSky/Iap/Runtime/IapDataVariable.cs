@@ -7,7 +7,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Iap
 {
     [Serializable]
-    [CreateAssetMenu(menuName = "Iap/Iap Data Variable", fileName = "iap_data_variables")]
+    //[CreateAssetMenu(menuName = "Iap/Iap Data Variable", fileName = "iap_data_variables")]
     public class IapDataVariable : ScriptableObject
     {
         [ReadOnly] public string id;

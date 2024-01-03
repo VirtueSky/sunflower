@@ -1,5 +1,14 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using VirtueSky.Ads;
+using VirtueSky.AssetFinder.Editor;
+using VirtueSky.Audio;
+using VirtueSky.Events;
+using VirtueSky.Iap;
+using VirtueSky.LevelEditor;
+using VirtueSky.ObjectPooling;
+using VirtueSky.Rating;
+using VirtueSky.Variables;
 
 namespace VirtueSky.ControlPanel
 {
@@ -7,7 +16,7 @@ namespace VirtueSky.ControlPanel
     {
         private StatePanelControl statePanelControl;
 
-        [MenuItem("Sunflower/Panel &Q", false)]
+        [MenuItem("Sunflower/Panel &1", false)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window = GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
@@ -132,74 +141,241 @@ namespace VirtueSky.ControlPanel
         void OnDrawAdvertising()
         {
             GUILayout.Space(10);
-            // GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
             GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("AdSetting (Ctrl+E)"))
+            if (GUILayout.Button("AdSetting (Alt+4 / Option+4)"))
             {
-            }
-
-            if (GUILayout.Button("AdSetting (Ctrl+E)"))
-            {
+                AdsWindowEditor.OpenAdSettingsWindows();
             }
 
             GUILayout.EndVertical();
-            // GUILayout.EndHorizontal();
         }
 
         void OnDrawIap()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("AdSetting (Alt+2 / Option+2)"))
+            {
+                IapWindowEditor.OpenIapSettingsWindows();
+            }
+
+            if (GUILayout.Button("Create Iap Purchase Product Event"))
+            {
+                IapWindowEditor.CreateIapProductEvent();
+            }
+
+            if (GUILayout.Button("Create Iap Purchase Product Event"))
+            {
+                IapWindowEditor.CreateIsPurchaseProductEvent();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawAssetUsageDetector()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("ASSET USAGE DETECTOR", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Active Window"))
+            {
+                AssetUsageDetectorWindow.OpenActiveWindow();
+            }
+
+            if (GUILayout.Button("New Window"))
+            {
+                AssetUsageDetectorWindow.OpenNewWindow();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawAudio()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("AUDIO", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Event Audio Handle"))
+            {
+                AudioWindowEditor.CreateEventAudioHandle();
+            }
+
+            if (GUILayout.Button("Create Sound Data"))
+            {
+                AudioWindowEditor.CreateSoundData();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawPools()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("POOLS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Pools"))
+            {
+                PoolWindowEditor.CreatePools();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawInAppReview()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("IN APP REVIEW", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create In App Review"))
+            {
+                UtilitiesLevelSystemDrawer.OpenLevelEditor();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawLevelEditor()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Open Level Editor (Alt+3 / Option+3)"))
+            {
+                RatingWindowEditor.CreateInAppReview();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawNotificationChanel()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("NOTIFICATION CHANEL", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Notification Chanel"))
+            {
+                NotificationWindowEditor.CreateNotificationChannel();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawSoEvent()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("SCRIPTABLE OBJECT EVENT", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Boolean Event"))
+            {
+                EventWindowEditor.CreateEventBoolean();
+            }
+
+            if (GUILayout.Button("Create Dictionary Event"))
+            {
+                EventWindowEditor.CreateEventDictionary();
+            }
+
+            if (GUILayout.Button("Create No Param Event"))
+            {
+                EventWindowEditor.CreateEventNoParam();
+            }
+
+            if (GUILayout.Button("Create Float Event"))
+            {
+                EventWindowEditor.CreateEventFloat();
+            }
+
+            if (GUILayout.Button("Create Int Event"))
+            {
+                EventWindowEditor.CreateEventInt();
+            }
+
+            if (GUILayout.Button("Create Object Event"))
+            {
+                EventWindowEditor.CreateEventObject();
+            }
+
+            if (GUILayout.Button("Create Short Double Event"))
+            {
+                EventWindowEditor.CreateEventShortDouble();
+            }
+
+            if (GUILayout.Button("Create String Event"))
+            {
+                EventWindowEditor.CreateEventString();
+            }
+
+            if (GUILayout.Button("Create Vector3 Event"))
+            {
+                EventWindowEditor.CreateEventVector3();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void OnDrawSoVariable()
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
             GUILayout.Label("SCRIPTABLE OBJECT VARIABLE", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Create Boolean Variable"))
+            {
+                VariableWindowEditor.CreateVariableBoolean();
+            }
+
+            if (GUILayout.Button("Create Float Variable"))
+            {
+                VariableWindowEditor.CreateVariableFloat();
+            }
+
+            if (GUILayout.Button("Create Int Variable"))
+            {
+                VariableWindowEditor.CreateVariableInt();
+            }
+
+            if (GUILayout.Button("Create Object Variable"))
+            {
+                VariableWindowEditor.CreateVariableObject();
+            }
+
+            if (GUILayout.Button("Create Rect Variable"))
+            {
+                VariableWindowEditor.CreateVariableRect();
+            }
+
+            if (GUILayout.Button("Create Short Double Variable"))
+            {
+                VariableWindowEditor.CreateVariableShortDouble();
+            }
+
+            if (GUILayout.Button("Create String Variable"))
+            {
+                VariableWindowEditor.CreateVariableString();
+            }
+
+            if (GUILayout.Button("Create Transform Variable"))
+            {
+                VariableWindowEditor.CreateVariableTransform();
+            }
+
+            if (GUILayout.Button("Create Vector3 Variable"))
+            {
+                VariableWindowEditor.CreateVariableVector3();
+            }
+
+            GUILayout.EndVertical();
         }
 
         void GuiLine(int i_height = 1)

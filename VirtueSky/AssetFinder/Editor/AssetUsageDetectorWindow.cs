@@ -72,7 +72,9 @@ namespace VirtueSky.AssetFinder.Editor
                 if (m_isLocked != value)
                 {
                     m_isLocked = value;
-                    titleContent = value ? new GUIContent("[L] " + windowTitle.text, EditorGUIUtility.IconContent("InspectorLock").image) : windowTitle;
+                    titleContent = value
+                        ? new GUIContent("[L] " + windowTitle.text, EditorGUIUtility.IconContent("InspectorLock").image)
+                        : windowTitle;
                 }
             }
         }
@@ -89,9 +91,15 @@ namespace VirtueSky.AssetFinder.Editor
         private bool dontSearchInSourceAssets = true; // objectsToSearch won't be searched for internal references
         private bool searchInProjectSettings = true; // Player Settings, Graphics Settings etc.
 
-        private List<Object> searchInAssetsSubset = new List<Object>() { null }; // If not empty, only these assets are searched for references
-        private List<Object> excludedAssets = new List<Object>() { null }; // These assets won't be searched for references
-        private List<Object> excludedScenes = new List<Object>() { null }; // These scenes won't be searched for references
+        private List<Object>
+            searchInAssetsSubset = new List<Object>()
+                { null }; // If not empty, only these assets are searched for references
+
+        private List<Object>
+            excludedAssets = new List<Object>() { null }; // These assets won't be searched for references
+
+        private List<Object>
+            excludedScenes = new List<Object>() { null }; // These scenes won't be searched for references
 
         private int searchDepthLimit = 4; // Depth limit for recursively searching variables of objects
 
@@ -112,9 +120,15 @@ namespace VirtueSky.AssetFinder.Editor
         private SearchRefactoring searchRefactoring = null; // Its value can be assigned via ShowAndSearch
 
         private readonly ObjectToSearchListDrawer objectsToSearchDrawer = new ObjectToSearchListDrawer();
-        private readonly ObjectListDrawer searchInAssetsSubsetDrawer = new ObjectListDrawer("Search following asset(s) only:", false);
-        private readonly ObjectListDrawer excludedAssetsDrawer = new ObjectListDrawer("Don't search following asset(s):", false);
-        private readonly ObjectListDrawer excludedScenesDrawer = new ObjectListDrawer("Don't search in following scene(s):", false);
+
+        private readonly ObjectListDrawer searchInAssetsSubsetDrawer =
+            new ObjectListDrawer("Search following asset(s) only:", false);
+
+        private readonly ObjectListDrawer excludedAssetsDrawer =
+            new ObjectListDrawer("Don't search following asset(s):", false);
+
+        private readonly ObjectListDrawer excludedScenesDrawer =
+            new ObjectListDrawer("Don't search in following scene(s):", false);
 
         private bool drawObjectsToSearchSection = true;
 
@@ -129,11 +143,13 @@ namespace VirtueSky.AssetFinder.Editor
             contextMenu.AddSeparator("");
 
 #if UNITY_2018_3_OR_NEWER
-            contextMenu.AddItem(new GUIContent("Settings"), false, () => SettingsService.OpenProjectSettings("Project/Asset Usage Detector"));
+            contextMenu.AddItem(new GUIContent("Settings"), false,
+                () => SettingsService.OpenProjectSettings("Project/Asset Usage Detector"));
 #else
 			contextMenu.AddItem( new GUIContent( "Settings" ), false, () =>
 			{
-				System.Type preferencesWindowType = typeof( EditorWindow ).Assembly.GetType( "UnityEditor.PreferencesWindow" );
+				System.Type preferencesWindowType =
+ typeof( EditorWindow ).Assembly.GetType( "UnityEditor.PreferencesWindow" );
 				preferencesWindowType.GetMethod( "ShowPreferencesWindow", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static ).Invoke( null, null );
 
 				EditorWindow preferencesWindow = GetWindow( preferencesWindowType );
@@ -174,7 +190,8 @@ namespace VirtueSky.AssetFinder.Editor
                 if (searchResult != null && searchResult.NumberOfGroups > 0)
                 {
                     contextMenu.AddSeparator("");
-                    contextMenu.AddItem(new GUIContent("Collapse All"), false, searchResult.CollapseAllSearchResultGroups);
+                    contextMenu.AddItem(new GUIContent("Collapse All"), false,
+                        searchResult.CollapseAllSearchResultGroups);
                 }
             }
         }
@@ -196,7 +213,8 @@ namespace VirtueSky.AssetFinder.Editor
             if (!window)
                 window = System.Array.Find(windows, (w) => w);
 
-            if (window && (filter == WindowFilter.AlwaysReturnActive || (!window.IsLocked && filter == WindowFilter.ReturnActiveIfNotLocked)))
+            if (window && (filter == WindowFilter.AlwaysReturnActive ||
+                           (!window.IsLocked && filter == WindowFilter.ReturnActiveIfNotLocked)))
             {
                 window.Show();
                 window.Focus();
@@ -229,13 +247,13 @@ namespace VirtueSky.AssetFinder.Editor
         }
 
         [MenuItem("Sunflower/Asset Usage Detector/Active Window")]
-        private static void OpenActiveWindow()
+        public static void OpenActiveWindow()
         {
             GetWindow(WindowFilter.AlwaysReturnActive);
         }
 
         [MenuItem("Sunflower/Asset Usage Detector/New Window")]
-        private static void OpenNewWindow()
+        public static void OpenNewWindow()
         {
             GetWindow(WindowFilter.AlwaysReturnNew);
         }
@@ -281,11 +299,13 @@ namespace VirtueSky.AssetFinder.Editor
         // Quickly show the AssetUsageDetector window and initiate a search
         public static void ShowAndSearch(IEnumerable<Object> searchObjects, bool? shouldSearchChildren = null)
         {
-            GetWindow(WindowFilter.ReturnActiveIfNotLocked).ShowAndSearchInternal(searchObjects, null, shouldSearchChildren);
+            GetWindow(WindowFilter.ReturnActiveIfNotLocked)
+                .ShowAndSearchInternal(searchObjects, null, shouldSearchChildren);
         }
 
         // Quickly show the AssetUsageDetector window and initiate a search
-        public static void ShowAndSearch(AssetUsageDetector.Parameters searchParameters, bool? shouldSearchChildren = null)
+        public static void ShowAndSearch(AssetUsageDetector.Parameters searchParameters,
+            bool? shouldSearchChildren = null)
         {
             if (searchParameters == null)
             {
@@ -293,7 +313,8 @@ namespace VirtueSky.AssetFinder.Editor
                 return;
             }
 
-            GetWindow(WindowFilter.ReturnActiveIfNotLocked).ShowAndSearchInternal(searchParameters.objectsToSearch, searchParameters, shouldSearchChildren);
+            GetWindow(WindowFilter.ReturnActiveIfNotLocked).ShowAndSearchInternal(searchParameters.objectsToSearch,
+                searchParameters, shouldSearchChildren);
         }
 
         private static void CallSearchSelectedAssetReferencesOnce()
@@ -308,7 +329,8 @@ namespace VirtueSky.AssetFinder.Editor
             SearchSelectedAssetReferencesWithChildren(new MenuCommand(null));
         }
 
-        private void ShowAndSearchInternal(IEnumerable<Object> searchObjects, AssetUsageDetector.Parameters searchParameters, bool? shouldSearchChildren)
+        private void ShowAndSearchInternal(IEnumerable<Object> searchObjects,
+            AssetUsageDetector.Parameters searchParameters, bool? shouldSearchChildren)
         {
             if (!ReturnToSetupPhase())
             {
@@ -380,7 +402,9 @@ namespace VirtueSky.AssetFinder.Editor
         private void OnEnable()
         {
             if (currentPhase == Phase.Complete && AssetUsageDetectorSettings.ShowCustomTooltip)
-                wantsMouseMove = wantsMouseEnterLeaveWindow = true; // These values aren't preserved during domain reload on Unity 2020.3.0f1
+                wantsMouseMove =
+                    wantsMouseEnterLeaveWindow =
+                        true; // These values aren't preserved during domain reload on Unity 2020.3.0f1
 
 #if UNITY_2018_3_OR_NEWER
             PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
@@ -432,14 +456,17 @@ namespace VirtueSky.AssetFinder.Editor
         private void LoadPrefs()
         {
             ParseSceneSearchMode((SceneSearchMode)EditorPrefs.GetInt(PREFS_SEARCH_SCENES,
-                (int)(SceneSearchMode.OpenScenes | SceneSearchMode.ScenesInBuildSettingsTickedOnly | SceneSearchMode.AllScenes)));
+                (int)(SceneSearchMode.OpenScenes | SceneSearchMode.ScenesInBuildSettingsTickedOnly |
+                      SceneSearchMode.AllScenes)));
             searchInSceneLightingSettings = EditorPrefs.GetBool(PREFS_SEARCH_SCENE_LIGHTING_SETTINGS, true);
             searchInAssetsFolder = EditorPrefs.GetBool(PREFS_SEARCH_ASSETS, true);
             dontSearchInSourceAssets = EditorPrefs.GetBool(PREFS_DONT_SEARCH_SOURCE_ASSETS, true);
             searchInProjectSettings = EditorPrefs.GetBool(PREFS_SEARCH_PROJECT_SETTINGS, true);
             searchDepthLimit = EditorPrefs.GetInt(PREFS_SEARCH_DEPTH_LIMIT, 4);
-            fieldModifiers = (BindingFlags)EditorPrefs.GetInt(PREFS_SEARCH_FIELDS, (int)(BindingFlags.Public | BindingFlags.NonPublic));
-            propertyModifiers = (BindingFlags)EditorPrefs.GetInt(PREFS_SEARCH_PROPERTIES, (int)(BindingFlags.Public | BindingFlags.NonPublic));
+            fieldModifiers = (BindingFlags)EditorPrefs.GetInt(PREFS_SEARCH_FIELDS,
+                (int)(BindingFlags.Public | BindingFlags.NonPublic));
+            propertyModifiers = (BindingFlags)EditorPrefs.GetInt(PREFS_SEARCH_PROPERTIES,
+                (int)(BindingFlags.Public | BindingFlags.NonPublic));
             searchNonSerializableVariables = EditorPrefs.GetBool(PREFS_SEARCH_NON_SERIALIZABLES, true);
             searchUnusedMaterialProperties = EditorPrefs.GetBool(PREFS_SEARCH_UNUSED_MATERIAL_PROPERTIES, true);
             lazySceneSearch = EditorPrefs.GetBool(PREFS_LAZY_SCENE_SEARCH, true);
@@ -460,7 +487,9 @@ namespace VirtueSky.AssetFinder.Editor
             if (!hideOptionsInPlayMode || !EditorApplication.isPlaying)
             {
                 if (searchInScenesInBuild)
-                    sceneSearchMode |= searchInScenesInBuildTickedOnly ? SceneSearchMode.ScenesInBuildSettingsTickedOnly : SceneSearchMode.ScenesInBuildSettingsAll;
+                    sceneSearchMode |= searchInScenesInBuildTickedOnly
+                        ? SceneSearchMode.ScenesInBuildSettingsTickedOnly
+                        : SceneSearchMode.ScenesInBuildSettingsAll;
                 if (searchInAllScenes)
                     sceneSearchMode |= SceneSearchMode.AllScenes;
             }
@@ -471,9 +500,12 @@ namespace VirtueSky.AssetFinder.Editor
         private void ParseSceneSearchMode(SceneSearchMode sceneSearchMode)
         {
             searchInOpenScenes = (sceneSearchMode & SceneSearchMode.OpenScenes) == SceneSearchMode.OpenScenes;
-            searchInScenesInBuild = (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsAll) == SceneSearchMode.ScenesInBuildSettingsAll ||
-                                    (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsTickedOnly) == SceneSearchMode.ScenesInBuildSettingsTickedOnly;
-            searchInScenesInBuildTickedOnly = (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsAll) != SceneSearchMode.ScenesInBuildSettingsAll;
+            searchInScenesInBuild = (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsAll) ==
+                                    SceneSearchMode.ScenesInBuildSettingsAll ||
+                                    (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsTickedOnly) ==
+                                    SceneSearchMode.ScenesInBuildSettingsTickedOnly;
+            searchInScenesInBuildTickedOnly = (sceneSearchMode & SceneSearchMode.ScenesInBuildSettingsAll) !=
+                                              SceneSearchMode.ScenesInBuildSettingsAll;
             searchInAllScenes = (sceneSearchMode & SceneSearchMode.AllScenes) == SceneSearchMode.AllScenes;
         }
 
@@ -489,7 +521,8 @@ namespace VirtueSky.AssetFinder.Editor
         private void OnGUI()
         {
             // Make the window scrollable
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, Utilities.GL_EXPAND_WIDTH, Utilities.GL_EXPAND_HEIGHT);
+            scrollPosition =
+                EditorGUILayout.BeginScrollView(scrollPosition, Utilities.GL_EXPAND_WIDTH, Utilities.GL_EXPAND_HEIGHT);
 
             GUILayout.BeginVertical();
 
@@ -532,8 +565,11 @@ namespace VirtueSky.AssetFinder.Editor
 
                 GUILayout.Space(5f);
 
-                dontSearchInSourceAssets = WordWrappingToggleLeft("Don't search \"SEARCHED OBJECTS\" themselves for references", dontSearchInSourceAssets);
-                searchUnusedMaterialProperties = WordWrappingToggleLeft("Search unused material properties (e.g. normal map of a material that no longer uses normal mapping)",
+                dontSearchInSourceAssets =
+                    WordWrappingToggleLeft("Don't search \"SEARCHED OBJECTS\" themselves for references",
+                        dontSearchInSourceAssets);
+                searchUnusedMaterialProperties = WordWrappingToggleLeft(
+                    "Search unused material properties (e.g. normal map of a material that no longer uses normal mapping)",
                     searchUnusedMaterialProperties);
 
                 Utilities.DrawSeparatorLine();
@@ -552,8 +588,10 @@ namespace VirtueSky.AssetFinder.Editor
                         GUILayout.BeginHorizontal();
                         GUILayout.Space(35f);
 
-                        searchInScenesInBuildTickedOnly = EditorGUILayout.ToggleLeft("Ticked only", searchInScenesInBuildTickedOnly, Utilities.GL_WIDTH_100);
-                        searchInScenesInBuildTickedOnly = !EditorGUILayout.ToggleLeft("All", !searchInScenesInBuildTickedOnly, Utilities.GL_WIDTH_100);
+                        searchInScenesInBuildTickedOnly = EditorGUILayout.ToggleLeft("Ticked only",
+                            searchInScenesInBuildTickedOnly, Utilities.GL_WIDTH_100);
+                        searchInScenesInBuildTickedOnly = !EditorGUILayout.ToggleLeft("All",
+                            !searchInScenesInBuildTickedOnly, Utilities.GL_WIDTH_100);
 
                         GUILayout.EndHorizontal();
                     }
@@ -574,12 +612,16 @@ namespace VirtueSky.AssetFinder.Editor
 
                 EditorGUI.BeginDisabledGroup(!searchInOpenScenes && !searchInScenesInBuild && !searchInAllScenes);
                 searchInSceneLightingSettings =
-                    WordWrappingToggleLeft("Scene Lighting Settings (WARNING: This may change the active scene during search)", searchInSceneLightingSettings);
+                    WordWrappingToggleLeft(
+                        "Scene Lighting Settings (WARNING: This may change the active scene during search)",
+                        searchInSceneLightingSettings);
                 EditorGUI.EndDisabledGroup();
 
                 Utilities.DrawSeparatorLine();
 
-                searchInProjectSettings = WordWrappingToggleLeft("Project Settings (Player Settings, Graphics Settings etc.)", searchInProjectSettings);
+                searchInProjectSettings =
+                    WordWrappingToggleLeft("Project Settings (Player Settings, Graphics Settings etc.)",
+                        searchInProjectSettings);
 
                 GUILayout.Space(10f);
 
@@ -590,26 +632,36 @@ namespace VirtueSky.AssetFinder.Editor
 #if ASSET_USAGE_ADDRESSABLES
                 EditorGUI.BeginDisabledGroup(addressablesSupport);
 #endif
-                lazySceneSearch = WordWrappingToggleLeft("Lazy scene search: scenes are searched in detail only when they are manually refreshed (faster search)", lazySceneSearch);
+                lazySceneSearch =
+                    WordWrappingToggleLeft(
+                        "Lazy scene search: scenes are searched in detail only when they are manually refreshed (faster search)",
+                        lazySceneSearch);
 #if ASSET_USAGE_ADDRESSABLES
                 EditorGUI.EndDisabledGroup();
-                addressablesSupport = WordWrappingToggleLeft("Addressables support (Experimental) (WARNING: 'Lazy scene search' will be disabled) (slower search)",
+                addressablesSupport =
+ WordWrappingToggleLeft("Addressables support (Experimental) (WARNING: 'Lazy scene search' will be disabled) (slower search)",
                     addressablesSupport);
 #endif
                 calculateUnusedObjects = WordWrappingToggleLeft("Calculate unused objects", calculateUnusedObjects);
                 hideDuplicateRows = WordWrappingToggleLeft("Hide duplicate rows in search results", hideDuplicateRows);
 #if UNITY_2018_3_OR_NEWER
                 hideReduntantPrefabVariantLinks =
-                    WordWrappingToggleLeft("Hide redundant prefab variant links (when the same value is assigned to the same Component of a prefab and its variant(s))",
+                    WordWrappingToggleLeft(
+                        "Hide redundant prefab variant links (when the same value is assigned to the same Component of a prefab and its variant(s))",
                         hideReduntantPrefabVariantLinks);
 #endif
-                noAssetDatabaseChanges = WordWrappingToggleLeft("I haven't modified any assets/scenes since the last search (faster search)", noAssetDatabaseChanges);
-                showDetailedProgressBar = WordWrappingToggleLeft("Update search progress bar more often (cancelable search) (slower search)", showDetailedProgressBar);
+                noAssetDatabaseChanges =
+                    WordWrappingToggleLeft("I haven't modified any assets/scenes since the last search (faster search)",
+                        noAssetDatabaseChanges);
+                showDetailedProgressBar = WordWrappingToggleLeft(
+                    "Update search progress bar more often (cancelable search) (slower search)",
+                    showDetailedProgressBar);
 
                 GUILayout.Space(10f);
 
                 // Don't let the user press the GO button without any valid search location
-                if (!searchInAllScenes && !searchInOpenScenes && !searchInScenesInBuild && !searchInAssetsFolder && !searchInProjectSettings)
+                if (!searchInAllScenes && !searchInOpenScenes && !searchInScenesInBuild && !searchInAssetsFolder &&
+                    !searchInProjectSettings)
                     GUI.enabled = false;
 
                 if (GUILayout.Button("GO!", Utilities.GL_HEIGHT_30))
@@ -644,7 +696,8 @@ namespace VirtueSky.AssetFinder.Editor
                     return;
                 }
                 else if (!searchResult.SearchCompletedSuccessfully)
-                    EditorGUILayout.HelpBox("ERROR: search was interrupted, check the logs for more info", MessageType.Error);
+                    EditorGUILayout.HelpBox("ERROR: search was interrupted, check the logs for more info",
+                        MessageType.Error);
 
                 if (searchResult.NumberOfGroups == 0)
                 {
@@ -653,7 +706,9 @@ namespace VirtueSky.AssetFinder.Editor
                 }
                 else
                 {
-                    noAssetDatabaseChanges = WordWrappingToggleLeft("I haven't modified any assets/scenes since the last search (faster Refresh)", noAssetDatabaseChanges);
+                    noAssetDatabaseChanges = WordWrappingToggleLeft(
+                        "I haven't modified any assets/scenes since the last search (faster Refresh)",
+                        noAssetDatabaseChanges);
 
                     EditorGUILayout.Space();
 
@@ -683,10 +738,12 @@ namespace VirtueSky.AssetFinder.Editor
 
             Rect searchedObjectsHeaderRect = GUILayoutUtility.GetLastRect();
             searchedObjectsHeaderRect.x += 5f;
-            searchedObjectsHeaderRect.yMin += (searchedObjectsHeaderRect.height - EditorGUIUtility.singleLineHeight) * 0.5f;
+            searchedObjectsHeaderRect.yMin +=
+                (searchedObjectsHeaderRect.height - EditorGUIUtility.singleLineHeight) * 0.5f;
             searchedObjectsHeaderRect.height = EditorGUIUtility.singleLineHeight;
 
-            drawObjectsToSearchSection = EditorGUI.Foldout(searchedObjectsHeaderRect, drawObjectsToSearchSection, GUIContent.none, true);
+            drawObjectsToSearchSection = EditorGUI.Foldout(searchedObjectsHeaderRect, drawObjectsToSearchSection,
+                GUIContent.none, true);
 
             if (drawObjectsToSearchSection)
                 objectsToSearchDrawer.Draw(objectsToSearch);
@@ -720,7 +777,9 @@ namespace VirtueSky.AssetFinder.Editor
             // Start searching
             searchResult = core.Run(new AssetUsageDetector.Parameters()
             {
-                objectsToSearch = !objectsToSearch.IsEmpty() ? new ObjectToSearchEnumerator(objectsToSearch).ToArray() : null,
+                objectsToSearch = !objectsToSearch.IsEmpty()
+                    ? new ObjectToSearchEnumerator(objectsToSearch).ToArray()
+                    : null,
                 searchInScenes = GetSceneSearchMode(true),
                 searchInSceneLightingSettings = searchInSceneLightingSettings,
                 searchInAssetsFolder = searchInAssetsFolder,
@@ -739,7 +798,7 @@ namespace VirtueSky.AssetFinder.Editor
                 lazySceneSearch = lazySceneSearch && !addressablesSupport,
                 addressablesSupport = addressablesSupport,
 #else
-				lazySceneSearch = lazySceneSearch,
+                lazySceneSearch = lazySceneSearch,
 #endif
                 calculateUnusedObjects = calculateUnusedObjects,
                 hideDuplicateRows = hideDuplicateRows,
@@ -775,9 +834,11 @@ namespace VirtueSky.AssetFinder.Editor
             for (int i = 0; i < objectsToSearch.Count; i++)
             {
                 Object obj = objectsToSearch[i].obj;
-                if (obj != null && !obj.Equals(null) && obj is GameObject && prefabStage.IsPartOfPrefabContents((GameObject)obj))
+                if (obj != null && !obj.Equals(null) && obj is GameObject &&
+                    prefabStage.IsPartOfPrefabContents((GameObject)obj))
                 {
-                    GameObject prefabStageObjectSource = ((GameObject)obj).FollowSymmetricHierarchy(prefabStage.prefabContentsRoot, prefabAsset);
+                    GameObject prefabStageObjectSource =
+                        ((GameObject)obj).FollowSymmetricHierarchy(prefabStage.prefabContentsRoot, prefabAsset);
                     if (prefabStageObjectSource != null)
                         objectsToSearch[i].obj = prefabStageObjectSource;
 
@@ -785,9 +846,11 @@ namespace VirtueSky.AssetFinder.Editor
                     for (int j = 0; j < subAssets.Count; j++)
                     {
                         obj = subAssets[j].subAsset;
-                        if (obj != null && !obj.Equals(null) && obj is GameObject && prefabStage.IsPartOfPrefabContents((GameObject)obj))
+                        if (obj != null && !obj.Equals(null) && obj is GameObject &&
+                            prefabStage.IsPartOfPrefabContents((GameObject)obj))
                         {
-                            prefabStageObjectSource = ((GameObject)obj).FollowSymmetricHierarchy(prefabStage.prefabContentsRoot, prefabAsset);
+                            prefabStageObjectSource =
+                                ((GameObject)obj).FollowSymmetricHierarchy(prefabStage.prefabContentsRoot, prefabAsset);
                             if (prefabStageObjectSource != null)
                                 subAssets[j].subAsset = prefabStageObjectSource;
                         }
@@ -811,7 +874,8 @@ namespace VirtueSky.AssetFinder.Editor
             return true;
         }
 
-        internal void OnSettingsChanged(bool highlightedSearchTextColorChanged = false, bool tooltipDescriptionsColorChanged = false)
+        internal void OnSettingsChanged(bool highlightedSearchTextColorChanged = false,
+            bool tooltipDescriptionsColorChanged = false)
         {
             if (searchResult == null)
                 return;
@@ -822,8 +886,10 @@ namespace VirtueSky.AssetFinder.Editor
             {
                 if (searchResult[i].treeView != null)
                 {
-                    searchResult[i].treeView.rowHeight = EditorGUIUtility.singleLineHeight + AssetUsageDetectorSettings.ExtraRowHeight;
-                    searchResult[i].treeView.OnSettingsChanged(highlightedSearchTextColorChanged, tooltipDescriptionsColorChanged);
+                    searchResult[i].treeView.rowHeight =
+                        EditorGUIUtility.singleLineHeight + AssetUsageDetectorSettings.ExtraRowHeight;
+                    searchResult[i].treeView
+                        .OnSettingsChanged(highlightedSearchTextColorChanged, tooltipDescriptionsColorChanged);
                 }
             }
         }

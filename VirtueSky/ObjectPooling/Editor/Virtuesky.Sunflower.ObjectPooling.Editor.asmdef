@@ -1,0 +1,19 @@
+{
+    "name": "Virtuesky.Sunflower.ObjectPooling.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c904f6d969e991d459a0843b71c22ec5",
+        "GUID:ce8c6e3f188ed064f933ef35b46bf8bd"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

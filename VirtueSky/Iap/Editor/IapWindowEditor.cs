@@ -12,8 +12,8 @@ namespace VirtueSky.Iap
         private Vector2 _scrollPosition;
         private Editor _editor;
 
-        [MenuItem("Sunflower/Iap/IapSetting &W", false)]
-        public static void MenuOpenAdSettings()
+        [MenuItem("Sunflower/Iap/IapSetting &2", false)]
+        public static void OpenIapSettingsWindows()
         {
             var iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
             IapWindowEditor window = GetWindow<IapWindowEditor>("Iap Settings");
@@ -52,11 +52,11 @@ namespace VirtueSky.Iap
         }
 
 
-        [MenuItem("Sunflower/Iap/Iap Data Variable")]
-        public static void CreateVariableTransform()
-        {
-            CreateAsset.CreateScriptableAssetsOnlyName<IapDataVariable>("/Iap/Products");
-        }
+        // [MenuItem("Sunflower/Iap/Iap Data Variable")]
+        // public static void CreateVariableTransform()
+        // {
+        //     CreateAsset.CreateScriptableAssetsOnlyName<IapDataVariable>("/Iap/Products");
+        // }
 
         [MenuItem("Sunflower/Iap/Iap Purchase Product Event")]
         public static void CreateIapProductEvent()
