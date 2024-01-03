@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VirtueSky.Inspector;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
@@ -28,9 +29,7 @@ namespace VirtueSky.Ads
 
         private const string pathMax = "/Ads/Applovin";
 
-        [Header("Applovin")] [Space, TextArea, SerializeField]
-        private string sdkKey;
-
+        [TextArea, SerializeField] private string sdkKey;
         [SerializeField] private bool applovinEnableAgeRestrictedUser;
         [SerializeField] private MaxAdClient maxAdClient;
         [SerializeField] private MaxBannerVariable maxBannerVariable;
@@ -52,12 +51,12 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         public void CreateMax()
         {
-            maxAdClient = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
-            maxBannerVariable = CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
-            maxInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
-            maxRewardVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
-            maxRewardInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
-            maxAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
+            // maxAdClient = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
+            // maxBannerVariable = CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
+            // maxInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
+            // maxRewardVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
+            // maxRewardInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
+            // maxAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
         }
 #endif
 
@@ -67,9 +66,8 @@ namespace VirtueSky.Ads
 
         private const string pathAdmob = "/Ads/Admob";
 
-        [Header("Admob")] [Space, SerializeField]
-        private AdmobAdClient admobAdClient;
-
+        // [HeaderLine("Admob")] 
+        [SerializeField] private AdmobAdClient admobAdClient;
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
@@ -88,13 +86,13 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         public void CreateAdmob()
         {
-            admobAdClient = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
-            admobBannerVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
-            admobInterVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
-            admobRewardVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
-            admobRewardInterVariable =
-                CreateAsset.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
-            admobAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+            //admobAdClient = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
+            // admobBannerVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
+            // admobInterVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
+            // admobRewardVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
+            // admobRewardInterVariable =
+            //     CreateAsset.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
+            // admobAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
         }
 #endif
 

@@ -1,17 +1,50 @@
 #if UNITY_EDITOR
+
+using System;
 using UnityEditor;
+using UnityEngine;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
 {
     public class AdsWindowEditor : EditorWindow
     {
+        private Vector2 _scrollPosition;
+        private Editor _editor;
+        private AdSetting _adSetting;
+
         [MenuItem("Sunflower/Ads/AdSetting %E", false)]
         public static void MenuOpenAdSettings()
         {
             var adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
-            Selection.activeObject = adSetting;
-            EditorUtility.FocusProjectWindow();
+            AdsWindowEditor adWindow = GetWindow<AdsWindowEditor>("Ads Settings");
+            adWindow._adSetting = adSetting;
+            if (adWindow == null)
+            {
+                Debug.LogError("Couldn't open the ads settings window!");
+                return;
+            }
+
+            adWindow.minSize = new Vector2(275, 0);
+            adWindow.Show();
+        }
+
+        private void OnGUI()
+        {
+            if (_editor == null) _editor = UnityEditor.Editor.CreateEditor(_adSetting);
+
+            if (_editor == null)
+            {
+                EditorGUILayout.HelpBox("Couldn't create the settings resources editor.", MessageType.Error);
+                return;
+            }
+
+            _editor.DrawHeader();
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+            EditorGUILayout.BeginVertical(new GUIStyle { padding = new RectOffset(6, 3, 3, 3) });
+            _editor.OnInspectorGUI();
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndScrollView();
         }
 
         #region Applovin
