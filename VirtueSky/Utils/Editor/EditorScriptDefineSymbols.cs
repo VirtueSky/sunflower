@@ -23,6 +23,11 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsAdsFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_ADS");
+        }
+
         #endregion
 
         #region Applovin
@@ -40,6 +45,11 @@ namespace VirtueSky.UtilsEditor
         {
             Menu.SetChecked(menuPathApplovin, IsFlagEnabled("ADS_APPLOVIN"));
             return true;
+        }
+
+        public static bool IsApplovinFlag()
+        {
+            return IsFlagEnabled("ADS_APPLOVIN");
         }
 
         #endregion
@@ -61,6 +71,11 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsAdmobFlag()
+        {
+            return IsFlagEnabled("ADS_ADMOB");
+        }
+
         #endregion
 
         #region Adjust
@@ -78,6 +93,11 @@ namespace VirtueSky.UtilsEditor
         {
             Menu.SetChecked(menuPathAdjust, IsFlagEnabled("VIRTUESKY_ADJUST"));
             return true;
+        }
+
+        public static bool IsAdjustFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_ADJUST");
         }
 
         #endregion
@@ -99,6 +119,11 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsAnalyticFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_FIREBASE_ANALYTIC");
+        }
+
         #endregion
 
         #region Firebase Remote Config
@@ -116,6 +141,11 @@ namespace VirtueSky.UtilsEditor
         {
             Menu.SetChecked(menuPathRemoteConfig, IsFlagEnabled("VIRTUESKY_FIREBASE_REMOTECONFIG"));
             return true;
+        }
+
+        public static bool IsRemoteConfigConfigFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_FIREBASE_REMOTECONFIG");
         }
 
         #endregion
@@ -137,6 +167,11 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsFirebaseAppFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_FIREBASE");
+        }
+
         #endregion
 
         #region Iap
@@ -154,6 +189,11 @@ namespace VirtueSky.UtilsEditor
         {
             Menu.SetChecked(menuPathIAP, IsFlagEnabled("VIRTUESKY_IAP"));
             return true;
+        }
+
+        public static bool IsIapFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_IAP");
         }
 
         #endregion
@@ -175,6 +215,11 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsRattingFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_RATING");
+        }
+
         #endregion
 
         #region Notification
@@ -194,11 +239,16 @@ namespace VirtueSky.UtilsEditor
             return true;
         }
 
+        public static bool IsNotificationFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_NOTIFICATION");
+        }
+
         #endregion
 
         #region Base Functions
 
-        static void SwitchFlag(string flag)
+        public static void SwitchFlag(string flag)
         {
             PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
                 out var defines);
@@ -207,7 +257,7 @@ namespace VirtueSky.UtilsEditor
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
         }
 
-        static bool IsFlagEnabled(string flag)
+        public static bool IsFlagEnabled(string flag)
         {
             PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
                 out var defines);

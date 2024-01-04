@@ -8,6 +8,6 @@ public class NotificationWindowEditor : EditorWindow
     [MenuItem("Sunflower/Notification Channel")]
     public static void CreateNotificationChannel()
     {
-        CreateAsset.CreateScriptableAssetsOnlyName<NotificationVariable>("/Notifications");
+        CreateAsset.CreateScriptableAssetsOnlyName<NotificationVariable>("/Notifications", "notification_channel_data");
     }
 }

@@ -15,7 +15,7 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{typeof(T).Name}.asset");
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
-
+            Selection.activeObject = setting;
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
         }
@@ -28,15 +28,15 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{newName}.asset");
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
-
+            Selection.activeObject = setting;
             Debug.Log(
                 $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
         }
 
-        public static void CreateScriptableAssetsOnlyName<T>(string path = "") where T : ScriptableObject
+        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "") where T : ScriptableObject
         {
             int assetCounter = 0;
-            string assetName = $"{typeof(T).Name}";
+            string assetName = name == "" ? $"{typeof(T).Name}" : name;
             string assetPath = $"{DefaultResourcesPath(path)}/{assetName}.asset";
 
             while (AssetDatabase.LoadAssetAtPath<T>(assetPath) != null)
@@ -50,6 +50,7 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.CreateAsset(setting, assetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
+            Selection.activeObject = setting;
 
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created at {assetPath}</color>");
@@ -94,7 +95,6 @@ namespace VirtueSky.UtilsEditor
                 EditorSettings.NamingScheme.Underscore => $"{baseName}_{counter}",
                 _ => $"{baseName} ({counter})"
             };
-            
         }
 #endif
 
