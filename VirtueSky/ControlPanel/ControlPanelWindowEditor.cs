@@ -107,6 +107,11 @@ namespace VirtueSky.ControlPanel
             {
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
+
+            if (GUILayout.Button("About"))
+            {
+                statePanelControl = StatePanelControl.About;
+            }
         }
 
         void DrawContent()
@@ -145,6 +150,9 @@ namespace VirtueSky.ControlPanel
                     break;
                 case StatePanelControl.ScriptDefineSymbols:
                     OnDrawScriptDefineSymbols();
+                    break;
+                case StatePanelControl.About:
+                    OnDrawAbout();
                     break;
             }
         }
@@ -541,6 +549,30 @@ namespace VirtueSky.ControlPanel
             GUILayout.EndVertical();
         }
 
+        void OnDrawAbout()
+        {
+            GUILayout.Space(10);
+            GUILayout.BeginVertical();
+            GUILayout.Label("ABOUT", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
+            GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games", EditorStyles.boldLabel);
+            GUILayout.TextArea("Version: 2.2.9", EditorStyles.boldLabel);
+            GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Open Repo Github"))
+            {
+                Application.OpenURL("https://github.com/VirtueSky/sunflower");
+            }
+
+            if (GUILayout.Button("Document"))
+            {
+                Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
+            }
+
+            GUILayout.EndVertical();
+        }
+
         #endregion
 
         void GuiLine(int i_height = 1)
@@ -571,5 +603,6 @@ namespace VirtueSky.ControlPanel
         SO_Event,
         SO_Variable,
         ScriptDefineSymbols,
+        About,
     }
 }
