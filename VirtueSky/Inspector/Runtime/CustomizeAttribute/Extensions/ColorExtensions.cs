@@ -40,6 +40,10 @@ namespace VirtueSky.Inspector
                 case CustomColor.Violet: return new Color32(181, 93, 237, 255);
                 case CustomColor.White: return new Color32(255, 255, 255, 255);
                 case CustomColor.Yellow: return new Color32(255, 211, 0, 255);
+                case CustomColor.Aquamarine: return new Color32(127, 255, 212, 255);
+                case CustomColor.Crimson: return new Color32(220, 20, 60, 255);
+                case CustomColor.LightGreen: return new Color32(144, 238, 144, 255);
+                case CustomColor.SkyBlue: return new Color32(135, 206, 235, 255);
                 default: return new Color32(0, 0, 0, 0);
             }
         }

@@ -54,37 +54,37 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/Ads/Applovin/Max Client")]
         public static void CreateMaxClient()
         {
-            CreateAsset.CreateScriptableAssets<MaxAdClient>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxAdClient>(pathMax, "max_ad_client");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max Banner")]
         public static void CreateMaxBanner()
         {
-            CreateAsset.CreateScriptableAssets<MaxBannerVariable>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxBannerVariable>(pathMax, "max_banner_variable");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max Inter")]
         public static void CreateMaxInter()
         {
-            CreateAsset.CreateScriptableAssets<MaxInterVariable>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxInterVariable>(pathMax, "max_inter_variable");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max Reward")]
         public static void CreateMaxReward()
         {
-            CreateAsset.CreateScriptableAssets<MaxRewardVariable>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxRewardVariable>(pathMax, "max_reward_variable");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max App Open")]
         public static void CreateMaxAppOpen()
         {
-            CreateAsset.CreateScriptableAssets<MaxAppOpenVariable>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxAppOpenVariable>(pathMax, "max_app_open_variable");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max Reward Inter")]
         public static void CreateMaxRewardInter()
         {
-            CreateAsset.CreateScriptableAssets<MaxRewardInterVariable>(pathMax);
+            CreateAsset.CreateScriptableAssets<MaxRewardInterVariable>(pathMax, "max_reward_inter_variable");
         }
 
         #endregion
@@ -96,37 +96,37 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/Ads/Admob/Admob Client")]
         public static void CreateAdmobClient()
         {
-            CreateAsset.CreateScriptableAssets<AdmobAdClient>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobAdClient>(pathAdmob, "admob_ad_client");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Banner")]
         public static void CreateAdmobBanner()
         {
-            CreateAsset.CreateScriptableAssets<AdmobBannerVariable>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobBannerVariable>(pathAdmob, "admob_banner_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Inter")]
         public static void CreateAdmobInter()
         {
-            CreateAsset.CreateScriptableAssets<AdmobInterVariable>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobInterVariable>(pathAdmob, "admob_inter_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Reward")]
         public static void CreateAdmobReward()
         {
-            CreateAsset.CreateScriptableAssets<AdmobRewardVariable>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobRewardVariable>(pathAdmob, "admob_reward_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob App Open")]
         public static void CreateAdmobAppOpen()
         {
-            CreateAsset.CreateScriptableAssets<AdmobAppOpenVariable>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobAppOpenVariable>(pathAdmob, "admob_app_open_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Reward Inter")]
         public static void CreateAdmobRewardInter()
         {
-            CreateAsset.CreateScriptableAssets<AdmobRewardInterVariable>(pathAdmob);
+            CreateAsset.CreateScriptableAssets<AdmobRewardInterVariable>(pathAdmob, "admob_reward_inter_variable");
         }
 
         #endregion

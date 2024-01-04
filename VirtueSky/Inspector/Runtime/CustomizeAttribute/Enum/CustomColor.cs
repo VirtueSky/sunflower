@@ -32,6 +32,10 @@
         Teal,
         Violet,
         White,
-        Yellow
+        Yellow,
+        Aquamarine,
+        Crimson,
+        LightGreen,
+        SkyBlue
     }
 }

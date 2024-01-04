@@ -17,6 +17,8 @@ namespace VirtueSky.ControlPanel
     public class ControlPanelWindowEditor : EditorWindow
     {
         private StatePanelControl statePanelControl;
+        private bool isFieldMax = false;
+        private bool isFielAdmob = false;
 
         [MenuItem("Sunflower/Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -36,9 +38,9 @@ namespace VirtueSky.ControlPanel
         {
             EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorExtensions.ToColor(CustomColor.DarkOlive));
             GUILayout.Space(10);
-            GUI.contentColor = ColorExtensions.ToColor(CustomColor.Cyan);
+            GUI.contentColor = ColorExtensions.ToColor(CustomColor.Orange);
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = ColorExtensions.ToColor(CustomColor.Orange);
+            GUI.backgroundColor = ColorExtensions.ToColor(CustomColor.Blue);
             GuiLine();
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
@@ -63,9 +65,14 @@ namespace VirtueSky.ControlPanel
                 statePanelControl = StatePanelControl.InAppPurchase;
             }
 
-            if (GUILayout.Button("Assets Usage Detector"))
+            if (GUILayout.Button("ScriptableObject Event"))
             {
-                statePanelControl = StatePanelControl.AssetsUsageDetector;
+                statePanelControl = StatePanelControl.SO_Event;
+            }
+
+            if (GUILayout.Button("ScriptableObject Variable"))
+            {
+                statePanelControl = StatePanelControl.SO_Variable;
             }
 
             if (GUILayout.Button("Audio"))
@@ -76,6 +83,11 @@ namespace VirtueSky.ControlPanel
             if (GUILayout.Button("Pools"))
             {
                 statePanelControl = StatePanelControl.Pools;
+            }
+
+            if (GUILayout.Button("Assets Usage Detector"))
+            {
+                statePanelControl = StatePanelControl.AssetsUsageDetector;
             }
 
             if (GUILayout.Button("In App Review"))
@@ -91,16 +103,6 @@ namespace VirtueSky.ControlPanel
             if (GUILayout.Button("Notifications Chanel"))
             {
                 statePanelControl = StatePanelControl.NotificationsChanel;
-            }
-
-            if (GUILayout.Button("ScriptableObject Event"))
-            {
-                statePanelControl = StatePanelControl.SO_Event;
-            }
-
-            if (GUILayout.Button("ScriptableObject Variable"))
-            {
-                statePanelControl = StatePanelControl.SO_Variable;
             }
 
             if (GUILayout.Button("Scripting Define Symbols"))
@@ -165,9 +167,79 @@ namespace VirtueSky.ControlPanel
             GUILayout.BeginVertical();
             GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("AdSetting (Alt+4 / Option+4)"))
+            if (GUILayout.Button("Open AdSetting (Alt+4 / Option+4)"))
             {
                 AdsWindowEditor.OpenAdSettingsWindows();
+            }
+
+            GUILayout.Space(10);
+            isFieldMax = GUILayout.Toggle(isFieldMax, "Max");
+            if (isFieldMax)
+            {
+                if (GUILayout.Button("Create Max Client"))
+                {
+                    AdsWindowEditor.CreateMaxClient();
+                }
+
+                if (GUILayout.Button("Create Max Banner"))
+                {
+                    AdsWindowEditor.CreateMaxBanner();
+                }
+
+                if (GUILayout.Button("Create Max Inter"))
+                {
+                    AdsWindowEditor.CreateMaxInter();
+                }
+
+                if (GUILayout.Button("Create Max Reward"))
+                {
+                    AdsWindowEditor.CreateMaxReward();
+                }
+
+                if (GUILayout.Button("Create Max Reward Inter"))
+                {
+                    AdsWindowEditor.CreateMaxRewardInter();
+                }
+
+                if (GUILayout.Button("Create Max App Open"))
+                {
+                    AdsWindowEditor.CreateMaxAppOpen();
+                }
+            }
+
+            GUILayout.Space(10);
+            isFielAdmob = GUILayout.Toggle(isFielAdmob, "Admob");
+            if (isFielAdmob)
+            {
+                if (GUILayout.Button("Create Admob Client"))
+                {
+                    AdsWindowEditor.CreateAdmobClient();
+                }
+
+                if (GUILayout.Button("Create Admob Banner"))
+                {
+                    AdsWindowEditor.CreateAdmobBanner();
+                }
+
+                if (GUILayout.Button("Create Admob Inter"))
+                {
+                    AdsWindowEditor.CreateAdmobInter();
+                }
+
+                if (GUILayout.Button("Create Admob Reward"))
+                {
+                    AdsWindowEditor.CreateAdmobReward();
+                }
+
+                if (GUILayout.Button("Create Admob Reward Inter"))
+                {
+                    AdsWindowEditor.CreateAdmobRewardInter();
+                }
+
+                if (GUILayout.Button("Create Admob App Open"))
+                {
+                    AdsWindowEditor.CreateAdmobAppOpen();
+                }
             }
 
             GUILayout.EndVertical();
@@ -179,7 +251,7 @@ namespace VirtueSky.ControlPanel
             GUILayout.BeginVertical();
             GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("AdSetting (Alt+2 / Option+2)"))
+            if (GUILayout.Button("Open AdSetting (Alt+2 / Option+2)"))
             {
                 IapWindowEditor.OpenIapSettingsWindows();
             }
