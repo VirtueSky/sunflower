@@ -20,7 +20,7 @@ namespace VirtueSky.ControlPanel
         private bool isFieldMax = false;
         private bool isFielAdmob = false;
 
-        [MenuItem("Sunflower/Panel &1", false)]
+        [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window = GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
@@ -629,7 +629,7 @@ namespace VirtueSky.ControlPanel
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
             GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games", EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.2.9", EditorStyles.boldLabel);
+            GUILayout.TextArea("Version: 2.3.0", EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open Repo Github"))
