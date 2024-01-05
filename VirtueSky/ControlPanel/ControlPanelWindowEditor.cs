@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEditor.Graphs;
 using UnityEngine;
 using VirtueSky.Ads;
 using VirtueSky.AssetFinder.Editor;
@@ -19,6 +20,9 @@ namespace VirtueSky.ControlPanel
         private StatePanelControl statePanelControl;
         private bool isFieldMax = false;
         private bool isFielAdmob = false;
+        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.DodgerBlue);
+        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
+        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -36,12 +40,12 @@ namespace VirtueSky.ControlPanel
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorExtensions.ToColor(CustomColor.DarkOlive));
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
             GUILayout.Space(10);
-            GUI.contentColor = ColorExtensions.ToColor(CustomColor.Orange);
+            GUI.contentColor = colorContent;
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = ColorExtensions.ToColor(CustomColor.Blue);
-            GuiLine();
+            GUI.backgroundColor = colorBackgroundBtn;
+            GuiLine(2, Color.black);
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical(GUILayout.Width(200));
@@ -662,13 +666,13 @@ namespace VirtueSky.ControlPanel
 
         #endregion
 
-        void GuiLine(int i_height = 1)
+        void GuiLine(int i_height, Color colorLine)
         {
             Rect rect = EditorGUILayout.GetControlRect(false, i_height);
 
             rect.height = i_height;
 
-            EditorGUI.DrawRect(rect, new Color(0.5f, 0.5f, 0.5f, 1));
+            EditorGUI.DrawRect(rect, colorLine);
         }
 
         string TextIsEnable(bool condition)
