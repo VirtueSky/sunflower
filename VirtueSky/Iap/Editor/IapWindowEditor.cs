@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Iap
@@ -11,6 +12,10 @@ namespace VirtueSky.Iap
         private IapSetting _iapSetting;
         private Vector2 _scrollPosition;
         private Editor _editor;
+
+        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
+        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
+        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Iap/IapSetting &2", false)]
         public static void OpenIapSettingsWindows()
@@ -32,6 +37,9 @@ namespace VirtueSky.Iap
 
         private void OnGUI()
         {
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
+            GUI.contentColor = colorContent;
+            GUI.backgroundColor = colorBackgroundBtn;
             if (_editor == null)
             {
                 _editor = Editor.CreateEditor(_iapSetting);

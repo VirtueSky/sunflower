@@ -1,8 +1,7 @@
 #if UNITY_EDITOR
-
-using System;
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
@@ -12,6 +11,9 @@ namespace VirtueSky.Ads
         private Vector2 _scrollPosition;
         private Editor _editor;
         private AdSetting _adSetting;
+        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
+        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
+        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Ads/AdSetting &4", false)]
         public static void OpenAdSettingsWindows()
@@ -31,6 +33,9 @@ namespace VirtueSky.Ads
 
         private void OnGUI()
         {
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
+            GUI.contentColor = colorContent;
+            GUI.backgroundColor = colorBackgroundBtn;
             if (_editor == null) _editor = UnityEditor.Editor.CreateEditor(_adSetting);
 
             if (_editor == null)

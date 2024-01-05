@@ -20,7 +20,7 @@ namespace VirtueSky.ControlPanel
         private StatePanelControl statePanelControl;
         private bool isFieldMax = false;
         private bool isFielAdmob = false;
-        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.DodgerBlue);
+        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.LightRed);
         private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
         private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
