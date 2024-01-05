@@ -50,13 +50,14 @@ namespace VirtueSky.ControlPanel
             GUI.contentColor = ColorTextContent.ToColor();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
             GUI.backgroundColor = ColorContent.ToColor();
-            GuiLine(2, Color.black);
+            Handles.color = Color.black;
+            Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
+            // GuiLine(2, Color.black);
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical(GUILayout.Width(200));
             DrawButton();
-            Handles.color = Color.black;
-            Handles.DrawLine(new Vector3(210, 0), new Vector3(210, position.height));
+            Handles.DrawAAPolyLine(4, new Vector3(210, 0), new Vector3(210, position.height));
             GUILayout.EndVertical();
             DrawContent();
             GUILayout.EndHorizontal();
@@ -182,6 +183,9 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
             isFieldMax = GUILayout.Toggle(isFieldMax, "Max");
             if (isFieldMax)
             {
@@ -216,6 +220,9 @@ namespace VirtueSky.ControlPanel
                 }
             }
 
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             isFielAdmob = GUILayout.Toggle(isFielAdmob, "Admob");
             if (isFielAdmob)
@@ -677,8 +684,8 @@ namespace VirtueSky.ControlPanel
                 Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
             }
 
-            Handles.DrawLine(new Vector3(210, 195), new Vector3(position.width, 195));
-            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, 195), new Vector3(position.width, 195));
+            GUILayout.Space(20);
             GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
             GUILayout.Space(10);
             ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);

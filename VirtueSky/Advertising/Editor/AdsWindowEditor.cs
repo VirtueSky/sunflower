@@ -55,7 +55,7 @@ namespace VirtueSky.Ads
 
             GUILayout.Space(10);
             Handles.color = Color.black;
-            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10),
+            Handles.DrawAAPolyLine(3, new Vector3(0, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
