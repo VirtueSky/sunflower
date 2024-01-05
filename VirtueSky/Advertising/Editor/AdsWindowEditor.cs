@@ -12,6 +12,8 @@ namespace VirtueSky.Ads
         private Editor _editor;
 
         private AdSetting _adSetting;
+
+        private bool isSetupTheme = false;
         // private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
         // private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
         // private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
@@ -49,6 +51,26 @@ namespace VirtueSky.Ads
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical(new GUIStyle { padding = new RectOffset(6, 3, 3, 3) });
             _editor.OnInspectorGUI();
+
+            GUILayout.Space(10);
+            Handles.color = Color.black;
+            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10), new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
+            if (isSetupTheme)
+            {
+                ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+                ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+                ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+                GUILayout.Space(10);
+                if (GUILayout.Button("Theme Default"))
+                {
+                    ColorContent = CustomColor.BlanchedAlmond;
+                    ColorTextContent = CustomColor.Gold;
+                    ColorBackgroundRect = CustomColor.DarkSlateGray;
+                }
+            }
+
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
         }

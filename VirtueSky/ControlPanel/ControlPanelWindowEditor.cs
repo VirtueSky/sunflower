@@ -668,7 +668,7 @@ namespace VirtueSky.ControlPanel
 
             Handles.DrawLine(new Vector3(210, 195), new Vector3(position.width, 195));
             GUILayout.Space(10);
-            GUILayout.Label("THEME", EditorStyles.boldLabel);
+            GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
             GUILayout.Space(10);
             ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
             ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
