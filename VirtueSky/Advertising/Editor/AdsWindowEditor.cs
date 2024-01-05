@@ -32,6 +32,7 @@ namespace VirtueSky.Ads
 
             adWindow.minSize = new Vector2(275, 0);
             adWindow.Show();
+            EditorGUIUtility.PingObject(adSetting);
         }
 
         private void OnGUI()
@@ -54,7 +55,8 @@ namespace VirtueSky.Ads
 
             GUILayout.Space(10);
             Handles.color = Color.black;
-            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10), new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
             if (isSetupTheme)

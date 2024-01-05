@@ -48,7 +48,7 @@ namespace VirtueSky.Iap
             }
 
             serializedObject.ApplyModifiedProperties();
-            serializedObject.Update();
+            // serializedObject.Update();
         }
 
         private string path = CreateAsset.DefaultResourcesPath("/Iap/Products");
@@ -59,7 +59,7 @@ namespace VirtueSky.Iap
             for (int i = 0; i < _iapSetting.SkusData.Count; i++)
             {
                 string itemName = _iapSetting.SkusData[i].id.Split('.').Last();
-                Debug.Log(itemName);
+                //  Debug.Log(itemName);
                 AssetDatabase.DeleteAsset($"{path}/iap_{itemName.ToLower()}.asset");
                 var itemDataVariable = CreateInstance<IapDataVariable>();
                 itemDataVariable.id = _iapSetting.SkusData[i].id;
@@ -68,7 +68,16 @@ namespace VirtueSky.Iap
                 AssetDatabase.CreateAsset(itemDataVariable, $"{path}/iap_{itemName.ToLower()}.asset");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+
+                //  Selection.activeObject = itemDataVariable;
             }
+
+            serializedObject.ApplyModifiedProperties();
+            //  Selection.activeObject = this;
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            //  EditorApplication.delayCall += () => EditorGUIUtility.PingObject(this);
         }
 
         void ObfuscatorKey()

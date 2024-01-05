@@ -16,6 +16,7 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
+            EditorGUIUtility.PingObject(setting);
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
         }
@@ -29,11 +30,13 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
+            EditorGUIUtility.PingObject(setting);
             Debug.Log(
                 $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
         }
 
-        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "") where T : ScriptableObject
+        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "")
+            where T : ScriptableObject
         {
             int assetCounter = 0;
             string assetName = name == "" ? $"{typeof(T).Name}" : name;
@@ -42,7 +45,8 @@ namespace VirtueSky.UtilsEditor
             while (AssetDatabase.LoadAssetAtPath<T>(assetPath) != null)
             {
                 assetCounter++;
-                assetPath = $"{DefaultResourcesPath(path)}/{CreateNameBasedOnGameObjectNamingScheme(assetName, assetCounter)}.asset";
+                assetPath =
+                    $"{DefaultResourcesPath(path)}/{CreateNameBasedOnGameObjectNamingScheme(assetName, assetCounter)}.asset";
             }
 
             var setting = ScriptableObject.CreateInstance<T>();
@@ -51,6 +55,7 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
+            EditorGUIUtility.PingObject(setting);
 
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created at {assetPath}</color>");

@@ -32,6 +32,7 @@ namespace VirtueSky.Iap
 
             window.minSize = new Vector2(300, 0);
             window.Show();
+            EditorGUIUtility.PingObject(iapSetting);
             // Selection.activeObject = iapSetting;
             // EditorUtility.FocusProjectWindow();
         }
@@ -58,7 +59,8 @@ namespace VirtueSky.Iap
             _editor.OnInspectorGUI();
             GUILayout.Space(10);
             Handles.color = Color.black;
-            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10), new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
             if (isSetupTheme)
