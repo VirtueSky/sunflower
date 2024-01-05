@@ -1,5 +1,4 @@
 ﻿using UnityEditor;
-using UnityEditor.Graphs;
 using UnityEngine;
 using VirtueSky.Ads;
 using VirtueSky.AssetFinder.Editor;
@@ -19,10 +18,16 @@ namespace VirtueSky.ControlPanel
     {
         private StatePanelControl statePanelControl;
         private bool isFieldMax = false;
+
         private bool isFielAdmob = false;
-        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.LightRed);
-        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
-        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
+        // private static CustomColor selectedColorContent = CustomColor.LightRed;
+        // private static CustomColor selectedColorTextContent = CustomColor.Gold;
+        //
+        // private static CustomColor selectedColorBackgroundRect = CustomColor.DarkSlateGray;
+        // private Color colorContent = ColorExtensions.ToColor(selectedColorContent);
+        // private Color colorTextContent = ColorExtensions.ToColor(selectedColorTextContent);
+        // private Color colorBackgroundRect = ColorExtensions.ToColor(selectedColorBackgroundRect);
+
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -40,11 +45,11 @@ namespace VirtueSky.ControlPanel
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
             GUILayout.Space(10);
-            GUI.contentColor = colorContent;
+            GUI.contentColor = ColorTextContent.ToColor();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = colorBackgroundBtn;
+            GUI.backgroundColor = ColorContent.ToColor();
             GuiLine(2, Color.black);
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
@@ -661,6 +666,21 @@ namespace VirtueSky.ControlPanel
                 Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
             }
 
+            Handles.DrawLine(new Vector3(210, 195), new Vector3(position.width, 195));
+            GUILayout.Space(10);
+            GUILayout.Label("THEME", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+            ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+            ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Theme Default"))
+            {
+                ColorContent = CustomColor.LightRed;
+                ColorTextContent = CustomColor.Gold;
+                ColorBackgroundRect = CustomColor.DarkSlateGray;
+            }
+
             GUILayout.EndVertical();
         }
 
@@ -678,6 +698,24 @@ namespace VirtueSky.ControlPanel
         string TextIsEnable(bool condition)
         {
             return condition ? "Enable" : "Disable";
+        }
+
+        private CustomColor ColorContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel", (int)CustomColor.LightRed);
+            set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
+        }
+
+        private CustomColor ColorTextContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel", (int)CustomColor.Gold);
+            set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
+        }
+
+        private CustomColor ColorBackgroundRect
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel", (int)CustomColor.DarkSlateGray);
+            set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
         }
     }
 

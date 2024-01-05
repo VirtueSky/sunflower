@@ -10,10 +10,11 @@ namespace VirtueSky.Ads
     {
         private Vector2 _scrollPosition;
         private Editor _editor;
+
         private AdSetting _adSetting;
-        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
-        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
-        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
+        // private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
+        // private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
+        // private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Ads/AdSetting &4", false)]
         public static void OpenAdSettingsWindows()
@@ -33,9 +34,9 @@ namespace VirtueSky.Ads
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
-            GUI.contentColor = colorContent;
-            GUI.backgroundColor = colorBackgroundBtn;
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
+            GUI.contentColor = ColorTextContent.ToColor();
+            GUI.backgroundColor = ColorContent.ToColor();
             if (_editor == null) _editor = UnityEditor.Editor.CreateEditor(_adSetting);
 
             if (_editor == null)
@@ -135,6 +136,24 @@ namespace VirtueSky.Ads
         }
 
         #endregion
+
+        private CustomColor ColorContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Ads", (int)CustomColor.BlanchedAlmond);
+            set => EditorPrefs.SetInt("ColorContent_Ads", (int)value);
+        }
+
+        private CustomColor ColorTextContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_Ads", (int)CustomColor.Gold);
+            set => EditorPrefs.SetInt("ColorTextContent_Ads", (int)value);
+        }
+
+        private CustomColor ColorBackgroundRect
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Ads", (int)CustomColor.DarkSlateGray);
+            set => EditorPrefs.SetInt("ColorBackground_Ads", (int)value);
+        }
     }
 }
 #endif

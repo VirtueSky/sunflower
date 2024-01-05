@@ -13,9 +13,10 @@ namespace VirtueSky.Iap
         private Vector2 _scrollPosition;
         private Editor _editor;
 
-        private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
-        private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
-        private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
+        private bool isSetupTheme = false;
+        // private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
+        // private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
+        // private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Iap/IapSetting &2", false)]
         public static void OpenIapSettingsWindows()
@@ -37,9 +38,9 @@ namespace VirtueSky.Iap
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), colorBackgroundRect);
-            GUI.contentColor = colorContent;
-            GUI.backgroundColor = colorBackgroundBtn;
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
+            GUI.contentColor = ColorTextContent.ToColor();
+            GUI.backgroundColor = ColorContent.ToColor();
             if (_editor == null)
             {
                 _editor = Editor.CreateEditor(_iapSetting);
@@ -55,6 +56,25 @@ namespace VirtueSky.Iap
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical(new GUIStyle { padding = new RectOffset(6, 3, 3, 3) });
             _editor.OnInspectorGUI();
+            GUILayout.Space(10);
+            Handles.color = Color.black;
+            Handles.DrawLine(new Vector3(0, GUILayoutUtility.GetLastRect().y + 10), new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
+            if (isSetupTheme)
+            {
+                ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+                ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+                ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+                GUILayout.Space(10);
+                if (GUILayout.Button("Theme Default"))
+                {
+                    ColorContent = CustomColor.BlanchedAlmond;
+                    ColorTextContent = CustomColor.Gold;
+                    ColorBackgroundRect = CustomColor.DarkSlateGray;
+                }
+            }
+
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
         }
@@ -76,6 +96,24 @@ namespace VirtueSky.Iap
         public static void CreateIsPurchaseProductEvent()
         {
             CreateAsset.CreateScriptableAssets<EventIsPurchaseProduct>("/Iap", "iap_is_purchase_product");
+        }
+
+        private CustomColor ColorContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Iap", (int)CustomColor.BlanchedAlmond);
+            set => EditorPrefs.SetInt("ColorContent_Iap", (int)value);
+        }
+
+        private CustomColor ColorTextContent
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_Iap", (int)CustomColor.Gold);
+            set => EditorPrefs.SetInt("ColorTextContent_Iap", (int)value);
+        }
+
+        private CustomColor ColorBackgroundRect
+        {
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Iap", (int)CustomColor.DarkSlateGray);
+            set => EditorPrefs.SetInt("ColorBackground_Iap", (int)value);
         }
 #endif
     }
