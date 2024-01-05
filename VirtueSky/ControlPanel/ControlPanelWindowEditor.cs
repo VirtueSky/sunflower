@@ -511,7 +511,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdsFlag(), TextIsEnable(EditorScriptDefineSymbols.IsAdsFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdsFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsAdsFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -525,7 +526,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsApplovinFlag(), TextIsEnable(EditorScriptDefineSymbols.IsApplovinFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsApplovinFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsApplovinFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -539,7 +541,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdmobFlag(), TextIsEnable(EditorScriptDefineSymbols.IsAdmobFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdmobFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsAdmobFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -553,7 +556,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdjustFlag(), TextIsEnable(EditorScriptDefineSymbols.IsAdjustFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdjustFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsAdjustFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -567,7 +571,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsFirebaseAppFlag(), TextIsEnable(EditorScriptDefineSymbols.IsFirebaseAppFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsFirebaseAppFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsFirebaseAppFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -581,7 +586,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAnalyticFlag(), TextIsEnable(EditorScriptDefineSymbols.IsAnalyticFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsAnalyticFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsAnalyticFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -595,7 +601,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag(), TextIsEnable(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -609,7 +616,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsIapFlag(), TextIsEnable(EditorScriptDefineSymbols.IsIapFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsIapFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsIapFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -623,7 +631,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsRattingFlag(), TextIsEnable(EditorScriptDefineSymbols.IsRattingFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsRattingFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsRattingFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -637,7 +646,8 @@ namespace VirtueSky.ControlPanel
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsNotificationFlag(), TextIsEnable(EditorScriptDefineSymbols.IsNotificationFlag()));
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsNotificationFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsNotificationFlag()));
             GUILayout.EndHorizontal();
 
             #endregion
@@ -652,8 +662,9 @@ namespace VirtueSky.ControlPanel
             GUILayout.Label("ABOUT", EditorStyles.boldLabel);
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
-            GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games", EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.3.0", EditorStyles.boldLabel);
+            GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games",
+                EditorStyles.boldLabel);
+            GUILayout.TextArea("Version: 2.3.1", EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open Repo Github"))
