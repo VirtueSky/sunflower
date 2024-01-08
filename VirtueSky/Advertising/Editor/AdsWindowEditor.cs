@@ -14,9 +14,6 @@ namespace VirtueSky.Ads
         private AdSetting _adSetting;
 
         private bool isSetupTheme = false;
-        // private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
-        // private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
-        // private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Ads/AdSetting &4", false)]
         public static void OpenAdSettingsWindows()

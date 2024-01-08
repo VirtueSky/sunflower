@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using VirtueSky.Ads;
 using VirtueSky.AssetFinder.Editor;
@@ -18,16 +19,9 @@ namespace VirtueSky.ControlPanel
     {
         private StatePanelControl statePanelControl;
         private bool isFieldMax = false;
-
         private bool isFielAdmob = false;
-        // private static CustomColor selectedColorContent = CustomColor.LightRed;
-        // private static CustomColor selectedColorTextContent = CustomColor.Gold;
-        //
-        // private static CustomColor selectedColorBackgroundRect = CustomColor.DarkSlateGray;
-        // private Color colorContent = ColorExtensions.ToColor(selectedColorContent);
-        // private Color colorTextContent = ColorExtensions.ToColor(selectedColorTextContent);
-        // private Color colorBackgroundRect = ColorExtensions.ToColor(selectedColorBackgroundRect);
-
+        private string inputPackageNameAdd = "";
+        private string inputPackageNameRemove = "";
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -39,7 +33,7 @@ namespace VirtueSky.ControlPanel
                 return;
             }
 
-            window.minSize = new Vector2(500, 300);
+            window.minSize = new Vector2(600, 300);
             window.Show();
         }
 
@@ -120,6 +114,11 @@ namespace VirtueSky.ControlPanel
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
 
+            if (GUILayout.Button("Package In Manifest.json"))
+            {
+                statePanelControl = StatePanelControl.ImportPackage;
+            }
+
             if (GUILayout.Button("About"))
             {
                 statePanelControl = StatePanelControl.About;
@@ -162,6 +161,9 @@ namespace VirtueSky.ControlPanel
                     break;
                 case StatePanelControl.ScriptDefineSymbols:
                     OnDrawScriptDefineSymbols();
+                    break;
+                case StatePanelControl.ImportPackage:
+                    OnDrawImportPackageByManifest();
                     break;
                 case StatePanelControl.About:
                     OnDrawAbout();
@@ -716,6 +718,49 @@ namespace VirtueSky.ControlPanel
             GUILayout.EndVertical();
         }
 
+        void OnDrawImportPackageByManifest()
+        {
+            GUILayout.Space(10);
+            GUILayout.BeginVertical();
+            GUILayout.Label("PACKAGE IN MANIFEST", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            GUILayout.Label("Add Package", EditorStyles.boldLabel);
+            GUILayout.BeginHorizontal();
+            inputPackageNameAdd = EditorGUILayout.TextField(inputPackageNameAdd);
+            if (GUILayout.Button("Add", GUILayout.Width(70)))
+            {
+                if (inputPackageNameAdd == "" || inputPackageNameAdd == string.Empty) return;
+                string firstNamePackage = inputPackageNameAdd.Split(':').First();
+                if (FileExtension.IsPackageExistInManifest(inputPackageNameAdd))
+                {
+                }
+
+                //clear text Field
+                inputPackageNameAdd = string.Empty;
+                GUIUtility.keyboardControl = 0;
+                Repaint();
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            GUILayout.Label("Remove Package", EditorStyles.boldLabel);
+            GUILayout.BeginHorizontal();
+            inputPackageNameRemove = EditorGUILayout.TextField(inputPackageNameRemove);
+            if (GUILayout.Button("Remove", GUILayout.Width(70)))
+            {
+                //clear text Field
+                inputPackageNameRemove = string.Empty;
+                GUIUtility.keyboardControl = 0;
+                Repaint();
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+        }
+
         void OnDrawAbout()
         {
             GUILayout.Space(10);
@@ -804,6 +849,7 @@ namespace VirtueSky.ControlPanel
         SO_Event,
         SO_Variable,
         ScriptDefineSymbols,
+        ImportPackage,
         About,
     }
 }

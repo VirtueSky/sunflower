@@ -9,7 +9,7 @@ using UnityEditor;
 namespace VirtueSky.UtilsEditor
 {
 #if UNITY_EDITOR
-    public static class GetFile
+    public static class FileExtension
     {
         public static T GetConfigFromFolder<T>(string path) where T : ScriptableObject
         {
@@ -127,6 +127,43 @@ namespace VirtueSky.UtilsEditor
             var upmPath = $"Packages/com.virtuesky.sunflower/{fullRelativePath}";
             var normalPath = $"Assets/Sunflower/{fullRelativePath}";
             return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
+        }
+
+        public static bool IsPackageExistInManifest(string packageNameAndVersion)
+        {
+            string manifestPath = "Packages/manifest.json";
+
+            if (File.Exists(manifestPath))
+            {
+                string manifestContent = File.ReadAllText(manifestPath);
+                return manifestContent.Contains(packageNameAndVersion);
+            }
+            else
+            {
+                Debug.Log("Could not find fileManifest.json");
+                return false;
+            }
+        }
+
+        public static bool IsExistPackageNameInManifest(string packageName)
+        {
+            string manifestPath = "Packages/manifest.json";
+            if (File.Exists(manifestPath))
+            {
+                string manifestJson = File.ReadAllText(manifestPath);
+                var dependenciesDict = JsonUtility.FromJson<Dictionary<string, string>>(manifestJson);
+                foreach (var dependencies in dependenciesDict)
+                {
+                    if (packageName == dependencies.Key) return true;
+                }
+
+                return false;
+            }
+            else
+            {
+                Debug.Log("Could not find fileManifest.json");
+                return false;
+            }
         }
     }
 #endif

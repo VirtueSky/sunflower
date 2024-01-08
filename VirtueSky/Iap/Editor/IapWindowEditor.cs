@@ -14,9 +14,6 @@ namespace VirtueSky.Iap
         private Editor _editor;
 
         private bool isSetupTheme = false;
-        // private Color colorBackgroundBtn = ColorExtensions.ToColor(CustomColor.BlanchedAlmond);
-        // private Color colorContent = ColorExtensions.ToColor(CustomColor.Gold);
-        // private Color colorBackgroundRect = ColorExtensions.ToColor(CustomColor.DarkSlateGray);
 
         [MenuItem("Sunflower/Iap/IapSetting &2", false)]
         public static void OpenIapSettingsWindows()
