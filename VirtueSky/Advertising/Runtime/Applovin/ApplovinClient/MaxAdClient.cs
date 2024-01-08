@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace VirtueSky.Ads
 {
     public class MaxAdClient : AdClient

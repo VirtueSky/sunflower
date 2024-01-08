@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action displayedCallback;
         [NonSerialized] internal Action failedToDisplayCallback;
         [NonSerialized] internal Action closedCallback;
-        [NonSerialized] public Action<double, string, string, string> paidedCallback;
+        [NonSerialized] public Action<double, string, string, string, AdNetwork> paidedCallback;
 
         public string Id
         {

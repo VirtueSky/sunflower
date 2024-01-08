@@ -1,5 +1,4 @@
 using System;
-using VirtueSky.Ads;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
@@ -66,7 +65,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat);
+                info.AdFormat, AdNetwork.Applovin);
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)

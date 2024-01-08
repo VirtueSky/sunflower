@@ -110,7 +110,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "InterstitialAd");
+                "InterstitialAd", AdNetwork.Admob);
         }
 
         private void OnAdLoaded()

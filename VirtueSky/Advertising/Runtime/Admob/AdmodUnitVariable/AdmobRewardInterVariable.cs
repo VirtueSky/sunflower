@@ -105,7 +105,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "RewardedInterstitialAd");
+                "RewardedInterstitialAd", AdNetwork.Admob);
         }
 
         private void OnAdFailedToShow(AdError error)
