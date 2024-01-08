@@ -73,6 +73,7 @@ namespace VirtueSky.Ads
             GUILayout.Space(10);
             SetupMax();
             SetupAdmob();
+            EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();
         }
 
