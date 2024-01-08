@@ -114,10 +114,10 @@ namespace VirtueSky.ControlPanel
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
 
-            if (GUILayout.Button("Package In Manifest.json"))
-            {
-                statePanelControl = StatePanelControl.ImportPackage;
-            }
+            // if (GUILayout.Button("Package In Manifest.json"))
+            // {
+            //     statePanelControl = StatePanelControl.ImportPackage;
+            // }
 
             if (GUILayout.Button("About"))
             {
@@ -225,11 +225,13 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("If you are missing the AppLovin MAX Unity Plugin, get it here!", MessageType.Info);
+                EditorGUILayout.HelpBox("If you are missing the AppLovin MAX Unity Plugin, get it here!",
+                    MessageType.Info);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Open Page AppLovin To Download"))
                 {
-                    Application.OpenURL("https://dash.applovin.com/documentation/mediation/unity/getting-started/integration");
+                    Application.OpenURL(
+                        "https://dash.applovin.com/documentation/mediation/unity/getting-started/integration");
                 }
 
                 if (GUILayout.Button("Open GitHub Repository AppLovin To Download"))
@@ -242,7 +244,9 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads", MessageType.Info);
+                EditorGUILayout.HelpBox(
+                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads",
+                    MessageType.Info);
                 if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
                 {
                     statePanelControl = StatePanelControl.ScriptDefineSymbols;
@@ -290,7 +294,8 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("If you are missing the Google Mobile Ads Unity Plugin, get it here!", MessageType.Info);
+                EditorGUILayout.HelpBox("If you are missing the Google Mobile Ads Unity Plugin, get it here!",
+                    MessageType.Info);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Open Page Google Admob To Download"))
                 {
@@ -307,7 +312,9 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_ADMOB\" to use Admob Ads", MessageType.Info);
+                EditorGUILayout.HelpBox(
+                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_ADMOB\" to use Admob Ads",
+                    MessageType.Info);
                 if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
                 {
                     statePanelControl = StatePanelControl.ScriptDefineSymbols;
@@ -770,7 +777,7 @@ namespace VirtueSky.ControlPanel
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
             GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games",
                 EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.3.1", EditorStyles.boldLabel);
+            GUILayout.TextArea("Version: 2.3.2", EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open GitHub Repository"))
