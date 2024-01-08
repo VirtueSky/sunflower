@@ -12,6 +12,8 @@ namespace VirtueSky.Ads
     {
         public static void TrackRevenue(double value, string network, string unitId, string format, AdNetwork adNetwork)
         {
+            AdjustTrackRevenue(value, network, unitId, format, adNetwork);
+            FirebaseAnalyticTrackRevenue(value, network, unitId, format, adNetwork);
         }
 
         #region Adjust
