@@ -1,7 +1,9 @@
 {
     "name": "Virtuesky.Sunflower.UtilsEdtitor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:98c7400721ddc874d9bad4ee2f3f66d6"
+    ],
     "includePlatforms": [
         "Editor"
     ],

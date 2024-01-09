@@ -81,10 +81,11 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Applovin);
+                info.AdFormat, AdNetwork.Max);
         }
 
-        private void OnAdReceivedReward(string unit, MaxSdkBase.Reward reward, MaxSdkBase.AdInfo info)
+        private void OnAdReceivedReward(string unit, MaxSdkBase.Reward reward,
+            MaxSdkBase.AdInfo info)
         {
             IsEarnRewarded
                 =
@@ -101,7 +102,8 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref loadedCallback);
         }
 
-        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error, MaxSdkBase.AdInfo info)
+        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,
+            MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
         }

@@ -10,7 +10,8 @@ namespace VirtueSky.Ads
 {
     public static class AppTracking
     {
-        public static void TrackRevenue(double value, string network, string unitId, string format, AdNetwork adNetwork)
+        public static void TrackRevenue(double value, string network, string unitId, string format,
+            AdNetwork adNetwork)
         {
             AdjustTrackRevenue(value, network, unitId, format, adNetwork);
             FirebaseAnalyticTrackRevenue(value, network, unitId, format, adNetwork);
@@ -18,7 +19,8 @@ namespace VirtueSky.Ads
 
         #region Adjust
 
-        public static void AdjustTrackRevenue(double value, string network, string unitId, string placement, AdNetwork adNetwork)
+        public static void AdjustTrackRevenue(double value, string network, string unitId,
+            string placement, AdNetwork adNetwork)
         {
 #if VIRTUESKY_ADJUST
             var source = "";
@@ -27,7 +29,7 @@ namespace VirtueSky.Ads
                 case AdNetwork.Admob:
                     source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceAdMob;
                     break;
-                case AdNetwork.Applovin:
+                case AdNetwork.Max:
                     source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceAppLovinMAX;
                     break;
             }
@@ -45,14 +47,15 @@ namespace VirtueSky.Ads
 
         #region Firebase Analytics
 
-        public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId, string format, AdNetwork adNetwork)
+        public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId,
+            string format, AdNetwork adNetwork)
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
             switch (adNetwork)
             {
                 case AdNetwork.Admob:
                     return;
-                case AdNetwork.Applovin:
+                case AdNetwork.Max:
                     Parameter[] parameters =
                     {
                         new("value", value),

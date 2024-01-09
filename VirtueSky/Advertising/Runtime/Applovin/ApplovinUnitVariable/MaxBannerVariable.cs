@@ -29,7 +29,8 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
                 MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
                 MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                if (size != BannerSize.Adaptive) MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
+                if (size != BannerSize.Adaptive)
+                    MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
                 _registerCallback = true;
             }
 
@@ -85,7 +86,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Applovin);
+                info.AdFormat, AdNetwork.Max);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)

@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using VirtueSky.SimpleJSON;
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -109,7 +112,8 @@ namespace VirtueSky.UtilsEditor
             return t as T;
         }
 
-        public static T[] FindAssetsWithPath<T>(string nameAsset, string relativePath) where T : Object
+        public static T[] FindAssetsWithPath<T>(string nameAsset, string relativePath)
+            where T : Object
         {
             string path = AssetInPackagePath(relativePath, nameAsset);
             var t = AssetDatabase.LoadAllAssetsAtPath(path).OfType<T>().ToArray();
@@ -129,41 +133,48 @@ namespace VirtueSky.UtilsEditor
             return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
         }
 
-        public static bool IsPackageExistInManifest(string packageNameAndVersion)
+        public static (string, string) GetPackageInManifestByPackageName(string packageName)
         {
-            string manifestPath = "Packages/manifest.json";
-
+            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
             if (File.Exists(manifestPath))
             {
-                string manifestContent = File.ReadAllText(manifestPath);
-                return manifestContent.Contains(packageNameAndVersion);
+                string manifestContent = System.IO.File.ReadAllText(manifestPath);
+                JSONNode manifestJson = JSON.Parse(manifestContent);
+                JSONNode dependencies = manifestJson["dependencies"];
+                if (dependencies != null && dependencies.Count > 0)
+                {
+                    //  List<string> libraries = new List<string>();
+                    foreach (KeyValuePair<string, JSONNode> dep in dependencies.AsObject)
+                    {
+                        if (packageName == $"\"{dep.Key}\"")
+                        {
+                            // packageName and packageVersion
+                            return ($"\"{dep.Key}\"", $": {dep.Value}");
+                        }
+                        // libraries.Add($"\"{dep.Key}\": {dep.Value}");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Could not find dependencies or dependencies null.");
+                    return (null, null);
+                }
             }
             else
             {
-                Debug.Log("Could not find fileManifest.json");
-                return false;
+                Debug.LogError("Could not find fileManifest.json");
+                return (null, null);
             }
+
+            return (null, null);
         }
 
-        public static bool IsExistPackageNameInManifest(string packageName)
+        public static void AddPackageInManifest(string packageName, string packageVersion)
         {
-            string manifestPath = "Packages/manifest.json";
-            if (File.Exists(manifestPath))
-            {
-                string manifestJson = File.ReadAllText(manifestPath);
-                var dependenciesDict = JsonUtility.FromJson<Dictionary<string, string>>(manifestJson);
-                foreach (var dependencies in dependenciesDict)
-                {
-                    if (packageName == dependencies.Key) return true;
-                }
+        }
 
-                return false;
-            }
-            else
-            {
-                Debug.Log("Could not find fileManifest.json");
-                return false;
-            }
+        public static void RemovePackageInManifest(string packageName, string packageVersion)
+        {
         }
     }
 #endif

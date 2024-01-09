@@ -24,7 +24,7 @@ namespace VirtueSky.Ads
         {
             switch (adSetting.CurrentAdNetwork)
             {
-                case AdNetwork.Applovin:
+                case AdNetwork.Max:
                     currentAdClient = adSetting.MaxAdClient;
                     break;
                 case AdNetwork.Admob:
@@ -32,7 +32,8 @@ namespace VirtueSky.Ads
                     break;
             }
 
-            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
+            if (changePreventDisplayAppOpenEvent != null)
+                changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
 
             currentAdClient.Initialize();
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
@@ -63,28 +64,32 @@ namespace VirtueSky.Ads
 
         void AutoLoadInterAds()
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp < adSetting.AdLoadingInterval) return;
+            if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
+                adSetting.AdLoadingInterval) return;
             currentAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
 
         void AutoLoadRewardAds()
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp < adSetting.AdLoadingInterval) return;
+            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
+                adSetting.AdLoadingInterval) return;
             currentAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
 
         void AutoLoadRewardInterAds()
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp < adSetting.AdLoadingInterval) return;
+            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
+                adSetting.AdLoadingInterval) return;
             currentAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
 
         void AutoLoadAppOpenAds()
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp < adSetting.AdLoadingInterval) return;
+            if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
+                adSetting.AdLoadingInterval) return;
             currentAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
         }

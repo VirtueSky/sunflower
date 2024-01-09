@@ -64,7 +64,8 @@ namespace VirtueSky.Ads
         #region Func Callback
 
 #if VIRTUESKY_ADS && ADS_APPLOVIN
-        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error, MaxSdkBase.AdInfo info)
+        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,
+            MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
         }
@@ -87,7 +88,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Applovin);
+                info.AdFormat, AdNetwork.Max);
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)

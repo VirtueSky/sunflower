@@ -26,7 +26,8 @@ namespace VirtueSky.ControlPanel
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
         {
-            ControlPanelWindowEditor window = GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
+            ControlPanelWindowEditor window =
+                GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
             if (window == null)
             {
                 Debug.LogError("Couldn't open the iap settings window!");
@@ -39,7 +40,8 @@ namespace VirtueSky.ControlPanel
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+                ColorBackgroundRect.ToColor());
             GUILayout.Space(10);
             GUI.contentColor = ColorTextContent.ToColor();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
@@ -114,10 +116,10 @@ namespace VirtueSky.ControlPanel
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
 
-            // if (GUILayout.Button("Package In Manifest.json"))
-            // {
-            //     statePanelControl = StatePanelControl.ImportPackage;
-            // }
+            if (GUILayout.Button("Package In Manifest.json"))
+            {
+                statePanelControl = StatePanelControl.ImportPackage;
+            }
 
             if (GUILayout.Button("About"))
             {
@@ -225,7 +227,8 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("If you are missing the AppLovin MAX Unity Plugin, get it here!",
+                EditorGUILayout.HelpBox(
+                    "If you are missing the AppLovin MAX Unity Plugin, get it here!",
                     MessageType.Info);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Open Page AppLovin To Download"))
@@ -294,7 +297,8 @@ namespace VirtueSky.ControlPanel
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox("If you are missing the Google Mobile Ads Unity Plugin, get it here!",
+                EditorGUILayout.HelpBox(
+                    "If you are missing the Google Mobile Ads Unity Plugin, get it here!",
                     MessageType.Info);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Open Page Google Admob To Download"))
@@ -736,11 +740,11 @@ namespace VirtueSky.ControlPanel
             inputPackageNameAdd = EditorGUILayout.TextField(inputPackageNameAdd);
             if (GUILayout.Button("Add", GUILayout.Width(70)))
             {
-                if (inputPackageNameAdd == "" || inputPackageNameAdd == string.Empty) return;
-                string firstNamePackage = inputPackageNameAdd.Split(':').First();
-                if (FileExtension.IsPackageExistInManifest(inputPackageNameAdd))
-                {
-                }
+                if (inputPackageNameAdd == "") return;
+                string packageNameInput = inputPackageNameAdd.Split(':').First();
+                (string packageName, string packageVersion) =
+                    FileExtension.GetPackageInManifestByPackageName(packageNameInput);
+
 
                 //clear text Field
                 inputPackageNameAdd = string.Empty;
@@ -775,7 +779,8 @@ namespace VirtueSky.ControlPanel
             GUILayout.Label("ABOUT", EditorStyles.boldLabel);
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
-            GUILayout.TextArea("Description: Core ScriptableObject architecture for building Unity games",
+            GUILayout.TextArea(
+                "Description: Core ScriptableObject architecture for building Unity games",
                 EditorStyles.boldLabel);
             GUILayout.TextArea("Version: 2.3.2", EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
@@ -795,8 +800,10 @@ namespace VirtueSky.ControlPanel
             GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
             GUILayout.Space(10);
             ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-            ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
-            ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+            ColorTextContent =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+            ColorBackgroundRect =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
             GUILayout.Space(10);
             if (GUILayout.Button("Theme Default"))
             {
@@ -826,19 +833,22 @@ namespace VirtueSky.ControlPanel
 
         private CustomColor ColorContent
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel", (int)CustomColor.LightRed);
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
+                (int)CustomColor.LightRed);
             set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
         }
 
         private CustomColor ColorTextContent
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel", (int)CustomColor.Gold);
+            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel",
+                (int)CustomColor.Gold);
             set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
         }
 
         private CustomColor ColorBackgroundRect
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel", (int)CustomColor.DarkSlateGray);
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel",
+                (int)CustomColor.DarkSlateGray);
             set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
         }
     }

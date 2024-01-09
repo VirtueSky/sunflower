@@ -76,7 +76,8 @@ namespace VirtueSky.Ads
         #region Func Callback
 
 #if VIRTUESKY_ADS && ADS_APPLOVIN
-        private void OnAdReceivedReward(string unit, MaxSdkBase.Reward reward, MaxSdkBase.AdInfo info)
+        private void OnAdReceivedReward(string unit, MaxSdkBase.Reward reward,
+            MaxSdkBase.AdInfo info)
         {
             IsEarnRewarded = true;
         }
@@ -86,7 +87,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Applovin);
+                info.AdFormat, AdNetwork.Max);
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
@@ -94,7 +95,8 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref failedToLoadCallback);
         }
 
-        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo errorInfo, MaxSdkBase.AdInfo info)
+        private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo errorInfo,
+            MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
         }

@@ -13,7 +13,7 @@ namespace VirtueSky.Ads
         // [SerializeField] private bool autoInit = true;
         [Range(5, 100), SerializeField] private float adCheckingInterval = 8f;
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
-        [SerializeField] private AdNetwork adNetwork = AdNetwork.Applovin;
+        [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
 
         //  public bool AutoInit => autoInit;
         public float AdCheckingInterval => adCheckingInterval;
@@ -101,7 +101,7 @@ namespace VirtueSky.Ads
 
     public enum AdNetwork
     {
-        Applovin,
+        Max,
         Admob
     }
 

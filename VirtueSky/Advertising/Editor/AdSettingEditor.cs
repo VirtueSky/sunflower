@@ -42,7 +42,8 @@ namespace VirtueSky.Ads
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
 
             _sdkKey = serializedObject.FindProperty("sdkKey");
-            _applovinEnableAgeRestrictedUser = serializedObject.FindProperty("applovinEnableAgeRestrictedUser");
+            _applovinEnableAgeRestrictedUser =
+                serializedObject.FindProperty("applovinEnableAgeRestrictedUser");
             _maxAdClient = serializedObject.FindProperty("maxAdClient");
             _maxBannerVariable = serializedObject.FindProperty("maxBannerVariable");
             _maxInterVariable = serializedObject.FindProperty("maxInterVariable");
@@ -84,7 +85,7 @@ namespace VirtueSky.Ads
 
         void SetupMax()
         {
-            if (_adNetwork.enumValueIndex == (int)AdNetwork.Applovin)
+            if (_adNetwork.enumValueIndex == (int)AdNetwork.Max)
             {
                 EditorGUILayout.LabelField("MAX", EditorStyles.boldLabel);
                 GuiLine(1);
@@ -96,7 +97,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxAdClient.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
+                    _maxAdClient.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -105,7 +107,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxBannerVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
+                    _maxBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -114,7 +117,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxInterVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
+                    _maxInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -123,7 +127,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxRewardVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
+                    _maxRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -132,7 +137,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxRewardInterVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
+                    _maxRewardInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -141,7 +147,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _maxAppOpenVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
+                    _maxAppOpenVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -160,7 +167,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobAdClient.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
+                    _admobAdClient.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -169,7 +177,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobBannerVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
+                    _admobBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -178,7 +187,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobInterVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
+                    _admobInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -187,7 +197,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobRewardVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
+                    _admobRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -196,7 +207,9 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobRewardInterVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
+                    _admobRewardInterVariable.objectReferenceValue =
+                        CreateAsset
+                            .CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -205,7 +218,8 @@ namespace VirtueSky.Ads
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _admobAppOpenVariable.objectReferenceValue = CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+                    _admobAppOpenVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
                 }
 
                 EditorGUILayout.EndHorizontal();
