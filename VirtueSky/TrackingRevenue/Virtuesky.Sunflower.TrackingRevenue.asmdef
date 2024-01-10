@@ -1,0 +1,17 @@
+{
+    "name": "Virtuesky.Sunflower.TrackingRevenue",
+    "rootNamespace": "",
+    "references": [
+        "GUID:73cfe616a226dd64690d08b6164cb0e2",
+        "GUID:2a37df438292d4903b4e5159c5de3bf9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

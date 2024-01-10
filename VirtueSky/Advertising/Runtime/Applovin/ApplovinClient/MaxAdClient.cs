@@ -1,3 +1,5 @@
+using VirtueSky.TrackingRevenue;
+
 namespace VirtueSky.Ads
 {
     public class MaxAdClient : AdClient

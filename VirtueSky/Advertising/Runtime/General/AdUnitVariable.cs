@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action displayedCallback;
         [NonSerialized] internal Action failedToDisplayCallback;
         [NonSerialized] internal Action closedCallback;
-        [NonSerialized] public Action<double, string, string, string, AdNetwork> paidedCallback;
+        [NonSerialized] public Action<double, string, string, string, string> paidedCallback;
 
         public string Id
         {
@@ -41,7 +41,8 @@ namespace VirtueSky.Ads
         public virtual AdUnitVariable Show()
         {
             ResetChainCallback();
-            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd) return this;
+            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd)
+                return this;
             ShowImpl();
             return this;
         }

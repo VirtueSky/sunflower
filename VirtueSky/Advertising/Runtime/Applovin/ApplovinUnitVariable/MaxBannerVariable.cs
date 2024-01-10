@@ -86,7 +86,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Max);
+                info.AdFormat, AdNetwork.Max.ToString());
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)

@@ -83,7 +83,7 @@ namespace VirtueSky.UtilsEditor
                     if (packageName == $"\"{dep.Key}\"")
                     {
                         // packageName and packageVersion
-                        return ($"\"{dep.Key}\"", $": {dep.Value},");
+                        return ($"\"{dep.Key}\"", $": {dep.Value}");
                     }
                     // libraries.Add($"\"{dep.Key}\": {dep.Value}");
                 }

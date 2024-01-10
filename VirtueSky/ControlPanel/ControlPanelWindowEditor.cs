@@ -806,13 +806,6 @@ namespace VirtueSky.ControlPanel
 
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            // GUILayout.Space(10);
-            // EditorGUILayout.HelpBox(
-            //     "After Add or Remove, You need refresh folder Package in tab Project by right-clicking on Package > Refresh or using keyboard shortcuts (Ctrl + R / Command +R)",
-            //     MessageType.Info);
-            GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
@@ -820,7 +813,7 @@ namespace VirtueSky.ControlPanel
             GUILayout.Space(10);
             scrollPositionFileManifest =
                 EditorGUILayout.BeginScrollView(scrollPositionFileManifest,
-                    GUILayout.Height(400));
+                    GUILayout.Height(250));
             string manifestContent = EditorGUILayout.TextArea(
                 System.IO.File.ReadAllText(FileExtension.ManifestPath),
                 GUILayout.ExpandHeight(true));

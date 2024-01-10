@@ -75,7 +75,9 @@ namespace VirtueSky.Ads
         {
             switch (size)
             {
-                case BannerSize.Adaptive: return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+                case BannerSize.Adaptive:
+                    return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(
+                        AdSize.FullWidth);
                 case BannerSize.MediumRectangle: return AdSize.MediumRectangle;
                 case BannerSize.Leaderboard: return AdSize.Leaderboard;
                 case BannerSize.IABBanner: return AdSize.IABBanner;
@@ -103,7 +105,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "BannerAd", AdNetwork.Admob);
+                "BannerAd", AdNetwork.Admob.ToString());
         }
 
         private void OnAdOpening()

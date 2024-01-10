@@ -4,12 +4,14 @@ using GoogleMobileAds.Api;
 using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Core;
+using VirtueSky.TrackingRevenue;
 
 namespace VirtueSky.Ads
 {
     public class AdmobAdClient : AdClient
     {
-        [ReadOnly, SerializeField, TextArea] string AppIdTest = "ca-app-pub-3940256099942544~3347511713";
+        [ReadOnly, SerializeField, TextArea]
+        string AppIdTest = "ca-app-pub-3940256099942544~3347511713";
 
         public override void Initialize()
         {
@@ -19,7 +21,8 @@ namespace VirtueSky.Ads
                 App.RunOnMainThread(() =>
                 {
                     if (!adSetting.AdmobEnableTestMode) return;
-                    var configuration = new RequestConfiguration { TestDeviceIds = adSetting.AdmobDevicesTest };
+                    var configuration = new RequestConfiguration
+                        { TestDeviceIds = adSetting.AdmobDevicesTest };
                     MobileAds.SetRequestConfiguration(configuration);
                 });
             });

@@ -50,7 +50,8 @@ namespace VirtueSky.Ads
         public override AdUnitVariable Show()
         {
             ResetChainCallback();
-            if (!UnityEngine.Application.isMobilePlatform || string.IsNullOrEmpty(Id) || !IsReady()) return this;
+            if (!UnityEngine.Application.isMobilePlatform || string.IsNullOrEmpty(Id) || !IsReady())
+                return this;
             ShowImpl();
             return this;
         }
@@ -95,7 +96,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "RewardedAd", AdNetwork.Admob);
+                "RewardedAd", AdNetwork.Admob.ToString());
         }
 
         private void OnAdOpening()

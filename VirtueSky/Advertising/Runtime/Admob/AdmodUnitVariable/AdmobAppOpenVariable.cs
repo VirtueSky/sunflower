@@ -42,7 +42,8 @@ namespace VirtueSky.Ads
         public override AdUnitVariable Show()
         {
             ResetChainCallback();
-            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd || !IsReady()) return this;
+            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd ||
+                !IsReady()) return this;
             ShowImpl();
             return this;
         }
@@ -107,7 +108,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "AppOpenAd", AdNetwork.Admob);
+                "AppOpenAd", AdNetwork.Admob.ToString());
         }
 
         private void OnAdLoaded()
