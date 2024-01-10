@@ -246,6 +246,30 @@ namespace VirtueSky.UtilsEditor
 
         #endregion
 
+        #region AppsFlyer
+
+        private const string menuPathAppsFlyer = "Sunflower/ScriptDefineSymbols/VIRTUESKY_APPSFLYER";
+
+        [MenuItem(menuPathAppsFlyer)]
+        public static void AppsFlyerConfigFlag()
+        {
+            SwitchFlag("VIRTUESKY_APPSFLYER");
+        }
+
+        [MenuItem(menuPathAppsFlyer, true)]
+        public static bool IsAppsFlyerConfigFlagEnable()
+        {
+            Menu.SetChecked(menuPathAppsFlyer, IsFlagEnabled("VIRTUESKY_APPSFLYER"));
+            return true;
+        }
+
+        public static bool IsAppsFlyerFlag()
+        {
+            return IsFlagEnabled("VIRTUESKY_APPSFLYER");
+        }
+
+        #endregion
+
         #region Base Functions
 
         public static void SwitchFlag(string flag)

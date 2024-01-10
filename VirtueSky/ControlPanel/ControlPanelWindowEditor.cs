@@ -727,6 +727,21 @@ namespace VirtueSky.ControlPanel
 
             #endregion
 
+            #region flag AppsFlyer
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("VIRTUESKY_APPSFLYER", GUILayout.Width(400)))
+            {
+                EditorScriptDefineSymbols.AppsFlyerConfigFlag();
+            }
+
+            GUILayout.Space(10);
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsAppsFlyerFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsAppsFlyerFlag()));
+            GUILayout.EndHorizontal();
+
+            #endregion
+
             GUILayout.EndVertical();
         }
 
@@ -837,7 +852,7 @@ namespace VirtueSky.ControlPanel
             GUILayout.TextArea(
                 "Description: Core ScriptableObject architecture for building Unity games",
                 EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.3.2", EditorStyles.boldLabel);
+            GUILayout.TextArea("Version: 2.3.3", EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open GitHub Repository"))

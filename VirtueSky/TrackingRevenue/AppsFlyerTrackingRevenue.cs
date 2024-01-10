@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+
+#if VIRTUESKY_APPSFLYER
 using AppsFlyerSDK;
+#endif
+
 
 namespace VirtueSky.TrackingRevenue
 {
@@ -8,6 +12,7 @@ namespace VirtueSky.TrackingRevenue
         public static void AppsFlyerTrackRevenue(double value, string network, string unitId,
             string format, string adNetwork)
         {
+#if VIRTUESKY_APPSFLYER
             Dictionary<string, string> purchaseEvent = new Dictionary<string, string>();
             purchaseEvent.Add("value", value.ToString());
             switch (adNetwork.ToLower())
@@ -26,6 +31,7 @@ namespace VirtueSky.TrackingRevenue
             purchaseEvent.Add("ad_source", network);
 
             AppsFlyer.sendEvent("af_purchase", purchaseEvent);
+#endif
         }
     }
 }
