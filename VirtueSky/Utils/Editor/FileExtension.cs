@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using Newtonsoft.Json.Linq;
 
 namespace VirtueSky.UtilsEditor
 {
@@ -180,7 +181,7 @@ namespace VirtueSky.UtilsEditor
 
                 manifestContent = manifestContent.Insert(dependenciesIndex,
                     packageFullName);
-                System.IO.File.WriteAllText(manifestPath, manifestContent);
+                System.IO.File.WriteAllText(manifestPath, FormatJson(manifestContent));
                 Debug.Log($"<color=Green>Add {packageFullName} to manifest</color>");
             }
         }
@@ -196,9 +197,22 @@ namespace VirtueSky.UtilsEditor
 
                 manifestContent = manifestContent.Replace(packageFullName,
                     "");
-                System.IO.File.WriteAllText(manifestPath, manifestContent);
+                System.IO.File.WriteAllText(manifestPath, FormatJson(manifestContent));
 
                 Debug.Log($"<color=Green>Remove {packageFullName} to manifest</color>");
+            }
+        }
+
+        public static string FormatJson(string json)
+        {
+            try
+            {
+                JToken parsedJson = JToken.Parse(json);
+                return parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+            }
+            catch (Exception)
+            {
+                return json;
             }
         }
     }
