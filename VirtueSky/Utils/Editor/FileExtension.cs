@@ -149,7 +149,7 @@ namespace VirtueSky.UtilsEditor
                         if (packageName == $"\"{dep.Key}\"")
                         {
                             // packageName and packageVersion
-                            return ($"\"{dep.Key}\"", $": {dep.Value}");
+                            return ($"\"{dep.Key}\"", $": {dep.Value},");
                         }
                         // libraries.Add($"\"{dep.Key}\": {dep.Value}");
                     }
@@ -169,12 +169,37 @@ namespace VirtueSky.UtilsEditor
             return (null, null);
         }
 
-        public static void AddPackageInManifest(string packageName, string packageVersion)
+        public static void AddPackageInManifest(string packageFullName)
         {
+            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
+            if (File.Exists(manifestPath))
+            {
+                string manifestContent = System.IO.File.ReadAllText(manifestPath);
+                int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
+                                        "\"dependencies\": {".Length;
+
+                manifestContent = manifestContent.Insert(dependenciesIndex,
+                    packageFullName);
+                System.IO.File.WriteAllText(manifestPath, manifestContent);
+                Debug.Log($"<color=Green>Add {packageFullName} to manifest</color>");
+            }
         }
 
-        public static void RemovePackageInManifest(string packageName, string packageVersion)
+        public static void RemovePackageInManifest(string packageFullName)
         {
+            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
+            if (File.Exists(manifestPath))
+            {
+                string manifestContent = System.IO.File.ReadAllText(manifestPath);
+                int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
+                                        "\"dependencies\": {".Length;
+
+                manifestContent = manifestContent.Replace(packageFullName,
+                    "");
+                System.IO.File.WriteAllText(manifestPath, manifestContent);
+
+                Debug.Log($"<color=Green>Remove {packageFullName} to manifest</color>");
+            }
         }
     }
 #endif

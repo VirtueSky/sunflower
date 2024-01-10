@@ -20,8 +20,9 @@ namespace VirtueSky.ControlPanel
         private StatePanelControl statePanelControl;
         private bool isFieldMax = false;
         private bool isFielAdmob = false;
-        private string inputPackageNameAdd = "";
-        private string inputPackageNameRemove = "";
+        private string inputPackageFullNameAdd = "";
+        private string inputPackageFullNameRemove = "";
+        private Vector2 scrollPositionFileManifest = Vector2.zero;
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -737,17 +738,27 @@ namespace VirtueSky.ControlPanel
             GUILayout.Space(10);
             GUILayout.Label("Add Package", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
-            inputPackageNameAdd = EditorGUILayout.TextField(inputPackageNameAdd);
+            inputPackageFullNameAdd = EditorGUILayout.TextField(inputPackageFullNameAdd);
             if (GUILayout.Button("Add", GUILayout.Width(70)))
             {
-                if (inputPackageNameAdd == "") return;
-                string packageNameInput = inputPackageNameAdd.Split(':').First();
-                (string packageName, string packageVersion) =
-                    FileExtension.GetPackageInManifestByPackageName(packageNameInput);
+                if (inputPackageFullNameAdd == "")
+                {
+                    Debug.LogError("The input add package field is null");
+                    return;
+                }
 
+                string inputPackageName = inputPackageFullNameAdd.Split(':').First();
+                (string packageName, string packageVersion) =
+                    FileExtension.GetPackageInManifestByPackageName(inputPackageName);
+                if (packageName == inputPackageName)
+                {
+                    FileExtension.RemovePackageInManifest(packageName + packageVersion);
+                }
+
+                FileExtension.AddPackageInManifest(inputPackageFullNameAdd);
 
                 //clear text Field
-                inputPackageNameAdd = string.Empty;
+                inputPackageFullNameAdd = string.Empty;
                 GUIUtility.keyboardControl = 0;
                 Repaint();
             }
@@ -759,16 +770,52 @@ namespace VirtueSky.ControlPanel
             GUILayout.Space(10);
             GUILayout.Label("Remove Package", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
-            inputPackageNameRemove = EditorGUILayout.TextField(inputPackageNameRemove);
+            inputPackageFullNameRemove = EditorGUILayout.TextField(inputPackageFullNameRemove);
             if (GUILayout.Button("Remove", GUILayout.Width(70)))
             {
+                if (inputPackageFullNameRemove == "")
+                {
+                    Debug.LogError("The input remove package field is null");
+                    return;
+                }
+
+                string inputPackageName = inputPackageFullNameRemove.Split(':').First();
+                (string packageName, string packageVersion) =
+                    FileExtension.GetPackageInManifestByPackageName(inputPackageName);
+                if (packageName + packageVersion == inputPackageFullNameRemove)
+                {
+                    FileExtension.RemovePackageInManifest(inputPackageFullNameRemove);
+                }
+                else if (packageName == inputPackageName)
+                {
+                    Debug.LogError("Input package version is not available");
+                }
+                else
+                {
+                    Debug.LogError("Input package is not available");
+                }
+
                 //clear text Field
-                inputPackageNameRemove = string.Empty;
+                inputPackageFullNameRemove = string.Empty;
                 GUIUtility.keyboardControl = 0;
                 Repaint();
             }
 
             GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            EditorGUILayout.HelpBox(
+                "After Add or Remove, You need refresh folder Package in tab Project by right-clicking on Package > Refresh or using keyboard shortcuts (Ctrl + R / Command +R)",
+                MessageType.Info);
+            GUILayout.Space(10);
+            scrollPositionFileManifest =
+                EditorGUILayout.BeginScrollView(scrollPositionFileManifest, GUILayout.Height(500));
+            EditorGUILayout.TextArea(
+                System.IO.File.ReadAllText(Application.dataPath + "/../Packages/manifest.json"),
+                GUILayout.ExpandHeight(true));
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
 
