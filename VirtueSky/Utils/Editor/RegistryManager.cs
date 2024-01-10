@@ -1,18 +1,21 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json.Linq;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using VirtueSky.SimpleJSON;
 
 
 namespace VirtueSky.UtilsEditor
 {
     public static class RegistryManager
     {
-        private static readonly string Manifest = Path.Combine(Application.dataPath, "..", "Packages", "manifest.json");
+        private static readonly string ManifestPath =
+            Path.Combine(Application.dataPath, "..", "Packages", "manifest.json");
 
         public static void Add(string name, string version)
         {
-            var json = JObject.Parse(File.ReadAllText(Manifest));
+            var json = JObject.Parse(File.ReadAllText(ManifestPath));
             var dependencies = (JObject)json["dependencies"];
 
             if (dependencies != null)
@@ -30,7 +33,7 @@ namespace VirtueSky.UtilsEditor
 
         public static void Remove(string name)
         {
-            var json = JObject.Parse(File.ReadAllText(Manifest));
+            var json = JObject.Parse(File.ReadAllText(ManifestPath));
             var dependencies = (JObject)json["dependencies"];
             dependencies?.Remove(name);
             Write(json);
@@ -38,7 +41,7 @@ namespace VirtueSky.UtilsEditor
 
         public static (bool, string) IsInstalled(string name)
         {
-            var json = JObject.Parse(File.ReadAllText(Manifest));
+            var json = JObject.Parse(File.ReadAllText(ManifestPath));
             var dependencies = (JObject)json["dependencies"];
             if (dependencies != null)
             {
@@ -58,7 +61,85 @@ namespace VirtueSky.UtilsEditor
 
         private static void Write(JObject json)
         {
-            File.WriteAllText(Manifest, json.ToString());
+            File.WriteAllText(ManifestPath, json.ToString());
+        }
+
+        public static (string, string) GetPackageInManifestByPackageName(string packageName)
+        {
+            string manifestContent = GetManifestContent();
+            if (manifestContent == null)
+            {
+                Debug.LogError("Could not find fileManifest.json");
+                return (null, null);
+            }
+
+            JSONNode manifestJson = JSON.Parse(manifestContent);
+            JSONNode dependencies = manifestJson["dependencies"];
+            if (dependencies != null && dependencies.Count > 0)
+            {
+                //  List<string> libraries = new List<string>();
+                foreach (KeyValuePair<string, JSONNode> dep in dependencies.AsObject)
+                {
+                    if (packageName == $"\"{dep.Key}\"")
+                    {
+                        // packageName and packageVersion
+                        return ($"\"{dep.Key}\"", $": {dep.Value},");
+                    }
+                    // libraries.Add($"\"{dep.Key}\": {dep.Value}");
+                }
+            }
+            else
+            {
+                Debug.LogError("Could not find dependencies or dependencies null.");
+                return (null, null);
+            }
+
+            return (null, null);
+        }
+
+        public static void AddPackageInManifest(string packageFullName)
+        {
+            string manifestContent = GetManifestContent();
+            if (manifestContent != null)
+            {
+                int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
+                                        "\"dependencies\": {".Length;
+
+                manifestContent = manifestContent.Insert(dependenciesIndex,
+                    packageFullName);
+                WriteAllManifestContent(manifestContent);
+                Debug.Log($"<color=Green>Add {packageFullName} to manifest</color>");
+            }
+        }
+
+        public static void RemovePackageInManifest(string packageFullName)
+        {
+            string manifestContent = GetManifestContent();
+            if (manifestContent != null)
+            {
+                // int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
+                //                         "\"dependencies\": {".Length;
+
+                manifestContent = manifestContent.Replace(packageFullName,
+                    "");
+                WriteAllManifestContent(manifestContent);
+                Debug.Log($"<color=Green>Remove {packageFullName} to manifest</color>");
+            }
+        }
+
+        public static string GetManifestContent()
+        {
+            if (File.Exists(ManifestPath))
+            {
+                return File.ReadAllText(ManifestPath);
+            }
+
+            return null;
+        }
+
+        public static void WriteAllManifestContent(string manifestContent)
+        {
+            File.WriteAllText(ManifestPath, FileExtension.FormatJson(manifestContent));
         }
     }
 }

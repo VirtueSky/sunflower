@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using VirtueSky.SimpleJSON;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -134,75 +133,6 @@ namespace VirtueSky.UtilsEditor
             return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
         }
 
-        public static (string, string) GetPackageInManifestByPackageName(string packageName)
-        {
-            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
-            if (File.Exists(manifestPath))
-            {
-                string manifestContent = System.IO.File.ReadAllText(manifestPath);
-                JSONNode manifestJson = JSON.Parse(manifestContent);
-                JSONNode dependencies = manifestJson["dependencies"];
-                if (dependencies != null && dependencies.Count > 0)
-                {
-                    //  List<string> libraries = new List<string>();
-                    foreach (KeyValuePair<string, JSONNode> dep in dependencies.AsObject)
-                    {
-                        if (packageName == $"\"{dep.Key}\"")
-                        {
-                            // packageName and packageVersion
-                            return ($"\"{dep.Key}\"", $": {dep.Value},");
-                        }
-                        // libraries.Add($"\"{dep.Key}\": {dep.Value}");
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Could not find dependencies or dependencies null.");
-                    return (null, null);
-                }
-            }
-            else
-            {
-                Debug.LogError("Could not find fileManifest.json");
-                return (null, null);
-            }
-
-            return (null, null);
-        }
-
-        public static void AddPackageInManifest(string packageFullName)
-        {
-            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
-            if (File.Exists(manifestPath))
-            {
-                string manifestContent = System.IO.File.ReadAllText(manifestPath);
-                int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
-                                        "\"dependencies\": {".Length;
-
-                manifestContent = manifestContent.Insert(dependenciesIndex,
-                    packageFullName);
-                System.IO.File.WriteAllText(manifestPath, FormatJson(manifestContent));
-                Debug.Log($"<color=Green>Add {packageFullName} to manifest</color>");
-            }
-        }
-
-        public static void RemovePackageInManifest(string packageFullName)
-        {
-            string manifestPath = Application.dataPath + "/../Packages/manifest.json";
-            if (File.Exists(manifestPath))
-            {
-                string manifestContent = System.IO.File.ReadAllText(manifestPath);
-                int dependenciesIndex = manifestContent.IndexOf("\"dependencies\": {") +
-                                        "\"dependencies\": {".Length;
-
-                manifestContent = manifestContent.Replace(packageFullName,
-                    "");
-                System.IO.File.WriteAllText(manifestPath, FormatJson(manifestContent));
-
-                Debug.Log($"<color=Green>Remove {packageFullName} to manifest</color>");
-            }
-        }
-
         public static string FormatJson(string json)
         {
             try
@@ -215,6 +145,8 @@ namespace VirtueSky.UtilsEditor
                 return json;
             }
         }
+
+        public static string ManifestPath => Application.dataPath + "/../Packages/manifest.json";
     }
 #endif
 }

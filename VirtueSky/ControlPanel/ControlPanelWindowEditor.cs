@@ -117,7 +117,7 @@ namespace VirtueSky.ControlPanel
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
 
-            if (GUILayout.Button("Package In Manifest.json"))
+            if (GUILayout.Button("Register Package"))
             {
                 statePanelControl = StatePanelControl.ImportPackage;
             }
@@ -734,7 +734,7 @@ namespace VirtueSky.ControlPanel
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("PACKAGE IN MANIFEST", EditorStyles.boldLabel);
+            GUILayout.Label("REGISTER PACKAGE", EditorStyles.boldLabel);
             GUILayout.Space(10);
             GUILayout.Label("Add Package", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
@@ -747,16 +747,17 @@ namespace VirtueSky.ControlPanel
                     return;
                 }
 
+                inputPackageFullNameAdd = inputPackageFullNameAdd.Trim();
                 string inputPackageName = inputPackageFullNameAdd.Split(':').First();
                 (string packageName, string packageVersion) =
-                    FileExtension.GetPackageInManifestByPackageName(inputPackageName);
+                    RegistryManager.GetPackageInManifestByPackageName(inputPackageName);
                 if (packageName == inputPackageName)
                 {
-                    FileExtension.RemovePackageInManifest(packageName + packageVersion);
+                    RegistryManager.RemovePackageInManifest(packageName + packageVersion);
                 }
 
-                FileExtension.AddPackageInManifest(inputPackageFullNameAdd);
-
+                RegistryManager.AddPackageInManifest(inputPackageFullNameAdd);
+                RegistryManager.Resolve();
                 //clear text Field
                 inputPackageFullNameAdd = string.Empty;
                 GUIUtility.keyboardControl = 0;
@@ -779,12 +780,13 @@ namespace VirtueSky.ControlPanel
                     return;
                 }
 
+                inputPackageFullNameRemove = inputPackageFullNameRemove.Trim();
                 string inputPackageName = inputPackageFullNameRemove.Split(':').First();
                 (string packageName, string packageVersion) =
-                    FileExtension.GetPackageInManifestByPackageName(inputPackageName);
+                    RegistryManager.GetPackageInManifestByPackageName(inputPackageName);
                 if (packageName + packageVersion == inputPackageFullNameRemove)
                 {
-                    FileExtension.RemovePackageInManifest(inputPackageFullNameRemove);
+                    RegistryManager.RemovePackageInManifest(inputPackageFullNameRemove);
                 }
                 else if (packageName == inputPackageName)
                 {
@@ -795,6 +797,7 @@ namespace VirtueSky.ControlPanel
                     Debug.LogError("Input package is not available");
                 }
 
+                RegistryManager.Resolve();
                 //clear text Field
                 inputPackageFullNameRemove = string.Empty;
                 GUIUtility.keyboardControl = 0;
@@ -803,19 +806,31 @@ namespace VirtueSky.ControlPanel
 
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            // GUILayout.Space(10);
+            // EditorGUILayout.HelpBox(
+            //     "After Add or Remove, You need refresh folder Package in tab Project by right-clicking on Package > Refresh or using keyboard shortcuts (Ctrl + R / Command +R)",
+            //     MessageType.Info);
+            GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
-            EditorGUILayout.HelpBox(
-                "After Add or Remove, You need refresh folder Package in tab Project by right-clicking on Package > Refresh or using keyboard shortcuts (Ctrl + R / Command +R)",
-                MessageType.Info);
+            GUILayout.Label("Manifest.json", EditorStyles.boldLabel);
             GUILayout.Space(10);
             scrollPositionFileManifest =
-                EditorGUILayout.BeginScrollView(scrollPositionFileManifest, GUILayout.Height(500));
-            EditorGUILayout.TextArea(
-                System.IO.File.ReadAllText(Application.dataPath + "/../Packages/manifest.json"),
+                EditorGUILayout.BeginScrollView(scrollPositionFileManifest,
+                    GUILayout.Height(400));
+            string manifestContent = EditorGUILayout.TextArea(
+                System.IO.File.ReadAllText(FileExtension.ManifestPath),
                 GUILayout.ExpandHeight(true));
+            RegistryManager.WriteAllManifestContent(manifestContent);
             EditorGUILayout.EndScrollView();
+            if (GUILayout.Button("Resolve Package"))
+            {
+                RegistryManager.Resolve();
+            }
+
             GUILayout.EndVertical();
         }
 
