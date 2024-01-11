@@ -121,10 +121,12 @@ namespace VirtueSky.ControlPanel.Editor
                     ConstantPackage.MaxVersionInAppPurchase);
             }
 
-            if (GUILayout.Button("Install AppFlyer"))
+            if (GUILayout.Button("Install AppsFlyer"))
             {
                 RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppFlyer,
                     ConstantPackage.MaxVersionAppFlyer);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppFlyerRevenueGeneric,
+                    ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
             }
 
             if (GUILayout.Button("Install Google Play Review"))
@@ -232,9 +234,10 @@ namespace VirtueSky.ControlPanel.Editor
                 RegistryManager.Resolve();
             }
 
-            if (GUILayout.Button("Remove AppFlyer"))
+            if (GUILayout.Button("Remove AppsFlyer"))
             {
                 RegistryManager.Remove(ConstantPackage.PackageNameAppFlyer);
+                RegistryManager.Remove(ConstantPackage.PackageNameAppFlyerRevenueGeneric);
                 RegistryManager.Resolve();
             }
 

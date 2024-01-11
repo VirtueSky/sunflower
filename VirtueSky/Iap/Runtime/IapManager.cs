@@ -16,6 +16,7 @@ namespace VirtueSky.Iap
         [SerializeField] private IapSetting iapSetting;
         [SerializeField] private EventIapProduct eventIapProduct;
         [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;
+        [SerializeField] EventIapTrackingRevenue eventIapTrackingRevenue;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
 #if UNITY_IOS
         [SerializeField] private EventNoParam restoreEvent;
@@ -79,7 +80,8 @@ namespace VirtueSky.Iap
         public bool IsPurchasedProduct(IapDataVariable product)
         {
             if (_controller == null) return false;
-            return product.productType == ProductType.NonConsumable && _controller.products.WithID(product.id).hasReceipt;
+            return product.productType == ProductType.NonConsumable &&
+                   _controller.products.WithID(product.id).hasReceipt;
         }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
@@ -142,6 +144,7 @@ namespace VirtueSky.Iap
         void PurchaseVerified(PurchaseEventArgs purchaseEvent)
         {
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
+            if (eventIapTrackingRevenue != null) eventIapTrackingRevenue.Raise(purchaseEvent.purchasedProduct);
             InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
         }
 

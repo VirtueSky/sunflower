@@ -13,7 +13,7 @@ namespace VirtueSky.TrackingRevenue
             AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, adNetwork);
             FirebaseAnalyticTrackingRevenue.FirebaseAnalyticTrackRevenue(value, network, unitId,
                 format, adNetwork);
-            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenue(value, network, unitId, format, adNetwork);
+            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, adNetwork);
         }
 
         public static void FirebaseAnalyticTrackATTResult(int status)

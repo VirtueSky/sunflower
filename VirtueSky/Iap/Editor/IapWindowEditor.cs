@@ -105,6 +105,12 @@ namespace VirtueSky.Iap
                 "iap_is_purchase_product");
         }
 
+        [MenuItem("Sunflower/Iap/Iap Tracking Revenue Event")]
+        public static void CreateIapTrackingRevenueEvent()
+        {
+            CreateAsset.CreateScriptableAssets<EventIapTrackingRevenue>("/Iap", "iap_tracking_revenue_event");
+        }
+
         private CustomColor ColorContent
         {
             get => (CustomColor)EditorPrefs.GetInt("ColorContent_Iap", (int)CustomColor.Bright);

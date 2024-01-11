@@ -82,6 +82,11 @@
         public const string MaxVersionAppFlyer =
             "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.12.22";
 
+        public const string PackageNameAppFlyerRevenueGeneric = "appsflyer-unity-adrevenue-generic-connector";
+
+        public const string MaxVersionAppFlyerRevenueGeneric =
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-adrevenue-generic-connector.git#v6.9.42-upm";
+
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
