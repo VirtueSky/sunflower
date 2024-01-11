@@ -13,7 +13,7 @@ using VirtueSky.Rating;
 using VirtueSky.UtilsEditor;
 using VirtueSky.Variables;
 
-namespace VirtueSky.ControlPanel
+namespace VirtueSky.ControlPanel.Editor
 {
     public class ControlPanelWindowEditor : EditorWindow
     {
@@ -57,6 +57,7 @@ namespace VirtueSky.ControlPanel
             Handles.DrawAAPolyLine(4, new Vector3(210, 0), new Vector3(210, position.height));
             GUILayout.EndVertical();
             DrawContent();
+
             GUILayout.EndHorizontal();
         }
 
@@ -133,759 +134,46 @@ namespace VirtueSky.ControlPanel
             switch (statePanelControl)
             {
                 case StatePanelControl.Advertising:
-                    OnDrawAdvertising();
+                    CPAdvertisingDrawer.OnDrawAdvertising(position, ref statePanelControl);
                     break;
                 case StatePanelControl.InAppPurchase:
-                    OnDrawIap();
+                    CPIapDrawer.OnDrawIap();
                     break;
                 case StatePanelControl.AssetsUsageDetector:
-                    OnDrawAssetUsageDetector();
+                    CPAssetUsageDetectorDrawer.OnDrawAssetUsageDetector();
                     break;
                 case StatePanelControl.Audio:
-                    OnDrawAudio();
+                    CPAudioDrawer.OnDrawAudio();
                     break;
                 case StatePanelControl.Pools:
-                    OnDrawPools();
+                    CPPoolDrawer.OnDrawPools();
                     break;
                 case StatePanelControl.InAppReview:
-                    OnDrawInAppReview();
+                    CPInAppReviewDrawer.OnDrawInAppReview();
                     break;
                 case StatePanelControl.LevelEditor:
-                    OnDrawLevelEditor();
+                    CPLevelEditorDrawer.OnDrawLevelEditor();
                     break;
                 case StatePanelControl.NotificationsChanel:
-                    OnDrawNotificationChanel();
+                    CPNotificationChanelDrawer.OnDrawNotificationChanel();
                     break;
                 case StatePanelControl.SO_Event:
-                    OnDrawSoEvent();
+                    CPSoEventDrawer.OnDrawSoEvent();
                     break;
                 case StatePanelControl.SO_Variable:
-                    OnDrawSoVariable();
+                    CPSoVariableDrawer.OnDrawSoVariable();
                     break;
                 case StatePanelControl.ScriptDefineSymbols:
-                    OnDrawScriptDefineSymbols();
+                    CPScriptingDefineSymbolsDrawer.OnDrawScriptingDefineSymbols();
                     break;
                 case StatePanelControl.ImportPackage:
-                    OnDrawImportPackageByManifest();
+                    CPRegisterPackageDrawer.OnDrawImportPackageByManifest(position, this);
                     break;
                 case StatePanelControl.About:
-                    OnDrawAbout();
+                    CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
                     break;
             }
         }
-
-        #region Draw Content Details
-
-        void OnDrawAdvertising()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Open AdSetting (Alt+4 / Option+4)"))
-            {
-                AdsWindowEditor.OpenAdSettingsWindows();
-            }
-
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            isFieldMax = GUILayout.Toggle(isFieldMax, "Max");
-            if (isFieldMax)
-            {
-                if (GUILayout.Button("Create Max Client"))
-                {
-                    AdsWindowEditor.CreateMaxClient();
-                }
-
-                if (GUILayout.Button("Create Max Banner"))
-                {
-                    AdsWindowEditor.CreateMaxBanner();
-                }
-
-                if (GUILayout.Button("Create Max Inter"))
-                {
-                    AdsWindowEditor.CreateMaxInter();
-                }
-
-                if (GUILayout.Button("Create Max Reward"))
-                {
-                    AdsWindowEditor.CreateMaxReward();
-                }
-
-                if (GUILayout.Button("Create Max Reward Inter"))
-                {
-                    AdsWindowEditor.CreateMaxRewardInter();
-                }
-
-                if (GUILayout.Button("Create Max App Open"))
-                {
-                    AdsWindowEditor.CreateMaxAppOpen();
-                }
-
-                GUILayout.Space(10);
-                Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
-                    new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
-                GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "If you are missing the AppLovin MAX Unity Plugin, get it here!",
-                    MessageType.Info);
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Open Page AppLovin To Download"))
-                {
-                    Application.OpenURL(
-                        "https://dash.applovin.com/documentation/mediation/unity/getting-started/integration");
-                }
-
-                if (GUILayout.Button("Open GitHub Repository AppLovin To Download"))
-                {
-                    Application.OpenURL("https://github.com/AppLovin/AppLovin-MAX-Unity-Plugin");
-                }
-
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10);
-                Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
-                    new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
-                GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads",
-                    MessageType.Info);
-                if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-                {
-                    statePanelControl = StatePanelControl.ScriptDefineSymbols;
-                }
-            }
-
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            isFielAdmob = GUILayout.Toggle(isFielAdmob, "Admob");
-            if (isFielAdmob)
-            {
-                if (GUILayout.Button("Create Admob Client"))
-                {
-                    AdsWindowEditor.CreateAdmobClient();
-                }
-
-                if (GUILayout.Button("Create Admob Banner"))
-                {
-                    AdsWindowEditor.CreateAdmobBanner();
-                }
-
-                if (GUILayout.Button("Create Admob Inter"))
-                {
-                    AdsWindowEditor.CreateAdmobInter();
-                }
-
-                if (GUILayout.Button("Create Admob Reward"))
-                {
-                    AdsWindowEditor.CreateAdmobReward();
-                }
-
-                if (GUILayout.Button("Create Admob Reward Inter"))
-                {
-                    AdsWindowEditor.CreateAdmobRewardInter();
-                }
-
-                if (GUILayout.Button("Create Admob App Open"))
-                {
-                    AdsWindowEditor.CreateAdmobAppOpen();
-                }
-
-                GUILayout.Space(10);
-                Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
-                    new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
-                GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "If you are missing the Google Mobile Ads Unity Plugin, get it here!",
-                    MessageType.Info);
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Open Page Google Admob To Download"))
-                {
-                    Application.OpenURL("https://developers.google.com/admob/unity/quick-start");
-                }
-
-                if (GUILayout.Button("Open GitHub Repository Admob To Download"))
-                {
-                    Application.OpenURL("https://github.com/googleads/googleads-mobile-unity");
-                }
-
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10);
-                Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
-                    new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
-                GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_ADMOB\" to use Admob Ads",
-                    MessageType.Info);
-                if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-                {
-                    statePanelControl = StatePanelControl.ScriptDefineSymbols;
-                }
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawIap()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Open AdSetting (Alt+2 / Option+2)"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.OpenIapSettingsWindows();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-            if (GUILayout.Button("Create Iap Purchase Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-            if (GUILayout.Button("Create Iap Purchase Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIsPurchaseProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawAssetUsageDetector()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("ASSET USAGE DETECTOR", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Active Window"))
-            {
-                AssetUsageDetectorWindow.OpenActiveWindow();
-            }
-
-            if (GUILayout.Button("New Window"))
-            {
-                AssetUsageDetectorWindow.OpenNewWindow();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawAudio()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("AUDIO", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create Event Audio Handle"))
-            {
-                AudioWindowEditor.CreateEventAudioHandle();
-            }
-
-            if (GUILayout.Button("Create Sound Data"))
-            {
-                AudioWindowEditor.CreateSoundData();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawPools()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("POOLS", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create Pools"))
-            {
-                PoolWindowEditor.CreatePools();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawInAppReview()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("IN APP REVIEW", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create In App Review"))
-            {
-                RatingWindowEditor.CreateInAppReview();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawLevelEditor()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Open Level Editor (Alt+3 / Option+3)"))
-            {
-                UtilitiesLevelSystemDrawer.OpenLevelEditor();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawNotificationChanel()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("NOTIFICATION CHANEL", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create Notification Chanel"))
-            {
-                NotificationWindowEditor.CreateNotificationChannel();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawSoEvent()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTABLE OBJECT EVENT", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create Boolean Event"))
-            {
-                EventWindowEditor.CreateEventBoolean();
-            }
-
-            if (GUILayout.Button("Create Dictionary Event"))
-            {
-                EventWindowEditor.CreateEventDictionary();
-            }
-
-            if (GUILayout.Button("Create No Param Event"))
-            {
-                EventWindowEditor.CreateEventNoParam();
-            }
-
-            if (GUILayout.Button("Create Float Event"))
-            {
-                EventWindowEditor.CreateEventFloat();
-            }
-
-            if (GUILayout.Button("Create Int Event"))
-            {
-                EventWindowEditor.CreateEventInt();
-            }
-
-            if (GUILayout.Button("Create Object Event"))
-            {
-                EventWindowEditor.CreateEventObject();
-            }
-
-            if (GUILayout.Button("Create Short Double Event"))
-            {
-                EventWindowEditor.CreateEventShortDouble();
-            }
-
-            if (GUILayout.Button("Create String Event"))
-            {
-                EventWindowEditor.CreateEventString();
-            }
-
-            if (GUILayout.Button("Create Vector3 Event"))
-            {
-                EventWindowEditor.CreateEventVector3();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawSoVariable()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTABLE OBJECT VARIABLE", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Create Boolean Variable"))
-            {
-                VariableWindowEditor.CreateVariableBoolean();
-            }
-
-            if (GUILayout.Button("Create Float Variable"))
-            {
-                VariableWindowEditor.CreateVariableFloat();
-            }
-
-            if (GUILayout.Button("Create Int Variable"))
-            {
-                VariableWindowEditor.CreateVariableInt();
-            }
-
-            if (GUILayout.Button("Create Object Variable"))
-            {
-                VariableWindowEditor.CreateVariableObject();
-            }
-
-            if (GUILayout.Button("Create Rect Variable"))
-            {
-                VariableWindowEditor.CreateVariableRect();
-            }
-
-            if (GUILayout.Button("Create Short Double Variable"))
-            {
-                VariableWindowEditor.CreateVariableShortDouble();
-            }
-
-            if (GUILayout.Button("Create String Variable"))
-            {
-                VariableWindowEditor.CreateVariableString();
-            }
-
-            if (GUILayout.Button("Create Transform Variable"))
-            {
-                VariableWindowEditor.CreateVariableTransform();
-            }
-
-            if (GUILayout.Button("Create Vector3 Variable"))
-            {
-                VariableWindowEditor.CreateVariableVector3();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawScriptDefineSymbols()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTING DEFINE SYMBOLS", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-
-            #region flag ads
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_ADS", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.AdsConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdsFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsAdsFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag applovin
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("ADS_APPLOVIN", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.ApplovinConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsApplovinFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsApplovinFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag admob
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("ADS_ADMOB", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.AdmobConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdmobFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsAdmobFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag adjust
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_ADJUST", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.AdjustConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAdjustFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsAdjustFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag firebase app
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_FIREBASE", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.FirebaseAppConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsFirebaseAppFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsFirebaseAppFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag analytic
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_FIREBASE_ANALYTIC", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.AnalyticConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAnalyticFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsAnalyticFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region Flag Remote Config
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_FIREBASE_REMOTECONFIG", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.RemoteConfigConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsRemoteConfigConfigFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag iap
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_IAP", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.IapConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsIapFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsIapFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag ratting
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_RATING", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.RattingConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsRattingFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsRattingFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag notifications
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_NOTIFICATION", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.NotificationConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsNotificationFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsNotificationFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            #region flag AppsFlyer
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("VIRTUESKY_APPSFLYER", GUILayout.Width(400)))
-            {
-                EditorScriptDefineSymbols.AppsFlyerConfigFlag();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsAppsFlyerFlag(),
-                TextIsEnable(EditorScriptDefineSymbols.IsAppsFlyerFlag()));
-            GUILayout.EndHorizontal();
-
-            #endregion
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawImportPackageByManifest()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("REGISTER PACKAGE", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            GUILayout.Label("Add Package", EditorStyles.boldLabel);
-            GUILayout.BeginHorizontal();
-            inputPackageFullNameAdd = EditorGUILayout.TextField(inputPackageFullNameAdd);
-            if (GUILayout.Button("Add", GUILayout.Width(70)))
-            {
-                if (inputPackageFullNameAdd == "")
-                {
-                    Debug.LogError("The input add package field is null");
-                    return;
-                }
-
-                inputPackageFullNameAdd = inputPackageFullNameAdd.Trim();
-                string inputPackageName = inputPackageFullNameAdd.Split(':').First();
-                (string packageName, string packageVersion) =
-                    RegistryManager.GetPackageInManifestByPackageName(inputPackageName);
-                if (packageName == inputPackageName)
-                {
-                    RegistryManager.RemovePackageInManifest(packageName + packageVersion);
-                }
-
-                RegistryManager.AddPackageInManifest(inputPackageFullNameAdd);
-                RegistryManager.Resolve();
-                //clear text Field
-                inputPackageFullNameAdd = string.Empty;
-                GUIUtility.keyboardControl = 0;
-                Repaint();
-            }
-
-            GUILayout.EndHorizontal();
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            GUILayout.Label("Remove Package", EditorStyles.boldLabel);
-            GUILayout.BeginHorizontal();
-            inputPackageFullNameRemove = EditorGUILayout.TextField(inputPackageFullNameRemove);
-            if (GUILayout.Button("Remove", GUILayout.Width(70)))
-            {
-                if (inputPackageFullNameRemove == "")
-                {
-                    Debug.LogError("The input remove package field is null");
-                    return;
-                }
-
-                inputPackageFullNameRemove = inputPackageFullNameRemove.Trim();
-                string inputPackageName = inputPackageFullNameRemove.Split(':').First();
-                (string packageName, string packageVersion) =
-                    RegistryManager.GetPackageInManifestByPackageName(inputPackageName);
-                if (packageName + packageVersion == inputPackageFullNameRemove)
-                {
-                    RegistryManager.RemovePackageInManifest(inputPackageFullNameRemove);
-                }
-                else if (packageName == inputPackageName)
-                {
-                    Debug.LogError("Input package version is not available");
-                }
-                else
-                {
-                    Debug.LogError("Input package is not available");
-                }
-
-                RegistryManager.Resolve();
-                //clear text Field
-                inputPackageFullNameRemove = string.Empty;
-                GUIUtility.keyboardControl = 0;
-                Repaint();
-            }
-
-            GUILayout.EndHorizontal();
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            GUILayout.Label("Manifest.json", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            scrollPositionFileManifest =
-                EditorGUILayout.BeginScrollView(scrollPositionFileManifest,
-                    GUILayout.Height(250));
-            string manifestContent = EditorGUILayout.TextArea(
-                System.IO.File.ReadAllText(FileExtension.ManifestPath),
-                GUILayout.ExpandHeight(true));
-            RegistryManager.WriteAllManifestContent(manifestContent);
-            EditorGUILayout.EndScrollView();
-            if (GUILayout.Button("Resolve Package"))
-            {
-                RegistryManager.Resolve();
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        void OnDrawAbout()
-        {
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
-            GUILayout.Label("ABOUT", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
-            GUILayout.TextArea(
-                "Description: Core ScriptableObject architecture for building Unity games",
-                EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.3.3", EditorStyles.boldLabel);
-            GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Open GitHub Repository"))
-            {
-                Application.OpenURL("https://github.com/VirtueSky/sunflower");
-            }
-
-            if (GUILayout.Button("Document"))
-            {
-                Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
-            }
-
-            Handles.DrawAAPolyLine(3, new Vector3(210, 195), new Vector3(position.width, 195));
-            GUILayout.Space(20);
-            GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
-            GUILayout.Space(10);
-            ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-            ColorTextContent =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
-            ColorBackgroundRect =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Theme Default"))
-            {
-                ColorContent = CustomColor.LightRed;
-                ColorTextContent = CustomColor.Gold;
-                ColorBackgroundRect = CustomColor.DarkSlateGray;
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        #endregion
 
         void GuiLine(int i_height, Color colorLine)
         {
@@ -896,31 +184,49 @@ namespace VirtueSky.ControlPanel
             EditorGUI.DrawRect(rect, colorLine);
         }
 
-        string TextIsEnable(bool condition)
+        #region Setup theme color
+
+        void OnSettingColorTheme()
         {
-            return condition ? "Enable" : "Disable";
+            ColorContent =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+            ColorTextContent =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:",
+                    ColorTextContent);
+            ColorBackgroundRect =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
+                    ColorBackgroundRect);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Theme Default"))
+            {
+                ColorContent = CustomColor.LightRed;
+                ColorTextContent = CustomColor.Gold;
+                ColorBackgroundRect = CustomColor.DarkSlateGray;
+            }
         }
 
-        private CustomColor ColorContent
+        public CustomColor ColorContent
         {
             get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
                 (int)CustomColor.LightRed);
             set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
         }
 
-        private CustomColor ColorTextContent
+        public CustomColor ColorTextContent
         {
             get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel",
                 (int)CustomColor.Gold);
             set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
         }
 
-        private CustomColor ColorBackgroundRect
+        public CustomColor ColorBackgroundRect
         {
             get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel",
                 (int)CustomColor.DarkSlateGray);
             set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
         }
+
+        #endregion
     }
 
     public enum StatePanelControl
