@@ -17,7 +17,8 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.TextArea(
                 "Description: Core ScriptableObject architecture for building Unity games",
                 EditorStyles.boldLabel);
-            GUILayout.TextArea("Version: 2.3.3", EditorStyles.boldLabel);
+            GUILayout.TextArea($"Version: {ConstantPackage.VersionSunflower}",
+                EditorStyles.boldLabel);
             GUILayout.TextArea("Author: VirtueSky", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open GitHub Repository"))

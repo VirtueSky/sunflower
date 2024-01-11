@@ -84,7 +84,7 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorGUILayout.HelpBox(
                     "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads",
                     MessageType.Info);
-                if (GUILayout.Button("Add Scripting Define Symbols tab to add"))
+                if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
                 {
                     statePanelControl = StatePanelControl.ScriptDefineSymbols;
                 }

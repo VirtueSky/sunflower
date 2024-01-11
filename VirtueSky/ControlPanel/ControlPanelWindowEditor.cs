@@ -1,17 +1,7 @@
-﻿using System.Linq;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.Ads;
-using VirtueSky.AssetFinder.Editor;
-using VirtueSky.Audio;
-using VirtueSky.Events;
-using VirtueSky.Iap;
 using VirtueSky.Inspector;
-using VirtueSky.LevelEditor;
-using VirtueSky.ObjectPooling;
-using VirtueSky.Rating;
-using VirtueSky.UtilsEditor;
-using VirtueSky.Variables;
+
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -137,7 +127,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPAdvertisingDrawer.OnDrawAdvertising(position, ref statePanelControl);
                     break;
                 case StatePanelControl.InAppPurchase:
-                    CPIapDrawer.OnDrawIap();
+                    CPIapDrawer.OnDrawIap(position, ref statePanelControl);
                     break;
                 case StatePanelControl.AssetsUsageDetector:
                     CPAssetUsageDetectorDrawer.OnDrawAssetUsageDetector();
