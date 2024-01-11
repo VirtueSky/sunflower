@@ -225,7 +225,7 @@ namespace PrimeTween {
                 return false;
             }
             if (!tween.canManipulate()) {
-                Debug.LogError(Assert.TryAddStackTrace(Constants.cantManipulateNested, id));
+                Assert.LogError(Constants.cantManipulateNested, id);
                 return false;
             }
             return true;
@@ -286,7 +286,7 @@ namespace PrimeTween {
         /// Tween.PositionX(transform, endValue: 1.5f, duration: 1f)
         ///     .OnComplete(transform, _transform =&gt; Destroy(_transform.gameObject));
         /// </code></example>
-        public Tween OnComplete<T>(T target, Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class {
+        public Tween OnComplete<T>([NotNull] T target, Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class {
             if (validateIsAlive()) {
                 tween.OnComplete(target, onComplete, warnIfTargetDestroyed);
             }
@@ -302,7 +302,7 @@ namespace PrimeTween {
             if (!IsCreated) {
                 Debug.LogError(Constants.defaultCtorError);
             } else if (!isAlive) {
-                Debug.LogError(Assert.TryAddStackTrace(Constants.isDeadMessage, id));
+                Assert.LogError(Constants.isDeadMessage, id);
             }
             return isAlive;
         }

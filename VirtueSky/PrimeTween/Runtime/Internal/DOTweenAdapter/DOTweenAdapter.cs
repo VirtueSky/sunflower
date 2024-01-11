@@ -1,4 +1,3 @@
-// todo add Sequence.SetEase()
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedParameter.Local
@@ -133,10 +132,8 @@ namespace PrimeTween {
             return ChainCallback(callback);
         }
 
-        public Sequence SetLoops(int loops) {
-            // todo add LoopType parameter
-            Assert.IsTrue(isAlive);
-            SetRemainingCycles(loops);
+        public Sequence SetLoops(int loops, LoopType? loopType = null) {
+            root.SetLoops(loops, loopType);
             return this;
         }
 
@@ -198,9 +195,13 @@ namespace PrimeTween {
             Complete();
         }
 
-        [PublicAPI]
-        public Sequence SetEase(Ease _) {
-            Debug.LogWarning("SetEase() is not supported for sequences.");
+        public Sequence SetEase(Ease ease, float? amplitude = null, float? period = null) {
+            root.SetEase(ease, amplitude, period);
+            return this;
+        }
+
+        public Sequence SetEase([NotNull] AnimationCurve animCurve) {
+            root.SetEase(animCurve);
             return this;
         }
 
@@ -209,6 +210,7 @@ namespace PrimeTween {
         }
 
         public Sequence OnStepComplete([NotNull] Action action) {
+            Debug.LogWarning("Please use sequence.ChainCallback() as the last operation instead of sequence.OnStepComplete()");
             return ChainCallback(action);
         }
 
@@ -233,6 +235,11 @@ namespace PrimeTween {
         public Sequence AsyncWaitForCompletion() => this;
 
         public IEnumerator WaitForCompletion() => ToYieldInstruction();
+
+        [PublicAPI]
+        public Sequence SetLink(GameObject gameObject) {
+            return this;
+        }
     }
     
     public partial struct Tween {
@@ -289,10 +296,11 @@ namespace PrimeTween {
             return this;
         }
 
-        public Tween SetLoops(int loops, LoopType loopType = LoopType.Restart) {
-            Assert.IsTrue(isAlive);
+        public Tween SetLoops(int loops, LoopType? loopType = null) {
             SetRemainingCycles(loops);
-            tween.settings.cycleMode = toCycleMode(loopType);
+            if (isAlive && loopType.HasValue) {
+                tween.settings.cycleMode = toCycleMode(loopType.Value);
+            }
             return this;
         }
 
@@ -340,10 +348,10 @@ namespace PrimeTween {
         public float ElapsedPercentage(bool includeLoops = true) => includeLoops ? progressTotal : progress;
         public void TogglePause() => isPaused = !isPaused;
 
-        public Tween SetEase([NotNull] AnimationCurve customCurve) {
+        public Tween SetEase([NotNull] AnimationCurve animCurve) {
             Assert.IsTrue(isAlive);
-            Assert.IsNotNull(customCurve);
-            tween.settings.SetEasing(Easing.Curve(customCurve));
+            Assert.IsNotNull(animCurve);
+            tween.settings.SetEasing(Easing.Curve(animCurve));
             return this;
         }
 
@@ -392,6 +400,11 @@ namespace PrimeTween {
                 (tween.startValue, tween.endValue) = (tween.endValue, tween.startValue);
             }
             tween.cacheDiff();
+            return this;
+        }
+        
+        [PublicAPI]
+        public Tween SetLink(GameObject gameObject) {
             return this;
         }
     }

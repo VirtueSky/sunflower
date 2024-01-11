@@ -390,7 +390,7 @@ namespace PrimeTween {
                             // In my opinion, the benefits of this new API don't outweigh the added complexity. A much more simpler approach is to store the Sequence reference and call sequence.Stop() directly. 
                             Assert.IsFalse(tween.isMainSequenceRoot());
                             if (logCantManipulateError) {
-                                Debug.LogError(Assert.TryAddStackTrace(Constants.cantManipulateNested, tween.id));
+                                Assert.LogError(Constants.cantManipulateNested, tween.id);
                             }
                             continue;
                         }
@@ -445,13 +445,13 @@ namespace PrimeTween {
         }
         
         [Conditional("UNITY_ASSERTIONS")]
-        internal void warnStructBoxingInCoroutineOnce() {
+        internal void warnStructBoxingInCoroutineOnce(int id) {
             if (!warnStructBoxingAllocationInCoroutine) {
                 return;
             }
             warnStructBoxingAllocationInCoroutine = false;
-            Debug.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" + 
-                             Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnStructBoxingAllocationInCoroutine)) + "\n");
+            Assert.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" + 
+                              Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnStructBoxingAllocationInCoroutine)) + "\n", id);
         }
     }
     

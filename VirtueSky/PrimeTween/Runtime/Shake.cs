@@ -141,6 +141,10 @@ namespace PrimeTween {
                 var elapsedTimeInterpolating = tween.easedInterpolationFactor * tween.settings.duration;
                 Assert.IsTrue(elapsedTimeInterpolating >= 0f);
                 var duration = tween.settings.duration;
+                if (duration == 0f) {
+                    return 0f;
+                }
+                Assert.IsTrue(duration > 0f);
                 float halfDuration = duration * 0.5f;
                 var oneShakeDuration = 1f / tween.shakeData.frequency;
                 if (oneShakeDuration > halfDuration) {

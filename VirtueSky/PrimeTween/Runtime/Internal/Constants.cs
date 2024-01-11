@@ -39,7 +39,7 @@ namespace PrimeTween {
         internal const string setTweensCapacityMethod = "'" + nameof(PrimeTweenConfig) + "." + nameof(PrimeTweenConfig.SetTweensCapacity) + "(int capacity)'";
         internal const string maxAliveTweens = "Max alive tweens";
         internal const string sequenceAlreadyStarted = "Sequence has already been started, it's not allowed to manipulate it anymore.";
-        internal const string addSafetyCheckDefineForMoreInfo = "Add 'PRIME_TWEEN_SAFETY_CHECKS' to 'Project Settings/Player/Scripting Define Symbols' to see which tween produced this error (works only in Development Builds).\n";
+        internal const string recursiveCallError = "Please don't call this API recursively from Tween.Custom() or tween.OnUpdate().";
 
         #if UNITY_EDITOR
         internal const string editModeWarning = "Please don't call PrimeTween's API in Edit mode (while the scene is not playing).";

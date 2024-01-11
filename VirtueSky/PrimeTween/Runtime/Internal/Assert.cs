@@ -1,32 +1,40 @@
 using JetBrains.Annotations;
-using UnityAssert = UnityEngine.Assertions;
+using UnityEngine;
 
 namespace PrimeTween {
     internal static class Assert {
+        internal static void LogError(string msg, int id, [CanBeNull] Object context = null) {
+            Debug.LogError(TryAddStackTrace(msg, id), context);
+        }
+        
+        internal static void LogWarning(string msg, int id, [CanBeNull] Object context = null) {
+            Debug.LogWarning(TryAddStackTrace(msg, id), context);
+        }
+
         [CanBeNull, PublicAPI]
-        internal static string TryAddStackTrace([CanBeNull] string msg, int tweenId) {
+        static string TryAddStackTrace([CanBeNull] string msg, int tweenId) {
             #if UNITY_ASSERTIONS && UNITY_2019_4_OR_NEWER
                 #if PRIME_TWEEN_SAFETY_CHECKS 
                 if (tweenId == 0) {
-                    msg += "Tween is not created (id == 0).\n";
+                    msg += "\nTween is not created (id == 0).\n";
                 } else {
                     msg += $"\nTween (id {tweenId}) creation stack trace:\n{StackTraces.Get(tweenId)}";
                 }
                 #else
-                msg += Constants.addSafetyCheckDefineForMoreInfo;
+                msg += "\nAdd 'PRIME_TWEEN_SAFETY_CHECKS' to 'Project Settings/Player/Scripting Define Symbols' to see which tween produced this error (works only in Development Builds).\n";
                 #endif
             #endif
             return msg;
         }
         
         #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
-        internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) => UnityAssert.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
-        internal static void AreEqual<T>(T expected, T actual, string msg = null) => UnityAssert.Assert.AreEqual(expected, actual, msg);
-        internal static void AreNotEqual<T>(T expected, T actual, string msg = null) => UnityAssert.Assert.AreNotEqual(expected, actual, msg);
-        internal static void IsFalse(bool condition, string msg = null) => UnityAssert.Assert.IsFalse(condition, msg);
+        internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) => UnityEngine.Assertions.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
+        internal static void AreEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreEqual(expected, actual, msg);
+        internal static void AreNotEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreNotEqual(expected, actual, msg);
+        internal static void IsFalse(bool condition, string msg = null) => UnityEngine.Assertions.Assert.IsFalse(condition, msg);
         [ContractAnnotation("value:null => halt")]
-        internal static void IsNotNull<T>(T value, string msg = null) where T : class => UnityAssert.Assert.IsNotNull(value, msg);
-        internal static void IsNull<T>(T value, string msg = null) where T : class => UnityAssert.Assert.IsNull(value, msg);
+        internal static void IsNotNull<T>(T value, string msg = null) where T : class => UnityEngine.Assertions.Assert.IsNotNull(value, msg);
+        internal static void IsNull<T>(T value, string msg = null) where T : class => UnityEngine.Assertions.Assert.IsNull(value, msg);
         [CanBeNull]
         static string AddStackTrace(bool add, [CanBeNull] string msg, int? tweenId) {
             if (add && tweenId.HasValue) {

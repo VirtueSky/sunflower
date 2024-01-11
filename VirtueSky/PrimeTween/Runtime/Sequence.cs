@@ -142,10 +142,9 @@ namespace PrimeTween {
             Assert.IsTrue(durationTotal == 0f || float.IsPositiveInfinity(durationTotal));
         }
 
-        /// <summary>Groups <paramref name="tween"/> with the 'last' tween/sequence in this Sequence.
-        /// The 'last' is the tween/sequence passed to the last Group/Chain() method.
-        /// Grouped tweens/sequences start at the same time and run in parallel.
-        /// Grouping begins with <see cref="Group"/> and ends with <see cref="Chain"/>.</summary>
+        /// <summary>Groups <paramref name="tween"/> with the 'previous' tween (or sequence) in this Sequence.<br/>
+        /// Grouped tweens and sequences start at the same time and run in parallel.<br/>
+        /// Chain() operation ends the current group.</summary>
         public Sequence Group(Tween tween) {
             requireFinite(tween);
             if (!tryManipulate() ||!validateCanAddChildren()) {
@@ -158,7 +157,7 @@ namespace PrimeTween {
             tween.tween.waitDelay = getLastInSelfOrRoot().tween.waitDelay;
             addLinkedReference(tween);
             setSequence(tween);
-            duration = Mathf.Max(duration, tween.durationTotal);
+            duration = Mathf.Max(duration, tween.durationWithWaitDelay);
             return this;
         }
 
@@ -193,7 +192,7 @@ namespace PrimeTween {
             return result;
         }
         
-        /// <summary>Schedules <see cref="tween"/> after all tweens/sequences in this Sequence.</summary>
+        /// <summary>Schedules <paramref name="tween"/> after all tweens and sequences in this Sequence.</summary>
         public Sequence Chain(Tween tween) {
             if (!tryManipulate()) {
                 return this;
@@ -243,8 +242,8 @@ namespace PrimeTween {
         }
 
         /// <summary>Schedules delay after all previously added tweens.</summary>
-        public Sequence ChainDelay(float _duration, bool useUnscaledTime = false) {
-            return Chain(Tween.Delay(_duration, null, useUnscaledTime));
+        public Sequence ChainDelay(float duration) {
+            return Chain(Tween.Delay(duration));
         }
 
         Tween getLastInSelfOrRoot() {
@@ -521,8 +520,13 @@ namespace PrimeTween {
             }
         }
 
-        public Sequence Chain(Sequence other) => nestSequence(other, true);
-        public Sequence Group(Sequence other) => nestSequence(other, false);
+        /// <summary>Schedules <paramref name="sequence"/> after all tweens and sequences in this Sequence.</summary>
+        public Sequence Chain(Sequence sequence) => nestSequence(sequence, true);
+        
+        /// <summary>Groups <paramref name="sequence"/> with the 'previous' tween (or sequence) in this Sequence.<br/>
+        /// Grouped tweens and sequences start at the same time and run in parallel.<br/>
+        /// Chain() operation ends the current group.</summary>
+        public Sequence Group(Sequence sequence) => nestSequence(sequence, false);
         
         Sequence nestSequence(Sequence other, bool isChainOp) {
             requireFinite(other.root);
@@ -533,9 +537,9 @@ namespace PrimeTween {
             ref var otherTweenType = ref other.root.tween.tweenType;
             Assert.AreEqual(TweenType.MainSequence, otherTweenType, "Sequence can be nested in other sequence only once.");
             otherTweenType = TweenType.NestedSequence;
-            
+
             Assert.AreEqual(0f, other.root.tween.waitDelay);
-            var waitDelayShift = isChainOp ? duration : root.tween.waitDelay; 
+            var waitDelayShift = isChainOp ? duration : getLastInSelfOrRoot().tween.waitDelay;
             // tests: SequenceNestingDepsChain/SequenceNestingDepsGroup
             other.root.tween.waitDelay += waitDelayShift;
             
@@ -543,7 +547,7 @@ namespace PrimeTween {
             if (isChainOp) {
                 duration += other.durationTotal;
             } else {
-                duration = Mathf.Max(duration, other.durationTotal);
+                duration = Mathf.Max(duration, other.root.durationWithWaitDelay);
             }
             validateChildSettings(other.root);
             validateSequenceEnumerator();

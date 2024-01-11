@@ -23,7 +23,7 @@ namespace PrimeTween {
         }
 
         bool IEnumerator.MoveNext() {
-            PrimeTweenManager.Instance.warnStructBoxingInCoroutineOnce();
+            PrimeTweenManager.Instance.warnStructBoxingInCoroutineOnce(id);
             return isAlive;
         }
 
@@ -49,7 +49,7 @@ namespace PrimeTween {
         public IEnumerator ToYieldInstruction() => root.ToYieldInstruction();
 
         bool IEnumerator.MoveNext() {
-            PrimeTweenManager.Instance.warnStructBoxingInCoroutineOnce();
+            PrimeTweenManager.Instance.warnStructBoxingInCoroutineOnce(id);
             return isAlive;
         }
 

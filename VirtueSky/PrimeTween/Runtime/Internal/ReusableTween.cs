@@ -21,8 +21,7 @@ namespace PrimeTween {
         [SerializeField] internal bool _isPaused;
         internal bool _isAlive;
         [SerializeField] internal float elapsedTimeTotal;
-        [SerializeField]
-        internal float easedInterpolationFactor;
+        [SerializeField] internal float easedInterpolationFactor;
         internal float cycleDuration;
         internal PropType propType;
         internal TweenType tweenType;
@@ -32,7 +31,7 @@ namespace PrimeTween {
         internal bool isAdditive;
         internal ValueContainer prevVal;
         [SerializeField] internal TweenSettings settings;
-        [SerializeField] int cyclesDone; // todo ini val of -1 is confusing
+        [SerializeField] int cyclesDone;
         const int iniCyclesDone = -1;
 
         internal object customOnValueChange;
@@ -70,16 +69,29 @@ namespace PrimeTween {
             return _isAlive;
         }
 
+        internal bool isUpdating;
         internal void SetElapsedTimeTotal(float newElapsedTimeTotal) {
-            if (!sequence.IsCreated) {
-                setElapsedTimeTotal(newElapsedTimeTotal, out _);
+            if (isUpdating) {
+                Debug.LogError(Constants.recursiveCallError);
                 return;
             }
-            Assert.IsTrue(sequence.isAlive, id);
-            if (isMainSequenceRoot()) {
-                Assert.IsTrue(sequence.root.id == id, id);
-                updateSequence(newElapsedTimeTotal, false);
+            isUpdating = true;
+            if (!sequence.IsCreated) {
+                setElapsedTimeTotal(newElapsedTimeTotal, out var cyclesDiff);
+                if (!stoppedEmergently && _isAlive && isDone(cyclesDiff)) {
+                    if (!_isPaused) {
+                        kill();
+                    }
+                    ReportOnComplete();
+                }
+            } else {
+                Assert.IsTrue(sequence.isAlive, id);
+                if (isMainSequenceRoot()) {
+                    Assert.IsTrue(sequence.root.id == id, id);
+                    updateSequence(newElapsedTimeTotal, false);
+                }
             }
+            isUpdating = false;
         }
         
         internal void updateSequence(float _elapsedTimeTotal, bool isRestart) {
@@ -158,6 +170,7 @@ namespace PrimeTween {
                     if (isMainSequenceRoot() && !_isPaused) {
                         sequence.releaseTweens();
                     }
+                    ReportOnComplete();
                     return;
                 }
             }
@@ -190,7 +203,10 @@ namespace PrimeTween {
             if (isSequenceRoot()) {
                 updateSequence(encompassingElapsedTime, isRestart);
             } else {
-                setElapsedTimeTotal(encompassingElapsedTime, out _);
+                setElapsedTimeTotal(encompassingElapsedTime, out var cyclesDiff);
+                if (!stoppedEmergently && _isAlive && isDone(cyclesDiff)) {
+                    ReportOnComplete();
+                }
             }
         }
 
@@ -210,15 +226,6 @@ namespace PrimeTween {
                 // print($"state: {state}/{newState}, cycles: {cyclesDone}/{settings.cycles} (diff: {cyclesDiff}), elapsedTimeTotal: {elapsedTimeTotal}, interpolation: {t}/{easedT}");
                 state = newState;
                 ReportOnValueChange(easedT);
-                if (stoppedEmergently || !_isAlive) {
-                    return;
-                }
-            }
-            if (isDone(cyclesDiff)) {
-                if (!IsInSequence() && !_isPaused) {
-                    kill();
-                }
-                ReportOnComplete();
             }
         }
 
@@ -292,6 +299,7 @@ namespace PrimeTween {
         }*/
 
         internal void Reset() {
+            Assert.IsFalse(isUpdating);
             Assert.IsFalse(_isAlive);
             Assert.IsFalse(sequence.IsCreated);
             Assert.IsFalse(prev.IsCreated);
@@ -340,7 +348,7 @@ namespace PrimeTween {
             };
         }
 
-        internal void OnComplete<T>([NotNull] T _target, [NotNull] Action<T> _onComplete, bool warnIfTargetDestroyed) where T : class {
+        internal void OnComplete<T>([CanBeNull] T _target, [NotNull] Action<T> _onComplete, bool warnIfTargetDestroyed) where T : class {
             if (_target == null || isDestroyedUnityObject(_target)) {
                 Debug.LogError($"{nameof(_target)} is null or has been destroyed. {Constants.onCompleteCallbackIgnored}");
                 return;
@@ -368,8 +376,7 @@ namespace PrimeTween {
 
         void handleOnCompleteException(Exception e) {
             // Design decision: if a tween is inside a Sequence and user's tween.OnComplete() throws an exception, the Sequence should continue
-            var msg = $"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n";
-            Debug.LogError(Assert.TryAddStackTrace(msg, id), unityTarget);
+            Assert.LogError($"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n", id, unityTarget);
         }
 
         internal static bool isDestroyedUnityObject<T>(T obj) where T: class => obj is UnityEngine.Object unityObject && unityObject == null;
@@ -442,8 +449,8 @@ namespace PrimeTween {
                 startFromCurrent = false;
                 startValue = Tween.tryGetStartValueFromOtherShake(this) ?? getter(this);
                 if (startValue.Vector4Val == endValue.Vector4Val && PrimeTweenManager.Instance.warnEndValueEqualsCurrent && !shakeData.isAlive) {
-                    Debug.LogWarning($"Tween's 'endValue' equals to the current animated value: {startValue.Vector4Val}, tween: {GetDescription()}.\n" +
-                                     $"{Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnEndValueEqualsCurrent))}\n");
+                    Assert.LogWarning($"Tween's 'endValue' equals to the current animated value: {startValue.Vector4Val}, tween: {GetDescription()}.\n" +
+                                      $"{Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnEndValueEqualsCurrent))}\n", id);
                 }
                 cacheDiff();
             }
@@ -463,7 +470,12 @@ namespace PrimeTween {
             onComplete?.Invoke(this);
         }
 
-        internal bool isUnityTargetDestroyed() => isDestroyedUnityObject(unityTarget);
+        internal bool isUnityTargetDestroyed() {
+            // must use target here instead of unityTarget
+            // unityTarget has the SerializeField attribute, so if ReferenceEquals(unityTarget, null), then Unity will populate the field with non-null UnityEngine.Object when a new scene is loaded in the Editor
+            // https://github.com/KyryloKuzyk/PrimeTween/issues/32
+            return isDestroyedUnityObject(target); 
+        }
 
         internal bool HasOnComplete => onComplete != null;
 
@@ -649,7 +661,7 @@ namespace PrimeTween {
                     msg += "\nIf you use tween.OnComplete(), Tween.Delay(), or sequence.ChainDelay() only for cosmetic purposes, you can turn off this error by passing 'warnIfTargetDestroyed: false' to the method.\n" +
                            "More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4\n";
                 }
-                Debug.LogError(Assert.TryAddStackTrace(msg, id), unityTarget);
+                Assert.LogError(msg, id, unityTarget);
             }
         }
 
@@ -730,14 +742,14 @@ namespace PrimeTween {
             Assert.IsNotNull(callback);
             var _onUpdateTarget = onUpdateTarget as T;
             if (isDestroyedUnityObject(_onUpdateTarget)) {
-                Debug.LogError($"OnUpdate() will not be called again because OnUpdate()'s target has been destroyed, tween: {GetDescription()}", unityTarget);
+                Assert.LogError($"OnUpdate() will not be called again because OnUpdate()'s target has been destroyed, tween: {GetDescription()}", id, unityTarget);
                 clearOnUpdate();
                 return;
             }
             try {
                 callback(_onUpdateTarget, new Tween(this));
             } catch (Exception e) {
-                Debug.LogError($"OnUpdate() will not be called again because it thrown exception, tween: {GetDescription()}, exception:\n{e}", unityTarget);
+                Assert.LogError($"OnUpdate() will not be called again because it thrown exception, tween: {GetDescription()}, exception:\n{e}", id, unityTarget);
                 clearOnUpdate();
             }
         }

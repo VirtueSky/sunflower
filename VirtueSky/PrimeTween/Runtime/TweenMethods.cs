@@ -300,6 +300,7 @@ namespace PrimeTween {
         }
         #endif
         
+        // not generated automatically because GlobalTimeScale() should have 'useUnscaledTime: true'
         public static Tween GlobalTimeScale(Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
             => GlobalTimeScale(new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, true)));
         public static Tween GlobalTimeScale(Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
