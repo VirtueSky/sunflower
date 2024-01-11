@@ -110,7 +110,7 @@ namespace VirtueSky.ControlPanel.Editor
 
             if (GUILayout.Button("Register Package"))
             {
-                statePanelControl = StatePanelControl.ImportPackage;
+                statePanelControl = StatePanelControl.RegisterPackage;
             }
 
             if (GUILayout.Button("About"))
@@ -139,7 +139,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPPoolDrawer.OnDrawPools();
                     break;
                 case StatePanelControl.InAppReview:
-                    CPInAppReviewDrawer.OnDrawInAppReview();
+                    CPInAppReviewDrawer.OnDrawInAppReview(position, ref statePanelControl);
                     break;
                 case StatePanelControl.LevelEditor:
                     CPLevelEditorDrawer.OnDrawLevelEditor();
@@ -156,8 +156,8 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.ScriptDefineSymbols:
                     CPScriptingDefineSymbolsDrawer.OnDrawScriptingDefineSymbols();
                     break;
-                case StatePanelControl.ImportPackage:
-                    CPRegisterPackageDrawer.OnDrawImportPackageByManifest(position, this);
+                case StatePanelControl.RegisterPackage:
+                    CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
                     break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
@@ -189,7 +189,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Theme Default"))
             {
-                ColorContent = CustomColor.LightRed;
+                ColorContent = CustomColor.Bright;
                 ColorTextContent = CustomColor.Gold;
                 ColorBackgroundRect = CustomColor.DarkSlateGray;
             }
@@ -198,7 +198,7 @@ namespace VirtueSky.ControlPanel.Editor
         public CustomColor ColorContent
         {
             get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
-                (int)CustomColor.LightRed);
+                (int)CustomColor.Bright);
             set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
         }
 
@@ -232,7 +232,7 @@ namespace VirtueSky.ControlPanel.Editor
         SO_Event,
         SO_Variable,
         ScriptDefineSymbols,
-        ImportPackage,
+        RegisterPackage,
         About,
     }
 }

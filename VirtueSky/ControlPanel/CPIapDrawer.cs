@@ -47,42 +47,12 @@ namespace VirtueSky.ControlPanel.Editor
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL IN APP PURCHASE", EditorStyles.boldLabel);
+            GUILayout.Label("INSTALL PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Import In App Purchasing"))
+            if (GUILayout.Button("Add Package In App Purchasing"))
             {
-                string packageName = "com.unity.purchasing";
-                (bool isInstall, string version) =
-                    RegistryManager.IsInstalled(packageName);
-                if (isInstall && version == ConstantPackage.MaxVersionInAppPurchase)
-                {
-                    Debug.Log("In App Purchase Is Installed and Max Version");
-                }
-                else if (version != ConstantPackage.MaxVersionInAppPurchase)
-                {
-                    RegistryManager.Remove(packageName);
-                    RegistryManager.Add(packageName,
-                        ConstantPackage.MaxVersionInAppPurchase);
-                    RegistryManager.Resolve();
-                }
-                else
-                {
-                    RegistryManager.Add(packageName,
-                        ConstantPackage.MaxVersionInAppPurchase);
-                    RegistryManager.Resolve();
-                }
-            }
-
-            if (GUILayout.Button("Remove In App Purchasing"))
-            {
-                string packageName = "com.unity.purchasing";
-                (bool isInstall, string version) =
-                    RegistryManager.IsInstalled(packageName);
-                if (isInstall)
-                {
-                    RegistryManager.Remove(packageName);
-                    RegistryManager.Resolve();
-                }
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameInAppPurchase,
+                    ConstantPackage.MaxVersionInAppPurchase);
             }
 
             GUILayout.Space(10);
@@ -93,6 +63,19 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 statePanelControl = StatePanelControl.ScriptDefineSymbols;
             }
+
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            GUILayout.Label("REMOVE PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Remove Package In App Purchasing"))
+            {
+                RegistryManager.Remove(ConstantPackage.PackageNameInAppPurchase);
+                RegistryManager.Resolve();
+            }
+
 
             GUILayout.EndVertical();
         }

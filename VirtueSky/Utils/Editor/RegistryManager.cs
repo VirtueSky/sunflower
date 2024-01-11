@@ -31,6 +31,29 @@ namespace VirtueSky.UtilsEditor
             Write(json);
         }
 
+        public static void AddOverrideVersion(string name, string version)
+        {
+            (bool isInstall, string currentVersion) = IsInstalled(name);
+            if (currentVersion == "")
+            {
+                Add(name, version);
+                Resolve();
+            }
+            else
+            {
+                if (version.Equals(currentVersion))
+                {
+                    Debug.Log($"This version of <color=Green>{name}</color> is installed");
+                }
+                else
+                {
+                    Remove(name);
+                    Add(name, version);
+                    Resolve();
+                }
+            }
+        }
+
         public static void Remove(string name)
         {
             var json = JObject.Parse(File.ReadAllText(ManifestPath));

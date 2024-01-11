@@ -18,7 +18,8 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/Ads/AdSetting &4", false)]
         public static void OpenAdSettingsWindows()
         {
-            var adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
+            var adSetting =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
             AdsWindowEditor adWindow = GetWindow<AdsWindowEditor>("Ads Settings");
             adWindow._adSetting = adSetting;
             if (adWindow == null)
@@ -34,14 +35,16 @@ namespace VirtueSky.Ads
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+                ColorBackgroundRect.ToColor());
             GUI.contentColor = ColorTextContent.ToColor();
             GUI.backgroundColor = ColorContent.ToColor();
             if (_editor == null) _editor = UnityEditor.Editor.CreateEditor(_adSetting);
 
             if (_editor == null)
             {
-                EditorGUILayout.HelpBox("Couldn't create the settings resources editor.", MessageType.Error);
+                EditorGUILayout.HelpBox("Couldn't create the settings resources editor.",
+                    MessageType.Error);
                 return;
             }
 
@@ -58,13 +61,17 @@ namespace VirtueSky.Ads
             isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
             if (isSetupTheme)
             {
-                ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-                ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
-                ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+                ColorContent =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+                ColorTextContent =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+                ColorBackgroundRect =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
+                        ColorBackgroundRect);
                 GUILayout.Space(10);
                 if (GUILayout.Button("Theme Default"))
                 {
-                    ColorContent = CustomColor.BlanchedAlmond;
+                    ColorContent = CustomColor.Bright;
                     ColorTextContent = CustomColor.Gold;
                     ColorBackgroundRect = CustomColor.DarkSlateGray;
                 }
@@ -105,13 +112,15 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/Ads/Applovin/Max App Open")]
         public static void CreateMaxAppOpen()
         {
-            CreateAsset.CreateScriptableAssets<MaxAppOpenVariable>(pathMax, "max_app_open_variable");
+            CreateAsset.CreateScriptableAssets<MaxAppOpenVariable>(pathMax,
+                "max_app_open_variable");
         }
 
         [MenuItem("Sunflower/Ads/Applovin/Max Reward Inter")]
         public static void CreateMaxRewardInter()
         {
-            CreateAsset.CreateScriptableAssets<MaxRewardInterVariable>(pathMax, "max_reward_inter_variable");
+            CreateAsset.CreateScriptableAssets<MaxRewardInterVariable>(pathMax,
+                "max_reward_inter_variable");
         }
 
         #endregion
@@ -129,38 +138,43 @@ namespace VirtueSky.Ads
         [MenuItem("Sunflower/Ads/Admob/Admob Banner")]
         public static void CreateAdmobBanner()
         {
-            CreateAsset.CreateScriptableAssets<AdmobBannerVariable>(pathAdmob, "admob_banner_variable");
+            CreateAsset.CreateScriptableAssets<AdmobBannerVariable>(pathAdmob,
+                "admob_banner_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Inter")]
         public static void CreateAdmobInter()
         {
-            CreateAsset.CreateScriptableAssets<AdmobInterVariable>(pathAdmob, "admob_inter_variable");
+            CreateAsset.CreateScriptableAssets<AdmobInterVariable>(pathAdmob,
+                "admob_inter_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Reward")]
         public static void CreateAdmobReward()
         {
-            CreateAsset.CreateScriptableAssets<AdmobRewardVariable>(pathAdmob, "admob_reward_variable");
+            CreateAsset.CreateScriptableAssets<AdmobRewardVariable>(pathAdmob,
+                "admob_reward_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob App Open")]
         public static void CreateAdmobAppOpen()
         {
-            CreateAsset.CreateScriptableAssets<AdmobAppOpenVariable>(pathAdmob, "admob_app_open_variable");
+            CreateAsset.CreateScriptableAssets<AdmobAppOpenVariable>(pathAdmob,
+                "admob_app_open_variable");
         }
 
         [MenuItem("Sunflower/Ads/Admob/Admob Reward Inter")]
         public static void CreateAdmobRewardInter()
         {
-            CreateAsset.CreateScriptableAssets<AdmobRewardInterVariable>(pathAdmob, "admob_reward_inter_variable");
+            CreateAsset.CreateScriptableAssets<AdmobRewardInterVariable>(pathAdmob,
+                "admob_reward_inter_variable");
         }
 
         #endregion
 
         private CustomColor ColorContent
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Ads", (int)CustomColor.BlanchedAlmond);
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Ads", (int)CustomColor.Bright);
             set => EditorPrefs.SetInt("ColorContent_Ads", (int)value);
         }
 
@@ -172,7 +186,8 @@ namespace VirtueSky.Ads
 
         private CustomColor ColorBackgroundRect
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Ads", (int)CustomColor.DarkSlateGray);
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Ads",
+                (int)CustomColor.DarkSlateGray);
             set => EditorPrefs.SetInt("ColorBackground_Ads", (int)value);
         }
     }

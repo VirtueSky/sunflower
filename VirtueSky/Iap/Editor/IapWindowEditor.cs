@@ -18,7 +18,8 @@ namespace VirtueSky.Iap
         [MenuItem("Sunflower/Iap/IapSetting &2", false)]
         public static void OpenIapSettingsWindows()
         {
-            var iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
+            var iapSetting =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
             IapWindowEditor window = GetWindow<IapWindowEditor>("Iap Settings");
             window._iapSetting = iapSetting;
             if (window == null)
@@ -36,7 +37,8 @@ namespace VirtueSky.Iap
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height), ColorBackgroundRect.ToColor());
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+                ColorBackgroundRect.ToColor());
             GUI.contentColor = ColorTextContent.ToColor();
             GUI.backgroundColor = ColorContent.ToColor();
             if (_editor == null)
@@ -46,7 +48,8 @@ namespace VirtueSky.Iap
 
             if (_editor == null)
             {
-                EditorGUILayout.HelpBox("Couldn't create the settings resources editor.", MessageType.Error);
+                EditorGUILayout.HelpBox("Couldn't create the settings resources editor.",
+                    MessageType.Error);
                 return;
             }
 
@@ -62,13 +65,17 @@ namespace VirtueSky.Iap
             isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
             if (isSetupTheme)
             {
-                ColorContent = (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-                ColorTextContent = (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
-                ColorBackgroundRect = (CustomColor)EditorGUILayout.EnumPopup("Color Background:", ColorBackgroundRect);
+                ColorContent =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
+                ColorTextContent =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
+                ColorBackgroundRect =
+                    (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
+                        ColorBackgroundRect);
                 GUILayout.Space(10);
                 if (GUILayout.Button("Theme Default"))
                 {
-                    ColorContent = CustomColor.BlanchedAlmond;
+                    ColorContent = CustomColor.Bright;
                     ColorTextContent = CustomColor.Gold;
                     ColorBackgroundRect = CustomColor.DarkSlateGray;
                 }
@@ -94,12 +101,13 @@ namespace VirtueSky.Iap
         [MenuItem("Sunflower/Iap/Iap Is Purchase Product Event")]
         public static void CreateIsPurchaseProductEvent()
         {
-            CreateAsset.CreateScriptableAssets<EventIsPurchaseProduct>("/Iap", "iap_is_purchase_product");
+            CreateAsset.CreateScriptableAssets<EventIsPurchaseProduct>("/Iap",
+                "iap_is_purchase_product");
         }
 
         private CustomColor ColorContent
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Iap", (int)CustomColor.BlanchedAlmond);
+            get => (CustomColor)EditorPrefs.GetInt("ColorContent_Iap", (int)CustomColor.Bright);
             set => EditorPrefs.SetInt("ColorContent_Iap", (int)value);
         }
 
@@ -111,7 +119,8 @@ namespace VirtueSky.Iap
 
         private CustomColor ColorBackgroundRect
         {
-            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Iap", (int)CustomColor.DarkSlateGray);
+            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Iap",
+                (int)CustomColor.DarkSlateGray);
             set => EditorPrefs.SetInt("ColorBackground_Iap", (int)value);
         }
 #endif
