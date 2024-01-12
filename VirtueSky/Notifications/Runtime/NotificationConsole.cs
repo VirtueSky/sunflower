@@ -74,7 +74,7 @@ namespace VirtueSky.Notifications
 #endif
         }
 
-        internal static void ClearBadgeCounteriOS()
+        internal static void ClearBadgeCounterIOS()
         {
 #if UNITY_IOS && VIRTUESKY_NOTIFICATION
             NotificationIOS.ClearBadgeCounter();

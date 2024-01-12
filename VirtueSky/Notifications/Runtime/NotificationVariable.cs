@@ -6,7 +6,8 @@ using VirtueSky.Misc;
 
 namespace VirtueSky.Notifications
 {
-    [CreateAssetMenu(fileName = "notification_channel_data.asset", menuName = "Notification Channel")]
+    [CreateAssetMenu(fileName = "notification_channel_data.asset",
+        menuName = "Notification Channel")]
     public class NotificationVariable : ScriptableObject
     {
         [Serializable]
@@ -78,6 +79,18 @@ namespace VirtueSky.Notifications
                 bigPicture: bigPicture,
                 namePicture: pathPicture,
                 repeat: repeat);
+        }
+
+        public void CancelAllScheduled()
+        {
+            if (!Application.isMobilePlatform) return;
+            NotificationConsole.CancelAllScheduled();
+        }
+
+        public void ClearBadgeCounterIOS()
+        {
+            if (!Application.isMobilePlatform) return;
+            NotificationConsole.ClearBadgeCounterIOS();
         }
     }
 }
