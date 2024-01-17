@@ -4,7 +4,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Audio
 {
-    public class AudioWindowEditor : EditorWindow
+    public class AudioWindowEditor : EditorWindow        
     {
         [MenuItem("Sunflower/Audio/Event Audio Handle")]
         public static void CreateEventAudioHandle()

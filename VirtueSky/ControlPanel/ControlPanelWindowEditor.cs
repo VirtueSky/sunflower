@@ -83,7 +83,7 @@ namespace VirtueSky.ControlPanel.Editor
                 statePanelControl = StatePanelControl.Pools;
             }
 
-            if (GUILayout.Button("Assets Usage Detector"))
+            if (GUILayout.Button("Assets Finder"))
             {
                 statePanelControl = StatePanelControl.AssetsUsageDetector;
             }
@@ -130,7 +130,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPIapDrawer.OnDrawIap(position, ref statePanelControl);
                     break;
                 case StatePanelControl.AssetsUsageDetector:
-                    CPAssetUsageDetectorDrawer.OnDrawAssetUsageDetector();
+                    CPAssetFinderDrawer.OnDrawAssetUsageDetector();
                     break;
                 case StatePanelControl.Audio:
                     CPAudioDrawer.OnDrawAudio();
