@@ -648,7 +648,7 @@ namespace VirtueSky.AssetFinder.Editor
     public class AssetFinderCache : ScriptableObject
     {
         internal const string CACHE_VERSION = "2.1";
-        internal const string DEFAULT_CACHE_PATH = "Assets/_Sunflower/Finder_Cache.asset";
+        internal const string DEFAULT_CACHE_PATH = "Assets/_Sunflower/Editor/Finder_Cache.asset";
 
         internal static int cacheStamp;
         internal static Action onReady;
