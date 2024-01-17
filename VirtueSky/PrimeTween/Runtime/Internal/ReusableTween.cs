@@ -582,6 +582,7 @@ namespace PrimeTween {
             var cyclesTotal = settings.cycles;
             if (cyclesDone == cyclesTotal) {
                 // Debug.Log("cyclesDone == cyclesTotal");
+                Assert.AreNotEqual(-1, cyclesTotal);
                 switch (cycleMode) {
                     case CycleMode.Restart:
                         return evaluate(1f);
@@ -644,8 +645,14 @@ namespace PrimeTween {
                 warnOnCompleteIgnored(true);
                 return;
             }
-            cyclesDone = settings.cycles; 
-            ReportOnValueChange(calcEasedT(1f, settings.cycles));
+            var cyclesTotal = settings.cycles;
+            if (cyclesTotal == -1) {
+                // same as SetRemainingCycles(1)
+                cyclesTotal = getCyclesDone() + 1; 
+                settings.cycles = cyclesTotal;
+            }
+            cyclesDone = cyclesTotal; 
+            ReportOnValueChange(calcEasedT(1f, cyclesTotal));
             if (stoppedEmergently) {
                 return;
             }

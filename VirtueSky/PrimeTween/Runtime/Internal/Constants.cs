@@ -12,7 +12,7 @@ namespace PrimeTween {
                                                                   "Use Stop()/Complete()/isPaused/timeScale/elapsedTime/etc. of their parent Sequence instead.\n";
         [NotNull]
         internal static string buildWarningCanBeDisabledMessage(string settingName) {
-            return $"To disable this warning, disable the '{nameof(PrimeTweenConfig)}.{settingName}' setting.";
+            return $"To disable this warning, set '{nameof(PrimeTweenConfig)}.{settingName} = false;'.";
         }
 
         internal const string isDeadMessage = "Tween/Sequence is not alive. Please check the 'isAlive' property before calling this API.\n";
@@ -40,6 +40,9 @@ namespace PrimeTween {
         internal const string maxAliveTweens = "Max alive tweens";
         internal const string sequenceAlreadyStarted = "Sequence has already been started, it's not allowed to manipulate it anymore.";
         internal const string recursiveCallError = "Please don't call this API recursively from Tween.Custom() or tween.OnUpdate().";
+        internal const string nestSequenceTwiceError = "Sequence can be nested in other sequence only once.";
+        internal const string nestTweenTwiceError = "A tween can be added to a sequence only once and can only belong to one sequence.";
+        internal const string addDeadTweenToSequenceError = "It's not allowed to add 'dead' tweens to a sequence.";
 
         #if UNITY_EDITOR
         internal const string editModeWarning = "Please don't call PrimeTween's API in Edit mode (while the scene is not playing).";

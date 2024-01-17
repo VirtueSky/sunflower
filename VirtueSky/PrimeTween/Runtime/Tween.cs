@@ -212,10 +212,11 @@ namespace PrimeTween {
             }
         }
 
-        /// Immediately sets the tween to the endValue and calls onComplete.
+        /// <summary>Immediately completes the tween.<br/>
+        /// If the tween has infinite cycles (cycles == -1), completes only the current cycle. To choose between 'startValue' and 'endValue' in the case of infinite cycles, use <see cref="SetRemainingCycles(bool stopAtEndValue)"/> before calling Complete().</summary>
         public void Complete() {
             // don't warn that tween is dead because dead tween means that it's already 'completed'
-            if (isAlive && tryManipulate()) { 
+            if (isAlive && tryManipulate()) {
                 tween.ForceComplete();
             }
         }

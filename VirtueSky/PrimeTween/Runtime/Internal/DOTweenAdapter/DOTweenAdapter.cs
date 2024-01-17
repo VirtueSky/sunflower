@@ -1,6 +1,5 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedType.Global
-// ReSharper disable UnusedParameter.Local
 #if PRIME_TWEEN_DOTWEEN_ADAPTER
 using System;
 using System.Collections;
@@ -9,8 +8,6 @@ using UnityEngine;
 
 namespace PrimeTween {
     public static partial class DOTweenAdapter {
-        const Ease defaultDotweenEase = Ease.OutQuad;
-        
         static int remapFrequency(float frequency) {
             return (int) (frequency * 1.35f);
         }
@@ -76,15 +73,15 @@ namespace PrimeTween {
         }
         
         public static Tween DORotate([NotNull] this Transform target, Vector3 endValue, float duration) {
-            return Tween.Rotation(target, Quaternion.Euler(endValue), duration, defaultDotweenEase);
+            return Tween.Rotation(target, Quaternion.Euler(endValue), duration);
         }
 
         public static Tween DOLocalRotate([NotNull] this Transform target, Vector3 endValue, float duration) {
-            return Tween.LocalRotation(target, Quaternion.Euler(endValue), duration, defaultDotweenEase);
+            return Tween.LocalRotation(target, Quaternion.Euler(endValue), duration);
         }
 
         public static Tween DOScale([NotNull] this Transform target, Single endValue, float duration) {
-            return Tween.Scale(target, endValue, duration, defaultDotweenEase);
+            return Tween.Scale(target, endValue, duration);
         }
 
         public static int DOKill([NotNull] this Component target, bool complete = false) => doKill_internal(target, complete);
@@ -98,10 +95,15 @@ namespace PrimeTween {
             return result;
         }
         
-        // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration, defaultDotweenEase);
+        // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration);
     }
 
     public static class DOTween {
+        public static Ease defaultEaseType {
+            get => PrimeTweenConfig.defaultEase;
+            set => PrimeTweenConfig.defaultEase = value;
+        }
+        
         public static Sequence Sequence() => PrimeTween.Sequence.Create();
         
         public static void Kill([NotNull] object target, bool complete = false) => DOTweenAdapter.doKill_internal(target, complete);
@@ -156,10 +158,10 @@ namespace PrimeTween {
         /// <summary>Schedules <see cref="other"/> after the last added tween.
         /// Internal because this API is hard to understand, but needed for adapter.</summary>
         internal Sequence ChainLast(Tween other) {
-            if (!tryManipulate()) {
-                return this;
+            if (tryManipulate()) {
+                Insert(getLastInSelfOrRoot().durationWithWaitDelay, other);
             }
-            return chain(other, getLastInSelfOrRoot().durationWithWaitDelay);
+            return this;
         }
 
         public Sequence Append(Sequence other) => Chain(other);
@@ -215,7 +217,7 @@ namespace PrimeTween {
         }
 
         public Sequence PrependInterval(float interval) {
-            if (!tryManipulate() || !validateCanAddChildren()) {
+            if (!ValidateCanManipulateSequence()) {
                 return this;
             }
             foreach (var t in getSelfChildren()) {
@@ -236,10 +238,9 @@ namespace PrimeTween {
 
         public IEnumerator WaitForCompletion() => ToYieldInstruction();
 
+        /// <summary>It's safe to destroy objects with running animations in PrimeTween, so this adapter method does nothing. More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4</summary>
         [PublicAPI]
-        public Sequence SetLink(GameObject gameObject) {
-            return this;
-        }
+        public Sequence SetLink(GameObject gameObject) => this;
     }
     
     public partial struct Tween {

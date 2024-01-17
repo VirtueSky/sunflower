@@ -229,19 +229,13 @@ namespace PrimeTween {
             pool.Add(tween);
         }
 
-        internal static Tween createEmpty() {
+        /// Returns null if target is a destroyed UnityEngine.Object
+        internal static Tween? delayWithoutDurationCheck([CanBeNull] object target, float duration, bool useUnscaledTime) {
             #if UNITY_EDITOR
             if (Constants.warnNoInstance) {
-                return default;
+                return null;
             }
             #endif
-            var result = delayWithoutDurationCheck(dummyTarget, 0, false);
-            Assert.IsTrue(result.HasValue);
-            return result.Value;
-        }
-
-        // Returns null if target is a destroyed UnityEngine.Object
-        internal static Tween? delayWithoutDurationCheck([CanBeNull] object target, float duration, bool useUnscaledTime) {
             var tween = fetchTween();
             tween.propType = PropType.Float;
             tween.tweenType = TweenType.Delay;

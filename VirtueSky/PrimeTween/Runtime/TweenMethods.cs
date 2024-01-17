@@ -346,44 +346,5 @@ namespace PrimeTween {
         }
 
         public static Tween TweenTimeScale(Sequence sequence, TweenSettings<float> settings) => TweenTimeScale(sequence.root, settings);
-
-        #if PRIME_TWEEN_EXPERIMENTAL
-        /// <summary>Similar to position animation with Ease.OutBounce, but gives the ability to customize the bounce behaviour by specifying the exact bounce amplitude, number of bounces, and bounce stiffness.</summary>
-        public static Sequence PositionOutBounce([NotNull] Transform target, Vector3 endValue, float duration, float bounceAmplitude, int numBounces = 2, float stiffness = 0.5f, bool useUnscaledTime = false)
-            => CustomOutBounce(target, (t, s) => Position(t, s), endValue, duration, bounceAmplitude, numBounces, stiffness, t => t.position, useUnscaledTime);
-
-        /// <summary>Similar to position animation with Ease.OutBounce, but gives the ability to customize the bounce behaviour by specifying the exact bounce amplitude, number of bounces, and bounce stiffness.</summary>
-        public static Sequence LocalPositionOutBounce([NotNull] Transform target, Vector3 endValue, float duration, float bounceAmplitude, int numBounces = 2, float stiffness = 0.5f, bool useUnscaledTime = false)
-            => CustomOutBounce(target, (t, s) => LocalPosition(t, s), endValue, duration, bounceAmplitude, numBounces, stiffness, t => t.localPosition, useUnscaledTime);
-
-        static Sequence CustomOutBounce([NotNull] Transform target, [NotNull] Func<Transform, TweenSettings<Vector3>, Tween> animFunc, Vector3 endValue, float duration, float bounceAmplitude, int numBounces, float stiffness, [NotNull] Func<Transform, Vector3> getPos, bool useUnscaledTime) {
-            if (bounceAmplitude == 0) {
-                Debug.LogWarning("Please provide non-zero " + nameof(bounceAmplitude) + ".");
-            }
-            if (numBounces < 0 || numBounces > 10) {
-                Debug.LogError("'" + nameof(numBounces) + "' should be >= 0 and <= 10.");
-                numBounces = Mathf.Clamp(numBounces, 0, 10);
-            }
-            if (stiffness < 0 || stiffness > 5) {
-                Debug.LogError("'" + nameof(stiffness) + "' should be >= 0 and <= 5.");
-                stiffness = Mathf.Clamp(stiffness, 0, 5);
-            }
-            stiffness += 1;
-            // move durations: x + x/stiffness + x/stiffness^2 + x/stiffness^3...
-            float x = 1;
-            for (int i = 1; i <= numBounces; i++) {
-                x += 1 / Mathf.Pow(stiffness, i);
-            }
-            var curDur = duration / x;
-            var sequence = Sequence.Create(animFunc(target, new TweenSettings<Vector3>(endValue, curDur, Ease.InSine, useUnscaledTime: useUnscaledTime)));
-            var bounceVector = (getPos(target) - endValue).normalized * bounceAmplitude;
-            for (int i = 1; i <= numBounces; i++) {
-                curDur /= stiffness;
-                sequence.Chain(animFunc(target, new TweenSettings<Vector3>(endValue + bounceVector, curDur / 2f, Ease.OutSine, 2, CycleMode.Rewind, useUnscaledTime: useUnscaledTime)));
-                bounceVector /= stiffness * 2;
-            }
-            return sequence;
-        }
-        #endif // PRIME_TWEEN_EXPERIMENTAL
     }
 }

@@ -33,7 +33,7 @@ internal class PrimeTweenManagerInspector : Editor {
         GUILayout.EndHorizontal();
         
         GUILayout.BeginHorizontal();
-        GUILayout.Label( Constants.maxAliveTweens + "", EditorStyles.label);
+        GUILayout.Label( Constants.maxAliveTweens, EditorStyles.label);
         GUILayout.Label(manager.maxSimultaneousTweensCount.ToString(), EditorStyles.boldLabel);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();

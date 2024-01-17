@@ -68,7 +68,7 @@ using System;
 namespace PrimeTween {
     [PublicAPI]
     public static partial class DOTweenAdapter {";
-        const string dotweenOverload = "        public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration, defaultDotweenEase);";
+        const string dotweenOverload = "        public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration);";
         str += generateWithDefines(data => {
             if (!data.dotweenMethodName.Any()) {
                 return string.Empty;

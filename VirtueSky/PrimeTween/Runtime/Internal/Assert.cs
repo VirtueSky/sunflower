@@ -28,6 +28,7 @@ namespace PrimeTween {
         }
         
         #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
+        [ContractAnnotation("condition:false => halt")]
         internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) => UnityEngine.Assertions.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
         internal static void AreEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreEqual(expected, actual, msg);
         internal static void AreNotEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreNotEqual(expected, actual, msg);

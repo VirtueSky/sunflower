@@ -89,14 +89,17 @@ namespace PrimeTween {
 
         bool tryManipulate() => root.tryManipulate();
 
-        bool validateCanAddChildren() {
+        bool ValidateCanManipulateSequence() {
+            if (!tryManipulate()) {
+                return false;
+            }
             if (root.elapsedTimeTotal != 0f) {
                 Debug.LogError(Constants.sequenceAlreadyStarted);
                 return false;
             }
             return true;
         }
-        
+
         public static Sequence Create(int cycles = 1, CycleMode cycleMode = CycleMode.Restart, Ease sequenceEase = Ease.Linear, bool useUnscaledTime = false, bool useFixedUpdate = false) {
             #if UNITY_EDITOR
             if (Constants.warnNoInstance) {
@@ -142,22 +145,13 @@ namespace PrimeTween {
             Assert.IsTrue(durationTotal == 0f || float.IsPositiveInfinity(durationTotal));
         }
 
-        /// <summary>Groups <paramref name="tween"/> with the 'previous' tween (or sequence) in this Sequence.<br/>
-        /// Grouped tweens and sequences start at the same time and run in parallel.<br/>
-        /// Chain() operation ends the current group.</summary>
+        /// <summary>Groups <paramref name="tween"/> with the 'previous' animation (tween or sequence) in this Sequence.<br/>
+        /// Grouped animations start at the same time and run in parallel.<br/>
+        /// If the 'previous' operation is Chain(), then <paramref name="tween"/> will start at the same time with the 'previously' chained animation.</summary>
         public Sequence Group(Tween tween) {
-            requireFinite(tween);
-            if (!tryManipulate() ||!validateCanAddChildren()) {
-                return this;
+            if (tryManipulate()) {
+                Insert(getLastInSelfOrRoot().tween.waitDelay, tween);
             }
-            Assert.IsTrue(isAlive);
-            validate(tween);
-            validateChildSettings(tween);
-            Assert.AreEqual(0, tween.tween.waitDelay);
-            tween.tween.waitDelay = getLastInSelfOrRoot().tween.waitDelay;
-            addLinkedReference(tween);
-            setSequence(tween);
-            duration = Mathf.Max(duration, tween.durationWithWaitDelay);
             return this;
         }
 
@@ -194,51 +188,74 @@ namespace PrimeTween {
         
         /// <summary>Schedules <paramref name="tween"/> after all tweens and sequences in this Sequence.</summary>
         public Sequence Chain(Tween tween) {
-            if (!tryManipulate()) {
-                return this;
+            if (tryManipulate()) {
+                Insert(duration, tween);
             }
-            return chain(tween, duration);
+            return this;
         }
 
-        Sequence chain(Tween other, float waitDelay) {
-            Assert.IsTrue(isAlive);
-            validate(other);
-            validateChildSettings(other);
-            if (!validateCanAddChildren()) {
+        /// <summary>Places <paramref name="tween"/> inside this Sequence at time <paramref name="atTime"/>, leaving other animations unchanged.<br/>
+        /// Sequence's duration will be increased if the inserted <paramref name="tween"/> doesn't fit inside the current duration.</summary>
+        public Sequence Insert(float atTime, Tween tween) {
+            if (!ValidateCanAdd(tween)) {
                 return this;
             }
-            Assert.AreEqual(0, other.tween.waitDelay);
-            other.tween.waitDelay = waitDelay;
-            addLinkedReference(other);
-            setSequence(other);
-            duration += other.durationTotal;
+            if (tween.tween.sequence.IsCreated) {
+                Debug.LogError($"{Constants.nestTweenTwiceError} Tween: {tween.tween.GetDescription()}");
+                return this;
+            }
+            setSequence(tween);
+            Insert_internal(atTime, tween);
             return this;
+        }
+
+        void Insert_internal(float atTime, Tween other) {
+            Assert.AreEqual(0f, other.tween.waitDelay);
+            other.tween.waitDelay = atTime;
+            duration = Mathf.Max(duration, other.durationWithWaitDelay);
+            addLinkedReference(other);
         }
 
         /// <summary>Schedules <see cref="callback"/> after all previously added tweens.</summary>
         /// <param name="warnIfTargetDestroyed">https://github.com/KyryloKuzyk/PrimeTween/discussions/4</param>
         public Sequence ChainCallback([NotNull] Action callback, bool warnIfTargetDestroyed = true) {
+            if (tryManipulate()) {
+                InsertCallback(duration, callback, warnIfTargetDestroyed);
+            }
+            return this;
+        }
+
+        public Sequence InsertCallback(float atTime, Action callback, bool warnIfTargetDestroyed = true) {
             if (!tryManipulate()) {
                 return this;
             }
-            var delay = PrimeTweenManager.createEmpty();
+            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, atTime, false);
+            Assert.IsTrue(maybeDelay.HasValue);
+            var delay = maybeDelay.Value;
             delay.tween.OnComplete(callback, warnIfTargetDestroyed);
-            return Chain(delay);
+            return Insert(0f, delay);
         }
 
         /// <summary>Schedules <see cref="callback"/> after all previously added tweens. Passing 'target' allows to write a non-allocating callback.</summary>
         /// <param name="warnIfTargetDestroyed">https://github.com/KyryloKuzyk/PrimeTween/discussions/4</param>
         public Sequence ChainCallback<T>([NotNull] T target, [NotNull] Action<T> callback, bool warnIfTargetDestroyed = true) where T: class {
+            if (tryManipulate()) {
+                InsertCallback(duration, target, callback, warnIfTargetDestroyed);
+            }
+            return this;
+        }
+
+        public Sequence InsertCallback<T>(float atTime, [NotNull] T target, Action<T> callback, bool warnIfTargetDestroyed = true) where T: class {
             if (!tryManipulate()) {
                 return this;
             }
-            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(target, 0, false);
+            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(target, atTime, false);
             if (!maybeDelay.HasValue) {
                 return this;
             }
             var delay = maybeDelay.Value;
             delay.tween.OnComplete(target, callback, warnIfTargetDestroyed);
-            return Chain(delay);
+            return Insert(0f, delay);
         }
 
         /// <summary>Schedules delay after all previously added tweens.</summary>
@@ -257,11 +274,6 @@ namespace PrimeTween {
             return result;
         }
 
-        static void requireFinite(Tween other) {
-            requireIsAlive(other);
-            Assert.IsTrue(other.tween.settings.cycles >= 1, msg: Constants.infiniteTweenInSequenceError);
-        }
-
         void setSequence(Tween handle) {
             Assert.IsTrue(IsCreated);
             Assert.IsTrue(handle.isAlive); 
@@ -270,35 +282,35 @@ namespace PrimeTween {
             tween.sequence = this;
         }
 
-        static void validateChildSettings(Tween child) {
-            if (child.tween._isPaused) {
+        bool ValidateCanAdd(Tween other) {
+            if (!ValidateCanManipulateSequence()) {
+                return false;
+            }
+            if (!other.isAlive) {
+                Debug.LogError(Constants.addDeadTweenToSequenceError);
+                return false;
+            }
+            if (other.tween.settings.cycles == -1) {
+                Debug.LogError(Constants.infiniteTweenInSequenceError);
+                return false;
+            }
+            if (other.tween._isPaused) {
                 warnIgnoredChildrenSetting(nameof(isPaused));
             }
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (child.tween.timeScale != 1f) {
+            if (other.tween.timeScale != 1f) {
                 warnIgnoredChildrenSetting(nameof(timeScale));
             }
-            if (child.tween.settings.useUnscaledTime) {
+            if (other.tween.settings.useUnscaledTime) {
                 warnIgnoredChildrenSetting(nameof(TweenSettings.useUnscaledTime));
             }
-            if (child.tween.settings.useFixedUpdate) {
+            if (other.tween.settings.useFixedUpdate) {
                 warnIgnoredChildrenSetting(nameof(TweenSettings.useFixedUpdate));
             }
             void warnIgnoredChildrenSetting(string settingName) {
                 Debug.LogError($"'{settingName}' was ignored after adding tween/sequence to the Sequence. Parent Sequence controls isPaused/timeScale/useUnscaledTime/useFixedUpdate of all its children tweens and sequences.\n");
             }
-        }
-        
-        static void validate(Tween other) {
-            requireIsAlive(other);
-            requireFinite(other);
-            if (other.tween.sequence.IsCreated) {
-                throw new Exception($"A tween can be added to a sequence only once and can only belong to one sequence. Tween: {other.tween.GetDescription()}");
-            }
-        }
-
-        static void requireIsAlive(Tween other) {
-            Assert.IsTrue(other.isAlive, msg: "It's not allowed to add 'dead' tweens to a sequence.");
+            return true;
         }
 
         /// Stops all tweens in the Sequence, ignoring callbacks. 
@@ -310,10 +322,16 @@ namespace PrimeTween {
             }
         }
 
-        /// Immediately completes the current sequence cycle. Remaining sequence cycles are ignored.
+        /// <summary>Immediately completes the sequence.<br/>
+        /// If the sequence has infinite cycles (cycles == -1), completes only the current cycle. To choose where the sequence should stop (at the 'start' or at the 'end') in the case of infinite cycles, use <see cref="SetRemainingCycles(bool stopAtEndValue)"/> before calling Complete().</summary>
         public void Complete() {
             if (isAlive && tryManipulate()) {
-                SetRemainingCycles(1);
+                if (cyclesTotal == -1 || root.tween.settings.cycleMode == CycleMode.Restart) {
+                    SetRemainingCycles(1);
+                } else {
+                    int cyclesLeft = cyclesTotal - cyclesDone;
+                    SetRemainingCycles(cyclesLeft % 2 == 1 ? 1 : 2);
+                }
                 root.isPaused = false;
                 Assert.IsTrue(root.tween.isMainSequenceRoot());
                 root.tween.updateSequence(float.MaxValue, false);
@@ -371,7 +389,7 @@ namespace PrimeTween {
             return enumerator;
         }
 
-        /// <summary>Stops the sequence when it reaches the 'end' or returns to the 'beginning' for the next time.<br/>
+        /// <summary>Stops the sequence when it reaches the 'end' or returns to the 'start' for the next time.<br/>
         /// For example, if you have an infinite sequence (cycles == -1) with CycleMode.Yoyo/Rewind, and you wish to stop it when it reaches the 'end', then set <see cref="stopAtEndValue"/> to true.
         /// To stop the animation at the 'beginning', set <see cref="stopAtEndValue"/> to false.</summary>
         public void SetRemainingCycles(bool stopAtEndValue) {
@@ -521,35 +539,38 @@ namespace PrimeTween {
         }
 
         /// <summary>Schedules <paramref name="sequence"/> after all tweens and sequences in this Sequence.</summary>
-        public Sequence Chain(Sequence sequence) => nestSequence(sequence, true);
-        
-        /// <summary>Groups <paramref name="sequence"/> with the 'previous' tween (or sequence) in this Sequence.<br/>
-        /// Grouped tweens and sequences start at the same time and run in parallel.<br/>
-        /// Chain() operation ends the current group.</summary>
-        public Sequence Group(Sequence sequence) => nestSequence(sequence, false);
-        
-        Sequence nestSequence(Sequence other, bool isChainOp) {
-            requireFinite(other.root);
-            if (!tryManipulate() || !validateCanAddChildren()) {
+        public Sequence Chain(Sequence sequence) {
+            if (tryManipulate()) {
+                Insert(duration, sequence);
+            }
+            return this;
+        }
+
+        /// <summary>Groups <paramref name="sequence"/> with the 'previous' animation (tween or sequence) in this Sequence.<br/>
+        /// Grouped animations start at the same time and run in parallel.<br/>
+        /// If the 'previous' operation is Chain(), then <paramref name="sequence"/> will start at the same time with the 'previously' chained animation.</summary>
+        public Sequence Group(Sequence sequence) {
+            if (tryManipulate()) {
+                Insert(getLastInSelfOrRoot().tween.waitDelay, sequence);
+            }
+            return this;
+        }
+
+        /// <summary>Places <paramref name="sequence"/> inside this Sequence at time <paramref name="atTime"/>, leaving other animations unchanged.<br/>
+        /// Sequence's duration will be increased if the inserted <paramref name="sequence"/> doesn't fit inside the current duration.</summary>
+        public Sequence Insert(float atTime, Sequence sequence) {
+            if (!ValidateCanAdd(sequence.root)) {
                 return this;
             }
-            Assert.IsTrue(other.isAlive);
-            ref var otherTweenType = ref other.root.tween.tweenType;
-            Assert.AreEqual(TweenType.MainSequence, otherTweenType, "Sequence can be nested in other sequence only once.");
+            
+            ref var otherTweenType = ref sequence.root.tween.tweenType;
+            if (otherTweenType != TweenType.MainSequence) {
+                Debug.LogError(Constants.nestSequenceTwiceError);
+                return this;
+            }
             otherTweenType = TweenType.NestedSequence;
 
-            Assert.AreEqual(0f, other.root.tween.waitDelay);
-            var waitDelayShift = isChainOp ? duration : getLastInSelfOrRoot().tween.waitDelay;
-            // tests: SequenceNestingDepsChain/SequenceNestingDepsGroup
-            other.root.tween.waitDelay += waitDelayShift;
-            
-            addLinkedReference(other.root);
-            if (isChainOp) {
-                duration += other.durationTotal;
-            } else {
-                duration = Mathf.Max(duration, other.root.durationWithWaitDelay);
-            }
-            validateChildSettings(other.root);
+            Insert_internal(atTime, sequence.root);
             validateSequenceEnumerator();
             return this;
         }
