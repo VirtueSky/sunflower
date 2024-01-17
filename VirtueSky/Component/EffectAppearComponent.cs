@@ -7,7 +7,7 @@ namespace VirtueSky.Component
     {
         [Range(0, 2f)] public float TimeScale = .7f;
         public Ease ease = Ease.OutBack;
-        public Vector3 fromScale;
+        public Vector3 fromScale = new Vector3(.5f, .5f, .5f);
         private Vector3 CurrentScale;
         private Tween _tween;
 
