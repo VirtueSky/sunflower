@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 using VirtueSky.UtilsEditor;
 
@@ -29,7 +30,11 @@ namespace VirtueSky.LevelEditor
                 var generator = previewGenerator;
                 if (generator != null) return generator;
 
-                return previewGenerator = new PreviewGenerator { width = 512, height = 512, transparentBackground = true, sizingType = PreviewGenerator.ImageSizeType.Fit };
+                return previewGenerator = new PreviewGenerator
+                {
+                    width = 512, height = 512, transparentBackground = true,
+                    sizingType = PreviewGenerator.ImageSizeType.Fit
+                };
             }
         }
 
@@ -150,34 +155,41 @@ namespace VirtueSky.LevelEditor
             var whitelistAssets = new List<GameObject>();
             if (!LevelSystemEditorSetting.Instance.blacklistPaths.IsNullOrEmpty())
             {
-                blacklistAssets = AssetDatabase.FindAssets("t:GameObject", LevelSystemEditorSetting.Instance.blacklistPaths.ToArray())
+                blacklistAssets = AssetDatabase.FindAssets("t:GameObject",
+                        LevelSystemEditorSetting.Instance.blacklistPaths.ToArray())
                     .Select(AssetDatabase.GUIDToAssetPath)
                     .Select(AssetDatabase.LoadAssetAtPath<GameObject>)
                     .ToList();
 
                 foreach (string blacklistPath in LevelSystemEditorSetting.Instance.blacklistPaths)
                 {
-                    if (File.Exists(blacklistPath)) blacklistAssets.Add(AssetDatabase.LoadAssetAtPath<GameObject>(blacklistPath));
+                    if (File.Exists(blacklistPath))
+                        blacklistAssets.Add(
+                            AssetDatabase.LoadAssetAtPath<GameObject>(blacklistPath));
                 }
             }
 
             if (!LevelSystemEditorSetting.Instance.whitelistPaths.IsNullOrEmpty())
             {
-                whitelistAssets = AssetDatabase.FindAssets("t:GameObject", LevelSystemEditorSetting.Instance.whitelistPaths.ToArray())
+                whitelistAssets = AssetDatabase.FindAssets("t:GameObject",
+                        LevelSystemEditorSetting.Instance.whitelistPaths.ToArray())
                     .Select(AssetDatabase.GUIDToAssetPath)
                     .Select(AssetDatabase.LoadAssetAtPath<GameObject>)
                     .ToList();
 
                 foreach (string whitelistPath in LevelSystemEditorSetting.Instance.whitelistPaths)
                 {
-                    if (File.Exists(whitelistPath)) whitelistAssets.Add(AssetDatabase.LoadAssetAtPath<GameObject>(whitelistPath));
+                    if (File.Exists(whitelistPath))
+                        whitelistAssets.Add(
+                            AssetDatabase.LoadAssetAtPath<GameObject>(whitelistPath));
                 }
             }
 
             var resultAssets = whitelistAssets.Where(_ => !blacklistAssets.Contains(_));
             foreach (var o in resultAssets)
             {
-                string group = Path.GetDirectoryName(AssetDatabase.GetAssetPath(o))?.Replace('\\', '/').Split('/').Last();
+                string group = Path.GetDirectoryName(AssetDatabase.GetAssetPath(o))
+                    ?.Replace('\\', '/').Split('/').Last();
                 var po = new PickObject { pickedObject = o.gameObject, group = group };
                 _pickObjects.Add(po);
             }
@@ -198,6 +210,10 @@ namespace VirtueSky.LevelEditor
 
         private void OnGUI()
         {
+            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+                GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
+            GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
+            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
             GUILayout.Space(8);
             if (TryClose()) return;
             if (CheckEscape()) return;
@@ -228,10 +244,14 @@ namespace VirtueSky.LevelEditor
                 if (whiteArea.width == 1f) width = position.width / 2;
                 else width = whiteArea.width;
                 GUI.backgroundColor = new Color(0f, 0.83f, 1f);
-                GUI.Box(whiteArea, "[WHITE LIST]", new GUIStyle(EditorStyles.helpBox) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Italic });
+                GUI.Box(whiteArea, "[WHITE LIST]",
+                    new GUIStyle(EditorStyles.helpBox)
+                        { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Italic });
                 GUI.backgroundColor = Color.white;
                 GUI.backgroundColor = new Color(1f, 0.13f, 0f);
-                GUI.Box(blackArea, "[BLACK LIST]", new GUIStyle(EditorStyles.helpBox) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Italic });
+                GUI.Box(blackArea, "[BLACK LIST]",
+                    new GUIStyle(EditorStyles.helpBox)
+                        { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Italic });
                 GUI.backgroundColor = Color.white;
                 switch (@event.type)
                 {
@@ -247,15 +267,18 @@ namespace VirtueSky.LevelEditor
                                 {
                                     if (File.Exists(path))
                                     {
-                                        var r = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+                                        var r = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(
+                                            path);
                                         if (r.GetType() != typeof(GameObject)) continue;
                                     }
 
-                                    ValidateWhitelist(path, ref LevelSystemEditorSetting.Instance.blacklistPaths);
+                                    ValidateWhitelist(path,
+                                        ref LevelSystemEditorSetting.Instance.blacklistPaths);
                                     AddToWhitelist(path);
                                 }
 
-                                ReduceScopeDirectory(ref LevelSystemEditorSetting.Instance.whitelistPaths);
+                                ReduceScopeDirectory(ref LevelSystemEditorSetting.Instance
+                                    .whitelistPaths);
                                 RefreshAll();
                             }
                         }
@@ -269,15 +292,18 @@ namespace VirtueSky.LevelEditor
                                 {
                                     if (File.Exists(path))
                                     {
-                                        var r = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+                                        var r = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(
+                                            path);
                                         if (r.GetType() != typeof(GameObject)) continue;
                                     }
 
-                                    ValidateBlacklist(path, ref LevelSystemEditorSetting.Instance.whitelistPaths);
+                                    ValidateBlacklist(path,
+                                        ref LevelSystemEditorSetting.Instance.whitelistPaths);
                                     AddToBlacklist(path);
                                 }
 
-                                ReduceScopeDirectory(ref LevelSystemEditorSetting.Instance.blacklistPaths);
+                                ReduceScopeDirectory(ref LevelSystemEditorSetting.Instance
+                                    .blacklistPaths);
                                 RefreshAll();
                             }
                         }
@@ -327,13 +353,16 @@ namespace VirtueSky.LevelEditor
                 {
                     if (LevelSystemEditorSetting.Instance.whitelistPaths.Count == 0)
                     {
-                        EditorGUILayout.LabelField(new GUIContent(""), GUILayout.Width(width - 50), GUILayout.Height(0));
+                        EditorGUILayout.LabelField(new GUIContent(""), GUILayout.Width(width - 50),
+                            GUILayout.Height(0));
                     }
                     else
                     {
                         GUILayout.Space(2);
-                        _whiteScrollPosition = GUILayout.BeginScrollView(_whiteScrollPosition, false, false, GUILayout.Height(250));
-                        foreach (string t in LevelSystemEditorSetting.Instance.whitelistPaths.ToList())
+                        _whiteScrollPosition = GUILayout.BeginScrollView(_whiteScrollPosition,
+                            false, false, GUILayout.Height(250));
+                        foreach (string t in LevelSystemEditorSetting.Instance.whitelistPaths
+                                     .ToList())
                         {
                             DrawRow(t,
                                 width,
@@ -359,13 +388,16 @@ namespace VirtueSky.LevelEditor
                 {
                     if (LevelSystemEditorSetting.Instance.blacklistPaths.Count == 0)
                     {
-                        EditorGUILayout.LabelField(new GUIContent(""), GUILayout.Width(width - 50), GUILayout.Height(0));
+                        EditorGUILayout.LabelField(new GUIContent(""), GUILayout.Width(width - 50),
+                            GUILayout.Height(0));
                     }
                     else
                     {
                         GUILayout.Space(2);
-                        _blackScrollPosition = GUILayout.BeginScrollView(_blackScrollPosition, false, false, GUILayout.Height(250));
-                        foreach (string t in LevelSystemEditorSetting.Instance.blacklistPaths.ToList())
+                        _blackScrollPosition = GUILayout.BeginScrollView(_blackScrollPosition,
+                            false, false, GUILayout.Height(250));
+                        foreach (string t in LevelSystemEditorSetting.Instance.blacklistPaths
+                                     .ToList())
                         {
                             DrawRow(t,
                                 width,
@@ -395,7 +427,8 @@ namespace VirtueSky.LevelEditor
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(new GUIContent(content), GUILayout.Width(width - 100));
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button(Uniform.IconContent("d_scenevis_visible_hover", "Ping Selection")))
+                if (GUILayout.Button(Uniform.IconContent("d_scenevis_visible_hover",
+                        "Ping Selection")))
                 {
                     var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(content);
                     Selection.activeObject = obj;
@@ -439,7 +472,8 @@ namespace VirtueSky.LevelEditor
             }
 
             if (!check) LevelSystemEditorSetting.Instance.whitelistPaths.Add(path);
-            LevelSystemEditorSetting.Instance.whitelistPaths = LevelSystemEditorSetting.Instance.whitelistPaths.Distinct().ToList(); //unique
+            LevelSystemEditorSetting.Instance.whitelistPaths = LevelSystemEditorSetting.Instance
+                .whitelistPaths.Distinct().ToList(); //unique
             SaveLevelSystemSetting();
         }
 
@@ -452,7 +486,8 @@ namespace VirtueSky.LevelEditor
             }
 
             if (!check) LevelSystemEditorSetting.Instance.blacklistPaths.Add(path);
-            LevelSystemEditorSetting.Instance.blacklistPaths = LevelSystemEditorSetting.Instance.blacklistPaths.Distinct().ToList(); //unique
+            LevelSystemEditorSetting.Instance.blacklistPaths = LevelSystemEditorSetting.Instance
+                .blacklistPaths.Distinct().ToList(); //unique
             SaveLevelSystemSetting();
         }
 
@@ -472,11 +507,13 @@ namespace VirtueSky.LevelEditor
             return false;
         }
 
-        private void GetAllParentDirectories(DirectoryInfo directoryToScan, ref List<DirectoryInfo> directories)
+        private void GetAllParentDirectories(DirectoryInfo directoryToScan,
+            ref List<DirectoryInfo> directories)
         {
             while (true)
             {
-                if (directoryToScan == null || directoryToScan.Name == directoryToScan.Root.Name || !directoryToScan.FullName.Contains("Assets")) return;
+                if (directoryToScan == null || directoryToScan.Name == directoryToScan.Root.Name ||
+                    !directoryToScan.FullName.Contains("Assets")) return;
 
                 directories.Add(directoryToScan);
                 directoryToScan = directoryToScan.Parent;
@@ -486,7 +523,8 @@ namespace VirtueSky.LevelEditor
         private bool EqualPath(FileSystemInfo info, string str)
         {
             string relativePath = info.FullName;
-            if (relativePath.StartsWith(Application.dataPath.Replace('/', '\\'))) relativePath = "Assets" + relativePath.Substring(Application.dataPath.Length);
+            if (relativePath.StartsWith(Application.dataPath.Replace('/', '\\')))
+                relativePath = "Assets" + relativePath.Substring(Application.dataPath.Length);
             relativePath = relativePath.Replace('\\', '/');
             return str.Equals(relativePath);
         }
@@ -522,7 +560,8 @@ namespace VirtueSky.LevelEditor
 
             void DrawSetting()
             {
-                _selectedSpawn = EditorGUILayout.Popup("Where Spawn", _selectedSpawn, _optionsSpawn);
+                _selectedSpawn =
+                    EditorGUILayout.Popup("Where Spawn", _selectedSpawn, _optionsSpawn);
                 if (EditorGUI.EndChangeCheck())
                 {
                     switch (_optionsSpawn[_selectedSpawn].ToLower())
@@ -533,16 +572,20 @@ namespace VirtueSky.LevelEditor
                             var currentPrefabState = GetCurrentPrefabStage();
                             if (currentPrefabState != null)
                             {
-                                _rootIndexSpawn = EditorGUILayout.IntField(new GUIContent("Index spawn", "Index from root stage contex"), _rootIndexSpawn);
+                                _rootIndexSpawn = EditorGUILayout.IntField(
+                                    new GUIContent("Index spawn", "Index from root stage contex"),
+                                    _rootIndexSpawn);
                             }
                             else
                             {
-                                EditorGUILayout.HelpBox("Index spawn only work in PrefabMode!", MessageType.Warning);
+                                EditorGUILayout.HelpBox("Index spawn only work in PrefabMode!",
+                                    MessageType.Warning);
                             }
 
                             break;
                         case "custom":
-                            _rootSpawn = (GameObject)EditorGUILayout.ObjectField("Spawn in GO here -->", _rootSpawn, typeof(GameObject), true);
+                            _rootSpawn = (GameObject)EditorGUILayout.ObjectField(
+                                "Spawn in GO here -->", _rootSpawn, typeof(GameObject), true);
                             break;
                     }
                 }
@@ -553,10 +596,13 @@ namespace VirtueSky.LevelEditor
                     switch (_optionsMode[_selectedMode].ToLower())
                     {
                         case "renderer":
-                            EditorGUILayout.HelpBox("Based on Renderer detection", MessageType.Info);
+                            EditorGUILayout.HelpBox("Based on Renderer detection",
+                                MessageType.Info);
                             break;
                         case "ignore":
-                            EditorGUILayout.HelpBox("GameObject will be spawn correcty at raycast location\nIgnore calculate bound object", MessageType.Info);
+                            EditorGUILayout.HelpBox(
+                                "GameObject will be spawn correcty at raycast location\nIgnore calculate bound object",
+                                MessageType.Info);
                             break;
                     }
                 }
@@ -566,7 +612,8 @@ namespace VirtueSky.LevelEditor
         private void InternalDrawPickupArea()
         {
             float height = 0f;
-            Uniform.DrawGroupFoldoutWithRightClick("level_editor_pickup_area", "Pickup Area", DrawPickupArea, ShowMenuRefresh);
+            Uniform.DrawGroupFoldoutWithRightClick("level_editor_pickup_area", "Pickup Area",
+                DrawPickupArea, ShowMenuRefresh);
 
             void DrawPickupArea()
             {
@@ -579,13 +626,17 @@ namespace VirtueSky.LevelEditor
 
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Space(position.width / 2 - 50);
-                    if (_editorInpsectorPreview == null || _previousObjectInpectorPreview != _currentPickObject?.pickedObject)
+                    if (_editorInpsectorPreview == null || _previousObjectInpectorPreview !=
+                        _currentPickObject?.pickedObject)
                     {
-                        _editorInpsectorPreview = UnityEditor.Editor.CreateEditor(_currentPickObject?.pickedObject);
+                        _editorInpsectorPreview =
+                            UnityEditor.Editor.CreateEditor(_currentPickObject?.pickedObject);
                     }
 
                     var rect = GUILayoutUtility.GetLastRect();
-                    _editorInpsectorPreview.DrawPreview(new Rect(new Vector2(position.width / 2 - 50, rect.position.y), new Vector2(100, 100)));
+                    _editorInpsectorPreview.DrawPreview(new Rect(
+                        new Vector2(position.width / 2 - 50, rect.position.y),
+                        new Vector2(100, 100)));
                     _previousObjectInpectorPreview = _currentPickObject?.pickedObject;
                     GUI.color = new Color(1, 1, 1, 0f);
                     if (GUILayout.Button(tex, GUILayout.Height(80), GUILayout.Width(80)))
@@ -598,7 +649,8 @@ namespace VirtueSky.LevelEditor
                     #endregion
 
 
-                    EditorGUILayout.LabelField($"Selected: <color=#80D2FF>{pickObjectName}</color>\nPress Icon Again Or Escape Key To Deselect",
+                    EditorGUILayout.LabelField(
+                        $"Selected: <color=#80D2FF>{pickObjectName}</color>\nPress Icon Again Or Escape Key To Deselect",
                         new GUIStyle(EditorStyles.label) { richText = true },
                         GUILayout.Height(40));
                     height -= 128;
@@ -612,7 +664,8 @@ namespace VirtueSky.LevelEditor
                 height -= 100;
                 if (Uniform.GetFoldoutState("level_editor_drop_area"))
                 {
-                    if (LevelSystemEditorSetting.Instance.blacklistPaths.Count == 0 && LevelSystemEditorSetting.Instance.whitelistPaths.Count == 0)
+                    if (LevelSystemEditorSetting.Instance.blacklistPaths.Count == 0 &&
+                        LevelSystemEditorSetting.Instance.whitelistPaths.Count == 0)
                     {
                         height -= 94;
                     }
@@ -657,12 +710,15 @@ namespace VirtueSky.LevelEditor
 
                 var h = position.height + height;
 
-                _pickObjectScrollPosition = GUILayout.BeginScrollView(_pickObjectScrollPosition, GUILayout.Height(h));
-                var resultSplitGroupObjects = PickObjects.GroupBy(_ => _.group).Select(_ => _.ToList()).ToList();
+                _pickObjectScrollPosition =
+                    GUILayout.BeginScrollView(_pickObjectScrollPosition, GUILayout.Height(h));
+                var resultSplitGroupObjects =
+                    PickObjects.GroupBy(_ => _.group).Select(_ => _.ToList()).ToList();
                 foreach (var splitGroupObject in resultSplitGroupObjects)
                 {
                     string nameGroup = splitGroupObject[0].group.ToUpper();
-                    Uniform.DrawGroupFoldout($"level_editor_pickup_area_child_{nameGroup}", nameGroup, () => DrawInGroup(splitGroupObject));
+                    Uniform.DrawGroupFoldout($"level_editor_pickup_area_child_{nameGroup}",
+                        nameGroup, () => DrawInGroup(splitGroupObject));
                 }
 
                 GUILayout.EndScrollView();
@@ -698,7 +754,8 @@ namespace VirtueSky.LevelEditor
                             GUI.color = Color.white;
                         }
 
-                        if (GUILayout.Button(new GUIContent(""), GUILayout.Width(size), GUILayout.Height(size)))
+                        if (GUILayout.Button(new GUIContent(""), GUILayout.Width(size),
+                                GUILayout.Height(size)))
                         {
                             if (Event.current.button == 1)
                             {
@@ -717,10 +774,14 @@ namespace VirtueSky.LevelEditor
 
                         GUI.color = Color.white;
                         var rect = GUILayoutUtility.GetLastRect();
-                        if (tex) GUI.DrawTexture(Grown(rect, Vector2.one * -10), tex, ScaleMode.ScaleToFit);
+                        if (tex)
+                            GUI.DrawTexture(Grown(rect, Vector2.one * -10), tex,
+                                ScaleMode.ScaleToFit);
                         if (go)
                         {
-                            EditorGUI.LabelField(Grown(rect, new Vector2(0, 15)), go.name, new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.LowerCenter, });
+                            EditorGUI.LabelField(Grown(rect, new Vector2(0, 15)), go.name,
+                                new GUIStyle(EditorStyles.miniLabel)
+                                    { alignment = TextAnchor.LowerCenter, });
                         }
 
                         counter++;
@@ -801,7 +862,8 @@ namespace VirtueSky.LevelEditor
                 bool state = EditorExtend.Get2DMouseScenePosition(out var mousePosition2d);
                 mousePosition = mousePosition2d;
                 if (!state) return;
-                EditorExtend.FakeRenderSprite(_currentPickObject.pickedObject, mousePosition, Vector3.one, Quaternion.identity);
+                EditorExtend.FakeRenderSprite(_currentPickObject.pickedObject, mousePosition,
+                    Vector3.one, Quaternion.identity);
                 SceneView.RepaintAll();
 
                 if (e.type == EventType.MouseDown && e.button == 0)
@@ -840,7 +902,9 @@ namespace VirtueSky.LevelEditor
 
                     if (!_previewPickupObject)
                     {
-                        _previewPickupObject = (GameObject)PrefabUtility.InstantiatePrefab(_currentPickObject?.pickedObject);
+                        _previewPickupObject =
+                            (GameObject)PrefabUtility.InstantiatePrefab(_currentPickObject
+                                ?.pickedObject);
                         StageUtility.PlaceGameObjectInCurrentStage(_previewPickupObject);
                         _previewPickupObject.hideFlags = HideFlags.HideAndDontSave;
                         _previewPickupObject.layer = LayerMask.NameToLayer("Ignore Raycast");
@@ -849,11 +913,14 @@ namespace VirtueSky.LevelEditor
 #pragma warning disable CS8321
                     void SetPosition2()
                     {
-                        var rendererAttach = _currentPickObject?.pickedObject.GetComponentInChildren<Renderer>();
+                        var rendererAttach = _currentPickObject?.pickedObject
+                            .GetComponentInChildren<Renderer>();
                         if (raycastHit == null || rendererAttach == null) return;
-                        var rendererOther = raycastHit.Value.collider.transform.GetComponentInChildren<Renderer>();
+                        var rendererOther = raycastHit.Value.collider.transform
+                            .GetComponentInChildren<Renderer>();
                         if (rendererOther == null) return;
-                        _previewPickupObject.transform.position = GetSpawnPosition(rendererAttach, rendererOther, raycastHit.Value);
+                        _previewPickupObject.transform.position = GetSpawnPosition(rendererAttach,
+                            rendererOther, raycastHit.Value);
                     }
 #pragma warning restore CS8321
 
@@ -916,7 +983,8 @@ namespace VirtueSky.LevelEditor
         private (bool, RaycastHit?) RayCast(Component root, Ray ray, out Vector3 point)
         {
             point = Vector3.zero;
-            if (root.gameObject.scene.GetPhysicsScene().Raycast(ray.origin, ray.direction, out var hit))
+            if (root.gameObject.scene.GetPhysicsScene()
+                .Raycast(ray.origin, ray.direction, out var hit))
             {
                 point = hit.point;
                 return (true, hit);
@@ -932,7 +1000,8 @@ namespace VirtueSky.LevelEditor
         /// <param name="screenPoint"></param>
         /// <param name="distance"></param>
         /// <returns></returns>
-        private (Vector3, RaycastHit?) RaycastPoint(Component root, Vector2 screenPoint, float distance = 20)
+        private (Vector3, RaycastHit?) RaycastPoint(Component root, Vector2 screenPoint,
+            float distance = 20)
         {
             var ray = SceneView.currentDrawingSceneView.camera.ScreenPointToRay(screenPoint);
             var result = RayCast(root, ray, out var point);
@@ -952,7 +1021,8 @@ namespace VirtueSky.LevelEditor
         /// <param name="rendererOther"></param>
         /// <param name="hitInfo"></param>
         /// <returns></returns>
-        private Vector3 GetSpawnPosition(Renderer rendererAttach, Renderer rendererOther, RaycastHit hitInfo)
+        private Vector3 GetSpawnPosition(Renderer rendererAttach, Renderer rendererOther,
+            RaycastHit hitInfo)
         {
             var boundsAttach = rendererAttach.bounds;
             var boundsOther = rendererOther.bounds;
@@ -1004,7 +1074,9 @@ namespace VirtueSky.LevelEditor
         {
             if (pickObject?.pickedObject)
             {
-                var inst = (GameObject)PrefabUtility.InstantiatePrefab(pickObject.pickedObject, GetParent());
+                var inst =
+                    (GameObject)PrefabUtility.InstantiatePrefab(pickObject.pickedObject,
+                        GetParent());
                 inst.transform.position = worldPos;
                 Undo.RegisterCreatedObjectUndo(inst.gameObject, "Create pick obj");
                 Selection.activeObject = inst;
@@ -1026,7 +1098,8 @@ namespace VirtueSky.LevelEditor
                         break;
                     case "index":
                         if (_rootIndexSpawn < 0) parent = prefabRoot;
-                        else if (prefabRoot.childCount - 1 > _rootIndexSpawn) parent = prefabRoot.GetChild(_rootIndexSpawn);
+                        else if (prefabRoot.childCount - 1 > _rootIndexSpawn)
+                            parent = prefabRoot.GetChild(_rootIndexSpawn);
                         else parent = prefabRoot;
                         break;
                     case "custom":
@@ -1068,14 +1141,16 @@ namespace VirtueSky.LevelEditor
         /// <param name="size"></param>
         /// <returns></returns>
         // ReSharper disable once UnusedMethodReturnValue.Local
-        private static bool CalculateIdealCount(float availableSpace, float minSize, float maxSize, float spacing, int defaultCount, out int count, out float size)
+        private static bool CalculateIdealCount(float availableSpace, float minSize, float maxSize,
+            float spacing, int defaultCount, out int count, out float size)
         {
             float halfSpacing = spacing / 2f;
             int minCount = Mathf.FloorToInt(availableSpace / (maxSize + halfSpacing));
             int maxCount = Mathf.FloorToInt(availableSpace / (minSize + halfSpacing));
             bool goodness = defaultCount >= minCount && defaultCount <= maxCount;
             count = Mathf.Clamp(defaultCount, minCount, maxCount);
-            size = (availableSpace - halfSpacing * (count - 1) - (count - 1) * (count / 10f)) / count;
+            size = (availableSpace - halfSpacing * (count - 1) - (count - 1) * (count / 10f)) /
+                   count;
             return goodness;
         }
 

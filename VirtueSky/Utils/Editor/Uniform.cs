@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Experimental;
 using UnityEngine;
 
 namespace VirtueSky.UtilsEditor
@@ -20,7 +19,9 @@ namespace VirtueSky.UtilsEditor
         private static GUIStyle installedIcon;
         private static GUIStyle headerLabel;
 
-        private static readonly Dictionary<string, GUIContent> CachedIconContent = new Dictionary<string, GUIContent>();
+        private static readonly Dictionary<string, GUIContent> CachedIconContent =
+            new Dictionary<string, GUIContent>();
+
         private static readonly UniformFoldoutState FoldoutSettings = new UniformFoldoutState();
 
         #endregion
@@ -33,7 +34,11 @@ namespace VirtueSky.UtilsEditor
             get
             {
                 if (contentList != null) return contentList;
-                contentList = new GUIStyle { border = new RectOffset(2, 2, 2, 2), normal = { background = EditorResources.EvenBackground } };
+                contentList = new GUIStyle
+                {
+                    border = new RectOffset(2, 2, 2, 2),
+                    normal = { background = EditorResources.EvenBackground }
+                };
                 return contentList;
             }
         }
@@ -43,7 +48,11 @@ namespace VirtueSky.UtilsEditor
             get
             {
                 if (contentListBlue != null) return contentListBlue;
-                contentListBlue = new GUIStyle { border = new RectOffset(2, 2, 2, 2), normal = { background = EditorResources.EvenBackgroundBlue } };
+                contentListBlue = new GUIStyle
+                {
+                    border = new RectOffset(2, 2, 2, 2),
+                    normal = { background = EditorResources.EvenBackgroundBlue }
+                };
                 return contentListBlue;
             }
         }
@@ -53,7 +62,11 @@ namespace VirtueSky.UtilsEditor
             get
             {
                 if (contentListDark != null) return contentListDark;
-                contentListDark = new GUIStyle { border = new RectOffset(2, 2, 2, 2), normal = { background = EditorResources.EvenBackgroundDark } };
+                contentListDark = new GUIStyle
+                {
+                    border = new RectOffset(2, 2, 2, 2),
+                    normal = { background = EditorResources.EvenBackgroundDark }
+                };
                 return contentListDark;
             }
         }
@@ -67,7 +80,11 @@ namespace VirtueSky.UtilsEditor
                 contentBox = new GUIStyle
                 {
                     border = new RectOffset(2, 2, 2, 2),
-                    normal = { background = EditorResources.BoxContentDark, scaledBackgrounds = new[] { EditorResources.BoxContentDark } }
+                    normal =
+                    {
+                        background = EditorResources.BoxContentDark,
+                        scaledBackgrounds = new[] { EditorResources.BoxContentDark }
+                    }
                 };
                 return contentBox;
             }
@@ -82,7 +99,11 @@ namespace VirtueSky.UtilsEditor
                 {
                     border = new RectOffset(2, 2, 2, 2),
                     margin = new RectOffset(2, 2, 2, 2),
-                    normal = { background = EditorResources.BoxBackgroundDark, scaledBackgrounds = new[] { EditorResources.BoxBackgroundDark } }
+                    normal =
+                    {
+                        background = EditorResources.BoxBackgroundDark,
+                        scaledBackgrounds = new[] { EditorResources.BoxBackgroundDark }
+                    }
                 };
                 return box;
             }
@@ -127,7 +148,8 @@ namespace VirtueSky.UtilsEditor
             {
                 if (installedIcon != null) return installedIcon;
 
-                installedIcon = new GUIStyle { padding = new RectOffset(0, 0, 3, 0), fixedWidth = 30, fixedHeight = 30 };
+                installedIcon = new GUIStyle
+                    { padding = new RectOffset(0, 0, 3, 0), fixedWidth = 30, fixedHeight = 30 };
 
                 return installedIcon;
             }
@@ -138,7 +160,8 @@ namespace VirtueSky.UtilsEditor
             get
             {
                 if (headerLabel != null) return headerLabel;
-                headerLabel = new GUIStyle(EditorStyles.label) { fontSize = 13, fontStyle = FontStyle.Bold };
+                headerLabel = new GUIStyle(EditorStyles.label)
+                    { fontSize = 13, fontStyle = FontStyle.Bold };
                 return headerLabel;
             }
         }
@@ -164,7 +187,8 @@ namespace VirtueSky.UtilsEditor
 
         #region draw
 
-        public static void DrawBox(Rect position, GUIStyle style, bool isHover = false, bool isActive = false, bool on = false, bool hasKeyboardFocus = false)
+        public static void DrawBox(Rect position, GUIStyle style, bool isHover = false,
+            bool isActive = false, bool on = false, bool hasKeyboardFocus = false)
         {
             if (Event.current.type == EventType.Repaint)
             {
@@ -185,8 +209,10 @@ namespace VirtueSky.UtilsEditor
         /// <returns></returns>
         public static GUIContent IconContent(string name, string tooltip = "")
         {
-            if (CachedIconContent.TryGetValue(name, out var result)) return result ?? GUIContent.none;
-            var builtinIcon = EditorGUIUtility.IconContent(name) ?? new GUIContent(Texture2D.whiteTexture);
+            if (CachedIconContent.TryGetValue(name, out var result))
+                return result ?? GUIContent.none;
+            var builtinIcon = EditorGUIUtility.IconContent(name) ??
+                              new GUIContent(Texture2D.whiteTexture);
             result = new GUIContent(builtinIcon.image, tooltip);
             CachedIconContent.Add(name, result);
             return result;
@@ -198,7 +224,8 @@ namespace VirtueSky.UtilsEditor
         /// <param name="title"></param>
         public static void DrawHeader(string title)
         {
-            var bgStyle = new GUIStyle(GUIStyle.none) { normal = { background = CreateTexture(RichBlack) } };
+            var bgStyle = new GUIStyle(GUIStyle.none)
+                { normal = { background = CreateTexture(RichBlack) } };
             GUILayout.BeginVertical(bgStyle, GUILayout.Height(60));
             GUILayout.BeginHorizontal();
 
@@ -243,7 +270,8 @@ namespace VirtueSky.UtilsEditor
         /// <param name="serializedObject"></param>
         /// <param name="fieldName"></param>
         /// <param name="isReadOnly"></param>
-        public static void DrawOnlyField(SerializedObject serializedObject, string fieldName, bool isReadOnly)
+        public static void DrawOnlyField(SerializedObject serializedObject, string fieldName,
+            bool isReadOnly)
         {
             serializedObject.Update();
             var prop = serializedObject.GetIterator();
@@ -282,7 +310,8 @@ namespace VirtueSky.UtilsEditor
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(labels[0], GUILayout.MaxWidth(300))) EditorGUIUtility.PingObject(obj);
+            if (GUILayout.Button(labels[0], GUILayout.MaxWidth(300)))
+                EditorGUIUtility.PingObject(obj);
 
             if (GUILayout.Button(labels[1], GUILayout.MaxWidth(75)))
             {
@@ -301,7 +330,8 @@ namespace VirtueSky.UtilsEditor
         /// </summary>
         /// <param name="serializedObject"></param>
         /// <param name="fieldToSkip">The name of the field that should be excluded. Example: "m_Script" will skip the default Script field.</param>
-        public static void DrawInspectorExcept(SerializedObject serializedObject, string fieldToSkip)
+        public static void DrawInspectorExcept(SerializedObject serializedObject,
+            string fieldToSkip)
         {
             Uniform.DrawInspectorExcept(serializedObject, new[] { fieldToSkip });
         }
@@ -314,7 +344,8 @@ namespace VirtueSky.UtilsEditor
         /// An array of names that should be excluded.
         /// Example: new string[] { "m_Script" , "myInt" } will skip the default Script field and the Integer field myInt.
         /// </param>
-        public static void DrawInspectorExcept(SerializedObject serializedObject, string[] fieldsToSkip)
+        public static void DrawInspectorExcept(SerializedObject serializedObject,
+            string[] fieldsToSkip)
         {
             serializedObject.Update();
             var prop = serializedObject.GetIterator();
@@ -339,11 +370,13 @@ namespace VirtueSky.UtilsEditor
         /// <param name="drawer"></param>
         /// <param name="defaultFoldout"></param>
         /// <param name="isShowContent"></param>
-        public static float DrawGroupFoldout(string key, string sectionName, System.Action drawer, bool defaultFoldout = true, bool isShowContent = true)
+        public static float DrawGroupFoldout(string key, string sectionName, System.Action drawer,
+            bool defaultFoldout = true, bool isShowContent = true)
         {
             bool foldout = GetFoldoutState(key, defaultFoldout);
 
-            var rect = EditorGUILayout.BeginVertical(Box, GUILayout.MinHeight(foldout && isShowContent ? 30 : 0));
+            var rect = EditorGUILayout.BeginVertical(Box,
+                GUILayout.MinHeight(foldout && isShowContent ? 30 : 0));
 
             if (!isShowContent)
             {
@@ -354,12 +387,15 @@ namespace VirtueSky.UtilsEditor
                 EditorGUILayout.BeginHorizontal();
 
                 // Header label (and button).
-                if (GUILayout.Button($"    {sectionName}", FoldoutButton)) SetFoldoutState(key, !foldout);
+                if (GUILayout.Button($"    {sectionName}", FoldoutButton))
+                    SetFoldoutState(key, !foldout);
 
                 // The expand/collapse icon.
                 var buttonRect = GUILayoutUtility.GetLastRect();
                 var iconRect = new Rect(buttonRect.x, buttonRect.y, 10, buttonRect.height);
-                GUI.Label(iconRect, foldout ? IconContent("d_IN_foldout_act_on") : IconContent("d_IN_foldout"), FoldoutIcon);
+                GUI.Label(iconRect,
+                    foldout ? IconContent("d_IN_foldout_act_on") : IconContent("d_IN_foldout"),
+                    FoldoutIcon);
 
                 EditorGUILayout.EndHorizontal();
 
@@ -393,7 +429,8 @@ namespace VirtueSky.UtilsEditor
         {
             bool foldout = GetFoldoutState(key, defaultFoldout);
 
-            var rect = EditorGUILayout.BeginVertical(Box, GUILayout.MinHeight(foldout && isShowContent ? 30 : 0));
+            var rect = EditorGUILayout.BeginVertical(Box,
+                GUILayout.MinHeight(foldout && isShowContent ? 30 : 0));
 
             if (!isShowContent)
             {
@@ -418,7 +455,9 @@ namespace VirtueSky.UtilsEditor
                 // The expand/collapse icon.
                 var buttonRect = GUILayoutUtility.GetLastRect();
                 var iconRect = new Rect(buttonRect.x, buttonRect.y, 10, buttonRect.height);
-                GUI.Label(iconRect, foldout ? IconContent("d_IN_foldout_act_on") : IconContent("d_IN_foldout"), FoldoutIcon);
+                GUI.Label(iconRect,
+                    foldout ? IconContent("d_IN_foldout_act_on") : IconContent("d_IN_foldout"),
+                    FoldoutIcon);
 
                 EditorGUILayout.EndHorizontal();
 
@@ -441,13 +480,16 @@ namespace VirtueSky.UtilsEditor
         /// <param name="labelWidth"></param>
         /// <param name="textFieldWidthOption"></param>
         /// <returns></returns>
-        public static string DrawTextField(string fieldTitle, string text, GUILayoutOption labelWidth, GUILayoutOption textFieldWidthOption = null)
+        public static string DrawTextField(string fieldTitle, string text,
+            GUILayoutOption labelWidth, GUILayoutOption textFieldWidthOption = null)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(4);
             EditorGUILayout.LabelField(new GUIContent(fieldTitle), labelWidth);
             GUILayout.Space(4);
-            text = textFieldWidthOption == null ? GUILayout.TextField(text) : GUILayout.TextField(text, textFieldWidthOption);
+            text = textFieldWidthOption == null
+                ? GUILayout.TextField(text)
+                : GUILayout.TextField(text, textFieldWidthOption);
             GUILayout.Space(4);
             GUILayout.EndHorizontal();
             GUILayout.Space(4);
@@ -480,7 +522,8 @@ namespace VirtueSky.UtilsEditor
             var label = $"Installed {version}";
             GUILayout.Label(label);
             var lastRect = GUILayoutUtility.GetLastRect();
-            var iconRect = new Rect(lastRect.x + label.Length * 6f, lastRect.y, 10, lastRect.height);
+            var iconRect = new Rect(lastRect.x + label.Length * 6f, lastRect.y, 10,
+                lastRect.height);
             GUI.Label(iconRect, Uniform.IconContent("CollabNew"), InstalledIcon);
             EditorGUILayout.EndHorizontal();
         }

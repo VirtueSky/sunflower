@@ -32,11 +32,11 @@ namespace VirtueSky.ControlPanel.Editor
         private void OnGUI()
         {
             EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
-                ColorBackgroundRect.ToColor());
+                GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
             GUILayout.Space(10);
-            GUI.contentColor = ColorTextContent.ToColor();
+            GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = ColorContent.ToColor();
+            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
             Handles.color = Color.black;
             Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
             // GuiLine(2, Color.black);
@@ -178,43 +178,44 @@ namespace VirtueSky.ControlPanel.Editor
 
         void OnSettingColorTheme()
         {
-            ColorContent =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-            ColorTextContent =
+            GameDataEditor.ColorContentWindowSunflower =
+                (CustomColor)EditorGUILayout.EnumPopup("Color Content:",
+                    GameDataEditor.ColorContentWindowSunflower);
+            GameDataEditor.ColorTextContentWindowSunflower =
                 (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:",
-                    ColorTextContent);
-            ColorBackgroundRect =
+                    GameDataEditor.ColorTextContentWindowSunflower);
+            GameDataEditor.ColorBackgroundRectWindowSunflower =
                 (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
-                    ColorBackgroundRect);
+                    GameDataEditor.ColorBackgroundRectWindowSunflower);
             GUILayout.Space(10);
             if (GUILayout.Button("Theme Default"))
             {
-                ColorContent = CustomColor.Bright;
-                ColorTextContent = CustomColor.Gold;
-                ColorBackgroundRect = CustomColor.DarkSlateGray;
+                GameDataEditor.ColorContentWindowSunflower = CustomColor.Bright;
+                GameDataEditor.ColorTextContentWindowSunflower = CustomColor.Gold;
+                GameDataEditor.ColorBackgroundRectWindowSunflower = CustomColor.DarkSlateGray;
             }
         }
 
-        public CustomColor ColorContent
-        {
-            get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
-                (int)CustomColor.Bright);
-            set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
-        }
-
-        public CustomColor ColorTextContent
-        {
-            get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel",
-                (int)CustomColor.Gold);
-            set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
-        }
-
-        public CustomColor ColorBackgroundRect
-        {
-            get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel",
-                (int)CustomColor.DarkSlateGray);
-            set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
-        }
+        // public CustomColor ColorContent
+        // {
+        //     get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
+        //         (int)CustomColor.Bright);
+        //     set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
+        // }
+        //
+        // public CustomColor ColorTextContent
+        // {
+        //     get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel",
+        //         (int)CustomColor.Gold);
+        //     set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
+        // }
+        //
+        // public CustomColor ColorBackgroundRect
+        // {
+        //     get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel",
+        //         (int)CustomColor.DarkSlateGray);
+        //     set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
+        // }
 
         #endregion
     }

@@ -1,29 +1,31 @@
 {
-    "name": "Virtuesky.Sunflower.AssetFinder.Editor",
-    "rootNamespace": "",
-    "references": [
-        "Unity.Addressables"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.unity.addressables",
-            "expression": "0.0.0",
-            "define": "ASSET_USAGE_ADDRESSABLES"
-        },
-        {
-            "name": "com.unity.visualeffectgraph",
-            "expression": "0.0.0",
-            "define": "ASSET_USAGE_VFX_GRAPH"
-        }
-    ],
-    "noEngineReferences": false
+  "name": "Virtuesky.Sunflower.AssetFinder.Editor",
+  "rootNamespace": "",
+  "references": [
+    "Unity.Addressables",
+    "Virtuesky.Sunflower.DataStorage.Editor",
+    "VirtueSky.Sunflower.Inspector"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [
+    {
+      "name": "com.unity.addressables",
+      "expression": "0.0.0",
+      "define": "ASSET_USAGE_ADDRESSABLES"
+    },
+    {
+      "name": "com.unity.visualeffectgraph",
+      "expression": "0.0.0",
+      "define": "ASSET_USAGE_VFX_GRAPH"
+    }
+  ],
+  "noEngineReferences": false
 }
