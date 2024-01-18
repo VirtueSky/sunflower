@@ -38,7 +38,7 @@ namespace VirtueSky.AssetFinder.Editor
                 return;
             }
 
-            menu.AddDisabledItem(new GUIContent("FR2 - v2.5.1"));
+            menu.AddDisabledItem(new GUIContent("Asset Finder - v2.5.1"));
             menu.AddSeparator(string.Empty);
 
             menu.AddItem(new GUIContent("Enable"), !api.disabled,

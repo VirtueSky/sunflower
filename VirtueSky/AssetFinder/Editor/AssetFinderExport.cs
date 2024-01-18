@@ -14,9 +14,7 @@ namespace VirtueSky.AssetFinder.Editor
     {
         // private static int processIndex;
         private const int maxThread = 5;
-
-        //[MenuItem("Assets/FR2/Tools/Merge Duplicates")]
-
+        
         private static Dictionary<string, ProcessReplaceData> listReplace;
         private static HashSet<string> cacheSelection;
 
@@ -31,12 +29,12 @@ namespace VirtueSky.AssetFinder.Editor
             if (result.Length > 0)
             {
                 EditorGUIUtility.systemCopyBuffer = result;
-                Debug.Log("[FR2] CSV file content (" + csvSource.Length +
+                Debug.Log("[Asset Finder] CSV file content (" + csvSource.Length +
                           " assets) copied to clipboard!");
             }
             else
             {
-                Debug.LogWarning("[FR2] Nothing to export!");
+                Debug.LogWarning("[Asset Finder] Nothing to export!");
             }
         }
 

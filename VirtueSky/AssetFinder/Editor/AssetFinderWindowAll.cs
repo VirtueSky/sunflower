@@ -470,7 +470,7 @@ namespace VirtueSky.AssetFinder.Editor
 
             if (EditorSettings.serializationMode != SerializationMode.ForceText)
             {
-                EditorGUILayout.HelpBox("FR2 requires serialization mode set to FORCE TEXT!",
+                EditorGUILayout.HelpBox("Asset Finder requires serialization mode set to FORCE TEXT!",
                     MessageType.Warning);
                 if (GUILayout.Button("FORCE TEXT"))
                 {
@@ -483,7 +483,7 @@ namespace VirtueSky.AssetFinder.Editor
             if (AssetFinderCache.hasCache && !AssetFinderCache.CheckSameVersion())
             {
                 EditorGUILayout.HelpBox(
-                    "Incompatible cache version found!!!\nFR2 will need a full refresh and this may take quite some time to finish but you would be able to work normally while the scan works in background!",
+                    "Incompatible cache version found!!!\nAsset Finder will need a full refresh and this may take quite some time to finish but you would be able to work normally while the scan works in background!",
                     MessageType.Warning);
                 AssetFinderCache.DrawPriorityGUI();
                 if (GUILayout.Button("Scan project"))
@@ -771,7 +771,7 @@ namespace VirtueSky.AssetFinder.Editor
                             "Your project does not has have any unused assets, or have you just hit DELETE ALL?",
                             MessageType.Info);
                         EditorGUILayout.HelpBox(
-                            "Your backups are placed at Library/FR2/ just in case you want your assets back!",
+                            "Your backups are placed at Library/AssetFinder/ just in case you want your assets back!",
                             MessageType.Info);
                     }
                     GUILayout.EndArea();
@@ -803,7 +803,7 @@ namespace VirtueSky.AssetFinder.Editor
                                 "It's absolutely safe to delete them all!\nA backup (.unitypackage) will be created so you can import it back later!",
                             deleteLabel = new GUIContent("DELETE ASSETS",
                                 AssetFinderIcon.Delete.image),
-                            confirmMessage = "Create backup at Library/FR2/"
+                            confirmMessage = "Create backup at Library/AssetFinder/"
                         };
                     }
 

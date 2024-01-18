@@ -553,7 +553,7 @@ namespace VirtueSky.AssetFinder.Editor
 
         internal static void RepaintFR2Windows()
         {
-            RepaintAllEditor("vietlabs.fr2.AssetFinderWindow");
+            RepaintAllEditor("VirtueSky.AssetFinder.Editor.AssetFinderWindow");
         }
 
         internal static void ExportSelection()
@@ -1082,9 +1082,9 @@ namespace VirtueSky.AssetFinder.Editor
             }
 
             if (selectedList.Count != 0) result = selectedList;
-            Directory.CreateDirectory("Library/FR2/");
+            Directory.CreateDirectory("Library/AssetFinder/");
             AssetDatabase.ExportPackage(result.ToArray(),
-                "Library/FR2/bk_" + fileName + ".unitypackage");
+                "Library/AssetFinder/bk_" + fileName + ".unitypackage");
 
             AssetDatabase.StartAssetEditing();
             try
