@@ -104,7 +104,8 @@ namespace VirtueSky.UtilsEditor
 
         #region Firebase Analytics
 
-        private const string menuPathAnalytic = "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE_ANALYTIC";
+        private const string menuPathAnalytic =
+            "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE_ANALYTIC";
 
         [MenuItem(menuPathAnalytic)]
         public static void AnalyticConfigFlag()
@@ -128,7 +129,8 @@ namespace VirtueSky.UtilsEditor
 
         #region Firebase Remote Config
 
-        private const string menuPathRemoteConfig = "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE_REMOTECONFIG";
+        private const string menuPathRemoteConfig =
+            "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE_REMOTECONFIG";
 
         [MenuItem(menuPathRemoteConfig)]
         public static void RemoteConfigConfigFlag()
@@ -152,7 +154,8 @@ namespace VirtueSky.UtilsEditor
 
         #region Firebase App
 
-        private const string menuPathFirebaseApp = "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE";
+        private const string menuPathFirebaseApp =
+            "Sunflower/ScriptDefineSymbols/VIRTUESKY_FIREBASE";
 
         [MenuItem(menuPathFirebaseApp)]
         public static void FirebaseAppConfigFlag()
@@ -224,7 +227,8 @@ namespace VirtueSky.UtilsEditor
 
         #region Notification
 
-        private const string menuPathNotification = "Sunflower/ScriptDefineSymbols/VIRTUESKY_NOTIFICATION";
+        private const string menuPathNotification =
+            "Sunflower/ScriptDefineSymbols/VIRTUESKY_NOTIFICATION";
 
         [MenuItem(menuPathNotification)]
         public static void NotificationConfigFlag()
@@ -248,7 +252,8 @@ namespace VirtueSky.UtilsEditor
 
         #region AppsFlyer
 
-        private const string menuPathAppsFlyer = "Sunflower/ScriptDefineSymbols/VIRTUESKY_APPSFLYER";
+        private const string menuPathAppsFlyer =
+            "Sunflower/ScriptDefineSymbols/VIRTUESKY_APPSFLYER";
 
         [MenuItem(menuPathAppsFlyer)]
         public static void AppsFlyerConfigFlag()
@@ -270,20 +275,51 @@ namespace VirtueSky.UtilsEditor
 
         #endregion
 
+        #region PRIME_TWEEN_DOTWEEN_ADAPTER
+
+        private const string menuPathPrimeTweenDotweenAdapter =
+            "Sunflower/ScriptDefineSymbols/PRIME_TWEEN_DOTWEEN_ADAPTER";
+
+        [MenuItem(menuPathPrimeTweenDotweenAdapter)]
+        public static void PrimeTweenDoTweenAdapterConfigFlag()
+        {
+            SwitchFlag("PRIME_TWEEN_DOTWEEN_ADAPTER");
+        }
+
+        [MenuItem(menuPathPrimeTweenDotweenAdapter, true)]
+        public static bool IsPrimeTweenDoTweenAdapterConfigFlagEnable()
+        {
+            Menu.SetChecked(menuPathPrimeTweenDotweenAdapter,
+                IsFlagEnabled("PRIME_TWEEN_DOTWEEN_ADAPTER"));
+            return true;
+        }
+
+        public static bool IsPrimeTweenDoTweenAdapterFlag()
+        {
+            return IsFlagEnabled("PRIME_TWEEN_DOTWEEN_ADAPTER");
+        }
+
+        #endregion
+
         #region Base Functions
 
         public static void SwitchFlag(string flag)
         {
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup,
                 out var defines);
             var enabled = defines.Contains(flag);
-            defines = enabled ? defines.Where(value => value != flag).ToArray() : defines.Append(flag).ToArray();
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
+            defines = enabled
+                ? defines.Where(value => value != flag).ToArray()
+                : defines.Append(flag).ToArray();
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup, defines);
         }
 
         public static bool IsFlagEnabled(string flag)
         {
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup,
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup,
                 out var defines);
             return defines.Contains(flag);
         }

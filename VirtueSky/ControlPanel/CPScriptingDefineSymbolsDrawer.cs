@@ -178,6 +178,21 @@ namespace VirtueSky.ControlPanel.Editor
 
             #endregion
 
+            #region flag PrimeTween DoTween Apdapter
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("PRIME_TWEEN_DOTWEEN_ADAPTER", GUILayout.Width(400)))
+            {
+                EditorScriptDefineSymbols.PrimeTweenDoTweenAdapterConfigFlag();
+            }
+
+            GUILayout.Space(10);
+            GUILayout.Toggle(EditorScriptDefineSymbols.IsPrimeTweenDoTweenAdapterFlag(),
+                TextIsEnable(EditorScriptDefineSymbols.IsPrimeTweenDoTweenAdapterFlag()));
+            GUILayout.EndHorizontal();
+
+            #endregion
+
             GUILayout.EndVertical();
         }
 
