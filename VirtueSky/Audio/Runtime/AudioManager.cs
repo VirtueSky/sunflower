@@ -9,6 +9,7 @@ namespace VirtueSky.Audio
 {
     public class AudioManager : BaseMono
     {
+        [SerializeField] private bool isDontDestroyOnLoad;
         [Space] [SerializeField] private Pools pool;
         [SerializeField] private SoundComponent soundComponentPrefab;
 
@@ -39,8 +40,11 @@ namespace VirtueSky.Audio
 
         private void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
-            pool.Initialize();
+            if (isDontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+
             sfxVolume.AddListener(OnSfxVolumeChanged);
             musicVolume.AddListener(OnMusicVolumeChanged);
         }
