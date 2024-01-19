@@ -31,6 +31,10 @@ namespace PrimeTween {
         [SerializeField] internal List<ReusableTween> tweens;
         [SerializeField] internal List<ReusableTween> fixedUpdateTweens;  
         [NonSerialized] internal List<ReusableTween> pool;
+        /// startValue can't be replaced with 'Tween lastTween'
+        /// because the lastTween may already be dead, but the tween before it is still alive (count >= 1)
+        /// and we can't retrieve the startValue from the dead lastTween
+        internal Dictionary<(Transform, TweenType), (ValueContainer startValue, int count)> shakes;
         internal int currentPoolCapacity { get; private set; }
         internal int maxSimultaneousTweensCount { get; private set; }
         
@@ -57,17 +61,20 @@ namespace PrimeTween {
             var go = new GameObject(nameof(PrimeTweenManager));
             DontDestroyOnLoad(go);
             var instance = go.AddComponent<PrimeTweenManager>();
-            instance.init();
+            const int defaultInitialCapacity = 200;
+            instance.init(customInitialCapacity != -1 ? customInitialCapacity : defaultInitialCapacity);
             Instance = instance;
         }
 
-        void init() {
-            tweens = new List<ReusableTween>(0);
-            fixedUpdateTweens = new List<ReusableTween>(0);
-            pool = new List<ReusableTween>(0);
-            const int defaultInitialCapacity = 200;
-            var capacity = customInitialCapacity != -1 ? customInitialCapacity : defaultInitialCapacity;
-            SetTweensCapacity(capacity);
+        void init(int capacity) {
+            tweens = new List<ReusableTween>(capacity);
+            fixedUpdateTweens = new List<ReusableTween>(capacity);
+            pool = new List<ReusableTween>(capacity);
+            for (int i = 0; i < capacity; i++) {
+                pool.Add(new ReusableTween());
+            }
+            shakes = new Dictionary<(Transform, TweenType), (ValueContainer, int)>(capacity);
+            currentPoolCapacity = capacity;
         }
 
         const string manualInstanceCreationIsNotAllowedMessage = "Please don't create the " + nameof(PrimeTweenManager) + " instance manually.";
@@ -105,10 +112,7 @@ namespace PrimeTween {
             if (count > 0) {
                 Debug.Log($"All tweens ({count}) were stopped because of 'Recompile And Continue Playing'.");
             }
-            foundInScene.tweens = new List<ReusableTween>();
-            foundInScene.fixedUpdateTweens = new List<ReusableTween>();
-            foundInScene.pool = new List<ReusableTween>();
-            foundInScene.SetTweensCapacity(foundInScene.currentPoolCapacity);
+            foundInScene.init(foundInScene.currentPoolCapacity);
             Instance = foundInScene;
         }
 
@@ -309,7 +313,7 @@ namespace PrimeTween {
         Tween addTween_internal([NotNull] ReusableTween tween) {
             Assert.IsNotNull(tween);
             Assert.IsTrue(tween.id > 0);
-            if (tween.target == null || ReusableTween.isDestroyedUnityObject(tween.unityTarget)) {
+            if (tween.target == null || tween.isUnityTargetDestroyed()) {
                 Debug.LogError($"Tween's target is null: {tween.GetDescription()}. This error can mean that:\n" +
                                "- The target reference is null.\n" +
                                "- UnityEngine.Object target reference is not populated in the Inspector.\n" +
@@ -320,7 +324,7 @@ namespace PrimeTween {
                 return default;
             }
             if (warnTweenOnDisabledTarget) {
-                if (tween.unityTarget is Component comp && !comp.gameObject.activeInHierarchy) {
+                if (tween.target is Component comp && !comp.gameObject.activeInHierarchy) {
                     Debug.LogWarning($"Tween is started on GameObject that is not active in hierarchy: {comp.name}. {Constants.buildWarningCanBeDisabledMessage(nameof(warnTweenOnDisabledTarget))}", comp);
                 }
             }
@@ -409,6 +413,9 @@ namespace PrimeTween {
             }
             tweens.Capacity = capacity;
             fixedUpdateTweens.Capacity = capacity;
+            #if UNITY_2021_2_OR_NEWER
+            shakes.EnsureCapacity(capacity);
+            #endif
             resizeAndSetCapacity(pool, capacity - runningTweens, capacity);
             currentPoolCapacity = capacity;
             Assert.AreEqual(capacity, tweens.Capacity);

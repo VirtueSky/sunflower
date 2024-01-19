@@ -11,8 +11,8 @@ namespace PrimeTween {
         static readonly List<int> idToHash = new List<int>(1000);
         static readonly Dictionary<int, List<byte[]>> hashToTraces = new Dictionary<int, List<byte[]>>(100);
         
+        /// https://github.com/Unity-Technologies/UnityCsReference/blob/6230ef8f9bed142ddf6a5e338d6e0faf3368d313/Runtime/Export/Scripting/StackTrace.cs#L31-L47
         internal static unsafe void Record(int id) {
-            // https://github.com/Unity-Technologies/UnityCsReference/blob/6230ef8f9bed142ddf6a5e338d6e0faf3368d313/Runtime/Export/Scripting/StackTrace.cs#L31-L47
             if (id == 1) {
                 idToHash.Clear();
                 idToHash.Add(0);
@@ -26,13 +26,13 @@ namespace PrimeTween {
             idToHash.Add(hash);
             if (hashToTraces.TryGetValue(hash, out var traces)) {
                 if (!Contains(traces, buf, len)) {
-                    traces.Add(ToArray());
+                    traces.Add(BufToArray());
                 }
             } else {
-                hashToTraces.Add(hash, new List<byte[]> { ToArray() });
+                hashToTraces.Add(hash, new List<byte[]> { BufToArray() });
             }
             
-            byte[] ToArray() {
+            byte[] BufToArray() {
                 var result = new byte[len];
                 for (int i = 0; i < len; i++) {
                     result[i] = buf[i];
@@ -61,8 +61,8 @@ namespace PrimeTween {
             return false;
         }
         
+        /// https://stackoverflow.com/a/468084
         static unsafe int ComputeHash(byte* data, int length) {
-            // https://stackoverflow.com/a/468084
             unchecked {
                 const int p = 16777619;
                 int hash = (int)2166136261;

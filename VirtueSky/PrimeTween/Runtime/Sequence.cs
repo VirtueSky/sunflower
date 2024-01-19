@@ -27,7 +27,7 @@ namespace PrimeTween {
         #if !ENABLE_SERIALIZATION && UNITY_2020_3_OR_NEWER
         readonly // duration setter produces error in Unity <= 2019.4.40: error CS1604: Cannot assign to 'this' because it is read-only
         #endif
-        partial struct Sequence/*: ITween<Sequence>*/ {
+        partial struct Sequence {
         const int emptySequenceTag = -43;
         internal 
             #if !ENABLE_SERIALIZATION && UNITY_2020_3_OR_NEWER

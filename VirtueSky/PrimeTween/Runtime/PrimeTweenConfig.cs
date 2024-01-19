@@ -30,7 +30,7 @@ namespace PrimeTween {
         /// </example>
         public static void SetTweensCapacity(int capacity) {
             Assert.IsTrue(capacity >= 0);
-            var instance = Instance;
+            var instance = PrimeTweenManager.Instance; // should use PrimeTweenManager.Instance because Instance property has a built-in null check 
             if (instance == null) {
                 PrimeTweenManager.customInitialCapacity = capacity;
             } else {

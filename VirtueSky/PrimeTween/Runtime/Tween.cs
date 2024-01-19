@@ -29,7 +29,7 @@ namespace PrimeTween {
         #if !ENABLE_SERIALIZATION
         readonly
         #endif
-        partial struct Tween/*: ITween<Tween>*/ {
+        partial struct Tween {
         /// Uniquely identifies the tween.
         /// Can be observed from the Debug Inspector if PRIME_TWEEN_INSPECTOR_DEBUGGING is defined. Use only for debugging purposes.
         internal

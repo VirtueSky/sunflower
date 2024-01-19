@@ -11,13 +11,13 @@ namespace PrimeTween {
     internal class ReusableTween {
         #if UNITY_EDITOR
         [SerializeField, HideInInspector] internal string debugDescription;
+        [SerializeField, CanBeNull, UsedImplicitly] internal UnityEngine.Object unityTarget; 
         #endif
         internal int id = -1;
         /// Holds a reference to tween's target. If the target is UnityEngine.Object, the tween will gracefully stop when the target is destroyed. That is, destroying object with running tweens is perfectly ok.
         /// Keep in mind: when animating plain C# objects (not derived from UnityEngine.Object), the plugin will hold a strong reference to the object for the entire tween duration.
         ///     If plain C# target holds a reference to UnityEngine.Object and animates its properties, then it's user's responsibility to ensure that UnityEngine.Object still exists.
         [CanBeNull] internal object target;
-        [SerializeField, CanBeNull] internal UnityEngine.Object unityTarget; 
         [SerializeField] internal bool _isPaused;
         internal bool _isAlive;
         [SerializeField] internal float elapsedTimeTotal;
@@ -56,7 +56,7 @@ namespace PrimeTween {
         internal readonly TweenCoroutineEnumerator coroutineEnumerator = new TweenCoroutineEnumerator();
         internal float timeScale = 1f;
         bool warnIgnoredOnCompleteIfTargetDestroyed = true;
-        internal Tween.ShakeData shakeData;
+        internal ShakeData shakeData;
         State state;
 
         internal bool updateAndCheckIfRunning(float dt) {
@@ -307,16 +307,18 @@ namespace PrimeTween {
             Assert.IsFalse(prevSibling.IsCreated);
             Assert.IsFalse(nextSibling.IsCreated);
             Assert.IsFalse(IsInSequence());
+            if (shakeData.isAlive) {
+                shakeData.Reset(this);
+            }
             #if UNITY_EDITOR
             debugDescription = null;
+            unityTarget = null;
             #endif
             id = -1;
             target = null;
-            unityTarget = null;
             propType = PropType.None;
             settings.customEase = null;
             customOnValueChange = null;
-            shakeData.Reset();
             onValueChange = null;
             onComplete = null;
             onCompleteCallback = null;
@@ -376,7 +378,7 @@ namespace PrimeTween {
 
         void handleOnCompleteException(Exception e) {
             // Design decision: if a tween is inside a Sequence and user's tween.OnComplete() throws an exception, the Sequence should continue
-            Assert.LogError($"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n", id, unityTarget);
+            Assert.LogError($"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n", id, target as UnityEngine.Object);
         }
 
         internal static bool isDestroyedUnityObject<T>(T obj) where T: class => obj is UnityEngine.Object unityObject && unityObject == null;
@@ -436,8 +438,9 @@ namespace PrimeTween {
         }
 
         internal void setUnityTarget(object _target) {
-            var unityObject = _target as UnityEngine.Object;
-            unityTarget = unityObject;
+            #if UNITY_EDITOR
+            unityTarget = _target as UnityEngine.Object;
+            #endif
         }
 
         /// Tween.Custom and Tween.ShakeCustom try-catch the <see cref="onValueChange"/> and calls <see cref="ReusableTween.EmergencyStop"/> if an exception occurs.
@@ -447,7 +450,9 @@ namespace PrimeTween {
             Assert.IsFalse(isUnityTargetDestroyed());
             if (startFromCurrent) {
                 startFromCurrent = false;
-                startValue = Tween.tryGetStartValueFromOtherShake(this) ?? getter(this);
+                if (!ShakeData.TryTakeStartValueFromOtherShake(this)) {
+                    startValue = getter(this);
+                }
                 if (startValue.Vector4Val == endValue.Vector4Val && PrimeTweenManager.Instance.warnEndValueEqualsCurrent && !shakeData.isAlive) {
                     Assert.LogWarning($"Tween's 'endValue' equals to the current animated value: {startValue.Vector4Val}, tween: {GetDescription()}.\n" +
                                       $"{Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnEndValueEqualsCurrent))}\n", id);
@@ -486,7 +491,7 @@ namespace PrimeTween {
                 result += " - ";
             }
             if (target != PrimeTweenManager.dummyTarget) {
-                result += $"{(unityTarget != null ? unityTarget.name : target?.GetType().Name)} / ";
+                result += $"{(target is UnityEngine.Object unityObject && unityObject != null ? unityObject.name : target?.GetType().Name)} / ";
             }
             var duration = settings.duration;
             if (tweenType == TweenType.Delay) {
@@ -668,7 +673,7 @@ namespace PrimeTween {
                     msg += "\nIf you use tween.OnComplete(), Tween.Delay(), or sequence.ChainDelay() only for cosmetic purposes, you can turn off this error by passing 'warnIfTargetDestroyed: false' to the method.\n" +
                            "More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4\n";
                 }
-                Assert.LogError(msg, id, unityTarget);
+                Assert.LogError(msg, id, target as UnityEngine.Object);
             }
         }
 
@@ -749,14 +754,14 @@ namespace PrimeTween {
             Assert.IsNotNull(callback);
             var _onUpdateTarget = onUpdateTarget as T;
             if (isDestroyedUnityObject(_onUpdateTarget)) {
-                Assert.LogError($"OnUpdate() will not be called again because OnUpdate()'s target has been destroyed, tween: {GetDescription()}", id, unityTarget);
+                Assert.LogError($"OnUpdate() will not be called again because OnUpdate()'s target has been destroyed, tween: {GetDescription()}", id, target as UnityEngine.Object);
                 clearOnUpdate();
                 return;
             }
             try {
                 callback(_onUpdateTarget, new Tween(this));
             } catch (Exception e) {
-                Assert.LogError($"OnUpdate() will not be called again because it thrown exception, tween: {GetDescription()}, exception:\n{e}", id, unityTarget);
+                Assert.LogError($"OnUpdate() will not be called again because it thrown exception, tween: {GetDescription()}, exception:\n{e}", id, target as UnityEngine.Object);
                 clearOnUpdate();
             }
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using PrimeTween;
 using UnityEditor;
 using UnityEngine;
@@ -9,11 +10,15 @@ internal class PrimeTweenManagerInspector : Editor {
     SerializedProperty fixedUpdateTweensProp;
     GUIContent aliveTweenGuiContent;
     GUIContent fixedUpdateTweenGuiContent;
+    StringCache tweensCountCache;
+    StringCache maxSimultaneousTweensCountCache;
+    StringCache currentPoolCapacityCache;
 
     void OnEnable() {
         tweensProp = serializedObject.FindProperty(nameof(PrimeTweenManager.tweens));
         fixedUpdateTweensProp = serializedObject.FindProperty(nameof(PrimeTweenManager.fixedUpdateTweens));
         Assert.IsNotNull(tweensProp);
+        Assert.IsNotNull(fixedUpdateTweensProp);
         aliveTweenGuiContent = new GUIContent("Tweens");
         fixedUpdateTweenGuiContent = new GUIContent("Fixed update tweens");
     }
@@ -28,19 +33,19 @@ internal class PrimeTweenManagerInspector : Editor {
         
         GUILayout.BeginHorizontal();
         GUILayout.Label("Alive tweens", EditorStyles.label);
-        GUILayout.Label(manager.tweensCount.ToString(), EditorStyles.boldLabel);
+        GUILayout.Label(tweensCountCache.GetCachedString(manager.tweensCount), EditorStyles.boldLabel);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         
         GUILayout.BeginHorizontal();
         GUILayout.Label( Constants.maxAliveTweens, EditorStyles.label);
-        GUILayout.Label(manager.maxSimultaneousTweensCount.ToString(), EditorStyles.boldLabel);
+        GUILayout.Label(maxSimultaneousTweensCountCache.GetCachedString(manager.maxSimultaneousTweensCount), EditorStyles.boldLabel);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         
         GUILayout.BeginHorizontal();
         GUILayout.Label("Tweens capacity", EditorStyles.label);
-        GUILayout.Label(manager.currentPoolCapacity.ToString(), EditorStyles.boldLabel);
+        GUILayout.Label(currentPoolCapacityCache.GetCachedString(manager.currentPoolCapacity), EditorStyles.boldLabel);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         EditorGUILayout.HelpBox("Use " + Constants.setTweensCapacityMethod + " to set tweens capacity.\n" +
@@ -59,6 +64,20 @@ internal class PrimeTweenManagerInspector : Editor {
             using (new EditorGUI.DisabledScope(true)) {
                 EditorGUILayout.PropertyField(tweensProp, guiContent);
             }
+        }
+    }
+
+    struct StringCache {
+        int currentValue;
+        string str;
+
+        [NotNull]
+        internal string GetCachedString(int value) {
+            if (currentValue != value || str == null) {
+                currentValue = value;
+                str = value.ToString();
+            }
+            return str;
         }
     }
 }

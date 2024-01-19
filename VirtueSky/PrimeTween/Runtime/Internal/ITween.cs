@@ -27,6 +27,6 @@ namespace PrimeTween {
         float elapsedTimeTotal { get; set; }
         float progress { get; set; }
         float progressTotal { get; set; }
-        // K OnUpdate<T>(T target, Action<T, Tween> onUpdate) where T : class; // Sequence doesn't support OnUpdate because its root updates before all children tweens, but it's reasonable that OnUpdate() should be called AFTER all sequence children are updated   
+        // TResult OnUpdate<T>(T target, Action<T, Tween> onUpdate) where T : class; // Sequence doesn't support OnUpdate because its root updates before all children tweens, but it's reasonable that OnUpdate() should be called AFTER all sequence children are updated   
     }
 }*/
