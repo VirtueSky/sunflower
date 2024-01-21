@@ -3,9 +3,9 @@
 #if VIRTUESKY_APPSFLYER
 using AppsFlyerSDK;
 #endif
-using UnityEngine.Purchasing;
-#if VIRTUESKY_IAP
 
+#if VIRTUESKY_IAP
+using UnityEngine.Purchasing;
 #endif
 
 
