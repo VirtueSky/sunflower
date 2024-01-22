@@ -91,11 +91,11 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git#4.0.0";
+            "https://github.com/mob-sakai/UIEffect.git#4.0.0-preview.10";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.2.0";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.5.2";
     }
 }
