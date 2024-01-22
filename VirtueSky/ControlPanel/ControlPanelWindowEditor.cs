@@ -98,6 +98,11 @@ namespace VirtueSky.ControlPanel.Editor
                 statePanelControl = StatePanelControl.LevelEditor;
             }
 
+            if (GUILayout.Button("QHierarchy"))
+            {
+                statePanelControl = StatePanelControl.QHierarchy;
+            }
+
             if (GUILayout.Button("Notifications Chanel"))
             {
                 statePanelControl = StatePanelControl.NotificationsChanel;
@@ -158,6 +163,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.RegisterPackage:
                     CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
+                    break;
+                case StatePanelControl.QHierarchy:
+                    CPQHierarchyDrawer.OnDrawQHierarchyEvent();
                     break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
@@ -234,6 +242,7 @@ namespace VirtueSky.ControlPanel.Editor
         SO_Variable,
         ScriptDefineSymbols,
         RegisterPackage,
+        QHierarchy,
         About,
     }
 }

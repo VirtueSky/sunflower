@@ -1,0 +1,15 @@
+{
+    "name": "QHierarchyEditor",
+    "references": [
+        "QHierarchyNullable",
+        "QHierarchyRuntime",
+        "Virtuesky.Sunflower.DataStorage.Editor",
+        "VirtueSky.Sunflower.Inspector"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
