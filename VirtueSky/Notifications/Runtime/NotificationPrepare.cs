@@ -14,17 +14,20 @@ namespace VirtueSky.Notifications
 
         private void Start()
         {
-            var strs = new List<string>();
-
-            foreach (var variable in notificationVariables)
+            if (Application.isMobilePlatform)
             {
-                if (!variable.bigPicture) continue;
-                if (!strs.Contains(variable.namePicture)) strs.Add(variable.namePicture);
-            }
+                var strs = new List<string>();
 
-            foreach (string s in strs)
-            {
-                App.StartCoroutine(PrepareImage(Application.persistentDataPath, s));
+                foreach (var variable in notificationVariables)
+                {
+                    if (!variable.bigPicture) continue;
+                    if (!strs.Contains(variable.namePicture)) strs.Add(variable.namePicture);
+                }
+
+                foreach (string s in strs)
+                {
+                    App.StartCoroutine(PrepareImage(Application.persistentDataPath, s));
+                }
             }
         }
 
@@ -32,7 +35,8 @@ namespace VirtueSky.Notifications
         {
             string path = Path.Combine(destDir, filename);
             if (File.Exists(path)) yield break;
-            using var uwr = UnityWebRequest.Get(Path.Combine(Application.streamingAssetsPath, filename));
+            using var uwr =
+                UnityWebRequest.Get(Path.Combine(Application.streamingAssetsPath, filename));
             yield return uwr.SendWebRequest();
             File.WriteAllBytes(path, uwr.downloadHandler.data);
         }

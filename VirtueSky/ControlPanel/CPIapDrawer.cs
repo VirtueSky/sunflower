@@ -33,7 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             }
 
-            if (GUILayout.Button("Create Iap Purchase Product Event"))
+            if (GUILayout.Button("Create Iap Is Purchase Product Event"))
             {
 #if VIRTUESKY_IAP
                 IapWindowEditor.CreateIsPurchaseProductEvent();
