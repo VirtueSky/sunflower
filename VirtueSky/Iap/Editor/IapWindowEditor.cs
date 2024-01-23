@@ -53,7 +53,7 @@ namespace VirtueSky.Iap
                 return;
             }
 
-            _editor.DrawHeader();
+            //  _editor.DrawHeader();
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical(new GUIStyle { padding = new RectOffset(6, 3, 3, 3) });
             _editor.OnInspectorGUI();
@@ -62,29 +62,11 @@ namespace VirtueSky.Iap
             Handles.DrawAAPolyLine(3, new Vector3(0, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
-            // isSetupTheme = GUILayout.Toggle(isSetupTheme, "Setup Theme");
-            // if (isSetupTheme)
-            // {
-            //     ColorContent =
-            //         (CustomColor)EditorGUILayout.EnumPopup("Color Content:", ColorContent);
-            //     ColorTextContent =
-            //         (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:", ColorTextContent);
-            //     ColorBackgroundRect =
-            //         (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
-            //             ColorBackgroundRect);
-            //     GUILayout.Space(10);
-            //     if (GUILayout.Button("Theme Default"))
-            //     {
-            //         ColorContent = CustomColor.Bright;
-            //         ColorTextContent = CustomColor.Gold;
-            //         ColorBackgroundRect = CustomColor.DarkSlateGray;
-            //     }
-            // }
+
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
         }
-
 
         // [MenuItem("Sunflower/Iap/Iap Data Variable")]
         // public static void CreateVariableTransform()
@@ -111,25 +93,6 @@ namespace VirtueSky.Iap
             CreateAsset.CreateScriptableAssets<EventIapTrackingRevenue>("/Iap",
                 "iap_tracking_revenue_event");
         }
-
-        // private CustomColor ColorContent
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorContent_Iap", (int)CustomColor.Bright);
-        //     set => EditorPrefs.SetInt("ColorContent_Iap", (int)value);
-        // }
-        //
-        // private CustomColor ColorTextContent
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_Iap", (int)CustomColor.Gold);
-        //     set => EditorPrefs.SetInt("ColorTextContent_Iap", (int)value);
-        // }
-        //
-        // private CustomColor ColorBackgroundRect
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorBackground_Iap",
-        //         (int)CustomColor.DarkSlateGray);
-        //     set => EditorPrefs.SetInt("ColorBackground_Iap", (int)value);
-        // }
 #endif
     }
 }
