@@ -125,7 +125,8 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppFlyer,
                     ConstantPackage.MaxVersionAppFlyer);
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppFlyerRevenueGeneric,
+                RegistryManager.AddOverrideVersion(
+                    ConstantPackage.PackageNameAppFlyerRevenueGeneric,
                     ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
             }
 
@@ -161,25 +162,26 @@ namespace VirtueSky.ControlPanel.Editor
 
             if (GUILayout.Button("Install PlayFab"))
             {
-                RegistryManager.Add(ConstantPackage.PackageNamePlayFab,
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNamePlayFab,
                     ConstantPackage.MaxVersionPlayFab);
             }
 
             if (GUILayout.Button("Install Coffee UI Effect"))
             {
-                RegistryManager.Add(ConstantPackage.PackageNameCoffeeUIEffect,
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameCoffeeUIEffect,
                     ConstantPackage.MaxVersionCoffeeUIEffect);
             }
 
             if (GUILayout.Button("Install Coffee UI Particle"))
             {
-                RegistryManager.Add(ConstantPackage.PackageNameCoffeeUIParticle,
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameCoffeeUIParticle,
                     ConstantPackage.MaxVersionCoffeeUIParticle);
             }
 
             if (GUILayout.Button("Install iOS 14 Advertising Support"))
             {
-                RegistryManager.Add(ConstantPackage.PackageNameIOS14AdvertisingSupport,
+                RegistryManager.AddOverrideVersion(
+                    ConstantPackage.PackageNameIOS14AdvertisingSupport,
                     ConstantPackage.MaxVersionIOS14AdvertisingSupport);
             }
         }
