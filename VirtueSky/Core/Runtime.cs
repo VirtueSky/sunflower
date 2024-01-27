@@ -7,7 +7,7 @@ namespace VirtueSky.Core
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void AutoInitialize()
         {
-            var app = new GameObject("AppGlobal");
+            var app = new GameObject("MonoGlobal");
             App.InitMonoGlobalComponent(app.AddComponent<MonoGlobal>());
             Object.DontDestroyOnLoad(app);
         }
