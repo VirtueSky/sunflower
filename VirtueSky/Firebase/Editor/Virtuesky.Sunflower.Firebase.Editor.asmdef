@@ -1,0 +1,19 @@
+{
+    "name": "Virtuesky.Sunflower.Firebase.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:dfdafb54d3ba8a04393a1204cd5ba02d",
+        "GUID:c904f6d969e991d459a0843b71c22ec5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -10,7 +10,7 @@ namespace VirtueSky.Firebase
         fileName = "log_event_firebase_analytic")]
     public class LogEventFirebaseAnalytic : ScriptableObject
     {
-        public bool logEventOnlyMobile = true;
+        [SerializeField] bool logEventOnlyMobile = true;
 
         public static bool IsMobile()
         {
