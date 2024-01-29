@@ -23,6 +23,11 @@ namespace VirtueSky.AssetFinder.Editor
             _window.Show();
         }
 
+        public static void DeleteFinderCache()
+        {
+            AssetFinderCache.DeleteCache();
+        }
+
         [NonSerialized] internal AssetFinderBookmark bookmark;
         [NonSerialized] internal AssetFinderSelection selection;
 
@@ -540,6 +545,7 @@ namespace VirtueSky.AssetFinder.Editor
             return true;
         }
 
+
         protected bool IsFocusingUses
         {
             get { return tabs != null && tabs.current == 0; }
@@ -808,10 +814,7 @@ namespace VirtueSky.AssetFinder.Editor
                     }
 
                     GUILayout.BeginArea(toolRect);
-                    deleteUnused.Draw(() =>
-                    {
-                        AssetFinderUnity.BackupAndDeleteAssets(RefUnUse.source);
-                    });
+                    deleteUnused.Draw(() => { AssetFinderUnity.BackupAndDeleteAssets(RefUnUse.source); });
                     GUILayout.EndArea();
                 }
 

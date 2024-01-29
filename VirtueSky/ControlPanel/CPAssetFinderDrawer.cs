@@ -17,10 +17,10 @@ namespace VirtueSky.ControlPanel.Editor
                 AssetFinderWindowAll.ShowWindow();
             }
 
-            // if (GUILayout.Button("New Window"))
-            // {
-            //     AssetUsageDetectorWindow.OpenNewWindow();
-            // }
+            if (GUILayout.Button("Delete Finder Cache"))
+            {
+                AssetFinderWindowAll.DeleteFinderCache();
+            }
 
             GUILayout.EndVertical();
         }

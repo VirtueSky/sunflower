@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace VirtueSky.Core
 {
-    public class Runtime
+    public class RuntimeInitialize
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void AutoInitialize()

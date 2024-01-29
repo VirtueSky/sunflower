@@ -173,7 +173,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPQHierarchyDrawer.OnDrawQHierarchyEvent();
                     break;
                 case StatePanelControl.Firebase:
-                    CPFirebaseDrawer.OnDrawFirebase();
+                    CPFirebaseDrawer.OnDrawFirebase(position, ref statePanelControl);
                     break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
@@ -211,27 +211,6 @@ namespace VirtueSky.ControlPanel.Editor
                 GameDataEditor.ColorBackgroundRectWindowSunflower = CustomColor.DarkSlateGray;
             }
         }
-
-        // public CustomColor ColorContent
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorContent_ControlPanel",
-        //         (int)CustomColor.Bright);
-        //     set => EditorPrefs.SetInt("ColorContent_ControlPanel", (int)value);
-        // }
-        //
-        // public CustomColor ColorTextContent
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorTextContent_ControlPanel",
-        //         (int)CustomColor.Gold);
-        //     set => EditorPrefs.SetInt("ColorTextContent_ControlPanel", (int)value);
-        // }
-        //
-        // public CustomColor ColorBackgroundRect
-        // {
-        //     get => (CustomColor)EditorPrefs.GetInt("ColorBackground_ControlPanel",
-        //         (int)CustomColor.DarkSlateGray);
-        //     set => EditorPrefs.SetInt("ColorBackground_ControlPanel", (int)value);
-        // }
 
         #endregion
     }
