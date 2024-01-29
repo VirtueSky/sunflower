@@ -68,7 +68,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         writer.TryWrite(enumerator.Current);
                     }
-
                     writer.TryComplete();
                 }
                 catch (Exception ex)
@@ -88,7 +87,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     await sourceEnumerator.DisposeAsync();
                 }
-
                 if (channelEnumerator != null)
                 {
                     await channelEnumerator.DisposeAsync();

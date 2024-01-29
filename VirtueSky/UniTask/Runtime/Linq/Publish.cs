@@ -55,7 +55,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         trigger.SetResult(enumerator.Current);
                     }
-
                     trigger.SetCompleted();
                 }
                 catch (Exception ex)

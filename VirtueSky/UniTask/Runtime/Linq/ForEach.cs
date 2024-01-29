@@ -46,8 +46,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return VirtueSky.Threading.Tasks.Linq.ForEach.ForEachAwaitAsync(source, action, cancellationToken);
         }
 
-        public static UniTask ForEachAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, UniTask> action,
-            CancellationToken cancellationToken = default)
+        public static UniTask ForEachAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, UniTask> action, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(action, nameof(action));
@@ -55,8 +54,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return VirtueSky.Threading.Tasks.Linq.ForEach.ForEachAwaitAsync(source, action, cancellationToken);
         }
 
-        public static UniTask ForEachAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask> action,
-            CancellationToken cancellationToken = default)
+        public static UniTask ForEachAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask> action, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(action, nameof(action));
@@ -64,8 +62,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return VirtueSky.Threading.Tasks.Linq.ForEach.ForEachAwaitWithCancellationAsync(source, action, cancellationToken);
         }
 
-        public static UniTask ForEachAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask> action,
-            CancellationToken cancellationToken = default)
+        public static UniTask ForEachAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask> action, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(action, nameof(action));
@@ -154,8 +151,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        public static async UniTask ForEachAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask> action,
-            CancellationToken cancellationToken)
+        public static async UniTask ForEachAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask> action, CancellationToken cancellationToken)
         {
             var e = source.GetAsyncEnumerator(cancellationToken);
             try
@@ -174,8 +170,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        public static async UniTask ForEachAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask> action,
-            CancellationToken cancellationToken)
+        public static async UniTask ForEachAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask> action, CancellationToken cancellationToken)
         {
             var e = source.GetAsyncEnumerator(cancellationToken);
             try

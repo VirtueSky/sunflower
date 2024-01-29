@@ -156,7 +156,6 @@ namespace VirtueSky.Threading.Tasks.Triggers
                     trigger.OnDestroy();
                     return false;
                 }
-
                 return true;
             }
         }

@@ -40,7 +40,6 @@ namespace VirtueSky.Threading.Tasks
                     this.Text = dhb.text;
                 }
             }
-
             this.ResponseHeaders = unityWebRequest.GetResponseHeaders();
         }
 
@@ -50,7 +49,7 @@ namespace VirtueSky.Threading.Tasks
             {
                 if (msg == null)
                 {
-                    if (!string.IsNullOrWhiteSpace(Text))
+                    if(!string.IsNullOrWhiteSpace(Text))
                     {
                         msg = Error + Environment.NewLine + Text;
                     }
@@ -59,7 +58,6 @@ namespace VirtueSky.Threading.Tasks
                         msg = Error;
                     }
                 }
-
                 return msg;
             }
         }

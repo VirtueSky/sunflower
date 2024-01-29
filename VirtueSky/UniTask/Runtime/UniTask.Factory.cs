@@ -1,8 +1,7 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-using VirtueSky.Threading.Tasks.Internal;
 using System;
-using System.Runtime.CompilerServices;
+
 using System.Runtime.ExceptionServices;
 using System.Threading;
 
@@ -10,7 +9,10 @@ namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask
     {
-        static readonly UniTask CanceledUniTask = new Func<UniTask>(() => { return new UniTask(new CanceledResultSource(CancellationToken.None), 0); })();
+        static readonly UniTask CanceledUniTask = new Func<UniTask>(() =>
+        {
+            return new UniTask(new CanceledResultSource(CancellationToken.None), 0);
+        })();
 
         static class CanceledUniTaskCache<T>
         {
@@ -205,7 +207,6 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
-
                 exception.Throw();
             }
 
@@ -250,7 +251,6 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
-
                 exception.Throw();
                 return default;
             }
@@ -262,7 +262,6 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
-
                 exception.Throw();
             }
 

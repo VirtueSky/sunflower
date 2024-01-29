@@ -13,8 +13,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Any.AnyAsync(source, cancellationToken);
         }
 
-        public static UniTask<Boolean> AnyAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Boolean> predicate,
-            CancellationToken cancellationToken = default)
+        public static UniTask<Boolean> AnyAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Boolean> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -22,8 +21,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Any.AnyAsync(source, predicate, cancellationToken);
         }
 
-        public static UniTask<Boolean> AnyAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate,
-            CancellationToken cancellationToken = default)
+        public static UniTask<Boolean> AnyAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -31,8 +29,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Any.AnyAwaitAsync(source, predicate, cancellationToken);
         }
 
-        public static UniTask<Boolean> AnyAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
+        public static UniTask<Boolean> AnyAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -88,8 +85,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        internal static async UniTask<bool> AnyAwaitAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate,
-            CancellationToken cancellationToken)
+        internal static async UniTask<bool> AnyAwaitAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
         {
             var e = source.GetAsyncEnumerator(cancellationToken);
             try
@@ -113,8 +109,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        internal static async UniTask<bool> AnyAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
+        internal static async UniTask<bool> AnyAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
         {
             var e = source.GetAsyncEnumerator(cancellationToken);
             try

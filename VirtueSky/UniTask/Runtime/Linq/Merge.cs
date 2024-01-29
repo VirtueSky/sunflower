@@ -13,7 +13,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(first, nameof(first));
             Error.ThrowArgumentNullException(second, nameof(second));
 
-            return new Merge<T>(new[] { first, second });
+            return new Merge<T>(new [] { first, second });
         }
 
         public static IUniTaskAsyncEnumerable<T> Merge<T>(this IUniTaskAsyncEnumerable<T> first, IUniTaskAsyncEnumerable<T> second, IUniTaskAsyncEnumerable<T> third)
@@ -46,7 +46,6 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 Error.ThrowArgumentException("No source async enumerable to merge");
             }
-
             this.sources = sources;
         }
 
@@ -83,8 +82,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 for (var i = 0; i < length; i++)
                 {
                     enumerators[i] = sources[i].GetAsyncEnumerator(cancellationToken);
-                    states[i] = (int)MergeSourceState.Pending;
-                    ;
+                    states[i] = (int)MergeSourceState.Pending;;
                 }
             }
 
@@ -101,7 +99,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         value = queuedResult.Dequeue();
                     }
-
                     var resultValue = value.Item1;
                     var exception = value.Item2;
                     var hasNext = value.Item3;
@@ -114,7 +111,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                         Current = resultValue;
                         completionSource.TrySetResult(hasNext);
                     }
-
                     return new UniTask<bool>(this, completionSource.Version);
                 }
 
@@ -131,7 +127,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             continue;
                         }
                     }
-
                     var awaiter = enumerators[i].MoveNextAsync().GetAwaiter();
                     if (awaiter.IsCompleted)
                     {
@@ -142,7 +137,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                         awaiter.SourceOnCompleted(GetResultAtAction, StateTuple.Create(this, i, awaiter));
                     }
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -186,7 +180,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             queuedResult.Enqueue((default, ex, default));
                         }
                     }
-
                     return;
                 }
 
@@ -195,7 +188,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     states[index] = hasNext ? MergeSourceState.Pending : MergeSourceState.Completed;
                     completedAll = !hasNext && IsCompletedAll();
                 }
-
                 if (hasNext || completedAll)
                 {
                     if (Interlocked.CompareExchange(ref moveNextCompleted, 1, 0) == 0)
@@ -233,7 +225,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                         }
                     }
                 }
-
                 return true;
             }
         }

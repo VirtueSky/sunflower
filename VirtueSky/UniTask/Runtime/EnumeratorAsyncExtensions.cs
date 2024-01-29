@@ -3,10 +3,9 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using System.Runtime.ExceptionServices;
 using System.Threading;
-using VirtueSky.Threading.Tasks.Internal;
 using UnityEngine;
+using VirtueSky.Threading.Tasks.Internal;
 
 namespace VirtueSky.Threading.Tasks
 {
@@ -26,8 +25,7 @@ namespace VirtueSky.Threading.Tasks
             return new UniTask(EnumeratorPromise.Create(enumerator, PlayerLoopTiming.Update, cancellationToken, out var token), token);
         }
 
-        public static UniTask ToUniTask(this IEnumerator enumerator, PlayerLoopTiming timing = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask ToUniTask(this IEnumerator enumerator, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken))
         {
             Error.ThrowArgumentNullException(enumerator, nameof(enumerator));
             return new UniTask(EnumeratorPromise.Create(enumerator, timing, cancellationToken, out var token), token);
@@ -80,7 +78,6 @@ namespace VirtueSky.Threading.Tasks
                 {
                     result = new EnumeratorPromise();
                 }
-
                 TaskTracker.TrackActiveTask(result, 3);
 
                 result.innerEnumerator = ConsumeEnumerator(innerEnumerator);
@@ -96,7 +93,7 @@ namespace VirtueSky.Threading.Tasks
                 {
                     PlayerLoopHelper.AddAction(timing, result);
                 }
-
+                
                 return result;
             }
 
@@ -225,7 +222,6 @@ namespace VirtueSky.Threading.Tasks
                                 innerCoroutine = UnwrapWaitForSeconds(wfs);
                                 break;
                         }
-
                         if (innerCoroutine != null)
                         {
                             while (innerCoroutine.MoveNext())
@@ -255,8 +251,7 @@ namespace VirtueSky.Threading.Tasks
 
                     WARN:
                     // WaitForEndOfFrame, WaitForFixedUpdate, others.
-                    UnityEngine.Debug.LogWarning(
-                        $"yield {current.GetType().Name} is not supported on await IEnumerator or IEnumerator.ToUniTask(), please use ToUniTask(MonoBehaviour coroutineRunner) instead.");
+                    UnityEngine.Debug.LogWarning($"yield {current.GetType().Name} is not supported on await IEnumerator or IEnumerator.ToUniTask(), please use ToUniTask(MonoBehaviour coroutineRunner) instead.");
                     yield return null;
                 }
             }
@@ -276,9 +271,7 @@ namespace VirtueSky.Threading.Tasks
                     {
                         break;
                     }
-                }
-
-                ;
+                };
             }
 
             static IEnumerator UnwrapWaitAsyncOperation(AsyncOperation asyncOperation)

@@ -31,6 +31,7 @@ namespace VirtueSky.Threading.Tasks
 
             NullProgress()
             {
+
             }
 
             public void Report(T value)

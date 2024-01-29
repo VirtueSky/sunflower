@@ -38,8 +38,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new WhereIntAwait<TSource>(source, predicate);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> WhereAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate)
+        public static IUniTaskAsyncEnumerable<TSource> WhereAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -47,8 +46,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new WhereAwaitWithCancellation<TSource>(source, predicate);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> WhereAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, CancellationToken, UniTask<Boolean>> predicate)
+        public static IUniTaskAsyncEnumerable<TSource> WhereAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<Boolean>> predicate)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -583,8 +581,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             UniTask<bool>.Awaiter awaiter2;
             Action moveNextAction;
 
-            public _WhereAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<bool>> predicate,
-                CancellationToken cancellationToken)
+            public _WhereAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<bool>> predicate, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.predicate = predicate;
@@ -716,8 +713,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Action moveNextAction;
             int index;
 
-            public _WhereAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<bool>> predicate,
-                CancellationToken cancellationToken)
+            public _WhereAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<bool>> predicate, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.predicate = predicate;

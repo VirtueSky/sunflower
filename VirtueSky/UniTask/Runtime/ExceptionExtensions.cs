@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace VirtueSky.Threading.Tasks
 {
@@ -10,3 +11,4 @@ namespace VirtueSky.Threading.Tasks
         }
     }
 }
+

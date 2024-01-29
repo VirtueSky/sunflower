@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using VirtueSky.Threading.Tasks.Internal;
 
 namespace VirtueSky.Threading.Tasks
 {
@@ -56,7 +55,6 @@ namespace VirtueSky.Threading.Tasks
                 calledGet = true;
                 GC.SuppressFinalize(this);
             }
-
             return exception;
         }
 
@@ -91,7 +89,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 version += 1; // incr version.
             }
-
             completedCount = 0;
             result = default;
             error = null;
@@ -140,7 +137,6 @@ namespace VirtueSky.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
-
                 return true;
             }
 
@@ -169,7 +165,6 @@ namespace VirtueSky.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
-
                 return true;
             }
 
@@ -189,7 +184,6 @@ namespace VirtueSky.Threading.Tasks
                 {
                     continuation(continuationState);
                 }
-
                 return true;
             }
 
@@ -208,9 +202,9 @@ namespace VirtueSky.Threading.Tasks
         {
             ValidateToken(token);
             return (continuation == null || (completedCount == 0)) ? UniTaskStatus.Pending
-                : (error == null) ? UniTaskStatus.Succeeded
-                : (error is OperationCanceledException) ? UniTaskStatus.Canceled
-                : UniTaskStatus.Faulted;
+                 : (error == null) ? UniTaskStatus.Succeeded
+                 : (error is OperationCanceledException) ? UniTaskStatus.Canceled
+                 : UniTaskStatus.Faulted;
         }
 
         /// <summary>Gets the status of the operation without token validation.</summary>
@@ -219,9 +213,9 @@ namespace VirtueSky.Threading.Tasks
         public UniTaskStatus UnsafeGetStatus()
         {
             return (continuation == null || (completedCount == 0)) ? UniTaskStatus.Pending
-                : (error == null) ? UniTaskStatus.Succeeded
-                : (error is OperationCanceledException) ? UniTaskStatus.Canceled
-                : UniTaskStatus.Faulted;
+                 : (error == null) ? UniTaskStatus.Succeeded
+                 : (error is OperationCanceledException) ? UniTaskStatus.Canceled
+                 : UniTaskStatus.Faulted;
         }
 
         /// <summary>Gets the result of the operation.</summary>
@@ -267,7 +261,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 throw new ArgumentNullException(nameof(continuation));
             }
-
             ValidateToken(token);
 
             /* no use ValueTaskSourceOnCOmpletedFlags, always no capture ExecutionContext and SynchronizationContext. */
@@ -347,7 +340,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 result = new AutoResetUniTaskCompletionSource();
             }
-
             result.version = result.core.Version;
             TaskTracker.TrackActiveTask(result, 2);
             return result;
@@ -382,7 +374,11 @@ namespace VirtueSky.Threading.Tasks
 
         public UniTask Task
         {
-            [DebuggerHidden] get { return new UniTask(this, core.Version); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask(this, core.Version);
+            }
         }
 
         [DebuggerHidden]
@@ -468,7 +464,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 result = new AutoResetUniTaskCompletionSource<T>();
             }
-
             result.version = result.core.Version;
             TaskTracker.TrackActiveTask(result, 2);
             return result;
@@ -503,7 +498,11 @@ namespace VirtueSky.Threading.Tasks
 
         public UniTask<T> Task
         {
-            [DebuggerHidden] get { return new UniTask<T>(this, core.Version); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask<T>(this, core.Version);
+            }
         }
 
         [DebuggerHidden]
@@ -599,7 +598,11 @@ namespace VirtueSky.Threading.Tasks
 
         public UniTask Task
         {
-            [DebuggerHidden] get { return new UniTask(this, 0); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask(this, 0);
+            }
         }
 
         [DebuggerHidden]
@@ -692,7 +695,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         secondaryContinuationList = new List<(Action<object>, object)>();
                     }
-
                     secondaryContinuationList.Add((continuation, state));
                 }
             }
@@ -742,10 +744,8 @@ namespace VirtueSky.Threading.Tasks
                     singleState = null;
                     secondaryContinuationList = null;
                 }
-
                 return true;
             }
-
             return false;
         }
     }
@@ -780,7 +780,11 @@ namespace VirtueSky.Threading.Tasks
 
         public UniTask<T> Task
         {
-            [DebuggerHidden] get { return new UniTask<T>(this, 0); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask<T>(this, 0);
+            }
         }
 
         [DebuggerHidden]
@@ -882,7 +886,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         secondaryContinuationList = new List<(Action<object>, object)>();
                     }
-
                     secondaryContinuationList.Add((continuation, state));
                 }
             }
@@ -932,11 +935,9 @@ namespace VirtueSky.Threading.Tasks
                     singleState = null;
                     secondaryContinuationList = null;
                 }
-
                 return true;
             }
-
             return false;
         }
-    }
+   }
 }

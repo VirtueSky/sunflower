@@ -103,6 +103,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
                 try
                 {
+
                     LOOP:
                     awaiter = enumerator.MoveNextAsync().GetAwaiter();
                     if (awaiter.IsCompleted)
@@ -173,7 +174,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }
@@ -259,6 +259,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
                 try
                 {
+
                     LOOP:
                     awaiter = enumerator.MoveNextAsync().GetAwaiter();
                     if (awaiter.IsCompleted)
@@ -337,7 +338,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }

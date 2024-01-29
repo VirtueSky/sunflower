@@ -253,7 +253,7 @@ namespace VirtueSky.Threading.Tasks.Internal
             public bool Equals(BoundsInt self, BoundsInt vector)
             {
                 return Vector3IntEqualityComparer.Default.Equals(self.position, vector.position)
-                       && Vector3IntEqualityComparer.Default.Equals(self.size, vector.size);
+                    && Vector3IntEqualityComparer.Default.Equals(self.size, vector.size);
             }
 
             public int GetHashCode(BoundsInt obj)

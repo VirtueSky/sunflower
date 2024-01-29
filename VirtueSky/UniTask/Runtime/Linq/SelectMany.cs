@@ -6,8 +6,8 @@ namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
-        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, IUniTaskAsyncEnumerable<TResult>> selector)
+
+        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, IUniTaskAsyncEnumerable<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -15,8 +15,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectMany<TSource, TResult, TResult>(source, selector, (x, y) => y);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, IUniTaskAsyncEnumerable<TResult>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, IUniTaskAsyncEnumerable<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -24,8 +23,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectMany<TSource, TResult, TResult>(source, selector, (x, y) => y);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, IUniTaskAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, IUniTaskAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -33,8 +31,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, IUniTaskAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, IUniTaskAsyncEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -42,8 +39,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectMany<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -51,8 +47,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwait<TSource, TResult, TResult>(source, selector, (x, y) => UniTask.FromResult(y));
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -60,8 +55,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwait<TSource, TResult, TResult>(source, selector, (x, y) => UniTask.FromResult(y));
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -69,8 +63,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwait<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwait<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -78,8 +71,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwait<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -87,8 +79,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwaitWithCancellation<TSource, TResult, TResult>(source, selector, (x, y, c) => UniTask.FromResult(y));
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TResult>>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -96,9 +87,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwaitWithCancellation<TSource, TResult, TResult>(source, selector, (x, y, c) => UniTask.FromResult(y));
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector,
-            Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -106,9 +95,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SelectManyAwaitWithCancellation<TSource, TCollection, TResult>(source, collectionSelector, resultSelector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector,
-            Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectManyAwaitWithCancellation<TSource, TCollection, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> collectionSelector, Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(collectionSelector, nameof(collectionSelector));
@@ -132,8 +119,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             this.resultSelector = resultSelector;
         }
 
-        public SelectMany(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, IUniTaskAsyncEnumerable<TCollection>> selector,
-            Func<TSource, TCollection, TResult> resultSelector)
+        public SelectMany(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, IUniTaskAsyncEnumerable<TCollection>> selector, Func<TSource, TCollection, TResult> resultSelector)
         {
             this.source = source;
             this.selector1 = null;
@@ -167,8 +153,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             UniTask<bool>.Awaiter selectedAwaiter;
             UniTask.Awaiter selectedDisposeAsyncAwaiter;
 
-            public _SelectMany(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, IUniTaskAsyncEnumerable<TCollection>> selector1,
-                Func<TSource, int, IUniTaskAsyncEnumerable<TCollection>> selector2, Func<TSource, TCollection, TResult> resultSelector, CancellationToken cancellationToken)
+            public _SelectMany(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, IUniTaskAsyncEnumerable<TCollection>> selector1, Func<TSource, int, IUniTaskAsyncEnumerable<TCollection>> selector2, Func<TSource, TCollection, TResult> resultSelector, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector1 = selector1;
@@ -196,7 +181,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         sourceEnumerator = source.GetAsyncEnumerator(cancellationToken);
                     }
-
                     MoveNextSource();
                 }
 
@@ -314,7 +298,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             self.completionSource.TrySetException(ex);
                             return;
                         }
-
                         if (self.selectedDisposeAsyncAwaiter.IsCompleted)
                         {
                             SelectedEnumeratorDisposeAsyncCore(self);
@@ -347,7 +330,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     await selectedEnumerator.DisposeAsync();
                 }
-
                 if (sourceEnumerator != null)
                 {
                     await sourceEnumerator.DisposeAsync();
@@ -363,8 +345,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TSource, int, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2;
         readonly Func<TSource, TCollection, UniTask<TResult>> resultSelector;
 
-        public SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector,
-            Func<TSource, TCollection, UniTask<TResult>> resultSelector)
+        public SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
         {
             this.source = source;
             this.selector1 = selector;
@@ -372,8 +353,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             this.resultSelector = resultSelector;
         }
 
-        public SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector,
-            Func<TSource, TCollection, UniTask<TResult>> resultSelector)
+        public SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector, Func<TSource, TCollection, UniTask<TResult>> resultSelector)
         {
             this.source = source;
             this.selector1 = null;
@@ -413,9 +393,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             UniTask<IUniTaskAsyncEnumerable<TCollection>>.Awaiter collectionSelectorAwaiter;
             UniTask<TResult>.Awaiter resultSelectorAwaiter;
 
-            public _SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector1,
-                Func<TSource, int, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2, Func<TSource, TCollection, UniTask<TResult>> resultSelector,
-                CancellationToken cancellationToken)
+            public _SelectManyAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector1, Func<TSource, int, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2, Func<TSource, TCollection, UniTask<TResult>> resultSelector, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector1 = selector1;
@@ -443,7 +421,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         sourceEnumerator = source.GetAsyncEnumerator(cancellationToken);
                     }
-
                     MoveNextSource();
                 }
 
@@ -575,7 +552,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             self.completionSource.TrySetException(ex);
                             return;
                         }
-
                         if (self.selectedDisposeAsyncAwaiter.IsCompleted)
                         {
                             SelectedEnumeratorDisposeAsyncCore(self);
@@ -630,7 +606,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     await selectedEnumerator.DisposeAsync();
                 }
-
                 if (sourceEnumerator != null)
                 {
                     await sourceEnumerator.DisposeAsync();
@@ -646,8 +621,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TSource, int, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2;
         readonly Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector;
 
-        public SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector,
-            Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
+        public SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector, Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
         {
             this.source = source;
             this.selector1 = selector;
@@ -655,9 +629,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             this.resultSelector = resultSelector;
         }
 
-        public SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, int, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector,
-            Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
+        public SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector, Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector)
         {
             this.source = source;
             this.selector1 = null;
@@ -697,10 +669,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             UniTask<IUniTaskAsyncEnumerable<TCollection>>.Awaiter collectionSelectorAwaiter;
             UniTask<TResult>.Awaiter resultSelectorAwaiter;
 
-            public _SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source,
-                Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector1,
-                Func<TSource, int, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2,
-                Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector, CancellationToken cancellationToken)
+            public _SelectManyAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector1, Func<TSource, int, CancellationToken, UniTask<IUniTaskAsyncEnumerable<TCollection>>> selector2, Func<TSource, TCollection, CancellationToken, UniTask<TResult>> resultSelector, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector1 = selector1;
@@ -728,7 +697,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         sourceEnumerator = source.GetAsyncEnumerator(cancellationToken);
                     }
-
                     MoveNextSource();
                 }
 
@@ -860,7 +828,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             self.completionSource.TrySetException(ex);
                             return;
                         }
-
                         if (self.selectedDisposeAsyncAwaiter.IsCompleted)
                         {
                             SelectedEnumeratorDisposeAsyncCore(self);
@@ -915,7 +882,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     await selectedEnumerator.DisposeAsync();
                 }
-
                 if (sourceEnumerator != null)
                 {
                     await sourceEnumerator.DisposeAsync();

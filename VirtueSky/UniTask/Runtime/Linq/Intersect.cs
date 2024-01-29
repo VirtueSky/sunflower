@@ -15,8 +15,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new Intersect<TSource>(first, second, EqualityComparer<TSource>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> Intersect<TSource>(this IUniTaskAsyncEnumerable<TSource> first, IUniTaskAsyncEnumerable<TSource> second,
-            IEqualityComparer<TSource> comparer)
+        public static IUniTaskAsyncEnumerable<TSource> Intersect<TSource>(this IUniTaskAsyncEnumerable<TSource> first, IUniTaskAsyncEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
         {
             Error.ThrowArgumentNullException(first, nameof(first));
             Error.ThrowArgumentNullException(second, nameof(second));
@@ -54,8 +53,8 @@ namespace VirtueSky.Threading.Tasks.Linq
             HashSet<TSource> set;
             UniTask<HashSet<TSource>>.Awaiter awaiter;
 
-            public _Intersect(IUniTaskAsyncEnumerable<TSource> first, IUniTaskAsyncEnumerable<TSource> second, IEqualityComparer<TSource> comparer,
-                CancellationToken cancellationToken)
+            public _Intersect(IUniTaskAsyncEnumerable<TSource> first, IUniTaskAsyncEnumerable<TSource> second, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken)
+
                 : base(first, cancellationToken)
             {
                 this.second = second;

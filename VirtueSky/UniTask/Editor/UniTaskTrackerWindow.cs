@@ -69,12 +69,8 @@ namespace VirtueSky.Threading.Tasks.Editor
         static readonly GUIContent EnableAutoReloadHeadContent = EditorGUIUtility.TrTextContent("Enable AutoReload", "Reload automatically.", (Texture)null);
         static readonly GUIContent ReloadHeadContent = EditorGUIUtility.TrTextContent("Reload", "Reload View.", (Texture)null);
         static readonly GUIContent GCHeadContent = EditorGUIUtility.TrTextContent("GC.Collect", "Invoke GC.Collect.", (Texture)null);
-
-        static readonly GUIContent EnableTrackingHeadContent =
-            EditorGUIUtility.TrTextContent("Enable Tracking", "Start to track async/await UniTask. Performance impact: low", (Texture)null);
-
-        static readonly GUIContent EnableStackTraceHeadContent =
-            EditorGUIUtility.TrTextContent("Enable StackTrace", "Capture StackTrace when task is started. Performance impact: high", (Texture)null);
+        static readonly GUIContent EnableTrackingHeadContent = EditorGUIUtility.TrTextContent("Enable Tracking", "Start to track async/await UniTask. Performance impact: low", (Texture)null);
+        static readonly GUIContent EnableStackTraceHeadContent = EditorGUIUtility.TrTextContent("Enable StackTrace", "Capture StackTrace when task is started. Performance impact: high", (Texture)null);
 
         // [Enable Tracking] | [Enable StackTrace]
         void RenderHeadPanel()
@@ -210,3 +206,4 @@ namespace VirtueSky.Threading.Tasks.Editor
         #endregion
     }
 }
+

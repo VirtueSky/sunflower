@@ -48,7 +48,6 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 SourceMoveNext();
             }
-
             return new UniTask<bool>(this, completionSource.Version);
         }
 
@@ -128,7 +127,6 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 return enumerator.DisposeAsync();
             }
-
             return default;
         }
     }
@@ -175,18 +173,8 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return (false, true);
             }
         }
-
-        protected (bool waitCallback, bool requireNextIteration) WaitAwaitCallback(out bool moveNextResult)
-        {
-            moveNextResult = default;
-            return (true, false);
-        }
-
-        protected (bool waitCallback, bool requireNextIteration) IterateFinished(out bool moveNextResult)
-        {
-            moveNextResult = false;
-            return (false, false);
-        }
+        protected (bool waitCallback, bool requireNextIteration) WaitAwaitCallback(out bool moveNextResult) { moveNextResult = default; return (true, false); }
+        protected (bool waitCallback, bool requireNextIteration) IterateFinished(out bool moveNextResult) { moveNextResult = false; return (false, false); }
 
         // IUniTaskAsyncEnumerator<T>
 
@@ -362,7 +350,6 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 return enumerator.DisposeAsync();
             }
-
             return default;
         }
     }

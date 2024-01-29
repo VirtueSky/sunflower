@@ -249,7 +249,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 iteratingNode = next;
             }
-
             if (handler == iteratingHead)
             {
                 iteratingHead = next;

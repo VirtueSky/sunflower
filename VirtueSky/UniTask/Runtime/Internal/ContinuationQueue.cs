@@ -45,7 +45,6 @@ namespace VirtueSky.Threading.Tasks.Internal
                         Array.Copy(waitingList, newArray, waitingListCount);
                         waitingList = newArray;
                     }
-
                     waitingList[waitingListCount] = continuation;
                     waitingListCount++;
                 }
@@ -61,7 +60,6 @@ namespace VirtueSky.Threading.Tasks.Internal
                         Array.Copy(actionList, newArray, actionListCount);
                         actionList = newArray;
                     }
-
                     actionList[actionListCount] = continuation;
                     actionListCount++;
                 }
@@ -188,6 +186,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
             for (int i = 0; i < actionListCount; i++)
             {
+
                 var action = actionList[i];
                 actionList[i] = null;
                 try
@@ -223,3 +222,4 @@ namespace VirtueSky.Threading.Tasks.Internal
         }
     }
 }
+

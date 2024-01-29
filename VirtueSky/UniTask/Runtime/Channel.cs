@@ -76,21 +76,15 @@ namespace VirtueSky.Threading.Tasks
     {
         public ChannelClosedException() :
             base("Channel is already closed.")
-        {
-        }
+        { }
 
-        public ChannelClosedException(string message) : base(message)
-        {
-        }
+        public ChannelClosedException(string message) : base(message) { }
 
         public ChannelClosedException(Exception innerException) :
             base("Channel is already closed", innerException)
-        {
-        }
+        { }
 
-        public ChannelClosedException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+        public ChannelClosedException(string message, Exception innerException) : base(message, innerException) { }
     }
 
     internal class SingleConsumerUnboundedChannel<T> : Channel<T>
@@ -401,7 +395,7 @@ namespace VirtueSky.Threading.Tasks
 
                     if (this.cancellationToken1.CanBeCanceled)
                     {
-                        this.cancellationTokenRegistration1 = this.cancellationToken1.RegisterWithoutCaptureExecutionContext(CancellationCallback1Delegate, this);
+                        this.cancellationTokenRegistration1 =  this.cancellationToken1.RegisterWithoutCaptureExecutionContext(CancellationCallback1Delegate, this);
                     }
 
                     if (this.cancellationToken2.CanBeCanceled)
@@ -421,7 +415,6 @@ namespace VirtueSky.Threading.Tasks
                         {
                             return current;
                         }
-
                         parent.TryRead(out current);
                         return current;
                     }

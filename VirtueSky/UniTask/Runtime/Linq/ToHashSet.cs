@@ -13,8 +13,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return VirtueSky.Threading.Tasks.Linq.ToHashSet.ToHashSetAsync(source, EqualityComparer<TSource>.Default, cancellationToken);
         }
 
-        public static UniTask<HashSet<TSource>> ToHashSetAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, IEqualityComparer<TSource> comparer,
-            CancellationToken cancellationToken = default)
+        public static UniTask<HashSet<TSource>> ToHashSetAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(comparer, nameof(comparer));
@@ -25,8 +24,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
     internal static class ToHashSet
     {
-        internal static async UniTask<HashSet<TSource>> ToHashSetAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, IEqualityComparer<TSource> comparer,
-            CancellationToken cancellationToken)
+        internal static async UniTask<HashSet<TSource>> ToHashSetAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, IEqualityComparer<TSource> comparer, CancellationToken cancellationToken)
         {
             var set = new HashSet<TSource>(comparer);
 

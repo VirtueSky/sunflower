@@ -27,7 +27,10 @@ namespace VirtueSky.Threading.Tasks
 
         public T Value
         {
-            get { return latestValue; }
+            get
+            {
+                return latestValue;
+            }
             set
             {
                 this.latestValue = value;
@@ -277,7 +280,6 @@ namespace VirtueSky.Threading.Tasks
                     completionSource.TrySetCanceled(cancellationToken);
                     parent.triggerEvent.Remove(this);
                 }
-
                 return default;
             }
 
@@ -319,7 +321,10 @@ namespace VirtueSky.Threading.Tasks
 
         public T Value
         {
-            get { return latestValue; }
+            get
+            {
+                return latestValue;
+            }
         }
 
         public ReadOnlyAsyncReactiveProperty(T initialValue, IUniTaskAsyncEnumerable<T> source, CancellationToken cancellationToken)
@@ -592,7 +597,6 @@ namespace VirtueSky.Threading.Tasks
                     completionSource.TrySetCanceled(cancellationToken);
                     parent.triggerEvent.Remove(this);
                 }
-
                 return default;
             }
 
@@ -632,8 +636,7 @@ namespace VirtueSky.Threading.Tasks
             return new ReadOnlyAsyncReactiveProperty<T>(source, cancellationToken);
         }
 
-        public static ReadOnlyAsyncReactiveProperty<T> ToReadOnlyAsyncReactiveProperty<T>(this IUniTaskAsyncEnumerable<T> source, T initialValue,
-            CancellationToken cancellationToken)
+        public static ReadOnlyAsyncReactiveProperty<T> ToReadOnlyAsyncReactiveProperty<T>(this IUniTaskAsyncEnumerable<T> source, T initialValue, CancellationToken cancellationToken)
         {
             return new ReadOnlyAsyncReactiveProperty<T>(initialValue, source, cancellationToken);
         }

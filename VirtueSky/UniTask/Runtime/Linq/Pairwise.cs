@@ -121,7 +121,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }

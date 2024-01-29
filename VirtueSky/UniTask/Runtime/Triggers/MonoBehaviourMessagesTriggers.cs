@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace VirtueSky.Threading.Tasks.Triggers
 {
-    #region FixedUpdate
+#region FixedUpdate
 
     public interface IAsyncFixedUpdateHandler
     {
@@ -30,7 +30,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncFixedUpdateTrigger>(gameObject);
         }
-
+        
         public static AsyncFixedUpdateTrigger GetAsyncFixedUpdateTrigger(this Component component)
         {
             return component.gameObject.GetAsyncFixedUpdateTrigger();
@@ -65,10 +65,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncFixedUpdateHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).FixedUpdateAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region LateUpdate
+#region LateUpdate
 
     public interface IAsyncLateUpdateHandler
     {
@@ -90,7 +89,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncLateUpdateTrigger>(gameObject);
         }
-
+        
         public static AsyncLateUpdateTrigger GetAsyncLateUpdateTrigger(this Component component)
         {
             return component.gameObject.GetAsyncLateUpdateTrigger();
@@ -125,10 +124,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncLateUpdateHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).LateUpdateAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region AnimatorIK
+#region AnimatorIK
 
     public interface IAsyncOnAnimatorIKHandler
     {
@@ -150,7 +148,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncAnimatorIKTrigger>(gameObject);
         }
-
+        
         public static AsyncAnimatorIKTrigger GetAsyncAnimatorIKTrigger(this Component component)
         {
             return component.gameObject.GetAsyncAnimatorIKTrigger();
@@ -185,10 +183,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnAnimatorIKHandler)new AsyncTriggerHandler<int>(this, cancellationToken, true)).OnAnimatorIKAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region AnimatorMove
+#region AnimatorMove
 
     public interface IAsyncOnAnimatorMoveHandler
     {
@@ -210,7 +207,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncAnimatorMoveTrigger>(gameObject);
         }
-
+        
         public static AsyncAnimatorMoveTrigger GetAsyncAnimatorMoveTrigger(this Component component)
         {
             return component.gameObject.GetAsyncAnimatorMoveTrigger();
@@ -245,10 +242,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnAnimatorMoveHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnAnimatorMoveAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ApplicationFocus
+#region ApplicationFocus
 
     public interface IAsyncOnApplicationFocusHandler
     {
@@ -270,7 +266,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncApplicationFocusTrigger>(gameObject);
         }
-
+        
         public static AsyncApplicationFocusTrigger GetAsyncApplicationFocusTrigger(this Component component)
         {
             return component.gameObject.GetAsyncApplicationFocusTrigger();
@@ -305,10 +301,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnApplicationFocusHandler)new AsyncTriggerHandler<bool>(this, cancellationToken, true)).OnApplicationFocusAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ApplicationPause
+#region ApplicationPause
 
     public interface IAsyncOnApplicationPauseHandler
     {
@@ -330,7 +325,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncApplicationPauseTrigger>(gameObject);
         }
-
+        
         public static AsyncApplicationPauseTrigger GetAsyncApplicationPauseTrigger(this Component component)
         {
             return component.gameObject.GetAsyncApplicationPauseTrigger();
@@ -365,10 +360,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnApplicationPauseHandler)new AsyncTriggerHandler<bool>(this, cancellationToken, true)).OnApplicationPauseAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ApplicationQuit
+#region ApplicationQuit
 
     public interface IAsyncOnApplicationQuitHandler
     {
@@ -390,7 +384,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncApplicationQuitTrigger>(gameObject);
         }
-
+        
         public static AsyncApplicationQuitTrigger GetAsyncApplicationQuitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncApplicationQuitTrigger();
@@ -425,10 +419,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnApplicationQuitHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnApplicationQuitAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region AudioFilterRead
+#region AudioFilterRead
 
     public interface IAsyncOnAudioFilterReadHandler
     {
@@ -450,7 +443,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncAudioFilterReadTrigger>(gameObject);
         }
-
+        
         public static AsyncAudioFilterReadTrigger GetAsyncAudioFilterReadTrigger(this Component component)
         {
             return component.gameObject.GetAsyncAudioFilterReadTrigger();
@@ -485,10 +478,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnAudioFilterReadHandler)new AsyncTriggerHandler<(float[] data, int channels)>(this, cancellationToken, true)).OnAudioFilterReadAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region BecameInvisible
+#region BecameInvisible
 
     public interface IAsyncOnBecameInvisibleHandler
     {
@@ -510,7 +502,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncBecameInvisibleTrigger>(gameObject);
         }
-
+        
         public static AsyncBecameInvisibleTrigger GetAsyncBecameInvisibleTrigger(this Component component)
         {
             return component.gameObject.GetAsyncBecameInvisibleTrigger();
@@ -545,10 +537,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnBecameInvisibleHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnBecameInvisibleAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region BecameVisible
+#region BecameVisible
 
     public interface IAsyncOnBecameVisibleHandler
     {
@@ -570,7 +561,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncBecameVisibleTrigger>(gameObject);
         }
-
+        
         public static AsyncBecameVisibleTrigger GetAsyncBecameVisibleTrigger(this Component component)
         {
             return component.gameObject.GetAsyncBecameVisibleTrigger();
@@ -605,10 +596,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnBecameVisibleHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnBecameVisibleAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region BeforeTransformParentChanged
+#region BeforeTransformParentChanged
 
     public interface IAsyncOnBeforeTransformParentChangedHandler
     {
@@ -630,7 +620,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncBeforeTransformParentChangedTrigger>(gameObject);
         }
-
+        
         public static AsyncBeforeTransformParentChangedTrigger GetAsyncBeforeTransformParentChangedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncBeforeTransformParentChangedTrigger();
@@ -665,10 +655,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnBeforeTransformParentChangedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnBeforeTransformParentChangedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region OnCanvasGroupChanged
+#region OnCanvasGroupChanged
 
     public interface IAsyncOnCanvasGroupChangedHandler
     {
@@ -690,7 +679,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncOnCanvasGroupChangedTrigger>(gameObject);
         }
-
+        
         public static AsyncOnCanvasGroupChangedTrigger GetAsyncOnCanvasGroupChangedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncOnCanvasGroupChangedTrigger();
@@ -725,11 +714,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnCanvasGroupChangedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnCanvasGroupChangedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region CollisionEnter
-
+#region CollisionEnter
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnCollisionEnterHandler
@@ -752,7 +739,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionEnterTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionEnterTrigger GetAsyncCollisionEnterTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionEnterTrigger();
@@ -788,11 +775,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region CollisionEnter2D
-
+#region CollisionEnter2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnCollisionEnter2DHandler
@@ -815,7 +800,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionEnter2DTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionEnter2DTrigger GetAsyncCollisionEnter2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionEnter2DTrigger();
@@ -851,11 +836,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region CollisionExit
-
+#region CollisionExit
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnCollisionExitHandler
@@ -878,7 +861,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionExitTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionExitTrigger GetAsyncCollisionExitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionExitTrigger();
@@ -914,11 +897,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region CollisionExit2D
-
+#region CollisionExit2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnCollisionExit2DHandler
@@ -941,7 +922,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionExit2DTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionExit2DTrigger GetAsyncCollisionExit2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionExit2DTrigger();
@@ -977,11 +958,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region CollisionStay
-
+#region CollisionStay
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnCollisionStayHandler
@@ -1004,7 +983,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionStayTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionStayTrigger GetAsyncCollisionStayTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionStayTrigger();
@@ -1040,11 +1019,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region CollisionStay2D
-
+#region CollisionStay2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnCollisionStay2DHandler
@@ -1067,7 +1044,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCollisionStay2DTrigger>(gameObject);
         }
-
+        
         public static AsyncCollisionStay2DTrigger GetAsyncCollisionStay2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCollisionStay2DTrigger();
@@ -1103,11 +1080,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region ControllerColliderHit
-
+#region ControllerColliderHit
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnControllerColliderHitHandler
@@ -1130,7 +1105,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncControllerColliderHitTrigger>(gameObject);
         }
-
+        
         public static AsyncControllerColliderHitTrigger GetAsyncControllerColliderHitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncControllerColliderHitTrigger();
@@ -1166,10 +1141,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Disable
+#region Disable
 
     public interface IAsyncOnDisableHandler
     {
@@ -1191,7 +1165,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDisableTrigger>(gameObject);
         }
-
+        
         public static AsyncDisableTrigger GetAsyncDisableTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDisableTrigger();
@@ -1226,10 +1200,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnDisableHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnDisableAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region DrawGizmos
+#region DrawGizmos
 
     public interface IAsyncOnDrawGizmosHandler
     {
@@ -1251,7 +1224,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDrawGizmosTrigger>(gameObject);
         }
-
+        
         public static AsyncDrawGizmosTrigger GetAsyncDrawGizmosTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDrawGizmosTrigger();
@@ -1286,10 +1259,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnDrawGizmosHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnDrawGizmosAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region DrawGizmosSelected
+#region DrawGizmosSelected
 
     public interface IAsyncOnDrawGizmosSelectedHandler
     {
@@ -1311,7 +1283,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDrawGizmosSelectedTrigger>(gameObject);
         }
-
+        
         public static AsyncDrawGizmosSelectedTrigger GetAsyncDrawGizmosSelectedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDrawGizmosSelectedTrigger();
@@ -1346,10 +1318,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnDrawGizmosSelectedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnDrawGizmosSelectedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region Enable
+#region Enable
 
     public interface IAsyncOnEnableHandler
     {
@@ -1371,7 +1342,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncEnableTrigger>(gameObject);
         }
-
+        
         public static AsyncEnableTrigger GetAsyncEnableTrigger(this Component component)
         {
             return component.gameObject.GetAsyncEnableTrigger();
@@ -1406,10 +1377,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnEnableHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnEnableAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region GUI
+#region GUI
 
     public interface IAsyncOnGUIHandler
     {
@@ -1431,7 +1401,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncGUITrigger>(gameObject);
         }
-
+        
         public static AsyncGUITrigger GetAsyncGUITrigger(this Component component)
         {
             return component.gameObject.GetAsyncGUITrigger();
@@ -1466,11 +1436,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnGUIHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnGUIAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region JointBreak
-
+#region JointBreak
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnJointBreakHandler
@@ -1493,7 +1461,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncJointBreakTrigger>(gameObject);
         }
-
+        
         public static AsyncJointBreakTrigger GetAsyncJointBreakTrigger(this Component component)
         {
             return component.gameObject.GetAsyncJointBreakTrigger();
@@ -1529,11 +1497,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region JointBreak2D
-
+#region JointBreak2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnJointBreak2DHandler
@@ -1556,7 +1522,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncJointBreak2DTrigger>(gameObject);
         }
-
+        
         public static AsyncJointBreak2DTrigger GetAsyncJointBreak2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncJointBreak2DTrigger();
@@ -1592,12 +1558,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseDown
-
+#region MouseDown
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseDownHandler
     {
         UniTask OnMouseDownAsync();
@@ -1654,12 +1619,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseDrag
-
+#region MouseDrag
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseDragHandler
     {
         UniTask OnMouseDragAsync();
@@ -1716,12 +1680,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseEnter
-
+#region MouseEnter
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseEnterHandler
     {
         UniTask OnMouseEnterAsync();
@@ -1778,12 +1741,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseExit
-
+#region MouseExit
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseExitHandler
     {
         UniTask OnMouseExitAsync();
@@ -1840,12 +1802,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseOver
-
+#region MouseOver
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseOverHandler
     {
         UniTask OnMouseOverAsync();
@@ -1902,12 +1863,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseUp
-
+#region MouseUp
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseUpHandler
     {
         UniTask OnMouseUpAsync();
@@ -1964,12 +1924,11 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region MouseUpAsButton
-
+#region MouseUpAsButton
 #if !(UNITY_IPHONE || UNITY_ANDROID || UNITY_METRO)
+
     public interface IAsyncOnMouseUpAsButtonHandler
     {
         UniTask OnMouseUpAsButtonAsync();
@@ -2026,10 +1985,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region ParticleCollision
+#region ParticleCollision
 
     public interface IAsyncOnParticleCollisionHandler
     {
@@ -2051,7 +2009,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncParticleCollisionTrigger>(gameObject);
         }
-
+        
         public static AsyncParticleCollisionTrigger GetAsyncParticleCollisionTrigger(this Component component)
         {
             return component.gameObject.GetAsyncParticleCollisionTrigger();
@@ -2086,10 +2044,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnParticleCollisionHandler)new AsyncTriggerHandler<GameObject>(this, cancellationToken, true)).OnParticleCollisionAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ParticleSystemStopped
+#region ParticleSystemStopped
 
     public interface IAsyncOnParticleSystemStoppedHandler
     {
@@ -2111,7 +2068,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncParticleSystemStoppedTrigger>(gameObject);
         }
-
+        
         public static AsyncParticleSystemStoppedTrigger GetAsyncParticleSystemStoppedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncParticleSystemStoppedTrigger();
@@ -2146,10 +2103,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnParticleSystemStoppedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnParticleSystemStoppedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ParticleTrigger
+#region ParticleTrigger
 
     public interface IAsyncOnParticleTriggerHandler
     {
@@ -2171,7 +2127,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncParticleTriggerTrigger>(gameObject);
         }
-
+        
         public static AsyncParticleTriggerTrigger GetAsyncParticleTriggerTrigger(this Component component)
         {
             return component.gameObject.GetAsyncParticleTriggerTrigger();
@@ -2206,11 +2162,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnParticleTriggerHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnParticleTriggerAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ParticleUpdateJobScheduled
-
+#region ParticleUpdateJobScheduled
 #if UNITY_2019_3_OR_NEWER && (!UNITY_2019_1_OR_NEWER || UNITASK_PARTICLESYSTEM_SUPPORT)
 
     public interface IAsyncOnParticleUpdateJobScheduledHandler
@@ -2223,8 +2177,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         UniTask<UnityEngine.ParticleSystemJobs.ParticleSystemJobData> IAsyncOnParticleUpdateJobScheduledHandler.OnParticleUpdateJobScheduledAsync()
         {
             core.Reset();
-            return new UniTask<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>((IUniTaskSource<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>)(object)this,
-                core.Version);
+            return new UniTask<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>((IUniTaskSource<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>)(object)this, core.Version);
         }
     }
 
@@ -2234,7 +2187,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncParticleUpdateJobScheduledTrigger>(gameObject);
         }
-
+        
         public static AsyncParticleUpdateJobScheduledTrigger GetAsyncParticleUpdateJobScheduledTrigger(this Component component)
         {
             return component.gameObject.GetAsyncParticleUpdateJobScheduledTrigger();
@@ -2261,21 +2214,18 @@ namespace VirtueSky.Threading.Tasks.Triggers
 
         public UniTask<UnityEngine.ParticleSystemJobs.ParticleSystemJobData> OnParticleUpdateJobScheduledAsync()
         {
-            return ((IAsyncOnParticleUpdateJobScheduledHandler)new AsyncTriggerHandler<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>(this, true))
-                .OnParticleUpdateJobScheduledAsync();
+            return ((IAsyncOnParticleUpdateJobScheduledHandler)new AsyncTriggerHandler<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>(this, true)).OnParticleUpdateJobScheduledAsync();
         }
 
         public UniTask<UnityEngine.ParticleSystemJobs.ParticleSystemJobData> OnParticleUpdateJobScheduledAsync(CancellationToken cancellationToken)
         {
-            return ((IAsyncOnParticleUpdateJobScheduledHandler)new AsyncTriggerHandler<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>(this, cancellationToken, true))
-                .OnParticleUpdateJobScheduledAsync();
+            return ((IAsyncOnParticleUpdateJobScheduledHandler)new AsyncTriggerHandler<UnityEngine.ParticleSystemJobs.ParticleSystemJobData>(this, cancellationToken, true)).OnParticleUpdateJobScheduledAsync();
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PostRender
+#region PostRender
 
     public interface IAsyncOnPostRenderHandler
     {
@@ -2297,7 +2247,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPostRenderTrigger>(gameObject);
         }
-
+        
         public static AsyncPostRenderTrigger GetAsyncPostRenderTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPostRenderTrigger();
@@ -2332,10 +2282,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnPostRenderHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnPostRenderAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region PreCull
+#region PreCull
 
     public interface IAsyncOnPreCullHandler
     {
@@ -2357,7 +2306,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPreCullTrigger>(gameObject);
         }
-
+        
         public static AsyncPreCullTrigger GetAsyncPreCullTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPreCullTrigger();
@@ -2392,10 +2341,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnPreCullHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnPreCullAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region PreRender
+#region PreRender
 
     public interface IAsyncOnPreRenderHandler
     {
@@ -2417,7 +2365,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPreRenderTrigger>(gameObject);
         }
-
+        
         public static AsyncPreRenderTrigger GetAsyncPreRenderTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPreRenderTrigger();
@@ -2452,10 +2400,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnPreRenderHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnPreRenderAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region RectTransformDimensionsChange
+#region RectTransformDimensionsChange
 
     public interface IAsyncOnRectTransformDimensionsChangeHandler
     {
@@ -2477,7 +2424,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncRectTransformDimensionsChangeTrigger>(gameObject);
         }
-
+        
         public static AsyncRectTransformDimensionsChangeTrigger GetAsyncRectTransformDimensionsChangeTrigger(this Component component)
         {
             return component.gameObject.GetAsyncRectTransformDimensionsChangeTrigger();
@@ -2512,10 +2459,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnRectTransformDimensionsChangeHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnRectTransformDimensionsChangeAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region RectTransformRemoved
+#region RectTransformRemoved
 
     public interface IAsyncOnRectTransformRemovedHandler
     {
@@ -2537,7 +2483,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncRectTransformRemovedTrigger>(gameObject);
         }
-
+        
         public static AsyncRectTransformRemovedTrigger GetAsyncRectTransformRemovedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncRectTransformRemovedTrigger();
@@ -2572,10 +2518,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnRectTransformRemovedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnRectTransformRemovedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region RenderImage
+#region RenderImage
 
     public interface IAsyncOnRenderImageHandler
     {
@@ -2597,7 +2542,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncRenderImageTrigger>(gameObject);
         }
-
+        
         public static AsyncRenderImageTrigger GetAsyncRenderImageTrigger(this Component component)
         {
             return component.gameObject.GetAsyncRenderImageTrigger();
@@ -2632,10 +2577,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnRenderImageHandler)new AsyncTriggerHandler<(RenderTexture source, RenderTexture destination)>(this, cancellationToken, true)).OnRenderImageAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region RenderObject
+#region RenderObject
 
     public interface IAsyncOnRenderObjectHandler
     {
@@ -2657,7 +2601,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncRenderObjectTrigger>(gameObject);
         }
-
+        
         public static AsyncRenderObjectTrigger GetAsyncRenderObjectTrigger(this Component component)
         {
             return component.gameObject.GetAsyncRenderObjectTrigger();
@@ -2692,10 +2636,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnRenderObjectHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnRenderObjectAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region ServerInitialized
+#region ServerInitialized
 
     public interface IAsyncOnServerInitializedHandler
     {
@@ -2717,7 +2660,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncServerInitializedTrigger>(gameObject);
         }
-
+        
         public static AsyncServerInitializedTrigger GetAsyncServerInitializedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncServerInitializedTrigger();
@@ -2752,10 +2695,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnServerInitializedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnServerInitializedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region TransformChildrenChanged
+#region TransformChildrenChanged
 
     public interface IAsyncOnTransformChildrenChangedHandler
     {
@@ -2777,7 +2719,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTransformChildrenChangedTrigger>(gameObject);
         }
-
+        
         public static AsyncTransformChildrenChangedTrigger GetAsyncTransformChildrenChangedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTransformChildrenChangedTrigger();
@@ -2812,10 +2754,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnTransformChildrenChangedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnTransformChildrenChangedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region TransformParentChanged
+#region TransformParentChanged
 
     public interface IAsyncOnTransformParentChangedHandler
     {
@@ -2837,7 +2778,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTransformParentChangedTrigger>(gameObject);
         }
-
+        
         public static AsyncTransformParentChangedTrigger GetAsyncTransformParentChangedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTransformParentChangedTrigger();
@@ -2872,11 +2813,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnTransformParentChangedHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnTransformParentChangedAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region TriggerEnter
-
+#region TriggerEnter
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnTriggerEnterHandler
@@ -2899,7 +2838,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerEnterTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerEnterTrigger GetAsyncTriggerEnterTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerEnterTrigger();
@@ -2935,11 +2874,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region TriggerEnter2D
-
+#region TriggerEnter2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnTriggerEnter2DHandler
@@ -2962,7 +2899,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerEnter2DTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerEnter2DTrigger GetAsyncTriggerEnter2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerEnter2DTrigger();
@@ -2998,11 +2935,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region TriggerExit
-
+#region TriggerExit
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnTriggerExitHandler
@@ -3025,7 +2960,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerExitTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerExitTrigger GetAsyncTriggerExitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerExitTrigger();
@@ -3061,11 +2996,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region TriggerExit2D
-
+#region TriggerExit2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnTriggerExit2DHandler
@@ -3088,7 +3021,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerExit2DTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerExit2DTrigger GetAsyncTriggerExit2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerExit2DTrigger();
@@ -3124,11 +3057,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region TriggerStay
-
+#region TriggerStay
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS_SUPPORT
 
     public interface IAsyncOnTriggerStayHandler
@@ -3151,7 +3082,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerStayTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerStayTrigger GetAsyncTriggerStayTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerStayTrigger();
@@ -3187,11 +3118,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region TriggerStay2D
-
+#region TriggerStay2D
 #if !UNITY_2019_1_OR_NEWER || UNITASK_PHYSICS2D_SUPPORT
 
     public interface IAsyncOnTriggerStay2DHandler
@@ -3214,7 +3143,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncTriggerStay2DTrigger>(gameObject);
         }
-
+        
         public static AsyncTriggerStay2DTrigger GetAsyncTriggerStay2DTrigger(this Component component)
         {
             return component.gameObject.GetAsyncTriggerStay2DTrigger();
@@ -3250,10 +3179,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Validate
+#region Validate
 
     public interface IAsyncOnValidateHandler
     {
@@ -3275,7 +3203,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncValidateTrigger>(gameObject);
         }
-
+        
         public static AsyncValidateTrigger GetAsyncValidateTrigger(this Component component)
         {
             return component.gameObject.GetAsyncValidateTrigger();
@@ -3310,10 +3238,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnValidateHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnValidateAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region WillRenderObject
+#region WillRenderObject
 
     public interface IAsyncOnWillRenderObjectHandler
     {
@@ -3335,7 +3262,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncWillRenderObjectTrigger>(gameObject);
         }
-
+        
         public static AsyncWillRenderObjectTrigger GetAsyncWillRenderObjectTrigger(this Component component)
         {
             return component.gameObject.GetAsyncWillRenderObjectTrigger();
@@ -3370,10 +3297,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncOnWillRenderObjectHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).OnWillRenderObjectAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region Reset
+#region Reset
 
     public interface IAsyncResetHandler
     {
@@ -3395,7 +3321,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncResetTrigger>(gameObject);
         }
-
+        
         public static AsyncResetTrigger GetAsyncResetTrigger(this Component component)
         {
             return component.gameObject.GetAsyncResetTrigger();
@@ -3430,10 +3356,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncResetHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).ResetAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region Update
+#region Update
 
     public interface IAsyncUpdateHandler
     {
@@ -3455,7 +3380,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncUpdateTrigger>(gameObject);
         }
-
+        
         public static AsyncUpdateTrigger GetAsyncUpdateTrigger(this Component component)
         {
             return component.gameObject.GetAsyncUpdateTrigger();
@@ -3490,11 +3415,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
             return ((IAsyncUpdateHandler)new AsyncTriggerHandler<AsyncUnit>(this, cancellationToken, true)).UpdateAsync();
         }
     }
+#endregion
 
-    #endregion
-
-    #region BeginDrag
-
+#region BeginDrag
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnBeginDragHandler
@@ -3517,7 +3440,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncBeginDragTrigger>(gameObject);
         }
-
+        
         public static AsyncBeginDragTrigger GetAsyncBeginDragTrigger(this Component component)
         {
             return component.gameObject.GetAsyncBeginDragTrigger();
@@ -3553,11 +3476,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Cancel
-
+#region Cancel
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnCancelHandler
@@ -3580,7 +3501,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncCancelTrigger>(gameObject);
         }
-
+        
         public static AsyncCancelTrigger GetAsyncCancelTrigger(this Component component)
         {
             return component.gameObject.GetAsyncCancelTrigger();
@@ -3616,11 +3537,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Deselect
-
+#region Deselect
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnDeselectHandler
@@ -3643,7 +3562,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDeselectTrigger>(gameObject);
         }
-
+        
         public static AsyncDeselectTrigger GetAsyncDeselectTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDeselectTrigger();
@@ -3679,11 +3598,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Drag
-
+#region Drag
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnDragHandler
@@ -3706,7 +3623,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDragTrigger>(gameObject);
         }
-
+        
         public static AsyncDragTrigger GetAsyncDragTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDragTrigger();
@@ -3742,11 +3659,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Drop
-
+#region Drop
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnDropHandler
@@ -3769,7 +3684,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncDropTrigger>(gameObject);
         }
-
+        
         public static AsyncDropTrigger GetAsyncDropTrigger(this Component component)
         {
             return component.gameObject.GetAsyncDropTrigger();
@@ -3805,11 +3720,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region EndDrag
-
+#region EndDrag
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnEndDragHandler
@@ -3832,7 +3745,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncEndDragTrigger>(gameObject);
         }
-
+        
         public static AsyncEndDragTrigger GetAsyncEndDragTrigger(this Component component)
         {
             return component.gameObject.GetAsyncEndDragTrigger();
@@ -3868,11 +3781,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region InitializePotentialDrag
-
+#region InitializePotentialDrag
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnInitializePotentialDragHandler
@@ -3895,7 +3806,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncInitializePotentialDragTrigger>(gameObject);
         }
-
+        
         public static AsyncInitializePotentialDragTrigger GetAsyncInitializePotentialDragTrigger(this Component component)
         {
             return component.gameObject.GetAsyncInitializePotentialDragTrigger();
@@ -3931,11 +3842,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Move
-
+#region Move
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnMoveHandler
@@ -3958,7 +3867,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncMoveTrigger>(gameObject);
         }
-
+        
         public static AsyncMoveTrigger GetAsyncMoveTrigger(this Component component)
         {
             return component.gameObject.GetAsyncMoveTrigger();
@@ -3994,11 +3903,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PointerClick
-
+#region PointerClick
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnPointerClickHandler
@@ -4021,7 +3928,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPointerClickTrigger>(gameObject);
         }
-
+        
         public static AsyncPointerClickTrigger GetAsyncPointerClickTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPointerClickTrigger();
@@ -4057,11 +3964,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PointerDown
-
+#region PointerDown
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnPointerDownHandler
@@ -4084,7 +3989,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPointerDownTrigger>(gameObject);
         }
-
+        
         public static AsyncPointerDownTrigger GetAsyncPointerDownTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPointerDownTrigger();
@@ -4120,11 +4025,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PointerEnter
-
+#region PointerEnter
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnPointerEnterHandler
@@ -4147,7 +4050,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPointerEnterTrigger>(gameObject);
         }
-
+        
         public static AsyncPointerEnterTrigger GetAsyncPointerEnterTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPointerEnterTrigger();
@@ -4183,11 +4086,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PointerExit
-
+#region PointerExit
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnPointerExitHandler
@@ -4210,7 +4111,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPointerExitTrigger>(gameObject);
         }
-
+        
         public static AsyncPointerExitTrigger GetAsyncPointerExitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPointerExitTrigger();
@@ -4246,11 +4147,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region PointerUp
-
+#region PointerUp
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnPointerUpHandler
@@ -4273,7 +4172,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncPointerUpTrigger>(gameObject);
         }
-
+        
         public static AsyncPointerUpTrigger GetAsyncPointerUpTrigger(this Component component)
         {
             return component.gameObject.GetAsyncPointerUpTrigger();
@@ -4309,11 +4208,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Scroll
-
+#region Scroll
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnScrollHandler
@@ -4336,7 +4233,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncScrollTrigger>(gameObject);
         }
-
+        
         public static AsyncScrollTrigger GetAsyncScrollTrigger(this Component component)
         {
             return component.gameObject.GetAsyncScrollTrigger();
@@ -4372,11 +4269,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Select
-
+#region Select
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnSelectHandler
@@ -4399,7 +4294,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncSelectTrigger>(gameObject);
         }
-
+        
         public static AsyncSelectTrigger GetAsyncSelectTrigger(this Component component)
         {
             return component.gameObject.GetAsyncSelectTrigger();
@@ -4435,11 +4330,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region Submit
-
+#region Submit
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnSubmitHandler
@@ -4462,7 +4355,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncSubmitTrigger>(gameObject);
         }
-
+        
         public static AsyncSubmitTrigger GetAsyncSubmitTrigger(this Component component)
         {
             return component.gameObject.GetAsyncSubmitTrigger();
@@ -4498,11 +4391,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
-
-    #region UpdateSelected
-
+#region UpdateSelected
 #if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 
     public interface IAsyncOnUpdateSelectedHandler
@@ -4525,7 +4416,7 @@ namespace VirtueSky.Threading.Tasks.Triggers
         {
             return GetOrAddComponent<AsyncUpdateSelectedTrigger>(gameObject);
         }
-
+        
         public static AsyncUpdateSelectedTrigger GetAsyncUpdateSelectedTrigger(this Component component)
         {
             return component.gameObject.GetAsyncUpdateSelectedTrigger();
@@ -4561,6 +4452,6 @@ namespace VirtueSky.Threading.Tasks.Triggers
         }
     }
 #endif
+#endregion
 
-    #endregion
 }

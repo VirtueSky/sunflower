@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System;
 using UnityEditor.IMGUI.Controls;
-using VirtueSky.Threading.Tasks.Internal;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,7 +20,6 @@ namespace VirtueSky.Threading.Tasks.Editor
         public string Status { get; set; }
 
         string position;
-
         public string Position
         {
             get { return position; }
@@ -44,7 +41,6 @@ namespace VirtueSky.Threading.Tasks.Editor
                 {
                     break;
                 }
-
                 sb.Append(str[i]);
             }
 
@@ -53,6 +49,7 @@ namespace VirtueSky.Threading.Tasks.Editor
 
         public UniTaskTrackerViewItem(int id) : base(id)
         {
+
         }
     }
 
@@ -65,10 +62,10 @@ namespace VirtueSky.Threading.Tasks.Editor
         public UniTaskTrackerTreeView()
             : this(new TreeViewState(), new MultiColumnHeader(new MultiColumnHeaderState(new[]
             {
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("TaskType"), width = 20 },
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Elapsed"), width = 10 },
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Status"), width = 10 },
-                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Position") },
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("TaskType"), width = 20},
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Elapsed"), width = 10},
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Status"), width = 10},
+                new MultiColumnHeaderState.Column() { headerContent = new GUIContent("Position")},
             })))
         {
         }
@@ -134,8 +131,7 @@ namespace VirtueSky.Threading.Tasks.Editor
 
             TaskTracker.ForEachActiveTask((trackingId, awaiterType, status, created, stackTrace) =>
             {
-                children.Add(new UniTaskTrackerViewItem(trackingId)
-                    { TaskType = awaiterType, Status = status.ToString(), Elapsed = (DateTime.UtcNow - created).TotalSeconds.ToString("00.00"), Position = stackTrace });
+                children.Add(new UniTaskTrackerViewItem(trackingId) { TaskType = awaiterType, Status = status.ToString(), Elapsed = (DateTime.UtcNow - created).TotalSeconds.ToString("00.00"), Position = stackTrace });
             });
 
             CurrentBindingItems = children;
@@ -179,4 +175,6 @@ namespace VirtueSky.Threading.Tasks.Editor
             }
         }
     }
+
 }
+

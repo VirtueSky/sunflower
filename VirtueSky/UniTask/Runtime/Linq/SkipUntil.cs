@@ -93,14 +93,12 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     enumerator = source.GetAsyncEnumerator(cancellationToken1);
                 }
-
                 completionSource.Reset();
 
                 if (completed)
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -182,7 +180,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }

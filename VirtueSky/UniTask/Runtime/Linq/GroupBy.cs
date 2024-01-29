@@ -17,8 +17,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TSource>(source, keySelector, x => x, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -26,8 +25,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TSource>(source, keySelector, x => x, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -35,8 +33,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TElement>(source, keySelector, elementSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -45,8 +42,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TElement>(source, keySelector, elementSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TKey, IEnumerable<TSource>, TResult> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -54,8 +50,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TSource, TResult>(source, keySelector, x => x, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TKey, IEnumerable<TSource>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -64,8 +59,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupBy<TSource, TKey, TSource, TResult>(source, keySelector, x => x, resultSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -73,9 +67,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Error.ThrowArgumentNullException(resultSelector, nameof(resultSelector));
             return new GroupBy<TSource, TKey, TElement, TResult>(source, keySelector, elementSelector, resultSelector, EqualityComparer<TKey>.Default);
         }
-
-        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -87,16 +79,14 @@ namespace VirtueSky.Threading.Tasks.Linq
 
         // await
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
             return new GroupByAwait<TSource, TKey, TSource>(source, keySelector, x => UniTask.FromResult(x), EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -104,8 +94,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TSource>(source, keySelector, x => UniTask.FromResult(x), comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwait<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwait<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -113,8 +102,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TElement>(source, keySelector, elementSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwait<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwait<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -123,8 +111,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TElement>(source, keySelector, elementSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-            Func<TKey, IEnumerable<TSource>, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -132,8 +119,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TSource, TResult>(source, keySelector, x => UniTask.FromResult(x), resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -142,8 +128,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TElement, TResult>(source, keySelector, elementSelector, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-            Func<TKey, IEnumerable<TSource>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -152,9 +137,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwait<TSource, TKey, TSource, TResult>(source, keySelector, x => UniTask.FromResult(x), resultSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector,
-            IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwait<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -166,16 +149,14 @@ namespace VirtueSky.Threading.Tasks.Linq
 
         // with ct
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
             return new GroupByAwaitWithCancellation<TSource, TKey, TSource>(source, keySelector, (x, _) => UniTask.FromResult(x), EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TSource>> GroupByAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -183,8 +164,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwaitWithCancellation<TSource, TKey, TSource>(source, keySelector, (x, _) => UniTask.FromResult(x), comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwaitWithCancellation<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwaitWithCancellation<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -192,8 +172,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwaitWithCancellation<TSource, TKey, TElement>(source, keySelector, elementSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwaitWithCancellation<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<IGrouping<TKey, TElement>> GroupByAwaitWithCancellation<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -202,19 +181,15 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwaitWithCancellation<TSource, TKey, TElement>(source, keySelector, elementSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, CancellationToken, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, CancellationToken, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
             Error.ThrowArgumentNullException(resultSelector, nameof(resultSelector));
-            return new GroupByAwaitWithCancellation<TSource, TKey, TSource, TResult>(source, keySelector, (x, _) => UniTask.FromResult(x), resultSelector,
-                EqualityComparer<TKey>.Default);
+            return new GroupByAwaitWithCancellation<TSource, TKey, TSource, TResult>(source, keySelector, (x, _) => UniTask.FromResult(x), resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector,
-            Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -223,9 +198,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwaitWithCancellation<TSource, TKey, TElement, TResult>(source, keySelector, elementSelector, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, CancellationToken, UniTask<TResult>> resultSelector,
-            IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TKey, IEnumerable<TSource>, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -234,9 +207,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new GroupByAwaitWithCancellation<TSource, TKey, TSource, TResult>(source, keySelector, (x, _) => UniTask.FromResult(x), resultSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector,
-            Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> GroupByAwaitWithCancellation<TSource, TKey, TElement, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -277,8 +248,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
 
-            public _GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer,
-                CancellationToken cancellationToken)
+            public _GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -303,7 +273,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -319,7 +288,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -365,8 +333,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TKey, IEnumerable<TElement>, TResult> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector,
-            Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        public GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -391,8 +358,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
 
-            public _GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector,
-                Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _GroupBy(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, IEnumerable<TElement>, TResult> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -418,7 +384,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -434,7 +399,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -480,8 +444,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TSource, UniTask<TElement>> elementSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector,
-            IEqualityComparer<TKey> comparer)
+        public GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -504,8 +467,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
 
-            public _GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector,
-                IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -530,7 +492,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -546,7 +507,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -592,8 +552,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector,
-            Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -621,8 +580,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
             UniTask<TResult>.Awaiter awaiter;
 
-            public _GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector,
-                Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _GroupByAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -648,7 +606,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -664,7 +621,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -685,7 +641,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                         {
                             awaiter.SourceOnCompleted(ResultSelectCoreDelegate, this);
                         }
-
                         return;
                     }
                     else
@@ -731,8 +686,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TSource, CancellationToken, UniTask<TElement>> elementSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-            Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
+        public GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -755,8 +709,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
 
-            public _GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-                Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -781,7 +734,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -797,7 +749,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -843,9 +794,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-            Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector,
-            IEqualityComparer<TKey> comparer)
+        public GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -873,9 +822,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             IEnumerator<IGrouping<TKey, TElement>> groupEnumerator;
             UniTask<TResult>.Awaiter awaiter;
 
-            public _GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-                Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector,
-                IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _GroupByAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, Func<TKey, IEnumerable<TElement>, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -901,7 +848,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -917,7 +863,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -938,7 +883,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                         {
                             awaiter.SourceOnCompleted(ResultSelectCoreDelegate, this);
                         }
-
                         return;
                     }
                     else

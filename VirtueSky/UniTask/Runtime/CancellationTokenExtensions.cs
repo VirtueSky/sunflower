@@ -56,7 +56,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 UniTaskScheduler.PublishUnobservedTaskException(ex);
             }
-
             cts.Cancel();
             cts.Dispose();
         }
@@ -180,3 +179,4 @@ namespace VirtueSky.Threading.Tasks
         }
     }
 }
+

@@ -61,7 +61,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     this.cancellationTokenRegistration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(CancelDelegate2, this);
                 }
-
                 TaskTracker.TrackActiveTask(this, 3);
             }
 
@@ -158,7 +157,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }

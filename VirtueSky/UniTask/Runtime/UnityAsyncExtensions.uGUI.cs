@@ -392,7 +392,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
-
             return new UniTask(this, core.Version);
         }
 
@@ -418,7 +417,6 @@ namespace VirtueSky.Threading.Tasks
                 {
                     unityEvent.RemoveListener(action);
                 }
-
                 core.TrySetCanceled(cancellationToken);
             }
         }
@@ -504,7 +502,6 @@ namespace VirtueSky.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
-
             return new UniTask<T>(this, core.Version);
         }
 
@@ -674,7 +671,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
-
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -795,7 +791,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
-
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -849,7 +844,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         disp.Dispose();
                     }
-
                     unityEvent.RemoveListener(unityAction);
 
                     completionSource.TrySetCanceled();

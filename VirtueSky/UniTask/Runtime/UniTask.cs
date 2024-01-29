@@ -1,12 +1,16 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CS0436
 
-using VirtueSky.Threading.Tasks.CompilerServices;
+#if UNITASK_NETCORE || UNITY_2022_3_OR_NEWER
+#define SUPPORT_VALUETASK
+#endif
+
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using VirtueSky.Threading.Tasks.CompilerServices;
 
 namespace VirtueSky.Threading.Tasks
 {
@@ -69,7 +73,8 @@ namespace VirtueSky.Threading.Tasks
             return new UniTask<bool>(new IsCanceledSource(source), token);
         }
 
-#if !UNITY_2018_3_OR_NEWER
+#if SUPPORT_VALUETASK
+
         public static implicit operator System.Threading.Tasks.ValueTask(in UniTask self)
         {
             if (self.source == null)
@@ -77,7 +82,7 @@ namespace VirtueSky.Threading.Tasks
                 return default;
             }
 
-#if NETSTANDARD2_0
+#if (UNITASK_NETCORE && NETSTANDARD2_0)
             return self.AsValueTask();
 #else
             return new System.Threading.Tasks.ValueTask(self.source, self.token);
@@ -240,7 +245,6 @@ namespace VirtueSky.Threading.Tasks
                         {
                             status = UniTaskStatus.Faulted;
                         }
-
                         throw;
                     }
                     finally
@@ -298,7 +302,10 @@ namespace VirtueSky.Threading.Tasks
             {
                 [DebuggerHidden]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get { return task.Status.IsCompleted(); }
+                get
+                {
+                    return task.Status.IsCompleted();
+                }
             }
 
             [DebuggerHidden]
@@ -389,7 +396,10 @@ namespace VirtueSky.Threading.Tasks
         {
             [DebuggerHidden]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return (source == null) ? UniTaskStatus.Succeeded : source.GetStatus(token); }
+            get
+            {
+                return (source == null) ? UniTaskStatus.Succeeded : source.GetStatus(token);
+            }
         }
 
         [DebuggerHidden]
@@ -434,7 +444,8 @@ namespace VirtueSky.Threading.Tasks
             return self.AsUniTask();
         }
 
-#if !UNITY_2018_3_OR_NEWER
+#if SUPPORT_VALUETASK
+
         public static implicit operator System.Threading.Tasks.ValueTask<T>(in UniTask<T> self)
         {
             if (self.source == null)
@@ -442,7 +453,7 @@ namespace VirtueSky.Threading.Tasks
                 return new System.Threading.Tasks.ValueTask<T>(self.result);
             }
 
-#if NETSTANDARD2_0
+#if (UNITASK_NETCORE && NETSTANDARD2_0)
             return self.AsValueTask();
 #else
             return new System.Threading.Tasks.ValueTask<T>(self.source, self.token);
@@ -466,9 +477,8 @@ namespace VirtueSky.Threading.Tasks
 
         public override string ToString()
         {
-            return (this.source == null)
-                ? result?.ToString()
-                : "(" + this.source.UnsafeGetStatus() + ")";
+            return (this.source == null) ? result?.ToString()
+                 : "(" + this.source.UnsafeGetStatus() + ")";
         }
 
         sealed class IsCanceledSource : IUniTaskSource<(bool, T)>
@@ -544,7 +554,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         exception.Throw();
                     }
-
                     return result;
                 }
                 else
@@ -566,7 +575,6 @@ namespace VirtueSky.Threading.Tasks
                         {
                             status = UniTaskStatus.Faulted;
                         }
-
                         throw;
                     }
                     finally
@@ -629,7 +637,10 @@ namespace VirtueSky.Threading.Tasks
             {
                 [DebuggerHidden]
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get { return task.Status.IsCompleted(); }
+                get
+                {
+                    return task.Status.IsCompleted();
+                }
             }
 
             [DebuggerHidden]
@@ -697,3 +708,4 @@ namespace VirtueSky.Threading.Tasks
         }
     }
 }
+

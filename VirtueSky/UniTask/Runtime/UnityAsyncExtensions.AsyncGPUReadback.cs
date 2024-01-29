@@ -1,4 +1,4 @@
-﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿ #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System;
 using System.Threading;
@@ -20,15 +20,18 @@ namespace VirtueSky.Threading.Tasks
             return ToUniTask(asyncOperation, cancellationToken: cancellationToken);
         }
 
-        public static UniTask<AsyncGPUReadbackRequest> ToUniTask(this AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask<AsyncGPUReadbackRequest> WithCancellation(this AsyncGPUReadbackRequest asyncOperation, CancellationToken cancellationToken, bool cancelImmediately)
         {
-            if (asyncOperation.done) return UniTask.FromResult(asyncOperation);
-            return new UniTask<AsyncGPUReadbackRequest>(AsyncGPUReadbackRequestAwaiterConfiguredSource.Create(asyncOperation, timing, cancellationToken, out var token), token);
+            return ToUniTask(asyncOperation, cancellationToken: cancellationToken, cancelImmediately: cancelImmediately);
         }
 
-        sealed class AsyncGPUReadbackRequestAwaiterConfiguredSource : IUniTaskSource<AsyncGPUReadbackRequest>, IPlayerLoopItem,
-            ITaskPoolNode<AsyncGPUReadbackRequestAwaiterConfiguredSource>
+        public static UniTask<AsyncGPUReadbackRequest> ToUniTask(this AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
+        {
+            if (asyncOperation.done) return UniTask.FromResult(asyncOperation);
+            return new UniTask<AsyncGPUReadbackRequest>(AsyncGPUReadbackRequestAwaiterConfiguredSource.Create(asyncOperation, timing, cancellationToken, cancelImmediately, out var token), token);
+        }
+        
+        sealed class AsyncGPUReadbackRequestAwaiterConfiguredSource : IUniTaskSource<AsyncGPUReadbackRequest>, IPlayerLoopItem, ITaskPoolNode<AsyncGPUReadbackRequestAwaiterConfiguredSource>
         {
             static TaskPool<AsyncGPUReadbackRequestAwaiterConfiguredSource> pool;
             AsyncGPUReadbackRequestAwaiterConfiguredSource nextNode;
@@ -41,6 +44,7 @@ namespace VirtueSky.Threading.Tasks
 
             AsyncGPUReadbackRequest asyncOperation;
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             UniTaskCompletionSourceCore<AsyncGPUReadbackRequest> core;
 
@@ -48,8 +52,7 @@ namespace VirtueSky.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource<AsyncGPUReadbackRequest> Create(AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing, CancellationToken cancellationToken,
-                out short token)
+            public static IUniTaskSource<AsyncGPUReadbackRequest> Create(AsyncGPUReadbackRequest asyncOperation, PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -63,6 +66,15 @@ namespace VirtueSky.Threading.Tasks
 
                 result.asyncOperation = asyncOperation;
                 result.cancellationToken = cancellationToken;
+                
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (AsyncGPUReadbackRequestAwaiterConfiguredSource)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -133,6 +145,7 @@ namespace VirtueSky.Threading.Tasks
                 core.Reset();
                 asyncOperation = default;
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }

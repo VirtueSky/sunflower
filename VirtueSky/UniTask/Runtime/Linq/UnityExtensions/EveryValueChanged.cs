@@ -7,8 +7,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
-        public static IUniTaskAsyncEnumerable<TProperty> EveryValueChanged<TTarget, TProperty>(TTarget target, Func<TTarget, TProperty> propertySelector,
-            PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update, IEqualityComparer<TProperty> equalityComparer = null)
+        public static IUniTaskAsyncEnumerable<TProperty> EveryValueChanged<TTarget, TProperty>(TTarget target, Func<TTarget, TProperty> propertySelector, PlayerLoopTiming monitorTiming = PlayerLoopTiming.Update, IEqualityComparer<TProperty> equalityComparer = null, bool cancelImmediately = false)
             where TTarget : class
         {
             var unityObject = target as UnityEngine.Object;
@@ -16,13 +15,11 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             if (isUnityObject)
             {
-                return new EveryValueChangedUnityObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(),
-                    monitorTiming);
+                return new EveryValueChangedUnityObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(), monitorTiming, cancelImmediately);
             }
             else
             {
-                return new EveryValueChangedStandardObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(),
-                    monitorTiming);
+                return new EveryValueChangedStandardObject<TTarget, TProperty>(target, propertySelector, equalityComparer ?? UnityEqualityComparer.GetDefault<TProperty>(), monitorTiming, cancelImmediately);
             }
         }
     }
@@ -33,19 +30,20 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TTarget, TProperty> propertySelector;
         readonly IEqualityComparer<TProperty> equalityComparer;
         readonly PlayerLoopTiming monitorTiming;
+        readonly bool cancelImmediately;
 
-        public EveryValueChangedUnityObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
-            PlayerLoopTiming monitorTiming)
+        public EveryValueChangedUnityObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, bool cancelImmediately)
         {
             this.target = target;
             this.propertySelector = propertySelector;
             this.equalityComparer = equalityComparer;
             this.monitorTiming = monitorTiming;
+            this.cancelImmediately = cancelImmediately;
         }
 
         public IUniTaskAsyncEnumerator<TProperty> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
-            return new _EveryValueChanged(target, propertySelector, equalityComparer, monitorTiming, cancellationToken);
+            return new _EveryValueChanged(target, propertySelector, equalityComparer, monitorTiming, cancellationToken, cancelImmediately);
         }
 
         sealed class _EveryValueChanged : MoveNextSource, IUniTaskAsyncEnumerator<TProperty>, IPlayerLoopItem
@@ -54,14 +52,14 @@ namespace VirtueSky.Threading.Tasks.Linq
             readonly UnityEngine.Object targetAsUnityObject;
             readonly IEqualityComparer<TProperty> equalityComparer;
             readonly Func<TTarget, TProperty> propertySelector;
-            CancellationToken cancellationToken;
+            readonly CancellationToken cancellationToken;
+            readonly CancellationTokenRegistration cancellationTokenRegistration;
 
             bool first;
             TProperty currentValue;
             bool disposed;
 
-            public _EveryValueChanged(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming,
-                CancellationToken cancellationToken)
+            public _EveryValueChanged(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, CancellationToken cancellationToken, bool cancelImmediately)
             {
                 this.target = target;
                 this.targetAsUnityObject = target as UnityEngine.Object;
@@ -69,6 +67,16 @@ namespace VirtueSky.Threading.Tasks.Linq
                 this.equalityComparer = equalityComparer;
                 this.cancellationToken = cancellationToken;
                 this.first = true;
+                
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var source = (_EveryValueChanged)state;
+                        source.completionSource.TrySetCanceled(source.cancellationToken);
+                    }, this);
+                }
+                
                 TaskTracker.TrackActiveTask(this, 2);
                 PlayerLoopHelper.AddAction(monitorTiming, this);
             }
@@ -77,8 +85,15 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             public UniTask<bool> MoveNextAsync()
             {
-                // return false instead of throw
-                if (disposed || cancellationToken.IsCancellationRequested) return CompletedTasks.False;
+                if (disposed) return CompletedTasks.False;
+
+                completionSource.Reset();
+                
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    completionSource.TrySetCanceled(cancellationToken);
+                    return new UniTask<bool>(this, completionSource.Version);
+                }
 
                 if (first)
                 {
@@ -87,12 +102,10 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         return CompletedTasks.False;
                     }
-
                     this.currentValue = propertySelector(target);
                     return CompletedTasks.True;
                 }
 
-                completionSource.Reset();
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -100,22 +113,27 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 if (!disposed)
                 {
+                    cancellationTokenRegistration.Dispose();
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
-
                 return default;
             }
 
             public bool MoveNext()
             {
-                if (disposed || cancellationToken.IsCancellationRequested || targetAsUnityObject == null) // destroyed = cancel.
+                if (disposed || targetAsUnityObject == null) 
                 {
                     completionSource.TrySetResult(false);
                     DisposeAsync().Forget();
                     return false;
                 }
-
+                
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    completionSource.TrySetCanceled(cancellationToken);
+                    return false;
+                }
                 TProperty nextValue = default(TProperty);
                 try
                 {
@@ -146,19 +164,20 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TTarget, TProperty> propertySelector;
         readonly IEqualityComparer<TProperty> equalityComparer;
         readonly PlayerLoopTiming monitorTiming;
+        readonly bool cancelImmediately;
 
-        public EveryValueChangedStandardObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
-            PlayerLoopTiming monitorTiming)
+        public EveryValueChangedStandardObject(TTarget target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, bool cancelImmediately)
         {
             this.target = new WeakReference<TTarget>(target, false);
             this.propertySelector = propertySelector;
             this.equalityComparer = equalityComparer;
             this.monitorTiming = monitorTiming;
+            this.cancelImmediately = cancelImmediately;
         }
 
         public IUniTaskAsyncEnumerator<TProperty> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
-            return new _EveryValueChanged(target, propertySelector, equalityComparer, monitorTiming, cancellationToken);
+            return new _EveryValueChanged(target, propertySelector, equalityComparer, monitorTiming, cancellationToken, cancelImmediately);
         }
 
         sealed class _EveryValueChanged : MoveNextSource, IUniTaskAsyncEnumerator<TProperty>, IPlayerLoopItem
@@ -166,20 +185,30 @@ namespace VirtueSky.Threading.Tasks.Linq
             readonly WeakReference<TTarget> target;
             readonly IEqualityComparer<TProperty> equalityComparer;
             readonly Func<TTarget, TProperty> propertySelector;
-            CancellationToken cancellationToken;
+            readonly CancellationToken cancellationToken;
+            readonly CancellationTokenRegistration cancellationTokenRegistration;
 
             bool first;
             TProperty currentValue;
             bool disposed;
 
-            public _EveryValueChanged(WeakReference<TTarget> target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer,
-                PlayerLoopTiming monitorTiming, CancellationToken cancellationToken)
+            public _EveryValueChanged(WeakReference<TTarget> target, Func<TTarget, TProperty> propertySelector, IEqualityComparer<TProperty> equalityComparer, PlayerLoopTiming monitorTiming, CancellationToken cancellationToken, bool cancelImmediately)
             {
                 this.target = target;
                 this.propertySelector = propertySelector;
                 this.equalityComparer = equalityComparer;
                 this.cancellationToken = cancellationToken;
                 this.first = true;
+                
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var source = (_EveryValueChanged)state;
+                        source.completionSource.TrySetCanceled(source.cancellationToken);
+                    }, this);
+                }
+                
                 TaskTracker.TrackActiveTask(this, 2);
                 PlayerLoopHelper.AddAction(monitorTiming, this);
             }
@@ -188,8 +217,16 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             public UniTask<bool> MoveNextAsync()
             {
-                if (disposed || cancellationToken.IsCancellationRequested) return CompletedTasks.False;
+                if (disposed) return CompletedTasks.False;
 
+                completionSource.Reset();
+                
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    completionSource.TrySetCanceled(cancellationToken);
+                    return new UniTask<bool>(this, completionSource.Version);
+                }
+                
                 if (first)
                 {
                     first = false;
@@ -197,12 +234,10 @@ namespace VirtueSky.Threading.Tasks.Linq
                     {
                         return CompletedTasks.False;
                     }
-
                     this.currentValue = propertySelector(t);
                     return CompletedTasks.True;
                 }
 
-                completionSource.Reset();
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -210,19 +245,25 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 if (!disposed)
                 {
+                    cancellationTokenRegistration.Dispose();
                     disposed = true;
                     TaskTracker.RemoveTracking(this);
                 }
-
                 return default;
             }
 
             public bool MoveNext()
             {
-                if (disposed || cancellationToken.IsCancellationRequested || !target.TryGetTarget(out var t))
+                if (disposed || !target.TryGetTarget(out var t))
                 {
                     completionSource.TrySetResult(false);
                     DisposeAsync().Forget();
+                    return false;
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    completionSource.TrySetCanceled(cancellationToken);
                     return false;
                 }
 

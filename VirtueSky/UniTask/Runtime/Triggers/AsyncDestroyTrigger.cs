@@ -37,7 +37,6 @@ namespace VirtueSky.Threading.Tasks.Triggers
                         PlayerLoopHelper.AddAction(PlayerLoopTiming.Update, new AwakeMonitor(this));
                     }
                 }
-
                 return cancellationTokenSource.Token;
             }
         }
@@ -88,9 +87,9 @@ namespace VirtueSky.Threading.Tasks.Triggers
                     trigger.OnDestroy();
                     return false;
                 }
-
                 return true;
             }
         }
     }
 }
+

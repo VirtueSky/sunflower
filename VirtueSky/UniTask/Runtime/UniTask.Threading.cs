@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtueSky.Threading.Tasks.Internal;
 
+
 namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask
@@ -67,8 +68,7 @@ namespace VirtueSky.Threading.Tasks
             return new SwitchToTaskPoolAwaitable();
         }
 
-        public static SwitchToSynchronizationContextAwaitable SwitchToSynchronizationContext(SynchronizationContext synchronizationContext,
-            CancellationToken cancellationToken = default)
+        public static SwitchToSynchronizationContextAwaitable SwitchToSynchronizationContext(SynchronizationContext synchronizationContext, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(synchronizationContext, nameof(synchronizationContext));
             return new SwitchToSynchronizationContextAwaitable(synchronizationContext, cancellationToken);
@@ -127,10 +127,7 @@ namespace VirtueSky.Threading.Tasks
                 }
             }
 
-            public void GetResult()
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            public void GetResult() { cancellationToken.ThrowIfCancellationRequested(); }
 
             public void OnCompleted(Action continuation)
             {
@@ -175,10 +172,7 @@ namespace VirtueSky.Threading.Tasks
 
             public bool IsCompleted => PlayerLoopHelper.MainThreadId == System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            public void GetResult()
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            public void GetResult() { cancellationToken.ThrowIfCancellationRequested(); }
 
             public void OnCompleted(Action continuation)
             {
@@ -203,10 +197,7 @@ namespace VirtueSky.Threading.Tasks
             static readonly WaitCallback switchToCallback = Callback;
 
             public bool IsCompleted => false;
-
-            public void GetResult()
-            {
-            }
+            public void GetResult() { }
 
             public void OnCompleted(Action continuation)
             {
@@ -230,6 +221,7 @@ namespace VirtueSky.Threading.Tasks
         }
 
 #if NETCOREAPP3_1
+
         sealed class ThreadPoolWorkItem : IThreadPoolWorkItem, ITaskPoolNode<ThreadPoolWorkItem>
         {
             static TaskPool<ThreadPoolWorkItem> pool;
@@ -280,10 +272,7 @@ namespace VirtueSky.Threading.Tasks
             static readonly Action<object> switchToCallback = Callback;
 
             public bool IsCompleted => false;
-
-            public void GetResult()
-            {
-            }
+            public void GetResult() { }
 
             public void OnCompleted(Action continuation)
             {
@@ -329,11 +318,7 @@ namespace VirtueSky.Threading.Tasks
             }
 
             public bool IsCompleted => false;
-
-            public void GetResult()
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            public void GetResult() { cancellationToken.ThrowIfCancellationRequested(); }
 
             public void OnCompleted(Action continuation)
             {
@@ -406,10 +391,7 @@ namespace VirtueSky.Threading.Tasks
                 }
             }
 
-            public void GetResult()
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            public void GetResult() { cancellationToken.ThrowIfCancellationRequested(); }
 
             public void OnCompleted(Action continuation)
             {

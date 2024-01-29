@@ -9,7 +9,7 @@ namespace VirtueSky.Threading.Tasks.Internal
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowArgumentNullException<T>(T value, string paramName)
-            where T : class
+          where T : class
         {
             if (value == null) ThrowArgumentNullExceptionCore(paramName);
         }
@@ -58,7 +58,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowWhenContinuationIsAlreadyRegistered<T>(T continuationField)
-            where T : class
+          where T : class
         {
             if (continuationField != null) ThrowInvalidOperationExceptionCore("continuation is already registered.");
         }
@@ -76,3 +76,4 @@ namespace VirtueSky.Threading.Tasks.Internal
         }
     }
 }
+

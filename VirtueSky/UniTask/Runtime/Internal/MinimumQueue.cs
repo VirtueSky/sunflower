@@ -69,7 +69,6 @@ namespace VirtueSky.Threading.Tasks.Internal
             {
                 newcapacity = array.Length + MinimumGrow;
             }
-
             SetCapacity(newcapacity);
         }
 
@@ -102,7 +101,6 @@ namespace VirtueSky.Threading.Tasks.Internal
             {
                 tmp = 0;
             }
-
             index = tmp;
         }
 

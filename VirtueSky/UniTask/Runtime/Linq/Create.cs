@@ -72,17 +72,16 @@ namespace VirtueSky.Threading.Tasks.Linq
                     switch (state)
                     {
                         case -1: // init
-                        {
-                            writer = new AsyncWriter(this);
-                            RunWriterTask(create(writer, cancellationToken)).Forget();
-                            if (Volatile.Read(ref state) == -2)
                             {
-                                return; // complete synchronously
+                                writer = new AsyncWriter(this);
+                                RunWriterTask(create(writer, cancellationToken)).Forget();
+                                if (Volatile.Read(ref state) == -2)
+                                {
+                                    return; // complete synchronously
+                                }
+                                state = 0; // wait YieldAsync, it set TrySetResult(true)
+                                return;
                             }
-
-                            state = 0; // wait YieldAsync, it set TrySetResult(true)
-                            return;
-                        }
                         case 0:
                             writer.SignalWriter();
                             return;
@@ -139,7 +138,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 this.enumerator = enumerator;
             }
-
+            
             public void Dispose()
             {
                 var status = core.GetStatus(core.Version);
@@ -147,7 +146,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     core.TrySetCanceled();
                 }
-            }
+            }            
 
             public void GetResult(short token)
             {

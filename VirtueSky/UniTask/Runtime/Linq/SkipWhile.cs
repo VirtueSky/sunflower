@@ -38,8 +38,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SkipWhileIntAwait<TSource>(source, predicate);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> SkipWhileAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate)
+        public static IUniTaskAsyncEnumerable<TSource> SkipWhileAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -47,8 +46,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new SkipWhileAwaitWithCancellation<TSource>(source, predicate);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> SkipWhileAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, CancellationToken, UniTask<Boolean>> predicate)
+        public static IUniTaskAsyncEnumerable<TSource> SkipWhileAwaitWithCancellation<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<Boolean>> predicate)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -78,6 +76,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Func<TSource, bool> predicate;
 
             public _SkipWhile(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, bool> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -129,6 +128,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             int index;
 
             public _SkipWhileInt(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, bool> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -179,6 +179,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Func<TSource, UniTask<bool>> predicate;
 
             public _SkipWhileAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<bool>> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -200,12 +201,12 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     predicate = null;
                     Current = SourceCurrent;
-                    terminateIteration = false;
+                    terminateIteration= false;
                     return true;
                 }
                 else
                 {
-                    terminateIteration = false;
+                    terminateIteration= false;
                     return false;
                 }
             }
@@ -234,6 +235,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             int index;
 
             public _SkipWhileIntAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, UniTask<bool>> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -251,7 +253,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             protected override bool TrySetCurrentCore(bool awaitResult, out bool terminateIteration)
             {
-                terminateIteration = false;
+                terminateIteration= false;
                 if (!awaitResult)
                 {
                     predicate = null;
@@ -286,8 +288,8 @@ namespace VirtueSky.Threading.Tasks.Linq
         {
             Func<TSource, CancellationToken, UniTask<bool>> predicate;
 
-            public _SkipWhileAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<bool>> predicate,
-                CancellationToken cancellationToken)
+            public _SkipWhileAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<bool>> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -305,7 +307,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             protected override bool TrySetCurrentCore(bool awaitResult, out bool terminateIteration)
             {
-                terminateIteration = false;
+                terminateIteration= false;
                 if (!awaitResult)
                 {
                     predicate = null;
@@ -341,8 +343,8 @@ namespace VirtueSky.Threading.Tasks.Linq
             Func<TSource, int, CancellationToken, UniTask<bool>> predicate;
             int index;
 
-            public _SkipWhileIntAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<bool>> predicate,
-                CancellationToken cancellationToken)
+            public _SkipWhileIntAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<bool>> predicate, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
                 this.predicate = predicate;
@@ -360,7 +362,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             protected override bool TrySetCurrentCore(bool awaitResult, out bool terminateIteration)
             {
-                terminateIteration = false;
+                terminateIteration= false;
                 if (!awaitResult)
                 {
                     predicate = null;

@@ -9,8 +9,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -18,8 +17,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAsync(source, keySelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -28,8 +26,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAsync(source, keySelector, comparer, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TSource, TElement> elementSelector, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -38,8 +35,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAsync(source, keySelector, elementSelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -49,8 +45,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAsync(source, keySelector, elementSelector, comparer, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-            CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -58,8 +53,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitAsync(source, keySelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-            IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -68,8 +62,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitAsync(source, keySelector, comparer, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -78,9 +71,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitAsync(source, keySelector, elementSelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer,
-            CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -90,8 +81,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitAsync(source, keySelector, elementSelector, comparer, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -99,8 +89,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitWithCancellationAsync(source, keySelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -109,9 +98,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitWithCancellationAsync(source, keySelector, comparer, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector,
-            CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -120,9 +107,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return ToLookup.ToLookupAwaitWithCancellationAsync(source, keySelector, elementSelector, EqualityComparer<TKey>.Default, cancellationToken);
         }
 
-        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer,
-            CancellationToken cancellationToken = default)
+        public static UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -135,8 +120,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
     internal static class ToLookup
     {
-        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -171,8 +155,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -211,8 +194,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
         // with await
 
-        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-            IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAwaitAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -248,8 +230,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAwaitAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -287,8 +268,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
         // with cancellation
 
-        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TSource>> ToLookupAwaitWithCancellationAsync<TSource, TKey>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -324,9 +304,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
 
-        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer,
-            CancellationToken cancellationToken)
+        internal static async UniTask<ILookup<TKey, TElement>> ToLookupAwaitWithCancellationAsync<TSource, TKey, TElement>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
         {
             var pool = ArrayPool<TSource>.Shared;
             var array = pool.Rent(16);
@@ -403,8 +381,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return new Lookup<TKey, TElement>(dict);
             }
 
-            public static Lookup<TKey, TElement> Create<TSource>(ArraySegment<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector,
-                IEqualityComparer<TKey> comparer)
+            public static Lookup<TKey, TElement> Create<TSource>(ArraySegment<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, IEqualityComparer<TKey> comparer)
             {
                 var dict = new Dictionary<TKey, Grouping<TKey, TElement>>(comparer);
 
@@ -427,8 +404,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return new Lookup<TKey, TElement>(dict);
             }
 
-            public static async UniTask<Lookup<TKey, TElement>> CreateAsync(ArraySegment<TElement> source, Func<TElement, UniTask<TKey>> keySelector,
-                IEqualityComparer<TKey> comparer)
+            public static async UniTask<Lookup<TKey, TElement>> CreateAsync(ArraySegment<TElement> source, Func<TElement, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
             {
                 var dict = new Dictionary<TKey, Grouping<TKey, TElement>>(comparer);
 
@@ -450,8 +426,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return new Lookup<TKey, TElement>(dict);
             }
 
-            public static async UniTask<Lookup<TKey, TElement>> CreateAsync<TSource>(ArraySegment<TSource> source, Func<TSource, UniTask<TKey>> keySelector,
-                Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
+            public static async UniTask<Lookup<TKey, TElement>> CreateAsync<TSource>(ArraySegment<TSource> source, Func<TSource, UniTask<TKey>> keySelector, Func<TSource, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer)
             {
                 var dict = new Dictionary<TKey, Grouping<TKey, TElement>>(comparer);
 
@@ -474,8 +449,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return new Lookup<TKey, TElement>(dict);
             }
 
-            public static async UniTask<Lookup<TKey, TElement>> CreateAsync(ArraySegment<TElement> source, Func<TElement, CancellationToken, UniTask<TKey>> keySelector,
-                IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public static async UniTask<Lookup<TKey, TElement>> CreateAsync(ArraySegment<TElement> source, Func<TElement, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 var dict = new Dictionary<TKey, Grouping<TKey, TElement>>(comparer);
 
@@ -497,8 +471,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 return new Lookup<TKey, TElement>(dict);
             }
 
-            public static async UniTask<Lookup<TKey, TElement>> CreateAsync<TSource>(ArraySegment<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-                Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public static async UniTask<Lookup<TKey, TElement>> CreateAsync<TSource>(ArraySegment<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, Func<TSource, CancellationToken, UniTask<TElement>> elementSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 var dict = new Dictionary<TKey, Grouping<TKey, TElement>>(comparer);
 
@@ -557,7 +530,6 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 elements.Add(value);
             }
-
             public IEnumerator<TElement> GetEnumerator()
             {
                 return elements.GetEnumerator();

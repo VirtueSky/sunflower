@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS1591
 
-using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Linq;
 using System.Diagnostics;
@@ -76,7 +75,6 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTaskVoid<TStateMachine>();
             }
-
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerFieldRef = result; // set runner before copied.
@@ -132,7 +130,7 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
         static TaskPool<AsyncUniTask<TStateMachine>> pool;
 
 #if ENABLE_IL2CPP
-        readonly Action returnDelegate;
+        readonly Action returnDelegate;  
 #endif
         public Action MoveNext { get; }
 
@@ -153,7 +151,6 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTask<TStateMachine>();
             }
-
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerPromiseFieldRef = result; // set runner before copied.
@@ -193,7 +190,11 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
 
         public UniTask Task
         {
-            [DebuggerHidden] get { return new UniTask(this, core.Version); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask(this, core.Version);
+            }
         }
 
         [DebuggerHidden]
@@ -251,7 +252,7 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
         static TaskPool<AsyncUniTask<TStateMachine, T>> pool;
 
 #if ENABLE_IL2CPP
-        readonly Action returnDelegate;
+        readonly Action returnDelegate;  
 #endif
 
         public Action MoveNext { get; }
@@ -273,7 +274,6 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
             {
                 result = new AsyncUniTask<TStateMachine, T>();
             }
-
             TaskTracker.TrackActiveTask(result, 3);
 
             runnerPromiseFieldRef = result; // set runner before copied.
@@ -314,7 +314,11 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
 
         public UniTask<T> Task
         {
-            [DebuggerHidden] get { return new UniTask<T>(this, core.Version); }
+            [DebuggerHidden]
+            get
+            {
+                return new UniTask<T>(this, core.Version);
+            }
         }
 
         [DebuggerHidden]
@@ -372,3 +376,4 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
         }
     }
 }
+

@@ -39,8 +39,7 @@ namespace VirtueSky.Threading.Tasks
             this.delayTiming = delayTiming;
         }
 
-        public TimeoutController(CancellationTokenSource linkCancellationTokenSource, DelayType delayType = DelayType.DeltaTime,
-            PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
+        public TimeoutController(CancellationTokenSource linkCancellationTokenSource, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
         {
             this.timeoutSource = new CancellationTokenSource();
             this.originalLinkCancellationTokenSource = linkCancellationTokenSource;

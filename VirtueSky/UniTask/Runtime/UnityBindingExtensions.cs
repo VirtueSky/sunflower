@@ -187,21 +187,18 @@ namespace VirtueSky.Threading.Tasks
 
         // <T> -> Action
 
-        public static void BindTo<TSource, TObject>(this IUniTaskAsyncEnumerable<TSource> source, TObject monoBehaviour, Action<TObject, TSource> bindAction,
-            bool rebindOnError = true)
+        public static void BindTo<TSource, TObject>(this IUniTaskAsyncEnumerable<TSource> source, TObject monoBehaviour, Action<TObject, TSource> bindAction, bool rebindOnError = true)
             where TObject : MonoBehaviour
         {
             BindToCore(source, monoBehaviour, bindAction, monoBehaviour.GetCancellationTokenOnDestroy(), rebindOnError).Forget();
         }
 
-        public static void BindTo<TSource, TObject>(this IUniTaskAsyncEnumerable<TSource> source, TObject bindTarget, Action<TObject, TSource> bindAction,
-            CancellationToken cancellationToken, bool rebindOnError = true)
+        public static void BindTo<TSource, TObject>(this IUniTaskAsyncEnumerable<TSource> source, TObject bindTarget, Action<TObject, TSource> bindAction, CancellationToken cancellationToken, bool rebindOnError = true)
         {
             BindToCore(source, bindTarget, bindAction, cancellationToken, rebindOnError).Forget();
         }
 
-        static async UniTaskVoid BindToCore<TSource, TObject>(IUniTaskAsyncEnumerable<TSource> source, TObject bindTarget, Action<TObject, TSource> bindAction,
-            CancellationToken cancellationToken, bool rebindOnError)
+        static async UniTaskVoid BindToCore<TSource, TObject>(IUniTaskAsyncEnumerable<TSource> source, TObject bindTarget, Action<TObject, TSource> bindAction, CancellationToken cancellationToken, bool rebindOnError)
         {
             var repeat = false;
             BIND_AGAIN:

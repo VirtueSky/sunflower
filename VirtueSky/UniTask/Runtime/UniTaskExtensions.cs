@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtueSky.Threading.Tasks.Internal;
 
+
 namespace VirtueSky.Threading.Tasks
 {
     public static partial class UniTaskExtensions
@@ -369,8 +370,7 @@ namespace VirtueSky.Threading.Tasks
             return new ToCoroutineEnumerator(task, exceptionHandler);
         }
 
-        public static async UniTask Timeout(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
-            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask Timeout(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -411,8 +411,7 @@ namespace VirtueSky.Threading.Tasks
             }
         }
 
-        public static async UniTask<T> Timeout<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
-            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<T> Timeout<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -456,10 +455,9 @@ namespace VirtueSky.Threading.Tasks
         }
 
         /// <summary>
-        /// Timeout with suppress OperationCanceledException. Returns (bool, IsCacneled).
+        /// Timeout with suppress OperationCanceledException. Returns (bool, IsCanceled).
         /// </summary>
-        public static async UniTask<bool> TimeoutWithoutException(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
-            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<bool> TimeoutWithoutException(this UniTask task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -505,8 +503,7 @@ namespace VirtueSky.Threading.Tasks
         /// <summary>
         /// Timeout with suppress OperationCanceledException. Returns (bool IsTimeout, T Result).
         /// </summary>
-        public static async UniTask<(bool IsTimeout, T Result)> TimeoutWithoutException<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime,
-            PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
+        public static async UniTask<(bool IsTimeout, T Result)> TimeoutWithoutException<T>(this UniTask<T> task, TimeSpan timeout, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming timeoutCheckTiming = PlayerLoopTiming.Update, CancellationTokenSource taskCancellationTokenSource = null)
         {
             var delayCancellationTokenSource = new CancellationTokenSource();
             var timeoutTask = UniTask.Delay(timeout, delayType, timeoutCheckTiming, delayCancellationTokenSource.Token).SuppressCancellationThrow();
@@ -612,7 +609,6 @@ namespace VirtueSky.Threading.Tasks
                         await UniTask.SwitchToMainThread();
 #endif
                     }
-
                     exceptionHandler(ex);
                 }
                 catch (Exception ex2)
@@ -683,7 +679,6 @@ namespace VirtueSky.Threading.Tasks
                         await UniTask.SwitchToMainThread();
 #endif
                     }
-
                     exceptionHandler(ex);
                 }
                 catch (Exception ex2)
@@ -924,3 +919,4 @@ namespace VirtueSky.Threading.Tasks
 #endif
     }
 }
+

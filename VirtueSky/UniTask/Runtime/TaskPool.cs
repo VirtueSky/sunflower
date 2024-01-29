@@ -30,9 +30,7 @@ namespace VirtueSky.Threading.Tasks
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
 
             MaxPoolSize = int.MaxValue;
         }
@@ -97,7 +95,6 @@ namespace VirtueSky.Threading.Tasks
 
                 Volatile.Write(ref gate, 0);
             }
-
             result = default;
             return false;
         }
@@ -120,7 +117,6 @@ namespace VirtueSky.Threading.Tasks
                     Volatile.Write(ref gate, 0);
                 }
             }
-
             return false;
         }
     }

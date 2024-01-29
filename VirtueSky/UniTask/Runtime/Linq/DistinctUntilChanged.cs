@@ -25,8 +25,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return DistinctUntilChanged(source, keySelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChanged<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector,
-            IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChanged<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -35,14 +34,12 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new DistinctUntilChanged<TSource, TKey>(source, keySelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector)
+        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector)
         {
             return DistinctUntilChangedAwait(source, keySelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwait<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -51,14 +48,12 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new DistinctUntilChangedAwait<TSource, TKey>(source, keySelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector)
+        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector)
         {
             return DistinctUntilChangedAwaitWithCancellation(source, keySelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TSource> DistinctUntilChangedAwaitWithCancellation<TSource, TKey>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(keySelector, nameof(keySelector));
@@ -236,8 +231,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Action moveNextAction;
             TKey prev;
 
-            public _DistinctUntilChanged(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer,
-                CancellationToken cancellationToken)
+            public _DistinctUntilChanged(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -383,8 +377,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             TSource enumeratorCurrent;
             TKey prev;
 
-            public _DistinctUntilChangedAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer,
-                CancellationToken cancellationToken)
+            public _DistinctUntilChangedAwait(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;
@@ -515,8 +508,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TSource, CancellationToken, UniTask<TKey>> keySelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public DistinctUntilChangedAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-            IEqualityComparer<TKey> comparer)
+        public DistinctUntilChangedAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer)
         {
             this.source = source;
             this.keySelector = keySelector;
@@ -543,8 +535,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             TSource enumeratorCurrent;
             TKey prev;
 
-            public _DistinctUntilChangedAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector,
-                IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _DistinctUntilChangedAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TKey>> keySelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.keySelector = keySelector;

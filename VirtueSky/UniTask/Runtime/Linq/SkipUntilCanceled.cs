@@ -56,12 +56,10 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     this.cancellationTokenRegistration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(CancelDelegate1, this);
                 }
-
                 if (cancellationToken1 != cancellationToken2 && cancellationToken2.CanBeCanceled)
                 {
                     this.cancellationTokenRegistration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(CancelDelegate2, this);
                 }
-
                 TaskTracker.TrackActiveTask(this, 3);
             }
 
@@ -75,14 +73,12 @@ namespace VirtueSky.Threading.Tasks.Linq
                     if (cancellationToken2.IsCancellationRequested) isCanceled = 1;
                     enumerator = source.GetAsyncEnumerator(cancellationToken2); // use only AsyncEnumerator provided token.
                 }
-
                 completionSource.Reset();
 
                 if (isCanceled != 0)
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -170,7 +166,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     return enumerator.DisposeAsync();
                 }
-
                 return default;
             }
         }

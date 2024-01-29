@@ -295,6 +295,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         EmptyDisposable()
         {
+
         }
 
         public void Dispose()
@@ -308,20 +309,14 @@ namespace VirtueSky.Threading.Tasks.Internal
         IDisposable current;
         bool disposed;
 
-        public bool IsDisposed
-        {
-            get
-            {
-                lock (gate)
-                {
-                    return disposed;
-                }
-            }
-        }
+        public bool IsDisposed { get { lock (gate) { return disposed; } } }
 
         public IDisposable Disposable
         {
-            get { return current; }
+            get
+            {
+                return current;
+            }
             set
             {
                 var old = default(IDisposable);
@@ -390,13 +385,13 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         public bool HasObservers
         {
-            get { return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed; }
+            get
+            {
+                return !(outObserver is EmptyObserver<T>) && !isStopped && !isDisposed;
+            }
         }
 
-        public bool IsCompleted
-        {
-            get { return isStopped; }
-        }
+        public bool IsCompleted { get { return isStopped; } }
 
         public void OnCompleted()
         {
@@ -528,7 +523,7 @@ namespace VirtueSky.Threading.Tasks.Internal
         {
             if (isDisposed) throw new ObjectDisposedException("");
         }
-
+        
         class Subscription : IDisposable
         {
             readonly object gate = new object();
@@ -632,6 +627,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         EmptyObserver()
         {
+
         }
 
         public void OnCompleted()
@@ -653,6 +649,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         ThrowObserver()
         {
+
         }
 
         public void OnCompleted()
@@ -675,6 +672,7 @@ namespace VirtueSky.Threading.Tasks.Internal
 
         DisposedObserver()
         {
+
         }
 
         public void OnCompleted()
@@ -745,8 +743,8 @@ namespace VirtueSky.Threading.Tasks.Internal
                 // ImmutableList only use for IObserver(no worry for boxed)
                 if (object.Equals(data[i], value)) return i;
             }
-
             return -1;
         }
     }
 }
+

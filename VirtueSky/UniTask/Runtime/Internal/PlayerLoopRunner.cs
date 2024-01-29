@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using UnityEngine;
 
 namespace VirtueSky.Threading.Tasks.Internal
@@ -16,6 +17,7 @@ namespace VirtueSky.Threading.Tasks.Internal
         bool running = false;
         IPlayerLoopItem[] loopItems = new IPlayerLoopItem[InitialSize];
         MinimumQueue<IPlayerLoopItem> waitQueue = new MinimumQueue<IPlayerLoopItem>(InitialSize);
+
 
 
         public PlayerLoopRunner(PlayerLoopTiming timing)
@@ -42,7 +44,6 @@ namespace VirtueSky.Threading.Tasks.Internal
                 {
                     Array.Resize(ref loopItems, checked(tail * 2));
                 }
-
                 loopItems[tail++] = item;
             }
         }
@@ -187,9 +188,7 @@ namespace VirtueSky.Threading.Tasks.Internal
                             {
                                 unhandledExceptionCallback(ex);
                             }
-                            catch
-                            {
-                            }
+                            catch { }
                         }
                     }
 
@@ -224,10 +223,7 @@ namespace VirtueSky.Threading.Tasks.Internal
                                 {
                                     unhandledExceptionCallback(ex);
                                 }
-                                catch
-                                {
-                                }
-
+                                catch { }
                                 continue; // next j
                             }
                         }
@@ -254,7 +250,6 @@ namespace VirtueSky.Threading.Tasks.Internal
                         {
                             Array.Resize(ref loopItems, checked(tail * 2));
                         }
-
                         loopItems[tail++] = waitQueue.Dequeue();
                     }
                 }
@@ -262,3 +257,4 @@ namespace VirtueSky.Threading.Tasks.Internal
         }
     }
 }
+

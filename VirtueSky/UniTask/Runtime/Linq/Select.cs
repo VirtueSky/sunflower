@@ -38,8 +38,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new VirtueSky.Threading.Tasks.Linq.SelectIntAwait<TSource, TResult>(source, selector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TResult>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -47,8 +46,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new VirtueSky.Threading.Tasks.Linq.SelectAwaitWithCancellation<TSource, TResult>(source, selector);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, Int32, CancellationToken, UniTask<TResult>> selector)
+        public static IUniTaskAsyncEnumerable<TResult> SelectAwaitWithCancellation<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Int32, CancellationToken, UniTask<TResult>> selector)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(selector, nameof(selector));
@@ -545,8 +543,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             UniTask<TResult>.Awaiter awaiter2;
             Action moveNextAction;
 
-            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector,
-                CancellationToken cancellationToken)
+            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector = selector;
@@ -668,8 +665,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             Action moveNextAction;
             int index;
 
-            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<TResult>> selector,
-                CancellationToken cancellationToken)
+            public _SelectAwaitWithCancellation(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, int, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
             {
                 this.source = source;
                 this.selector = selector;

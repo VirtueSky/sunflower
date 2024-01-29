@@ -28,7 +28,7 @@ namespace VirtueSky.Threading.Tasks
         /// Dispatch exception event to Unity MainThread. Default is true.
         /// </summary>
         public static bool DispatchUnityMainThread = true;
-
+        
         // cache delegate.
         static readonly SendOrPostCallback handleExceptionInvoke = InvokeUnobservedTaskException;
 
@@ -72,7 +72,6 @@ namespace VirtueSky.Threading.Tasks
                     {
                         msg = "UnobservedTaskException: " + ex.ToString();
                     }
-
                     switch (UnobservedExceptionWriteLogType)
                     {
                         case UnityEngine.LogType.Error:
@@ -101,3 +100,4 @@ namespace VirtueSky.Threading.Tasks
         }
     }
 }
+

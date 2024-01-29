@@ -1,11 +1,11 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-using VirtueSky.Threading.Tasks.Internal;
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
+using VirtueSky.Threading.Tasks.Internal;
 
 namespace VirtueSky.Threading.Tasks
 {
@@ -13,10 +13,8 @@ namespace VirtueSky.Threading.Tasks
     {
         /// <summary>use Time.deltaTime.</summary>
         DeltaTime,
-
         /// <summary>Ignore timescale, use Time.unscaledDeltaTime.</summary>
         UnscaledDeltaTime,
-
         /// <summary>use Stopwatch.GetTimestamp().</summary>
         Realtime
     }
@@ -35,14 +33,14 @@ namespace VirtueSky.Threading.Tasks
             return new YieldAwaitable(timing);
         }
 
-        public static UniTask Yield(CancellationToken cancellationToken)
+        public static UniTask Yield(CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return new UniTask(YieldPromise.Create(PlayerLoopTiming.Update, cancellationToken, out var token), token);
+            return new UniTask(YieldPromise.Create(PlayerLoopTiming.Update, cancellationToken, cancelImmediately, out var token), token);
         }
 
-        public static UniTask Yield(PlayerLoopTiming timing, CancellationToken cancellationToken)
+        public static UniTask Yield(PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return new UniTask(YieldPromise.Create(timing, cancellationToken, out var token), token);
+            return new UniTask(YieldPromise.Create(timing, cancellationToken, cancelImmediately, out var token), token);
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace VirtueSky.Threading.Tasks
         /// </summary>
         public static UniTask NextFrame()
         {
-            return new UniTask(NextFramePromise.Create(PlayerLoopTiming.Update, CancellationToken.None, out var token), token);
+            return new UniTask(NextFramePromise.Create(PlayerLoopTiming.Update, CancellationToken.None, false, out var token), token);
         }
 
         /// <summary>
@@ -58,23 +56,23 @@ namespace VirtueSky.Threading.Tasks
         /// </summary>
         public static UniTask NextFrame(PlayerLoopTiming timing)
         {
-            return new UniTask(NextFramePromise.Create(timing, CancellationToken.None, out var token), token);
+            return new UniTask(NextFramePromise.Create(timing, CancellationToken.None, false, out var token), token);
         }
 
         /// <summary>
         /// Similar as UniTask.Yield but guaranteed run on next frame.
         /// </summary>
-        public static UniTask NextFrame(CancellationToken cancellationToken)
+        public static UniTask NextFrame(CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return new UniTask(NextFramePromise.Create(PlayerLoopTiming.Update, cancellationToken, out var token), token);
+            return new UniTask(NextFramePromise.Create(PlayerLoopTiming.Update, cancellationToken, cancelImmediately, out var token), token);
         }
 
         /// <summary>
         /// Similar as UniTask.Yield but guaranteed run on next frame.
         /// </summary>
-        public static UniTask NextFrame(PlayerLoopTiming timing, CancellationToken cancellationToken)
+        public static UniTask NextFrame(PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return new UniTask(NextFramePromise.Create(timing, cancellationToken, out var token), token);
+            return new UniTask(NextFramePromise.Create(timing, cancellationToken, cancelImmediately, out var token), token);
         }
 
 #if UNITY_2023_1_OR_NEWER
@@ -82,25 +80,29 @@ namespace VirtueSky.Threading.Tasks
         {
             await Awaitable.EndOfFrameAsync(cancellationToken);
         }
-#else
-        [Obsolete(
-            "Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
+#else        
+        [Obsolete("Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
         public static YieldAwaitable WaitForEndOfFrame()
         {
             return UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
         }
 
-        [Obsolete(
-            "Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
-        public static UniTask WaitForEndOfFrame(CancellationToken cancellationToken)
+        [Obsolete("Use WaitForEndOfFrame(MonoBehaviour) instead or UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate). Equivalent for coroutine's WaitForEndOfFrame requires MonoBehaviour(runner of Coroutine).")]
+        public static UniTask WaitForEndOfFrame(CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
+            return UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken, cancelImmediately);
         }
-#endif
+#endif        
 
-        public static UniTask WaitForEndOfFrame(MonoBehaviour coroutineRunner, CancellationToken cancellationToken = default)
+        public static UniTask WaitForEndOfFrame(MonoBehaviour coroutineRunner)
         {
-            var source = WaitForEndOfFramePromise.Create(coroutineRunner, cancellationToken, out var token);
+            var source = WaitForEndOfFramePromise.Create(coroutineRunner, CancellationToken.None, false, out var token);
+            return new UniTask(source, token);
+        }
+
+        public static UniTask WaitForEndOfFrame(MonoBehaviour coroutineRunner, CancellationToken cancellationToken, bool cancelImmediately = false)
+        {
+            var source = WaitForEndOfFramePromise.Create(coroutineRunner, cancellationToken, cancelImmediately, out var token);
             return new UniTask(source, token);
         }
 
@@ -117,57 +119,50 @@ namespace VirtueSky.Threading.Tasks
         /// <summary>
         /// Same as UniTask.Yield(PlayerLoopTiming.LastFixedUpdate, cancellationToken).
         /// </summary>
-        public static UniTask WaitForFixedUpdate(CancellationToken cancellationToken)
+        public static UniTask WaitForFixedUpdate(CancellationToken cancellationToken, bool cancelImmediately = false)
         {
-            return UniTask.Yield(PlayerLoopTiming.LastFixedUpdate, cancellationToken);
+            return UniTask.Yield(PlayerLoopTiming.LastFixedUpdate, cancellationToken, cancelImmediately);
         }
 
-        public static UniTask WaitForSeconds(float duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return Delay(Mathf.RoundToInt(1000 * duration), ignoreTimeScale, delayTiming, cancellationToken);
-        }
+		public static UniTask WaitForSeconds(float duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
+		{
+			return Delay(Mathf.RoundToInt(1000 * duration), ignoreTimeScale, delayTiming, cancellationToken, cancelImmediately);
+		}
 
-        public static UniTask WaitForSeconds(int duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            return Delay(1000 * duration, ignoreTimeScale, delayTiming, cancellationToken);
-        }
+		public static UniTask WaitForSeconds(int duration, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
+		{
+			return Delay(1000 * duration, ignoreTimeScale, delayTiming, cancellationToken, cancelImmediately);
+		}
 
-        public static UniTask DelayFrame(int delayFrameCount, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+		public static UniTask DelayFrame(int delayFrameCount, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
         {
             if (delayFrameCount < 0)
             {
                 throw new ArgumentOutOfRangeException("Delay does not allow minus delayFrameCount. delayFrameCount:" + delayFrameCount);
             }
 
-            return new UniTask(DelayFramePromise.Create(delayFrameCount, delayTiming, cancellationToken, out var token), token);
+            return new UniTask(DelayFramePromise.Create(delayFrameCount, delayTiming, cancellationToken, cancelImmediately, out var token), token);
         }
 
-        public static UniTask Delay(int millisecondsDelay, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(int millisecondsDelay, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
         {
             var delayTimeSpan = TimeSpan.FromMilliseconds(millisecondsDelay);
-            return Delay(delayTimeSpan, ignoreTimeScale, delayTiming, cancellationToken);
+            return Delay(delayTimeSpan, ignoreTimeScale, delayTiming, cancellationToken, cancelImmediately);
         }
 
-        public static UniTask Delay(TimeSpan delayTimeSpan, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(TimeSpan delayTimeSpan, bool ignoreTimeScale = false, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
         {
             var delayType = ignoreTimeScale ? DelayType.UnscaledDeltaTime : DelayType.DeltaTime;
-            return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken);
+            return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken, cancelImmediately);
         }
 
-        public static UniTask Delay(int millisecondsDelay, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(int millisecondsDelay, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
         {
             var delayTimeSpan = TimeSpan.FromMilliseconds(millisecondsDelay);
-            return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken);
+            return Delay(delayTimeSpan, delayType, delayTiming, cancellationToken, cancelImmediately);
         }
 
-        public static UniTask Delay(TimeSpan delayTimeSpan, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public static UniTask Delay(TimeSpan delayTimeSpan, DelayType delayType, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update, CancellationToken cancellationToken = default(CancellationToken), bool cancelImmediately = false)
         {
             if (delayTimeSpan < TimeSpan.Zero)
             {
@@ -185,18 +180,18 @@ namespace VirtueSky.Threading.Tasks
             switch (delayType)
             {
                 case DelayType.UnscaledDeltaTime:
-                {
-                    return new UniTask(DelayIgnoreTimeScalePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                }
+                    {
+                        return new UniTask(DelayIgnoreTimeScalePromise.Create(delayTimeSpan, delayTiming, cancellationToken, cancelImmediately, out var token), token);
+                    }
                 case DelayType.Realtime:
-                {
-                    return new UniTask(DelayRealtimePromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                }
+                    {
+                        return new UniTask(DelayRealtimePromise.Create(delayTimeSpan, delayTiming, cancellationToken, cancelImmediately, out var token), token);
+                    }
                 case DelayType.DeltaTime:
                 default:
-                {
-                    return new UniTask(DelayPromise.Create(delayTimeSpan, delayTiming, cancellationToken, out var token), token);
-                }
+                    {
+                        return new UniTask(DelayPromise.Create(delayTimeSpan, delayTiming, cancellationToken, cancelImmediately, out var token), token);
+                    }
             }
         }
 
@@ -212,13 +207,14 @@ namespace VirtueSky.Threading.Tasks
             }
 
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
             UniTaskCompletionSourceCore<object> core;
 
             YieldPromise()
             {
             }
 
-            public static IUniTaskSource Create(PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -230,8 +226,16 @@ namespace VirtueSky.Threading.Tasks
                     result = new YieldPromise();
                 }
 
-
                 result.cancellationToken = cancellationToken;
+                
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (YieldPromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -285,6 +289,7 @@ namespace VirtueSky.Threading.Tasks
                 TaskTracker.RemoveTracking(this);
                 core.Reset();
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -301,14 +306,15 @@ namespace VirtueSky.Threading.Tasks
             }
 
             int frameCount;
-            CancellationToken cancellationToken;
             UniTaskCompletionSourceCore<AsyncUnit> core;
+            CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             NextFramePromise()
             {
             }
 
-            public static IUniTaskSource Create(PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -322,6 +328,15 @@ namespace VirtueSky.Threading.Tasks
 
                 result.frameCount = PlayerLoopHelper.IsMainThread ? Time.frameCount : -1;
                 result.cancellationToken = cancellationToken;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (NextFramePromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -380,6 +395,7 @@ namespace VirtueSky.Threading.Tasks
                 TaskTracker.RemoveTracking(this);
                 core.Reset();
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -395,14 +411,15 @@ namespace VirtueSky.Threading.Tasks
                 TaskPool.RegisterSizeGetter(typeof(WaitForEndOfFramePromise), () => pool.Size);
             }
 
-            CancellationToken cancellationToken;
             UniTaskCompletionSourceCore<object> core;
+            CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             WaitForEndOfFramePromise()
             {
             }
 
-            public static IUniTaskSource Create(MonoBehaviour coroutineRunner, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(MonoBehaviour coroutineRunner, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -415,6 +432,15 @@ namespace VirtueSky.Threading.Tasks
                 }
 
                 result.cancellationToken = cancellationToken;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (WaitForEndOfFramePromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -457,6 +483,7 @@ namespace VirtueSky.Threading.Tasks
                 core.Reset();
                 Reset(); // Reset Enumerator
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
 
@@ -505,6 +532,7 @@ namespace VirtueSky.Threading.Tasks
             int initialFrame;
             int delayFrameCount;
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             int currentFrameCount;
             UniTaskCompletionSourceCore<AsyncUnit> core;
@@ -513,7 +541,7 @@ namespace VirtueSky.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource Create(int delayFrameCount, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(int delayFrameCount, PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -528,6 +556,15 @@ namespace VirtueSky.Threading.Tasks
                 result.delayFrameCount = delayFrameCount;
                 result.cancellationToken = cancellationToken;
                 result.initialFrame = PlayerLoopHelper.IsMainThread ? Time.frameCount : -1;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (DelayFramePromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -615,6 +652,7 @@ namespace VirtueSky.Threading.Tasks
                 currentFrameCount = default;
                 delayFrameCount = default;
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -634,6 +672,7 @@ namespace VirtueSky.Threading.Tasks
             float delayTimeSpan;
             float elapsed;
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             UniTaskCompletionSourceCore<object> core;
 
@@ -641,7 +680,7 @@ namespace VirtueSky.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource Create(TimeSpan delayTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(TimeSpan delayTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -657,6 +696,15 @@ namespace VirtueSky.Threading.Tasks
                 result.delayTimeSpan = (float)delayTimeSpan.TotalSeconds;
                 result.cancellationToken = cancellationToken;
                 result.initialFrame = PlayerLoopHelper.IsMainThread ? Time.frameCount : -1;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (DelayPromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -726,6 +774,7 @@ namespace VirtueSky.Threading.Tasks
                 delayTimeSpan = default;
                 elapsed = default;
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -745,6 +794,7 @@ namespace VirtueSky.Threading.Tasks
             float elapsed;
             int initialFrame;
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             UniTaskCompletionSourceCore<object> core;
 
@@ -752,7 +802,7 @@ namespace VirtueSky.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource Create(TimeSpan delayFrameTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(TimeSpan delayFrameTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -768,6 +818,15 @@ namespace VirtueSky.Threading.Tasks
                 result.delayFrameTimeSpan = (float)delayFrameTimeSpan.TotalSeconds;
                 result.initialFrame = PlayerLoopHelper.IsMainThread ? Time.frameCount : -1;
                 result.cancellationToken = cancellationToken;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (DelayIgnoreTimeScalePromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -837,6 +896,7 @@ namespace VirtueSky.Threading.Tasks
                 delayFrameTimeSpan = default;
                 elapsed = default;
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -855,6 +915,7 @@ namespace VirtueSky.Threading.Tasks
             long delayTimeSpanTicks;
             ValueStopwatch stopwatch;
             CancellationToken cancellationToken;
+            CancellationTokenRegistration cancellationTokenRegistration;
 
             UniTaskCompletionSourceCore<AsyncUnit> core;
 
@@ -862,7 +923,7 @@ namespace VirtueSky.Threading.Tasks
             {
             }
 
-            public static IUniTaskSource Create(TimeSpan delayTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, out short token)
+            public static IUniTaskSource Create(TimeSpan delayTimeSpan, PlayerLoopTiming timing, CancellationToken cancellationToken, bool cancelImmediately, out short token)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -877,6 +938,15 @@ namespace VirtueSky.Threading.Tasks
                 result.stopwatch = ValueStopwatch.StartNew();
                 result.delayTimeSpanTicks = delayTimeSpan.Ticks;
                 result.cancellationToken = cancellationToken;
+
+                if (cancelImmediately && cancellationToken.CanBeCanceled)
+                {
+                    result.cancellationTokenRegistration = cancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+                    {
+                        var promise = (DelayRealtimePromise)state;
+                        promise.core.TrySetCanceled(promise.cancellationToken);
+                    }, result);
+                }
 
                 TaskTracker.TrackActiveTask(result, 3);
 
@@ -942,6 +1012,7 @@ namespace VirtueSky.Threading.Tasks
                 core.Reset();
                 stopwatch = default;
                 cancellationToken = default;
+                cancellationTokenRegistration.Dispose();
                 return pool.TryPush(this);
             }
         }
@@ -977,9 +1048,7 @@ namespace VirtueSky.Threading.Tasks
 
             public bool IsCompleted => false;
 
-            public void GetResult()
-            {
-            }
+            public void GetResult() { }
 
             public void OnCompleted(Action continuation)
             {

@@ -31,6 +31,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         class _OfType : AsyncEnumeratorBase<object, TResult>
         {
             public _OfType(IUniTaskAsyncEnumerable<object> source, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
             }

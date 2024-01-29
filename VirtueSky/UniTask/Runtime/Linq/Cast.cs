@@ -31,6 +31,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         class _Cast : AsyncEnumeratorBase<object, TResult>
         {
             public _Cast(IUniTaskAsyncEnumerable<object> source, CancellationToken cancellationToken)
+
                 : base(source, cancellationToken)
             {
             }

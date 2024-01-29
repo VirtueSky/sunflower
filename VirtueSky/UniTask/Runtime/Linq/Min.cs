@@ -14,8 +14,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Min.MinAsync(source, cancellationToken);
         }
 
-        public static UniTask<TResult> MinAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TResult> selector,
-            CancellationToken cancellationToken = default)
+        public static UniTask<TResult> MinAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TResult> selector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(source, nameof(selector));
@@ -23,8 +22,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Min.MinAsync(source, selector, cancellationToken);
         }
 
-        public static UniTask<TResult> MinAwaitAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TResult>> selector,
-            CancellationToken cancellationToken = default)
+        public static UniTask<TResult> MinAwaitAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TResult>> selector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(source, nameof(selector));
@@ -32,8 +30,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Min.MinAwaitAsync(source, selector, cancellationToken);
         }
 
-        public static UniTask<TResult> MinAwaitWithCancellationAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken = default)
+        public static UniTask<TResult> MinAwaitWithCancellationAsync<TSource, TResult>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(source, nameof(selector));
@@ -83,8 +80,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return value;
         }
 
-        public static async UniTask<TResult> MinAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TResult> selector,
-            CancellationToken cancellationToken)
+        public static async UniTask<TResult> MinAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, TResult> selector, CancellationToken cancellationToken)
         {
             TResult value = default;
             var comparer = Comparer<TResult>.Default;
@@ -123,8 +119,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return value;
         }
 
-        public static async UniTask<TResult> MinAwaitAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TResult>> selector,
-            CancellationToken cancellationToken)
+        public static async UniTask<TResult> MinAwaitAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<TResult>> selector, CancellationToken cancellationToken)
         {
             TResult value = default;
             var comparer = Comparer<TResult>.Default;
@@ -163,8 +158,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return value;
         }
 
-        public static async UniTask<TResult> MinAwaitWithCancellationAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
+        public static async UniTask<TResult> MinAwaitWithCancellationAsync<TSource, TResult>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<TResult>> selector, CancellationToken cancellationToken)
         {
             TResult value = default;
             var comparer = Comparer<TResult>.Default;

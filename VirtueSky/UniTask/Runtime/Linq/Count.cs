@@ -13,8 +13,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Count.CountAsync(source, cancellationToken);
         }
 
-        public static UniTask<Int32> CountAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Boolean> predicate,
-            CancellationToken cancellationToken = default)
+        public static UniTask<Int32> CountAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, Boolean> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -22,8 +21,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Count.CountAsync(source, predicate, cancellationToken);
         }
 
-        public static UniTask<Int32> CountAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate,
-            CancellationToken cancellationToken = default)
+        public static UniTask<Int32> CountAwaitAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -31,8 +29,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return Count.CountAwaitAsync(source, predicate, cancellationToken);
         }
 
-        public static UniTask<Int32> CountAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
+        public static UniTask<Int32> CountAwaitWithCancellationAsync<TSource>(this IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken = default)
         {
             Error.ThrowArgumentNullException(source, nameof(source));
             Error.ThrowArgumentNullException(predicate, nameof(predicate));
@@ -52,10 +49,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             {
                 while (await e.MoveNextAsync())
                 {
-                    checked
-                    {
-                        count++;
-                    }
+                    checked { count++; }
                 }
             }
             finally
@@ -80,10 +74,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     if (predicate(e.Current))
                     {
-                        checked
-                        {
-                            count++;
-                        }
+                        checked { count++; }
                     }
                 }
             }
@@ -98,8 +89,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return count;
         }
 
-        internal static async UniTask<int> CountAwaitAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate,
-            CancellationToken cancellationToken)
+        internal static async UniTask<int> CountAwaitAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
         {
             var count = 0;
 
@@ -110,10 +100,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     if (await predicate(e.Current))
                     {
-                        checked
-                        {
-                            count++;
-                        }
+                        checked { count++; }
                     }
                 }
             }
@@ -128,8 +115,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return count;
         }
 
-        internal static async UniTask<int> CountAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source,
-            Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
+        internal static async UniTask<int> CountAwaitWithCancellationAsync<TSource>(IUniTaskAsyncEnumerable<TSource> source, Func<TSource, CancellationToken, UniTask<Boolean>> predicate, CancellationToken cancellationToken)
         {
             var count = 0;
 
@@ -140,10 +126,7 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     if (await predicate(e.Current, cancellationToken))
                     {
-                        checked
-                        {
-                            count++;
-                        }
+                        checked { count++; }
                     }
                 }
             }

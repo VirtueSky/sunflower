@@ -8,8 +8,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 {
     public static partial class UniTaskAsyncEnumerable
     {
-        public static IUniTaskAsyncEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-            Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -20,8 +19,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new Join<TOuter, TInner, TKey, TResult>(outer, inner, outerKeySelector, innerKeySelector, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-            Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -33,8 +31,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new Join<TOuter, TInner, TKey, TResult>(outer, inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> JoinAwait<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-            Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> JoinAwait<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -45,9 +42,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new JoinAwait<TOuter, TInner, TKey, TResult>(outer, inner, outerKeySelector, innerKeySelector, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> JoinAwait<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-            Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector,
-            IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> JoinAwait<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -59,9 +54,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new JoinAwait<TOuter, TInner, TKey, TResult>(outer, inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> JoinAwaitWithCancellation<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer,
-            IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector,
-            Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector)
+        public static IUniTaskAsyncEnumerable<TResult> JoinAwaitWithCancellation<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -72,9 +65,7 @@ namespace VirtueSky.Threading.Tasks.Linq
             return new JoinAwaitWithCancellation<TOuter, TInner, TKey, TResult>(outer, inner, outerKeySelector, innerKeySelector, resultSelector, EqualityComparer<TKey>.Default);
         }
 
-        public static IUniTaskAsyncEnumerable<TResult> JoinAwaitWithCancellation<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer,
-            IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector,
-            Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public static IUniTaskAsyncEnumerable<TResult> JoinAwaitWithCancellation<TOuter, TInner, TKey, TResult>(this IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             Error.ThrowArgumentNullException(outer, nameof(outer));
             Error.ThrowArgumentNullException(inner, nameof(inner));
@@ -96,8 +87,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TOuter, TInner, TResult> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public Join(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
-            Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        public Join(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.outer = outer;
             this.inner = inner;
@@ -132,8 +122,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             bool continueNext;
 
-            public _Join(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
-                Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _Join(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.outer = outer;
                 this.inner = inner;
@@ -160,7 +149,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -176,7 +164,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -287,8 +274,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TOuter, TInner, UniTask<TResult>> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public JoinAwait(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector,
-            Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public JoinAwait(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.outer = outer;
             this.inner = inner;
@@ -328,9 +314,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             bool continueNext;
 
-            public _JoinAwait(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector,
-                Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer,
-                CancellationToken cancellationToken)
+            public _JoinAwait(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, UniTask<TKey>> outerKeySelector, Func<TInner, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.outer = outer;
                 this.inner = inner;
@@ -357,7 +341,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -373,7 +356,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -395,7 +377,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             {
                                 resultAwaiter.SourceOnCompleted(ResultSelectCoreDelegate, this);
                             }
-
                             return;
                         }
                         else
@@ -523,9 +504,7 @@ namespace VirtueSky.Threading.Tasks.Linq
         readonly Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector;
         readonly IEqualityComparer<TKey> comparer;
 
-        public JoinAwaitWithCancellation(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-            Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector,
-            Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
+        public JoinAwaitWithCancellation(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer)
         {
             this.outer = outer;
             this.inner = inner;
@@ -565,9 +544,7 @@ namespace VirtueSky.Threading.Tasks.Linq
 
             bool continueNext;
 
-            public _JoinAwaitWithCancellation(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner,
-                Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector,
-                Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
+            public _JoinAwaitWithCancellation(IUniTaskAsyncEnumerable<TOuter> outer, IUniTaskAsyncEnumerable<TInner> inner, Func<TOuter, CancellationToken, UniTask<TKey>> outerKeySelector, Func<TInner, CancellationToken, UniTask<TKey>> innerKeySelector, Func<TOuter, TInner, CancellationToken, UniTask<TResult>> resultSelector, IEqualityComparer<TKey> comparer, CancellationToken cancellationToken)
             {
                 this.outer = outer;
                 this.inner = inner;
@@ -594,7 +571,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                 {
                     SourceMoveNext();
                 }
-
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -610,7 +586,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                     completionSource.TrySetException(ex);
                     return;
                 }
-
                 SourceMoveNext();
             }
 
@@ -632,7 +607,6 @@ namespace VirtueSky.Threading.Tasks.Linq
                             {
                                 resultAwaiter.SourceOnCompleted(ResultSelectCoreDelegate, this);
                             }
-
                             return;
                         }
                         else
@@ -750,4 +724,5 @@ namespace VirtueSky.Threading.Tasks.Linq
             }
         }
     }
+
 }

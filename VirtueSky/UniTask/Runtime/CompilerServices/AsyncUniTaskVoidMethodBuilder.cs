@@ -1,4 +1,5 @@
-﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 using System;
 using System.Diagnostics;
@@ -26,7 +27,10 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
         {
             [DebuggerHidden]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return default; }
+            get
+            {
+                return default;
+            }
         }
 
         // 3. SetException
@@ -124,10 +128,10 @@ namespace VirtueSky.Threading.Tasks.CompilerServices
                 {
                     debuggingId = new object();
                 }
-
                 return debuggingId;
             }
         }
 #endif
     }
 }
+
