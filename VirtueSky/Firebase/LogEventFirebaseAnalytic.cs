@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace VirtueSky.Firebase
 {
-    [CreateAssetMenu(fileName = "log_event_firebase_analytic")]
+    [CreateAssetMenu(menuName = "Firebase Analytic/Log Event",
+        fileName = "log_event_firebase_analytic")]
     public class LogEventFirebaseAnalytic : ScriptableObject
     {
         public bool logEventOnlyMobile = true;

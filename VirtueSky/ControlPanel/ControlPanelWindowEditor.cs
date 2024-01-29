@@ -83,6 +83,11 @@ namespace VirtueSky.ControlPanel.Editor
                 statePanelControl = StatePanelControl.Pools;
             }
 
+            if (GUILayout.Button("Firebase"))
+            {
+                statePanelControl = StatePanelControl.Firebase;
+            }
+
             if (GUILayout.Button("Assets Finder"))
             {
                 statePanelControl = StatePanelControl.AssetsUsageDetector;
@@ -167,6 +172,9 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.QHierarchy:
                     CPQHierarchyDrawer.OnDrawQHierarchyEvent();
                     break;
+                case StatePanelControl.Firebase:
+                    CPFirebaseDrawer.OnDrawFirebase();
+                    break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
                     break;
@@ -243,6 +251,7 @@ namespace VirtueSky.ControlPanel.Editor
         ScriptDefineSymbols,
         RegisterPackage,
         QHierarchy,
+        Firebase,
         About,
     }
 }
