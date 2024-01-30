@@ -6,6 +6,9 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPFirebaseDrawer
     {
+        private static bool isShowInstallRemoteConfig;
+        private static bool isShowInstallAnalytic;
+
         public static void OnDrawFirebase(Rect position, ref StatePanelControl statePanelControl)
         {
             GUILayout.Space(10);
@@ -32,15 +35,20 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("FIREBASE REMOTE CONFIG", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Install Firebase Remote Config and Dependencies"))
+            isShowInstallRemoteConfig = GUILayout.Toggle(isShowInstallRemoteConfig, "Install Firebase Remote Config");
+            GUILayout.Space(10);
+            if (isShowInstallRemoteConfig)
             {
-                RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
-                    ConstantPackage.MaxVersionGGExternalDependencyManager);
-                RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
-                    ConstantPackage.MaxVersionFireBaseApp);
-                RegistryManager.Add(ConstantPackage.PackageNameFireBaseRemoveConfig,
-                    ConstantPackage.MaxVersionFireBaseRemoveConfig);
-                RegistryManager.Resolve();
+                if (GUILayout.Button("Install Firebase Remote Config and Dependencies"))
+                {
+                    RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
+                        ConstantPackage.MaxVersionGGExternalDependencyManager);
+                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
+                        ConstantPackage.MaxVersionFireBaseApp);
+                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseRemoveConfig,
+                        ConstantPackage.MaxVersionFireBaseRemoveConfig);
+                    RegistryManager.Resolve();
+                }
             }
 
             GUILayout.Space(10);
@@ -53,32 +61,39 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("FIREBASE ANALYTIC", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Install Firebase Analytic and Dependencies"))
+            isShowInstallAnalytic = GUILayout.Toggle(isShowInstallAnalytic, "Install Firebase Analytic");
+            GUILayout.Space(10);
+            if (isShowInstallAnalytic)
             {
-                RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
-                    ConstantPackage.MaxVersionGGExternalDependencyManager);
-                RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
-                    ConstantPackage.MaxVersionFireBaseApp);
-                RegistryManager.Add(ConstantPackage.PackageNameFireBaseAnalytics,
-                    ConstantPackage.MaxVersionFireBaseAnalytics);
-                RegistryManager.Resolve();
+                if (GUILayout.Button("Install Firebase Analytic and Dependencies"))
+                {
+                    RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
+                        ConstantPackage.MaxVersionGGExternalDependencyManager);
+                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
+                        ConstantPackage.MaxVersionFireBaseApp);
+                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseAnalytics,
+                        ConstantPackage.MaxVersionFireBaseAnalytics);
+                    RegistryManager.Resolve();
+                }
+
+                GUILayout.Space(10);
+                Handles.DrawAAPolyLine(2f, new Vector3(240, GUILayoutUtility.GetLastRect().y + 10),
+                    new Vector3(position.width - 30, GUILayoutUtility.GetLastRect().y + 10));
             }
 
+
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(2f, new Vector3(240, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width - 30, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            if (GUILayout.Button("Log Event Firebase Analytic"))
+            if (GUILayout.Button("Create Log Event Firebase Analytic"))
             {
                 FirebaseWindowEditor.CreateLogEventFirebaseAnalytic();
             }
 
-            if (GUILayout.Button("Log Event Firebase Analytic No Param"))
+            if (GUILayout.Button("Create Log Event Firebase Analytic No Param"))
             {
                 FirebaseWindowEditor.CreateLogEventFirebaseAnalyticNoParam();
             }
 
-            if (GUILayout.Button("Log Event Firebase Analytic Has Param"))
+            if (GUILayout.Button("Create Log Event Firebase Analytic Has Param"))
             {
                 FirebaseWindowEditor.CreateLogEventFirebaseAnalyticHasParam();
             }

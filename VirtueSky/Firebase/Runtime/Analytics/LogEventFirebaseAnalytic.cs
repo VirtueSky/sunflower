@@ -10,14 +10,6 @@ namespace VirtueSky.Firebase
         fileName = "log_event_firebase_analytic")]
     public class LogEventFirebaseAnalytic : ScriptableObject
     {
-        [SerializeField] bool logEventOnlyMobile = true;
-
-        public static bool IsMobile()
-        {
-            return (Application.platform == RuntimePlatform.Android ||
-                    Application.platform == RuntimePlatform.IPhonePlayer);
-        }
-
         public void Init()
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
@@ -27,7 +19,7 @@ namespace VirtueSky.Firebase
 
         public void LogEvent(string eventName)
         {
-            if (logEventOnlyMobile && !IsMobile())
+            if (!Application.isMobilePlatform)
             {
                 return;
             }
@@ -46,7 +38,7 @@ namespace VirtueSky.Firebase
 
         public void LogEvent(string eventName, string parameterName, string parameterValue)
         {
-            if (logEventOnlyMobile && !IsMobile())
+            if (!Application.isMobilePlatform)
             {
                 return;
             }
@@ -70,7 +62,7 @@ namespace VirtueSky.Firebase
 #if VIRTUESKY_FIREBASE_ANALYTIC
         public void LogEvent(string eventName, Parameter[] parameters)
         {
-            if (logEventOnlyMobile && !IsMobile())
+            if (!Application.isMobilePlatform)
             {
                 return;
             }
