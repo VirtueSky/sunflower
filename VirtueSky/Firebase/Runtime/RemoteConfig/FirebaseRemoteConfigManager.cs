@@ -14,13 +14,12 @@ using UnityEngine;
 using VirtueSky.Events;
 using VirtueSky.Inspector;
 
-namespace VirtueSky.Firebase
+namespace VirtueSky.FirebaseTraking
 {
     public class FirebaseRemoteConfigManager : MonoBehaviour
     {
 #if VIRTUESKY_FIREBASE
-        [ReadOnly, SerializeField]
-        private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
+        [ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
 #endif
 
         [SerializeField] private EventNoParam fetchRemoteConfigCompleted;

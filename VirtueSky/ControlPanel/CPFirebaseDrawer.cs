@@ -83,19 +83,40 @@ namespace VirtueSky.ControlPanel.Editor
 
 
             GUILayout.Space(10);
-            if (GUILayout.Button("Create Log Event Firebase Analytic"))
+
+            if (GUILayout.Button("Create Log Event Firebase No Param"))
             {
-                FirebaseWindowEditor.CreateLogEventFirebaseAnalytic();
+                FirebaseWindowEditor.CreateLogEventFirebaseNoParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase Analytic No Param"))
+            if (GUILayout.Button("Create Log Event Firebase 1 Param"))
             {
-                FirebaseWindowEditor.CreateLogEventFirebaseAnalyticNoParam();
+                FirebaseWindowEditor.CreateLogEventFirebaseOneParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase Analytic Has Param"))
+            if (GUILayout.Button("Create Log Event Firebase 2 Param"))
             {
-                FirebaseWindowEditor.CreateLogEventFirebaseAnalyticHasParam();
+                FirebaseWindowEditor.CreateLogEventFirebaseTwoParam();
+            }
+
+            if (GUILayout.Button("Create Log Event Firebase 3 Param"))
+            {
+                FirebaseWindowEditor.CreateLogEventFirebaseThreeParam();
+            }
+
+            if (GUILayout.Button("Create Log Event Firebase 4 Param"))
+            {
+                FirebaseWindowEditor.CreateLogEventFirebaseFourParam();
+            }
+
+            if (GUILayout.Button("Create Log Event Firebase 5 Param"))
+            {
+                FirebaseWindowEditor.CreateLogEventFirebaseFiveParam();
+            }
+
+            if (GUILayout.Button("Create Log Event Firebase 6 Param"))
+            {
+                FirebaseWindowEditor.CreateLogEventFirebaseSixParam();
             }
         }
     }

@@ -1,5 +1,5 @@
 {
-    "name": "Virtuesky.Sunflower.Firebase",
+    "name": "Virtuesky.Sunflower.FirebaseTracking",
     "rootNamespace": "",
     "references": [
         "GUID:35d694408290717499b3838802212c7f",
