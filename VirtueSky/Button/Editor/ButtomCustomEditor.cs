@@ -16,6 +16,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     private SerializedProperty _isShrugOver;
     private SerializedProperty _timeShrug;
     private SerializedProperty _strength;
+    private bool isShowCustom;
 
     protected override void OnEnable()
     {
@@ -34,31 +35,35 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     {
         base.OnInspectorGUI();
         serializedObject.Update();
-
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.PropertyField(_clickButtonEvent);
-
-        GUILayout.Space(2);
-        if (GUILayout.Button("Create", GUILayout.Width(55)))
+        GUILayout.Space(5);
+        isShowCustom = GUILayout.Toggle(isShowCustom, "Custom");
+        GUILayout.Space(5);
+        if (isShowCustom)
         {
-            _buttonCustom.GetClickButtonEvent();
-        }
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_clickButtonEvent);
 
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.PropertyField(_isMotion);
-        if (_isMotion.boolValue)
-        {
-            EditorGUILayout.PropertyField(_easingTypes);
-            EditorGUILayout.PropertyField(_scale);
-            EditorGUILayout.PropertyField(_isShrugOver);
-            if (_isShrugOver.boolValue)
+            GUILayout.Space(2);
+            if (GUILayout.Button("Create", GUILayout.Width(55)))
             {
-                EditorGUILayout.PropertyField(_timeShrug);
-                EditorGUILayout.PropertyField(_strength);
+                _buttonCustom.GetClickButtonEvent();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.PropertyField(_isMotion);
+            if (_isMotion.boolValue)
+            {
+                EditorGUILayout.PropertyField(_easingTypes);
+                EditorGUILayout.PropertyField(_scale);
+                EditorGUILayout.PropertyField(_isShrugOver);
+                if (_isShrugOver.boolValue)
+                {
+                    EditorGUILayout.PropertyField(_timeShrug);
+                    EditorGUILayout.PropertyField(_strength);
+                }
             }
         }
-
 
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
