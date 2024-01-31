@@ -77,6 +77,21 @@ namespace VirtueSky.UtilsEditor
             return (false, "");
         }
 
+        public static bool IsInstalledPackage(string name)
+        {
+            var json = JObject.Parse(File.ReadAllText(ManifestPath));
+            var dependencies = (JObject)json["dependencies"];
+            if (dependencies != null)
+            {
+                foreach (var dependency in dependencies)
+                {
+                    if (dependency.Key.Equals(name)) return true;
+                }
+            }
+
+            return false;
+        }
+
         public static void Resolve()
         {
             Client.Resolve();

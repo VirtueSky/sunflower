@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace VirtueSky.ControlPanel.Editor
 {
-    public static class CPAboutDrawer
+    public class CPAboutDrawer
     {
         public static void OnDrawAbout(Rect position, Action drawSetting)
         {

@@ -103,6 +103,11 @@ namespace VirtueSky.ControlPanel.Editor
                 statePanelControl = StatePanelControl.LevelEditor;
             }
 
+            if (GUILayout.Button("Game Service"))
+            {
+                statePanelControl = StatePanelControl.GameService;
+            }
+
             if (GUILayout.Button("QHierarchy"))
             {
                 statePanelControl = StatePanelControl.QHierarchy;
@@ -175,6 +180,9 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position, ref statePanelControl);
                     break;
+                case StatePanelControl.GameService:
+                    CPGameServiceDrawer.OnDrawGameService();
+                    break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
                     break;
@@ -231,6 +239,7 @@ namespace VirtueSky.ControlPanel.Editor
         RegisterPackage,
         QHierarchy,
         Firebase,
+        GameService,
         About,
     }
 }

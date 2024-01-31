@@ -14,6 +14,5 @@ namespace VirtueSky.UtilsEditor
         public const string VIRTUESKY_NOTIFICATION = "VIRTUESKY_NOTIFICATION";
         public const string VIRTUESKY_APPSFLYER = "VIRTUESKY_APPSFLYER";
         public const string PRIME_TWEEN_DOTWEEN_ADAPTER = "PRIME_TWEEN_DOTWEEN_ADAPTER";
-        
     }
 }
