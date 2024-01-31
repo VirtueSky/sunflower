@@ -205,6 +205,12 @@ namespace VirtueSky.ControlPanel.Editor
                     FileExtension.GetPathInCurrentEnvironent(
                         "VirtueSky/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
             }
+
+            if (GUILayout.Button("Install Animancer"))
+            {
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAnimancer,
+                    ConstantPackage.MaxVersionAnimancer);
+            }
         }
 
         static void DrawButtonRemovePackage()
@@ -328,6 +334,12 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Remove Apple Sign In"))
             {
                 RegistryManager.Remove(ConstantPackage.PackageNameAppleSignIn);
+                RegistryManager.Resolve();
+            }
+
+            if (GUILayout.Button("Remove Animancer"))
+            {
+                RegistryManager.Remove(ConstantPackage.PackageNameAnimancer);
                 RegistryManager.Resolve();
             }
         }
