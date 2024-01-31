@@ -97,5 +97,19 @@
 
         public const string MaxVersionCoffeeUIParticle =
             "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.5.2";
+
+        #region Spine
+
+        public const string PackageNameSpineCsharp = "com.esotericsoftware.spine.spine-csharp";
+
+        public const string MaxVersionSpineCsharp =
+            "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-csharp/src#4.1";
+
+        public const string PackageNameSpineUnity = "com.esotericsoftware.spine.spine-unity";
+
+        public const string MaxVersionSpineUnity =
+            "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1";
+
+        #endregion
     }
 }

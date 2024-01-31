@@ -184,6 +184,13 @@ namespace VirtueSky.ControlPanel.Editor
                     ConstantPackage.PackageNameIOS14AdvertisingSupport,
                     ConstantPackage.MaxVersionIOS14AdvertisingSupport);
             }
+
+            if (GUILayout.Button("Install Spine"))
+            {
+                RegistryManager.Add(ConstantPackage.PackageNameSpineCsharp, ConstantPackage.MaxVersionSpineCsharp);
+                RegistryManager.Add(ConstantPackage.PackageNameSpineUnity, ConstantPackage.MaxVersionSpineUnity);
+                RegistryManager.Resolve();
+            }
         }
 
         static void DrawButtonRemovePackage()
@@ -294,6 +301,13 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Remove iOS 14 Advertising Support"))
             {
                 RegistryManager.Remove(ConstantPackage.PackageNameIOS14AdvertisingSupport);
+                RegistryManager.Resolve();
+            }
+
+            if (GUILayout.Button("Remove Spine"))
+            {
+                RegistryManager.Remove(ConstantPackage.PackageNameSpineCsharp);
+                RegistryManager.Remove(ConstantPackage.PackageNameSpineUnity);
                 RegistryManager.Resolve();
             }
         }
