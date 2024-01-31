@@ -187,9 +187,20 @@ namespace VirtueSky.ControlPanel.Editor
 
             if (GUILayout.Button("Install Spine"))
             {
-                RegistryManager.Add(ConstantPackage.PackageNameSpineCsharp, ConstantPackage.MaxVersionSpineCsharp);
-                RegistryManager.Add(ConstantPackage.PackageNameSpineUnity, ConstantPackage.MaxVersionSpineUnity);
-                RegistryManager.Resolve();
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameSpineCsharp,
+                    ConstantPackage.MaxVersionSpineCsharp);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameSpineUnity,
+                    ConstantPackage.MaxVersionSpineUnity);
+            }
+
+            if (GUILayout.Button("Install Apple Sign In"))
+            {
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppleSignIn,
+                    ConstantPackage.MaxVersionAppleSignIn);
+            }
+
+            if (GUILayout.Button("Install Google Play Game Service"))
+            {
             }
         }
 
@@ -308,6 +319,12 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 RegistryManager.Remove(ConstantPackage.PackageNameSpineCsharp);
                 RegistryManager.Remove(ConstantPackage.PackageNameSpineUnity);
+                RegistryManager.Resolve();
+            }
+
+            if (GUILayout.Button("Remove Apple Sign In"))
+            {
+                RegistryManager.Remove(ConstantPackage.PackageNameAppleSignIn);
                 RegistryManager.Resolve();
             }
         }
