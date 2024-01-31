@@ -43,10 +43,10 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
                         ConstantPackage.MaxVersionGGExternalDependencyManager);
-                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
-                        ConstantPackage.MaxVersionFireBaseApp);
-                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseRemoveConfig,
-                        ConstantPackage.MaxVersionFireBaseRemoveConfig);
+                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseApp,
+                        ConstantPackage.MaxVersionFirebaseApp);
+                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseRemoveConfig,
+                        ConstantPackage.MaxVersionFirebaseRemoveConfig);
                     RegistryManager.Resolve();
                 }
             }
@@ -69,10 +69,10 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
                         ConstantPackage.MaxVersionGGExternalDependencyManager);
-                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseApp,
-                        ConstantPackage.MaxVersionFireBaseApp);
-                    RegistryManager.Add(ConstantPackage.PackageNameFireBaseAnalytics,
-                        ConstantPackage.MaxVersionFireBaseAnalytics);
+                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseApp,
+                        ConstantPackage.MaxVersionFirebaseApp);
+                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseAnalytics,
+                        ConstantPackage.MaxVersionFirebaseAnalytics);
                     RegistryManager.Resolve();
                 }
 

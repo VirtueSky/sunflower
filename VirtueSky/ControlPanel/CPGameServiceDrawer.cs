@@ -12,31 +12,11 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("GAME SERVICE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            EditorGUILayout.BeginHorizontal();
-            if (RegistryManager.IsInstalledPackage(ConstantPackage.PackageNameAppleSignIn))
-            {
-                if (GUILayout.Button("Remove Apple Sign In", GUILayout.Width(400)))
-                {
-                    RegistryManager.Remove(ConstantPackage.PackageNameAppleSignIn);
-                    RegistryManager.Resolve();
-                }
-            }
-            else
-            {
-                if (GUILayout.Button("Install Apple Sign In", GUILayout.Width(400)))
-                {
-                    RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppleSignIn,
-                        ConstantPackage.MaxVersionAppleSignIn);
-                }
-            }
 
-            GUILayout.Space(10);
-            GUILayout.Toggle(RegistryManager.IsInstalledPackage(ConstantPackage.PackageNameAppleSignIn),
-                TextIsInstall(RegistryManager.IsInstalledPackage(ConstantPackage.PackageNameAppleSignIn)));
-            EditorGUILayout.EndHorizontal();
+            CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",
+                ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
 
-
-            if (GUILayout.Button("Install Google Play Game Service"))
+            if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
@@ -44,18 +24,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.EndVertical();
-        }
-
-        static string TextIsInstall(bool isInstall)
-        {
-            if (isInstall)
-            {
-                return "Installed";
-            }
-            else
-            {
-                return "Not installed yet";
-            }
         }
     }
 }

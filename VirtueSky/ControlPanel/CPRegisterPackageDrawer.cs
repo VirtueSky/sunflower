@@ -9,6 +9,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static Vector2 scrollPositionFileManifest = Vector2.zero;
         private static Vector2 scrollPositionAddPackage = Vector2.zero;
         private static Vector2 scrollPositionRemovePackage = Vector2.zero;
+        private static Vector2 scrollPositionAddSomePackage = Vector2.zero;
         private static bool isShowAddPackage = false;
         private static bool isShowRemovePackage = false;
 
@@ -16,36 +17,12 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("REGISTER PACKAGE", EditorStyles.boldLabel);
+            GUILayout.Label("REGISTER SOME PACKAGE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-
-            //  GUILayout.Label("Add Some Packages", EditorStyles.boldLabel);
-            isShowAddPackage = GUILayout.Toggle(isShowAddPackage, "Add Some Packages");
-            if (isShowAddPackage)
-            {
-                scrollPositionAddPackage =
-                    EditorGUILayout.BeginScrollView(scrollPositionAddPackage,
-                        GUILayout.Height(150));
-                DrawButtonAddPackage();
-                EditorGUILayout.EndScrollView();
-            }
-
-
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
-            // GUILayout.Label("Remove Package", EditorStyles.boldLabel);
-            isShowRemovePackage = GUILayout.Toggle(isShowRemovePackage, "Remove Some Packages");
-            if (isShowRemovePackage)
-            {
-                scrollPositionRemovePackage =
-                    EditorGUILayout.BeginScrollView(scrollPositionRemovePackage,
-                        GUILayout.Height(150));
-                DrawButtonRemovePackage();
-                EditorGUILayout.EndScrollView();
-            }
-
+            scrollPositionAddSomePackage =
+                EditorGUILayout.BeginScrollView(scrollPositionAddSomePackage, GUILayout.Height(150));
+            DrawButtonAddSomePackage();
+            EditorGUILayout.EndScrollView();
             GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
@@ -65,41 +42,61 @@ namespace VirtueSky.ControlPanel.Editor
                 GUILayout.ExpandHeight(true));
             RegistryManager.WriteAllManifestContent(manifestContent);
             EditorGUILayout.EndScrollView();
-
-
             GUILayout.EndVertical();
+        }
+
+        static void DrawButtonAddSomePackage()
+        {
+            CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
+                ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
+            CPUtility.DrawButtonInstallPackage("Install Firebase Remote Config", "Remove Firebase Remote Config",
+                ConstantPackage.PackageNameFirebaseRemoveConfig, ConstantPackage.MaxVersionFirebaseRemoveConfig);
+            CPUtility.DrawButtonInstallPackage("Install Firebase Analytics", "Remove Firebase Analytics",
+                ConstantPackage.PackageNameFirebaseAnalytics, ConstantPackage.MaxVersionFirebaseAnalytics);
+            CPUtility.DrawButtonInstallPackage("Install Firebase Crashlytics", "Remove Firebase Crashlytics",
+                ConstantPackage.PackageNameFirebaseCrashlytics, ConstantPackage.MaxVersionFirebaseCrashlytics);
+            CPUtility.DrawButtonInstallPackage("Install Firebase Database", "Remove Firebase Database",
+                ConstantPackage.PackageNameFirebaseDatabase, ConstantPackage.MaxVersionFirebaseDatabase);
+            CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
+                "Remove Google External Dependency Manager",
+                ConstantPackage.PackageNameGGExternalDependencyManager,
+                ConstantPackage.MaxVersionGGExternalDependencyManager);
+            CPUtility.DrawButtonInstallPackage("Install Adjust", "Remove Adjust",
+                ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);
+            CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
+                ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
         }
 
         static void DrawButtonAddPackage()
         {
             if (GUILayout.Button("Install Firebase App"))
             {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFireBaseApp,
-                    ConstantPackage.MaxVersionFireBaseApp);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseApp,
+                    ConstantPackage.MaxVersionFirebaseApp);
             }
 
             if (GUILayout.Button("Install Firebase Remote Config"))
             {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFireBaseRemoveConfig,
-                    ConstantPackage.MaxVersionFireBaseRemoveConfig);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseRemoveConfig,
+                    ConstantPackage.MaxVersionFirebaseRemoveConfig);
             }
 
             if (GUILayout.Button("Install Firebase Analytics"))
             {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFireBaseAnalytics,
-                    ConstantPackage.MaxVersionFireBaseAnalytics);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseAnalytics,
+                    ConstantPackage.MaxVersionFirebaseAnalytics);
             }
 
             if (GUILayout.Button("Install Firebase Crashlytics"))
             {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFireBaseCrashlytics,
-                    ConstantPackage.MaxVersionFireBaseCrashlytics);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseCrashlytics,
+                    ConstantPackage.MaxVersionFirebaseCrashlytics);
             }
 
             if (GUILayout.Button("Install Firebase Database"))
             {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFireBaseDatabase,
-                    ConstantPackage.MaxVersionFireBaseDatabase);
+                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseDatabase,
+                    ConstantPackage.MaxVersionFirebaseDatabase);
             }
 
             if (GUILayout.Button("Install Google External Dependency Manager"))
@@ -217,31 +214,31 @@ namespace VirtueSky.ControlPanel.Editor
         {
             if (GUILayout.Button("Remove Firebase App"))
             {
-                RegistryManager.Remove(ConstantPackage.PackageNameFireBaseApp);
+                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseApp);
                 RegistryManager.Resolve();
             }
 
             if (GUILayout.Button("Remove Firebase Remote Config"))
             {
-                RegistryManager.Remove(ConstantPackage.PackageNameFireBaseRemoveConfig);
+                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseRemoveConfig);
                 RegistryManager.Resolve();
             }
 
             if (GUILayout.Button("Remove Firebase Analytics"))
             {
-                RegistryManager.Remove(ConstantPackage.PackageNameFireBaseAnalytics);
+                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseAnalytics);
                 RegistryManager.Resolve();
             }
 
             if (GUILayout.Button("Remove Firebase Crashlytics"))
             {
-                RegistryManager.Remove(ConstantPackage.PackageNameFireBaseCrashlytics);
+                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseCrashlytics);
                 RegistryManager.Resolve();
             }
 
             if (GUILayout.Button("Remove Firebase Database"))
             {
-                RegistryManager.Remove(ConstantPackage.PackageNameFireBaseDatabase);
+                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseDatabase);
                 RegistryManager.Resolve();
             }
 
