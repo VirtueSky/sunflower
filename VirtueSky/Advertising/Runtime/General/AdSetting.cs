@@ -74,6 +74,8 @@ namespace VirtueSky.Ads
         [SerializeField] private AdmobRewardInterVariable admobRewardInterVariable;
         [SerializeField] private AdmobAppOpenVariable admobAppOpenVariable;
         [SerializeField] private bool admobEnableTestMode;
+        [SerializeField] private bool admobEnableGDPR;
+        [SerializeField] private bool isTestGDPR;
         [SerializeField] private List<string> admobDevicesTest;
         public AdmobAdClient AdmobAdClient => admobAdClient;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
@@ -82,6 +84,8 @@ namespace VirtueSky.Ads
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
         public bool AdmobEnableTestMode => admobEnableTestMode;
+        public bool AdmobEnableGDPR => admobEnableGDPR;
+        public bool IsTestGDPR => isTestGDPR;
         public List<string> AdmobDevicesTest => admobDevicesTest;
 #if UNITY_EDITOR
         public void CreateAdmob()
