@@ -55,7 +55,9 @@ namespace VirtueSky.Ads
                 changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
             if (adSetting.EnableGDPR)
             {
+#if ADS_ADMOB
                 InitGDPR();
+#endif
             }
             else
             {

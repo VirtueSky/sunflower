@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VirtueSky.Ads;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -61,22 +62,14 @@ namespace VirtueSky.ControlPanel.Editor
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "If you are missing the AppLovin MAX Unity Plugin, get it here!",
-                    MessageType.Info);
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Open Page AppLovin To Download"))
+                GUILayout.Space(10);
+                if (GUILayout.Button("Install Max Sdk Plugin"))
                 {
-                    Application.OpenURL(
-                        "https://dash.applovin.com/documentation/mediation/unity/getting-started/integration");
+                    AssetDatabase.ImportPackage(
+                        FileExtension.GetPathInCurrentEnvironent(
+                            "VirtueSky/Utils/Editor/UnityPackage/max-sdk.unitypackage"), false);
                 }
 
-                if (GUILayout.Button("Open GitHub Repository AppLovin To Download"))
-                {
-                    Application.OpenURL("https://github.com/AppLovin/AppLovin-MAX-Unity-Plugin");
-                }
-
-                GUILayout.EndHorizontal();
                 GUILayout.Space(10);
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
@@ -131,21 +124,13 @@ namespace VirtueSky.ControlPanel.Editor
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
-                EditorGUILayout.HelpBox(
-                    "If you are missing the Google Mobile Ads Unity Plugin, get it here!",
-                    MessageType.Info);
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Open Page Google Admob To Download"))
+                if (GUILayout.Button("Install Admob Sdk Plugin"))
                 {
-                    Application.OpenURL("https://developers.google.com/admob/unity/quick-start");
+                    AssetDatabase.ImportPackage(
+                        FileExtension.GetPathInCurrentEnvironent(
+                            "VirtueSky/Utils/Editor/UnityPackage/google-mobile-ads.unitypackage"), false);
                 }
 
-                if (GUILayout.Button("Open GitHub Repository Admob To Download"))
-                {
-                    Application.OpenURL("https://github.com/googleads/googleads-mobile-unity");
-                }
-
-                GUILayout.EndHorizontal();
                 GUILayout.Space(10);
                 Handles.DrawAAPolyLine(2f, new Vector3(225, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
