@@ -8,11 +8,15 @@ using UnityEngine.Purchasing.Extension;
 using VirtueSky.Core;
 using VirtueSky.Events;
 using VirtueSky.Misc;
+#if UNITY_EDITOR
+using VirtueSky.UtilsEditor;
+#endif
 
 namespace VirtueSky.Iap
 {
     public class IapManager : BaseMono, IDetailedStoreListener
     {
+        [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private IapSetting iapSetting;
         [SerializeField] private EventIapProduct eventIapProduct;
         [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;
@@ -25,6 +29,14 @@ namespace VirtueSky.Iap
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         public bool IsInitialized { get; set; }
+
+        private void Awake()
+        {
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
 
         public override void OnEnable()
         {
@@ -251,6 +263,12 @@ namespace VirtueSky.Iap
             {
                 Debug.Log("Restore purchase fail. not supported on this platform. current = " + Application.platform);
             }
+        }
+#endif
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
         }
 #endif
     }

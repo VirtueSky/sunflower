@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 #if ADS_ADMOB
@@ -16,6 +17,7 @@ namespace VirtueSky.Ads
 {
     public class Advertising : MonoBehaviour
     {
+        [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private AdSetting adSetting;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
         [SerializeField] private BooleanVariable isGDPRCanRequestAds;
@@ -27,6 +29,14 @@ namespace VirtueSky.Ads
         private const float DEFAULT_TIMESTAMP = -1000;
 
         private AdClient currentAdClient;
+
+        private void Awake()
+        {
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
 
         private void Start()
         {
