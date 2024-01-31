@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 
 #if ADS_ADMOB
+using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 #endif
@@ -52,7 +53,7 @@ namespace VirtueSky.Ads
 
             if (changePreventDisplayAppOpenEvent != null)
                 changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
-            if (adSetting.AdmobEnableGDPR)
+            if (adSetting.EnableGDPR)
             {
                 InitGDPR();
             }
@@ -133,8 +134,10 @@ namespace VirtueSky.Ads
 #if !UNITY_EDITOR
             string deviceID = SystemInfo.deviceUniqueIdentifier;
             string deviceIDUpperCase = deviceID.ToUpper();
+            List<string> listDeviceIdTestMode = new List<string>();
             Debug.Log("TestDeviceHashedId = " + deviceIDUpperCase);
-            if (adSetting.IsTestGDPR)
+            listDeviceIdTestMode.Add(deviceIDUpperCase);
+            if (adSetting.EnableGDPRTestMode)
             {
                 ConsentRequestParameters request = new ConsentRequestParameters
                 {
@@ -142,7 +145,7 @@ namespace VirtueSky.Ads
                     ConsentDebugSettings = new ConsentDebugSettings()
                     {
                         DebugGeography = DebugGeography.EEA,
-                        TestDeviceHashedIds = adSetting.AdmobDevicesTest
+                        TestDeviceHashedIds = listDeviceIdTestMode
                     }
                 };
 

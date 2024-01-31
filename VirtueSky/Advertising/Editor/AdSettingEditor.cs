@@ -30,8 +30,8 @@ namespace VirtueSky.Ads
         private SerializedProperty _admobRewardInterVariable;
         private SerializedProperty _admobAppOpenVariable;
         private SerializedProperty _admobEnableTestMode;
-        private SerializedProperty _admobEnableGDPR;
-        private SerializedProperty _isTestGDPR;
+        private SerializedProperty _enableGDPR;
+        private SerializedProperty _enableGDPRTestMode;
         private SerializedProperty _admobDevicesTest;
         const string pathMax = "/Ads/Applovin";
         const string pathAdmob = "/Ads/Admob";
@@ -60,9 +60,9 @@ namespace VirtueSky.Ads
             _admobRewardInterVariable = serializedObject.FindProperty("admobRewardInterVariable");
             _admobAppOpenVariable = serializedObject.FindProperty("admobAppOpenVariable");
             _admobEnableTestMode = serializedObject.FindProperty("admobEnableTestMode");
-            _admobEnableGDPR = serializedObject.FindProperty("admobEnableGDPR");
-            _isTestGDPR = serializedObject.FindProperty("isTestGDPR");
             _admobDevicesTest = serializedObject.FindProperty("admobDevicesTest");
+            _enableGDPR = serializedObject.FindProperty("enableGDPR");
+            _enableGDPRTestMode = serializedObject.FindProperty("enableGDPRTestMode");
         }
 
         void Draw()
@@ -228,13 +228,13 @@ namespace VirtueSky.Ads
 
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.PropertyField(_admobEnableTestMode);
-                EditorGUILayout.PropertyField(_admobEnableGDPR);
-                if (_admobEnableGDPR.boolValue)
+                EditorGUILayout.PropertyField(_admobDevicesTest);
+                EditorGUILayout.PropertyField(_enableGDPR);
+                if (_enableGDPR.boolValue)
                 {
-                    EditorGUILayout.PropertyField(_isTestGDPR);
+                    EditorGUILayout.PropertyField(_enableGDPRTestMode);
                 }
 
-                EditorGUILayout.PropertyField(_admobDevicesTest);
                 GUILayout.Space(10);
                 if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
                 {
