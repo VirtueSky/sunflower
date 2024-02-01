@@ -25,6 +25,17 @@ namespace VirtueSky.ControlPanel.Editor
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
+            DrawMaxField(position);
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
+            DrawAdmobField(position);
+            GUILayout.EndVertical();
+        }
+
+        static void DrawMaxField(Rect position)
+        {
             isFieldMax = GUILayout.Toggle(isFieldMax, "Max");
             if (isFieldMax)
             {
@@ -77,16 +88,13 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorGUILayout.HelpBox(
                     "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads",
                     MessageType.Info);
-                if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-                {
-                    statePanelControl = StatePanelControl.ScriptDefineSymbols;
-                }
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
             }
+        }
 
-            GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            GUILayout.Space(10);
+        static void DrawAdmobField(Rect position)
+        {
             isFielAdmob = GUILayout.Toggle(isFielAdmob, "Admob");
             if (isFielAdmob)
             {
@@ -138,13 +146,9 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorGUILayout.HelpBox(
                     "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_ADMOB\" to use Admob Ads",
                     MessageType.Info);
-                if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-                {
-                    statePanelControl = StatePanelControl.ScriptDefineSymbols;
-                }
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
             }
-
-            GUILayout.EndVertical();
         }
     }
 }

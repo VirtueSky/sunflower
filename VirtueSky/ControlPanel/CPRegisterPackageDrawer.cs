@@ -96,7 +96,7 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
             CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",
                 ConstantPackage.PackageNameAnimancer, ConstantPackage.MaxVersionAnimancer);
-            if (GUILayout.Button("Install Google Play Game Service"))
+            if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
