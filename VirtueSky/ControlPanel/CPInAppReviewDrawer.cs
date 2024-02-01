@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPInAppReviewDrawer
     {
-        public static void OnDrawInAppReview(Rect position, ref StatePanelControl statePanelControl)
+        public static void OnDrawInAppReview(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
@@ -24,45 +24,29 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("INSTALL PACKAGE IN APP REVIEW", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Add Package In App Review And Dependency"))
-            {
-                RegistryManager.Add(ConstantPackage.PackageNameGGPlayReview,
-                    ConstantPackage.MaxVersionGGPlayReview);
-                RegistryManager.Add(ConstantPackage.PackageNameGGPlayCore,
-                    ConstantPackage.MaxVersionGGPlayCore);
-                RegistryManager.Add(ConstantPackage.PackageNameGGPlayCommon,
-                    ConstantPackage.MaxVersionGGPlayCommon);
-                RegistryManager.Add(ConstantPackage.PackageNameGGAndroidAppBundle,
-                    ConstantPackage.MaxVersionAndroidAppBundle);
-                RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
-                    ConstantPackage.MaxVersionGGExternalDependencyManager);
-                RegistryManager.Resolve();
-            }
-
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox(
-                "Add scripting define symbols \"VIRTUESKY_RATING\" to use IAP",
-                MessageType.Info);
-            if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-            {
-                statePanelControl = StatePanelControl.ScriptDefineSymbols;
-            }
+            CPUtility.DrawButtonInstallPackage("Install Google Play Review", "Remove Google Play Review",
+                ConstantPackage.PackageNameGGPlayReview, ConstantPackage.MaxVersionGGPlayReview);
+            CPUtility.DrawButtonInstallPackage("Install Google Play Core", "Remove Google Play Core",
+                ConstantPackage.PackageNameGGPlayCore, ConstantPackage.MaxVersionGGPlayCore);
+            CPUtility.DrawButtonInstallPackage("Install Google Play Common", "Remove Google Play Common",
+                ConstantPackage.PackageNameGGPlayCommon, ConstantPackage.MaxVersionGGPlayCommon);
+            CPUtility.DrawButtonInstallPackage("Install Android App Bundle", "Remove Android App Bundle",
+                ConstantPackage.PackageNameGGAndroidAppBundle, ConstantPackage.MaxVersionAndroidAppBundle);
+            CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
+                "Remove Google External Dependency Manager",
+                ConstantPackage.PackageNameGGExternalDependencyManager,
+                ConstantPackage.MaxVersionGGExternalDependencyManager);
 
             GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
-            GUILayout.Label("REMOVE PACKAGE IN APP REVIEW", EditorStyles.boldLabel);
+            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Remove Package In App Review And Dependency"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayReview);
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayCore);
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayCommon);
-                RegistryManager.Remove(ConstantPackage.PackageNameGGAndroidAppBundle);
-                RegistryManager.Remove(ConstantPackage.PackageNameGGExternalDependencyManager);
-                RegistryManager.Resolve();
-            }
+            EditorGUILayout.HelpBox(
+                "Add scripting define symbols \"VIRTUESKY_RATING\" to use IAP",
+                MessageType.Info);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_RATING);
 
             GUILayout.EndVertical();
         }

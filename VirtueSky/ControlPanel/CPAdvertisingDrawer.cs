@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static bool isFieldMax = false;
         private static bool isFielAdmob = false;
 
-        public static void OnDrawAdvertising(Rect position, ref StatePanelControl statePanelControl)
+        public static void OnDrawAdvertising(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
@@ -86,7 +86,7 @@ namespace VirtueSky.ControlPanel.Editor
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
                 EditorGUILayout.HelpBox(
-                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_APPLOVIN\" to use Max Ads",
+                    $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_APPLOVIN}\" to use Max Ads",
                     MessageType.Info);
                 CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
                 CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
@@ -144,7 +144,7 @@ namespace VirtueSky.ControlPanel.Editor
                     new Vector3(position.width - 20, GUILayoutUtility.GetLastRect().y + 10));
                 GUILayout.Space(10);
                 EditorGUILayout.HelpBox(
-                    "Add scripting define symbols \"VIRTUESKY_ADS\" and \"ADS_ADMOB\" to use Admob Ads",
+                    $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_ADMOB}\" to use Admob Ads",
                     MessageType.Info);
                 CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
                 CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);

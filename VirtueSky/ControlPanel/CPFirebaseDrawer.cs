@@ -9,23 +9,24 @@ namespace VirtueSky.ControlPanel.Editor
         private static bool isShowInstallRemoteConfig;
         private static bool isShowInstallAnalytic;
 
-        public static void OnDrawFirebase(Rect position, ref StatePanelControl statePanelControl)
+        public static void OnDrawFirebase(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
             DrawRemoteConfig(position);
-            DrawAnalytic(position, statePanelControl);
+            DrawAnalytic(position);
             GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
+            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
             EditorGUILayout.HelpBox(
                 "Add scripting define symbols: \n \"VIRTUESKY_FIREBASE\" for Firebase App, \n \"VIRTUESKY_FIREBASE_REMOTECONFIG\" for Firebase Remote Config, \n \"VIRTUESKY_FIREBASE_ANALYTIC\" for Firebase Analytic \n to use",
                 MessageType.Info);
-            if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-            {
-                statePanelControl = StatePanelControl.ScriptDefineSymbols;
-            }
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC);
 
             GUILayout.EndVertical();
         }
@@ -35,20 +36,19 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("FIREBASE REMOTE CONFIG", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            isShowInstallRemoteConfig = GUILayout.Toggle(isShowInstallRemoteConfig, "Install Firebase Remote Config");
+            isShowInstallRemoteConfig =
+                GUILayout.Toggle(isShowInstallRemoteConfig, "Install Firebase Remote Config And Dependency");
             GUILayout.Space(10);
             if (isShowInstallRemoteConfig)
             {
-                if (GUILayout.Button("Install Firebase Remote Config and Dependencies"))
-                {
-                    RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
-                        ConstantPackage.MaxVersionGGExternalDependencyManager);
-                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseApp,
-                        ConstantPackage.MaxVersionFirebaseApp);
-                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseRemoveConfig,
-                        ConstantPackage.MaxVersionFirebaseRemoveConfig);
-                    RegistryManager.Resolve();
-                }
+                CPUtility.DrawButtonInstallPackage("Install Firebase Remote Config", "Remove Firebase Remote Config",
+                    ConstantPackage.PackageNameFirebaseRemoveConfig, ConstantPackage.MaxVersionFirebaseRemoveConfig);
+                CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
+                    ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
+                CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
+                    "Remove Google External Dependency Manager",
+                    ConstantPackage.PackageNameGGExternalDependencyManager,
+                    ConstantPackage.MaxVersionGGExternalDependencyManager);
             }
 
             GUILayout.Space(10);
@@ -56,26 +56,23 @@ namespace VirtueSky.ControlPanel.Editor
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
         }
 
-        static void DrawAnalytic(Rect position, StatePanelControl statePanelControl)
+        static void DrawAnalytic(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.Label("FIREBASE ANALYTIC", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            isShowInstallAnalytic = GUILayout.Toggle(isShowInstallAnalytic, "Install Firebase Analytic");
+            isShowInstallAnalytic = GUILayout.Toggle(isShowInstallAnalytic, "Install Firebase Analytic And Dependency");
             GUILayout.Space(10);
             if (isShowInstallAnalytic)
             {
-                if (GUILayout.Button("Install Firebase Analytic and Dependencies"))
-                {
-                    RegistryManager.Add(ConstantPackage.PackageNameGGExternalDependencyManager,
-                        ConstantPackage.MaxVersionGGExternalDependencyManager);
-                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseApp,
-                        ConstantPackage.MaxVersionFirebaseApp);
-                    RegistryManager.Add(ConstantPackage.PackageNameFirebaseAnalytics,
-                        ConstantPackage.MaxVersionFirebaseAnalytics);
-                    RegistryManager.Resolve();
-                }
-
+                CPUtility.DrawButtonInstallPackage("Install Firebase Analytics", "Remove Firebase Analytics",
+                    ConstantPackage.PackageNameFirebaseAnalytics, ConstantPackage.MaxVersionFirebaseAnalytics);
+                CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
+                    ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
+                CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
+                    "Remove Google External Dependency Manager",
+                    ConstantPackage.PackageNameGGExternalDependencyManager,
+                    ConstantPackage.MaxVersionGGExternalDependencyManager);
                 GUILayout.Space(10);
                 Handles.DrawAAPolyLine(2f, new Vector3(240, GUILayoutUtility.GetLastRect().y + 10),
                     new Vector3(position.width - 30, GUILayoutUtility.GetLastRect().y + 10));

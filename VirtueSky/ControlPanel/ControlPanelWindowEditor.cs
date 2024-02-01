@@ -139,10 +139,10 @@ namespace VirtueSky.ControlPanel.Editor
             switch (statePanelControl)
             {
                 case StatePanelControl.Advertising:
-                    CPAdvertisingDrawer.OnDrawAdvertising(position, ref statePanelControl);
+                    CPAdvertisingDrawer.OnDrawAdvertising(position);
                     break;
                 case StatePanelControl.InAppPurchase:
-                    CPIapDrawer.OnDrawIap(position, ref statePanelControl);
+                    CPIapDrawer.OnDrawIap(position);
                     break;
                 case StatePanelControl.AssetsUsageDetector:
                     CPAssetFinderDrawer.OnDrawAssetUsageDetector();
@@ -154,13 +154,13 @@ namespace VirtueSky.ControlPanel.Editor
                     CPPoolDrawer.OnDrawPools();
                     break;
                 case StatePanelControl.InAppReview:
-                    CPInAppReviewDrawer.OnDrawInAppReview(position, ref statePanelControl);
+                    CPInAppReviewDrawer.OnDrawInAppReview(position);
                     break;
                 case StatePanelControl.LevelEditor:
                     CPLevelEditorDrawer.OnDrawLevelEditor();
                     break;
                 case StatePanelControl.NotificationsChanel:
-                    CPNotificationChanelDrawer.OnDrawNotificationChanel();
+                    CPNotificationChanelDrawer.OnDrawNotificationChanel(position);
                     break;
                 case StatePanelControl.SO_Event:
                     CPSoEventDrawer.OnDrawSoEvent();
@@ -178,7 +178,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPQHierarchyDrawer.OnDrawQHierarchyEvent();
                     break;
                 case StatePanelControl.Firebase:
-                    CPFirebaseDrawer.OnDrawFirebase(position, ref statePanelControl);
+                    CPFirebaseDrawer.OnDrawFirebase(position);
                     break;
                 case StatePanelControl.GameService:
                     CPGameServiceDrawer.OnDrawGameService();

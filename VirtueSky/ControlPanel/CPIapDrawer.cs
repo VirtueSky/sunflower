@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPIapDrawer
     {
-        public static void OnDrawIap(Rect position, ref StatePanelControl statePanelControl)
+        public static void OnDrawIap(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
@@ -59,32 +59,18 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("INSTALL PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Add Package In App Purchasing"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameInAppPurchase,
-                    ConstantPackage.MaxVersionInAppPurchase);
-            }
-
-            GUILayout.Space(10);
-            EditorGUILayout.HelpBox(
-                "Add scripting define symbols \"VIRTUESKY_IAP\" to use IAP",
-                MessageType.Info);
-            if (GUILayout.Button("Open Scripting Define Symbols tab to add"))
-            {
-                statePanelControl = StatePanelControl.ScriptDefineSymbols;
-            }
-
+            CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
+                ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
             GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
-            GUILayout.Label("REMOVE PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
+            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Remove Package In App Purchasing"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameInAppPurchase);
-                RegistryManager.Resolve();
-            }
+            EditorGUILayout.HelpBox(
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_IAP}\" to use IAP",
+                MessageType.Info);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_IAP);
 
 
             GUILayout.EndVertical();

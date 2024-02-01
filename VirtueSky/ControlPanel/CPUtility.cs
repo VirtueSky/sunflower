@@ -36,14 +36,15 @@ namespace VirtueSky.ControlPanel.Editor
         public static void DrawButtonAddDefineSymbols(string flagSymbols, float withButton = 400)
         {
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button(flagSymbols, GUILayout.Width(withButton)))
+            bool isAddSymbols = EditorScriptDefineSymbols.IsFlagEnabled(flagSymbols);
+            string labelButton = isAddSymbols ? "Remove Symbols ---> " : "Add Symbols ---> ";
+            if (GUILayout.Button(labelButton + flagSymbols, GUILayout.Width(withButton)))
             {
                 EditorScriptDefineSymbols.SwitchFlag(flagSymbols);
             }
 
             GUILayout.Space(10);
-            GUILayout.Toggle(EditorScriptDefineSymbols.IsFlagEnabled(flagSymbols),
-                TextIsEnable(EditorScriptDefineSymbols.IsFlagEnabled(flagSymbols)));
+            GUILayout.Toggle(isAddSymbols, TextIsEnable(isAddSymbols));
             GUILayout.EndHorizontal();
         }
 
