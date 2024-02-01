@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 #endif
-
 using UnityEngine;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
 using VirtueSky.Events;
+using VirtueSky.Inspector;
 using VirtueSky.Variables;
 
 namespace VirtueSky.Ads
@@ -21,7 +21,13 @@ namespace VirtueSky.Ads
         [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private AdSetting adSetting;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
-        [SerializeField] private BooleanVariable isGDPRCanRequestAds;
+
+        [HeaderLine("Admob GDPR")] [SerializeField]
+        private BooleanVariable isGDPRCanRequestAds;
+
+        [SerializeField] private BooleanVariable isPrivacyRequiredGDPR;
+        [SerializeField] private EventNoParam showPrivacyOptionsFormEvent;
+
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
         private float _lastTimeLoadRewardedTimestamp = DEFAULT_TIMESTAMP;
@@ -136,11 +142,13 @@ namespace VirtueSky.Ads
 #if !UNITY_EDITOR
             string deviceID = SystemInfo.deviceUniqueIdentifier;
             string deviceIDUpperCase = deviceID.ToUpper();
-            List<string> listDeviceIdTestMode = new List<string>();
+           
             Debug.Log("TestDeviceHashedId = " + deviceIDUpperCase);
-            listDeviceIdTestMode.Add(deviceIDUpperCase);
+            
             if (adSetting.EnableGDPRTestMode)
             {
+                List<string> listDeviceIdTestMode = new List<string>();
+                listDeviceIdTestMode.Add(deviceIDUpperCase);
                 ConsentRequestParameters request = new ConsentRequestParameters
                 {
                     TagForUnderAgeOfConsent = false,
@@ -184,6 +192,12 @@ namespace VirtueSky.Ads
 
                     Debug.Log("ConsentStatus = " + ConsentInformation.ConsentStatus.ToString());
                     Debug.Log("CanRequestAds = " + ConsentInformation.CanRequestAds());
+                    if (isPrivacyRequiredGDPR != null)
+                    {
+                        isPrivacyRequiredGDPR.Value = ConsentInformation.PrivacyOptionsRequirementStatus ==
+                                                      PrivacyOptionsRequirementStatus.Required;
+                    }
+
                     if (ConsentInformation.CanRequestAds())
                     {
                         MobileAds.RaiseAdEventsOnUnityMainThread = true;
@@ -225,6 +239,24 @@ namespace VirtueSky.Ads
                         return;
                     }
                 });
+            });
+        }
+
+        public void ShowPrivacyOptionsForm()
+        {
+            Debug.Log("Showing privacy options form.");
+
+            ConsentForm.ShowPrivacyOptionsForm((FormError showError) =>
+            {
+                if (showError != null)
+                {
+                    Debug.LogError("Error showing privacy options form with error: " + showError.Message);
+                }
+
+                if (showPrivacyOptionsFormEvent != null)
+                {
+                    showPrivacyOptionsFormEvent.Raise();
+                }
             });
         }
 
