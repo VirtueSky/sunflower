@@ -65,279 +65,42 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);
             CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
                 ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
-        }
-
-        static void DrawButtonAddPackage()
-        {
-            if (GUILayout.Button("Install Firebase App"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseApp,
-                    ConstantPackage.MaxVersionFirebaseApp);
-            }
-
-            if (GUILayout.Button("Install Firebase Remote Config"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseRemoveConfig,
-                    ConstantPackage.MaxVersionFirebaseRemoveConfig);
-            }
-
-            if (GUILayout.Button("Install Firebase Analytics"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseAnalytics,
-                    ConstantPackage.MaxVersionFirebaseAnalytics);
-            }
-
-            if (GUILayout.Button("Install Firebase Crashlytics"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseCrashlytics,
-                    ConstantPackage.MaxVersionFirebaseCrashlytics);
-            }
-
-            if (GUILayout.Button("Install Firebase Database"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameFirebaseDatabase,
-                    ConstantPackage.MaxVersionFirebaseDatabase);
-            }
-
-            if (GUILayout.Button("Install Google External Dependency Manager"))
-            {
-                RegistryManager.AddOverrideVersion(
-                    ConstantPackage.PackageNameGGExternalDependencyManager,
-                    ConstantPackage.MaxVersionGGExternalDependencyManager);
-            }
-
-            if (GUILayout.Button("Install Adjust"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAdjust,
-                    ConstantPackage.MaxVersionAdjust);
-            }
-
-            if (GUILayout.Button("Install In App Purchasing"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameInAppPurchase,
-                    ConstantPackage.MaxVersionInAppPurchase);
-            }
-
-            if (GUILayout.Button("Install AppsFlyer"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppFlyer,
-                    ConstantPackage.MaxVersionAppFlyer);
-                RegistryManager.AddOverrideVersion(
-                    ConstantPackage.PackageNameAppFlyerRevenueGeneric,
-                    ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
-            }
-
-            if (GUILayout.Button("Install Google Play Review"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameGGPlayReview,
-                    ConstantPackage.MaxVersionGGPlayReview);
-            }
-
-            if (GUILayout.Button("Install Google Play Core"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameGGPlayCore,
-                    ConstantPackage.MaxVersionGGPlayCore);
-            }
-
-            if (GUILayout.Button("Install Google Play Common"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameGGPlayCommon,
-                    ConstantPackage.MaxVersionGGPlayCommon);
-            }
-
-            if (GUILayout.Button("Install Android App Bundle"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameGGAndroidAppBundle,
-                    ConstantPackage.MaxVersionAndroidAppBundle);
-            }
-
-            if (GUILayout.Button("Install Newtonsoft.Json"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameNewtonsoftJson,
-                    ConstantPackage.MaxVersionNewtonsoftJson);
-            }
-
-            if (GUILayout.Button("Install PlayFab"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNamePlayFab,
-                    ConstantPackage.MaxVersionPlayFab);
-            }
-
-            if (GUILayout.Button("Install Coffee UI Effect"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameCoffeeUIEffect,
-                    ConstantPackage.MaxVersionCoffeeUIEffect);
-            }
-
-            if (GUILayout.Button("Install Coffee UI Particle"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameCoffeeUIParticle,
-                    ConstantPackage.MaxVersionCoffeeUIParticle);
-            }
-
-            if (GUILayout.Button("Install iOS 14 Advertising Support"))
-            {
-                RegistryManager.AddOverrideVersion(
-                    ConstantPackage.PackageNameIOS14AdvertisingSupport,
-                    ConstantPackage.MaxVersionIOS14AdvertisingSupport);
-            }
-
-            if (GUILayout.Button("Install Spine"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameSpineCsharp,
-                    ConstantPackage.MaxVersionSpineCsharp);
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameSpineUnity,
-                    ConstantPackage.MaxVersionSpineUnity);
-            }
-
-            if (GUILayout.Button("Install Apple Sign In"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAppleSignIn,
-                    ConstantPackage.MaxVersionAppleSignIn);
-            }
-
+            CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
+                ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
+            CPUtility.DrawButtonInstallPackage("Install AppsFlyer Revenue Generic", "Remove AppsFlyer Revenue Generic",
+                ConstantPackage.PackageNameAppFlyerRevenueGeneric, ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
+            CPUtility.DrawButtonInstallPackage("Install Google Play Review", "Remove Google Play Review",
+                ConstantPackage.PackageNameGGPlayReview, ConstantPackage.MaxVersionGGPlayReview);
+            CPUtility.DrawButtonInstallPackage("Install Google Play Core", "Remove Google Play Core",
+                ConstantPackage.PackageNameGGPlayCore, ConstantPackage.MaxVersionGGPlayCore);
+            CPUtility.DrawButtonInstallPackage("Install Google Play Common", "Remove Google Play Common",
+                ConstantPackage.PackageNameGGPlayCommon, ConstantPackage.MaxVersionGGPlayCommon);
+            CPUtility.DrawButtonInstallPackage("Install Android App Bundle", "Remove Android App Bundle",
+                ConstantPackage.PackageNameGGAndroidAppBundle, ConstantPackage.MaxVersionAndroidAppBundle);
+            CPUtility.DrawButtonInstallPackage("Install Newtonsoft.Json", "Remove Newtonsoft.Json",
+                ConstantPackage.PackageNameNewtonsoftJson, ConstantPackage.MaxVersionNewtonsoftJson);
+            CPUtility.DrawButtonInstallPackage("Install PlayFab", "Remove PlayFab", ConstantPackage.PackageNamePlayFab,
+                ConstantPackage.MaxVersionPlayFab);
+            CPUtility.DrawButtonInstallPackage("Install Coffee UI Effect", "Remove Coffee UI Effect",
+                ConstantPackage.PackageNameCoffeeUIEffect, ConstantPackage.MaxVersionCoffeeUIEffect);
+            CPUtility.DrawButtonInstallPackage("Install Coffee UI Particle", "Remove Coffee UI Particle",
+                ConstantPackage.PackageNameCoffeeUIParticle, ConstantPackage.MaxVersionCoffeeUIParticle);
+            CPUtility.DrawButtonInstallPackage("Install iOS 14 Advertising Support",
+                "Remove iOS 14 Advertising Support", ConstantPackage.PackageNameIOS14AdvertisingSupport,
+                ConstantPackage.MaxVersionIOS14AdvertisingSupport);
+            CPUtility.DrawButtonInstallPackage("Install Spine Csharp", "Remove Spine Csharp",
+                ConstantPackage.PackageNameSpineCsharp, ConstantPackage.MaxVersionSpineCsharp);
+            CPUtility.DrawButtonInstallPackage("Install Spine Unity", "Remove Spine Unity",
+                ConstantPackage.PackageNameSpineUnity, ConstantPackage.MaxVersionSpineUnity);
+            CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",
+                ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
+            CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",
+                ConstantPackage.PackageNameAnimancer, ConstantPackage.MaxVersionAnimancer);
             if (GUILayout.Button("Install Google Play Game Service"))
             {
                 AssetDatabase.ImportPackage(
                     FileExtension.GetPathInCurrentEnvironent(
                         "VirtueSky/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
-            }
-
-            if (GUILayout.Button("Install Animancer"))
-            {
-                RegistryManager.AddOverrideVersion(ConstantPackage.PackageNameAnimancer,
-                    ConstantPackage.MaxVersionAnimancer);
-            }
-        }
-
-        static void DrawButtonRemovePackage()
-        {
-            if (GUILayout.Button("Remove Firebase App"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseApp);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Firebase Remote Config"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseRemoveConfig);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Firebase Analytics"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseAnalytics);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Firebase Crashlytics"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseCrashlytics);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Firebase Database"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameFirebaseDatabase);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Google External Dependency Manager"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGExternalDependencyManager);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Adjust"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameAdjust);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove In App Purchasing"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameInAppPurchase);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove AppsFlyer"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameAppFlyer);
-                RegistryManager.Remove(ConstantPackage.PackageNameAppFlyerRevenueGeneric);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Google Play Review"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayReview);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Google Play Core"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayCore);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Google Play Common"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGPlayCommon);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Android App Bundle"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameGGAndroidAppBundle);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Newtonsoft.Json"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameNewtonsoftJson);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove PlayFab"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNamePlayFab);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Coffee UI Effect"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameCoffeeUIEffect);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Coffee UI Particle"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameCoffeeUIParticle);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove iOS 14 Advertising Support"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameIOS14AdvertisingSupport);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Spine"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameSpineCsharp);
-                RegistryManager.Remove(ConstantPackage.PackageNameSpineUnity);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Apple Sign In"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameAppleSignIn);
-                RegistryManager.Resolve();
-            }
-
-            if (GUILayout.Button("Remove Animancer"))
-            {
-                RegistryManager.Remove(ConstantPackage.PackageNameAnimancer);
-                RegistryManager.Resolve();
             }
         }
     }

@@ -49,7 +49,7 @@ namespace VirtueSky.ControlPanel.Editor
 
         public static string TextIsInstallPackage(bool isInstall)
         {
-            return isInstall ? "Installed" : "Not installed yet";
+            return isInstall ? "Installed" : "Not installed";
         }
 
         public static string TextIsEnable(bool condition)
