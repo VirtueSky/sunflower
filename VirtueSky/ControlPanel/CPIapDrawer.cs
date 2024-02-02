@@ -1,13 +1,19 @@
 ﻿using UnityEditor;
 using UnityEngine;
+
+#if VIRTUESKY_IAP
 using VirtueSky.Iap;
+#endif
+
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPIapDrawer
     {
-        private static IapSetting _iapSetting;
+#if VIRTUESKY_IAP
+         private static IapSetting _iapSetting;
+#endif
         private static UnityEditor.Editor _editor;
 
         public static void OnEnable()
@@ -21,9 +27,10 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 _editor = null;
             }
-
-            _iapSetting = CreateAsset.GetScriptableAsset<VirtueSky.Iap.IapSetting>();
+#if VIRTUESKY_IAP
+             _iapSetting = CreateAsset.GetScriptableAsset<VirtueSky.Iap.IapSetting>();
             _editor = UnityEditor.Editor.CreateEditor(_iapSetting);
+#endif
         }
 
         public static void OnDrawIap(Rect position)
@@ -33,19 +40,16 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
             GUILayout.Space(10);
 
-
+#if VIRTUESKY_IAP
             if (_iapSetting == null)
             {
                 if (GUILayout.Button("Create IAP Setting"))
                 {
-#if VIRTUESKY_IAP
+
                     _iapSetting =
                         CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap", "", false);
                     Init();
 
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
                 }
             }
             else
@@ -61,7 +65,12 @@ namespace VirtueSky.ControlPanel.Editor
                     _editor.OnInspectorGUI();
                 }
             }
+#else
 
+            EditorGUILayout.HelpBox(
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_IAP}\" to use IAP",
+                MessageType.Warning);
+#endif
             GUILayout.Space(10);
             Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
                 new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
@@ -111,9 +120,13 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            EditorGUILayout.HelpBox(
-                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_IAP}\" to use IAP",
-                MessageType.Info);
+            if (!EditorScriptDefineSymbols.IsFlagEnabled(ConstantDefineSymbols.VIRTUESKY_IAP))
+            {
+                EditorGUILayout.HelpBox(
+                    $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_IAP}\" to use IAP",
+                    MessageType.Info);
+            }
+
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_IAP);
 
 
