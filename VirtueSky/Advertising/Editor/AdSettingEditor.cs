@@ -70,7 +70,7 @@ namespace VirtueSky.Ads
             serializedObject.Update();
             Initialize();
             // EditorGUILayout.LabelField("ADS SETTING", EditorStyles.boldLabel);
-            GuiLine(1);
+            GuiLine(2);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_adCheckingInterval);
             EditorGUILayout.PropertyField(_adLoadingInterval);
@@ -92,7 +92,7 @@ namespace VirtueSky.Ads
             if (_adNetwork.enumValueIndex == (int)AdNetwork.Max)
             {
                 EditorGUILayout.LabelField("MAX", EditorStyles.boldLabel);
-                GuiLine(1);
+                GuiLine(2);
                 GUILayout.Space(10);
                 EditorGUILayout.PropertyField(_sdkKey);
                 EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
@@ -164,7 +164,7 @@ namespace VirtueSky.Ads
             if (_adNetwork.enumValueIndex == (int)AdNetwork.Admob)
             {
                 EditorGUILayout.LabelField("ADMOB", EditorStyles.boldLabel);
-                GuiLine(1);
+                GuiLine(2);
                 GUILayout.Space(10);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.PropertyField(_admobAdClient);
@@ -249,7 +249,7 @@ namespace VirtueSky.Ads
 
             rect.height = i_height;
 
-            EditorGUI.DrawRect(rect, new Color(0.5f, 0.5f, 0.5f, 1));
+            EditorGUI.DrawRect(rect, new Color32(0, 0, 0, 255));
         }
     }
 }

@@ -31,7 +31,6 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnEnable()
         {
-            statePanelControl = StatePanelControl.Firebase;
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
         }

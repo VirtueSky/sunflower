@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VirtueSky.Ads;
+using VirtueSky.Inspector;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
@@ -12,6 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static Vector2 _scrollPosition;
         private static UnityEditor.Editor _editor;
         private static AdSetting _adSetting;
+        private static Vector2 scroll = Vector2.zero;
 
         public static void OnEnable()
         {
@@ -35,7 +37,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
             GUILayout.Space(10);
-
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_adSetting == null)
             {
                 if (GUILayout.Button("Create AdSetting"))
@@ -69,8 +71,28 @@ namespace VirtueSky.ControlPanel.Editor
                 }
             }
 
+            GUILayout.Space(10);
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            GUILayout.Label("PING ADS SETTING", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Ping"))
+            {
+                if (_adSetting == null)
+                {
+                    Debug.LogError("AdSetting have not been created yet");
+                }
+                else
+                {
+                    EditorGUIUtility.PingObject(_adSetting);
+                    Selection.activeObject = _adSetting;
+                }
+            }
 
             GUILayout.Space(10);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
 
@@ -78,8 +100,9 @@ namespace VirtueSky.ControlPanel.Editor
         static void DrawMaxField(Rect position)
         {
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             GUILayout.Label("INSTALL MAX SDK", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -91,8 +114,9 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -106,8 +130,9 @@ namespace VirtueSky.ControlPanel.Editor
         static void DrawAdmobField(Rect position)
         {
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("INSTALL ADMOB SDK", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -119,8 +144,9 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);

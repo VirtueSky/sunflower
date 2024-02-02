@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Inspector;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
@@ -56,6 +57,15 @@ namespace VirtueSky.ControlPanel.Editor
         public static string TextIsEnable(bool condition)
         {
             return condition ? "Enable" : "Disable";
+        }
+
+        public static void GuiLine(int i_height = 1, CustomColor customColor = CustomColor.Black)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, i_height);
+
+            rect.height = i_height;
+
+            EditorGUI.DrawRect(rect, customColor.ToColor());
         }
     }
 }
