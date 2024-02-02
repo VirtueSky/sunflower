@@ -7,21 +7,65 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPIapDrawer
     {
+        private static IapSetting _iapSetting;
+        private static UnityEditor.Editor _editor;
+
+        public static void OnEnable()
+        {
+            Init();
+        }
+
+        private static void Init()
+        {
+            if (_editor != null)
+            {
+                _editor = null;
+            }
+
+            _iapSetting = CreateAsset.GetScriptableAsset<VirtueSky.Iap.IapSetting>();
+            _editor = UnityEditor.Editor.CreateEditor(_iapSetting);
+        }
+
         public static void OnDrawIap(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
             GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Open AdSetting (Alt+2 / Option+2)"))
+
+
+            if (_iapSetting == null)
             {
+                if (GUILayout.Button("Create IAP Setting"))
+                {
 #if VIRTUESKY_IAP
-                IapWindowEditor.OpenIapSettingsWindows();
+                    _iapSetting =
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap", "", false);
+                    Init();
 
 #else
                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
 #endif
+                }
             }
+            else
+            {
+                if (_editor == null)
+                {
+                    EditorGUILayout.HelpBox("Couldn't create the settings resources editor.",
+                        MessageType.Error);
+                    return;
+                }
+                else
+                {
+                    _editor.OnInspectorGUI();
+                }
+            }
+
+            GUILayout.Space(10);
+            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
+                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            GUILayout.Space(10);
 
             if (GUILayout.Button("Create Iap Purchase Product Event"))
             {

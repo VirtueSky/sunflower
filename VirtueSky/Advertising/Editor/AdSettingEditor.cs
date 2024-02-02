@@ -69,7 +69,7 @@ namespace VirtueSky.Ads
         {
             serializedObject.Update();
             Initialize();
-            EditorGUILayout.LabelField("ADS SETTING", EditorStyles.boldLabel);
+            // EditorGUILayout.LabelField("ADS SETTING", EditorStyles.boldLabel);
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_adCheckingInterval);

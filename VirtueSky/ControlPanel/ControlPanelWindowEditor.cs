@@ -32,6 +32,8 @@ namespace VirtueSky.ControlPanel.Editor
         private void OnEnable()
         {
             statePanelControl = StatePanelControl.Firebase;
+            CPAdvertisingDrawer.OnEnable();
+            CPIapDrawer.OnEnable();
         }
 
         private void OnGUI()
@@ -52,7 +54,6 @@ namespace VirtueSky.ControlPanel.Editor
             Handles.DrawAAPolyLine(4, new Vector3(210, 0), new Vector3(210, position.height));
             GUILayout.EndVertical();
             DrawContent();
-
             GUILayout.EndHorizontal();
         }
 

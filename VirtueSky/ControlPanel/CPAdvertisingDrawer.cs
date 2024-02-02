@@ -10,36 +10,53 @@ namespace VirtueSky.ControlPanel.Editor
         private static bool isFieldMax = false;
         private static bool isFielAdmob = false;
         private static Vector2 _scrollPosition;
+        private static UnityEditor.Editor _editor;
+        private static AdSetting _adSetting;
+
+        public static void OnEnable()
+        {
+            Init();
+        }
+
+        public static void Init()
+        {
+            if (_editor != null)
+            {
+                _editor = null;
+            }
+
+            _adSetting = CreateAsset.GetScriptableAsset<AdSetting>();
+            _editor = UnityEditor.Editor.CreateEditor(_adSetting);
+        }
 
         public static void OnDrawAdvertising(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            //GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
+            GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            AdSetting _adSetting = CreateAsset.GetScriptableAsset<AdSetting>();
+
             if (_adSetting == null)
             {
                 if (GUILayout.Button("Create AdSetting"))
                 {
-                    _adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads", "");
+                    _adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads", "", false);
+                    Init();
                 }
             }
             else
             {
-                var _editor = UnityEditor.Editor.CreateEditor(_adSetting);
-
                 if (_editor == null)
                 {
                     EditorGUILayout.HelpBox("Couldn't create the settings resources editor.",
                         MessageType.Error);
                     return;
                 }
-
-                if (_editor != null)
+                else
                 {
                     _editor.OnInspectorGUI();
                 }
+
 
                 switch (_adSetting.CurrentAdNetwork)
                 {

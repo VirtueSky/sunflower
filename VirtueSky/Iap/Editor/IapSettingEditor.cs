@@ -27,7 +27,6 @@ namespace VirtueSky.Iap
 
         public override void OnInspectorGUI()
         {
-            // base.OnInspectorGUI();
             serializedObject.Update();
             Initialize();
             EditorGUILayout.PropertyField(_skusData);
@@ -48,7 +47,6 @@ namespace VirtueSky.Iap
             }
 
             serializedObject.ApplyModifiedProperties();
-            // serializedObject.Update();
         }
 
         private string path = CreateAsset.DefaultResourcesPath("/Iap/Products");
@@ -73,11 +71,9 @@ namespace VirtueSky.Iap
             }
 
             serializedObject.ApplyModifiedProperties();
-            //  Selection.activeObject = this;
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            //  EditorApplication.delayCall += () => EditorGUIUtility.PingObject(this);
         }
 
         void ObfuscatorKey()
