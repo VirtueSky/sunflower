@@ -72,8 +72,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("PING ADS SETTING", EditorStyles.boldLabel);
@@ -101,8 +99,6 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             GUILayout.Space(10);
             GUILayout.Label("INSTALL MAX SDK", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -114,15 +110,16 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
+#if !VIRTUESKY_ADS || !ADS_APPLOVIN
             EditorGUILayout.HelpBox(
                 $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_APPLOVIN}\" to use Max Ads",
                 MessageType.Info);
+#endif
+
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
         }
@@ -130,8 +127,6 @@ namespace VirtueSky.ControlPanel.Editor
         static void DrawAdmobField(Rect position)
         {
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("INSTALL ADMOB SDK", EditorStyles.boldLabel);
@@ -144,15 +139,16 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
+#if !VIRTUESKY_ADS || !ADS_ADMOB
             EditorGUILayout.HelpBox(
                 $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_ADMOB}\" to use Admob Ads",
                 MessageType.Info);
+#endif
+
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
         }
