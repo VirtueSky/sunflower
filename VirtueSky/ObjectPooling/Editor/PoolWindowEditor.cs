@@ -12,7 +12,7 @@ namespace VirtueSky.ObjectPooling
         [MenuItem("Sunflower/Create Pools")]
         public static void CreatePools()
         {
-            CreateAsset.CreateScriptableAssets<Pools>("/Pools");
+            CreateAsset.CreateScriptableAssets<Pools>("/Pools", "");
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -12,7 +13,6 @@ namespace VirtueSky.ControlPanel.Editor
         private bool isFielAdmob = false;
         private string inputPackageFullNameAdd = "";
         private string inputPackageFullNameRemove = "";
-        private Vector2 scrollPositionFileManifest = Vector2.zero;
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -27,6 +27,11 @@ namespace VirtueSky.ControlPanel.Editor
 
             window.minSize = new Vector2(600, 300);
             window.Show();
+        }
+
+        private void OnEnable()
+        {
+            statePanelControl = StatePanelControl.Firebase;
         }
 
         private void OnGUI()

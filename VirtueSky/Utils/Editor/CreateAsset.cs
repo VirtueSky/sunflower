@@ -8,7 +8,7 @@ namespace VirtueSky.UtilsEditor
     public static class CreateAsset
     {
 #if UNITY_EDITOR
-        public static void CreateScriptableAssets<T>(string path = "")
+        public static void CreateScriptableAssets<T>(string path = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
             var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
@@ -16,12 +16,16 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
-            EditorGUIUtility.PingObject(setting);
+            if (isPingAsset)
+            {
+                EditorGUIUtility.PingObject(setting);
+            }
+
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
         }
 
-        public static void CreateScriptableAssets<T>(string path = "", string name = "")
+        public static void CreateScriptableAssets<T>(string path = "", string name = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
             string newName = name == "" ? typeof(T).Name : name;
@@ -30,12 +34,17 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
-            EditorGUIUtility.PingObject(setting);
+            if (isPingAsset)
+            {
+                EditorGUIUtility.PingObject(setting);
+            }
+
             Debug.Log(
                 $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
         }
 
-        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "")
+        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "",
+            bool isPingAsset = true)
             where T : ScriptableObject
         {
             int assetCounter = 0;
@@ -55,24 +64,32 @@ namespace VirtueSky.UtilsEditor
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
-            EditorGUIUtility.PingObject(setting);
+            if (isPingAsset)
+            {
+                EditorGUIUtility.PingObject(setting);
+            }
 
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created at {assetPath}</color>");
         }
 
 
-        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "")
+        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
             var so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             if (so == null)
             {
-                CreateScriptableAssets<T>(path, assetName);
+                CreateScriptableAssets<T>(path, assetName, isPingAsset);
                 so = AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             }
 
             return so;
+        }
+
+        public static T GetScriptableAsset<T>() where T : ScriptableObject
+        {
+            return AssetUtils.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
         }
 
         // public enum NamingScheme
