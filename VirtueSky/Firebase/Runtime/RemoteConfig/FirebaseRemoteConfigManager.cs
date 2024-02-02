@@ -47,7 +47,7 @@ namespace VirtueSky.FirebaseTraking
         }
 #endif
 
-#if VIRTUESKY_FIREBASE_REMOTECONFIG
+#if VIRTUESKY_FIREBASE_REMOTECONFIG && VIRTUESKY_FIREBASE
         public Task FetchDataAsync()
         {
             Debug.Log("Fetching data...");

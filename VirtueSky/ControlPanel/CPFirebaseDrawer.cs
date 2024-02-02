@@ -8,26 +8,36 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private static bool isShowInstallRemoteConfig;
         private static bool isShowInstallAnalytic;
+        private static Vector2 scroll = Vector2.zero;
 
         public static void OnDrawFirebase(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             DrawRemoteConfig(position);
             DrawAnalytic(position);
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
+#if !VIRTUESKY_FIREBASE || !VIRTUESKY_FIREBASE_REMOTECONFIG
             EditorGUILayout.HelpBox(
-                "Add scripting define symbols: \n \"VIRTUESKY_FIREBASE\" for Firebase App, \n \"VIRTUESKY_FIREBASE_REMOTECONFIG\" for Firebase Remote Config, \n \"VIRTUESKY_FIREBASE_ANALYTIC\" for Firebase Analytic \n to use",
+                $"Add scripting define symbols: \n {ConstantDefineSymbols.VIRTUESKY_FIREBASE} for Firebase App,\n {ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG} for Firebase Remote Config to use",
                 MessageType.Info);
+#endif
+
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG);
+#if !VIRTUESKY_FIREBASE_ANALYTIC
+            EditorGUILayout.HelpBox(
+                $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC} for Firebase Analytic to use",
+                MessageType.Info);
+#endif
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC);
-
+            GUILayout.Space(10);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
 
@@ -52,8 +62,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.GuiLine(2);
         }
 
         static void DrawAnalytic(Rect position)
@@ -74,8 +83,7 @@ namespace VirtueSky.ControlPanel.Editor
                     ConstantPackage.PackageNameGGExternalDependencyManager,
                     ConstantPackage.MaxVersionGGExternalDependencyManager);
                 GUILayout.Space(10);
-                Handles.DrawAAPolyLine(2f, new Vector3(240, GUILayoutUtility.GetLastRect().y + 10),
-                    new Vector3(position.width - 30, GUILayoutUtility.GetLastRect().y + 10));
+                CPUtility.GuiLine(2);
             }
 
 

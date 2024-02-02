@@ -67,5 +67,22 @@ namespace VirtueSky.ControlPanel.Editor
 
             EditorGUI.DrawRect(rect, customColor.ToColor());
         }
+
+        public static void DrawCustomLine(float with, Vector2 positionPointStart, Vector2 positionPointEnd)
+        {
+            Handles.DrawAAPolyLine(with, positionPointStart, positionPointEnd);
+        }
+
+        public static void DrawLineLastRectY(float with, float posXPointStart, float posXPointEnd, float offsetY = 10)
+        {
+            Handles.DrawAAPolyLine(with, new Vector3(posXPointStart, GUILayoutUtility.GetLastRect().y + offsetY),
+                new Vector3(posXPointEnd, GUILayoutUtility.GetLastRect().y + offsetY));
+        }
+
+        public static void DrawLineLastRectX(float with, float posYPointStart, float posYPointEnd, float offsetX = 10)
+        {
+            Handles.DrawAAPolyLine(with, new Vector3(GUILayoutUtility.GetLastRect().x + offsetX, posYPointStart),
+                new Vector3(GUILayoutUtility.GetLastRect().x + offsetX, posYPointEnd));
+        }
     }
 }
