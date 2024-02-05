@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using UnityEditor;
+using UnityEditor.Android;
 using UnityEngine;
 using VirtueSky.UtilsEditor;
 
@@ -9,6 +11,8 @@ namespace VirtueSky.ControlPanel.Editor
         private static bool isShowInstallRemoteConfig;
         private static bool isShowInstallAnalytic;
         private static Vector2 scroll = Vector2.zero;
+        private static bool isCustomPackageName;
+        private static string packageName;
 
         public static void OnDrawFirebase(Rect position)
         {
@@ -83,7 +87,7 @@ namespace VirtueSky.ControlPanel.Editor
                     ConstantPackage.PackageNameGGExternalDependencyManager,
                     ConstantPackage.MaxVersionGGExternalDependencyManager);
                 GUILayout.Space(10);
-                CPUtility.GuiLine(2);
+                CPUtility.GuiLine();
             }
 
 
@@ -123,6 +127,52 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 FirebaseWindowEditor.CreateLogEventFirebaseSixParam();
             }
+
+            GUILayout.Space(10);
+            CPUtility.GuiLine();
+            isCustomPackageName = EditorGUILayout.Toggle("Custom Package Name: ", isCustomPackageName);
+            if (isCustomPackageName)
+            {
+                GUI.enabled = true;
+            }
+            else
+            {
+                packageName = Application.identifier;
+                GUI.enabled = false;
+            }
+
+            packageName = EditorGUILayout.TextField("Package Name: ", packageName);
+            GUI.enabled = true;
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Run Debug View", GUILayout.Width(400)))
+            {
+                SetDebugView(packageName);
+            }
+
+            if (GUILayout.Button("Set None Debug View"))
+            {
+                SetDebugView(".none.");
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
+        static void SetDebugView(string package)
+        {
+            var fileName = $"{AndroidExternalToolsSettings.sdkRootPath}/platform-tools/adb";
+            var arguments = $"shell setprop debug.firebase.analytics.app {package}";
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = fileName,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                Arguments = arguments,
+            };
+
+            var process = Process.Start(startInfo);
+            process!.WaitForExit();
+            UnityEngine.Debug.Log($"{fileName} {arguments}");
         }
     }
 }
