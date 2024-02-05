@@ -13,6 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
         private bool isFielAdmob = false;
         private string inputPackageFullNameAdd = "";
         private string inputPackageFullNameRemove = "";
+        private Vector2 scrollButton = Vector2.zero;
 
         [MenuItem("Sunflower/Control Panel &1", false)]
         public static void ShowPanelControlWindow()
@@ -49,7 +50,9 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             GUILayout.BeginVertical(GUILayout.Width(200));
+            scrollButton = EditorGUILayout.BeginScrollView(scrollButton);
             DrawButton();
+            EditorGUILayout.EndScrollView();
             Handles.DrawAAPolyLine(4, new Vector3(210, 0), new Vector3(210, position.height));
             GUILayout.EndVertical();
             DrawContent();

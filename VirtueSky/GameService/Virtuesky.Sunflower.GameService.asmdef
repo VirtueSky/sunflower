@@ -1,0 +1,19 @@
+{
+  "name": "Virtuesky.Sunflower.GameService",
+  "rootNamespace": "",
+  "references": [
+    "GUID:bd40169efe8642149b1d2b72ba4903ce",
+    "GUID:1ed07ff861e5f468287b0baef844706d",
+    "GUID:acb3cac55c622ec459c8caadf707623a",
+    "GUID:e2146bdc04d424169b039613a1b62bdf"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

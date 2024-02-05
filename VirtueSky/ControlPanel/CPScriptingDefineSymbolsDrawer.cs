@@ -6,12 +6,15 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPScriptingDefineSymbolsDrawer
     {
+        private static Vector2 scroll = Vector2.zero;
+
         public static void OnDrawScriptingDefineSymbols()
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
             GUILayout.Label("SCRIPTING DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
@@ -24,6 +27,9 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_NOTIFICATION);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPSFLYER);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.PRIME_TWEEN_DOTWEEN_ADAPTER);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPLE_AUTH);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_GPGS);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
     }

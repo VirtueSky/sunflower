@@ -23,6 +23,13 @@ namespace VirtueSky.ControlPanel.Editor
                         "VirtueSky/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
             }
 
+            GUILayout.Space(10);
+            CPUtility.GuiLine();
+            GUILayout.Space(10);
+            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPLE_AUTH);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_GPGS);
             GUILayout.EndVertical();
         }
     }
