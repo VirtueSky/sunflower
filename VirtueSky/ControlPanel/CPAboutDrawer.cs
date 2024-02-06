@@ -30,7 +30,8 @@ namespace VirtueSky.ControlPanel.Editor
                 Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
             }
 
-            Handles.DrawAAPolyLine(3, new Vector3(210, 195), new Vector3(position.width, 195));
+            Handles.DrawAAPolyLine(3, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 195),
+                new Vector3(position.width, 195));
             GUILayout.Space(20);
             GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
             GUILayout.Space(10);

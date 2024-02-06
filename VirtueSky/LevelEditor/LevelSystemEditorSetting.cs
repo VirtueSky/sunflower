@@ -13,6 +13,23 @@ namespace VirtueSky.LevelEditor
     {
         public List<string> whitelistPaths = new List<string>();
         public List<string> blacklistPaths = new List<string>();
+        public readonly string[] _optionsSpawn = { "Default", "Index", "Custom" };
+        public readonly string[] _optionsMode = { "Renderer", "Ignore" };
+
+        public Vector2 _pickObjectScrollPosition;
+        public Vector2 _whiteScrollPosition;
+        public Vector2 _blackScrollPosition;
+        public PickObject _currentPickObject;
+        public List<PickObject> _pickObjects;
+        public SerializedObject _pathFolderSerializedObject;
+        public SerializedProperty _pathFolderProperty;
+        public int _selectedSpawn;
+        public int _selectedMode;
+        public GameObject _rootSpawn;
+        public int _rootIndexSpawn;
+        public GameObject _previewPickupObject;
+        public UnityEngine.Object _previousObjectInpectorPreview;
+        public UnityEditor.Editor _editorInpsectorPreview;
     }
 
     public static class UtilitiesLevelSystemDrawer
@@ -38,7 +55,8 @@ namespace VirtueSky.LevelEditor
                 RegistryManager.Resolve();
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
-                Debug.Log($"{nameof(LevelSystemEditorSetting)} was created ad {path}/{nameof(LevelSystemEditorSetting)}.asset");
+                Debug.Log(
+                    $"{nameof(LevelSystemEditorSetting)} was created ad {path}/{nameof(LevelSystemEditorSetting)}.asset");
                 GUI.backgroundColor = Color.white;
                 GUI.enabled = true;
 

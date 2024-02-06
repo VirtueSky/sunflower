@@ -13,11 +13,11 @@ namespace VirtueSky.LevelEditor
 {
     public class LevelEditor : EditorWindow
     {
-        private class PickObject
-        {
-            public string group;
-            public GameObject pickedObject;
-        }
+        // private class PickObject
+        // {
+        //     public string group;
+        //     public GameObject pickedObject;
+        // }
 
         #region preview generator
 

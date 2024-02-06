@@ -19,7 +19,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            CPUtility.DrawLineLastRectY(3, 210, position.width);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("INSTALL PACKAGE IN APP REVIEW", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -37,7 +37,7 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.MaxVersionGGExternalDependencyManager);
 
             GUILayout.Space(10);
-            CPUtility.DrawLineLastRectY(3, 210, position.width);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);

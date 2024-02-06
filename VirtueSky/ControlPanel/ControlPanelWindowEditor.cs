@@ -34,6 +34,12 @@ namespace VirtueSky.ControlPanel.Editor
         {
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
+            CPLevelEditorDrawer.OnEnable();
+        }
+
+        private void OnDisable()
+        {
+            CPLevelEditorDrawer.OnDisable();
         }
 
         private void OnGUI()
@@ -53,7 +59,8 @@ namespace VirtueSky.ControlPanel.Editor
             scrollButton = EditorGUILayout.BeginScrollView(scrollButton);
             DrawButton();
             EditorGUILayout.EndScrollView();
-            Handles.DrawAAPolyLine(4, new Vector3(210, 0), new Vector3(210, position.height));
+            Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 0),
+                new Vector3(210, position.height));
             GUILayout.EndVertical();
             DrawContent();
             GUILayout.EndHorizontal();
@@ -165,7 +172,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPInAppReviewDrawer.OnDrawInAppReview(position);
                     break;
                 case StatePanelControl.LevelEditor:
-                    CPLevelEditorDrawer.OnDrawLevelEditor();
+                    CPLevelEditorDrawer.OnDrawLevelEditor(position);
                     break;
                 case StatePanelControl.NotificationsChanel:
                     CPNotificationChanelDrawer.OnDrawNotificationChanel(position);

@@ -6,9 +6,9 @@
     using UnityEditor;
     using UnityEngine;
 
-    internal delegate void ProbeHitSelectHandler(bool add);
+    public delegate void ProbeHitSelectHandler(bool add);
 
-    internal struct ProbeHit
+    public struct ProbeHit
     {
         public GameObject gameObject;
 
@@ -100,17 +100,18 @@
         }
     }
 
-    internal static class Probe
+    public static class Probe
     {
         #region Object Picking
 
         private const int DEFAULT_LIMIT = 100;
 
         private static bool CanPickHandles =>
-            E != null && (E.type == EventType.MouseMove || E.type == EventType.MouseDown || E.type == EventType.MouseUp || E.type == EventType.MouseDrag ||
+            E != null && (E.type == EventType.MouseMove || E.type == EventType.MouseDown ||
+                          E.type == EventType.MouseUp || E.type == EventType.MouseDrag ||
                           E.type == EventType.MouseEnterWindow || E.type == EventType.MouseLeaveWindow);
 
-        internal static ProbeHit? Pick(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, out Vector3 point)
+        public static ProbeHit? Pick(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, out Vector3 point)
         {
             var results = new List<ProbeHit>();
 
@@ -136,7 +137,8 @@
             }
         }
 
-        internal static ProbeHit? Pick(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, out Vector3 point, out Vector3 normal)
+        public static ProbeHit? Pick(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, out Vector3 point,
+            out Vector3 normal)
         {
             var results = new List<ProbeHit>();
 
@@ -165,7 +167,8 @@
         }
 
 
-        public static ProbeHit[] PickAll(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, int limit = DEFAULT_LIMIT)
+        public static ProbeHit[] PickAll(ProbeFilter filter, SceneView sceneView, Vector2 guiPosition,
+            int limit = DEFAULT_LIMIT)
         {
             var results = new List<ProbeHit>();
             PickAllNonAlloc(results,
@@ -176,7 +179,8 @@
             return results.ToArray();
         }
 
-        private static void PickAllNonAlloc(List<ProbeHit> hits, ProbeFilter filter, SceneView sceneView, Vector2 guiPosition, int limit = DEFAULT_LIMIT)
+        private static void PickAllNonAlloc(List<ProbeHit> hits, ProbeFilter filter, SceneView sceneView,
+            Vector2 guiPosition, int limit = DEFAULT_LIMIT)
         {
             var screenPosition = HandleUtility.GUIPointToScreenPixelCoordinate(guiPosition);
             var ray3D = HandleUtility.GUIPointToWorldRay(guiPosition);
@@ -287,7 +291,8 @@
 
                         var parentHit = new ProbeHit(parentGameObject);
                         parentHit.groupGameObject = gameObject;
-                        parentHit.distance = hit.distance ?? Vector3.Distance(parentHit.Transform.position, worldPosition);
+                        parentHit.distance =
+                            hit.distance ?? Vector3.Distance(parentHit.Transform.position, worldPosition);
                         parentHit.groupOrder = 1000 + depth;
 
                         ancestorHits.Add(parentHit);
@@ -329,7 +334,8 @@
             }
         }
 
-        private static void PickAllHandlesNonAlloc(HashSet<GameObject> results, Vector2 position, int limit = DEFAULT_LIMIT)
+        private static void PickAllHandlesNonAlloc(HashSet<GameObject> results, Vector2 position,
+            int limit = DEFAULT_LIMIT)
         {
             if (!CanPickHandles)
             {
