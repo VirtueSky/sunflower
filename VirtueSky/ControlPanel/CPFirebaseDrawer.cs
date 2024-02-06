@@ -129,6 +129,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
+#if UNITY_ANDROID
             CPUtility.GuiLine();
             isCustomPackageName = EditorGUILayout.Toggle("Custom Package Name: ", isCustomPackageName);
             if (isCustomPackageName)
@@ -155,6 +156,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.EndHorizontal();
+#endif
         }
 
         static void SetDebugView(string package)
