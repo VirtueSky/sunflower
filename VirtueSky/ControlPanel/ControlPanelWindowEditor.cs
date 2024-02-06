@@ -183,7 +183,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
                     break;
                 case StatePanelControl.QHierarchy:
-                    CPQHierarchyDrawer.OnDrawQHierarchyEvent();
+                    CPQHierarchyDrawer.OnDrawQHierarchyEvent(position, this);
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
