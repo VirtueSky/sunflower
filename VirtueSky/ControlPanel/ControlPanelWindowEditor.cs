@@ -141,15 +141,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
         }
 
-        void GuiLine(int i_height, Color colorLine)
-        {
-            Rect rect = EditorGUILayout.GetControlRect(false, i_height);
-
-            rect.height = i_height;
-
-            EditorGUI.DrawRect(rect, colorLine);
-        }
-
         #region Setup theme color
 
         void OnSettingColorTheme()

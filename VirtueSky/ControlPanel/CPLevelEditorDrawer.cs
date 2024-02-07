@@ -13,7 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPLevelEditorDrawer
     {
-        private static LevelSystemEditorSetting scriptableLevelSystemEditorSetting;
+        private static LevelEditorTabType levelEditorTabType = LevelEditorTabType.Setting;
 
         public static void OnDrawLevelEditor(Rect position)
         {
@@ -21,11 +21,6 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            // if (GUILayout.Button("Open Level Editor (Alt+3 / Option+3)"))
-            // {
-            //     UtilitiesLevelSystemDrawer.OpenLevelEditor();
-            // }
-
             var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
             if (scriptableSetting == null)
             {
@@ -48,11 +43,36 @@ namespace VirtueSky.ControlPanel.Editor
             }
             else
             {
-                if (scriptableSetting._pickObjects.Count == 0) RefreshAll();
-                OnGUI(position);
+                if (scriptableSetting.PickObjects.Count == 0) RefreshAll();
+                DrawTab();
+                GUILayout.Space(10);
+                CPUtility.GuiLine(2);
+                GUILayout.Space(10);
+                DrawContent(position);
             }
 
             GUILayout.EndVertical();
+        }
+
+        static void DrawTab()
+        {
+            EditorGUILayout.BeginHorizontal();
+            bool clickSetting = GUILayout.Toggle(levelEditorTabType == LevelEditorTabType.Setting, "Setting",
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(20));
+            if (clickSetting && levelEditorTabType != LevelEditorTabType.Setting)
+            {
+                levelEditorTabType = LevelEditorTabType.Setting;
+            }
+
+            bool clickPickup = GUILayout.Toggle(levelEditorTabType == LevelEditorTabType.Pickup, "Pickup Area",
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(20));
+            if (clickPickup && levelEditorTabType != LevelEditorTabType.Pickup)
+            {
+                levelEditorTabType = LevelEditorTabType.Pickup;
+                RefreshAll();
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         #region preview generator
@@ -125,7 +145,7 @@ namespace VirtueSky.ControlPanel.Editor
         }
 
         private static List<PickObject> PickObjects =>
-            LevelSystemEditorSetting.Instance._pickObjects ??= new List<PickObject>();
+            LevelSystemEditorSetting.Instance.PickObjects ??= new List<PickObject>();
 
 
         public static void OnEnable()
@@ -168,7 +188,7 @@ namespace VirtueSky.ControlPanel.Editor
         /// </summary>
         private static void RefreshPickObject()
         {
-            LevelSystemEditorSetting.Instance._pickObjects = new List<PickObject>();
+            LevelSystemEditorSetting.Instance.PickObjects = new List<PickObject>();
             var blacklistAssets = new List<GameObject>();
             var whitelistAssets = new List<GameObject>();
             if (!LevelSystemEditorSetting.Instance.blacklistPaths.IsNullOrEmpty())
@@ -209,7 +229,7 @@ namespace VirtueSky.ControlPanel.Editor
                 string group = Path.GetDirectoryName(AssetDatabase.GetAssetPath(o))
                     ?.Replace('\\', '/').Split('/').Last();
                 var po = new PickObject { pickedObject = o.gameObject, group = group };
-                LevelSystemEditorSetting.Instance._pickObjects.Add(po);
+                LevelSystemEditorSetting.Instance.PickObjects.Add(po);
             }
         }
 
@@ -217,7 +237,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
             {
-                LevelSystemEditorSetting.Instance._currentPickObject = null;
+                LevelSystemEditorSetting.Instance.CurrentPickObject = null;
                 // window.Repaint();
                 SceneView.RepaintAll();
                 return true;
@@ -226,22 +246,26 @@ namespace VirtueSky.ControlPanel.Editor
             return false;
         }
 
-        private static void OnGUI(Rect position)
+        private static void DrawContent(Rect position)
         {
-            GUILayout.Space(8);
             if (TryClose()) return;
             if (CheckEscape()) return;
             SceneView.RepaintAll();
-            InternalDrawDropArea(position);
-            GUILayout.Space(4);
-            InternalDrawSetting();
-            GUILayout.Space(4);
-            InternalDrawPickupArea(position);
+            if (levelEditorTabType == LevelEditorTabType.Setting)
+            {
+                InternalDrawDropArea(position);
+                GUILayout.Space(4);
+                InternalDrawSetting();
+            }
+            else
+            {
+                InternalDrawPickupArea(position);
+            }
         }
 
         private static void InternalDrawDropArea(Rect position)
         {
-            Uniform.DrawGroupFoldout("level_editor_drop_area", "Drop Area", DrawDropArea, false);
+            Uniform.DrawGroupFoldout("level_editor_drop_area", "Drop Area", DrawDropArea);
 
             void DrawDropArea()
             {
@@ -373,8 +397,8 @@ namespace VirtueSky.ControlPanel.Editor
                     else
                     {
                         GUILayout.Space(2);
-                        LevelSystemEditorSetting.Instance._whiteScrollPosition = GUILayout.BeginScrollView(
-                            LevelSystemEditorSetting.Instance._whiteScrollPosition,
+                        LevelSystemEditorSetting.Instance.WhitelistScrollPosition = GUILayout.BeginScrollView(
+                            LevelSystemEditorSetting.Instance.WhitelistScrollPosition,
                             false, false, GUILayout.Height(250));
                         foreach (string t in LevelSystemEditorSetting.Instance.whitelistPaths
                                      .ToList())
@@ -409,8 +433,8 @@ namespace VirtueSky.ControlPanel.Editor
                     else
                     {
                         GUILayout.Space(2);
-                        LevelSystemEditorSetting.Instance._blackScrollPosition = GUILayout.BeginScrollView(
-                            LevelSystemEditorSetting.Instance._blackScrollPosition,
+                        LevelSystemEditorSetting.Instance.BlacklistScrollPosition = GUILayout.BeginScrollView(
+                            LevelSystemEditorSetting.Instance.BlacklistScrollPosition,
                             false, false, GUILayout.Height(250));
                         foreach (string t in LevelSystemEditorSetting.Instance.blacklistPaths
                                      .ToList())
@@ -576,13 +600,13 @@ namespace VirtueSky.ControlPanel.Editor
 
             void DrawSetting()
             {
-                LevelSystemEditorSetting.Instance._selectedSpawn =
-                    EditorGUILayout.Popup("Where Spawn", LevelSystemEditorSetting.Instance._selectedSpawn,
-                        LevelSystemEditorSetting.Instance._optionsSpawn);
+                LevelSystemEditorSetting.Instance.SelectedSpawn =
+                    EditorGUILayout.Popup("Where Spawn", LevelSystemEditorSetting.Instance.SelectedSpawn,
+                        LevelSystemEditorSetting.Instance.optionsSpawn);
                 if (EditorGUI.EndChangeCheck())
                 {
                     switch (LevelSystemEditorSetting.Instance
-                                ._optionsSpawn[LevelSystemEditorSetting.Instance._selectedSpawn].ToLower())
+                                .optionsSpawn[LevelSystemEditorSetting.Instance.SelectedSpawn].ToLower())
                     {
                         case "default":
                             break;
@@ -590,9 +614,9 @@ namespace VirtueSky.ControlPanel.Editor
                             var currentPrefabState = GetCurrentPrefabStage();
                             if (currentPrefabState != null)
                             {
-                                LevelSystemEditorSetting.Instance._rootIndexSpawn = EditorGUILayout.IntField(
+                                LevelSystemEditorSetting.Instance.RootIndexSpawn = EditorGUILayout.IntField(
                                     new GUIContent("Index spawn", "Index from root stage contex"),
-                                    LevelSystemEditorSetting.Instance._rootIndexSpawn);
+                                    LevelSystemEditorSetting.Instance.RootIndexSpawn);
                             }
                             else
                             {
@@ -602,19 +626,19 @@ namespace VirtueSky.ControlPanel.Editor
 
                             break;
                         case "custom":
-                            LevelSystemEditorSetting.Instance._rootSpawn = (GameObject)EditorGUILayout.ObjectField(
-                                "Spawn in GO here -->", LevelSystemEditorSetting.Instance._rootSpawn,
+                            LevelSystemEditorSetting.Instance.RootSpawn = (GameObject)EditorGUILayout.ObjectField(
+                                "Spawn in GO here -->", LevelSystemEditorSetting.Instance.RootSpawn,
                                 typeof(GameObject), true);
                             break;
                     }
                 }
 
-                LevelSystemEditorSetting.Instance._selectedMode = EditorGUILayout.Popup("Mode",
-                    LevelSystemEditorSetting.Instance._selectedMode, LevelSystemEditorSetting.Instance._optionsMode);
+                LevelSystemEditorSetting.Instance.SelectedMode = EditorGUILayout.Popup("Mode",
+                    LevelSystemEditorSetting.Instance.SelectedMode, LevelSystemEditorSetting.Instance.optionsMode);
                 if (EditorGUI.EndChangeCheck())
                 {
                     switch (LevelSystemEditorSetting.Instance
-                                ._optionsMode[LevelSystemEditorSetting.Instance._selectedMode].ToLower())
+                                .optionsMode[LevelSystemEditorSetting.Instance.SelectedMode].ToLower())
                     {
                         case "renderer":
                             EditorGUILayout.HelpBox("Based on Renderer detection",
@@ -638,31 +662,31 @@ namespace VirtueSky.ControlPanel.Editor
 
             void DrawPickupArea()
             {
-                var tex = GetPreview(LevelSystemEditorSetting.Instance._currentPickObject
+                var tex = GetPreview(LevelSystemEditorSetting.Instance.CurrentPickObject
                     ?.pickedObject);
                 if (tex)
                 {
-                    string pickObjectName = LevelSystemEditorSetting.Instance._currentPickObject?.pickedObject.name;
+                    string pickObjectName = LevelSystemEditorSetting.Instance.CurrentPickObject?.pickedObject.name;
 
                     #region horizontal
 
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Space(position.width / 2 - 50);
-                    if (LevelSystemEditorSetting.Instance._editorInpsectorPreview == null ||
-                        LevelSystemEditorSetting.Instance._previousObjectInpectorPreview !=
-                        LevelSystemEditorSetting.Instance._currentPickObject?.pickedObject)
+                    if (LevelSystemEditorSetting.Instance.EditorInspectorPreview == null ||
+                        LevelSystemEditorSetting.Instance.PreviousObjectInspectorPreview !=
+                        LevelSystemEditorSetting.Instance.CurrentPickObject?.pickedObject)
                     {
-                        LevelSystemEditorSetting.Instance._editorInpsectorPreview =
-                            UnityEditor.Editor.CreateEditor(LevelSystemEditorSetting.Instance._currentPickObject
+                        LevelSystemEditorSetting.Instance.EditorInspectorPreview =
+                            UnityEditor.Editor.CreateEditor(LevelSystemEditorSetting.Instance.CurrentPickObject
                                 ?.pickedObject);
                     }
 
                     var rect = GUILayoutUtility.GetLastRect();
-                    LevelSystemEditorSetting.Instance._editorInpsectorPreview.DrawPreview(new Rect(
+                    LevelSystemEditorSetting.Instance.EditorInspectorPreview.DrawPreview(new Rect(
                         new Vector2(position.width / 2 - 50, rect.position.y),
                         new Vector2(100, 100)));
-                    LevelSystemEditorSetting.Instance._previousObjectInpectorPreview =
-                        LevelSystemEditorSetting.Instance._currentPickObject?.pickedObject;
+                    LevelSystemEditorSetting.Instance.PreviousObjectInspectorPreview =
+                        LevelSystemEditorSetting.Instance.CurrentPickObject?.pickedObject;
                     GUI.color = new Color(1, 1, 1, 0f);
                     if (GUILayout.Button(tex, GUILayout.Height(80), GUILayout.Width(80)))
                     {
@@ -707,7 +731,7 @@ namespace VirtueSky.ControlPanel.Editor
                 if (Uniform.GetFoldoutState("level_editor_config"))
                 {
                     switch (LevelSystemEditorSetting.Instance
-                                ._optionsSpawn[LevelSystemEditorSetting.Instance._selectedSpawn].ToLower())
+                                .optionsSpawn[LevelSystemEditorSetting.Instance.SelectedSpawn].ToLower())
                     {
                         case "default":
                             height -= 122;
@@ -736,8 +760,8 @@ namespace VirtueSky.ControlPanel.Editor
 
                 var h = position.height + height;
 
-                LevelSystemEditorSetting.Instance._pickObjectScrollPosition =
-                    GUILayout.BeginScrollView(LevelSystemEditorSetting.Instance._pickObjectScrollPosition,
+                LevelSystemEditorSetting.Instance.PickObjectScrollPosition =
+                    GUILayout.BeginScrollView(LevelSystemEditorSetting.Instance.PickObjectScrollPosition,
                         GUILayout.Height(h));
                 var resultSplitGroupObjects =
                     PickObjects.GroupBy(_ => _.group).Select(_ => _.ToList()).ToList();
@@ -772,7 +796,7 @@ namespace VirtueSky.ControlPanel.Editor
                         var pickObj = pickObjectsInGroup[counter];
                         var go = pickObj.pickedObject;
                         var tex = GetPreview(go);
-                        if (pickObj == LevelSystemEditorSetting.Instance._currentPickObject)
+                        if (pickObj == LevelSystemEditorSetting.Instance.CurrentPickObject)
                         {
                             GUI.color = new Color32(79, 213, 255, 255);
                         }
@@ -790,8 +814,8 @@ namespace VirtueSky.ControlPanel.Editor
                             }
                             else
                             {
-                                LevelSystemEditorSetting.Instance._currentPickObject =
-                                    LevelSystemEditorSetting.Instance._currentPickObject == pickObj ? null : pickObj;
+                                LevelSystemEditorSetting.Instance.CurrentPickObject =
+                                    LevelSystemEditorSetting.Instance.CurrentPickObject == pickObj ? null : pickObj;
                             }
                         }
 
@@ -830,7 +854,7 @@ namespace VirtueSky.ControlPanel.Editor
                     false,
                     () =>
                     {
-                        LevelSystemEditorSetting.Instance._currentPickObject = null;
+                        LevelSystemEditorSetting.Instance.CurrentPickObject = null;
                         RefreshAll();
                     });
                 menu.ShowAsContext();
@@ -881,13 +905,13 @@ namespace VirtueSky.ControlPanel.Editor
             var e = Event.current;
             if (!e.shift)
             {
-                if (LevelSystemEditorSetting.Instance._previewPickupObject != null)
-                    UnityEngine.Object.DestroyImmediate(LevelSystemEditorSetting.Instance._previewPickupObject);
+                if (LevelSystemEditorSetting.Instance.PreviewPickupObject != null)
+                    UnityEngine.Object.DestroyImmediate(LevelSystemEditorSetting.Instance.PreviewPickupObject);
                 return;
             }
 
-            if (LevelSystemEditorSetting.Instance._currentPickObject == null ||
-                !LevelSystemEditorSetting.Instance._currentPickObject.pickedObject) return;
+            if (LevelSystemEditorSetting.Instance.CurrentPickObject == null ||
+                !LevelSystemEditorSetting.Instance.CurrentPickObject.pickedObject) return;
             Vector3 mousePosition;
             Vector3 normal;
             if (sceneView.in2DMode)
@@ -895,14 +919,14 @@ namespace VirtueSky.ControlPanel.Editor
                 bool state = EditorExtend.Get2DMouseScenePosition(out var mousePosition2d);
                 mousePosition = mousePosition2d;
                 if (!state) return;
-                EditorExtend.FakeRenderSprite(LevelSystemEditorSetting.Instance._currentPickObject.pickedObject,
+                EditorExtend.FakeRenderSprite(LevelSystemEditorSetting.Instance.CurrentPickObject.pickedObject,
                     mousePosition,
                     Vector3.one, Quaternion.identity);
                 SceneView.RepaintAll();
 
                 if (e.type == EventType.MouseDown && e.button == 0)
                 {
-                    AddPickObject(LevelSystemEditorSetting.Instance._currentPickObject, mousePosition);
+                    AddPickObject(LevelSystemEditorSetting.Instance.CurrentPickObject, mousePosition);
                     EditorExtend.SkipEvent();
                 }
             }
@@ -934,29 +958,29 @@ namespace VirtueSky.ControlPanel.Editor
                     Handles.color = new Color(1, 0, 0, 0.5f);
                     Handles.DrawSolidDisc(mousePosition, normal, discSize * 0.5f);
 
-                    if (!LevelSystemEditorSetting.Instance._previewPickupObject)
+                    if (!LevelSystemEditorSetting.Instance.PreviewPickupObject)
                     {
-                        LevelSystemEditorSetting.Instance._previewPickupObject =
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject =
                             (GameObject)PrefabUtility.InstantiatePrefab(LevelSystemEditorSetting.Instance
-                                ._currentPickObject
+                                .CurrentPickObject
                                 ?.pickedObject);
                         StageUtility.PlaceGameObjectInCurrentStage(LevelSystemEditorSetting.Instance
-                            ._previewPickupObject);
-                        LevelSystemEditorSetting.Instance._previewPickupObject.hideFlags = HideFlags.HideAndDontSave;
-                        LevelSystemEditorSetting.Instance._previewPickupObject.layer =
+                            .PreviewPickupObject);
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject.hideFlags = HideFlags.HideAndDontSave;
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject.layer =
                             LayerMask.NameToLayer("Ignore Raycast");
                     }
 
 #pragma warning disable CS8321
                     void SetPosition2()
                     {
-                        var rendererAttach = LevelSystemEditorSetting.Instance._currentPickObject?.pickedObject
+                        var rendererAttach = LevelSystemEditorSetting.Instance.CurrentPickObject?.pickedObject
                             .GetComponentInChildren<Renderer>();
                         if (raycastHit == null || rendererAttach == null) return;
                         var rendererOther = raycastHit.Value.collider.transform
                             .GetComponentInChildren<Renderer>();
                         if (rendererOther == null) return;
-                        LevelSystemEditorSetting.Instance._previewPickupObject.transform.position = GetSpawnPosition(
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject.transform.position = GetSpawnPosition(
                             rendererAttach,
                             rendererOther, raycastHit.Value);
                     }
@@ -964,13 +988,13 @@ namespace VirtueSky.ControlPanel.Editor
 
                     void SetPosition()
                     {
-                        LevelSystemEditorSetting.Instance._previewPickupObject.transform.position = mousePosition;
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject.transform.position = mousePosition;
 
                         switch (LevelSystemEditorSetting.Instance
-                                    ._optionsMode[LevelSystemEditorSetting.Instance._selectedMode].ToLower())
+                                    .optionsMode[LevelSystemEditorSetting.Instance.SelectedMode].ToLower())
                         {
                             case "renderer":
-                                if (LevelSystemEditorSetting.Instance._previewPickupObject.CalculateBounds(
+                                if (LevelSystemEditorSetting.Instance.PreviewPickupObject.CalculateBounds(
                                         out var bounds,
                                         Space.World,
                                         true,
@@ -993,7 +1017,7 @@ namespace VirtueSky.ControlPanel.Editor
                                         difference = mousePosition.z - bounds.min.z;
                                     }
 
-                                    LevelSystemEditorSetting.Instance._previewPickupObject.transform.position +=
+                                    LevelSystemEditorSetting.Instance.PreviewPickupObject.transform.position +=
                                         difference * normal;
                                 }
 
@@ -1006,10 +1030,10 @@ namespace VirtueSky.ControlPanel.Editor
                     SetPosition();
 
                     if (e.type == EventType.MouseDown && e.button == 0 &&
-                        LevelSystemEditorSetting.Instance._previewPickupObject)
+                        LevelSystemEditorSetting.Instance.PreviewPickupObject)
                     {
-                        AddPickObject(LevelSystemEditorSetting.Instance._currentPickObject,
-                            LevelSystemEditorSetting.Instance._previewPickupObject.transform.position);
+                        AddPickObject(LevelSystemEditorSetting.Instance.CurrentPickObject,
+                            LevelSystemEditorSetting.Instance.PreviewPickupObject.transform.position);
                         EditorExtend.SkipEvent();
                     }
                 }
@@ -1135,20 +1159,20 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 var prefabRoot = currentPrefabState.prefabContentsRoot.transform;
                 switch (LevelSystemEditorSetting.Instance
-                            ._optionsSpawn[LevelSystemEditorSetting.Instance._selectedSpawn].ToLower())
+                            .optionsSpawn[LevelSystemEditorSetting.Instance.SelectedSpawn].ToLower())
                 {
                     case "default":
                         parent = prefabRoot;
                         break;
                     case "index":
-                        if (LevelSystemEditorSetting.Instance._rootIndexSpawn < 0) parent = prefabRoot;
-                        else if (prefabRoot.childCount - 1 > LevelSystemEditorSetting.Instance._rootIndexSpawn)
-                            parent = prefabRoot.GetChild(LevelSystemEditorSetting.Instance._rootIndexSpawn);
+                        if (LevelSystemEditorSetting.Instance.RootIndexSpawn < 0) parent = prefabRoot;
+                        else if (prefabRoot.childCount - 1 > LevelSystemEditorSetting.Instance.RootIndexSpawn)
+                            parent = prefabRoot.GetChild(LevelSystemEditorSetting.Instance.RootIndexSpawn);
                         else parent = prefabRoot;
                         break;
                     case "custom":
-                        parent = LevelSystemEditorSetting.Instance._rootSpawn
-                            ? LevelSystemEditorSetting.Instance._rootSpawn.transform
+                        parent = LevelSystemEditorSetting.Instance.RootSpawn
+                            ? LevelSystemEditorSetting.Instance.RootSpawn.transform
                             : prefabRoot;
                         break;
                 }
@@ -1156,15 +1180,15 @@ namespace VirtueSky.ControlPanel.Editor
             else
             {
                 switch (LevelSystemEditorSetting.Instance
-                            ._optionsSpawn[LevelSystemEditorSetting.Instance._selectedSpawn].ToLower())
+                            .optionsSpawn[LevelSystemEditorSetting.Instance.SelectedSpawn].ToLower())
                 {
                     case "default":
                     case "index":
                         parent = null;
                         break;
                     case "custom":
-                        parent = LevelSystemEditorSetting.Instance._rootSpawn
-                            ? LevelSystemEditorSetting.Instance._rootSpawn.transform
+                        parent = LevelSystemEditorSetting.Instance.RootSpawn
+                            ? LevelSystemEditorSetting.Instance.RootSpawn.transform
                             : null;
                         break;
                 }

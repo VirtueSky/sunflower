@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VirtueSky.UtilsEditor;
 using VirtueSky.Utils;
 
@@ -13,23 +14,29 @@ namespace VirtueSky.LevelEditor
     {
         public List<string> whitelistPaths = new List<string>();
         public List<string> blacklistPaths = new List<string>();
-        public readonly string[] _optionsSpawn = { "Default", "Index", "Custom" };
-        public readonly string[] _optionsMode = { "Renderer", "Ignore" };
+        public readonly string[] optionsSpawn = { "Default", "Index", "Custom" };
+        public readonly string[] optionsMode = { "Renderer", "Ignore" };
 
-        public Vector2 _pickObjectScrollPosition;
-        public Vector2 _whiteScrollPosition;
-        public Vector2 _blackScrollPosition;
-        public PickObject _currentPickObject;
-        public List<PickObject> _pickObjects;
+        public Vector2 PickObjectScrollPosition { get; set; }
+        public Vector2 WhitelistScrollPosition { get; set; }
+        public Vector2 BlacklistScrollPosition { get; set; }
+        public PickObject CurrentPickObject { get; set; }
+        public List<PickObject> PickObjects { get; set; } = new List<PickObject>();
         public SerializedObject _pathFolderSerializedObject;
         public SerializedProperty _pathFolderProperty;
-        public int _selectedSpawn;
-        public int _selectedMode;
-        public GameObject _rootSpawn;
-        public int _rootIndexSpawn;
-        public GameObject _previewPickupObject;
-        public UnityEngine.Object _previousObjectInpectorPreview;
-        public UnityEditor.Editor _editorInpsectorPreview;
+        public int SelectedSpawn { get; set; }
+        public int SelectedMode { get; set; }
+        public GameObject RootSpawn { get; set; }
+        public int RootIndexSpawn { get; set; }
+        public GameObject PreviewPickupObject { get; set; }
+        public UnityEngine.Object PreviousObjectInspectorPreview { get; set; }
+        public UnityEditor.Editor EditorInspectorPreview { get; set; }
+    }
+
+    public enum LevelEditorTabType
+    {
+        Setting,
+        Pickup
     }
 
     public static class UtilitiesLevelSystemDrawer
