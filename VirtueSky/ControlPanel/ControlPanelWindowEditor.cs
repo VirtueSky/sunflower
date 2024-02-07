@@ -55,7 +55,7 @@ namespace VirtueSky.ControlPanel.Editor
             // GuiLine(2, Color.black);
             GUILayout.Space(10);
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical(GUILayout.Width(200));
+            GUILayout.BeginVertical(GUILayout.Width(ConstantControlPanel.WIDTH_CONTENT_BUTTON_STATE_CONTROL_PANEL));
             scrollButton = EditorGUILayout.BeginScrollView(scrollButton);
             DrawButton();
             EditorGUILayout.EndScrollView();
@@ -68,85 +68,22 @@ namespace VirtueSky.ControlPanel.Editor
 
         void DrawButton()
         {
-            if (GUILayout.Button("Advertising"))
-            {
-                statePanelControl = StatePanelControl.Advertising;
-            }
-
-            if (GUILayout.Button("In App Purchase"))
-            {
-                statePanelControl = StatePanelControl.InAppPurchase;
-            }
-
-            if (GUILayout.Button("ScriptableObject Event"))
-            {
-                statePanelControl = StatePanelControl.SO_Event;
-            }
-
-            if (GUILayout.Button("ScriptableObject Variable"))
-            {
-                statePanelControl = StatePanelControl.SO_Variable;
-            }
-
-            if (GUILayout.Button("Audio"))
-            {
-                statePanelControl = StatePanelControl.Audio;
-            }
-
-            if (GUILayout.Button("Pools"))
-            {
-                statePanelControl = StatePanelControl.Pools;
-            }
-
-            if (GUILayout.Button("Firebase"))
-            {
-                statePanelControl = StatePanelControl.Firebase;
-            }
-
-            if (GUILayout.Button("Assets Finder"))
-            {
-                statePanelControl = StatePanelControl.AssetsUsageDetector;
-            }
-
-            if (GUILayout.Button("In App Review"))
-            {
-                statePanelControl = StatePanelControl.InAppReview;
-            }
-
-            if (GUILayout.Button("Level Editor"))
-            {
-                statePanelControl = StatePanelControl.LevelEditor;
-            }
-
-            if (GUILayout.Button("Game Service"))
-            {
-                statePanelControl = StatePanelControl.GameService;
-            }
-
-            if (GUILayout.Button("QHierarchy"))
-            {
-                statePanelControl = StatePanelControl.QHierarchy;
-            }
-
-            if (GUILayout.Button("Notifications Chanel"))
-            {
-                statePanelControl = StatePanelControl.NotificationsChanel;
-            }
-
-            if (GUILayout.Button("Scripting Define Symbols"))
-            {
-                statePanelControl = StatePanelControl.ScriptDefineSymbols;
-            }
-
-            if (GUILayout.Button("Register Package"))
-            {
-                statePanelControl = StatePanelControl.RegisterPackage;
-            }
-
-            if (GUILayout.Button("About"))
-            {
-                statePanelControl = StatePanelControl.About;
-            }
+            DrawButtonChooseState("Advertising", StatePanelControl.Advertising);
+            DrawButtonChooseState("In App Purchase", StatePanelControl.InAppPurchase);
+            DrawButtonChooseState("ScriptableObject Event", StatePanelControl.SO_Event);
+            DrawButtonChooseState("ScriptableObject Variable", StatePanelControl.SO_Variable);
+            DrawButtonChooseState("Audio", StatePanelControl.Audio);
+            DrawButtonChooseState("Pools", StatePanelControl.Pools);
+            DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
+            DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
+            DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
+            DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Game Service", StatePanelControl.GameService);
+            DrawButtonChooseState("QHierarchy", StatePanelControl.QHierarchy);
+            DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
+            DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
+            DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
+            DrawButtonChooseState("About", StatePanelControl.About);
         }
 
         void DrawContent()
@@ -159,7 +96,7 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.InAppPurchase:
                     CPIapDrawer.OnDrawIap(position);
                     break;
-                case StatePanelControl.AssetsUsageDetector:
+                case StatePanelControl.AssetsFinder:
                     CPAssetFinderDrawer.OnDrawAssetUsageDetector();
                     break;
                 case StatePanelControl.Audio:
@@ -236,13 +173,31 @@ namespace VirtueSky.ControlPanel.Editor
         }
 
         #endregion
+
+        void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
+        {
+            if (statePanelControl == _statePanelControlTab)
+            {
+                if (GUILayout.Button(title))
+                {
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(title,
+                        GUILayout.Width(ConstantControlPanel.WIDTH_CONTENT_BUTTON_STATE_CONTROL_PANEL - 20)))
+                {
+                    statePanelControl = _statePanelControlTab;
+                }
+            }
+        }
     }
 
     public enum StatePanelControl
     {
         Advertising,
         InAppPurchase,
-        AssetsUsageDetector,
+        AssetsFinder,
         Audio,
         Pools,
         InAppReview,

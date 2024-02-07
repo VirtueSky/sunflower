@@ -34,11 +34,11 @@ namespace VirtueSky.LevelEditor
 
     public static class UtilitiesLevelSystemDrawer
     {
-        [MenuItem("Sunflower/LevelEditor &3")]
-        public static void OpenLevelEditor()
-        {
-            OnInspectorGUI();
-        }
+        // [MenuItem("Sunflower/LevelEditor &3")]
+        // public static void OpenLevelEditor()
+        // {
+        //     OnInspectorGUI();
+        // }
 
         public static void OnInspectorGUI()
         {

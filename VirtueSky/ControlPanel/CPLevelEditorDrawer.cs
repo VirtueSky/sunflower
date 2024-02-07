@@ -21,10 +21,10 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Open Level Editor (Alt+3 / Option+3)"))
-            {
-                UtilitiesLevelSystemDrawer.OpenLevelEditor();
-            }
+            // if (GUILayout.Button("Open Level Editor (Alt+3 / Option+3)"))
+            // {
+            //     UtilitiesLevelSystemDrawer.OpenLevelEditor();
+            // }
 
             var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
             if (scriptableSetting == null)
