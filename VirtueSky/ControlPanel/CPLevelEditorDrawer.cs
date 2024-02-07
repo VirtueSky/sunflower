@@ -58,14 +58,14 @@ namespace VirtueSky.ControlPanel.Editor
         {
             EditorGUILayout.BeginHorizontal();
             bool clickSetting = GUILayout.Toggle(levelEditorTabType == LevelEditorTabType.Setting, "Setting",
-                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(20));
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(25));
             if (clickSetting && levelEditorTabType != LevelEditorTabType.Setting)
             {
                 levelEditorTabType = LevelEditorTabType.Setting;
             }
 
             bool clickPickup = GUILayout.Toggle(levelEditorTabType == LevelEditorTabType.Pickup, "Pickup Area",
-                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(20));
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(25));
             if (clickPickup && levelEditorTabType != LevelEditorTabType.Pickup)
             {
                 levelEditorTabType = LevelEditorTabType.Pickup;

@@ -167,19 +167,11 @@ namespace VirtueSky.ControlPanel.Editor
 
         void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
         {
-            if (statePanelControl == _statePanelControlTab)
+            bool clicked = GUILayout.Toggle(_statePanelControlTab == statePanelControl, title, GUI.skin.button,
+                GUILayout.ExpandWidth(true));
+            if (clicked && statePanelControl != _statePanelControlTab)
             {
-                if (GUILayout.Button(title))
-                {
-                }
-            }
-            else
-            {
-                if (GUILayout.Button(title,
-                        GUILayout.Width(ConstantControlPanel.WIDTH_CONTENT_BUTTON_STATE_CONTROL_PANEL - 20)))
-                {
-                    statePanelControl = _statePanelControlTab;
-                }
+                statePanelControl = _statePanelControlTab;
             }
         }
     }
