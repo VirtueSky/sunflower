@@ -20,6 +20,13 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
+            GUILayout.Label("INSTALL MOBILE NOTIFICATIONS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            CPUtility.DrawButtonInstallPackage("Install Mobile Notifications", "Remove Mobile Notifications",
+                ConstantPackage.PackageNameMobileNotification, ConstantPackage.MaxVersionMobileNotification);
+            GUILayout.Space(10);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
+            GUILayout.Space(10);
             GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
 #if !VIRTUESKY_NOTIFICATION
