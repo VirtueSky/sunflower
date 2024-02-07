@@ -2,7 +2,7 @@
   "name": "com.virtuesky.sunflower",
   "displayName": "Sunflower",
   "description": "Core ScriptableObject Architecture for building Unity games",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "unity": "2022.3",
   "category": "virtuesky",
   "keywords": [
