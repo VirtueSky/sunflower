@@ -8,7 +8,7 @@ namespace VirtueSky.DataStorage
     {
         #region Data
 
-        [MenuItem("GameBase/Clear Data")]
+        [MenuItem("Sunflower/Game Data/Clear Data")]
         public static void ClearAllData()
         {
             GameData.DelDataInStorage();
@@ -17,10 +17,11 @@ namespace VirtueSky.DataStorage
             Debug.Log($"<color=Green>Clear data succeed</color>");
         }
 
-        [MenuItem("GameBase/Save Data")]
+        [MenuItem("Sunflower/Game Data/Save Data")]
         public static void SaveData()
         {
             GameData.Save();
+            Debug.Log($"<color=Green>Save data succeed</color>");
         }
 
         #endregion

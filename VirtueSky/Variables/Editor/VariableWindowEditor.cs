@@ -9,7 +9,7 @@ namespace VirtueSky.Variables
         #region Create ScriptableObject Variable
 
         private const string pathVariable = "/Variable";
-        private const string menuVariable = "Sunflower/Create Variable/";
+        private const string menuVariable = "Sunflower/Scriptable/Create Variable/";
 
         [MenuItem(menuVariable + "Transform Variable")]
         public static void CreateVariableTransform()

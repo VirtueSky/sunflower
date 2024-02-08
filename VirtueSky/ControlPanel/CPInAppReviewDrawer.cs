@@ -13,7 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("IN APP REVIEW", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Create In App Review"))
+            if (GUILayout.Button("Create Scriptable In App Review"))
             {
                 RatingWindowEditor.CreateInAppReview();
             }

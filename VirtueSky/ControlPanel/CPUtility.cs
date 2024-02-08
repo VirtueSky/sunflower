@@ -14,6 +14,7 @@ namespace VirtueSky.ControlPanel.Editor
             bool isInstall = RegistryManager.IsInstalledPackage(packageName);
             if (isInstall)
             {
+                GUI.backgroundColor = CustomColor.Red.ToColor();
                 if (GUILayout.Button(labelRemove, GUILayout.Width(withButton)))
                 {
                     RegistryManager.Remove(packageName);
@@ -22,12 +23,15 @@ namespace VirtueSky.ControlPanel.Editor
             }
             else
             {
+                GUI.backgroundColor = CustomColor.Green.ToColor();
                 if (GUILayout.Button(labelInstall, GUILayout.Width(withButton)))
                 {
                     RegistryManager.AddOverrideVersion(packageName,
                         packageVersion);
                 }
             }
+
+            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
 
             GUILayout.Space(10);
             GUILayout.Toggle(isInstall, TextIsInstallPackage(isInstall));
@@ -38,11 +42,22 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.BeginHorizontal();
             bool isAddSymbols = EditorScriptDefineSymbols.IsFlagEnabled(flagSymbols);
-            string labelButton = isAddSymbols ? "Remove Symbols ---> " : "Add Symbols ---> ";
+            string labelButton = isAddSymbols ? "Remove ---> " : "Add ---> ";
+            if (isAddSymbols)
+            {
+                GUI.backgroundColor = CustomColor.Red.ToColor();
+            }
+            else
+            {
+                GUI.backgroundColor = CustomColor.Green.ToColor();
+            }
+
             if (GUILayout.Button(labelButton + flagSymbols, GUILayout.Width(withButton)))
             {
                 EditorScriptDefineSymbols.SwitchFlag(flagSymbols);
             }
+
+            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
 
             GUILayout.Space(10);
             GUILayout.Toggle(isAddSymbols, TextIsEnable(isAddSymbols));

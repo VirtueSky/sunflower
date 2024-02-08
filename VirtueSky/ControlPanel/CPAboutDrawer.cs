@@ -6,7 +6,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAboutDrawer
     {
-        public static void OnDrawAbout(Rect position, Action drawSetting)
+        public static void OnDrawAbout(Rect position, Action drawSetting = null)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
@@ -30,12 +30,12 @@ namespace VirtueSky.ControlPanel.Editor
                 Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
             }
 
-            Handles.DrawAAPolyLine(3, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 195),
-                new Vector3(position.width, 195));
-            GUILayout.Space(20);
-            GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            drawSetting?.Invoke();
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
+            // GUILayout.Space(20);
+            // GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
+            // GUILayout.Space(10);
+            // drawSetting?.Invoke();
             GUILayout.EndVertical();
         }
     }

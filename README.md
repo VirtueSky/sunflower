@@ -4,13 +4,13 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `2.4.3`
+for version `2.4.4`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.4.3",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.4.4",
 ```
 
 #### Note:
 
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
 
-  (Reference: https://github.com/pancake-llc/foundation)
+  (Reference: https://github.com/pancake-llc/foundation/tree/main/Assets/Heart)

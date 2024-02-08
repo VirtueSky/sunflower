@@ -11,7 +11,7 @@ namespace VirtueSky.Events
         #region Create ScriptableObject Event
 
         private const string pathEvent = "/Event";
-        private const string menuEvent = "Sunflower/Create Event/";
+        private const string menuEvent = "Sunflower/Scriptable/Create Event/";
 
         [MenuItem(menuEvent + "EventNoParam")]
         public static void CreateEventNoParam()

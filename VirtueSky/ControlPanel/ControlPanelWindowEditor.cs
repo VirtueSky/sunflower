@@ -70,8 +70,8 @@ namespace VirtueSky.ControlPanel.Editor
         {
             DrawButtonChooseState("Advertising", StatePanelControl.Advertising);
             DrawButtonChooseState("In App Purchase", StatePanelControl.InAppPurchase);
-            DrawButtonChooseState("ScriptableObject Event", StatePanelControl.SO_Event);
-            DrawButtonChooseState("ScriptableObject Variable", StatePanelControl.SO_Variable);
+            DrawButtonChooseState("Scriptable Event", StatePanelControl.SO_Event);
+            DrawButtonChooseState("Scriptable Variable", StatePanelControl.SO_Variable);
             DrawButtonChooseState("Audio", StatePanelControl.Audio);
             DrawButtonChooseState("Pools", StatePanelControl.Pools);
             DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
@@ -136,7 +136,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPGameServiceDrawer.OnDrawGameService();
                     break;
                 case StatePanelControl.About:
-                    CPAboutDrawer.OnDrawAbout(position, () => { OnSettingColorTheme(); });
+                    CPAboutDrawer.OnDrawAbout(position);
                     break;
             }
         }
