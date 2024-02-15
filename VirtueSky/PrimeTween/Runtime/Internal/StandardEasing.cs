@@ -9,142 +9,25 @@
 
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CompareOfFloatsByEqualityOperator
-
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace PrimeTween {
-    [PublicAPI]
     internal static class StandardEasing {
         const float halfPi = Mathf.PI / 2f;
-        const float twoPi = Mathf.PI * 2f;
-
-        public static float InSine(float t) => 1 - Mathf.Cos(t * halfPi);
-        
-        public static float OutSine(float t) => Mathf.Sin(t * halfPi);
-        
-        public static float InOutSine(float t) => -0.5f * (Mathf.Cos(Mathf.PI * t) - 1);
-        
-        public static float InQuad(float t) => t * t;
-        
-        public static float OutQuad(float t) => -t * (t - 2);
-        
-        public static float InOutQuad(float t) {
-            t *= 2f;
-            if (t < 1) {
-                return 0.5f * t * t;
-            }
-            return -0.5f * (--t * (t - 2) - 1);
-        }
-        
-        public static float InCubic(float t) => t * t * t;
-        
-        public static float OutCubic(float t) => (t -= 1) * t * t + 1;
-        
-        public static float InOutCubic(float t) {
-            t *= 2f;
-            if (t < 1) {
-                return 0.5f * t * t * t;
-            }
-            return 0.5f * ((t -= 2) * t * t + 2);
-        }
-        
-        public static float InQuart(float t) => t * t * t * t;
-        
-        public static float OutQuart(float t) => -((t -= 1) * t * t * t - 1);
-        
-        public static float InOutQuart(float t) {
-            t *= 2f;
-            if (t < 1) {
-                return 0.5f * t * t * t * t;
-            }
-            return -0.5f * ((t -= 2) * t * t * t - 2);
-        }
-        
-        public static float InQuint(float t) => t * t * t * t * t;
-        
-        public static float OutQuint(float t) => (t -= 1) * t * t * t * t + 1;
-        
-        public static float InOutQuint(float t) {
-            t *= 2f;
-            if (t < 1) {
-                return 0.5f * t * t * t * t * t;
-            }
-            return 0.5f * ((t -= 2) * t * t * t * t + 2);
-        }
-        
-        public static float InExpo(float x) => x == 0 ? 0 : Mathf.Pow(2, 10 * (x - 1));
-        
-        public static float OutExpo(float t) {
-            if (t == 1) {
-                return 1;
-            }
-            return -Mathf.Pow(2, -10 * t) + 1;
-        }
-        
-        public static float InOutExpo(float t) {
-            if (t == 0) {
-                return 0;
-            }
-            if (t == 1) {
-                return 1;
-            }
-            t *= 2f;
-            if (t < 1) {
-                return 0.5f * Mathf.Pow(2, 10 * (t - 1));
-            }
-            return 0.5f * (-Mathf.Pow(2, -10 * --t) + 2);
-        }
-        
-        public static float InCirc(float t) => -(Mathf.Sqrt(1 - t * t) - 1);
-        
-        public static float OutCirc(float t) => Mathf.Sqrt(1 - (t -= 1) * t);
-        
-        public static float InOutCirc(float t) {
-            t *= 2f;
-            if (t < 1) {
-                return -0.5f * (Mathf.Sqrt(1 - t * t) - 1);
-            }
-            return 0.5f * (Mathf.Sqrt(1 - (t -= 2) * t) + 1);
-        }
-
         internal const float backEaseConst = 1.70158f;
-        public static float InBack(float t) => t * t * ((backEaseConst + 1) * t - backEaseConst);
-        
-        public static float OutBack(float t) => (t -= 1) * t * ((backEaseConst + 1) * t + backEaseConst) + 1;
-        
-        public static float InOutBack(float t) {
-            t *= 2f;
-            const float c1 = backEaseConst * 1.525f;
-            if (t < 1) {
-                return 0.5f * (t * t * ((c1 + 1) * t - c1));
-            }
-            return 0.5f * ((t -= 2) * t * ((c1 + 1) * t + c1) + 2);
-        }
-        
-        const float elasticEasePeriod = 0.3f;
-        const float elasticEaseConst = 0.02999433f; // elasticEasePeriod / twoPi * Mathf.Asin(1 / c);
+        internal const float defaultElasticEasePeriod = 0.3f;
 
-        public static float InElastic(float t) => 1 - OutElastic(1 - t);
+        static float InElastic(float t) => 1 - OutElastic(1 - t);
 
-        public static float OutElastic(float t) {
+        static float OutElastic(float t) {
             const float decayFactor = 1f;
-            const float period = 0.3f;
             float decay = Mathf.Pow(2, -10f * t * decayFactor);
-            const float phase = period / 4;
-            return t > 0.9999f ? 1 : decay * Mathf.Sin((t - phase) * twoPi / period) + 1;
+            const float phase = defaultElasticEasePeriod / 4;
+            const float twoPi = Mathf.PI * 2f;
+            return t > 0.9999f ? 1 : decay * Mathf.Sin((t - phase) * twoPi / defaultElasticEasePeriod) + 1;
         }
 
-        public static float InOutElastic(float t) {
-            if (t < 0.5f) {
-                return InElastic(t * 2) * 0.5f;
-            }
-            return 0.5f + OutElastic((t - 0.5f) * 2f) * 0.5f;
-        }
-
-        public static float InBounce(float x) => 1 - OutBounce(1 - x);
-
-        public static float OutBounce(float x) {
+        static float OutBounce(float x) {
             const float n1 = 7.5625f;
             const float d1 = 2.75f;
             if (x < 1 / d1) {
@@ -159,76 +42,125 @@ namespace PrimeTween {
             return n1 * (x -= 2.625f / d1) * x + 0.984375f;
         }
 
-        public static float InOutBounce(float x) {
-            return x < 0.5
-                ? (1 - OutBounce(1 - 2 * x)) / 2
-                : (1 + OutBounce(2 * x - 1)) / 2;
-        }
-
-        public static float Evaluate(float t, Ease ease) {
+        internal static float Evaluate(float t, Ease ease) {
             switch (ease) {
                 case Ease.Linear:
                     return t;
                 case Ease.InSine:
-                    return InSine(t);
+                    return 1 - Mathf.Cos(t * halfPi);
                 case Ease.OutSine:
-                    return OutSine(t);
+                    return Mathf.Sin(t * halfPi);
                 case Ease.InOutSine:
-                    return InOutSine(t);
+                    return -0.5f * (Mathf.Cos(Mathf.PI * t) - 1);
                 case Ease.InQuad:
-                    return InQuad(t);
+                    return t * t;
                 case Ease.OutQuad:
-                    return OutQuad(t);
+                    return -t * (t - 2);
                 case Ease.InOutQuad:
-                    return InOutQuad(t);
+                    float t1 = t;
+                    t1 *= 2f;
+                    if (t1 < 1) {
+                        return 0.5f * t1 * t1;
+                    }
+                    return -0.5f * (--t1 * (t1 - 2) - 1);
                 case Ease.InCubic:
-                    return InCubic(t);
+                    return t * t * t;
                 case Ease.OutCubic:
-                    return OutCubic(t);
+                    float t2 = t;
+                    return (t2 -= 1) * t2 * t2 + 1;
                 case Ease.InOutCubic:
-                    return InOutCubic(t);
+                    float t3 = t;
+                    t3 *= 2f;
+                    if (t3 < 1) {
+                        return 0.5f * t3 * t3 * t3;
+                    }
+                    return 0.5f * ((t3 -= 2) * t3 * t3 + 2);
                 case Ease.InQuart:
-                    return InQuart(t);
+                    return t * t * t * t;
                 case Ease.OutQuart:
-                    return OutQuart(t);
+                    float t4 = t;
+                    return -((t4 -= 1) * t4 * t4 * t4 - 1);
                 case Ease.InOutQuart:
-                    return InOutQuart(t);
+                    float t5 = t;
+                    t5 *= 2f;
+                    if (t5 < 1) {
+                        return 0.5f * t5 * t5 * t5 * t5;
+                    }
+                    return -0.5f * ((t5 -= 2) * t5 * t5 * t5 - 2);
                 case Ease.InQuint:
-                    return InQuint(t);
+                    return t * t * t * t * t;
                 case Ease.OutQuint:
-                    return OutQuint(t);
+                    float t6 = t;
+                    return (t6 -= 1) * t6 * t6 * t6 * t6 + 1;
                 case Ease.InOutQuint:
-                    return InOutQuint(t);
+                    float t7 = t;
+                    t7 *= 2f;
+                    if (t7 < 1) {
+                        return 0.5f * t7 * t7 * t7 * t7 * t7;
+                    }
+                    return 0.5f * ((t7 -= 2) * t7 * t7 * t7 * t7 + 2);
                 case Ease.InExpo:
-                    return InExpo(t);
+                    return t == 0 ? 0 : Mathf.Pow(2, 10 * (t - 1));
                 case Ease.OutExpo:
-                    return OutExpo(t);
+                    if (t == 1) {
+                        return 1;
+                    }
+                    return -Mathf.Pow(2, -10 * t) + 1;
                 case Ease.InOutExpo:
-                    return InOutExpo(t);
+                    float t8 = t;
+                    if (t8 == 0) {
+                        return 0;
+                    }
+                    if (t8 == 1) {
+                        return 1;
+                    }
+                    t8 *= 2f;
+                    if (t8 < 1) {
+                        return 0.5f * Mathf.Pow(2, 10 * (t8 - 1));
+                    }
+                    return 0.5f * (-Mathf.Pow(2, -10 * --t8) + 2);
                 case Ease.InCirc:
-                    return InCirc(t);
+                    return -(Mathf.Sqrt(1 - t * t) - 1);
                 case Ease.OutCirc:
-                    return OutCirc(t);
+                    float t9 = t;
+                    return Mathf.Sqrt(1 - (t9 -= 1) * t9);
                 case Ease.InOutCirc:
-                    return InOutCirc(t);
+                    float t10 = t;
+                    t10 *= 2f;
+                    if (t10 < 1) {
+                        return -0.5f * (Mathf.Sqrt(1 - t10 * t10) - 1);
+                    }
+                    return 0.5f * (Mathf.Sqrt(1 - (t10 -= 2) * t10) + 1);
                 case Ease.InBack:
-                    return InBack(t);
+                    return t * t * ((backEaseConst + 1) * t - backEaseConst);
                 case Ease.OutBack:
-                    return OutBack(t);
+                    float t11 = t;
+                    return (t11 -= 1) * t11 * ((backEaseConst + 1) * t11 + backEaseConst) + 1;
                 case Ease.InOutBack:
-                    return InOutBack(t);
+                    float t12 = t;
+                    t12 *= 2f;
+                    const float c1 = backEaseConst * 1.525f;
+                    if (t12 < 1) {
+                        return 0.5f * (t12 * t12 * ((c1 + 1) * t12 - c1));
+                    }
+                    return 0.5f * ((t12 -= 2) * t12 * ((c1 + 1) * t12 + c1) + 2);
                 case Ease.InElastic:
                     return InElastic(t);
                 case Ease.OutElastic:
                     return OutElastic(t);
                 case Ease.InOutElastic:
-                    return InOutElastic(t);
+                    if (t < 0.5f) {
+                        return InElastic(t * 2) * 0.5f;
+                    }
+                    return 0.5f + OutElastic((t - 0.5f) * 2f) * 0.5f;
                 case Ease.InBounce:
-                    return InBounce(t);
+                    return 1 - OutBounce(1 - t);
                 case Ease.OutBounce:
                     return OutBounce(t);
                 case Ease.InOutBounce:
-                    return InOutBounce(t);
+                    return t < 0.5
+                        ? (1 - OutBounce(1 - 2 * t)) / 2
+                        : (1 + OutBounce(2 * t - 1)) / 2;
                 case Ease.Custom:
                 case Ease.Default:
                 default:

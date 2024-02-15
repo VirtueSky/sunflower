@@ -23,7 +23,13 @@ namespace PrimeTween {
             parametricEasePeriod = period;
         }
 
-        Easing(Ease ease, AnimationCurve curve) {
+        Easing(Ease ease, [CanBeNull] AnimationCurve curve) {
+            if (ease == Ease.Custom) {
+                if (curve == null || !TweenSettings.ValidateCustomCurveKeyframes(curve)) {
+                    Debug.LogError("Ease is Ease.Custom, but AnimationCurve is not configured correctly. Using Ease.Default instead.");
+                    ease = Ease.Default;
+                }
+            }
             this.ease = ease;
             this.curve = curve;
             parametricEase = ParametricEase.None;
@@ -57,18 +63,15 @@ namespace PrimeTween {
         public static Easing Overshoot(float strength) => new Easing(ParametricEase.Overshoot, strength * StandardEasing.backEaseConst);
         
         /// <summary>Customizes the <see cref="strength"/> and oscillation <see cref="period"/> of Ease.OutElastic.</summary>
-        public static Easing Elastic(float strength, float period = 0.3f) {
+        public static Easing Elastic(float strength, float period = StandardEasing.defaultElasticEasePeriod) {
             if (strength < 1) {
                 strength = Mathf.Lerp(0.2f, 1f, strength); // remap strength to limit decayFactor
             }
             return new Easing(ParametricEase.Elastic, strength, Mathf.Max(0.1f, period));
         }
 
-        internal static float Evaluate(float t, [NotNull] ReusableTween tween) {
-            var settings = tween.settings;
-            var strength = settings.parametricEaseStrength;
-            var period = settings.parametricEasePeriod;
-            switch (settings.parametricEase) {
+        internal static float Evaluate(float t, ParametricEase parametricEase, float strength, float period, float duration) {
+            switch (parametricEase) {
                 case ParametricEase.Overshoot:
                     t -= 1.0f;
                     return t * t * ((strength + 1) * t + strength) + 1.0f;
@@ -82,7 +85,6 @@ namespace PrimeTween {
                         strength = 1;
                     }
                     float decay = Mathf.Pow(2, -10f * t * decayFactor);
-                    var duration = settings.duration;
                     if (duration == 0) {
                         return 1;
                     }
@@ -90,27 +92,36 @@ namespace PrimeTween {
                     float phase = period / twoPi * Mathf.Asin(1f / strength);
                     return t > 0.9999f ? 1 : strength * decay * Mathf.Sin((t - phase) * twoPi / period) + 1f;
                 case ParametricEase.Bounce:
-                    return Bounce(t, tween, 1);
+                    return Bounce(t, strength);
                 case ParametricEase.BounceExact:
-                    var fullAmplitude = tween.propType == PropType.Quaternion ? 
-                        Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) : 
-                        tween.diff.Vector4Val.magnitude;
-                    var strengthFactor = fullAmplitude < 0.0001f ? 1 : 1f / (fullAmplitude * (1f - firstBounceAmpl));
-                    return Bounce(t, tween, strengthFactor);
                 case ParametricEase.None:
                 default:
                     throw new System.Exception();
             }
         }
 
+        internal static float Evaluate(float t, [NotNull] ReusableTween tween) {
+            var settings = tween.settings;
+            var parametricEase = settings.parametricEase;
+            var strength = settings.parametricEaseStrength;
+            if (parametricEase == ParametricEase.BounceExact) {
+                var fullAmplitude = tween.propType == PropType.Quaternion ? 
+                    Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) : 
+                    tween.diff.Vector4Val.magnitude;
+                var strengthFactor = fullAmplitude < 0.0001f ? 1 : 1f / (fullAmplitude * (1f - firstBounceAmpl));
+                return Bounce(t, strength * strengthFactor);
+            }
+            return Evaluate(t, parametricEase, strength, settings.parametricEasePeriod, settings.duration);
+        }
+
         const float firstBounceAmpl = 0.75f;
-        static float Bounce(float t, [NotNull] ReusableTween tween, float strengthFactor) {
+        static float Bounce(float t, float strength) {
             const float n1 = 7.5625f;
             const float d1 = 2.75f;
             if (t < 1 / d1) {
                 return n1 * t * t;
             }
-            return 1 - (1 - bounce()) * tween.settings.parametricEaseStrength * strengthFactor;
+            return 1 - (1 - bounce()) * strength;
             float bounce() {
                 if (t < 2 / d1) {
                     return n1 * (t -= 1.5f / d1) * t + firstBounceAmpl;
@@ -121,6 +132,41 @@ namespace PrimeTween {
                 return n1 * (t -= 2.625f / d1) * t + 0.984375f;
             }
         }
+
+        #if PRIME_TWEEN_DOTWEEN_ADAPTER
+        /// Can't be public API because ParametricEase.BounceExact can only be evaluated with these params: propType, startValue, endValue
+        /// <see cref="Evaluate(float,PrimeTween.ReusableTween)"/>
+        internal float Evaluate(float interpolationFactor) {
+            if (ease == Ease.Custom) {
+                if (parametricEase != ParametricEase.None) {
+                    Assert.AreNotEqual(ParametricEase.BounceExact, parametricEase);
+                    return Evaluate(interpolationFactor, parametricEase, parametricEaseStrength, parametricEasePeriod, 1f);
+                }
+                Assert.IsNull(curve);
+                return curve.Evaluate(interpolationFactor);
+            }
+            return Evaluate(interpolationFactor, ease);
+        }
+        #endif
+        
+        #if PRIME_TWEEN_DOTWEEN_ADAPTER || PRIME_TWEEN_EXPERIMENTAL
+        public static float Evaluate(float interpolationFactor, Ease ease) {
+            switch (ease) {
+                case Ease.Custom:
+                    Debug.LogError("Ease.Custom is an invalid type for Easing.Evaluate(). Please choose another Ease type instead.");
+                    return interpolationFactor;
+                case Ease.Default:
+                    #if UNITY_EDITOR
+                    if (Constants.warnNoInstance) {
+                        return interpolationFactor;
+                    }
+                    #endif
+                    return StandardEasing.Evaluate(interpolationFactor, PrimeTweenManager.Instance.defaultEase);
+                default:
+                    return StandardEasing.Evaluate(interpolationFactor, ease);
+            }
+        }
+        #endif
     }
 
     internal enum ParametricEase {

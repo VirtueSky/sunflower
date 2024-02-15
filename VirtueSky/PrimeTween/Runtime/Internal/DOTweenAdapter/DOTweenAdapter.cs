@@ -1,5 +1,5 @@
 // ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMethodReturnValue.Global
 #if PRIME_TWEEN_DOTWEEN_ADAPTER
 using System;
 using System.Collections;
@@ -95,6 +95,22 @@ namespace PrimeTween {
             return result;
         }
         
+        internal static Easing GetEasing(Ease ease, float? maybeStrength, float? maybePeriod) {
+            var strength = maybeStrength ?? 1;
+            switch (ease) {
+                case Ease.OutBack:
+                    if (maybePeriod.HasValue) {
+                        Debug.LogWarning("Ease.OutBack doesn't support custom period.");
+                    }
+                    return Easing.Overshoot(strength / StandardEasing.backEaseConst);
+                case Ease.OutBounce:
+                    return Easing.Bounce(strength);
+                case Ease.OutElastic:
+                    return Easing.Elastic(strength, maybePeriod ?? StandardEasing.defaultElasticEasePeriod);
+            }
+            return Easing.Standard(ease);
+        }
+        
         // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration);
     }
 
@@ -120,13 +136,21 @@ namespace PrimeTween {
     }
 
     public static class DOVirtual {
-        public static Tween DelayedCall(float delay, Action callback, bool ignoreTimeScale = true) {
-            return Tween.Delay(delay, callback, ignoreTimeScale);
-        }
-
+        public static Tween DelayedCall(float delay, Action callback, bool ignoreTimeScale = true) 
+            => Tween.Delay(delay, callback, ignoreTimeScale);
+        
         public static Tween Float(float startValue, float endValue, float duration, Action<float> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
         public static Tween Vector3(Vector3 startValue, Vector3 endValue, float duration, Action<Vector3> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
         public static Tween Color(Color startValue, Color endValue, float duration, Action<Color> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
+        
+        public static float EasedValue(float from, float to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null) 
+            => Mathf.LerpUnclamped(from, to, DOTweenAdapter.GetEasing(easeType, amplitude, period).Evaluate(lifetimePercentage));
+        public static float EasedValue(float from, float to, float lifetimePercentage, [NotNull] AnimationCurve easeCurve)
+            => Mathf.LerpUnclamped(from, to, Easing.Curve(easeCurve).Evaluate(lifetimePercentage));
+        public static Vector3 EasedValue(Vector3 from, Vector3 to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null) 
+            => UnityEngine.Vector3.LerpUnclamped(from, to, DOTweenAdapter.GetEasing(easeType, amplitude, period).Evaluate(lifetimePercentage));
+        public static Vector3 EasedValue(Vector3 from, Vector3 to, float lifetimePercentage, [NotNull] AnimationCurve easeCurve)
+            => UnityEngine.Vector3.LerpUnclamped(from, to, Easing.Curve(easeCurve).Evaluate(lifetimePercentage));
     }
     
     public partial struct Sequence {
@@ -246,25 +270,11 @@ namespace PrimeTween {
     public partial struct Tween {
         public Tween SetEase(Ease ease, float? amplitude = null, float? period = null) {
             Assert.IsTrue(isAlive);
-            var parametricEasing = getParametricEasing(ease, amplitude, period);
+            var parametricEasing = DOTweenAdapter.GetEasing(ease, amplitude, period);
             tween.settings.SetEasing(parametricEasing);
             return this;
         }
 
-        static Easing getParametricEasing(Ease ease, float? maybeStrength, float? maybePeriod) {
-            var strength = maybeStrength ?? 1;
-            switch (ease) {
-                case Ease.OutBack:
-                    if (maybePeriod.HasValue) {
-                        Debug.LogWarning("Ease.OutBack doesn't support custom period.");
-                    }
-                    return Easing.Overshoot(strength / StandardEasing.backEaseConst);
-                case Ease.OutElastic:
-                    return Easing.Elastic(strength, maybePeriod ?? 0.3f);
-            }
-            return Easing.Standard(ease);
-        }
-        
         public Tween SetDelay(float delay) {
             Assert.IsTrue(isAlive);
             Assert.IsFalse(tween.IsInSequence());

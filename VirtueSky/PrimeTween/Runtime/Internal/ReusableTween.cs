@@ -58,6 +58,7 @@ namespace PrimeTween {
         bool warnIgnoredOnCompleteIfTargetDestroyed = true;
         internal ShakeData shakeData;
         State state;
+        bool warnEndValueEqualsCurrent;
 
         internal bool updateAndCheckIfRunning(float dt) {
             if (!_isAlive) {
@@ -435,6 +436,7 @@ namespace PrimeTween {
             } else {
                 prevVal.Reset();
             }
+            warnEndValueEqualsCurrent = PrimeTweenManager.Instance.warnEndValueEqualsCurrent;
         }
 
         internal void setUnityTarget(object _target) {
@@ -453,7 +455,7 @@ namespace PrimeTween {
                 if (!ShakeData.TryTakeStartValueFromOtherShake(this)) {
                     startValue = getter(this);
                 }
-                if (startValue.Vector4Val == endValue.Vector4Val && PrimeTweenManager.Instance.warnEndValueEqualsCurrent && !shakeData.isAlive) {
+                if (startValue.Vector4Val == endValue.Vector4Val && warnEndValueEqualsCurrent && !shakeData.isAlive) {
                     Assert.LogWarning($"Tween's 'endValue' equals to the current animated value: {startValue.Vector4Val}, tween: {GetDescription()}.\n" +
                                       $"{Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnEndValueEqualsCurrent))}\n", id);
                 }
