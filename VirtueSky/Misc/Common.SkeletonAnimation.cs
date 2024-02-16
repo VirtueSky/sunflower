@@ -6,14 +6,11 @@ using PrimeTween;
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
-#endif
-
 
 namespace VirtueSky.Misc
 {
     public static partial class Common
     {
-#if VIRTUESKY_SKELETON
         public static float Duration(this SkeletonAnimation skeletonAnimation, string animationName)
         {
             var animation =
@@ -132,6 +129,7 @@ namespace VirtueSky.Misc
             skeletonAnimation.AnimationState.Apply(skeletonAnimation.Skeleton);
             return skeletonAnimation;
         }
-#endif
+
     }
 }
+#endif

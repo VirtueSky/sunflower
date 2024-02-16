@@ -30,6 +30,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPLE_AUTH);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_GPGS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_SKELETON);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ANIMANCER);
             EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }

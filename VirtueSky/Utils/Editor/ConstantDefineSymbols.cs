@@ -17,5 +17,6 @@ namespace VirtueSky.UtilsEditor
         public const string VIRTUESKY_GPGS = "VIRTUESKY_GPGS";
         public const string VIRTUESKY_APPLE_AUTH = "VIRTUESKY_APPLE_AUTH";
         public const string VIRTUESKY_SKELETON = "VIRTUESKY_SKELETON";
+        public const string VIRTUESKY_ANIMANCER = "VIRTUESKY_ANIMANCER";
     }
 }
