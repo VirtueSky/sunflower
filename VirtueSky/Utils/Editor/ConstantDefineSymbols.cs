@@ -16,5 +16,6 @@ namespace VirtueSky.UtilsEditor
         public const string PRIME_TWEEN_DOTWEEN_ADAPTER = "PRIME_TWEEN_DOTWEEN_ADAPTER";
         public const string VIRTUESKY_GPGS = "VIRTUESKY_GPGS";
         public const string VIRTUESKY_APPLE_AUTH = "VIRTUESKY_APPLE_AUTH";
+        public const string VIRTUESKY_SKELETON = "VIRTUESKY_SKELETON";
     }
 }
