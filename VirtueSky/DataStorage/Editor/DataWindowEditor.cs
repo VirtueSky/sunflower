@@ -13,6 +13,8 @@ namespace VirtueSky.DataStorage
         {
             GameData.DelDataInStorage();
             GameData.Clear();
+            Data.DeleteAll();
+            Data.DeleteFileData();
             PlayerPrefs.DeleteAll();
             Debug.Log($"<color=Green>Clear data succeed</color>");
         }

@@ -2,20 +2,22 @@
     "name": "Virtuesky.Sunflower.DataStorage",
     "rootNamespace": "",
     "references": [
-        "GUID:c282fd4f3fc2c7540914e85842a013c7"
+        "GUID:c282fd4f3fc2c7540914e85842a013c7",
+        "GUID:2765e68924a08a94ea0ea66b31c0168f",
+        "GUID:e0cd26848372d4e5c891c569017e11f1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.unity.nuget.newtonsoft-json",
-            "expression": "",
-            "define": ""
+            "name": "com.unity.serialization",
+            "expression": "3.1.1",
+            "define": "UNITY_SERIALIZATION"
         }
     ],
     "noEngineReferences": false
