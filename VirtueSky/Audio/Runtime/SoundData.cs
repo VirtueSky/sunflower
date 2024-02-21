@@ -5,7 +5,7 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Audio
 {
-    [CreateAssetMenu(menuName = "Audio/Sound Data", fileName = "sound_data")]
+    [CreateAssetMenu(menuName = "Sunflower/Audio/Sound Data", fileName = "sound_data")]
     public class SoundData : BaseSO
     {
         [Space] public bool loop;

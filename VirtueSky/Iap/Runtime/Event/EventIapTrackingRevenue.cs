@@ -5,7 +5,7 @@ using VirtueSky.Events;
 
 namespace VirtueSky.Iap
 {
-    [CreateAssetMenu(fileName = "iap_tracking_revenue_event.asset", menuName = "Iap/Tracking Revenue Event")]
+    [CreateAssetMenu(fileName = "iap_tracking_revenue_event.asset", menuName = "Sunflower/Iap/Tracking Revenue Event")]
     public class EventIapTrackingRevenue : BaseEvent<Product>
     {
     }

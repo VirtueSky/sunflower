@@ -3,7 +3,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.FirebaseTraking
 {
-    [CreateAssetMenu(menuName = "Firebase Analytic/Log Event 6 Param",
+    [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Log Event 6 Param",
         fileName = "log_event_firebase_6_param")]
     public class LogEventFirebaseSixParam : ScriptableObject
     {

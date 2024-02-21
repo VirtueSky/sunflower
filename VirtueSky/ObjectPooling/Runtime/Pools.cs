@@ -9,7 +9,7 @@ using VirtueSky.Core;
 
 namespace VirtueSky.ObjectPooling
 {
-    [CreateAssetMenu(menuName = "ObjectPooling/Pools")]
+    [CreateAssetMenu(menuName = "Sunflower/ObjectPooling/Pools")]
     public class Pools : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] PoolData[] poolDatas;

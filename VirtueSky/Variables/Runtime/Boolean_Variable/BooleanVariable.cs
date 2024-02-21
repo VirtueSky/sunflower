@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using VirtueSky.Variables;
 
 namespace VirtueSky.Variables
 {
-    [CreateAssetMenu(menuName = "Variables/Boolean", fileName = "bool_variables")]
+    [CreateAssetMenu(menuName = "Sunflower/Scriptable/Variables/Boolean", fileName = "bool_variables")]
     public class BooleanVariable : BaseVariable<bool>
     {
     }

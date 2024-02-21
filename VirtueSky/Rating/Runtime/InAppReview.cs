@@ -11,7 +11,7 @@
 #endif
 
 
-    [CreateAssetMenu(menuName = "ScriptableObject/InAppReview", fileName = "in_app_review")]
+    [CreateAssetMenu(menuName = "Sunflower/InAppReview", fileName = "in_app_review")]
     public class InAppReview : ScriptableObject
     {
 #if UNITY_ANDROID && VIRTUESKY_RATING

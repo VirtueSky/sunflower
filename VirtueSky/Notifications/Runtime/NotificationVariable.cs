@@ -7,7 +7,7 @@ using VirtueSky.Misc;
 namespace VirtueSky.Notifications
 {
     [CreateAssetMenu(fileName = "notification_channel_data.asset",
-        menuName = "Notification Channel")]
+        menuName = "Sunflower/Notification Channel")]
     public class NotificationVariable : ScriptableObject
     {
         [Serializable]
