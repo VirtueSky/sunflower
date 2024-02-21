@@ -177,7 +177,7 @@ namespace VirtueSky.Audio
             if (music != null && music.IsPlaying)
             {
                 music.Stop();
-                pool.Despawn(music.gameObject);
+                pool.DeSpawn(music.gameObject);
             }
         }
 
@@ -213,13 +213,13 @@ namespace VirtueSky.Audio
             }
 
             soundComponent.Stop();
-            pool.Despawn(soundComponent.gameObject);
+            pool.DeSpawn(soundComponent.gameObject);
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
         {
             soundComponent.OnCompleted -= StopAudioMusic;
-            pool.Despawn(soundComponent.gameObject);
+            pool.DeSpawn(soundComponent.gameObject);
         }
 
         SoundComponent GetSoundComponent(SoundData soundData)

@@ -53,10 +53,10 @@ namespace VirtueSky.ObjectPooling
 
             activePool.AddLast(gameObject);
 
-            Despawn(gameObject, false);
+            DeSpawn(gameObject, false);
         }
 
-        public void Despawn(GameObject gameObject, bool destroy = false)
+        public void DeSpawn(GameObject gameObject, bool destroy = false)
         {
             var id = gameObject.GetComponent<PooledObjectId>();
             if (id == null)
@@ -97,12 +97,12 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        public void DespawnAll()
+        public void DeSpawnAll()
         {
             var arr = activePool.ToArray();
             foreach (var o in arr)
             {
-                if (o != null) Despawn(o);
+                if (o != null) DeSpawn(o);
             }
         }
 
