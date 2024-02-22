@@ -11,10 +11,8 @@ namespace VirtueSky.DataStorage
         [MenuItem("Sunflower/Game Data/Clear Data")]
         public static void ClearAllData()
         {
-            GameData.DelDataInStorage();
-            GameData.Clear();
-            Data.DeleteAll();
-            Data.DeleteFileData();
+            GameData.DeleteAll();
+            GameData.DeleteFileData();
             PlayerPrefs.DeleteAll();
             Debug.Log($"<color=Green>Clear data succeed</color>");
         }

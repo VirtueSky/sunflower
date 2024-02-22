@@ -1,4 +1,5 @@
 using UnityEngine;
+using VirtueSky.DataStorage;
 
 namespace VirtueSky.Core
 {
@@ -9,6 +10,7 @@ namespace VirtueSky.Core
         {
             var app = new GameObject("MonoGlobal");
             App.InitMonoGlobalComponent(app.AddComponent<MonoGlobal>());
+            GameData.Init();
             Object.DontDestroyOnLoad(app);
         }
     }

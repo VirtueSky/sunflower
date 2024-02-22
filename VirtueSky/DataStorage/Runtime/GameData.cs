@@ -1,61 +1,224 @@
-﻿using VirtueSky.Utils;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace VirtueSky.DataStorage
 {
-    public static partial class GameData
+    public static class GameData
     {
-        const string LAST_LOGIN_TIME_KEY = "LAST_LOGIN_TIME";
-        const string LAST_ACTIVE_TIME_KEY = "LAST_ACTIVE_TIME";
-        private const string fileNameData = "data.dat";
+        private static bool isInitialized;
+        private static int profile;
+        private static Dictionary<string, byte[]> datas = new();
+        private const int INIT_SIZE = 64;
 
-        static DataStorage _storage;
-        static DataStorage Storage => _storage ?? (_storage = new DataStorage(fileNameData));
+        public static event Action OnSaveEvent;
 
-        public static double LastLoginTime
+        #region Internal Stuff
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Init()
         {
-            get => TimeUtils.TicksToSeconds(Storage.Get<long>(LAST_LOGIN_TIME_KEY));
-            set => Storage.Set(LAST_LOGIN_TIME_KEY, TimeUtils.SecondsToTicks(value));
+            if (isInitialized) return;
+            isInitialized = true;
+            Load();
         }
 
-        public static double LastActiveTime
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] Serialize<T>(T data)
         {
-            get => TimeUtils.TicksToSeconds(Storage.Get<long>(LAST_ACTIVE_TIME_KEY));
-            set => Storage.Set(LAST_ACTIVE_TIME_KEY, TimeUtils.SecondsToTicks(value));
+            return SerializeAdapter.ToBinary(data);
         }
 
-        public static T Get<T>(string key, T defaultValue = default)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static T Deserialize<T>(byte[] bytes)
         {
-            return Storage.Get<T>(key, defaultValue);
+            return SerializeAdapter.FromBinary<T>(bytes);
         }
 
-        public static void Set<T>(string key, T data)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void RequireNullCheck()
         {
-            Storage[key] = data;
+            if (datas == null) Load();
+            if (datas == null) throw new NullReferenceException();
         }
 
-        public static void Load(IDataPersistent dataPersistent, bool root = false)
+        private static string GetPath => Path.Combine(GetPersistentDataPath(), $"data_{profile}.sun");
+
+        private static string GetPersistentDataPath()
         {
-            Storage.Load(dataPersistent, root);
+#if UNITY_EDITOR
+            return Path.Combine(Directory.GetParent(Application.dataPath).FullName, "TempDataStorage");
+#else
+            return Application.persistentDataPath;
+#endif
         }
 
-        public static void Store(IDataPersistent dataPersistent, bool root = false)
+        #endregion
+
+        #region Public API
+
+        public static bool IsInitialized => isInitialized;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ChangeProfile(int profile)
         {
-            Storage.Store(dataPersistent, root);
+            if (GameData.profile == profile) return;
+
+            Save();
+            GameData.profile = profile;
+            Load();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool VerifyProfile(int profile)
+        {
+            return GameData.profile == profile;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Save()
         {
-            Storage.Save();
+            OnSaveEvent?.Invoke();
+
+            byte[] bytes = Serialize(datas);
+            File.WriteAllBytes(GetPath, bytes);
         }
 
-        public static void Clear()
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async void SaveAsync()
         {
-            _storage = null;
+            OnSaveEvent?.Invoke();
+
+            byte[] bytes = Serialize(datas);
+            await File.WriteAllBytesAsync(GetPath, bytes);
         }
 
-        public static void DelDataInStorage()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Load()
         {
-            Storage.DelFileDataInStorage(fileNameData);
+            if (!File.Exists(GetPath))
+            {
+                var stream = File.Create(GetPath);
+                stream.Close();
+            }
+
+            byte[] bytes = File.ReadAllBytes(GetPath);
+            if (bytes.Length == 0)
+            {
+                datas.Clear();
+                return;
+            }
+
+            datas = Deserialize<Dictionary<string, byte[]>>(bytes) ?? new Dictionary<string, byte[]>(INIT_SIZE);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static async void LoadAsync()
+        {
+            if (!File.Exists(GetPath))
+            {
+                var stream = File.Create(GetPath);
+                stream.Close();
+            }
+
+            byte[] bytes = await File.ReadAllBytesAsync(GetPath);
+            if (bytes.Length == 0)
+            {
+                datas.Clear();
+                return;
+            }
+
+            datas = Deserialize<Dictionary<string, byte[]>>(bytes) ?? new Dictionary<string, byte[]>(INIT_SIZE);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="default">If value of <paramref name="key"/> can not be found or empty! will return the default value of data type!</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Get<T>(string key, T @default = default)
+        {
+            RequireNullCheck();
+
+            datas.TryGetValue(key, out byte[] value);
+            if (value == null || value.Length == 0) return @default;
+
+            return Deserialize<T>(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryGet<T>(string key, out T data)
+        {
+            RequireNullCheck();
+
+            bool hasKey;
+            if (datas.TryGetValue(key, out byte[] value))
+            {
+                data = Deserialize<T>(value);
+                hasKey = true;
+            }
+            else
+            {
+                data = default;
+                hasKey = false;
+            }
+
+            return hasKey;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Set<T>(string key, T data)
+        {
+            RequireNullCheck();
+            byte[] bytes = Serialize(data);
+            if (datas.TryAdd(key, bytes)) return;
+            datas[key] = bytes;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasKey(string key) => datas.ContainsKey(key);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DeleteKey(string key) => datas.Remove(key);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DeleteAll() => datas.Clear();
+
+        public static void DeleteFileData()
+        {
+            if (File.Exists(GetPath))
+            {
+                File.Delete(GetPath);
+            }
+        }
+
+        /// <summary>
+        /// Get raw byte[] of all data of profile
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte[] Backup()
+        {
+            return SerializeAdapter.ToBinary(datas);
+        }
+
+        /// <summary>
+        /// Load from byte[]
+        /// </summary>
+        /// <param name="bytes"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Restore(byte[] bytes)
+        {
+            datas = SerializeAdapter.FromBinary<Dictionary<string, byte[]>>(bytes);
+        }
+
+        #endregion
     }
 }
