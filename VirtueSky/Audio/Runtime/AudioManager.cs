@@ -2,25 +2,25 @@
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Events;
-using VirtueSky.ObjectPooling;
+using VirtueSky.Inspector;
 using VirtueSky.Variables;
 
 namespace VirtueSky.Audio
 {
     public class AudioManager : BaseMono
     {
-        [SerializeField] private bool isDontDestroyOnLoad;
-        [Space] [SerializeField] private Pools pool;
-        [SerializeField] private SoundComponent soundComponentPrefab;
+        [Space] [SerializeField] private bool isDontDestroyOnLoad;
 
-        [Space] [Header("Music Listening")] [SerializeField]
+        [Space] [SerializeField] private SoundComponentPool soundComponentPool;
+
+        [Space] [TitleColor("Music Listening", CustomColor.Aqua, CustomColor.Lime)] [SerializeField]
         private EventAudioHandle eventPlayMusic;
 
         [SerializeField] private EventNoParam eventStopMusic;
         [SerializeField] private EventNoParam eventPauseMusic;
         [SerializeField] private EventNoParam eventResumeMusic;
 
-        [Space] [Header("Sfx Listening")] [SerializeField]
+        [Space] [TitleColor("Sfx Listening", CustomColor.Orange, CustomColor.Bisque)] [SerializeField]
         private EventAudioHandle eventPlaySfx;
 
         [SerializeField] private EventAudioHandle eventStopSfx;
@@ -29,7 +29,7 @@ namespace VirtueSky.Audio
         [SerializeField] private EventAudioHandle eventFinishSfx;
         [SerializeField] private EventNoParam eventStopAllSfx;
 
-        [Space] [Header("AudioManager Settings")] [SerializeField]
+        [Space] [TitleColor("AudioManager Settings", CustomColor.DeepSkyBlue, CustomColor.Salmon)] [SerializeField]
         private FloatVariable musicVolume;
 
         [SerializeField] FloatVariable sfxVolume;
@@ -101,7 +101,7 @@ namespace VirtueSky.Audio
 
         private void PlaySfx(SoundData soundData)
         {
-            var sfxComponent = pool.Spawn(soundComponentPrefab);
+            var sfxComponent = soundComponentPool.Spawn<SoundComponent>();
             sfxComponent.transform.SetParent(this.transform);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * sfxVolume.Value);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
@@ -162,7 +162,7 @@ namespace VirtueSky.Audio
         {
             if (music == null || !music.IsPlaying)
             {
-                music = pool.Spawn(soundComponentPrefab);
+                music = soundComponentPool.Spawn<SoundComponent>();
                 music.transform.SetParent(this.transform);
             }
 
@@ -177,7 +177,7 @@ namespace VirtueSky.Audio
             if (music != null && music.IsPlaying)
             {
                 music.Stop();
-                pool.DeSpawn(music.gameObject);
+                soundComponentPool.DeSpawn(music.gameObject);
             }
         }
 
@@ -213,13 +213,14 @@ namespace VirtueSky.Audio
             }
 
             soundComponent.Stop();
-            pool.DeSpawn(soundComponent.gameObject);
+            soundComponentPool.DeSpawn(soundComponent.gameObject);
+            // pool.DeSpawn(soundComponent.gameObject);
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
         {
             soundComponent.OnCompleted -= StopAudioMusic;
-            pool.DeSpawn(soundComponent.gameObject);
+            soundComponentPool.DeSpawn(soundComponent.gameObject);
         }
 
         SoundComponent GetSoundComponent(SoundData soundData)
