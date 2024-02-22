@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Core;
-using VirtueSky.Events;
 using VirtueSky.Inspector;
-using VirtueSky.Variables;
+#if UNITY_EDITOR
+using VirtueSky.UtilsEditor;
+#endif
+
 
 namespace VirtueSky.Audio
 {
@@ -14,25 +16,25 @@ namespace VirtueSky.Audio
         [Space] [SerializeField] private SoundComponentPool soundComponentPool;
 
         [Space] [TitleColor("Music Listening", CustomColor.Aqua, CustomColor.Lime)] [SerializeField]
-        private EventAudioHandle eventPlayMusic;
+        private PlayMusicEvent eventPlayMusic;
 
-        [SerializeField] private EventNoParam eventStopMusic;
-        [SerializeField] private EventNoParam eventPauseMusic;
-        [SerializeField] private EventNoParam eventResumeMusic;
+        [SerializeField] private StopMusicEvent eventStopMusic;
+        [SerializeField] private PauseMusicEvent eventPauseMusic;
+        [SerializeField] private ResumeMusicEvent eventResumeMusic;
 
         [Space] [TitleColor("Sfx Listening", CustomColor.Orange, CustomColor.Bisque)] [SerializeField]
-        private EventAudioHandle eventPlaySfx;
+        private PlaySfxEvent eventPlaySfx;
 
-        [SerializeField] private EventAudioHandle eventStopSfx;
-        [SerializeField] private EventAudioHandle eventPauseSfx;
-        [SerializeField] private EventAudioHandle eventResumeSfx;
-        [SerializeField] private EventAudioHandle eventFinishSfx;
-        [SerializeField] private EventNoParam eventStopAllSfx;
+        [SerializeField] private StopSfxEvent eventStopSfx;
+        [SerializeField] private PauseSfxEvent eventPauseSfx;
+        [SerializeField] private ResumeSfxEvent eventResumeSfx;
+        [SerializeField] private FinishSfxEvent eventFinishSfx;
+        [SerializeField] private StopAllSfxEvent eventStopAllSfx;
 
         [Space] [TitleColor("AudioManager Settings", CustomColor.DeepSkyBlue, CustomColor.Salmon)] [SerializeField]
-        private FloatVariable musicVolume;
+        private MusicVolumeChange musicVolume;
 
-        [SerializeField] FloatVariable sfxVolume;
+        [SerializeField] SfxVolumeChange sfxVolume;
 
         private SoundComponent music;
         private List<SoundData> listAudioDatas = new List<SoundData>();
@@ -233,5 +235,41 @@ namespace VirtueSky.Audio
 
             return listSoundComponents[index];
         }
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            soundComponentPool =
+                CreateAsset.CreateAndGetScriptableAsset<SoundComponentPool>("/Audio", "sound_component_pool", false);
+            eventPlayMusic =
+                CreateAsset.CreateAndGetScriptableAsset<PlayMusicEvent>("/Audio/Music_Event", "play_music_event",
+                    false);
+            eventPauseMusic =
+                CreateAsset.CreateAndGetScriptableAsset<PauseMusicEvent>("/Audio/Music_Event", "pause_music_event",
+                    false);
+            eventResumeMusic = CreateAsset.CreateAndGetScriptableAsset<ResumeMusicEvent>("/Audio/Music_Event",
+                "resume_music_event", false);
+            eventStopMusic =
+                CreateAsset.CreateAndGetScriptableAsset<StopMusicEvent>("/Audio/Music_Event", "stop_music_event",
+                    false);
+            eventPlaySfx =
+                CreateAsset.CreateAndGetScriptableAsset<PlaySfxEvent>("/Audio/Sfx_Event", "play_sfx_event", false);
+            eventPauseSfx =
+                CreateAsset.CreateAndGetScriptableAsset<PauseSfxEvent>("/Audio/Sfx_Event", "pause_sfx_event", false);
+            eventFinishSfx =
+                CreateAsset.CreateAndGetScriptableAsset<FinishSfxEvent>("/Audio/Sfx_Event", "finish_sfx_event", false);
+            eventResumeSfx =
+                CreateAsset.CreateAndGetScriptableAsset<ResumeSfxEvent>("/Audio/Sfx_Event", "resume_sfx_event", false);
+            eventStopSfx =
+                CreateAsset.CreateAndGetScriptableAsset<StopSfxEvent>("/Audio/Sfx_Event", "stop_sfx_event", false);
+            eventStopAllSfx =
+                CreateAsset.CreateAndGetScriptableAsset<StopAllSfxEvent>("/Audio/Sfx_Event", "stop_all_sfx_event",
+                    false);
+            musicVolume =
+                CreateAsset.CreateAndGetScriptableAsset<MusicVolumeChange>("/Audio/Volume_Change", "music_volume",
+                    false);
+            sfxVolume = CreateAsset.CreateAndGetScriptableAsset<SfxVolumeChange>("/Audio/Volume_Change", "sfx_volume",
+                false);
+        }
+#endif
     }
 }
