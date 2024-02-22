@@ -18,7 +18,7 @@ namespace VirtueSky.Audio
 
         public static void CreateSoundComponentPool()
         {
-            CreateAsset.CreateScriptableAssets<SoundComponentPool>("/Audio/SoundData", "sound_component_pool");
+            CreateAsset.CreateScriptableAssets<SoundComponentPool>("/Audio", "sound_component_pool");
         }
     }
 }
