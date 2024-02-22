@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
 using VirtueSky.Core;
@@ -40,40 +40,19 @@ namespace VirtueSky.Audio
             audioSource.Play();
             if (!isLooping)
             {
-                App.StartCoroutine(Delay(audioClip.length, OnCompletedInvoke));
+                Tween.Delay(audioClip.length, OnCompletedInvoke);
             }
         }
 
-        IEnumerator Delay(float delayTime, Action action)
+        void FadeInVolumeMusic(AudioClip audioClip, bool isLooping, float endValue, float duration)
         {
-            yield return new WaitForSeconds(delayTime);
-            action?.Invoke();
+            PlayAudioClip(audioClip, isLooping, 0);
+            Tween.AudioVolume(audioSource, endValue, duration);
         }
 
-        IEnumerator FadeInVolumeMusic(float endValue, float duration)
+        void FadeOutVolumeMusic(float duration, Action fadeCompleted)
         {
-            audioSource.volume = 0;
-            audioSource.Play();
-
-            while (audioSource.volume < endValue)
-            {
-                audioSource.volume += Time.deltaTime / duration;
-                yield return null;
-            }
-
-            audioSource.volume = endValue;
-        }
-
-        IEnumerator FadeOutVolumeMusic(float duration)
-        {
-            while (audioSource.volume > 0)
-            {
-                audioSource.volume -= Time.deltaTime / duration;
-                yield return null;
-            }
-
-            audioSource.volume = 0;
-            audioSource.Stop();
+            Tween.AudioVolume(audioSource, 0, duration).OnComplete(fadeCompleted);
         }
 
 
@@ -100,24 +79,19 @@ namespace VirtueSky.Audio
             if (!audioSource.loop) return;
             audioSource.loop = false;
             float remainingTime = audioSource.clip.length - audioSource.time;
-            App.StartCoroutine(Delay(remainingTime, OnCompletedInvoke));
+            Tween.Delay(remainingTime, OnCompletedInvoke);
         }
 
-        internal void FadePlayMusic(AudioClip audioClip, float volume, float durationOut, float durationIn)
+        internal void FadePlayMusic(AudioClip audioClip, bool isLooping, float volume, float durationOut,
+            float durationIn)
         {
             if (audioSource.isPlaying)
             {
-                App.StartCoroutine(FadeOutVolumeMusic(durationOut));
-                App.StartCoroutine(Delay(durationOut, () =>
-                {
-                    PlayAudioClip(audioClip, true, 0);
-                    App.StartCoroutine(FadeInVolumeMusic(volume, durationIn));
-                }));
+                FadeOutVolumeMusic(durationOut, () => { FadeInVolumeMusic(audioClip, isLooping, volume, durationIn); });
             }
             else
             {
-                PlayAudioClip(audioClip, true, 0);
-                App.StartCoroutine(FadeInVolumeMusic(volume, durationIn));
+                FadeInVolumeMusic(audioClip, isLooping, volume, durationIn);
             }
         }
 

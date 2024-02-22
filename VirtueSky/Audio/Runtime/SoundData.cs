@@ -8,7 +8,7 @@ namespace VirtueSky.Audio
     [CreateAssetMenu(menuName = "Sunflower/Audio/Sound Data", fileName = "sound_data")]
     public class SoundData : BaseSO
     {
-        [Space] public bool loop;
+        [Space] public bool loop = false;
         [Range(0f, 1f)] public float volume = 1;
 
         [Header("Fade Volume - Only Music"), Tooltip("Only Music Background")]
