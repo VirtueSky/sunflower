@@ -16,7 +16,7 @@ namespace VirtueSky.Iap
 {
     public class IapManager : BaseMono, IDetailedStoreListener
     {
-        [SerializeField] private bool dontDestroyOnLoad = false;
+        [Space] [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private IapSetting iapSetting;
         [SerializeField] private EventIapProduct eventIapProduct;
         [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;

@@ -18,11 +18,11 @@ namespace VirtueSky.Ads
 {
     public class Advertising : MonoBehaviour
     {
-        [SerializeField] private bool dontDestroyOnLoad = false;
+        [Space] [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private AdSetting adSetting;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
 
-        [HeaderLine("Admob GDPR")] [SerializeField]
+        [Space] [HeaderLine("Admob GDPR")] [SerializeField]
         private BooleanVariable isGDPRCanRequestAds;
 
         [SerializeField] private BooleanVariable isPrivacyRequiredGDPR;
