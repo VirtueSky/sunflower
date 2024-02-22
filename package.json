@@ -2,7 +2,7 @@
   "name": "com.virtuesky.sunflower",
   "displayName": "Sunflower",
   "description": "Core ScriptableObject Architecture for building Unity games",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "unity": "2022.3",
   "category": "virtuesky",
   "keywords": [
@@ -12,7 +12,7 @@
     "Unity"
   ],
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.serialization": "3.1.1",
     "com.unity.textmeshpro": "3.0.6"
   }
 }
