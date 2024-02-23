@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal;
-using VirtueSky.Core;
 using VirtueSky.DataStorage;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Core
 {
+    [EditorIcon("icon_csharp")]
     public class MonoGlobal : MonoBehaviour
     {
         private readonly List<Action> _toMainThreads = new();

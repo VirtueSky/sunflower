@@ -1,7 +1,9 @@
+using VirtueSky.Inspector;
 using VirtueSky.TrackingRevenue;
 
 namespace VirtueSky.Ads
 {
+    [EditorIcon("icon_so")]
     public class MaxAdClient : AdClient
     {
         public override void Initialize()

@@ -6,11 +6,13 @@ using GoogleMobileAds.Api;
 using UnityEngine;
 using VirtueSky.Ads;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
     [Serializable]
+    [EditorIcon("icon_so")]
     public class AdmobBannerVariable : AdUnitVariable
     {
         public BannerSize size = BannerSize.Adaptive;
@@ -70,7 +72,6 @@ namespace VirtueSky.Ads
 
 
 #if VIRTUESKY_ADS && ADS_ADMOB
-
         public AdSize ConvertSize()
         {
             switch (size)

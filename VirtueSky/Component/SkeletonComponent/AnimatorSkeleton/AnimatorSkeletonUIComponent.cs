@@ -5,6 +5,7 @@ using UnityEngine;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(SkeletonGraphic))]
+    [EditorIcon("icon_csharp")]
     public class AnimatorSkeletonUIComponent : AnimatorSkeleton
     {
         [SerializeField] SkeletonGraphic skeletonGraphic;

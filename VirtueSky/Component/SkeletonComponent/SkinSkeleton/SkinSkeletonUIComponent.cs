@@ -6,6 +6,7 @@ using UnityEngine;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(SkeletonGraphic))]
+    [EditorIcon("icon_csharp")]
     public class SkinSkeletonUIComponent : SkinSkeleton
     {
         [SerializeField] private SkeletonGraphic skeletonGraphic;

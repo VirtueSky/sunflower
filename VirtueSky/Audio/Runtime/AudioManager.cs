@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
@@ -9,6 +9,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Audio
 {
+    [EditorIcon("Sound")]
     public class AudioManager : BaseMono
     {
         [Space] [SerializeField] private bool isDontDestroyOnLoad;

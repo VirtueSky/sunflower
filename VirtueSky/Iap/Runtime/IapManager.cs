@@ -7,6 +7,7 @@ using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using VirtueSky.Core;
 using VirtueSky.Events;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
@@ -14,6 +15,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Iap
 {
+    [EditorIcon("Controller")]
     public class IapManager : BaseMono, IDetailedStoreListener
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;

@@ -6,6 +6,7 @@ using VirtueSky.Core;
 namespace VirtueSky.Audio
 {
     [CreateAssetMenu(menuName = "Sunflower/Audio/Sound Data", fileName = "sound_data")]
+    [EditorIcon("scriptable_audioclip")]
     public class SoundData : BaseSO
     {
         [Space] public bool loop = false;

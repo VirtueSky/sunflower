@@ -1,8 +1,10 @@
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
+    [EditorIcon("icon_csharp")]
     public class BounceComponent : BaseMono
     {
         [Header("Attributes")] public bool isRotate = false;

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
+    [EditorIcon("icon_csharp")]
     public class MoveComponent : BaseMono
     {
         public GameObject movingObject;

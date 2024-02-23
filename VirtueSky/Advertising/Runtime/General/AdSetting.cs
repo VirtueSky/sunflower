@@ -8,6 +8,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
 {
+    [EditorIcon("icon_so")]
     public class AdSetting : ScriptableObject
     {
         // [SerializeField] private bool autoInit = true;

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(Text))]
+    [EditorIcon("button_icon")]
     public class ButtonText : ButtonCustom
     {
 #if UNITY_EDITOR

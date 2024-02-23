@@ -1,4 +1,6 @@
-﻿namespace VirtueSky.Rating
+﻿using VirtueSky.Inspector;
+
+namespace VirtueSky.Rating
 {
     using UnityEngine;
     using System.Collections;
@@ -12,6 +14,7 @@
 
 
     [CreateAssetMenu(menuName = "Sunflower/InAppReview", fileName = "in_app_review")]
+    [EditorIcon("icon_so")]
     public class InAppReview : ScriptableObject
     {
 #if UNITY_ANDROID && VIRTUESKY_RATING

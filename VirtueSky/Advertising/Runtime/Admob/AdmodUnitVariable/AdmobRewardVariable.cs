@@ -4,11 +4,13 @@ using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
 using VirtueSky.Ads;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
     [Serializable]
+    [EditorIcon("icon_so")]
     public class AdmobRewardVariable : AdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;

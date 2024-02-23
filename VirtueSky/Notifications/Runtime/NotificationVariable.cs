@@ -8,6 +8,7 @@ namespace VirtueSky.Notifications
 {
     [CreateAssetMenu(fileName = "notification_channel_data.asset",
         menuName = "Sunflower/Notification Channel")]
+    [EditorIcon("scriptable_notification")]
     public class NotificationVariable : ScriptableObject
     {
         [Serializable]

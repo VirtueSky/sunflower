@@ -8,6 +8,7 @@ namespace VirtueSky.Iap
 {
     [Serializable]
     //[CreateAssetMenu(menuName = "Iap/Iap Data Variable", fileName = "iap_data_variables")]
+    [EditorIcon("scriptable_iap")]
     public class IapDataVariable : ScriptableObject
     {
         [ReadOnly] public string id;

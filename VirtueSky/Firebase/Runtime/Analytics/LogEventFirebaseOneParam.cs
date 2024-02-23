@@ -5,6 +5,7 @@ namespace VirtueSky.FirebaseTraking
 {
     [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Log Event 1 Param",
         fileName = "log_event_firebase_1_param")]
+    [EditorIcon("scriptable_firebase")]
     public class LogEventFirebaseOneParam : ScriptableObject
     {
         [Space] [HeaderLine("Event Name")] [SerializeField]

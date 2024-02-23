@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(Rigidbody))]
+    [EditorIcon("icon_csharp")]
     public class BuoyancyComponent : BaseMono
     {
         public Transform[] floaters;
@@ -29,7 +31,8 @@ namespace VirtueSky.Component
                 float diff = floaters[i].position.y - waterHeight;
                 if (diff < 0)
                 {
-                    rb.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(diff), floaters[i].position, ForceMode.Force);
+                    rb.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(diff), floaters[i].position,
+                        ForceMode.Force);
                     floatersUnderWater += 1;
                     if (!Underwater)
                     {

@@ -6,6 +6,7 @@ using UnityEngine;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(AnimancerComponent))]
+    [EditorIcon("icon_csharp")]
     public class HandleAnimancerComponent : MonoBehaviour
     {
         [SerializeField] private AnimancerComponent animancerComponent;

@@ -1,10 +1,12 @@
 using UnityEngine;
+using VirtueSky.Inspector;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
 
 namespace VirtueSky.ObjectPooling
 {
+    [EditorIcon("scriptable_pool")]
     public class GameObjectPool : ScriptableObject
     {
         [SerializeField] private Pools pools;

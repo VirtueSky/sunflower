@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Iap
 {
+    [EditorIcon("icon_so")]
     public class IapSetting : ScriptableObject
     {
         [SerializeField] private List<IapData> skusData = new List<IapData>();

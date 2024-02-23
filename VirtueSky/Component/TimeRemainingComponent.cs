@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
+    [EditorIcon("icon_csharp")]
     public class TimeRemainingComponent : BaseMono
     {
         [SerializeField] private int targetYear;

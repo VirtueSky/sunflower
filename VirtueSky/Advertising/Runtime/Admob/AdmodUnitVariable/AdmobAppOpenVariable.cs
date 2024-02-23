@@ -4,11 +4,13 @@ using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
 using VirtueSky.Ads;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
     [Serializable]
+    [EditorIcon("icon_so")]
     public class AdmobAppOpenVariable : AdUnitVariable
     {
 #if VIRTUESKY_ADS && ADS_ADMOB

@@ -4,12 +4,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 #if UNITY_EDITOR
 #endif
 
 namespace VirtueSky.ObjectPooling
 {
     [CreateAssetMenu(menuName = "Sunflower/ObjectPooling/Pools")]
+    [EditorIcon("scriptable_pool")]
     public class Pools : ScriptableObject, ISerializationCallbackReceiver
     {
         [SerializeField] PoolData[] poolDatas;

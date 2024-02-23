@@ -1,8 +1,10 @@
 using UnityEngine;
 using PrimeTween;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
+    [EditorIcon("icon_csharp")]
     public class EffectAppearComponent : MonoBehaviour
     {
         [Range(0, 2f)] public float TimeScale = .7f;

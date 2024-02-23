@@ -1,9 +1,11 @@
 using System;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
     [Serializable]
+    [EditorIcon("icon_so")]
     public class MaxAppOpenVariable : AdUnitVariable
     {
         private bool _registerCallback = false;

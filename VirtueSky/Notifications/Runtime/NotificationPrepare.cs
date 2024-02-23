@@ -4,9 +4,11 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Notifications
 {
+    [EditorIcon("script_noti")]
     public class NotificationPrepare : BaseMono
     {
 #if UNITY_ANDROID

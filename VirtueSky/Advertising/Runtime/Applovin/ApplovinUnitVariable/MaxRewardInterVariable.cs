@@ -1,10 +1,12 @@
 using System;
 using VirtueSky.Ads;
+using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
 namespace VirtueSky.Ads
 {
     [Serializable]
+    [EditorIcon("icon_so")]
     public class MaxRewardInterVariable : AdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;
