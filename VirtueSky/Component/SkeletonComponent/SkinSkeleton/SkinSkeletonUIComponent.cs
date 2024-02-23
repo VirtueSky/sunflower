@@ -2,6 +2,7 @@
 using System;
 using Spine.Unity;
 using UnityEngine;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
