@@ -1,16 +1,26 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Events
 {
     public class BaseEvent : BaseSO, IEvent
     {
         readonly List<IEventListener> listeners = new List<IEventListener>();
+
         private Action onRaised = null;
 
+#if UNITY_EDITOR
+        [Space(10), SerializeField] private bool enableDebugField;
+        [ShowIf(nameof(enableDebugField))]
+        [Button("Raise Event")]
+        private void ButtonRaiseEvent()
+        {
+            Raise();
+        }
+#endif
         public void Raise()
         {
 #if UNITY_EDITOR
@@ -23,6 +33,7 @@ namespace VirtueSky.Events
 
             onRaised?.Invoke();
         }
+
 
         public event Action OnRaised
         {
@@ -67,6 +78,19 @@ namespace VirtueSky.Events
     {
         readonly List<IEventListener<TType>> listeners = new List<IEventListener<TType>>();
         private Action<TType> onRaised = null;
+#if UNITY_EDITOR
+        [Space(10), SerializeField] private bool enableDebugField;
+
+        [ShowIf(nameof(enableDebugField))] [SerializeField]
+        private TType valueDebug;
+
+        [ShowIf(nameof(enableDebugField))]
+        [Button("Raise Event")]
+        private void ButtonRaiseEvent()
+        {
+            Raise(valueDebug);
+        }
+#endif
 
         public virtual void Raise(TType value)
         {
@@ -124,7 +148,23 @@ namespace VirtueSky.Events
     {
         readonly List<IEventListener<TType, TResult>> listeners = new List<IEventListener<TType, TResult>>();
         private Func<TType, TResult> onRaised = null;
+#if UNITY_EDITOR
+        [Space(10), SerializeField] private bool enableDebugField;
 
+        [ShowIf(nameof(enableDebugField))] [SerializeField]
+        private TType valueDebug;
+
+        [ReadOnly, SerializeField] private TResult valueResult;
+
+        [ShowIf(nameof(enableDebugField))]
+        [Button("Raise Event")]
+        private void ButtonRaiseEvent()
+        {
+            valueResult = Raise(valueDebug);
+        }
+
+
+#endif
         public TResult Raise(TType value)
         {
             TResult result = default;
@@ -179,24 +219,7 @@ namespace VirtueSky.Events
     }
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(BaseEvent), true)]
-    public class BaseEventEditor : UnityEditor.Editor
-    {
-        BaseEvent baseEvent;
 
-        void OnEnable()
-        {
-            baseEvent = target as BaseEvent;
-        }
 
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            if (GUILayout.Button("Raise"))
-            {
-                baseEvent.Raise();
-            }
-        }
-    }
 #endif
 }

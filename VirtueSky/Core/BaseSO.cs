@@ -10,7 +10,8 @@ namespace VirtueSky.Core
         [HeaderLine("Base SO")] [SerializeField, NamedId]
         string id;
 
-        [SerializeField] [TextArea(2, 5)] private string description;
+        [Space(10)] [SerializeField] [TextArea(2, 5)]
+        private string description;
 
         public string Id => id;
 
