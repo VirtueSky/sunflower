@@ -32,6 +32,7 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnEnable()
         {
+            statePanelControl = StatePanelControl.About;
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
             CPLevelEditorDrawer.OnEnable();
