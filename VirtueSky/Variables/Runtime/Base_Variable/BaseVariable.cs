@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VirtueSky.DataStorage;
 using VirtueSky.Events;
 
@@ -8,20 +9,20 @@ namespace VirtueSky.Variables
     public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver
     {
         [SerializeField] TType initializeValue;
-        [SerializeField] bool isSavable;
-        [SerializeField] private bool isSaveInStorageImmediately;
+        [SerializeField] bool isSetData;
+        [SerializeField] private bool isSaveData;
         [SerializeField] bool isRaiseEvent;
         [NonSerialized] TType runtimeValue;
 
         public TType Value
         {
-            get => isSavable ? GameData.Get(Id, initializeValue) : runtimeValue;
+            get => isSetData ? GameData.Get(Id, initializeValue) : runtimeValue;
             set
             {
-                if (isSavable)
+                if (isSetData)
                 {
                     GameData.Set(Id, value);
-                    if (isSaveInStorageImmediately)
+                    if (isSaveData)
                     {
                         GameData.Save();
                     }
