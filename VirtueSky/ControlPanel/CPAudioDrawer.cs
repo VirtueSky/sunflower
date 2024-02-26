@@ -6,7 +6,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPAudioDrawer
     {
-        public static void OnDrawAudio()
+        public static void OnDrawAudio(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
@@ -23,7 +23,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            CPUtility.GuiLine(2);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("MUSIC EVENT", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -48,7 +48,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            CPUtility.GuiLine(2);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("SFX EVENT", EditorStyles.boldLabel);
             GUILayout.Space(10);
@@ -83,7 +83,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            CPUtility.GuiLine(2);
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("VOLUME CHANGE", EditorStyles.boldLabel);
             GUILayout.Space(10);

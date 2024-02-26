@@ -24,8 +24,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonAddSomePackage();
             EditorGUILayout.EndScrollView();
             GUILayout.Space(10);
-            Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-                new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
+            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
             GUILayout.Label("Manifest.json", EditorStyles.boldLabel);
             GUILayout.Space(10);

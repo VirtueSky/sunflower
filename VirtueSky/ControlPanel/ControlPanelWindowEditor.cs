@@ -101,7 +101,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPAssetFinderDrawer.OnDrawAssetUsageDetector();
                     break;
                 case StatePanelControl.Audio:
-                    CPAudioDrawer.OnDrawAudio();
+                    CPAudioDrawer.OnDrawAudio(position);
                     break;
                 case StatePanelControl.Pools:
                     CPPoolDrawer.OnDrawPools();

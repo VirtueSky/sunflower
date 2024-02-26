@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VirtueSky.Events;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -12,6 +13,15 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("SCRIPTABLE OBJECT EVENT", EditorStyles.boldLabel);
             GUILayout.Space(10);
+            Uniform.DrawGroupFoldout("cp_draw_button_create_event", "Scriptable Event", () => DrawButtonEvent());
+            GUILayout.Space(10);
+            Uniform.DrawGroupFoldout("cp_draw_button_create_event_result", "Scriptable Event-Result",
+                () => DrawButtonEventResult(), false);
+            GUILayout.EndVertical();
+        }
+
+        static void DrawButtonEvent()
+        {
             if (GUILayout.Button("Create Boolean Event"))
             {
                 EventWindowEditor.CreateEventBoolean();
@@ -56,8 +66,10 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 EventWindowEditor.CreateEventVector3();
             }
+        }
 
-            GUILayout.EndVertical();
+        static void DrawButtonEventResult()
+        {
         }
     }
 }

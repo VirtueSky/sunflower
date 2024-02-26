@@ -68,6 +68,315 @@ namespace VirtueSky.Events
         }
 
         #endregion
+
+        #region Create Scriptable Event Result
+
+        private const string pathEventResult = "/Event_Result";
+
+        private const string menuEventResult = "Sunflower/Scriptable/Create Event-Result/";
+
+
+        #region Bool Event - Result
+
+        private const string menuBoolEventResult = "Bool Event/";
+        private const string pathBoolEventResult = "/Bool_Event_Result";
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Bool Result")]
+        public static void CreateBoolEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventBoolResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Float Result")]
+        public static void CreateBoolEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventFloatResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Int Result")]
+        public static void CreateBoolEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventIntResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Object Result")]
+        public static void CreateBoolEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventObjectResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "String Result")]
+        public static void CreateBoolEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventStringResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Vector3 Result")]
+        public static void CreateBoolEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventStringResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_vector3_result");
+        }
+
+        #endregion
+
+        #region Float Event - Result
+
+        private const string menuFloatEventResult = "Float Event/";
+        private const string pathFloatEventResult = "/Float_Event_Result";
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Bool Result")]
+        public static void CreateFloatEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventBoolResult>(pathEventResult + pathFloatEventResult,
+                "float_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Float Result")]
+        public static void CreateFloatEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventFloatResult>(pathEventResult + pathFloatEventResult,
+                "float_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Int Result")]
+        public static void CreateFloatEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventIntResult>(pathEventResult + pathFloatEventResult,
+                "float_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Object Result")]
+        public static void CreateFloatEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventObjectResult>(pathEventResult + pathFloatEventResult,
+                "float_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "String Result")]
+        public static void CreateFloatEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventStringResult>(pathEventResult + pathFloatEventResult,
+                "float_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Vector3 Result")]
+        public static void CreateFloatEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventStringResult>(pathEventResult + pathFloatEventResult,
+                "float_event_vector3_result");
+        }
+
+        #endregion
+
+        #region Int Event - Result
+
+        private const string menuIntEventResult = "Int Event/";
+        private const string pathIntEventResult = "/Int_Event_Result";
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Bool Result")]
+        public static void CreateIntEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventBoolResult>(pathEventResult + pathIntEventResult,
+                "int_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Float Result")]
+        public static void CreateIntEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventFloatResult>(pathEventResult + pathIntEventResult,
+                "int_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Int Result")]
+        public static void CreateIntEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventIntResult>(pathEventResult + pathIntEventResult,
+                "int_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Object Result")]
+        public static void CreateIntEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventObjectResult>(pathEventResult + pathIntEventResult,
+                "int_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "String Result")]
+        public static void CreateIntEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventStringResult>(pathEventResult + pathIntEventResult,
+                "int_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Vector3 Result")]
+        public static void CreateIntEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventObjectResult>(pathEventResult + pathIntEventResult,
+                "int_event_vector3_result");
+        }
+
+        #endregion
+
+        #region Object Event - Result
+
+        private const string menuObjectEventResult = "Object Event/";
+        private const string pathObjectEventResult = "/Object_Event_Result";
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Bool Result")]
+        public static void CreateObjectEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventBoolResult>(pathEventResult + pathObjectEventResult,
+                "object_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Float Result")]
+        public static void CreateObjectEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventFloatResult>(pathEventResult + pathObjectEventResult,
+                "object_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Int Result")]
+        public static void CreateObjectEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventIntResult>(pathEventResult + pathObjectEventResult,
+                "object_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Object Result")]
+        public static void CreateObjectEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventObjectResult>(pathEventResult + pathObjectEventResult,
+                "object_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "String Result")]
+        public static void CreateObjectEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventStringResult>(pathEventResult + pathObjectEventResult,
+                "object_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Vector3 Result")]
+        public static void CreateObjectEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventVector3Result>(
+                pathEventResult + pathObjectEventResult,
+                "object_event_vector3_result");
+        }
+
+        #endregion
+
+        #region String Event - Result
+
+        private const string menuStringEventResult = "String Event/";
+        private const string pathStringEventResult = "/String_Event_Result";
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Bool Result")]
+        public static void CreateStringEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventBoolResult>(pathEventResult + pathStringEventResult,
+                "string_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Float Result")]
+        public static void CreateStringEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventFloatResult>(pathEventResult + pathStringEventResult,
+                "string_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Int Result")]
+        public static void CreateStringEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventIntResult>(pathEventResult + pathStringEventResult,
+                "string_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Object Result")]
+        public static void CreateStringEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventObjectResult>(pathEventResult + pathStringEventResult,
+                "string_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "String Result")]
+        public static void CreateStringEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventStringResult>(pathEventResult + pathStringEventResult,
+                "string_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Vector3 Result")]
+        public static void CreateStringEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventVector3Result>(
+                pathEventResult + pathStringEventResult,
+                "string_event_vector3_result");
+        }
+
+        #endregion
+
+        #region Vector3 Event - Result
+
+        private const string menuVector3EventResult = "Vector3 Event/";
+        private const string pathVector3EventResult = "/Vector3_Event_Result";
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Bool Result")]
+        public static void CreateVector3EventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventBoolResult>(pathEventResult + pathVector3EventResult,
+                "vector3_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Float Result")]
+        public static void CreateVector3EventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventFloatResult>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Int Result")]
+        public static void CreateVector3EventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventIntResult>(pathEventResult + pathVector3EventResult,
+                "vector3_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Object Result")]
+        public static void CreateVector3EventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventObjectResult>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "String Result")]
+        public static void CreateVector3EventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventStringResult>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Vector3 Result")]
+        public static void CreateVector3EventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventVector3Result>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_vector3_result");
+        }
+
+        #endregion
+
+        #endregion
     }
 #endif
 }
