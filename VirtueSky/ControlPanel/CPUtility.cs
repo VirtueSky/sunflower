@@ -99,5 +99,14 @@ namespace VirtueSky.ControlPanel.Editor
             Handles.DrawAAPolyLine(with, new Vector3(GUILayoutUtility.GetLastRect().x + offsetX, posYPointStart),
                 new Vector3(GUILayoutUtility.GetLastRect().x + offsetX, posYPointEnd));
         }
+
+        public static void DrawToggle(ref bool value, string text, System.Action draw)
+        {
+            value = GUILayout.Toggle(value, text);
+            if (value)
+            {
+                draw?.Invoke();
+            }
+        }
     }
 }
