@@ -31,7 +31,7 @@ namespace VirtueSky.ControlPanel.Editor
                     const string path = "Assets/_Sunflower/Editor/Resources";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                     AssetDatabase.CreateAsset(setting, $"{path}/{nameof(LevelSystemEditorSetting)}.asset");
-                    RegistryManager.Add("com.unity.addressables", "1.21.19");
+                    RegistryManager.Add("com.unity.addressables", "1.21.20");
                     RegistryManager.Resolve();
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();

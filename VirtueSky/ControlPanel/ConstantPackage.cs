@@ -10,7 +10,7 @@
         public const string PackageNameIOS14AdvertisingSupport = "com.unity.ads.ios-support";
         public const string MaxVersionIOS14AdvertisingSupport = "1.0.0";
         public const string PackageNameMobileNotification = "com.unity.mobile.notifications";
-        public const string MaxVersionMobileNotification = "2.3.1";
+        public const string MaxVersionMobileNotification = "2.3.2";
 
 
         #region Google Unity
