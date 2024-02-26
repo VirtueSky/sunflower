@@ -47,42 +47,42 @@ namespace VirtueSky.LevelEditor
         //     OnInspectorGUI();
         // }
 
-        public static void OnInspectorGUI()
-        {
-            var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
-            if (scriptableSetting == null)
-            {
-                GUI.enabled = !EditorApplication.isCompiling;
-                GUI.backgroundColor = Uniform.Pink;
-                var setting = ScriptableObject.CreateInstance<LevelSystemEditorSetting>();
-                const string path = "Assets/_Sunflower/Editor/Resources";
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                AssetDatabase.CreateAsset(setting, $"{path}/{nameof(LevelSystemEditorSetting)}.asset");
-                RegistryManager.Add("com.unity.addressables", "1.21.19");
-                RegistryManager.Resolve();
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-                Debug.Log(
-                    $"{nameof(LevelSystemEditorSetting)} was created ad {path}/{nameof(LevelSystemEditorSetting)}.asset");
-                GUI.backgroundColor = Color.white;
-                GUI.enabled = true;
-
-                OpenWindowLevelEditor();
-            }
-            else
-            {
-                OpenWindowLevelEditor();
-            }
-        }
-
-        static void OpenWindowLevelEditor()
-        {
-            var window = EditorWindow.GetWindow<LevelEditor>("Level Editor", true);
-            if (window)
-            {
-                window.minSize = new Vector2(275, 0);
-                window.Show(true);
-            }
-        }
+        // public static void OnInspectorGUI()
+        // {
+        //     var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
+        //     if (scriptableSetting == null)
+        //     {
+        //         GUI.enabled = !EditorApplication.isCompiling;
+        //         GUI.backgroundColor = Uniform.Pink;
+        //         var setting = ScriptableObject.CreateInstance<LevelSystemEditorSetting>();
+        //         const string path = "Assets/_Sunflower/Editor/Resources";
+        //         if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        //         AssetDatabase.CreateAsset(setting, $"{path}/{nameof(LevelSystemEditorSetting)}.asset");
+        //         RegistryManager.Add("com.unity.addressables", "1.21.19");
+        //         RegistryManager.Resolve();
+        //         AssetDatabase.SaveAssets();
+        //         AssetDatabase.Refresh();
+        //         Debug.Log(
+        //             $"{nameof(LevelSystemEditorSetting)} was created ad {path}/{nameof(LevelSystemEditorSetting)}.asset");
+        //         GUI.backgroundColor = Color.white;
+        //         GUI.enabled = true;
+        //
+        //         OpenWindowLevelEditor();
+        //     }
+        //     else
+        //     {
+        //         OpenWindowLevelEditor();
+        //     }
+        // }
+        //
+        // static void OpenWindowLevelEditor()
+        // {
+        //     var window = EditorWindow.GetWindow<LevelEditor>("Level Editor", true);
+        //     if (window)
+        //     {
+        //         window.minSize = new Vector2(275, 0);
+        //         window.Show(true);
+        //     }
+        // }
     }
 }

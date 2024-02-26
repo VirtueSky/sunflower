@@ -25,7 +25,7 @@ namespace PrimeTween {
     #if ENABLE_SERIALIZATION
     [Serializable]
     #endif
-    public 
+    public
         #if !ENABLE_SERIALIZATION
         readonly
         #endif
@@ -37,9 +37,9 @@ namespace PrimeTween {
             readonly
             #endif
             int id;
-            
+
         internal readonly ReusableTween tween;
-        
+
         internal bool IsCreated => id != 0;
 
         internal Tween([NotNull] ReusableTween tween) {
@@ -51,7 +51,7 @@ namespace PrimeTween {
 
         /// A tween is 'alive' when it has been created and is not stopped or completed yet. Paused tween is also considered 'alive'.
         public bool isAlive => id != 0 && tween.id == id && tween._isAlive;
-        
+
         /// Elapsed time of the current cycle.
         public float elapsedTime {
             get {
@@ -92,7 +92,7 @@ namespace PrimeTween {
 
         /// The total number of cycles. Returns -1 to indicate infinite number cycles.
         public int cyclesTotal => validateIsAlive() ? tween.settings.cycles : 0;
-        
+
         public int cyclesDone => validateIsAlive() ? tween.getCyclesDone() : 0;
         /// The duration of one cycle.
         public float duration {
@@ -123,7 +123,7 @@ namespace PrimeTween {
                 Debug.LogError($"Invalid elapsedTimeTotal value: {value}, tween: {ToString()}");
                 return;
             }
-            tween.SetElapsedTimeTotal(value);
+            tween.SetElapsedTimeTotal(value, false);
             // SetElapsedTimeTotal may complete the tween, so isAlive check is needed
             if (isAlive && value > durationTotal) {
                 tween.elapsedTimeTotal = durationTotal;
@@ -205,7 +205,7 @@ namespace PrimeTween {
             }
         }
 
-        /// Interrupts the tween, ignoring onComplete callback. 
+        /// Interrupts the tween, ignoring onComplete callback.
         public void Stop() {
             if (isAlive && tryManipulate()) {
                 tween.kill();
@@ -244,7 +244,7 @@ namespace PrimeTween {
             }
             SetRemainingCycles(tween.getCyclesDone() % 2 == 0 == stopAtEndValue ? 1 : 2);
         }
-        
+
         /// <summary>Sets the number of remaining cycles.<br/>
         /// This method modifies the <see cref="cyclesTotal"/> so that the tween will complete after the number of <see cref="cycles"/>.<br/>
         /// To set the initial number of cycles, pass the 'cycles' parameter to 'Tween.' methods instead.<br/><br/>
@@ -319,7 +319,7 @@ namespace PrimeTween {
                 }
             }
         }
-        
+
         public Tween OnUpdate<T>(T target, Action<T, Tween> onUpdate) where T : class {
             if (validateIsAlive()) {
                 tween.SetOnUpdate(target, onUpdate);

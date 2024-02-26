@@ -265,6 +265,16 @@ namespace PrimeTween {
         /// <summary>It's safe to destroy objects with running animations in PrimeTween, so this adapter method does nothing. More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4</summary>
         [PublicAPI]
         public Sequence SetLink(GameObject gameObject) => this;
+
+        public Sequence Pause() {
+            isPaused = true;
+            return this;
+        }
+
+        public Sequence Play() {
+            isPaused = false;
+            return this;
+        }
     }
     
     public partial struct Tween {
