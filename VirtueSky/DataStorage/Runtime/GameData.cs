@@ -45,7 +45,18 @@ namespace VirtueSky.DataStorage
             if (datas == null) throw new NullReferenceException();
         }
 
-        private static string GetPath => Path.Combine(GetPersistentDataPath(), $"data_{profile}.sun");
+        private static string GetPath => GetDataPath($"data_{profile}.sun");
+
+        static string GetDataPath(string name)
+        {
+            var persistentDataPath = GetPersistentDataPath();
+            if (!Directory.Exists(persistentDataPath))
+            {
+                Directory.CreateDirectory(persistentDataPath);
+            }
+
+            return Path.Combine(persistentDataPath, name);
+        }
 
         private static string GetPersistentDataPath()
         {
