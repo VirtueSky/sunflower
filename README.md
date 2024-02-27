@@ -28,6 +28,36 @@ for version `2.4.9`
 "com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.4.9",
 ```
 
+## Includes modules
+
+```bash
+├── Core (Update only called once in Monobehaviour,...)
+├── ATT_IOS
+├── Advertising (Support for Max & Admob)
+├── In App Purchase (IAP)
+├── Asset Finder
+├── Audio
+├── Button
+├── Data
+├── Scriptable Event
+├── Scriptable Variable
+├── Firebase (remote config, analytic)
+├── Tri-Inspector
+├── Level Editor
+├── Mobile Notification
+├── Object Pooling
+├── Prime tween
+├── QHierarchy
+├── In App review
+├── UniTask
+├── SimpleJSON
+├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
+├── Vibration (Vibration native support for android & ios)
+├── Game Service (Login by Google Play Game or Apple Auth)
+├── Misc (Extension support SafeArea, Play Animancer, Skeleton,...)
+├── Component
+```
+
 #### Note:
 
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
