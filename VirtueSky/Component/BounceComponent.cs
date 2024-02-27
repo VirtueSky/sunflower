@@ -10,15 +10,17 @@ namespace VirtueSky.Component
         [Header("Attributes")] public bool isRotate = false;
 
         public float degreesPerSecond = 15.0f;
-        public float amplitude = 0.5f;
+        public float amplitude = 5f;
         public float frequency = 1f;
 
         private Vector3 _posOffset;
         private Vector3 _tempPos;
 
-        void Start()
+
+        public override void OnEnable()
         {
-            _posOffset = transform.position;
+            base.OnEnable();
+            _posOffset = transform.localPosition;
         }
 
         public override void FixedTick()
@@ -32,7 +34,7 @@ namespace VirtueSky.Component
             _tempPos = _posOffset;
             _tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
 
-            transform.position = _tempPos;
+            transform.localPosition = _tempPos;
         }
     }
 }

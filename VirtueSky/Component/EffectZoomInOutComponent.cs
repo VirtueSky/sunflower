@@ -1,12 +1,13 @@
 ﻿using PrimeTween;
 using UnityEngine;
+using VirtueSky.Core;
 using VirtueSky.Inspector;
 
 
 namespace VirtueSky.Component
 {
     [EditorIcon("icon_csharp")]
-    public class EffectZoomInOutComponent : MonoBehaviour
+    public class EffectZoomInOutComponent : BaseMono
     {
         [Range(0, 2f)] public float timeDelay;
         [Range(.1f, 2f)] public float offsetScale = .1f;

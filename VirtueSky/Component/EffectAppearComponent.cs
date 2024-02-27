@@ -1,11 +1,12 @@
 using UnityEngine;
 using PrimeTween;
+using VirtueSky.Core;
 using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
     [EditorIcon("icon_csharp")]
-    public class EffectAppearComponent : MonoBehaviour
+    public class EffectAppearComponent : BaseMono
     {
         [Range(0, 2f)] public float TimeScale = .7f;
         public Ease ease = Ease.OutBack;

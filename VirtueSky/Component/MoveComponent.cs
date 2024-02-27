@@ -63,26 +63,6 @@ namespace VirtueSky.Component
             }
         }
 
-        // private void OnDrawGizmos()
-        // {
-        //     if (!points.IsNullOrEmpty())
-        //     {
-        //         try
-        //         {
-        //             foreach (Transform item in points)
-        //             {
-        //                 Gizmos.color = Color.green;
-        //                 Gizmos.DrawSphere(item.transform.position, 0.2f);
-        //             }
-        //         }
-        //         catch (Exception e)
-        //         {
-        //             points = new List<Transform>();
-        //             throw;
-        //         }
-        //     }
-        // }
-
         public void StopMoving()
         {
             _isMoving = false;
