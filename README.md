@@ -48,7 +48,7 @@ for version `2.4.9`
 ├── Object Pooling
 ├── Prime tween
 ├── QHierarchy
-├── In App review
+├── In app review
 ├── UniTask
 ├── SimpleJSON
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
