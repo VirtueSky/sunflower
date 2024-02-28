@@ -3,15 +3,19 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using VirtueSky.DataStorage;
 using VirtueSky.Events;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Variables
 {
     public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver
     {
-        [SerializeField] TType initializeValue;
-        [SerializeField] bool isSetData;
-        [SerializeField] private bool isSaveData;
-        [SerializeField] bool isRaiseEvent;
+        [SerializeField] private TType initializeValue;
+        [SerializeField] private bool isSetData;
+
+        [ShowIf(nameof(isSetData))] [SerializeField]
+        private bool isSaveData;
+
+        [SerializeField] private bool isRaiseEvent;
         [NonSerialized] TType runtimeValue;
 
         public TType Value
