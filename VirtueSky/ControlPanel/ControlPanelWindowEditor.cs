@@ -84,6 +84,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
+            DrawButtonChooseState("Extensions", StatePanelControl.Extensions);
             DrawButtonChooseState("About", StatePanelControl.About);
         }
 
@@ -135,6 +136,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.GameService:
                     CPGameServiceDrawer.OnDrawGameService();
+                    break;
+                case StatePanelControl.Extensions:
+                    CPExtensionsDrawer.OnDrawExtensions(position);
                     break;
                 case StatePanelControl.About:
                     CPAboutDrawer.OnDrawAbout(position);
@@ -194,6 +198,7 @@ namespace VirtueSky.ControlPanel.Editor
         QHierarchy,
         Firebase,
         GameService,
+        Extensions,
         About,
     }
 }

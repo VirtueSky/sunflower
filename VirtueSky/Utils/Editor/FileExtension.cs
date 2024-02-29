@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,7 @@ using Object = UnityEngine.Object;
 using UnityEditor;
 #endif
 using Newtonsoft.Json.Linq;
+using Debug = UnityEngine.Debug;
 
 namespace VirtueSky.UtilsEditor
 {
@@ -147,6 +149,30 @@ namespace VirtueSky.UtilsEditor
         }
 
         public static string ManifestPath => Application.dataPath + "/../Packages/manifest.json";
+
+        public static void OpenFolderInExplorer(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Process.Start(path);
+            }
+            else
+            {
+                Debug.LogError("The directory does not exist: " + path);
+            }
+        }
+
+        public static void OpenFolderInFinder(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Process.Start("open", path);
+            }
+            else
+            {
+                Debug.LogError("The directory does not exist: " + path);
+            }
+        }
     }
 #endif
 }
