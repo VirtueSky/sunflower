@@ -14,6 +14,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
+#if UNITY_ANDROID
             GUILayout.Label("ANDROID EXTERNAL TOOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Open Sdk"))
@@ -47,8 +48,7 @@ namespace VirtueSky.ControlPanel.Editor
                     OpenMonitor();
                 }
             }
-
-
+#endif
             GUILayout.EndVertical();
         }
 
