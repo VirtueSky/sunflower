@@ -36,14 +36,18 @@ namespace VirtueSky.ControlPanel.Editor
                 OpenGradlePath();
             }
 
-            GUILayout.Space(10);
-            CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
-            GUILayout.Space(10);
-
-            if (GUILayout.Button("Open Monitor"))
+            if (SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows)
             {
-                OpenMonitor();
+                GUILayout.Space(10);
+                CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
+                GUILayout.Space(10);
+                EditorGUILayout.HelpBox("Monitor only works on java sdk 8", MessageType.Warning);
+                if (GUILayout.Button("Open Monitor"))
+                {
+                    OpenMonitor();
+                }
             }
+
 
             GUILayout.EndVertical();
         }
