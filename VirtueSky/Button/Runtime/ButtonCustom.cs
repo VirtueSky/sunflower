@@ -14,7 +14,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.UIButton
 {
-    [EditorIcon("button_icon")]
+    [EditorIcon("icon_button")]
     public class ButtonCustom : Button
     {
         public ClickButtonEvent clickButtonEvent;

@@ -9,7 +9,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Audio
 {
-    [EditorIcon("Sound")]
+    [EditorIcon("icon_sound_mixer")]
     public class AudioManager : BaseMono
     {
         [Space] [SerializeField] private bool isDontDestroyOnLoad;

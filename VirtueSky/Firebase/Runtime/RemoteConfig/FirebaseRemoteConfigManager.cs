@@ -16,7 +16,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.FirebaseTraking
 {
-    [EditorIcon("Controller")]
+    [EditorIcon("icon_controller")]
     public class FirebaseRemoteConfigManager : MonoBehaviour
     {
 #if VIRTUESKY_FIREBASE

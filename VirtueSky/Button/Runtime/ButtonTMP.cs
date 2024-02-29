@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
-    [EditorIcon("button_icon")]
+    [EditorIcon("icon_button")]
     public class ButtonTMP : ButtonCustom
     {
     }

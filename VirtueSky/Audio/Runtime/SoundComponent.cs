@@ -3,10 +3,12 @@ using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
 namespace VirtueSky.Audio
 {
     [RequireComponent(typeof(AudioSource))]
+    [EditorIcon("icon_csharp")]
     public class SoundComponent : BaseMono
     {
         [SerializeField] private AudioSource audioSource;

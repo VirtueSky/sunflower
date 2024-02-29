@@ -16,7 +16,7 @@ using VirtueSky.Variables;
 
 namespace VirtueSky.Ads
 {
-    [EditorIcon("Controller")]
+    [EditorIcon("icon_controller")]
     public class Advertising : MonoBehaviour
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;

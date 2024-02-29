@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(Text))]
-    [EditorIcon("button_icon")]
+    [EditorIcon("icon_button")]
     public class ButtonText : ButtonCustom
     {
 #if UNITY_EDITOR

@@ -6,7 +6,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.UIButton
 {
     [RequireComponent(typeof(Image))]
-    [EditorIcon("button_icon")]
+    [EditorIcon("icon_button")]
     public class ButtonUI_TMP : ButtonCustom
     {
 #if UNITY_EDITOR
