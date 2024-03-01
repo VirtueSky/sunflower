@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using PlasticGui;
+using UnityEditor;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
@@ -13,10 +15,15 @@ namespace VirtueSky.Events
         private Action onRaised = null;
 
 #if UNITY_EDITOR
+
+        [ShowIf(nameof(ConditionShow))]
+        [Button("Raise")]
         private void DebugRaiseEvent()
         {
             Raise();
         }
+
+        private bool ConditionShow => EditorApplication.isPlaying;
 #endif
         public void Raise()
         {
@@ -76,12 +83,17 @@ namespace VirtueSky.Events
         readonly List<IEventListener<TType>> listeners = new List<IEventListener<TType>>();
         private Action<TType> onRaised = null;
 #if UNITY_EDITOR
+        [Space(10)] [ShowIf(nameof(ConditionShow))] [SerializeField]
+        private TType valueDebug = default(TType);
 
-        [SerializeField] private TType valueDebug = default(TType);
+        [ShowIf(nameof(ConditionShow))]
+        [Button("Raise")]
         private void DebugRaiseEvent()
         {
             Raise(valueDebug);
         }
+
+        private bool ConditionShow => EditorApplication.isPlaying;
 #endif
 
         public virtual void Raise(TType value)
@@ -142,13 +154,20 @@ namespace VirtueSky.Events
         private Func<TType, TResult> onRaised = null;
 
 #if UNITY_EDITOR
-        [SerializeField] private TType valueDebug = default(TType);
-        [ReadOnly] [SerializeField] private TResult valueResult = default(TResult);
+        [Space(10)] [ShowIf(nameof(ConditionShow))] [SerializeField]
+        private TType valueDebug = default(TType);
 
+        [ShowIf(nameof(ConditionShow))] [ReadOnly, SerializeField]
+        private TResult valueResult = default(TResult);
+
+        [ShowIf(nameof(ConditionShow))]
+        [Button("Raise")]
         private void DebugRaiseEvent()
         {
             valueResult = Raise(valueDebug);
         }
+
+        private bool ConditionShow => EditorApplication.isPlaying;
 #endif
         public TResult Raise(TType value)
         {
