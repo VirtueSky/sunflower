@@ -31,6 +31,12 @@ namespace VirtueSky.Events
             return result;
         }
 
+        public event Func<TResult> OnRaised
+        {
+            add { onRaised += value; }
+            remove { onRaised -= value; }
+        }
+
         public void AddListener(Func<TResult> func)
         {
             onRaised += func;
