@@ -376,6 +376,59 @@ namespace VirtueSky.Events
 
         #endregion
 
+        #region Event No Param - Result
+
+        private const string menuEventNoParamResult = "Event No Param/";
+        private const string pathEventNoParamResult = "/Event_No_Param_Result";
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Bool Result")]
+        public static void CreateEventNoParamBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamBoolResult>(pathEventResult + pathEventNoParamResult,
+                "event_no_param_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Float Result")]
+        public static void CreateEventNoParamFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamFloatResult>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Int Result")]
+        public static void CreateEventNoParamIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamIntResult>(pathEventResult + pathEventNoParamResult,
+                "event_no_param_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Object Result")]
+        public static void CreateEventNoParamObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamObjectResult>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "String Result")]
+        public static void CreateEventNoParamStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamStringResult>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_string_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Vector3 Result")]
+        public static void CreateEventNoParamVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamVector3Result>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_vector3_result");
+        }
+
+        #endregion
+
         #endregion
     }
 #endif

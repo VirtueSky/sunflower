@@ -34,4 +34,12 @@ namespace VirtueSky.Events
         void RemoveListener(IEventListener<T, TResult> listener);
         void RemoveAll();
     }
+
+    public interface IEventNoParamResult<TResult>
+    {
+        TResult Raise();
+        void AddListener(Func<TResult> func);
+        void RemoveListener(Func<TResult> func);
+        void RemoveAll();
+    }
 }

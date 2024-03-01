@@ -273,6 +273,40 @@ namespace VirtueSky.ControlPanel.Editor
                     EventWindowEditor.CreateVector3EventVector3Result();
                 }
             }, false);
+            GUILayout.Space(10);
+            Uniform.DrawGroupFoldout("cp_draw_event_no_param_result", "Event No Param-Result", () =>
+            {
+                if (GUILayout.Button("Event No Param - Bool Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamBoolResult();
+                }
+
+                if (GUILayout.Button("Event No Param - Float Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamFloatResult();
+                }
+
+                if (GUILayout.Button("Event No Param - Int Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamIntResult();
+                }
+
+                if (GUILayout.Button("Event No Param - Object Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamObjectResult();
+                }
+
+                if (GUILayout.Button("Event No Param - String Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamStringResult();
+                }
+
+                if (GUILayout.Button("Event No Param - Vector3 Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamVector3Result();
+                }
+            }, false);
+            GUILayout.Space(10);
         }
     }
 }
