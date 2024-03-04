@@ -123,7 +123,7 @@ namespace VirtueSky.UtilsEditor
 
         public static string DefaultResourcesPath(string path = "")
         {
-            const string defaultResourcePath = "Assets/_Sunflower/Resources";
+            const string defaultResourcePath = "Assets/_Sunflower/Scriptable";
             if (!Directory.Exists(defaultResourcePath + path))
             {
                 Directory.CreateDirectory(defaultResourcePath + path);
