@@ -15,6 +15,7 @@ namespace VirtueSky.Audio
         [Space] [SerializeField] private bool isDontDestroyOnLoad;
 
         [Space] [SerializeField] private SoundComponentPool soundComponentPool;
+        [SerializeField] private Transform audioHolder;
 
         [Space] [TitleColor("Music Listening", CustomColor.Aqua, CustomColor.Lime)] [SerializeField]
         private PlayMusicEvent eventPlayMusic;
@@ -104,8 +105,7 @@ namespace VirtueSky.Audio
 
         private void PlaySfx(SoundData soundData)
         {
-            var sfxComponent = soundComponentPool.Spawn<SoundComponent>();
-            sfxComponent.transform.SetParent(this.transform);
+            var sfxComponent = soundComponentPool.Spawn<SoundComponent>(audioHolder);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * sfxVolume.Value);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             listAudioDatas.Add(soundData);
@@ -165,8 +165,7 @@ namespace VirtueSky.Audio
         {
             if (music == null || !music.IsPlaying)
             {
-                music = soundComponentPool.Spawn<SoundComponent>();
-                music.transform.SetParent(this.transform);
+                music = soundComponentPool.Spawn<SoundComponent>(audioHolder);
             }
 
             music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * musicVolume.Value,
@@ -217,7 +216,6 @@ namespace VirtueSky.Audio
 
             soundComponent.Stop();
             soundComponentPool.DeSpawn(soundComponent.gameObject);
-            // pool.DeSpawn(soundComponent.gameObject);
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
