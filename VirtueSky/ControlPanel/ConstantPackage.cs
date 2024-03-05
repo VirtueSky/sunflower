@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "2.5.1";
+        public const string VersionSunflower = "2.5.2";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.10.0";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -11,6 +11,8 @@
         public const string MaxVersionIOS14AdvertisingSupport = "1.0.0";
         public const string PackageNameMobileNotification = "com.unity.mobile.notifications";
         public const string MaxVersionMobileNotification = "2.3.2";
+        public const string PackageNameAddressables = "com.unity.addressables";
+        public const string MaxVersionAddressables = "1.21.20";
 
 
         #region Google Unity
