@@ -58,7 +58,7 @@ namespace VirtueSky.DataStorage
             return Path.Combine(persistentDataPath, name);
         }
 
-        private static string GetPersistentDataPath()
+        public static string GetPersistentDataPath()
         {
 #if UNITY_EDITOR
             return Path.Combine(Directory.GetParent(Application.dataPath).FullName, "TempDataStorage");
