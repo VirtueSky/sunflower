@@ -7,6 +7,7 @@ using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 #endif
 using UnityEngine;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
@@ -27,7 +28,8 @@ namespace VirtueSky.Ads
         private BooleanVariable isGDPRCanRequestAds;
 
         [SerializeField] private BooleanVariable isPrivacyRequiredGDPR;
-        [SerializeField] private EventNoParam showPrivacyOptionsFormEvent;
+        [SerializeField] private EventNoParam showPrivacyOptionsFormSuccessEvent;
+        [SerializeField] private EventNoParam callShowPrivacyOptionFormEvent;
 
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
@@ -43,6 +45,22 @@ namespace VirtueSky.Ads
             if (dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(this.gameObject);
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (callShowPrivacyOptionFormEvent != null)
+            {
+                callShowPrivacyOptionFormEvent.AddListener(ShowPrivacyOptionsForm);
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (callShowPrivacyOptionFormEvent != null)
+            {
+                callShowPrivacyOptionFormEvent.RemoveListener(ShowPrivacyOptionsForm);
             }
         }
 
@@ -254,9 +272,9 @@ namespace VirtueSky.Ads
                     Debug.LogError("Error showing privacy options form with error: " + showError.Message);
                 }
 
-                if (showPrivacyOptionsFormEvent != null)
+                if (showPrivacyOptionsFormSuccessEvent != null)
                 {
-                    showPrivacyOptionsFormEvent.Raise();
+                    showPrivacyOptionsFormSuccessEvent.Raise();
                 }
             });
         }
