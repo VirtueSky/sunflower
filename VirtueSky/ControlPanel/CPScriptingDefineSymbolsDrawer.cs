@@ -31,6 +31,9 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_GPGS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_SKELETON);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ANIMANCER);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.UNITASK_ADDRESSABLE_SUPPORT);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.UNITASK_DOTWEEN_SUPPORT);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.UNITASK_TEXTMESHPRO_SUPPORT);
             EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }

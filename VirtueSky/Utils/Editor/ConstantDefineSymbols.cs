@@ -18,5 +18,8 @@ namespace VirtueSky.UtilsEditor
         public const string VIRTUESKY_APPLE_AUTH = "VIRTUESKY_APPLE_AUTH";
         public const string VIRTUESKY_SKELETON = "VIRTUESKY_SKELETON";
         public const string VIRTUESKY_ANIMANCER = "VIRTUESKY_ANIMANCER";
+        public const string UNITASK_ADDRESSABLE_SUPPORT = "UNITASK_ADDRESSABLE_SUPPORT";
+        public const string UNITASK_DOTWEEN_SUPPORT = "UNITASK_DOTWEEN_SUPPORT";
+        public const string UNITASK_TEXTMESHPRO_SUPPORT = "UNITASK_TEXTMESHPRO_SUPPORT";
     }
 }
