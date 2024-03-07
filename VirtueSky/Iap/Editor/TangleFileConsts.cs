@@ -3,7 +3,7 @@ namespace VirtueSky.Iap
 {
     public class TangleFileConsts
     {
-        internal const string k_OutputPath = "Assets/_Root/Scripts/UnityPurchasing/generated";
+        internal const string k_OutputPath = "Assets/_Sunflower/Scripts/UnityPurchasing/generated";
 
         internal const string k_AppleClassPrefix = "Apple";
         internal const string k_AppleStoreKitTestClassPrefix = "AppleStoreKitTest";
