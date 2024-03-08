@@ -80,7 +80,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
-            DrawButtonChooseState("QHierarchy", StatePanelControl.QHierarchy);
+            DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
             DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
@@ -128,8 +128,8 @@ namespace VirtueSky.ControlPanel.Editor
                 case StatePanelControl.RegisterPackage:
                     CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
                     break;
-                case StatePanelControl.QHierarchy:
-                    CPQHierarchyDrawer.OnDrawQHierarchyEvent(position, this);
+                case StatePanelControl.Hierarchy:
+                    CPHierarchyDrawer.OnDrawQHierarchyEvent(position, this);
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
@@ -195,7 +195,7 @@ namespace VirtueSky.ControlPanel.Editor
         SO_Variable,
         ScriptDefineSymbols,
         RegisterPackage,
-        QHierarchy,
+        Hierarchy,
         Firebase,
         GameService,
         Extensions,

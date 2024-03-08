@@ -1,0 +1,21 @@
+{
+    "name": "HierarchyEditor",
+    "rootNamespace": "",
+    "references": [
+        "Virtuesky.Sunflower.DataStorage.Editor",
+        "VirtueSky.Sunflower.Inspector",
+        "HierarchyNullable",
+        "HierarchyRuntime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
