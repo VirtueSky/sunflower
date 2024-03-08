@@ -22,7 +22,7 @@ namespace VirtueSky.Hierarchy
 
             EditorApplication.hierarchyWindowItemOnGUI -= hierarchyWindowItemOnGUIHandler;
             EditorApplication.hierarchyWindowItemOnGUI += hierarchyWindowItemOnGUIHandler;
-            
+
             EditorApplication.hierarchyChanged -= hierarchyWindowChanged;
             EditorApplication.hierarchyChanged += hierarchyWindowChanged;
 
@@ -32,13 +32,13 @@ namespace VirtueSky.Hierarchy
 
         static void undoRedoPerformed()
         {
-            EditorApplication.RepaintHierarchyWindow();          
+            EditorApplication.RepaintHierarchyWindow();
         }
 
         static void init()
-        {       
+        {
             hierarchy = new VHierarchy();
-        } 
+        }
 
         static void update()
         {
@@ -49,7 +49,7 @@ namespace VirtueSky.Hierarchy
         static void hierarchyWindowItemOnGUIHandler(int instanceId, Rect selectionRect)
         {
             if (hierarchy == null) init();
-             hierarchy.hierarchyWindowItemOnGUIHandler(instanceId, selectionRect);
+            hierarchy.hierarchyWindowItemOnGUIHandler(instanceId, selectionRect);
         }
 
         static void hierarchyWindowChanged()
@@ -59,4 +59,3 @@ namespace VirtueSky.Hierarchy
         }
     }
 }
-

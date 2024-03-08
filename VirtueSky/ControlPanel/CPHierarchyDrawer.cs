@@ -25,20 +25,27 @@ namespace VirtueSky.ControlPanel.Editor
             HierarchySettings.getInstance().inited = true;
             HierarchySettings.getInstance().isProSkin = EditorGUIUtility.isProSkin;
             HierarchySettings.getInstance().separatorColor =
-                HierarchySettings.getInstance().isProSkin ? new Color(0.18f, 0.18f, 0.18f) : new Color(0.59f, 0.59f, 0.59f);
+                HierarchySettings.getInstance().isProSkin
+                    ? new Color(0.18f, 0.18f, 0.18f)
+                    : new Color(0.59f, 0.59f, 0.59f);
             HierarchySettings.getInstance().yellowColor =
-                HierarchySettings.getInstance().isProSkin ? new Color(1.00f, 0.90f, 0.40f) : new Color(0.31f, 0.31f, 0.31f);
-            HierarchySettings.getInstance().checkBoxChecked = HierarchyResources.getInstance().getTexture(HierarchyTexture.HierarchyCheckBoxChecked);
+                HierarchySettings.getInstance().isProSkin
+                    ? new Color(1.00f, 0.90f, 0.40f)
+                    : new Color(0.31f, 0.31f, 0.31f);
+            HierarchySettings.getInstance().checkBoxChecked = HierarchyResources.getInstance()
+                .getTexture(HierarchyTexture.HierarchyCheckBoxChecked);
             HierarchySettings.getInstance().checkBoxUnchecked =
                 HierarchyResources.getInstance().getTexture(HierarchyTexture.HierarchyCheckBoxUnchecked);
-            HierarchySettings.getInstance().restoreButtonTexture = HierarchyResources.getInstance().getTexture(HierarchyTexture.HierarchyRestoreButton);
+            HierarchySettings.getInstance().restoreButtonTexture = HierarchyResources.getInstance()
+                .getTexture(HierarchyTexture.HierarchyRestoreButton);
             HierarchySettings.getInstance().componentsOrderList = new HierarchyComponentsOrderList(window);
         }
 
         // GUI
         public static void OnGUI(Rect position, EditorWindow window)
         {
-            if (!HierarchySettings.getInstance().inited || HierarchySettings.getInstance().isProSkin != EditorGUIUtility.isProSkin)
+            if (!HierarchySettings.getInstance().inited ||
+                HierarchySettings.getInstance().isProSkin != EditorGUIUtility.isProSkin)
                 init(window);
 
             HierarchySettings.getInstance().indentLevel = 8;
@@ -46,13 +53,15 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorGUILayout.BeginScrollView(HierarchySettings.getInstance().scrollPosition);
             {
                 Rect targetRect = EditorGUILayout.GetControlRect(GUILayout.Height(0));
-                if (Event.current.type == EventType.Repaint) HierarchySettings.getInstance().totalWidth = targetRect.width + 8;
+                if (Event.current.type == EventType.Repaint)
+                    HierarchySettings.getInstance().totalWidth = targetRect.width + 8;
 
                 HierarchySettings.getInstance().lastRect = new Rect(0, 1, 0, 0);
 
                 // COMPONENTS
                 drawSection("COMPONENTS SETTINGS");
-                float sectionStartY = HierarchySettings.getInstance().lastRect.y + HierarchySettings.getInstance().lastRect.height;
+                float sectionStartY = HierarchySettings.getInstance().lastRect.y +
+                                      HierarchySettings.getInstance().lastRect.height;
 
                 drawTreeMapComponentSettings();
                 drawSeparator();
@@ -93,7 +102,8 @@ namespace VirtueSky.ControlPanel.Editor
 
                 // ORDER
                 drawSection("ORDER OF COMPONENTS");
-                sectionStartY = HierarchySettings.getInstance().lastRect.y + HierarchySettings.getInstance().lastRect.height;
+                sectionStartY = HierarchySettings.getInstance().lastRect.y +
+                                HierarchySettings.getInstance().lastRect.height;
                 drawSpace(8);
                 drawOrderSettings(position, window);
                 drawSpace(6);
@@ -103,7 +113,8 @@ namespace VirtueSky.ControlPanel.Editor
 
                 // ADDITIONAL
                 drawSection("ADDITIONAL SETTINGS");
-                sectionStartY = HierarchySettings.getInstance().lastRect.y + HierarchySettings.getInstance().lastRect.height;
+                sectionStartY = HierarchySettings.getInstance().lastRect.y +
+                                HierarchySettings.getInstance().lastRect.height;
                 drawSpace(3);
                 drawAdditionalSettings();
                 drawLeftLine(sectionStartY,
@@ -748,7 +759,9 @@ namespace VirtueSky.ControlPanel.Editor
             rect.height = 14;
 
             if (GUI.Button(rect,
-                    isChecked ? HierarchySettings.getInstance().checkBoxChecked : HierarchySettings.getInstance().checkBoxUnchecked,
+                    isChecked
+                        ? HierarchySettings.getInstance().checkBoxChecked
+                        : HierarchySettings.getInstance().checkBoxUnchecked,
                     GUIStyle.none))
             {
                 HierarchySettings.getInstance().set(setting, !isChecked);
@@ -779,7 +792,9 @@ namespace VirtueSky.ControlPanel.Editor
             rect.height = 14;
 
             if (GUI.Button(rect,
-                    isChecked ? HierarchySettings.getInstance().checkBoxChecked : HierarchySettings.getInstance().checkBoxUnchecked,
+                    isChecked
+                        ? HierarchySettings.getInstance().checkBoxChecked
+                        : HierarchySettings.getInstance().checkBoxUnchecked,
                     GUIStyle.none))
             {
                 HierarchySettings.getInstance().set(setting, !isChecked);
@@ -821,7 +836,8 @@ namespace VirtueSky.ControlPanel.Editor
             Rect rect = new Rect(HierarchySettings.getInstance().indentLevel + addIndent,
                 HierarchySettings.getInstance().lastRect.y + HierarchySettings.getInstance().lastRect.height,
                 (width == 0
-                    ? HierarchySettings.getInstance().totalWidth - HierarchySettings.getInstance().indentLevel - addIndent - remWidth
+                    ? HierarchySettings.getInstance().totalWidth - HierarchySettings.getInstance().indentLevel -
+                      addIndent - remWidth
                     : width), height);
             HierarchySettings.getInstance().lastRect = rect;
             return rect;
@@ -830,7 +846,9 @@ namespace VirtueSky.ControlPanel.Editor
         private static bool drawRestore()
         {
             if (GUI.Button(
-                    new Rect(HierarchySettings.getInstance().lastRect.x + HierarchySettings.getInstance().lastRect.width - 16 - 5,
+                    new Rect(
+                        HierarchySettings.getInstance().lastRect.x + HierarchySettings.getInstance().lastRect.width -
+                        16 - 5,
                         HierarchySettings.getInstance().lastRect.y - 20, 16, 16),
                     HierarchySettings.getInstance().restoreButtonTexture, GUIStyle.none))
             {

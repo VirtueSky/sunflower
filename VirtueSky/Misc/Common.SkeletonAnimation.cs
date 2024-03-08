@@ -45,6 +45,13 @@ namespace VirtueSky.Misc
             return skeletonAnimation;
         }
 
+        public static SkeletonAnimation AddAnimation(this SkeletonAnimation skeletonAnimation, int trackIndex,
+            string animationName, bool loop, float timeDelay = 0)
+        {
+            skeletonAnimation.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
+            return skeletonAnimation;
+        }
+
         public static SkeletonAnimation SetSkin(this SkeletonAnimation skeletonAnimation, string skinName)
         {
             var skin = new Skin("temp");
@@ -129,7 +136,6 @@ namespace VirtueSky.Misc
             skeletonAnimation.AnimationState.Apply(skeletonAnimation.Skeleton);
             return skeletonAnimation;
         }
-
     }
 }
 #endif

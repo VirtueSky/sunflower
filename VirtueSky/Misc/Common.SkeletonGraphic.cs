@@ -10,7 +10,6 @@ namespace VirtueSky.Misc
 {
     public static partial class Common
     {
-
         public static float Duration(this SkeletonGraphic skeletonGraphic, string animationName)
         {
             var animation =
@@ -43,6 +42,13 @@ namespace VirtueSky.Misc
             bool loop = false)
         {
             skeletonGraphic.AnimationState.SetAnimation(0, animationName, loop);
+            return skeletonGraphic;
+        }
+
+        public static SkeletonGraphic AddAnimation(this SkeletonGraphic skeletonGraphic, int trackIndex,
+            string animationName, bool loop, float timeDelay = 0)
+        {
+            skeletonGraphic.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
             return skeletonGraphic;
         }
 
@@ -128,7 +134,6 @@ namespace VirtueSky.Misc
             skeletonGraphic.AnimationState.Apply(skeletonGraphic.Skeleton);
             return skeletonGraphic;
         }
-
     }
 }
 #endif
