@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "2.5.2";
+        public const string VersionSunflower = "2.5.3";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.10.0";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -103,9 +103,10 @@
             "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.6.2";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
+
         public const string MaxVersionAppleSignIn = "https://github.com/lupidan/apple-signin-unity.git#v1.4.3";
-        public const string PackageNameAnimancer = "com.virtuesky.animancer";
-        public const string MaxVersionAnimancer = "https://github.com/VirtueSky/animancer-unity.git#7.0.0";
+        //public const string PackageNameAnimancer = "com.virtuesky.animancer";
+        //public const string MaxVersionAnimancer = "https://github.com/VirtueSky/animancer-unity.git#7.0.0";
 
         #region Spine
 
