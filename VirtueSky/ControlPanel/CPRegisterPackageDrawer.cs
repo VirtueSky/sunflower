@@ -93,8 +93,8 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameSpineUnity, ConstantPackage.MaxVersionSpineUnity);
             CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",
                 ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
-            CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",
-                ConstantPackage.PackageNameAnimancer, ConstantPackage.MaxVersionAnimancer);
+            // CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",
+            //     ConstantPackage.PackageNameAnimancer, ConstantPackage.MaxVersionAnimancer);
             CPUtility.DrawButtonInstallPackage("Install Mobile Notifications", "Remove Mobile Notifications",
                 ConstantPackage.PackageNameMobileNotification, ConstantPackage.MaxVersionMobileNotification);
             CPUtility.DrawButtonInstallPackage("Install Addressables", "Remove Addressables",
