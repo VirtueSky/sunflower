@@ -4,7 +4,6 @@ using System.Collections;
 using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
-using VirtueSky.Ads;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
@@ -17,6 +16,7 @@ namespace VirtueSky.Ads
     {
         public BannerSize size = BannerSize.Adaptive;
         public BannerPosition position = BannerPosition.Bottom;
+        public bool useCollapsible;
 #if VIRTUESKY_ADS && ADS_ADMOB
         private BannerView _bannerView;
 #endif
@@ -39,7 +39,13 @@ namespace VirtueSky.Ads
             _bannerView.OnBannerAdLoaded += OnAdLoaded;
             _bannerView.OnAdFullScreenContentOpened += OnAdOpening;
             _bannerView.OnAdPaid += OnAdPaided;
-            _bannerView.LoadAd(new AdRequest());
+            var adRequest = new AdRequest();
+            if (useCollapsible)
+            {
+                adRequest.Extras.Add("collapsible", ConvertPlacementCollapsible());
+            }
+
+            _bannerView.LoadAd(adRequest);
 
 #endif
         }
@@ -99,6 +105,20 @@ namespace VirtueSky.Ads
                 case BannerPosition.BottomRight: return AdPosition.BottomRight;
                 default: return AdPosition.Bottom;
             }
+        }
+
+        public string ConvertPlacementCollapsible()
+        {
+            if (position == BannerPosition.Top)
+            {
+                return "top";
+            }
+            else if (position == BannerPosition.Bottom)
+            {
+                return "bottom";
+            }
+
+            return "bottom";
         }
 
         private void OnAdPaided(AdValue value)
