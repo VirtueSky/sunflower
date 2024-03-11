@@ -9,7 +9,7 @@ using AnimationState = Spine.AnimationState;
 
 namespace VirtueSky.Component
 {
-    public abstract class AnimatorSkeleton : MonoBehaviour
+    public abstract class AnimationSkeleton : MonoBehaviour
     {
         protected Skeleton skeleton;
         protected AnimationState animationState;

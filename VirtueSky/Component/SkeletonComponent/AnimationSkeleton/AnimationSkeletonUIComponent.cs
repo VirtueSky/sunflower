@@ -7,7 +7,7 @@ namespace VirtueSky.Component
 {
     [RequireComponent(typeof(SkeletonGraphic))]
     [EditorIcon("icon_csharp")]
-    public class AnimatorSkeletonUIComponent : AnimatorSkeleton
+    public class AnimationSkeletonUIComponent : AnimationSkeleton
     {
         [SerializeField] SkeletonGraphic skeletonGraphic;
         public SkeletonGraphic SkeletonGraphic => skeletonGraphic;

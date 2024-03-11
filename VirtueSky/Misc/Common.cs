@@ -11,12 +11,12 @@ namespace VirtueSky.Misc
 {
     public static partial class Common
     {
-        public static bool IsInteger(float value)
+        public static bool IsInteger(this float value)
         {
             return (value == (int)value);
         }
 
-        public static int GetNumberInAString(string str)
+        public static int GetNumberInAString(this string str)
         {
             try
             {
@@ -119,7 +119,8 @@ namespace VirtueSky.Misc
             return result;
         }
 
-        public static IDictionary<TKey, TValue> MakeDictionary<TKey, TValue>(this IList<TKey> keys, IList<TValue> values)
+        public static IDictionary<TKey, TValue> MakeDictionary<TKey, TValue>(this IList<TKey> keys,
+            IList<TValue> values)
         {
             if (keys == null) throw new ArgumentNullException(nameof(keys));
             if (values == null) throw new ArgumentNullException(nameof(values));
