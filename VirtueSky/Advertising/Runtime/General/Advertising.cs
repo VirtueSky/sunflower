@@ -50,18 +50,22 @@ namespace VirtueSky.Ads
 
         private void OnEnable()
         {
+#if ADS_ADMOB
             if (callShowPrivacyOptionFormEvent != null)
             {
                 callShowPrivacyOptionFormEvent.AddListener(ShowPrivacyOptionsForm);
             }
+#endif
         }
 
         private void OnDisable()
         {
+#if ADS_ADMOB
             if (callShowPrivacyOptionFormEvent != null)
             {
                 callShowPrivacyOptionFormEvent.RemoveListener(ShowPrivacyOptionsForm);
             }
+#endif
         }
 
         private void Start()
