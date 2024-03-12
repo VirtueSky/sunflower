@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PrimeTween;
+using UnityEngine;
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
@@ -41,6 +42,7 @@ namespace VirtueSky.Misc
         public static SkeletonGraphic PlayOnly(this SkeletonGraphic skeletonGraphic, string animationName,
             bool loop = false)
         {
+            skeletonGraphic.startingAnimation = animationName;
             skeletonGraphic.AnimationState.SetAnimation(0, animationName, loop);
             return skeletonGraphic;
         }
