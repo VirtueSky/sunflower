@@ -20,6 +20,13 @@ namespace VirtueSky.Misc
             return animation.Duration;
         }
 
+        public static float Duration(this SkeletonAnimation skeletonAnimation, int track = 0)
+        {
+            var animation = skeletonAnimation.AnimationState.GetCurrent(track);
+            if (animation == null) return 0;
+            return animation.Animation.Duration;
+        }
+
         public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete)
         {
             Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), onComplete);
@@ -28,27 +35,30 @@ namespace VirtueSky.Misc
 
 
         public static SkeletonAnimation Play(this SkeletonAnimation skeletonAnimation, string animationName,
-            bool loop = false)
+            bool loop = false, int trackIndex = 0)
         {
             skeletonAnimation.ClearState();
             skeletonAnimation.AnimationName = animationName;
             skeletonAnimation.loop = loop;
+            skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
             skeletonAnimation.LateUpdate();
             skeletonAnimation.Initialize(true);
             return skeletonAnimation;
         }
 
         public static SkeletonAnimation PlayOnly(this SkeletonAnimation skeletonAnimation, string animationName,
-            bool loop = false)
+            bool loop = false, int trackIndex = 0)
         {
-            skeletonAnimation.AnimationState.SetAnimation(0, animationName, loop);
+            skeletonAnimation.AnimationName = animationName;
+            skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
             return skeletonAnimation;
         }
 
         public static SkeletonAnimation AddAnimation(this SkeletonAnimation skeletonAnimation, int trackIndex,
-            string animationName, bool loop, float timeDelay = 0)
+            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f)
         {
-            skeletonAnimation.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
+            var track = skeletonAnimation.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
+            track.MixDuration = mixDuration;
             return skeletonAnimation;
         }
 

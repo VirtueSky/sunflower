@@ -20,6 +20,13 @@ namespace VirtueSky.Misc
             return animation.Duration;
         }
 
+        public static float Duration(this SkeletonGraphic skeletonGraphic, int track = 0)
+        {
+            var animation = skeletonGraphic.AnimationState.GetCurrent(track);
+            if (animation == null) return 0;
+            return animation.Animation.Duration;
+        }
+
         public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete)
         {
             Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), onComplete);
@@ -28,29 +35,30 @@ namespace VirtueSky.Misc
 
 
         public static SkeletonGraphic Play(this SkeletonGraphic skeletonGraphic, string animationName,
-            bool loop = false)
+            bool loop = false, int trackIndex = 0)
         {
             skeletonGraphic.Clear();
             skeletonGraphic.startingAnimation = animationName;
             skeletonGraphic.startingLoop = loop;
-            skeletonGraphic.AnimationState.SetAnimation(0, animationName, loop);
+            skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
             skeletonGraphic.LateUpdate();
             skeletonGraphic.Initialize(true);
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic PlayOnly(this SkeletonGraphic skeletonGraphic, string animationName,
-            bool loop = false)
+            bool loop = false, int trackIndex = 0)
         {
             skeletonGraphic.startingAnimation = animationName;
-            skeletonGraphic.AnimationState.SetAnimation(0, animationName, loop);
+            skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic AddAnimation(this SkeletonGraphic skeletonGraphic, int trackIndex,
-            string animationName, bool loop, float timeDelay = 0)
+            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f)
         {
-            skeletonGraphic.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
+            var track = skeletonGraphic.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
+            track.MixDuration = mixDuration;
             return skeletonGraphic;
         }
 
