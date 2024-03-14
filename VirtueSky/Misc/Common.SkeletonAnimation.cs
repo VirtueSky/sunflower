@@ -33,6 +33,19 @@ namespace VirtueSky.Misc
             return skeletonAnimation;
         }
 
+        public static TrackEntry OnComplete(this TrackEntry trackEntry, Action onComplete)
+        {
+            trackEntry.Complete += HandleComplete;
+
+            void HandleComplete(TrackEntry track)
+            {
+                trackEntry.Complete -= HandleComplete;
+                onComplete?.Invoke();
+            }
+
+            return trackEntry;
+        }
+
 
         public static SkeletonAnimation Play(this SkeletonAnimation skeletonAnimation, string animationName,
             bool loop = false, int trackIndex = 0)

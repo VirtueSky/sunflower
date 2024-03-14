@@ -35,22 +35,13 @@ namespace VirtueSky.Component
             animationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
         }
 
-        public async UniTask<TrackEntry> PlayAnimation(int trackIndex, string animationName, bool loop = false,
-            float speed = 1, Action completed = null)
+        public TrackEntry PlayAnimation(int trackIndex, string animationName, bool loop = false,
+            float speed = 1)
         {
             this.animationName = animationName;
-            await UniTask.WaitUntil(() => animationState != null);
             animationState.TimeScale = speed;
             var trackEntry = animationState.SetAnimation(trackIndex, animationName, loop);
             animationState.Apply(skeleton);
-            animationState.Complete += OnCompleted;
-
-            void OnCompleted(TrackEntry track)
-            {
-                animationState.Complete -= OnCompleted;
-                completed?.Invoke();
-            }
-
             return trackEntry;
         }
 
