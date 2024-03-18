@@ -7,8 +7,7 @@ namespace VirtueSky.Misc
 {
     public static partial class Common
     {
-
-        public static AnimancerComponent PlayAnim(this AnimancerComponent animancerComponent, ClipTransition clip,
+        public static AnimancerComponent PlayClip(this AnimancerComponent animancerComponent, ClipTransition clip,
             Action _endAnim = null, float _durationFade = .2f,
             FadeMode mode = default)
         {
@@ -61,8 +60,6 @@ namespace VirtueSky.Misc
             animancerComponent.Stop();
             return animancerComponent;
         }
-
-
     }
 }
 #endif
