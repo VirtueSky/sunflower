@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
-using VirtueSky.Threading.Tasks;
 using AnimationState = Spine.AnimationState;
 
 namespace VirtueSky.Component
