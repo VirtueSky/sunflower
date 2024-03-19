@@ -6,13 +6,13 @@ namespace PrimeTween {
     /// <summary>
     /// ShakeSettings contains all properties needed for a shake or punch (frequency, strength per axis, duration, etc.). Can be serialized and tweaked from the Inspector.<br/>
     /// Shake methods are: Tween.ShakeLocalPosition(), Tween.ShakeLocalRotation(), Tween.ShakeScale(), and Tween.ShakeCustom().<br/><br/>
-    /// Punch is a special case of a shake that a has a punch 'direction'. The punched value will oscillate back and forth in the direction of a punch.<br/> 
+    /// Punch is a special case of a shake that a has a punch 'direction'. The punched value will oscillate back and forth in the direction of a punch.<br/>
     /// Punch methods are: Tween.PunchLocalPosition(), Tween.PunchLocalRotation(), Tween.PunchScale(), and Tween.PunchCustom().<br/>
     /// </summary>
     [Serializable]
     public struct ShakeSettings {
         internal const float defaultFrequency = 10;
-        
+
         [Tooltip("Strength is applied per-axis in local space coordinates.\n\n" +
                  "Shakes: the strongest strength component will be used as the main frequency axis. Shakes on secondary axes happen randomly instead of following the frequency.\n\n" +
                  "Punches: strength determines punch direction.\n\n" +
@@ -49,7 +49,7 @@ namespace PrimeTween {
         public bool useFixedUpdate;
         internal bool isPunch { get; private set; }
 
-        ShakeSettings(Vector3 strength, float duration, float frequency, Ease? falloffEase, [CanBeNull] AnimationCurve strengthOverTime, Ease easeBetweenShakes, float asymmetryFactor, int cycles, float startDelay, float endDelay, bool useUnscaledTime, bool useFixedUpdate) {
+        internal ShakeSettings(Vector3 strength, float duration, float frequency, Ease? falloffEase, [CanBeNull] AnimationCurve strengthOverTime, Ease easeBetweenShakes, float asymmetryFactor, int cycles, float startDelay, float endDelay, bool useUnscaledTime, bool useFixedUpdate) {
             this.frequency = frequency;
             this.strength = strength;
             this.duration = duration;
@@ -81,7 +81,7 @@ namespace PrimeTween {
 
         internal TweenSettings tweenSettings => new TweenSettings(duration, Ease.Linear, cycles, CycleMode.Restart, startDelay, endDelay, useUnscaledTime, useFixedUpdate);
 
-        internal 
+        internal
             #if UNITY_2020_2_OR_NEWER
             readonly
             #endif

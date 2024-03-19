@@ -39,7 +39,7 @@ namespace PrimeTween {
         [NonSerialized] internal float parametricEaseStrength;
         [NonSerialized] internal float parametricEasePeriod;
 
-        TweenSettings(float duration, Ease ease, Easing? customEasing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false) {
+        internal TweenSettings(float duration, Ease ease, Easing? customEasing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false) {
             this.duration = duration;
             var curve = customEasing?.curve;
             if (ease == Ease.Custom && customEasing?.parametricEase == ParametricEase.None) {
@@ -69,7 +69,7 @@ namespace PrimeTween {
             parametricEasePeriod = easing.parametricEasePeriod;
         }
         #endif
-        
+
         public TweenSettings(float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false)
             : this(duration, ease, null, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, useFixedUpdate) {
         }
@@ -77,7 +77,7 @@ namespace PrimeTween {
         public TweenSettings(float duration, Easing easing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false)
             : this(duration, easing.ease, easing, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, useFixedUpdate) {
         }
-  
+
         internal static void setCyclesTo1If0(ref int cycles) {
             if (cycles == 0) {
                 cycles = 1;
@@ -118,7 +118,7 @@ namespace PrimeTween {
             Assert.IsFalse(float.IsNaN(f), Constants.durationInvalidError);
             Assert.IsFalse(float.IsInfinity(f), Constants.durationInvalidError);
         }
-        
+
         internal static bool ValidateCustomCurve([NotNull] AnimationCurve curve) {
             #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
             if (curve.length < 2) {
@@ -167,33 +167,33 @@ namespace PrimeTween {
             #endif
         }
     }
-    
+
     /// <summary>The standard animation easing types. Different easing curves produce a different animation 'feeling'.<br/>
     /// Play around with different ease types to choose one that suites you the best.
     /// You can also provide a custom AnimationCurve as an ease function or parametrize eases with the Easing.Overshoot/Elastic/BounceExact(...) methods.</summary>
-    public enum Ease { Custom = -1, Default = 0, Linear = 1, 
-        InSine, OutSine, InOutSine, 
-        InQuad, OutQuad, InOutQuad, 
-        InCubic, OutCubic, InOutCubic, 
+    public enum Ease { Custom = -1, Default = 0, Linear = 1,
+        InSine, OutSine, InOutSine,
+        InQuad, OutQuad, InOutQuad,
+        InCubic, OutCubic, InOutCubic,
         InQuart, OutQuart, InOutQuart,
-        InQuint, OutQuint, InOutQuint, 
-        InExpo, OutExpo, InOutExpo, 
-        InCirc, OutCirc, InOutCirc, 
-        InElastic, OutElastic, InOutElastic, 
+        InQuint, OutQuint, InOutQuint,
+        InExpo, OutExpo, InOutExpo,
+        InCirc, OutCirc, InOutCirc,
+        InElastic, OutElastic, InOutElastic,
         InBack, OutBack, InOutBack,
         InBounce, OutBounce, InOutBounce
     }
-    
+
     /// <summary>Controls the behavior of subsequent cycles when a tween has more than one cycle.</summary>
     public enum CycleMode {
         [Tooltip("Restarts the tween from the beginning.")]
         Restart,
-        [Tooltip("Swaps the 'startValue' and 'endValue' (easing is normal on the backward cycle).")]
+        [Tooltip("Animates forth and back, like a yoyo. Easing is the same on the backward cycle.")]
         Yoyo,
-        [Tooltip("At the end of a cycle increments 'startValue' and 'endValue' (startValue = endValue, endValue += endValue - startValue).\n\n" +
-                 "For example, if tween moves position.x from 0 to 1, then after the first cycle, the tween will move the position.x from 1 to 2, and so on.")]
+        [Tooltip("At the end of a cycle increments the `endValue` by the difference between `startValue` and `endValue`.\n\n" +
+                 "For example, if a tween moves position.x from 0 to 1, then after the first cycle, the tween will move the position.x from 1 to 2, and so on.")]
         Incremental,
-        [Tooltip("Rewinds the tween as if time was reversed (easing is reversed on the backward cycle).")]
+        [Tooltip("Rewinds the tween as if time was reversed. Easing is reversed on the backward cycle.")]
         Rewind
     }
 }

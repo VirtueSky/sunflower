@@ -542,6 +542,7 @@ namespace PrimeTween {
         }
 
         internal float FloatVal => startValue.x + diff.x * easedInterpolationFactor;
+        internal double DoubleVal => startValue.DoubleVal + diff.DoubleVal * easedInterpolationFactor;
         internal Vector2 Vector2Val {
             get {
                 var easedT = easedInterpolationFactor;
@@ -641,14 +642,22 @@ namespace PrimeTween {
         internal void cacheDiff() {
             Assert.IsFalse(startFromCurrent);
             Assert.AreNotEqual(PropType.None, propType);
-            if (propType == PropType.Quaternion) {
-                startValue.QuaternionVal.Normalize();
-                endValue.QuaternionVal.Normalize();
-            } else {
-                diff.x = endValue.x - startValue.x;
-                diff.y = endValue.y - startValue.y;
-                diff.z = endValue.z - startValue.z;
-                diff.w = endValue.w - startValue.w;
+            switch (propType) {
+                case PropType.Quaternion:
+                    startValue.QuaternionVal.Normalize();
+                    endValue.QuaternionVal.Normalize();
+                    break;
+                case PropType.Double:
+                    diff.DoubleVal = endValue.DoubleVal - startValue.DoubleVal;
+                    diff.z = 0;
+                    diff.w = 0;
+                    break;
+                default:
+                    diff.x = endValue.x - startValue.x;
+                    diff.y = endValue.y - startValue.y;
+                    diff.z = endValue.z - startValue.z;
+                    diff.w = endValue.w - startValue.w;
+                    break;
             }
         }
 

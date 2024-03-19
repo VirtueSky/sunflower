@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   methodsScript: {fileID: 11500000, guid: 51610f0e9d8e4ccead49e9fcc96d54e3, type: 3}
   dotweenMethodsScript: {fileID: 11500000, guid: 3c238e2b584a4987b714406da2cf9c56, type: 3}
+  tweenComponentScript: {fileID: 11500000, guid: f191f8e3fa31440d9f1217f1f80dba7d, type: 3}
   methodsData:
-  - name: LightRange
+  - description: Range_Light
     methodName: Range
     targetType: UnityEngine.Light
     propertyType: 1
@@ -26,7 +27,7 @@ MonoBehaviour:
     dependency: 7
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LightShadowStrength
+  - description: ShadowStrength_Light
     methodName: ShadowStrength
     targetType: UnityEngine.Light
     propertyType: 1
@@ -37,7 +38,7 @@ MonoBehaviour:
     dependency: 7
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LightIntensity
+  - description: Intensity_Light
     methodName: Intensity
     targetType: UnityEngine.Light
     propertyType: 1
@@ -48,7 +49,7 @@ MonoBehaviour:
     dependency: 7
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: orthographicSize
+  - description: OrthographicSize_Camera
     methodName: OrthographicSize
     targetType: UnityEngine.Camera
     propertyType: 1
@@ -59,7 +60,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: CameraBackgroundColor
+  - description: BackgroundColor_Camera
     methodName: BackgroundColor
     targetType: UnityEngine.Camera
     propertyType: 2
@@ -70,7 +71,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: CameraAspect
+  - description: Aspect_Camera
     methodName: Aspect
     targetType: UnityEngine.Camera
     propertyType: 1
@@ -81,7 +82,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: farClipPlane
+  - description: FarClipPlane_Camera
     methodName: FarClipPlane
     targetType: UnityEngine.Camera
     propertyType: 1
@@ -92,7 +93,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: fieldOfView
+  - description: FieldOfView_Camera
     methodName: FieldOfView
     targetType: UnityEngine.Camera
     propertyType: 1
@@ -103,7 +104,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: nearClipPlane
+  - description: NearClipPlane_Camera
     methodName: NearClipPlane
     targetType: UnityEngine.Camera
     propertyType: 1
@@ -114,7 +115,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: pixelRect
+  - description: PixelRect_Camera
     methodName: PixelRect
     targetType: UnityEngine.Camera
     propertyType: 7
@@ -125,7 +126,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: CameraRect
+  - description: Rect_Camera
     methodName: Rect
     targetType: UnityEngine.Camera
     propertyType: 7
@@ -136,7 +137,7 @@ MonoBehaviour:
     dependency: 5
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalRotation_Euler
+  - description: LocalRotation_Transform
     methodName: LocalRotation
     targetType: UnityEngine.Transform
     propertyType: 4
@@ -147,7 +148,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 1
     generateOnlyOverloads: 1
-  - name: Scale_Uniform
+  - description: Scale_Transform
     methodName: Scale
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -158,7 +159,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 1
     generateOnlyOverloads: 1
-  - name: Rotation_Euler
+  - description: Rotation_Transform
     methodName: Rotation
     targetType: UnityEngine.Transform
     propertyType: 4
@@ -169,7 +170,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 1
     generateOnlyOverloads: 1
-  - name: Slider_Value
+  - description: SliderValue_Slider
     methodName: SliderValue
     targetType: UnityEngine.UI.Slider
     propertyType: 1
@@ -180,7 +181,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScrollRect_NormalizedPosition
+  - description: NormalizedPosition_ScrollRect
     methodName: NormalizedPosition
     targetType: UnityEngine.UI.ScrollRect
     propertyType: 3
@@ -191,7 +192,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScrollRect_HorizontalNormalizedPosition
+  - description: HorizontalNormalizedPosition_ScrollRect
     methodName: HorizontalNormalizedPosition
     targetType: UnityEngine.UI.ScrollRect
     propertyType: 1
@@ -202,7 +203,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScrollRect_VerticalNormalizedPosition
+  - description: VerticalNormalizedPosition_ScrollRect
     methodName: VerticalNormalizedPosition
     targetType: UnityEngine.UI.ScrollRect
     propertyType: 1
@@ -213,7 +214,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PivotX
+  - description: PivotX_RectTransform
     methodName: PivotX
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -224,7 +225,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PivotY
+  - description: PivotY_RectTransform
     methodName: PivotY
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -235,7 +236,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Pivot
+  - description: Pivot_RectTransform
     methodName: Pivot
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -246,7 +247,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchorMax
+  - description: AnchorMax_RectTransform
     methodName: AnchorMax
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -257,7 +258,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchorMin
+  - description: AnchorMin_RectTransform
     methodName: AnchorMin
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -268,7 +269,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPosition3D
+  - description: AnchoredPosition3D_RectTransform
     methodName: AnchoredPosition3D
     targetType: UnityEngine.RectTransform
     propertyType: 4
@@ -279,7 +280,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPosition3DX
+  - description: AnchoredPosition3DX_RectTransform
     methodName: AnchoredPosition3DX
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -291,7 +292,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPosition3DY
+  - description: AnchoredPosition3DY_RectTransform
     methodName: AnchoredPosition3DY
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -303,7 +304,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPosition3DZ
+  - description: AnchoredPosition3DZ_RectTransform
     methodName: AnchoredPosition3DZ
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -315,7 +316,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ShadowEffectDistance
+  - description: EffectDistance_Shadow
     methodName: EffectDistance
     targetType: UnityEngine.UI.Shadow
     propertyType: 3
@@ -326,7 +327,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Shadow_Alpha
+  - description: Alpha_Shadow
     methodName: Alpha
     targetType: UnityEngine.UI.Shadow
     propertyType: 1
@@ -337,7 +338,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 1
     generateOnlyOverloads: 0
-  - name: Shadow_Color
+  - description: Color_Shadow
     methodName: Color
     targetType: UnityEngine.UI.Shadow
     propertyType: 2
@@ -348,7 +349,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 1
     generateOnlyOverloads: 0
-  - name: PreferredSize
+  - description: PreferredSize_LayoutElement
     methodName: PreferredSize
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 3
@@ -359,7 +360,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PreferredWidth
+  - description: PreferredWidth_LayoutElement
     methodName: PreferredWidth
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -370,7 +371,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PreferredHeight
+  - description: PreferredHeight_LayoutElement
     methodName: PreferredHeight
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -381,7 +382,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Rigidbody_Position
+  - description: MovePosition_Rigidbody
     methodName: MovePosition
     targetType: UnityEngine.Rigidbody
     propertyType: 4
@@ -392,7 +393,7 @@ MonoBehaviour:
     dependency: 3
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Rigidbody_Rotation
+  - description: MoveRotation_Rigidbody
     methodName: MoveRotation
     targetType: UnityEngine.Rigidbody
     propertyType: 6
@@ -403,7 +404,7 @@ MonoBehaviour:
     dependency: 3
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Rigidbody2D_Position
+  - description: MovePosition_Rigidbody2D
     methodName: MovePosition
     targetType: UnityEngine.Rigidbody2D
     propertyType: 3
@@ -414,7 +415,7 @@ MonoBehaviour:
     dependency: 4
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Rigidbody2D_Rotation
+  - description: MoveRotation_Rigidbody2D
     methodName: MoveRotation
     targetType: UnityEngine.Rigidbody2D
     propertyType: 1
@@ -425,7 +426,7 @@ MonoBehaviour:
     dependency: 4
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: FlexibleSize
+  - description: FlexibleSize_LayoutElement
     methodName: FlexibleSize
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 3
@@ -436,7 +437,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: FlexibleWidth
+  - description: FlexibleWidth_LayoutElement
     methodName: FlexibleWidth
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -447,7 +448,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: FlexibleHeight
+  - description: FlexibleHeight_LayoutElement
     methodName: FlexibleHeight
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -458,7 +459,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: MinSize
+  - description: MinSize_LayoutElement
     methodName: MinSize
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 3
@@ -469,7 +470,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: MinWidth
+  - description: MinWidth_LayoutElement
     methodName: MinWidth
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -480,7 +481,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: MinHeight
+  - description: MinHeight_LayoutElement
     methodName: MinHeight
     targetType: UnityEngine.UI.LayoutElement
     propertyType: 1
@@ -491,7 +492,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Position_UnityEngine.Transform
+  - description: Position_Transform
     methodName: Position
     targetType: UnityEngine.Transform
     propertyType: 4
@@ -502,7 +503,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PositionX
+  - description: PositionX_Transform
     methodName: PositionX
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -513,7 +514,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PositionY
+  - description: PositionY_Transform
     methodName: PositionY
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -524,7 +525,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: PositionZ
+  - description: PositionZ_Transform
     methodName: PositionZ
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -535,7 +536,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalPosition_UnityEngine.Transform
+  - description: LocalPosition_Transform
     methodName: LocalPosition
     targetType: UnityEngine.Transform
     propertyType: 4
@@ -546,7 +547,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalPositionX
+  - description: LocalPositionX_Transform
     methodName: LocalPositionX
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -557,7 +558,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalPositionY
+  - description: LocalPositionY_Transform
     methodName: LocalPositionY
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -568,7 +569,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalPositionZ
+  - description: LocalPositionZ_Transform
     methodName: LocalPositionZ
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -579,7 +580,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Rotation
+  - description: Rotation_Transform
     methodName: Rotation
     targetType: UnityEngine.Transform
     propertyType: 6
@@ -590,7 +591,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: LocalRotation
+  - description: LocalRotation_Transform
     methodName: LocalRotation
     targetType: UnityEngine.Transform
     propertyType: 6
@@ -601,7 +602,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Scale
+  - description: Scale_Transform
     methodName: Scale
     targetType: UnityEngine.Transform
     propertyType: 4
@@ -612,7 +613,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScaleX
+  - description: ScaleX_Transform
     methodName: ScaleX
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -623,7 +624,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScaleY
+  - description: ScaleY_Transform
     methodName: ScaleY
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -634,7 +635,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: ScaleZ
+  - description: ScaleZ_Transform
     methodName: ScaleZ
     targetType: UnityEngine.Transform
     propertyType: 1
@@ -645,7 +646,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Color_UnityEngine.UI.Graphic
+  - description: Color_Graphic
     methodName: Color
     targetType: UnityEngine.UI.Graphic
     propertyType: 2
@@ -656,7 +657,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 1
     generateOnlyOverloads: 0
-  - name: Color_UnityEngine.SpriteRenderer
+  - description: Color_SpriteRenderer
     methodName: Color
     targetType: UnityEngine.SpriteRenderer
     propertyType: 2
@@ -667,7 +668,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Color_UnityEngine.Material
+  - description: Color_Material
     methodName: Color
     targetType: UnityEngine.Material
     propertyType: 2
@@ -678,7 +679,7 @@ MonoBehaviour:
     dependency: 6
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Color_UnityEngine.Light
+  - description: Color_Light
     methodName: Color
     targetType: UnityEngine.Light
     propertyType: 2
@@ -689,7 +690,7 @@ MonoBehaviour:
     dependency: 7
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPosition
+  - description: AnchoredPosition_RectTransform
     methodName: AnchoredPosition
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -700,7 +701,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPositionX
+  - description: AnchoredPositionX_RectTransform
     methodName: AnchoredPositionX
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -712,7 +713,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AnchoredPositionY
+  - description: AnchoredPositionY_RectTransform
     methodName: AnchoredPositionY
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -724,7 +725,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: RectTransformSizeDelta
+  - description: SizeDelta_RectTransform
     methodName: SizeDelta
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -735,7 +736,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Alpha_UnityEngine.CanvasGroup
+  - description: Alpha_CanvasGroup
     methodName: Alpha
     targetType: UnityEngine.CanvasGroup
     propertyType: 1
@@ -746,7 +747,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 1
     generateOnlyOverloads: 0
-  - name: Alpha_UnityEngine.UI.Graphic
+  - description: Alpha_Graphic
     methodName: Alpha
     targetType: UnityEngine.UI.Graphic
     propertyType: 1
@@ -757,7 +758,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 1
     generateOnlyOverloads: 0
-  - name: Alpha_UnityEngine.SpriteRenderer
+  - description: Alpha_SpriteRenderer
     methodName: Alpha
     targetType: UnityEngine.SpriteRenderer
     propertyType: 1
@@ -768,7 +769,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: Alpha_UnityEngine.Material
+  - description: Alpha_Material
     methodName: Alpha
     targetType: UnityEngine.Material
     propertyType: 1
@@ -779,7 +780,7 @@ MonoBehaviour:
     dependency: 6
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: MainTextureOffset
+  - description: MainTextureOffset_Material
     methodName: MainTextureOffset
     targetType: UnityEngine.Material
     propertyType: 3
@@ -790,7 +791,7 @@ MonoBehaviour:
     dependency: 6
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: MainTextureScale
+  - description: MainTextureScale_Material
     methodName: MainTextureScale
     targetType: UnityEngine.Material
     propertyType: 3
@@ -801,7 +802,7 @@ MonoBehaviour:
     dependency: 6
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: FillAmount_Image
+  - description: FillAmount_Image
     methodName: FillAmount
     targetType: UnityEngine.UI.Image
     propertyType: 1
@@ -812,7 +813,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AudioSource_Volume
+  - description: Volume_AudioSource
     methodName: Volume
     targetType: UnityEngine.AudioSource
     propertyType: 1
@@ -823,7 +824,7 @@ MonoBehaviour:
     dependency: 2
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AudioSource_Pitch
+  - description: Pitch_AudioSource
     methodName: Pitch
     targetType: UnityEngine.AudioSource
     propertyType: 1
@@ -834,7 +835,7 @@ MonoBehaviour:
     dependency: 2
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: AudioSource_panStereo
+  - description: PanStereo_AudioSource
     methodName: PanStereo
     targetType: UnityEngine.AudioSource
     propertyType: 1
@@ -845,7 +846,7 @@ MonoBehaviour:
     dependency: 2
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: TweenTimeScale
+  - description: TweenTimeScale_Tween
     methodName: TweenTimeScale
     targetType: PrimeTween.Tween
     propertyType: 1
@@ -856,7 +857,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 1
-  - name: TweenTimeScale
+  - description: TweenTimeScale_Sequence
     methodName: TweenTimeScale
     targetType: PrimeTween.Sequence
     propertyType: 1
@@ -867,7 +868,7 @@ MonoBehaviour:
     dependency: 0
     placeInGlobalScope: 0
     generateOnlyOverloads: 1
-  - name: VisualElement_Layout
+  - description: VisualElementLayout_VisualElement
     methodName: VisualElementLayout
     targetType: UnityEngine.UIElements.VisualElement
     propertyType: 7
@@ -878,7 +879,7 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: VisualElement_Position
+  - description: Position_ITransform
     methodName: Position
     targetType: UnityEngine.UIElements.ITransform
     propertyType: 4
@@ -889,7 +890,7 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: VisualElement_Rotation
+  - description: Rotation_ITransform
     methodName: Rotation
     targetType: UnityEngine.UIElements.ITransform
     propertyType: 6
@@ -900,7 +901,7 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: VisualElement_Scale
+  - description: Scale_ITransform
     methodName: Scale
     targetType: UnityEngine.UIElements.ITransform
     propertyType: 4
@@ -911,7 +912,7 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: VisualElement_Size
+  - description: VisualElementSize_VisualElement
     methodName: VisualElementSize
     targetType: UnityEngine.UIElements.VisualElement
     propertyType: 3
@@ -922,7 +923,7 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: VisualElement_TopLeft
+  - description: VisualElementTopLeft_VisualElement
     methodName: VisualElementTopLeft
     targetType: UnityEngine.UIElements.VisualElement
     propertyType: 3
@@ -933,7 +934,29 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMin
+  - description: VisualElementColor_VisualElement
+    methodName: VisualElementColor
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 2
+    propertyName: 
+    propertyGetter: style.color.value
+    propertySetter: style.color = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementBackgroundColor_VisualElement
+    methodName: VisualElementBackgroundColor
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 2
+    propertyName: 
+    propertyGetter: style.backgroundColor.value
+    propertySetter: style.backgroundColor = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMin_RectTransform
     methodName: OffsetMin
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -944,7 +967,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMinX
+  - description: OffsetMinX_RectTransform
     methodName: OffsetMinX
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -955,7 +978,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMinY
+  - description: OffsetMinY_RectTransform
     methodName: OffsetMinY
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -966,7 +989,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMax
+  - description: OffsetMax_RectTransform
     methodName: OffsetMax
     targetType: UnityEngine.RectTransform
     propertyType: 3
@@ -977,7 +1000,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMaxX
+  - description: OffsetMaxX_RectTransform
     methodName: OffsetMaxX
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -988,7 +1011,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: OffsetMaxY
+  - description: OffsetMaxY_RectTransform
     methodName: OffsetMaxY
     targetType: UnityEngine.RectTransform
     propertyType: 1
@@ -999,7 +1022,7 @@ MonoBehaviour:
     dependency: 1
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
-  - name: TextMaxVisibleCharacters
+  - description: TextMaxVisibleCharacters_TMP_Text
     methodName: TextMaxVisibleCharacters
     targetType: TMPro.TMP_Text
     propertyType: 8

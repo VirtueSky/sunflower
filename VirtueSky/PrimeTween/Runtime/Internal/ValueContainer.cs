@@ -5,19 +5,26 @@ using UnityEngine;
 
 namespace PrimeTween {
     [Serializable, StructLayout(LayoutKind.Explicit)]
-    [SuppressMessage("ReSharper", "Unity.RedundantHideInInspectorAttribute")]
+    [SuppressMessage("ReSharper", "Unity.RedundantHideInInspectorAttribute", Justification = "Hide fields in Debug Inspector")]
     internal struct ValueContainer {
+        [FieldOffset(0), HideInInspector] internal Color ColorVal;
+        [FieldOffset(0), HideInInspector] internal double DoubleVal;
         [FieldOffset(sizeof(float) * 0), SerializeField] internal float x;
         [FieldOffset(sizeof(float) * 1), SerializeField] internal float y;
         [FieldOffset(sizeof(float) * 2), SerializeField] internal float z;
         [FieldOffset(sizeof(float) * 3), SerializeField] internal float w;
         [FieldOffset(0), HideInInspector] internal float FloatVal;
-        [FieldOffset(0), HideInInspector] internal Color ColorVal;
         [FieldOffset(0), HideInInspector] internal Vector2 Vector2Val;
         [FieldOffset(0), HideInInspector] internal Vector3 Vector3Val;
         [FieldOffset(0), HideInInspector] internal Vector4 Vector4Val;
         [FieldOffset(0), HideInInspector] internal Quaternion QuaternionVal;
         [FieldOffset(0), HideInInspector] internal Rect RectVal;
+
+        internal void CopyFrom(ref double val) {
+            DoubleVal = val;
+            z = 0f;
+            w = 0f;
+        }
 
         internal void CopyFrom(ref float val) {
             x = val;

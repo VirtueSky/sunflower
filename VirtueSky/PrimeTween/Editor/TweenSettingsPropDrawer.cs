@@ -5,6 +5,7 @@ using UnityEngine;
 using static UnityEditor.EditorGUI;
 using static UnityEditor.EditorGUIUtility;
 
+/// todo clear the custom ease curve when ease != Ease.Custom
 [CustomPropertyDrawer(typeof(TweenSettings))]
 internal class TweenSettingsPropDrawer : PropertyDrawer {
     public override float GetPropertyHeight([NotNull] SerializedProperty property, GUIContent label) {

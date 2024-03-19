@@ -12,11 +12,12 @@ using static UnityEditor.EditorGUIUtility;
  CustomPropertyDrawer(typeof(TweenSettings<Vector3>)),
  CustomPropertyDrawer(typeof(TweenSettings<Vector4>)),
  CustomPropertyDrawer(typeof(TweenSettings<Rect>)),
- CustomPropertyDrawer(typeof(TweenSettings<Quaternion>))
+ CustomPropertyDrawer(typeof(TweenSettings<Quaternion>)),
+ CustomPropertyDrawer(typeof(TweenSettings<int>))
 ]
 internal class TweenSettingsTypesPropDrawer : PropertyDrawer {
     const bool drawStartFromCurrent = false;
-    
+
     public override float GetPropertyHeight([NotNull] SerializedProperty property, GUIContent label) {
         if (!property.isExpanded) {
             return singleLineHeight;
@@ -37,7 +38,7 @@ internal class TweenSettingsTypesPropDrawer : PropertyDrawer {
             height += EditorGUI.GetPropertyHeight(property, true);
         }
     }
-    
+
     public override void OnGUI(Rect position, [NotNull] SerializedProperty property, GUIContent label) {
         var rect = new Rect(position) { height = singleLineHeight };
         PropertyField(rect, property, label);
@@ -56,15 +57,15 @@ internal class TweenSettingsTypesPropDrawer : PropertyDrawer {
             property.NextVisible(false);
             if (!startFromCurrent || !drawStartFromCurrent) {
                 PropertyField(rect, property, true);
-                moveToNextLine(true);    
+                moveToNextLine(true);
             }
         }
-        
+
         // endValue
         property.NextVisible(false);
         PropertyField(rect, property, true);
         moveToNextLine(true);
-        
+
         // duration
         {
             property.NextVisible(false); // settings
@@ -74,7 +75,7 @@ internal class TweenSettingsTypesPropDrawer : PropertyDrawer {
         }
 
         TweenSettingsPropDrawer.drawEaseTillNext(property, ref rect);
-        
+
         indentLevel--;
 
         void moveToNextLine(bool includeChildren) {

@@ -17,19 +17,19 @@ namespace PrimeTween {
     /// Sequence.Create()
     ///     .Group(Tween.PositionX(transform, endValue: 10f, duration: 1.5f))
     ///     .Group(Tween.Scale(transform, endValue: 2f, duration: 0.5f)) // position and localScale tweens will run in parallel because they are 'grouped'
-    ///     .Chain(Tween.Rotation(transform, endValue: new Vector3(0f, 0f, 45f), duration: 1f)) // rotation tween is 'chained' so it will start when both previous tweens are finished (after 1.5 seconds) 
+    ///     .Chain(Tween.Rotation(transform, endValue: new Vector3(0f, 0f, 45f), duration: 1f)) // rotation tween is 'chained' so it will start when both previous tweens are finished (after 1.5 seconds)
     ///     .ChainCallback(() =&gt; Debug.Log("Sequence completed"));
     /// </code></example>
     #if ENABLE_SERIALIZATION
     [Serializable]
     #endif
-    public 
+    public
         #if !ENABLE_SERIALIZATION && UNITY_2020_3_OR_NEWER
         readonly // duration setter produces error in Unity <= 2019.4.40: error CS1604: Cannot assign to 'this' because it is read-only
         #endif
         partial struct Sequence {
         const int emptySequenceTag = -43;
-        internal 
+        internal
             #if !ENABLE_SERIALIZATION && UNITY_2020_3_OR_NEWER
             readonly
             #endif
@@ -39,7 +39,7 @@ namespace PrimeTween {
 
         /// Sequence is 'alive' when any of its tweens is 'alive'.
         public bool isAlive => root.isAlive;
-        
+
         /// Elapsed time of the current cycle.
         public float elapsedTime {
             get => root.elapsedTime;
@@ -74,7 +74,7 @@ namespace PrimeTween {
 
         /// <summary>The duration of all cycles. If cycles == -1, returns <see cref="float.PositiveInfinity"/>.</summary>
         public float durationTotal => root.durationTotal;
-        
+
         /// Normalized progress of the current cycle expressed in 0..1 range.
         public float progress {
             get => root.progress;
@@ -145,9 +145,9 @@ namespace PrimeTween {
             Assert.IsTrue(durationTotal == 0f || float.IsPositiveInfinity(durationTotal));
         }
 
-        /// <summary>Groups <paramref name="tween"/> with the 'previous' animation (tween or sequence) in this Sequence.<br/>
-        /// Grouped animations start at the same time and run in parallel.<br/>
-        /// If the 'previous' operation is Chain(), then <paramref name="tween"/> will start at the same time with the 'previously' chained animation.</summary>
+        /// <summary>Groups <paramref name="tween"/> with the 'previous' animation in this Sequence.<br/>
+        /// The 'previous' animation is the animation used in the preceding Group/Chain/Insert() method call.<br/>
+        /// Grouped animations start at the same time and run in parallel.</summary>
         public Sequence Group(Tween tween) {
             if (tryManipulate()) {
                 Insert(getLastInSelfOrRoot().tween.waitDelay, tween);
@@ -168,7 +168,7 @@ namespace PrimeTween {
             } else {
                 last = root;
             }
-            
+
             Assert.IsFalse(last.tween.next.IsCreated);
             Assert.IsFalse(tween.tween.prev.IsCreated);
             last.tween.next = tween;
@@ -185,8 +185,8 @@ namespace PrimeTween {
             Assert.IsFalse(result.tween.next.IsCreated);
             return result;
         }
-        
-        /// <summary>Schedules <paramref name="tween"/> after all tweens and sequences in this Sequence.</summary>
+
+        /// <summary>Places <paramref name="tween"/> after all previously added animations in this sequence. Chained animations run sequentially after one another.</summary>
         public Sequence Chain(Tween tween) {
             if (tryManipulate()) {
                 Insert(duration, tween);
@@ -194,8 +194,8 @@ namespace PrimeTween {
             return this;
         }
 
-        /// <summary>Places <paramref name="tween"/> inside this Sequence at time <paramref name="atTime"/>, leaving other animations unchanged.<br/>
-        /// Sequence's duration will be increased if the inserted <paramref name="tween"/> doesn't fit inside the current duration.</summary>
+        /// <summary>Places <paramref name="tween"/> inside this Sequence at time <paramref name="atTime"/>, overlapping with other animations.<br/>
+        /// The total sequence duration is increased if the inserted <paramref name="tween"/> doesn't fit inside the current sequence duration.</summary>
         public Sequence Insert(float atTime, Tween tween) {
             if (!ValidateCanAdd(tween)) {
                 return this;
@@ -276,7 +276,7 @@ namespace PrimeTween {
 
         void setSequence(Tween handle) {
             Assert.IsTrue(IsCreated);
-            Assert.IsTrue(handle.isAlive); 
+            Assert.IsTrue(handle.isAlive);
             var tween = handle.tween;
             Assert.IsFalse(tween.sequence.IsCreated);
             tween.sequence = this;
@@ -313,7 +313,7 @@ namespace PrimeTween {
             return true;
         }
 
-        /// Stops all tweens in the Sequence, ignoring callbacks. 
+        /// Stops all tweens in the Sequence, ignoring callbacks.
         public void Stop() {
             if (isAlive && tryManipulate()) {
                 Assert.IsTrue(root.tween.isMainSequenceRoot());
@@ -380,7 +380,7 @@ namespace PrimeTween {
                 Assert.IsFalse(tween.isSequenceRoot());
             }
         }
-        
+
         internal SequenceChildrenEnumerator getAllChildren() {
             var enumerator = getAllTweens();
             var movedNext = enumerator.MoveNext(); // skip self
@@ -421,7 +421,7 @@ namespace PrimeTween {
             readonly bool isEmpty;
             readonly bool isForward;
             bool isStarted;
-  
+
             internal SequenceDirectEnumerator(Sequence s, bool isForward) {
                 Assert.IsTrue(s.isAlive, s.id);
                 sequence = s;
@@ -450,8 +450,8 @@ namespace PrimeTween {
                 // tests: SequenceNestingDifferentSettings(), TestSequenceEnumeratorWithEmptySequences()
                 return s.root.tween.intParam == emptySequenceTag;
             }
-            
-            public 
+
+            public
                 #if UNITY_2020_2_OR_NEWER
                 readonly
                 #endif
@@ -460,7 +460,7 @@ namespace PrimeTween {
                 return this;
             }
 
-            public 
+            public
                 #if UNITY_2020_2_OR_NEWER
                 readonly
                 #endif
@@ -502,7 +502,7 @@ namespace PrimeTween {
                 isStarted = false;
             }
 
-            public 
+            public
                 #if UNITY_2020_2_OR_NEWER
                 readonly
                 #endif
@@ -511,7 +511,7 @@ namespace PrimeTween {
                 return this;
             }
 
-            public 
+            public
                 #if UNITY_2020_2_OR_NEWER
                 readonly
                 #endif
@@ -538,7 +538,7 @@ namespace PrimeTween {
             }
         }
 
-        /// <summary>Schedules <paramref name="sequence"/> after all tweens and sequences in this Sequence.</summary>
+        /// <summary>Places <paramref name="sequence"/> after all previously added animations in this sequence. Chained animations run sequentially after one another.</summary>
         public Sequence Chain(Sequence sequence) {
             if (tryManipulate()) {
                 Insert(duration, sequence);
@@ -546,9 +546,9 @@ namespace PrimeTween {
             return this;
         }
 
-        /// <summary>Groups <paramref name="sequence"/> with the 'previous' animation (tween or sequence) in this Sequence.<br/>
-        /// Grouped animations start at the same time and run in parallel.<br/>
-        /// If the 'previous' operation is Chain(), then <paramref name="sequence"/> will start at the same time with the 'previously' chained animation.</summary>
+        /// <summary>Groups <paramref name="sequence"/> with the 'previous' animation in this Sequence.<br/>
+        /// The 'previous' animation is the animation used in the preceding Group/Chain/Insert() method call.<br/>
+        /// Grouped animations start at the same time and run in parallel.</summary>
         public Sequence Group(Sequence sequence) {
             if (tryManipulate()) {
                 Insert(getLastInSelfOrRoot().tween.waitDelay, sequence);
@@ -556,13 +556,13 @@ namespace PrimeTween {
             return this;
         }
 
-        /// <summary>Places <paramref name="sequence"/> inside this Sequence at time <paramref name="atTime"/>, leaving other animations unchanged.<br/>
-        /// Sequence's duration will be increased if the inserted <paramref name="sequence"/> doesn't fit inside the current duration.</summary>
+        /// <summary>Places <paramref name="sequence"/> inside this Sequence at time <paramref name="atTime"/>, overlapping with other animations.<br/>
+        /// The total sequence duration is increased if the inserted <paramref name="sequence"/> doesn't fit inside the current sequence duration.</summary>
         public Sequence Insert(float atTime, Sequence sequence) {
             if (!ValidateCanAdd(sequence.root)) {
                 return this;
             }
-            
+
             ref var otherTweenType = ref sequence.root.tween.tweenType;
             if (otherTweenType != TweenType.MainSequence) {
                 Debug.LogError(Constants.nestSequenceTwiceError);

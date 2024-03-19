@@ -8,6 +8,134 @@ using System;
 using JetBrains.Annotations;
 
 namespace PrimeTween {
+    internal enum TweenType {
+        None,
+        MainSequence,
+        NestedSequence,
+        TweenComponent,
+
+        Delay,
+        Callback,
+
+        ShakeLocalPosition,
+        ShakeLocalRotation,
+        ShakeScale,
+        ShakeCustom,
+
+        CustomFloat,
+        CustomColor,
+        CustomVector2,
+        CustomVector3,
+        CustomVector4,
+        CustomQuaternion,
+        CustomRect,
+
+        MaterialColorProperty,
+        MaterialProperty,
+        MaterialAlphaProperty,
+        MaterialTextureOffset,
+        MaterialTextureScale,
+        MaterialPropertyVector4,
+
+        EulerAngles,
+        LocalEulerAngles,
+        GlobalTimeScale,
+
+        // CODE GENERATOR BEGIN
+        LightRange,
+        LightShadowStrength,
+        LightIntensity,
+        LightColor,
+        CameraOrthographicSize,
+        CameraBackgroundColor,
+        CameraAspect,
+        CameraFarClipPlane,
+        CameraFieldOfView,
+        CameraNearClipPlane,
+        CameraPixelRect,
+        CameraRect,
+        LocalRotation,
+        ScaleUniform,
+        Rotation,
+        Position,
+        PositionX,
+        PositionY,
+        PositionZ,
+        LocalPosition,
+        LocalPositionX,
+        LocalPositionY,
+        LocalPositionZ,
+        RotationQuaternion,
+        LocalRotationQuaternion,
+        Scale,
+        ScaleX,
+        ScaleY,
+        ScaleZ,
+        Color,
+        Alpha,
+        TweenTimeScale,
+        TweenTimeScaleSequence,
+        UISliderValue,
+        UINormalizedPosition,
+        UIHorizontalNormalizedPosition,
+        UIVerticalNormalizedPosition,
+        UIPivotX,
+        UIPivotY,
+        UIPivot,
+        UIAnchorMax,
+        UIAnchorMin,
+        UIAnchoredPosition3D,
+        UIAnchoredPosition3DX,
+        UIAnchoredPosition3DY,
+        UIAnchoredPosition3DZ,
+        UIEffectDistance,
+        UIAlphaShadow,
+        UIColorShadow,
+        UIPreferredSize,
+        UIPreferredWidth,
+        UIPreferredHeight,
+        UIFlexibleSize,
+        UIFlexibleWidth,
+        UIFlexibleHeight,
+        UIMinSize,
+        UIMinWidth,
+        UIMinHeight,
+        UIColorGraphic,
+        UIAnchoredPosition,
+        UIAnchoredPositionX,
+        UIAnchoredPositionY,
+        UISizeDelta,
+        UIAlphaCanvasGroup,
+        UIAlphaGraphic,
+        UIFillAmount,
+        UIOffsetMin,
+        UIOffsetMinX,
+        UIOffsetMinY,
+        UIOffsetMax,
+        UIOffsetMaxX,
+        UIOffsetMaxY,
+        RigidbodyMovePosition,
+        RigidbodyMoveRotation,
+        RigidbodyMovePosition2D,
+        RigidbodyMoveRotation2D,
+        MaterialColor,
+        MaterialAlpha,
+        MaterialMainTextureOffset,
+        MaterialMainTextureScale,
+        AudioVolume,
+        AudioPitch,
+        AudioPanStereo,
+        VisualElementLayout,
+        VisualElementPosition,
+        VisualElementRotationQuaternion,
+        VisualElementScale,
+        VisualElementSize,
+        VisualElementTopLeft,
+        VisualElementColor,
+        VisualElementBackgroundColor,
+        TextMaxVisibleCharacters,
+    }
+
     public partial struct Tween {
         public static Tween LightRange([NotNull] UnityEngine.Light target, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
             => LightRange(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
@@ -1583,6 +1711,42 @@ namespace PrimeTween {
                 var val = _tween.Vector2Val;
                 _target.SetTopLeft(val);
             }, t => (t.target as UnityEngine.UIElements.VisualElement).GetTopLeft().ToContainer());
+        }
+
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, TweenSettings settings) => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(endValue, settings));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, TweenSettings settings) => VisualElementColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, settings));
+        public static Tween VisualElementColor([NotNull] UnityEngine.UIElements.VisualElement target, TweenSettings<UnityEngine.Color> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as UnityEngine.UIElements.VisualElement;
+                var val = _tween.ColorVal;
+                _target.style.color = val;
+            }, t => (t.target as UnityEngine.UIElements.VisualElement).style.color.value.ToContainer());
+        }
+
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, TweenSettings settings) => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(endValue, settings));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, TweenSettings settings) => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, settings));
+        public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, TweenSettings<UnityEngine.Color> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as UnityEngine.UIElements.VisualElement;
+                var val = _tween.ColorVal;
+                _target.style.backgroundColor = val;
+            }, t => (t.target as UnityEngine.UIElements.VisualElement).style.backgroundColor.value.ToContainer());
         }
 
         #endif

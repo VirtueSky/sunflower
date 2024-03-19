@@ -29,7 +29,7 @@ namespace PrimeTween {
         [ItemCanBeNull]
         #endif
         [SerializeField] internal List<ReusableTween> tweens;
-        [SerializeField] internal List<ReusableTween> fixedUpdateTweens;  
+        [SerializeField] internal List<ReusableTween> fixedUpdateTweens;
         [NonSerialized] internal List<ReusableTween> pool;
         /// startValue can't be replaced with 'Tween lastTween'
         /// because the lastTween may already be dead, but the tween before it is still alive (count >= 1)
@@ -37,8 +37,8 @@ namespace PrimeTween {
         internal Dictionary<(Transform, TweenType), (ValueContainer startValue, int count)> shakes;
         internal int currentPoolCapacity { get; private set; }
         internal int maxSimultaneousTweensCount { get; private set; }
-        
-        [HideInInspector] 
+
+        [HideInInspector]
         internal int lastId = 1;
         internal Ease defaultEase = Ease.OutQuad;
         internal const Ease defaultShakeEase = Ease.OutQuad;
@@ -79,7 +79,7 @@ namespace PrimeTween {
 
         const string manualInstanceCreationIsNotAllowedMessage = "Please don't create the " + nameof(PrimeTweenManager) + " instance manually.";
         void Awake() => Assert.IsNull(Instance, manualInstanceCreationIsNotAllowedMessage);
-        
+
         #if UNITY_EDITOR
         [InitializeOnLoadMethod]
         static void iniOnLoad() {
@@ -96,7 +96,7 @@ namespace PrimeTween {
                 return;
             }
             Assert.IsNull(Instance);
-            var foundInScene = 
+            var foundInScene =
                 #if UNITY_2023_1_OR_NEWER
                 FindAnyObjectByType
                 #else
@@ -129,7 +129,7 @@ namespace PrimeTween {
             #endif
             Assert.AreEqual(Instance, this, manualInstanceCreationIsNotAllowedMessage);
         }
-        
+
         internal void FixedUpdate() => update(fixedUpdateTweens, Time.fixedDeltaTime, Time.fixedUnscaledDeltaTime, out _);
 
         /// <summary>
@@ -137,11 +137,11 @@ namespace PrimeTween {
         /// 1. User's script creates a tween in Update() in frame N.
         /// 2. PrimeTweenManager.LateUpdate() applies the 'startValue' to the tween in the SAME FRAME N. This guarantees that the animation is rendered at the 'startValue' in the same frame the tween is created.
         /// 3. PrimeTweenManager.Update() executes the first animation step on frame N+1. PrimeTweenManager's execution order is -2000, this means that
-        ///     all tweens created in previous frames will already be updated before user's script Update() (if user's script execution order is greater than -2000). 
+        ///     all tweens created in previous frames will already be updated before user's script Update() (if user's script execution order is greater than -2000).
         /// 4. PrimeTweenManager.Update() completes the tween on frame N+(duration*targetFrameRate) given that targetFrameRate is stable.
         /// </summary>
         internal void Update() => update(tweens, Time.deltaTime, Time.unscaledDeltaTime, out processedCount);
-        
+
         void update(List<ReusableTween> tweens, float deltaTime, float unscaledDeltaTime, out int processedCount) {
             if (updateDepth != 0) {
                 throw new Exception("updateDepth != 0");
@@ -170,7 +170,7 @@ namespace PrimeTween {
                     continue;
                 }
                 releaseTweenToPool(tween);
-                tweens[i] = null; // set to null after releaseTweenToPool() so in case of an exception, the tween will stay inspectable via Inspector 
+                tweens[i] = null; // set to null after releaseTweenToPool() so in case of an exception, the tween will stay inspectable via Inspector
                 numRemoved++;
             }
             processedCount = oldCount - numRemoved;
@@ -278,7 +278,7 @@ namespace PrimeTween {
             } else {
                 var lastIndex = pool.Count - 1;
                 result = pool[lastIndex];
-                pool.RemoveAt(lastIndex);    
+                pool.RemoveAt(lastIndex);
             }
             Assert.AreEqual(-1, result.id);
             result.id = lastId;
@@ -364,7 +364,7 @@ namespace PrimeTween {
         }
 
         internal static bool logCantManipulateError = true;
-        
+
         int processAll_internal([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate) {
             return processInList(tweens) + processInList(fixedUpdateTweens);
             int processInList(List<ReusableTween> tweens) {
@@ -385,7 +385,7 @@ namespace PrimeTween {
                             // To support stopping sequences by target, I can add new API 'Sequence.Create(object sequenceTarget)'.
                             // But 'sequenceTarget' is a different concept to tween's target, so I should not mix these two concepts together:
                             //     'sequenceTarget' serves the purpose of unique 'id', while tween's target is the animated object.
-                            // In my opinion, the benefits of this new API don't outweigh the added complexity. A much more simpler approach is to store the Sequence reference and call sequence.Stop() directly. 
+                            // In my opinion, the benefits of this new API don't outweigh the added complexity. A much more simpler approach is to store the Sequence reference and call sequence.Stop() directly.
                             Assert.IsFalse(tween.isMainSequenceRoot());
                             if (logCantManipulateError) {
                                 Assert.LogError(Constants.cantManipulateNested, tween.id);
@@ -424,7 +424,7 @@ namespace PrimeTween {
         }
 
         internal int tweensCount => tweens.Count + fixedUpdateTweens.Count;
-        
+
         internal static void resizeAndSetCapacity([NotNull] List<ReusableTween> list, int newCount, int newCapacity) {
             Assert.IsTrue(newCapacity >= newCount);
             int curCount = list.Count;
@@ -444,26 +444,15 @@ namespace PrimeTween {
             Assert.AreEqual(newCount, list.Count);
             Assert.AreEqual(newCapacity, list.Capacity);
         }
-        
+
         [Conditional("UNITY_ASSERTIONS")]
         internal void warnStructBoxingInCoroutineOnce(int id) {
             if (!warnStructBoxingAllocationInCoroutine) {
                 return;
             }
             warnStructBoxingAllocationInCoroutine = false;
-            Assert.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" + 
+            Assert.LogWarning("Please use Tween/Sequence." + nameof(Tween.ToYieldInstruction) + "() when waiting for a Tween/Sequence in coroutines to prevent struct boxing.\n" +
                               Constants.buildWarningCanBeDisabledMessage(nameof(PrimeTweenConfig.warnStructBoxingAllocationInCoroutine)) + "\n", id);
         }
-    }
-    
-    internal enum TweenType {
-        None,
-        Delay,
-        ShakeLocalPosition,
-        ShakeLocalRotation,
-        ShakeScale,
-        ShakeCustom,
-        MainSequence,
-        NestedSequence
     }
 }

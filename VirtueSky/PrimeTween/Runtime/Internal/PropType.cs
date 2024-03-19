@@ -9,6 +9,7 @@ namespace PrimeTween {
         Vector4,
         Quaternion,
         Rect,
-        Int
+        Int,
+        Double
     }
 }

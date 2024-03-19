@@ -34,6 +34,84 @@ namespace PrimeTween {
             }
             return instance.currentPoolCapacity;
         }
+
+        public static Tween Custom(Double startValue, Double endValue, float duration, [NotNull] Action<Double> onValueChange, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => Custom(new TweenSettings<Double>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)), onValueChange);
+
+        public static Tween Custom(Double startValue, Double endValue, float duration, [NotNull] Action<Double> onValueChange, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => Custom(new TweenSettings<Double>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)), onValueChange);
+
+        public static Tween Custom(Double startValue, Double endValue, TweenSettings settings, [NotNull] Action<Double> onValueChange) => Custom(new TweenSettings<Double>(startValue, endValue, settings), onValueChange);
+
+        public static Tween Custom(TweenSettings<Double> settings, [NotNull] Action<Double> onValueChange) {
+            Assert.IsNotNull(onValueChange);
+            if (settings.startFromCurrent) {
+                Debug.LogWarning(Constants.customTweensDontSupportStartFromCurrentWarning);
+            }
+            var tween = PrimeTweenManager.fetchTween();
+            tween.startValue.CopyFrom(ref settings.startValue);
+            tween.endValue.CopyFrom(ref settings.endValue);
+            tween.propType = PropType.Double;
+            tween.customOnValueChange = onValueChange;
+            tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
+                var _onValueChange = _tween.customOnValueChange as Action<Double>;
+                var val = _tween.DoubleVal;
+                try {
+                    _onValueChange(val);
+                } catch (Exception e) {
+                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    _tween.EmergencyStop();
+                }
+            }, null, false);
+            return PrimeTweenManager.Animate(tween);
+        }
+
+        public static Tween Custom<T>([NotNull] T target, Double startValue, Double endValue, float duration, [NotNull] Action<T, Double> onValueChange, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) where T : class
+            => Custom_internal(target, new TweenSettings<Double>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)), onValueChange);
+
+        public static Tween Custom<T>([NotNull] T target, Double startValue, Double endValue, float duration, [NotNull] Action<T, Double> onValueChange, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) where T : class
+            => Custom_internal(target, new TweenSettings<Double>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)), onValueChange);
+
+        public static Tween Custom<T>([NotNull] T target, Double startValue, Double endValue, TweenSettings settings, [NotNull] Action<T, Double> onValueChange) where T : class
+            => Custom_internal(target, new TweenSettings<Double>(startValue, endValue, settings), onValueChange);
+
+        public static Tween Custom<T>([NotNull] T target, TweenSettings<Double> settings, [NotNull] Action<T, Double> onValueChange) where T : class
+            => Custom_internal(target, settings, onValueChange);
+
+        public static Tween CustomAdditive<T>([NotNull] T target, Double deltaValue, TweenSettings settings, [NotNull] Action<T, Double> onDeltaChange) where T : class
+            => Custom_internal(target, new TweenSettings<Double>(default, deltaValue, settings), onDeltaChange, true);
+
+        static Tween Custom_internal<T>([NotNull] T target, TweenSettings<Double> settings, [NotNull] Action<T, Double> onValueChange, bool isAdditive = false) where T : class {
+            Assert.IsNotNull(onValueChange);
+            if (settings.startFromCurrent) {
+                Debug.LogWarning(Constants.customTweensDontSupportStartFromCurrentWarning);
+            }
+            var tween = PrimeTweenManager.fetchTween();
+            tween.startValue.CopyFrom(ref settings.startValue);
+            tween.endValue.CopyFrom(ref settings.endValue);
+            tween.propType = PropType.Double;
+            tween.customOnValueChange = onValueChange;
+            tween.isAdditive = isAdditive;
+            tween.Setup(target, ref settings.settings, _tween => {
+                var _onValueChange = _tween.customOnValueChange as Action<T, Double>;
+                var _target = _tween.target as T;
+                Double val;
+                if (_tween.isAdditive) {
+                    var newVal = _tween.DoubleVal;
+                    val = newVal.calcDelta(_tween.prevVal);
+                    _tween.prevVal.DoubleVal = newVal;
+                } else {
+                    val = _tween.DoubleVal;
+                }
+                try {
+                    _onValueChange(_target, val);
+                } catch (Exception e) {
+                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    _tween.EmergencyStop();
+                }
+            }, null, false);
+            return PrimeTweenManager.Animate(tween);
+        }
         #endif
 
         /// <summary>Stops all tweens and sequences.<br/>
@@ -86,7 +164,7 @@ namespace PrimeTween {
                 }
             }
         }
-        
+
         /// <summary>Pauses/unpauses all tweens and sequences.<br/>
         /// If <see cref="onTarget"/> is provided, pauses/unpauses only tweens on this target (pausing/unpausing a tween inside a Sequence is not allowed).</summary>
         /// <returns>The number of paused/unpaused tweens.</returns>
@@ -119,7 +197,7 @@ namespace PrimeTween {
             }
             return result ?? default;
         }
-        
+
         /// <summary> This is the most preferable overload of all Delay functions:<br/>
         /// - It checks if UnityEngine.Object target is still alive before calling the <see cref="onComplete"/> callback.<br/>
         /// - It allows to call any method on <see cref="target"/> without producing garbage.</summary>
@@ -246,21 +324,21 @@ namespace PrimeTween {
                 tween => (tween.target as Material).SetVector(tween.intParam, tween.Vector4Val),
                 tween => (tween.target as Material).GetVector(tween.intParam).ToContainer());
         }
- 
+
         // No 'startFromCurrent' overload
-        public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+        public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
             => EulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
-        public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+        public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
             => EulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
         public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, TweenSettings settings) => EulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, settings));
         public static Tween EulerAngles([NotNull] Transform target, TweenSettings<Vector3> settings) {
             validateEulerAnglesData(ref settings);
             return animate(target, ref settings, _ => { (_.target as Transform).eulerAngles = _.Vector3Val; }, _ => (_.target as Transform).eulerAngles.ToContainer());
         }
-        
-        public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+
+        public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
             => LocalEulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
-        public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+        public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
             => LocalEulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
         public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, TweenSettings settings) => LocalEulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, settings));
         public static Tween LocalEulerAngles([NotNull] Transform target, TweenSettings<Vector3> settings) {
@@ -275,7 +353,7 @@ namespace PrimeTween {
                                  "More info: https://docs.unity3d.com/ScriptReference/Transform-eulerAngles.html\n");
             }
         }
-        
+
         // Called from TweenGenerated.cs
         public static Tween Scale([NotNull] Transform target, TweenSettings<float> uniformScaleSettings) {
             var remapped = new TweenSettings<Vector3>(uniformScaleSettings.startValue * Vector3.one, uniformScaleSettings.endValue * Vector3.one, uniformScaleSettings.settings) { startFromCurrent = uniformScaleSettings.startFromCurrent };
@@ -284,7 +362,6 @@ namespace PrimeTween {
         public static Tween Rotation([NotNull] Transform target, TweenSettings<Vector3> eulerAnglesSettings) => Rotation(target, toQuaternion(eulerAnglesSettings));
         public static Tween LocalRotation([NotNull] Transform target, TweenSettings<Vector3> localEulerAnglesSettings) => LocalRotation(target, toQuaternion(localEulerAnglesSettings));
         static TweenSettings<Quaternion> toQuaternion(TweenSettings<Vector3> s) => new TweenSettings<Quaternion>(Quaternion.Euler(s.startValue), Quaternion.Euler(s.endValue), s.settings) { startFromCurrent = s.startFromCurrent };
-        
         #if TEXT_MESH_PRO_INSTALLED
         public static Tween TextMaxVisibleCharacters([NotNull] TMPro.TMP_Text target, TweenSettings<int> settings) {
             int oldCount = target.textInfo.characterCount;
@@ -299,15 +376,15 @@ namespace PrimeTween {
             }, t => new ValueContainer { FloatVal = (t.target as TMPro.TMP_Text).maxVisibleCharacters });
         }
         #endif
-        
+
         // not generated automatically because GlobalTimeScale() should have 'useUnscaledTime: true'
-        public static Tween GlobalTimeScale(Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
+        public static Tween GlobalTimeScale(Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0)
             => GlobalTimeScale(new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, true)));
-        public static Tween GlobalTimeScale(Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
+        public static Tween GlobalTimeScale(Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0)
             => GlobalTimeScale(new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, true)));
-        public static Tween GlobalTimeScale(Single startValue, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
+        public static Tween GlobalTimeScale(Single startValue, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0)
             => GlobalTimeScale(new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, true)));
-        public static Tween GlobalTimeScale(Single startValue, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0) 
+        public static Tween GlobalTimeScale(Single startValue, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0)
             => GlobalTimeScale(new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, true)));
         public static Tween GlobalTimeScale(Single endValue, TweenSettings settings) => GlobalTimeScale(new TweenSettings<float>(endValue, settings));
         public static Tween GlobalTimeScale(Single startValue, Single endValue, TweenSettings settings) => GlobalTimeScale(new TweenSettings<float>(startValue, endValue, settings));
@@ -319,7 +396,7 @@ namespace PrimeTween {
                 settings.settings.useUnscaledTime = true;
             }
             return animate(PrimeTweenManager.dummyTarget, ref settings, t => Time.timeScale = t.FloatVal, _ => Time.timeScale.ToContainer());
-            
+
             void clampTimescale(ref float value) {
                 if (value < 0) {
                     Debug.LogError($"timeScale should be >= 0, but was {value}");
