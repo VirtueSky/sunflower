@@ -1,7 +1,8 @@
 using UnityEngine;
 using VirtueSky.Core;
+using VirtueSky.Inspector;
 
-namespace VirtueSky.Misc
+namespace VirtueSky.Component
 {
     /// <summary>
     /// Safe area implementation for notched mobile devices. Usage:
@@ -10,7 +11,9 @@ namespace VirtueSky.Misc
     ///      This will allow the background image to stretch to the full extents of the screen behind the notch, which looks nicer.
     ///  (3) For other cases that use a mixture of full horizontal and vertical background stripes, use the Conform X & Y controls on separate elements as needed.
     /// </summary>
-    public class SafeArea : BaseMono
+    [HideMonoScript]
+    [EditorIcon("icon_csharp")]
+    public class SafeAreaComponent : BaseMono
     {
         #region Simulations
 
@@ -108,11 +111,14 @@ namespace VirtueSky.Misc
         Vector2Int LastScreenSize = new Vector2Int(0, 0);
         ScreenOrientation LastOrientation = ScreenOrientation.AutoRotation;
 
-        [SerializeField] bool ConformX = true; // Conform to screen safe area on X-axis (default true, disable to ignore)
+        [SerializeField]
+        bool ConformX = true; // Conform to screen safe area on X-axis (default true, disable to ignore)
 
-        [SerializeField] bool ConformY = true; // Conform to screen safe area on Y-axis (default true, disable to ignore)
+        [SerializeField]
+        bool ConformY = true; // Conform to screen safe area on Y-axis (default true, disable to ignore)
 
-        [SerializeField] bool Logging = false; // Conform to screen safe area on Y-axis (default true, disable to ignore)
+        [SerializeField]
+        bool Logging = false; // Conform to screen safe area on Y-axis (default true, disable to ignore)
 
         void Awake()
         {
