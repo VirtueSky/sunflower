@@ -190,16 +190,15 @@ namespace VirtueSky.Misc
 
         public static IEnumerator InternetConnection(Action<bool> action)
         {
-            UnityWebRequest request = new UnityWebRequest("http://google.com");
-            yield return request.SendWebRequest();
-            if (request.error != null)
+            bool result;
+            using (UnityWebRequest request = UnityWebRequest.Head("http://google.com"))
             {
-                action(false);
+                yield return request.SendWebRequest();
+                result = !request.isNetworkError && !request.isHttpError && request.responseCode == 200 &&
+                         request.error == null;
             }
-            else
-            {
-                action(true);
-            }
+
+            action(result);
         }
 
         #endregion
