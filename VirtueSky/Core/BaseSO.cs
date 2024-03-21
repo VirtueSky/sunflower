@@ -7,8 +7,7 @@ namespace VirtueSky.Core
 {
     public class BaseSO : ScriptableObject, IEntity
     {
-        [HeaderLine("Base SO")] [SerializeField, NamedId]
-        string id;
+        [SerializeField, NamedId] string id;
 
         [Space(10)] [SerializeField] [TextArea(2, 5)]
         private string description;

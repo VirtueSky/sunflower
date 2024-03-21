@@ -6,7 +6,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Iap
 {
     [CreateAssetMenu(fileName = "iap_is_purchase_product.asset", menuName = "Sunflower/Iap/Is Purchase Product Event")]
-    [EditorIcon("icon_so")]
+    [EditorIcon("icon_scriptable")]
     public class EventIsPurchaseProduct : BaseEvent<IapDataVariable, bool>
     {
     }

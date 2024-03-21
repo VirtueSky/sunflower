@@ -7,7 +7,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Iap
 {
-    [EditorIcon("icon_so")]
+    [EditorIcon("icon_scriptable")]
     public class IapSetting : ScriptableObject
     {
         [SerializeField] private List<IapData> skusData = new List<IapData>();

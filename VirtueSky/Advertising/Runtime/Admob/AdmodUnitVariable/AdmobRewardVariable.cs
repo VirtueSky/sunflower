@@ -10,7 +10,7 @@ using VirtueSky.Misc;
 namespace VirtueSky.Ads
 {
     [Serializable]
-    [EditorIcon("icon_so")]
+    [EditorIcon("icon_scriptable")]
     public class AdmobRewardVariable : AdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;

@@ -8,8 +8,7 @@ namespace VirtueSky.Core
     [EditorIcon("icon_csharp")]
     public class BaseMono : MonoBehaviour, IEntity
     {
-        [HeaderLine("Base Mono")] [SerializeField, NamedId]
-        string id;
+        [SerializeField, NamedId] string id;
 
         public string Id => id;
 
