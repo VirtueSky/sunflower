@@ -173,9 +173,12 @@ namespace VirtueSky.Misc
 
         #region Internet Connection
 
+        private static IEnumerator internetConnectionCoroutine;
+
         public static void CheckInternetConnection(Action actionConnected, Action actionDisconnected)
         {
-            App.StartCoroutine(InternetConnection((isConnected) =>
+            if (internetConnectionCoroutine != null) App.StopCoroutine(internetConnectionCoroutine);
+            internetConnectionCoroutine = InternetConnection((isConnected) =>
             {
                 if (isConnected)
                 {
@@ -185,7 +188,8 @@ namespace VirtueSky.Misc
                 {
                     actionDisconnected?.Invoke();
                 }
-            }));
+            });
+            App.StartCoroutine(internetConnectionCoroutine);
         }
 
         public static IEnumerator InternetConnection(Action<bool> action)
@@ -199,6 +203,7 @@ namespace VirtueSky.Misc
             }
 
             action(result);
+            internetConnectionCoroutine = null;
         }
 
         #endregion
