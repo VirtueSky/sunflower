@@ -80,8 +80,11 @@ namespace VirtueSky.FirebaseTraking
                                 info.FetchTime));
                             foreach (var remoteConfigData in listRemoteConfigData)
                             {
-                                remoteConfigData.SetUpData(FirebaseRemoteConfig.DefaultInstance
-                                    .GetValue(remoteConfigData.key));
+                                if (!string.IsNullOrEmpty(remoteConfigData.key))
+                                {
+                                    remoteConfigData.SetUpData(FirebaseRemoteConfig.DefaultInstance
+                                        .GetValue(remoteConfigData.key));
+                                }
                             }
 
                             if (fetchRemoteConfigCompleted != null)
