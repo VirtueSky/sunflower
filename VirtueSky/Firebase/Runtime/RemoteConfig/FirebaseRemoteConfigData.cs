@@ -43,17 +43,29 @@ namespace VirtueSky.FirebaseTraking
             switch (typeRemoteConfigData)
             {
                 case TypeRemoteConfigData.StringData:
-                    stringValue.Value = result.StringValue;
+                    if (result.Source == ValueSource.RemoteValue)
+                    {
+                        stringValue.Value = result.StringValue;
+                    }
+
                     resultStringValue = stringValue.Value;
                     Debug.Log($"<color=Green>{key}: {resultStringValue}</color>");
                     break;
                 case TypeRemoteConfigData.BooleanData:
-                    boolValue.Value = result.BooleanValue;
+                    if (result.Source == ValueSource.RemoteValue)
+                    {
+                        boolValue.Value = result.BooleanValue;
+                    }
+
                     resultBoolValue = boolValue.Value;
                     Debug.Log($"<color=Green>{key}: {resultBoolValue}</color>");
                     break;
                 case TypeRemoteConfigData.IntData:
-                    intValue.Value = int.Parse(result.StringValue);
+                    if (result.Source == ValueSource.RemoteValue)
+                    {
+                        intValue.Value = int.Parse(result.StringValue);
+                    }
+
                     resultIntValue = intValue.Value;
                     Debug.Log($"<color=Green>{key}: {resultIntValue}</color>");
                     break;
