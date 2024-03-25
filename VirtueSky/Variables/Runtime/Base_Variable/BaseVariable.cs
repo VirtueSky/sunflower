@@ -16,7 +16,20 @@ namespace VirtueSky.Variables
         private bool isSaveData;
 
         [SerializeField] private bool isRaiseEvent;
+
         [NonSerialized] TType runtimeValue;
+#if UNITY_EDITOR
+        [ShowIf(nameof(ConditionShow))] [ReadOnly, SerializeField]
+        private TType currentValue;
+#endif
+
+
+        private void OnEnable()
+        {
+#if UNITY_EDITOR
+            currentValue = Value;
+#endif
+        }
 
         public TType Value
         {
@@ -35,7 +48,9 @@ namespace VirtueSky.Variables
                 {
                     runtimeValue = value;
                 }
-
+#if UNITY_EDITOR
+                currentValue = value;
+#endif
                 if (isRaiseEvent)
                 {
                     Raise(value);

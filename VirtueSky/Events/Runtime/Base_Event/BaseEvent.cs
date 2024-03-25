@@ -22,7 +22,7 @@ namespace VirtueSky.Events
             Raise();
         }
 
-        private bool ConditionShow => EditorApplication.isPlaying;
+        protected bool ConditionShow => EditorApplication.isPlaying;
 #endif
         public void Raise()
         {
@@ -92,7 +92,7 @@ namespace VirtueSky.Events
             Raise(valueDebug);
         }
 
-        private bool ConditionShow => EditorApplication.isPlaying;
+        protected bool ConditionShow => EditorApplication.isPlaying;
 #endif
 
         public virtual void Raise(TType value)
@@ -166,7 +166,7 @@ namespace VirtueSky.Events
             valueResult = Raise(valueDebug);
         }
 
-        private bool ConditionShow => EditorApplication.isPlaying;
+        protected bool ConditionShow => EditorApplication.isPlaying;
 #endif
         public TResult Raise(TType value)
         {
