@@ -33,6 +33,28 @@ namespace VirtueSky.Misc
             return skeletonAnimation;
         }
 
+        public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete,
+            int trackIndex = 0)
+        {
+            Tween.Delay(skeletonAnimation.Duration(trackIndex), onComplete);
+            return skeletonAnimation;
+        }
+
+        public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action onUpdate)
+        {
+            Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), null)
+                .OnUpdate(target: skeletonAnimation, (target, tween) => onUpdate?.Invoke());
+            return skeletonAnimation;
+        }
+
+        public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action onUpdate,
+            int trackIndex = 0)
+        {
+            Tween.Delay(skeletonAnimation.Duration(trackIndex), null)
+                .OnUpdate(target: skeletonAnimation, (target, tween) => onUpdate?.Invoke());
+            return skeletonAnimation;
+        }
+
         public static TrackEntry OnComplete(this TrackEntry trackEntry, Action onComplete)
         {
             trackEntry.Complete += HandleComplete;

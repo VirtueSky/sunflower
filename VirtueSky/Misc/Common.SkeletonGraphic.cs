@@ -33,6 +33,28 @@ namespace VirtueSky.Misc
             return skeletonGraphic;
         }
 
+        public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete,
+            int trackIndex = 0)
+        {
+            Tween.Delay(skeletonGraphic.Duration(trackIndex), onComplete);
+            return skeletonGraphic;
+        }
+
+        public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action onUpdate)
+        {
+            Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), null)
+                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate?.Invoke());
+            return skeletonGraphic;
+        }
+
+        public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action onUpdate,
+            int trackIndex = 0)
+        {
+            Tween.Delay(skeletonGraphic.Duration(trackIndex), null)
+                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate?.Invoke());
+            return skeletonGraphic;
+        }
+
 
         public static SkeletonGraphic Play(this SkeletonGraphic skeletonGraphic, string animationName,
             bool loop = false, int trackIndex = 0)
