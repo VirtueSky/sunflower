@@ -6,6 +6,7 @@ using PrimeTween;
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
+using UnityEngine;
 
 namespace VirtueSky.Misc
 {
@@ -29,14 +30,26 @@ namespace VirtueSky.Misc
 
         public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete)
         {
-            Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), onComplete);
+            Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), () =>
+            {
+                if (skeletonAnimation != null)
+                {
+                    onComplete?.Invoke();
+                }
+            });
             return skeletonAnimation;
         }
 
         public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete,
             int trackIndex = 0)
         {
-            Tween.Delay(skeletonAnimation.Duration(trackIndex), onComplete);
+            Tween.Delay(skeletonAnimation.Duration(trackIndex), () =>
+            {
+                if (skeletonAnimation != null)
+                {
+                    onComplete?.Invoke();
+                }
+            });
             return skeletonAnimation;
         }
 

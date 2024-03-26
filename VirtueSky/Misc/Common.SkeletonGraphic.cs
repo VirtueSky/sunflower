@@ -29,21 +29,33 @@ namespace VirtueSky.Misc
 
         public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete)
         {
-            Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), onComplete);
+            Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), () =>
+            {
+                if (skeletonGraphic != null)
+                {
+                    onComplete?.Invoke();
+                }
+            });
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete,
             int trackIndex = 0)
         {
-            Tween.Delay(skeletonGraphic.Duration(trackIndex), onComplete);
+            Tween.Delay(skeletonGraphic.Duration(trackIndex), () =>
+            {
+                if (skeletonGraphic != null)
+                {
+                    onComplete?.Invoke();
+                }
+            });
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action onUpdate)
         {
             Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), null)
-                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate?.Invoke());
+                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate.Invoke());
             return skeletonGraphic;
         }
 
@@ -51,7 +63,7 @@ namespace VirtueSky.Misc
             int trackIndex = 0)
         {
             Tween.Delay(skeletonGraphic.Duration(trackIndex), null)
-                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate?.Invoke());
+                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate.Invoke());
             return skeletonGraphic;
         }
 
