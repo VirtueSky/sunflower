@@ -111,6 +111,94 @@ namespace VirtueSky.Core
 
         #endregion
 
+        #region DelayHandle
+
+        /// <summary>
+        /// Delay call
+        /// </summary>
+        /// <param name="duration">The duration to wait before the DelayHandle fires.</param>
+        /// <param name="onComplete">The action to run when the DelayHandle elapses.</param>
+        /// <param name="onUpdate">A function to call each tick of the DelayHandle. Takes the number of seconds elapsed since
+        /// the start of the current cycle.</param>
+        /// <param name="isLooped">Whether the DelayHandle should restart after executing.</param>
+        /// <param name="useRealTime">Whether the DelayHandle uses real-time(not affected by slow-mo or pausing) or
+        /// game-time(affected by time scale changes).</param>
+        /// <returns></returns>
+        public static DelayHandle Delay(float duration, Action onComplete, Action<float> onUpdate = null,
+            bool isLooped = false, bool useRealTime = false)
+        {
+            var timer = new DelayHandle(duration,
+                onComplete,
+                onUpdate,
+                isLooped,
+                useRealTime,
+                null);
+            _monoGlobal.RegisterDelayHandle(timer);
+            return timer;
+        }
+
+
+        /// <summary>
+        /// Safe Delay call when it had target, progress delay will be cancel when target was destroyed
+        /// </summary>
+        /// <param name="duration">The duration to wait before the DelayHandle fires.</param>
+        /// <param name="onComplete">The action to run when the DelayHandle elapses.</param>
+        /// <param name="onUpdate">A function to call each tick of the DelayHandle. Takes the number of seconds elapsed since
+        /// the start of the current cycle.</param>
+        /// <param name="isLooped">Whether the DelayHandle should restart after executing.</param>
+        /// <param name="useRealTime">Whether the DelayHandle uses real-time(not affected by slow-mo or pausing) or
+        /// game-time(affected by time scale changes).</param>
+        /// <param name="target">The target (behaviour) to attach this DelayHandle to.</param>
+        public static DelayHandle Delay(
+            MonoBehaviour target,
+            float duration,
+            Action onComplete,
+            Action<float> onUpdate = null,
+            bool isLooped = false,
+            bool useRealTime = false)
+        {
+            var timer = new DelayHandle(duration,
+                onComplete,
+                onUpdate,
+                isLooped,
+                useRealTime,
+                target);
+            _monoGlobal.RegisterDelayHandle(timer);
+            return timer;
+        }
+
+        public static void CancelDelay(DelayHandle delayHandle)
+        {
+            delayHandle?.Cancel();
+        }
+
+        public static void PauseDelay(DelayHandle delayHandle)
+        {
+            delayHandle?.Pause();
+        }
+
+        public static void ResumeDelay(DelayHandle delayHandle)
+        {
+            delayHandle?.Resume();
+        }
+
+        public static void CancelAllDelay()
+        {
+            _monoGlobal.CancelAllDelayHandle();
+        }
+
+        public static void PauseAllDelay()
+        {
+            _monoGlobal.PauseAllDelayHandle();
+        }
+
+        public static void ResumeAllDelay()
+        {
+            _monoGlobal.ResumeAllDelayHandle();
+        }
+
+        #endregion
+
         #region Effective
 
         [System.Runtime.CompilerServices.MethodImpl(

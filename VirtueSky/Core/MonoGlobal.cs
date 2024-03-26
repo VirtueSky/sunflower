@@ -90,6 +90,7 @@ namespace VirtueSky.Core
         private void Update()
         {
             OnTick?.Invoke();
+            UpdateAllDelayHandle();
 
             if (_isToMainThreadQueueEmpty) return;
             _localToMainThreads.Clear();
@@ -138,6 +139,64 @@ namespace VirtueSky.Core
         {
             OnGameQuit?.Invoke();
             GameData.Save();
+        }
+
+        #endregion
+
+        #region delay handle
+
+        private List<DelayHandle> _timers = new();
+
+        // buffer adding timers so we don't edit a collection during iteration
+        private List<DelayHandle> _timersToAdd = new();
+        //private int _fixedFrameCount;
+
+        internal void RegisterDelayHandle(DelayHandle delayHandle)
+        {
+            _timersToAdd.Add(delayHandle);
+        }
+
+        internal void CancelAllDelayHandle()
+        {
+            foreach (var timer in _timers)
+            {
+                timer.Cancel();
+            }
+
+            _timers = new List<DelayHandle>();
+            _timersToAdd = new List<DelayHandle>();
+        }
+
+        internal void PauseAllDelayHandle()
+        {
+            foreach (var timer in _timers)
+            {
+                timer.Pause();
+            }
+        }
+
+        internal void ResumeAllDelayHandle()
+        {
+            foreach (var timer in _timers)
+            {
+                timer.Resume();
+            }
+        }
+
+        private void UpdateAllDelayHandle()
+        {
+            if (_timersToAdd.Count > 0)
+            {
+                _timers.AddRange(_timersToAdd);
+                _timersToAdd.Clear();
+            }
+
+            foreach (var timer in _timers)
+            {
+                timer.Update();
+            }
+
+            _timers.RemoveAll(t => t.IsDone);
         }
 
         #endregion

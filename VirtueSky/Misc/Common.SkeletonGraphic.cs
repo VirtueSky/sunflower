@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PrimeTween;
-using UnityEngine;
+
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
