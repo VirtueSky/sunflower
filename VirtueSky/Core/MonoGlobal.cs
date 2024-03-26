@@ -17,40 +17,70 @@ namespace VirtueSky.Core
         internal event Action<bool> OnGamePause;
         internal event Action OnGameQuit;
         internal event Action<bool> OnGameFocus;
-        readonly List<IEntity> tickProcesses = new List<IEntity>(1024);
-        readonly List<IEntity> fixedTickProcesses = new List<IEntity>(512);
-        readonly List<IEntity> lateTickProcesses = new List<IEntity>(256);
+        internal event Action OnTick;
+        internal event Action OnFixedTick;
+        internal event Action OnLateTick;
 
         #region Sub / UnSub For Update Procresses
 
-        internal void AddTickProcess(IEntity tick)
+        internal void AddTick(IEntity tick)
         {
-            tickProcesses.Add(tick);
+            OnTick += tick.Tick;
         }
 
-        internal void AddFixedTickProcess(IEntity fixedTick)
+        internal void AddTick(Action action)
         {
-            fixedTickProcesses.Add(fixedTick);
+            OnTick += action;
         }
 
-        internal void AddLateTickProcess(IEntity lateTick)
+        internal void AddFixedTick(IEntity fixedTick)
         {
-            lateTickProcesses.Add(lateTick);
+            OnFixedTick += fixedTick.FixedTick;
         }
 
-        internal void RemoveTickProcess(IEntity tick)
+        internal void AddFixedTick(Action action)
         {
-            tickProcesses.Remove(tick);
+            OnFixedTick += action;
         }
 
-        internal void RemoveFixedTickProcess(IEntity fixedTick)
+        internal void AddLateTick(IEntity lateTick)
         {
-            fixedTickProcesses.Remove(fixedTick);
+            OnLateTick += lateTick.LateTick;
         }
 
-        internal void RemoveLateTickProcess(IEntity lateTick)
+        internal void AddLateTick(Action action)
         {
-            lateTickProcesses.Remove(lateTick);
+            OnLateTick += action;
+        }
+
+        internal void RemoveTick(IEntity tick)
+        {
+            OnTick -= tick.Tick;
+        }
+
+        internal void RemoveTick(Action action)
+        {
+            OnTick -= action;
+        }
+
+        internal void RemoveFixedTick(IEntity fixedTick)
+        {
+            OnFixedTick -= fixedTick.FixedTick;
+        }
+
+        internal void RemoveFixedTick(Action action)
+        {
+            OnFixedTick -= action;
+        }
+
+        internal void RemoveLateTick(IEntity lateTick)
+        {
+            OnLateTick -= lateTick.LateTick;
+        }
+
+        internal void RemoveLateTick(Action action)
+        {
+            OnLateTick -= action;
         }
 
         #endregion
@@ -59,10 +89,7 @@ namespace VirtueSky.Core
 
         private void Update()
         {
-            for (int i = 0; i < tickProcesses.Count; i++)
-            {
-                tickProcesses[i]?.Tick();
-            }
+            OnTick?.Invoke();
 
             if (_isToMainThreadQueueEmpty) return;
             _localToMainThreads.Clear();
@@ -81,18 +108,12 @@ namespace VirtueSky.Core
 
         private void FixedUpdate()
         {
-            for (int i = 0; i < fixedTickProcesses.Count; i++)
-            {
-                fixedTickProcesses[i]?.FixedTick();
-            }
+            OnFixedTick?.Invoke();
         }
 
         private void LateUpdate()
         {
-            for (int i = 0; i < lateTickProcesses.Count; i++)
-            {
-                lateTickProcesses[i]?.LateTick();
-            }
+            OnLateTick?.Invoke();
         }
 
         #endregion
