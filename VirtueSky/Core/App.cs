@@ -49,7 +49,7 @@ namespace VirtueSky.Core
 
         #region Update
 
-        public static void SubTick(IEntity tick)
+        internal static void SubTick(IEntity tick)
         {
             _monoGlobal.AddTick(tick);
         }
@@ -59,7 +59,7 @@ namespace VirtueSky.Core
             _monoGlobal.AddTick(action);
         }
 
-        public static void SubFixedTick(IEntity fixedTick)
+        internal static void SubFixedTick(IEntity fixedTick)
         {
             _monoGlobal.AddFixedTick(fixedTick);
         }
@@ -69,7 +69,7 @@ namespace VirtueSky.Core
             _monoGlobal.AddFixedTick(action);
         }
 
-        public static void SubLateTick(IEntity lateTick)
+        internal static void SubLateTick(IEntity lateTick)
         {
             _monoGlobal.AddLateTick(lateTick);
         }
@@ -79,7 +79,7 @@ namespace VirtueSky.Core
             _monoGlobal.AddLateTick(action);
         }
 
-        public static void UnSubTick(IEntity tick)
+        internal static void UnSubTick(IEntity tick)
         {
             _monoGlobal.RemoveTick(tick);
         }
@@ -89,7 +89,7 @@ namespace VirtueSky.Core
             _monoGlobal.RemoveTick(action);
         }
 
-        public static void UnSubFixedTick(IEntity fixedTick)
+        internal static void UnSubFixedTick(IEntity fixedTick)
         {
             _monoGlobal.RemoveFixedTick(fixedTick);
         }
@@ -99,7 +99,7 @@ namespace VirtueSky.Core
             _monoGlobal.RemoveFixedTick(action);
         }
 
-        public static void UnSubLateTick(IEntity lateTick)
+        internal static void UnSubLateTick(IEntity lateTick)
         {
             _monoGlobal.RemoveLateTick(lateTick);
         }
