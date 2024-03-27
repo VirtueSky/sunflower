@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PrimeTween;
-
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
+using UnityEngine;
+using VirtueSky.Core;
 
 namespace VirtueSky.Misc
 {
@@ -27,22 +27,10 @@ namespace VirtueSky.Misc
             return animation.Animation.Duration;
         }
 
-        public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete)
-        {
-            Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), () =>
-            {
-                if (skeletonGraphic != null)
-                {
-                    onComplete?.Invoke();
-                }
-            });
-            return skeletonGraphic;
-        }
-
         public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete,
-            int trackIndex = 0)
+            int trackIndex = 0, MonoBehaviour target = null)
         {
-            Tween.Delay(skeletonGraphic.Duration(trackIndex), () =>
+            App.Delay(target, skeletonGraphic.Duration(trackIndex), () =>
             {
                 if (skeletonGraphic != null)
                 {
@@ -52,18 +40,11 @@ namespace VirtueSky.Misc
             return skeletonGraphic;
         }
 
-        public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action onUpdate)
-        {
-            Tween.Delay(skeletonGraphic.Duration(skeletonGraphic.startingAnimation), null)
-                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate.Invoke());
-            return skeletonGraphic;
-        }
 
-        public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action onUpdate,
-            int trackIndex = 0)
+        public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action<float> onUpdate,
+            int trackIndex = 0, MonoBehaviour target = null)
         {
-            Tween.Delay(skeletonGraphic.Duration(trackIndex), null)
-                .OnUpdate(target: skeletonGraphic, (target, tween) => onUpdate.Invoke());
+            App.Delay(target, skeletonGraphic.Duration(trackIndex), null, onUpdate);
             return skeletonGraphic;
         }
 

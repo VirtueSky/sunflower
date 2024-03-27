@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PrimeTween;
-
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
+using UnityEngine;
+using VirtueSky.Core;
 
 
 namespace VirtueSky.Misc
@@ -28,22 +28,10 @@ namespace VirtueSky.Misc
             return animation.Animation.Duration;
         }
 
-        public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete)
-        {
-            Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), () =>
-            {
-                if (skeletonAnimation != null)
-                {
-                    onComplete?.Invoke();
-                }
-            });
-            return skeletonAnimation;
-        }
-
         public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete,
-            int trackIndex = 0)
+            int trackIndex = 0, MonoBehaviour target = null)
         {
-            Tween.Delay(skeletonAnimation.Duration(trackIndex), () =>
+            App.Delay(target, skeletonAnimation.Duration(trackIndex), () =>
             {
                 if (skeletonAnimation != null)
                 {
@@ -53,18 +41,10 @@ namespace VirtueSky.Misc
             return skeletonAnimation;
         }
 
-        public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action onUpdate)
+        public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action<float> onUpdate,
+            int trackIndex = 0, MonoBehaviour target = null)
         {
-            Tween.Delay(skeletonAnimation.Duration(skeletonAnimation.AnimationName), null)
-                .OnUpdate(target: skeletonAnimation, (target, tween) => onUpdate?.Invoke());
-            return skeletonAnimation;
-        }
-
-        public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action onUpdate,
-            int trackIndex = 0)
-        {
-            Tween.Delay(skeletonAnimation.Duration(trackIndex), null)
-                .OnUpdate(target: skeletonAnimation, (target, tween) => onUpdate?.Invoke());
+            App.Delay(target, skeletonAnimation.Duration(trackIndex), null, onUpdate);
             return skeletonAnimation;
         }
 
