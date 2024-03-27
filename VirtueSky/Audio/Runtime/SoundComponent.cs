@@ -42,7 +42,7 @@ namespace VirtueSky.Audio
             audioSource.Play();
             if (!isLooping)
             {
-                Tween.Delay(audioClip.length, OnCompletedInvoke);
+                App.Delay(this, audioClip.length, OnCompletedInvoke);
             }
         }
 
@@ -81,7 +81,7 @@ namespace VirtueSky.Audio
             if (!audioSource.loop) return;
             audioSource.loop = false;
             float remainingTime = audioSource.clip.length - audioSource.time;
-            Tween.Delay(remainingTime, OnCompletedInvoke);
+            App.Delay(this, remainingTime, OnCompletedInvoke);
         }
 
         internal void FadePlayMusic(AudioClip audioClip, bool isLooping, float volume, float durationOut,
