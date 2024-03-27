@@ -8,10 +8,22 @@ namespace VirtueSky.Misc
     public static partial class Common
     {
         public static AnimancerComponent PlayClip(this AnimancerComponent animancerComponent, ClipTransition clip,
-            Action _endAnim = null, float _durationFade = .2f,
+            Action _endAnim = null, float _durationFade = .2f, bool isCheckPlayingClip = true,
             FadeMode mode = default)
         {
-            if (!animancerComponent.IsPlaying(clip))
+            if (isCheckPlayingClip)
+            {
+                if (!animancerComponent.IsPlaying(clip))
+                {
+                    Handle();
+                }
+            }
+            else
+            {
+                Handle();
+            }
+
+            void Handle()
             {
                 var state = animancerComponent.Play(clip, clip.Clip.length * _durationFade, mode);
                 if (_endAnim != null)
