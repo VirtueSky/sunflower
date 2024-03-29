@@ -31,9 +31,6 @@ namespace VirtueSky.Core
             UnSubTick();
         }
 
-        public virtual void OnDestroy()
-        {
-        }
 
         public virtual void Initialize()
         {
