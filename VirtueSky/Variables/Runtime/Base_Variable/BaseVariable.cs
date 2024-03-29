@@ -22,6 +22,7 @@ namespace VirtueSky.Variables
         [ShowIf(nameof(ConditionShow))] [ReadOnly, SerializeField]
         private TType currentValue;
 #endif
+        public TType InitializeValue => initializeValue;
 
 
         private void OnEnable()
