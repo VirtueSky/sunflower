@@ -57,7 +57,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (isShowInstallRemoteConfig)
             {
                 CPUtility.DrawButtonInstallPackage("Install Firebase Remote Config", "Remove Firebase Remote Config",
-                    ConstantPackage.PackageNameFirebaseRemoveConfig, ConstantPackage.MaxVersionFirebaseRemoveConfig);
+                    ConstantPackage.PackageNameFirebaseRemoteConfig, ConstantPackage.MaxVersionFirebaseRemoteConfig);
                 CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
                     ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
                 CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",

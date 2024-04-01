@@ -49,7 +49,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
                 ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
             CPUtility.DrawButtonInstallPackage("Install Firebase Remote Config", "Remove Firebase Remote Config",
-                ConstantPackage.PackageNameFirebaseRemoveConfig, ConstantPackage.MaxVersionFirebaseRemoveConfig);
+                ConstantPackage.PackageNameFirebaseRemoteConfig, ConstantPackage.MaxVersionFirebaseRemoteConfig);
             CPUtility.DrawButtonInstallPackage("Install Firebase Analytics", "Remove Firebase Analytics",
                 ConstantPackage.PackageNameFirebaseAnalytics, ConstantPackage.MaxVersionFirebaseAnalytics);
             CPUtility.DrawButtonInstallPackage("Install Firebase Crashlytics", "Remove Firebase Crashlytics",
