@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Threading;
+using VirtueSky.Threading.Tasks.Internal;
 
 namespace VirtueSky.Threading.Tasks
 {

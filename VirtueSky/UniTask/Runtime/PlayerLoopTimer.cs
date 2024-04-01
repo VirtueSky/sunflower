@@ -2,8 +2,8 @@
 
 using System.Threading;
 using System;
-using UnityEngine;
 using VirtueSky.Threading.Tasks.Internal;
+using UnityEngine;
 
 namespace VirtueSky.Threading.Tasks
 {

@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtueSky.Threading.Tasks.Internal;
 
-
 namespace VirtueSky.Threading.Tasks
 {
     public partial struct UniTask

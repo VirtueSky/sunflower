@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using VirtueSky.Threading.Tasks.Internal;
 
-
 namespace VirtueSky.Threading.Tasks
 {
     // public for add user custom.

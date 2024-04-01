@@ -3,8 +3,8 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using System.Threading;
 using VirtueSky.Threading.Tasks.Internal;
+using System.Threading;
 
 #if UNITY_2019_3_OR_NEWER
 using UnityEngine.LowLevel;

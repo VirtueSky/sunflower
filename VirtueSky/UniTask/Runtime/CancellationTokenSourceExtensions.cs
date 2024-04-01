@@ -1,9 +1,10 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 using System.Threading;
 using UnityEngine;
-using System;
 using VirtueSky.Threading.Tasks.Triggers;
-
+using System;
+using VirtueSky.Threading.Tasks.Internal;
 
 namespace VirtueSky.Threading.Tasks
 {
