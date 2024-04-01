@@ -13,9 +13,22 @@ namespace VirtueSky.Component
         [SerializeField] private AnimancerComponent animancerComponent;
 
         public void PlayAnim(ClipTransition clip, Action _endAnim = null, float _durationFade = .2f,
+            bool isCheckPlayingClip = true,
             FadeMode mode = default)
         {
-            if (!animancerComponent.IsPlaying(clip))
+            if (isCheckPlayingClip)
+            {
+                if (!animancerComponent.IsPlaying(clip))
+                {
+                    Handle();
+                }
+            }
+            else
+            {
+                Handle();
+            }
+
+            void Handle()
             {
                 var state = animancerComponent.Play(clip, clip.Clip.length * _durationFade, mode);
                 if (_endAnim != null)
