@@ -61,7 +61,5 @@ for version `2.5.9`
 #### Note:
 
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
-
-  (Reference: https://github.com/pancake-llc/foundation/tree/main/Assets/Heart)
-
-  - [Project implementation](https://github.com/VirtueSky/TheBeginning)
+- [Project implementation](https://github.com/VirtueSky/TheBeginning)
+- (Reference: https://github.com/pancake-llc/foundation/tree/main/Assets/Heart)
