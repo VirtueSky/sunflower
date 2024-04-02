@@ -54,7 +54,7 @@ for version `2.6.0`
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
 ├── Vibration (Vibration native support for android & ios)
 ├── Game Service (Login by Google Play Game or Apple Auth)
-├── Misc (Extension support SafeArea, Play Animancer, Skeleton,...)
+├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
 ├── Component
 ```
 
