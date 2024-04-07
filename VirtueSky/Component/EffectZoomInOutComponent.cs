@@ -34,10 +34,10 @@ namespace VirtueSky.Component
         public void DoEffect(float offsetScale, bool delay)
         {
             if (!gameObject.activeInHierarchy) return;
-            tween = Tween.Delay(timeDelay * (delay ? 1 : 0),
+            App.Delay(timeDelay * (delay ? 1 : 0),
                 () =>
                 {
-                    tween = transform.Scale(
+                    transform.Scale(
                         new Vector3(currentScale.x + offsetScale, currentScale.y + offsetScale,
                             currentScale.z + offsetScale), timeScale, ease).OnComplete(() =>
                     {
