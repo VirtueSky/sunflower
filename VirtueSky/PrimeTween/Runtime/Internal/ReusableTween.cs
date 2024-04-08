@@ -23,10 +23,21 @@ namespace PrimeTween {
         [SerializeField] internal float elapsedTimeTotal;
         [SerializeField] internal float easedInterpolationFactor;
         internal float cycleDuration;
-        internal PropType propType;
-        internal TweenType tweenType;
-        [SerializeField] internal ValueContainer startValue;
-        [SerializeField] internal ValueContainer endValue;
+
+        #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
+        /// todo remove here and from generated code. Only used for assertion
+        [NonSerialized] PropType propType;
+        internal void setPropType(PropType value) => propType = value;
+        #else
+        [System.Diagnostics.Conditional("_")]
+        internal void setPropType([System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Global")] PropType value) {
+        }
+        #endif
+        [SerializeField] internal ValueContainerStartEnd startEndValue;
+        internal PropType getPropType() => Utils.TweenTypeToTweenData(startEndValue.tweenType).Item1; // todo rename to propType
+        internal ref TweenType tweenType => ref startEndValue.tweenType;
+        internal ref ValueContainer startValue => ref startEndValue.startValue;
+        internal ref ValueContainer endValue => ref startEndValue.endValue;
         internal ValueContainer diff;
         internal bool isAdditive;
         internal ValueContainer prevVal;
@@ -50,7 +61,7 @@ namespace PrimeTween {
         internal Tween nextSibling;
 
         internal Func<ReusableTween, ValueContainer> getter;
-        internal bool startFromCurrent;
+        internal ref bool startFromCurrent => ref startEndValue.startFromCurrent;
 
         bool stoppedEmergently;
         internal readonly TweenCoroutineEnumerator coroutineEnumerator = new TweenCoroutineEnumerator();
@@ -240,6 +251,7 @@ namespace PrimeTween {
         float calcTFromElapsedTimeTotal(float _elapsedTimeTotal, out int cyclesDiff, out State newState) {
             // key timeline points: 0 | startDelay | duration | 1 | endDelay | onComplete
             var cyclesTotal = settings.cycles;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (_elapsedTimeTotal == float.MaxValue) {
                 Assert.AreNotEqual(-1, cyclesTotal);
                 var cyclesLeft = cyclesTotal - cyclesDone;
@@ -324,7 +336,7 @@ namespace PrimeTween {
             #endif
             id = -1;
             target = null;
-            propType = PropType.None;
+            setPropType(PropType.None);
             settings.customEase = null;
             customOnValueChange = null;
             onValueChange = null;
@@ -389,7 +401,7 @@ namespace PrimeTween {
             Assert.LogError($"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n", id, target as UnityEngine.Object);
         }
 
-        internal static bool isDestroyedUnityObject<T>(T obj) where T: class => obj is UnityEngine.Object unityObject && unityObject == null;
+        static bool isDestroyedUnityObject<T>(T obj) where T: class => obj is UnityEngine.Object unityObject && unityObject == null;
 
         void validateOnCompleteAssignment() {
             const string msg = "Tween already has an onComplete callback. Adding more callbacks is not allowed.\n" +
@@ -400,11 +412,16 @@ namespace PrimeTween {
         }
 
         /// _getter is null for custom tweens
-        internal void Setup([CanBeNull] object _target, ref TweenSettings _settings, [NotNull] Action<ReusableTween> _onValueChange, [CanBeNull] Func<ReusableTween, ValueContainer> _getter, bool _startFromCurrent) {
+        internal void Setup([CanBeNull] object _target, ref TweenSettings _settings, [NotNull] Action<ReusableTween> _onValueChange, [CanBeNull] Func<ReusableTween, ValueContainer> _getter, bool _startFromCurrent, TweenType _tweenType) {
             Assert.IsTrue(_settings.cycles >= -1);
             Assert.IsNotNull(_onValueChange);
             Assert.IsNull(getter);
-            Assert.AreNotEqual(PropType.None, propType);
+            tweenType = _tweenType;
+            var propertyType = getPropType();
+            Assert.AreNotEqual(PropType.None, propertyType);
+            #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
+            Assert.AreEqual(propType, getPropType());
+            #endif
             #if UNITY_EDITOR
             if (Constants.noInstance) {
                 return;
@@ -438,7 +455,7 @@ namespace PrimeTween {
             if (!_startFromCurrent) {
                 cacheDiff();
             }
-            if (propType == PropType.Quaternion) {
+            if (propertyType == PropType.Quaternion) {
                 prevVal.QuaternionVal = Quaternion.identity;
             } else {
                 prevVal.Reset();
@@ -515,7 +532,7 @@ namespace PrimeTween {
                 } else if (tweenType == TweenType.NestedSequence) {
                     result += $"Sequence {id} (nested)";
                 } else {
-                    result += $"{(tweenType != TweenType.None ? tweenType.ToString() : propType.ToString())}" ;
+                    result += tweenType.ToString() ;
                 }
                 result += " / duration ";
                 /*if (waitDelay != 0f) {
@@ -641,8 +658,9 @@ namespace PrimeTween {
 
         internal void cacheDiff() {
             Assert.IsFalse(startFromCurrent);
-            Assert.AreNotEqual(PropType.None, propType);
-            switch (propType) {
+            var propertyType = getPropType();
+            Assert.AreNotEqual(PropType.None, propertyType);
+            switch (propertyType) {
                 case PropType.Quaternion:
                     startValue.QuaternionVal.Normalize();
                     endValue.QuaternionVal.Normalize();
@@ -801,6 +819,7 @@ namespace PrimeTween {
         internal float getElapsedTimeTotal() {
             var result = elapsedTimeTotal;
             var durationTotal = getDurationTotal();
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (result == float.MaxValue) {
                 return durationTotal;
             }

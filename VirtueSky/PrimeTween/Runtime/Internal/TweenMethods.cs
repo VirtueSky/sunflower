@@ -19,11 +19,11 @@ namespace PrimeTween {
             if (onTarget == null && manager.updateDepth == 0) {
                 int result = manager.tweensCount;
                 #if PRIME_TWEEN_SAFETY_CHECKS && UNITY_ASSERTIONS
-                Assert.AreEqual(result, PrimeTweenManager.processAll(null, _ => true));
+                Assert.AreEqual(result, PrimeTweenManager.processAll(null, _ => true, true));
                 #endif
                 return result;
             }
-            return PrimeTweenManager.processAll(onTarget, _ => true); // call processAll to filter null tweens
+            return PrimeTweenManager.processAll(onTarget, _ => true, true); // call processAll to filter null tweens
         }
 
         #if PRIME_TWEEN_EXPERIMENTAL
@@ -62,7 +62,7 @@ namespace PrimeTween {
                     Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
-            }, null, false);
+            }, null, false, TweenType.CustomDouble);
             return PrimeTweenManager.Animate(tween);
         }
 
@@ -109,7 +109,7 @@ namespace PrimeTween {
                     Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
-            }, null, false);
+            }, null, false, TweenType.CustomDouble);
             return PrimeTweenManager.Animate(tween);
         }
         #endif
@@ -128,7 +128,7 @@ namespace PrimeTween {
                     tween.kill();
                 }
                 return true;
-            });
+            }, false);
             forceUpdateManagerIfTargetIsNull(onTarget);
             return result;
         }
@@ -147,7 +147,7 @@ namespace PrimeTween {
                     tween.ForceComplete();
                 }
                 return true;
-            });
+            }, false);
             forceUpdateManagerIfTargetIsNull(onTarget);
             return result;
         }
@@ -172,11 +172,11 @@ namespace PrimeTween {
             if (isPaused) {
                 return PrimeTweenManager.processAll(onTarget, tween => {
                     return tween.trySetPause(true);
-                });
+                }, false);
             }
             return PrimeTweenManager.processAll(onTarget, tween => {
                 return tween.trySetPause(false);
-            });
+            }, false);
         }
 
         /// <summary>Please note: delay may outlive the caller (the calling UnityEngine.Object may already be destroyed).
@@ -238,7 +238,7 @@ namespace PrimeTween {
         public static Tween MaterialColor([NotNull] Material target, int propertyId, TweenSettings<Color> settings) {
             return animateWithIntParam(target, propertyId, ref settings,
                 tween => (tween.target as Material).SetColor(tween.intParam, tween.ColorVal),
-                tween => (tween.target as Material).GetColor(tween.intParam).ToContainer());
+                tween => (tween.target as Material).GetColor(tween.intParam).ToContainer(), TweenType.MaterialColorProperty);
         }
 
         public static Tween MaterialProperty([NotNull] Material target, int propertyId, float endValue, float duration, Ease ease = default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -254,7 +254,7 @@ namespace PrimeTween {
         public static Tween MaterialProperty([NotNull] Material target, int propertyId, TweenSettings<float> settings) {
             return animateWithIntParam(target, propertyId, ref settings,
                 tween => (tween.target as Material).SetFloat(tween.intParam, tween.FloatVal),
-                tween => (tween.target as Material).GetFloat(tween.intParam).ToContainer());
+                tween => (tween.target as Material).GetFloat(tween.intParam).ToContainer(), TweenType.MaterialProperty);
         }
 
         public static Tween MaterialAlpha([NotNull] Material target, int propertyId, float endValue, float duration, Ease ease = default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -274,7 +274,7 @@ namespace PrimeTween {
                     var _propId = tween.intParam;
                     _target.SetColor(_propId, _target.GetColor(_propId).WithAlpha(tween.FloatVal));
                 },
-                tween => (tween.target as Material).GetColor(tween.intParam).a.ToContainer());
+                tween => (tween.target as Material).GetColor(tween.intParam).a.ToContainer(), TweenType.MaterialAlphaProperty);
         }
 
         public static Tween MaterialTextureOffset([NotNull] Material target, int propertyId, Vector2 endValue, float duration, Ease ease = default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -290,7 +290,7 @@ namespace PrimeTween {
         public static Tween MaterialTextureOffset([NotNull] Material target, int propertyId, TweenSettings<Vector2> settings) {
             return animateWithIntParam(target, propertyId, ref settings,
                 tween => (tween.target as Material).SetTextureOffset(tween.intParam, tween.Vector2Val),
-                tween => (tween.target as Material).GetTextureOffset(tween.intParam).ToContainer());
+                tween => (tween.target as Material).GetTextureOffset(tween.intParam).ToContainer(), TweenType.MaterialTextureOffset);
         }
 
         public static Tween MaterialTextureScale([NotNull] Material target, int propertyId, Vector2 endValue, float duration, Ease ease = default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -306,7 +306,7 @@ namespace PrimeTween {
         public static Tween MaterialTextureScale([NotNull] Material target, int propertyId, TweenSettings<Vector2> settings) {
             return animateWithIntParam(target, propertyId, ref settings,
                 tween => (tween.target as Material).SetTextureScale(tween.intParam, tween.Vector2Val),
-                tween => (tween.target as Material).GetTextureScale(tween.intParam).ToContainer());
+                tween => (tween.target as Material).GetTextureScale(tween.intParam).ToContainer(), TweenType.MaterialTextureScale);
         }
 
         public static Tween MaterialProperty([NotNull] Material target, int propertyId, Vector4 endValue, float duration, Ease ease = default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -322,7 +322,7 @@ namespace PrimeTween {
         public static Tween MaterialProperty([NotNull] Material target, int propertyId, TweenSettings<Vector4> settings) {
             return animateWithIntParam(target, propertyId, ref settings,
                 tween => (tween.target as Material).SetVector(tween.intParam, tween.Vector4Val),
-                tween => (tween.target as Material).GetVector(tween.intParam).ToContainer());
+                tween => (tween.target as Material).GetVector(tween.intParam).ToContainer(), TweenType.MaterialPropertyVector4);
         }
 
         // No 'startFromCurrent' overload
@@ -333,7 +333,7 @@ namespace PrimeTween {
         public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, TweenSettings settings) => EulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, settings));
         public static Tween EulerAngles([NotNull] Transform target, TweenSettings<Vector3> settings) {
             validateEulerAnglesData(ref settings);
-            return animate(target, ref settings, _ => { (_.target as Transform).eulerAngles = _.Vector3Val; }, _ => (_.target as Transform).eulerAngles.ToContainer());
+            return animate(target, ref settings, _ => { (_.target as Transform).eulerAngles = _.Vector3Val; }, _ => (_.target as Transform).eulerAngles.ToContainer(), TweenType.EulerAngles);
         }
 
         public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
@@ -343,7 +343,7 @@ namespace PrimeTween {
         public static Tween LocalEulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, TweenSettings settings) => LocalEulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, settings));
         public static Tween LocalEulerAngles([NotNull] Transform target, TweenSettings<Vector3> settings) {
             validateEulerAnglesData(ref settings);
-            return animate(target, ref settings, _ => { (_.target as Transform).localEulerAngles = _.Vector3Val; }, _ => (_.target as Transform).localEulerAngles.ToContainer());
+            return animate(target, ref settings, _ => { (_.target as Transform).localEulerAngles = _.Vector3Val; }, _ => (_.target as Transform).localEulerAngles.ToContainer(), TweenType.LocalEulerAngles);
         }
         static void validateEulerAnglesData(ref TweenSettings<Vector3> settings) {
             if (settings.startFromCurrent) {
@@ -373,7 +373,7 @@ namespace PrimeTween {
             return animate(target, ref floatSettings, _tween => {
                 var _target = _tween.target as TMPro.TMP_Text;
                 _target.maxVisibleCharacters = Mathf.RoundToInt(_tween.FloatVal);
-            }, t => new ValueContainer { FloatVal = (t.target as TMPro.TMP_Text).maxVisibleCharacters });
+            }, t => new ValueContainer { FloatVal = (t.target as TMPro.TMP_Text).maxVisibleCharacters }, TweenType.TextMaxVisibleCharacters);
         }
         #endif
 
@@ -395,7 +395,7 @@ namespace PrimeTween {
                 Debug.LogWarning("Setting " + nameof(TweenSettings.useUnscaledTime) + " to true to animate Time.timeScale correctly.");
                 settings.settings.useUnscaledTime = true;
             }
-            return animate(PrimeTweenManager.dummyTarget, ref settings, t => Time.timeScale = t.FloatVal, _ => Time.timeScale.ToContainer());
+            return animate(PrimeTweenManager.dummyTarget, ref settings, t => Time.timeScale = t.FloatVal, _ => Time.timeScale.ToContainer(), TweenType.GlobalTimeScale);
 
             void clampTimescale(ref float value) {
                 if (value < 0) {
@@ -405,7 +405,8 @@ namespace PrimeTween {
             }
         }
 
-        public static Tween TweenTimeScale(Tween tween, TweenSettings<float> settings) {
+        public static Tween TweenTimeScale(Tween tween, TweenSettings<float> settings) => AnimateTimeScale(tween, settings, TweenType.TweenTimeScale);
+        static Tween AnimateTimeScale(Tween tween, TweenSettings<float> settings, TweenType tweenType) {
             if (!tween.tryManipulate()) {
                 return default;
             }
@@ -416,12 +417,11 @@ namespace PrimeTween {
                     return;
                 }
                 target.timeScale = t.FloatVal;
-            }, t => (t.target as ReusableTween).timeScale.ToContainer());
+            }, t => (t.target as ReusableTween).timeScale.ToContainer(), tweenType);
             Assert.IsTrue(result.isAlive);
             result.tween.intParam = tween.id;
             return result;
         }
-
-        public static Tween TweenTimeScale(Sequence sequence, TweenSettings<float> settings) => TweenTimeScale(sequence.root, settings);
+        public static Tween TweenTimeScale(Sequence sequence, TweenSettings<float> settings) => AnimateTimeScale(sequence.root, settings, TweenType.TweenTimeScaleSequence);
     }
 }

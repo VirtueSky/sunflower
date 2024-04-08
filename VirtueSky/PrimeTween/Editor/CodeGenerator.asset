@@ -15,6 +15,7 @@ MonoBehaviour:
   methodsScript: {fileID: 11500000, guid: 51610f0e9d8e4ccead49e9fcc96d54e3, type: 3}
   dotweenMethodsScript: {fileID: 11500000, guid: 3c238e2b584a4987b714406da2cf9c56, type: 3}
   tweenComponentScript: {fileID: 11500000, guid: f191f8e3fa31440d9f1217f1f80dba7d, type: 3}
+  editorUtilsScript: {fileID: 11500000, guid: 7f3bfd9524c14644bfbab698076886f3, type: 3}
   methodsData:
   - description: Range_Light
     methodName: Range

@@ -24,7 +24,7 @@ namespace PrimeTween {
         }
 
         public static Tween ShakeLocalPosition([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => ShakeLocalPosition(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public static Tween ShakeLocalPosition([NotNull] Transform target, ShakeSettings settings) {
@@ -33,12 +33,12 @@ namespace PrimeTween {
             }, _ => (_.target as Transform).localPosition.ToContainer());
         }
         public static Tween PunchLocalPosition([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => PunchLocalPosition(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         public static Tween PunchLocalPosition([NotNull] Transform target, ShakeSettings settings) => ShakeLocalPosition(target, settings.WithPunch());
 
         public static Tween ShakeLocalRotation([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => ShakeLocalRotation(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public static Tween ShakeLocalRotation([NotNull] Transform target, ShakeSettings settings) {
@@ -47,12 +47,12 @@ namespace PrimeTween {
             }, t => (t.target as Transform).localRotation.ToContainer());
         }
         public static Tween PunchLocalRotation([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => PunchLocalRotation(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         public static Tween PunchLocalRotation([NotNull] Transform target, ShakeSettings settings) => ShakeLocalRotation(target, settings.WithPunch());
 
         public static Tween ShakeScale([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => ShakeScale(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public static Tween ShakeScale([NotNull] Transform target, ShakeSettings settings) {
@@ -61,7 +61,7 @@ namespace PrimeTween {
             }, t => (t.target as Transform).localScale.ToContainer());
         }
         public static Tween PunchScale([NotNull] Transform target, Vector3 strength, float duration, float frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1,
-            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes) 
+            float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes)
             => PunchScale(target, new ShakeSettings(strength, duration, frequency, enableFalloff, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime));
         public static Tween PunchScale([NotNull] Transform target, ShakeSettings settings) => ShakeScale(target, settings.WithPunch());
 
@@ -69,9 +69,8 @@ namespace PrimeTween {
             Assert.IsNotNull(onValueChange);
             Assert.IsNotNull(getter);
             var tween = PrimeTweenManager.fetchTween();
-            tween.propType = propType;
+            tween.setPropType(propType);
             prepareShakeData(settings, tween);
-            tween.tweenType = tweenType;
             tween.customOnValueChange = onValueChange;
             var tweenSettings = settings.tweenSettings;
             tween.Setup(target, ref tweenSettings, state => {
@@ -79,15 +78,14 @@ namespace PrimeTween {
                 Assert.IsNotNull(_onValueChange);
                 var shakeVal = getShakeVal(state);
                 _onValueChange(state, shakeVal);
-            }, getter, true);
+            }, getter, true, tweenType);
             return PrimeTweenManager.Animate(tween);
         }
 
         public static Tween ShakeCustom<T>([NotNull] T target, Vector3 startValue, ShakeSettings settings, [NotNull] Action<T, Vector3> onValueChange) where T : class {
             Assert.IsNotNull(onValueChange);
             var tween = PrimeTweenManager.fetchTween();
-            tween.propType = PropType.Vector3;
-            tween.tweenType = TweenType.ShakeCustom;
+            tween.setPropType(PropType.Vector3);
             tween.startValue.CopyFrom(ref startValue);
             prepareShakeData(settings, tween);
             tween.customOnValueChange = onValueChange;
@@ -103,7 +101,7 @@ namespace PrimeTween {
                     Debug.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}", _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
-            }, null, false);
+            }, null, false, TweenType.ShakeCustom);
             return PrimeTweenManager.Animate(tween);
         }
         public static Tween PunchCustom<T>([NotNull] T target, Vector3 startValue, ShakeSettings settings, [NotNull] Action<T, Vector3> onValueChange) where T : class => ShakeCustom(target, startValue, settings.WithPunch(), onValueChange);
@@ -112,7 +110,7 @@ namespace PrimeTween {
             tween.endValue.Reset(); // not used
             tween.shakeData.Setup(settings);
         }
-        
+
         static Vector3 getShakeVal([NotNull] ReusableTween tween) {
             return tween.shakeData.getNextVal(tween) * calcFadeInOutFactor();
             float calcFadeInOutFactor() {
@@ -211,7 +209,7 @@ namespace PrimeTween {
             }
             onCycleComplete();
         }
-        
+
         internal void onCycleComplete() {
             Assert.IsTrue(isAlive);
             resetAfterCycle();
@@ -246,7 +244,7 @@ namespace PrimeTween {
 
             var dt = (interpolationFactor - prevInterpolationFactor) * tween.settings.duration;
             prevInterpolationFactor = interpolationFactor;
-            
+
             var strengthOverTime = calcStrengthOverTime(interpolationFactor);
             var frequencyFactor = Mathf.Clamp01(strengthOverTime * 3f); // handpicked formula that describes the relationship between strength and frequency
             float getIniVelFactor() {
@@ -275,7 +273,7 @@ namespace PrimeTween {
             }
             return result;
         }
-        
+
         Vector3 generateShakePoint() {
             var mainAxisIndex = getMainAxisIndex(strengthPerAxis);
             Vector3 result = default;
@@ -290,7 +288,7 @@ namespace PrimeTween {
             }
             return result;
         }
-        
+
         float calcStrengthOverTime(float interpolationFactor) {
             if (falloffEaseInt == disabledFalloff) {
                 return 1;
@@ -302,7 +300,7 @@ namespace PrimeTween {
             Assert.IsNotNull(customStrengthOverTime);
             return customStrengthOverTime.Evaluate(interpolationFactor);
         }
-        
+
         static float calcMainAxisEndVal(float velocity, float strength, float symmetryFactor) {
             var result = Mathf.Sign(velocity) * strength * Random.Range(0.6f, 1f); // doesn't matter if we're using strength or its abs because velocity alternates
             return clampBySymmetryFactor(result, strength, symmetryFactor);
@@ -314,7 +312,7 @@ namespace PrimeTween {
             }
             return Mathf.Clamp(val, strength, -strength * symmetryFactor);
         }
-        
+
         static float calcNonMainAxisEndVal(float strength, float symmetryFactor) {
             if (strength > 0) {
                 return Random.Range(-strength * symmetryFactor, strength);
@@ -326,7 +324,7 @@ namespace PrimeTween {
             if (!newTween.shakeData.isAlive) {
                 return false;
             }
-            var shakeTransform = newTween.target as Transform; 
+            var shakeTransform = newTween.target as Transform;
             if (shakeTransform == null) {
                 return false;
             }
@@ -362,7 +360,7 @@ namespace PrimeTween {
                     }
                 }
             }
-            
+
             resetAfterCycle();
             customStrengthOverTime = null;
             frequency = 0f;

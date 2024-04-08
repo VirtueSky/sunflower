@@ -300,7 +300,7 @@ namespace PrimeTween {
                     Debug.LogWarning("SetRelative() immediately adds the dest and doesn't wait for startDelay.");
                 }
                 var getter = tween.getter;
-                if (tween.propType == PropType.Quaternion) {
+                if (tween.getPropType() == PropType.Quaternion) {
                     if (getter != null) {
                         tween.endValue.QuaternionVal *= getter(tween).QuaternionVal;
                     } else {

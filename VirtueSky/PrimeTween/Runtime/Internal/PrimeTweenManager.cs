@@ -241,14 +241,13 @@ namespace PrimeTween {
             }
             #endif
             var tween = fetchTween();
-            tween.propType = PropType.Float;
-            tween.tweenType = TweenType.Delay;
+            tween.setPropType(PropType.Float);
             var settings = new TweenSettings {
                 duration = duration,
                 ease = Ease.Linear,
                 useUnscaledTime = useUnscaledTime
             };
-            tween.Setup(target, ref settings, _ => {}, null, false);
+            tween.Setup(target, ref settings, _ => {}, null, false, TweenType.Delay);
             var result = addTween(tween);
             // ReSharper disable once RedundantCast
             return result.IsCreated ? result : (Tween?)null;
@@ -354,18 +353,18 @@ namespace PrimeTween {
             return new Tween(tween);
         }
 
-        internal static int processAll([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate) {
+        internal static int processAll([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate, bool allowToProcessTweensInsideSequence) {
             #if UNITY_EDITOR
             if (Constants.warnNoInstance) {
                 return default;
             }
             #endif
-            return Instance.processAll_internal(onTarget, predicate);
+            return Instance.processAll_internal(onTarget, predicate, allowToProcessTweensInsideSequence);
         }
 
         internal static bool logCantManipulateError = true;
 
-        int processAll_internal([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate) {
+        int processAll_internal([CanBeNull] object onTarget, [NotNull] Predicate<ReusableTween> predicate, bool allowToProcessTweensInsideSequence) {
             return processInList(tweens) + processInList(fixedUpdateTweens);
             int processInList(List<ReusableTween> tweens) {
                 int numProcessed = 0;
@@ -381,7 +380,7 @@ namespace PrimeTween {
                         if (tween.target != onTarget) {
                             continue;
                         }
-                        if (tween.IsInSequence()) {
+                        if (!allowToProcessTweensInsideSequence && tween.IsInSequence()) {
                             // To support stopping sequences by target, I can add new API 'Sequence.Create(object sequenceTarget)'.
                             // But 'sequenceTarget' is a different concept to tween's target, so I should not mix these two concepts together:
                             //     'sequenceTarget' serves the purpose of unique 'id', while tween's target is the animated object.

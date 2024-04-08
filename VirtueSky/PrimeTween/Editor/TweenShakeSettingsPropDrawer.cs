@@ -11,12 +11,15 @@ internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
         if (!property.isExpanded) {
             return singleLineHeight;
         }
+        property.NextVisible(true);
+        float result = EditorGUI.GetPropertyHeight(property, true); // strength
         var count = 1;
         count++; // frequency
-        count++; // strengthPerAxis
         count++; // duration
         count++; // enableFalloff
-        property = property.FindPropertyRelative(nameof(ShakeSettings.enableFalloff));
+        property.NextVisible(false);
+        property.NextVisible(false);
+        property.NextVisible(false); // enableFalloff
         if (property.boolValue) {
             count++; // falloffEase
             property.NextVisible(false);
@@ -31,11 +34,11 @@ internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
         count++; // endDelay
         count++; // useUnscaledTime
         count++; // useFixedUpdate
-        var result = singleLineHeight * count + standardVerticalSpacing * (count - 1);
+        result += singleLineHeight * count + standardVerticalSpacing * (count - 1);
         result += standardVerticalSpacing * 2; // extra space
         return result;
     }
-    
+
     public override void OnGUI(Rect position, [NotNull] SerializedProperty property, GUIContent label) {
         var rect = new Rect(position) { height = singleLineHeight };
         PropertyField(rect, property, label);
@@ -46,7 +49,8 @@ internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
         indentLevel++;
         property.NextVisible(true);
         { // strength
-            propertyField();
+            PropertyField(rect, property);
+            rect.y += EditorGUI.GetPropertyHeight(property, true);
         }
         { // duration
             property.NextVisible(false);
@@ -105,7 +109,7 @@ internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
             PropertyField(rect, property);
             moveToNextLine();
         }
-        
+
         void moveToNextLine() {
             rect.y += singleLineHeight + standardVerticalSpacing;
         }

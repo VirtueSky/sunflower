@@ -107,8 +107,7 @@ namespace PrimeTween {
             }
             #endif
             var tween = PrimeTweenManager.fetchTween();
-            tween.propType = PropType.Float;
-            tween.tweenType = TweenType.MainSequence;
+            tween.setPropType(PropType.Float);
             if (cycleMode == CycleMode.Incremental) {
                 Debug.LogError($"Sequence doesn't support CycleMode.Incremental. Parameter {nameof(sequenceEase)} is applied to the sequence's 'timeline', and incrementing the 'timeline' doesn't make sense. For the same reason, {nameof(sequenceEase)} is clamped to [0:1] range.");
                 cycleMode = CycleMode.Restart;
@@ -121,7 +120,7 @@ namespace PrimeTween {
                 sequenceEase = Ease.Linear;
             }
             var settings = new TweenSettings(0f, sequenceEase, cycles, cycleMode, 0f, 0f, useUnscaledTime, useFixedUpdate);
-            tween.Setup(PrimeTweenManager.dummyTarget, ref settings, _ => {}, null, false);
+            tween.Setup(PrimeTweenManager.dummyTarget, ref settings, _ => {}, null, false, TweenType.MainSequence);
             tween.intParam = emptySequenceTag;
             var root = PrimeTweenManager.addTween(tween);
             Assert.IsTrue(root.isAlive);

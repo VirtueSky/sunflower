@@ -105,7 +105,7 @@ namespace PrimeTween {
             var parametricEase = settings.parametricEase;
             var strength = settings.parametricEaseStrength;
             if (parametricEase == ParametricEase.BounceExact) {
-                var fullAmplitude = tween.propType == PropType.Quaternion ? 
+                var fullAmplitude = tween.getPropType() == PropType.Quaternion ? 
                     Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) : 
                     tween.diff.Vector4Val.magnitude;
                 var strengthFactor = fullAmplitude < 0.0001f ? 1 : 1f / (fullAmplitude * (1f - firstBounceAmpl));

@@ -50,7 +50,7 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
             DrawDuration(rect, property);
             moveToNextLine(ref rect);
         }
-        drawEaseTillNext(property, ref rect);
+        drawEaseTillEnd(property, ref rect);
         indentLevel--;
     }
 
@@ -65,7 +65,12 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
         PropertyField(rect, property);
     }
 
-    internal static void drawEaseTillNext([NotNull] SerializedProperty property, ref Rect rect) {
+    internal static void drawEaseTillEnd([NotNull] SerializedProperty property, ref Rect rect) {
+        DrawEaseAndCycles(property, ref rect);
+        drawStartDelayTillEnd(ref rect, property);
+    }
+
+    internal static void DrawEaseAndCycles(SerializedProperty property, ref Rect rect, bool addSpace = true) {
         { // ease
             property.NextVisible(true);
             PropertyField(rect, property);
@@ -78,7 +83,9 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
                 moveToNextLine(ref rect);
             }
         }
-        rect.y += standardVerticalSpacing * 2;
+        if (addSpace) {
+            rect.y += standardVerticalSpacing * 2;
+        }
         { // cycles
             var cycles = drawCycles(rect, property);
             moveToNextLine(ref rect);
@@ -91,7 +98,6 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
                 }
             }
         }
-        drawStartDelayTillEnd(ref rect, property);
     }
 
     internal static void drawStartDelayTillEnd(ref Rect rect, [NotNull] SerializedProperty property) {

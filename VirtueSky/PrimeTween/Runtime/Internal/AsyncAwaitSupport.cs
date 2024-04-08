@@ -12,7 +12,7 @@ namespace PrimeTween {
         public TweenAwaiter GetAwaiter() {
             return new TweenAwaiter(this);
         }
-        
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("This struct is needed for async/await support, you should not use it directly.")]
         public readonly struct TweenAwaiter : INotifyCompletion {
@@ -42,7 +42,7 @@ namespace PrimeTween {
                                 t.ForceComplete();
                             }
                         }
-                    }, null);
+                    }, null, TweenType.Callback);
                     Assert.IsTrue(wait.isAlive);
                     wait.tween.intParam = tween.id;
                     wait.tween.OnComplete(continuation, true);

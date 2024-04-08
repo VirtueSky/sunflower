@@ -74,7 +74,7 @@ internal class TweenSettingsTypesPropDrawer : PropertyDrawer {
             moveToNextLine(false);
         }
 
-        TweenSettingsPropDrawer.drawEaseTillNext(property, ref rect);
+        TweenSettingsPropDrawer.drawEaseTillEnd(property, ref rect);
 
         indentLevel--;
 
