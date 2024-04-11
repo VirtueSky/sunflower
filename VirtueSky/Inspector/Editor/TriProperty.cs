@@ -14,7 +14,7 @@ namespace VirtueSky.Inspector
     public sealed class TriProperty
     {
         private static readonly StringBuilder SharedPropertyPathStringBuilder = new StringBuilder();
-        
+
         private static readonly IReadOnlyList<TriValidationResult> EmptyValidationResults =
             new List<TriValidationResult>();
 
@@ -39,7 +39,7 @@ namespace VirtueSky.Inspector
         public event Action<TriProperty> ValueChanged;
         public event Action<TriProperty> ChildValueChanged;
 
-        internal TriProperty(
+        public TriProperty(
             TriPropertyTree propertyTree,
             TriProperty parent,
             TriPropertyDefinition definition,
@@ -56,7 +56,7 @@ namespace VirtueSky.Inspector
             PropertyType = GetPropertyType(this);
         }
 
-        internal TriProperty(
+        public TriProperty(
             TriPropertyTree propertyTree,
             TriProperty parent,
             TriPropertyDefinition definition,
@@ -75,26 +75,19 @@ namespace VirtueSky.Inspector
 
         internal TriPropertyDefinition Definition => _definition;
 
-        [PublicAPI]
-        public TriPropertyType PropertyType { get; }
+        [PublicAPI] public TriPropertyType PropertyType { get; }
 
-        [PublicAPI]
-        public TriPropertyTree PropertyTree { get; }
+        [PublicAPI] public TriPropertyTree PropertyTree { get; }
 
-        [PublicAPI]
-        public TriProperty Parent { get; }
+        [PublicAPI] public TriProperty Parent { get; }
 
-        [PublicAPI]
-        public TriProperty Owner => IsArrayElement ? Parent.Owner : Parent;
+        [PublicAPI] public TriProperty Owner => IsArrayElement ? Parent.Owner : Parent;
 
-        [PublicAPI]
-        public bool IsRootProperty => Parent == null;
+        [PublicAPI] public bool IsRootProperty => Parent == null;
 
-        [PublicAPI]
-        public string RawName => _definition.Name;
+        [PublicAPI] public string RawName => _definition.Name;
 
-        [PublicAPI]
-        public string DisplayName => DisplayNameContent.text;
+        [PublicAPI] public string DisplayName => DisplayNameContent.text;
 
         public IEqualityComparer Comparer => TriEqualityComparer.Of(ValueType);
 
@@ -204,17 +197,13 @@ namespace VirtueSky.Inspector
             }
         }
 
-        [PublicAPI]
-        public Type FieldType => _definition.FieldType;
+        [PublicAPI] public Type FieldType => _definition.FieldType;
 
-        [PublicAPI]
-        public Type ArrayElementType => _definition.ArrayElementType;
+        [PublicAPI] public Type ArrayElementType => _definition.ArrayElementType;
 
-        [PublicAPI]
-        public bool IsArrayElement => _definition.IsArrayElement;
+        [PublicAPI] public bool IsArrayElement => _definition.IsArrayElement;
 
-        [PublicAPI]
-        public bool IsArray => _definition.IsArray;
+        [PublicAPI] public bool IsArray => _definition.IsArray;
 
         public int IndexInArray => IsArrayElement
             ? _propertyIndex
@@ -470,7 +459,7 @@ namespace VirtueSky.Inspector
                             _childrenProperties = new List<TriProperty>();
                         }
 
-                        var listSize = ((IList) newValue)?.Count ?? 0;
+                        var listSize = ((IList)newValue)?.Count ?? 0;
 
                         while (_childrenProperties.Count < listSize)
                         {
@@ -588,7 +577,7 @@ namespace VirtueSky.Inspector
                 BuildPropertyPath(property.Parent, sb);
                 sb.Append('.');
             }
-            
+
             if (property.IsArrayElement)
             {
                 sb.Append("Array.data[").Append(property.IndexInArray).Append(']');
@@ -626,7 +615,7 @@ namespace VirtueSky.Inspector
             {
                 case TriPropertyType.Array:
                 {
-                    var list = (IList) newValue;
+                    var list = (IList)newValue;
                     for (var i = 1; i < property.PropertyTree.TargetsCount; i++)
                     {
                         if (list == null)
@@ -634,7 +623,7 @@ namespace VirtueSky.Inspector
                             break;
                         }
 
-                        var otherList = (IList) property.GetValue(i);
+                        var otherList = (IList)property.GetValue(i);
                         if (otherList == null || otherList.Count < list.Count)
                         {
                             newValue = list = otherList;

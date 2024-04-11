@@ -53,7 +53,7 @@ namespace VirtueSky.Inspector
                 memberInfo, ownerType, order, propertyName, propertyType, valueGetter, valueSetter, attributes, false);
         }
 
-        internal static TriPropertyDefinition CreateForGetterSetter(
+        public static TriPropertyDefinition CreateForGetterSetter(
             int order, string name, Type fieldType,
             ValueGetterDelegate valueGetter, ValueSetterDelegate valueSetter)
         {
@@ -101,6 +101,10 @@ namespace VirtueSky.Inspector
             if (Attributes.TryGet(out PropertyTooltipAttribute tooltipAttribute))
             {
                 CustomTooltip = ValueResolver.ResolveString(this, tooltipAttribute.Tooltip);
+            }
+            else if (Attributes.TryGet(out TooltipAttribute unityTooltipAttribute))
+            {
+                CustomTooltip = new ConstantValueResolver<string>(unityTooltipAttribute.tooltip);
             }
         }
 
@@ -196,12 +200,12 @@ namespace VirtueSky.Inspector
 
                     var elementGetter = new ValueGetterDelegate((self, targetIndex) =>
                     {
-                        var parentValue = (IList) self.Parent.GetValue(targetIndex);
+                        var parentValue = (IList)self.Parent.GetValue(targetIndex);
                         return parentValue[self.IndexInArray];
                     });
                     var elementSetter = new ValueSetterDelegate((self, targetIndex, value) =>
                     {
-                        var parentValue = (IList) self.Parent.GetValue(targetIndex);
+                        var parentValue = (IList)self.Parent.GetValue(targetIndex);
                         parentValue[self.IndexInArray] = value;
                         return parentValue;
                     });
@@ -266,7 +270,7 @@ namespace VirtueSky.Inspector
                 .Concat(TriDrawersUtilities.CreateAttributeDrawersFor(FieldType, Attributes))
                 .Concat(new[]
                 {
-                    new ValidatorsDrawer {Order = TriDrawerOrder.Validator,},
+                    new ValidatorsDrawer { Order = TriDrawerOrder.Validator, },
                 })
                 .Where(CanApplyExtensionOnSelf)
                 .OrderBy(it => it.Order)
@@ -313,7 +317,7 @@ namespace VirtueSky.Inspector
             return (self, targetIndex, value) =>
             {
                 var parentValue = self.Parent.GetValue(targetIndex);
-                method.Invoke(parentValue, new[] {value,});
+                method.Invoke(parentValue, new[] { value, });
                 return parentValue;
             };
         }

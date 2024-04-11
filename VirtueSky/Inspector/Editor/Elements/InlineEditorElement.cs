@@ -1,5 +1,4 @@
-﻿using VirtueSky.Inspector.Utilities;
-using VirtueSky.InspectorUnityInternalBridge;
+﻿using VirtueSky.InspectorUnityInternalBridge;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,25 +7,27 @@ namespace VirtueSky.Inspector.Elements
     public class InlineEditorElement : TriElement
     {
         private readonly TriProperty _property;
+        private readonly Props _props;
         private Editor _editor;
         private Rect _editorPosition;
         private bool _dirty;
 
-        public InlineEditorElement(TriProperty property)
+        [System.Serializable]
+        public struct Props
         {
-            _property = property;
-            _editorPosition = Rect.zero;
+            public InlineEditorModes mode;
+            public float previewHeight;
+
+            public bool DrawGUI => (mode & InlineEditorModes.GUIOnly) != 0;
+            public bool DrawHeader => (mode & InlineEditorModes.Header) != 0;
+            public bool DrawPreview => (mode & InlineEditorModes.Preview) != 0;
         }
 
-        protected override void OnAttachToPanel()
+        public InlineEditorElement(TriProperty property, Props props = default)
         {
-            base.OnAttachToPanel();
-
-            var target = _property.Value as Object;
-            if (target != null && !InternalEditorUtilityProxy.GetIsInspectorExpanded(target))
-            {
-                InternalEditorUtilityProxy.SetIsInspectorExpanded(target, true);
-            }
+            _property = property;
+            _props = props;
+            _editorPosition = Rect.zero;
         }
 
         protected override void OnDetachFromPanel()
@@ -83,13 +84,59 @@ namespace VirtueSky.Inspector.Elements
             if (_editor == null && shouldDrawEditor && _property.Value is Object obj && obj != null)
             {
                 _editor = Editor.CreateEditor(obj);
+
+                if (!InternalEditorUtilityProxy.GetIsInspectorExpanded(obj))
+                {
+                    InternalEditorUtilityProxy.SetIsInspectorExpanded(obj, true);
+                }
             }
 
             if (_editor != null && shouldDrawEditor)
             {
                 GUILayout.BeginArea(_editorPosition);
                 GUILayout.BeginVertical();
-                _editor.OnInspectorGUI();
+
+                if (_props.DrawHeader || _props.DrawGUI)
+                {
+                    GUILayout.BeginVertical();
+
+                    if (_props.DrawHeader)
+                    {
+                        GUILayout.BeginVertical();
+                        _editor.DrawHeader();
+                        GUILayout.EndVertical();
+                    }
+
+                    if (_props.DrawGUI)
+                    {
+                        GUILayout.BeginVertical();
+                        _editor.OnInspectorGUI();
+                        GUILayout.EndVertical();
+                    }
+
+                    GUILayout.EndVertical();
+                }
+
+                if (_props.DrawPreview && _editor.HasPreviewGUI())
+                {
+                    GUILayout.BeginVertical();
+
+                    var previewOpts = new[] {GUILayout.ExpandWidth(true), GUILayout.Height(_props.previewHeight),};
+                    var previewRect = EditorGUILayout.GetControlRect(false, _props.previewHeight, previewOpts);
+
+                    previewRect.width = Mathf.Max(previewRect.width, 10);
+                    previewRect.height = Mathf.Max(previewRect.height, 10);
+
+                    var guiEnabled = GUI.enabled;
+                    GUI.enabled = true;
+
+                    _editor.DrawPreview(previewRect);
+
+                    GUI.enabled = guiEnabled;
+
+                    GUILayout.EndVertical();
+                }
+
                 GUILayout.EndVertical();
                 lastEditorRect = GUILayoutUtility.GetLastRect();
                 GUILayout.EndArea();

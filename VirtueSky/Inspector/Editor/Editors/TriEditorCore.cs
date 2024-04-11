@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VirtueSky.Inspector;
 using VirtueSky.Inspector.Utilities;
 using UnityEditor;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace VirtueSky.Inspector.Editors
 {
     public class TriEditorCore
     {
-        internal static readonly Dictionary<TriPropertyTree, VisualElement> UiElementsRoots
+        public static readonly Dictionary<TriPropertyTree, VisualElement> UiElementsRoots
             = new Dictionary<TriPropertyTree, VisualElement>();
 
         private readonly Editor _editor;

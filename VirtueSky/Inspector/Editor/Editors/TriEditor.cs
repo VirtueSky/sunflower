@@ -7,14 +7,20 @@ namespace VirtueSky.Inspector.Editors
     {
         private TriEditorCore _core;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             _core = new TriEditorCore(this);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             _core.Dispose();
+        }
+
+
+        public override void OnInspectorGUI()
+        {
+            _core.OnInspectorGUI();
         }
 
         public override VisualElement CreateInspectorGUI()

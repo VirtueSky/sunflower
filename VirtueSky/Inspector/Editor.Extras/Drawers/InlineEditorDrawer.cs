@@ -30,7 +30,11 @@ namespace VirtueSky.Inspector.Drawers
                 titleMode = TriBoxGroupElement.TitleMode.Hidden,
             });
             element.AddChild(new ObjectReferenceFoldoutDrawerElement(property));
-            element.AddChild(new InlineEditorElement(property));
+            element.AddChild(new InlineEditorElement(property, new InlineEditorElement.Props
+            {
+                mode = Attribute.Mode,
+                previewHeight = Attribute.PreviewHeight,
+            }));
             return element;
         }
 

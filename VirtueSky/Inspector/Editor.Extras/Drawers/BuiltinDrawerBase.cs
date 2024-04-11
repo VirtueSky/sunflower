@@ -36,7 +36,7 @@ namespace VirtueSky.Inspector.Drawers
 
             if (EditorGUI.EndChangeCheck())
             {
-                propertyValue.SmartValue = value;
+                propertyValue.SetValue(value);
             }
         }
 

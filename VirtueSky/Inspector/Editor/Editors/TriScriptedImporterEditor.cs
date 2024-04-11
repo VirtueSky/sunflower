@@ -1,7 +1,12 @@
 ﻿using VirtueSky.InspectorUnityInternalBridge;
 using UnityEditor;
-using UnityEditor.AssetImporters;
 using UnityEngine.UIElements;
+
+#if UNITY_2020_2_OR_NEWER
+using UnityEditor.AssetImporters;
+#else
+using UnityEditor.Experimental.AssetImporters;
+#endif
 
 namespace VirtueSky.Inspector.Editors
 {
@@ -23,6 +28,13 @@ namespace VirtueSky.Inspector.Editors
             _core.Dispose();
 
             base.OnDisable();
+        }
+
+        public override void OnInspectorGUI()
+        {
+            _core.OnInspectorGUI();
+
+            ApplyRevertGUI();
         }
 
         public override VisualElement CreateInspectorGUI()

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace VirtueSky.Inspector.Elements
 {
-    internal class TriUiToolkitPropertyElement : TriElement
+    public class TriUiToolkitPropertyElement : TriElement
     {
         private readonly SerializedProperty _serializedProperty;
 

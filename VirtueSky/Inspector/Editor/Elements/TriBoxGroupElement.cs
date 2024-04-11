@@ -18,7 +18,7 @@ namespace VirtueSky.Inspector.Elements
         private bool _expanded;
 
         [Serializable]
-        public struct Props
+        public new struct Props
         {
             public string title;
             public TitleMode titleMode;

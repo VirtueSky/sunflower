@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace VirtueSky.Inspector.Elements
 {
-    internal class TriBuiltInPropertyElement : TriElement
+    public class TriBuiltInPropertyElement : TriElement
     {
         private readonly TriProperty _property;
         private readonly PropertyHandlerProxy _propertyHandler;

@@ -33,5 +33,11 @@ namespace VirtueSky.Inspector
                 Property.SetValue(value);
             }
         }
+
+        [PublicAPI]
+        public void SetValue(T value)
+        {
+            Property.SetValue(value);
+        }
     }
 }

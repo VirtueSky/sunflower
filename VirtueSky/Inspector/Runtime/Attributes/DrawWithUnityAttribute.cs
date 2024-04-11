@@ -7,5 +7,6 @@ namespace VirtueSky.Inspector
     [Conditional("UNITY_EDITOR")]
     public class DrawWithUnityAttribute : Attribute
     {
+        public bool WithUiToolkit { get; set; }
     }
 }
