@@ -13,6 +13,7 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdmobRewardVariable : AdUnitVariable
     {
+        public bool useTestId;
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
 #if VIRTUESKY_ADS && ADS_ADMOB
@@ -20,6 +21,10 @@ namespace VirtueSky.Ads
 #endif
         public override void Init()
         {
+            if (useTestId)
+            {
+                GetUnitTest();
+            }
         }
 
         public bool IsEarnRewarded { get; private set; }
@@ -143,7 +148,6 @@ namespace VirtueSky.Ads
         }
 #endif
 
-#if UNITY_EDITOR
         [ContextMenu("Get Id test")]
         void GetUnitTest()
         {
@@ -153,6 +157,5 @@ namespace VirtueSky.Ads
             iOSId = "ca-app-pub-3940256099942544/1712485313";
 #endif
         }
-#endif
     }
 }

@@ -25,6 +25,12 @@ namespace VirtueSky.Ads
             // https://developers.google.com/admob/unity/quick-start#raise_ad_events_on_the_unity_main_thread
             MobileAds.RaiseAdEventsOnUnityMainThread = true;
 
+            adSetting.AdmobBannerVariable.Init();
+            adSetting.AdmobInterVariable.Init();
+            adSetting.AdmobRewardVariable.Init();
+            adSetting.AdmobRewardInterVariable.Init();
+            adSetting.AdmobAppOpenVariable.Init();
+
             MobileAds.Initialize(initStatus =>
             {
                 App.RunOnMainThread(() =>

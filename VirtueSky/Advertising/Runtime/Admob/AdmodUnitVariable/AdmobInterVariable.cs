@@ -13,12 +13,17 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdmobInterVariable : AdUnitVariable
     {
+        public bool useTestId;
         [NonSerialized] internal Action completedCallback;
 #if VIRTUESKY_ADS && ADS_ADMOB
         private InterstitialAd _interstitialAd;
 #endif
         public override void Init()
         {
+            if (useTestId)
+            {
+                GetUnitTest();
+            }
         }
 
         public override void Load()
@@ -126,7 +131,7 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref failedToLoadCallback);
         }
 #endif
-#if UNITY_EDITOR
+
         [ContextMenu("Get Id test")]
         void GetUnitTest()
         {
@@ -136,6 +141,5 @@ namespace VirtueSky.Ads
             iOSId = "ca-app-pub-3940256099942544/4411468910";
 #endif
         }
-#endif
     }
 }

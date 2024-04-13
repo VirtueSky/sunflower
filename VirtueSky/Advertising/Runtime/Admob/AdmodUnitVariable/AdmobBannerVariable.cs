@@ -17,6 +17,7 @@ namespace VirtueSky.Ads
         public BannerSize size = BannerSize.Adaptive;
         public BannerPosition position = BannerPosition.Bottom;
         public bool useCollapsible;
+        public bool useTestId;
 #if VIRTUESKY_ADS && ADS_ADMOB
         private BannerView _bannerView;
 #endif
@@ -26,6 +27,10 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
+            if (useTestId)
+            {
+                GetUnitTest();
+            }
         }
 
         public override void Load()
@@ -158,7 +163,7 @@ namespace VirtueSky.Ads
             Load();
         }
 #endif
-#if UNITY_EDITOR
+
         [ContextMenu("Get Id test")]
         void GetUnitTest()
         {
@@ -168,6 +173,5 @@ namespace VirtueSky.Ads
             iOSId = "ca-app-pub-3940256099942544/2934735716";
 #endif
         }
-#endif
     }
 }

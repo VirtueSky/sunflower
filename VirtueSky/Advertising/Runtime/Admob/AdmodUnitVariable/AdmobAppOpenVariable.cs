@@ -13,6 +13,7 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdmobAppOpenVariable : AdUnitVariable
     {
+        public bool useTestId;
 #if VIRTUESKY_ADS && ADS_ADMOB
         private AppOpenAd _appOpenAd;
 #endif
@@ -20,6 +21,10 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
+            if (useTestId)
+            {
+                GetUnitTest();
+            }
         }
 
         public override void Load()
@@ -123,7 +128,7 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref failedToLoadCallback);
         }
 #endif
-#if UNITY_EDITOR
+
         [ContextMenu("Get Id test")]
         void GetUnitTest()
         {
@@ -133,6 +138,5 @@ namespace VirtueSky.Ads
             iOSId = "ca-app-pub-3940256099942544/5662855259";
 #endif
         }
-#endif
     }
 }
