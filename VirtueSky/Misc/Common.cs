@@ -175,6 +175,11 @@ namespace VirtueSky.Misc
 
         private static IEnumerator internetConnectionCoroutine;
 
+        public static void StopCheckInternetConnection()
+        {
+            App.StopCoroutine(internetConnectionCoroutine);
+        }
+
         public static void CheckInternetConnection(Action actionConnected, Action actionDisconnected)
         {
             if (internetConnectionCoroutine != null) App.StopCoroutine(internetConnectionCoroutine);
@@ -195,7 +200,14 @@ namespace VirtueSky.Misc
         public static IEnumerator InternetConnection(Action<bool> action)
         {
             bool result;
-            using (UnityWebRequest request = UnityWebRequest.Head("http://google.com"))
+            string url = "http://google.com";
+#if UNITY_ANDROID
+            url = "http://google.com";
+#elif UNITY_IOS
+            url = "https://captive.apple.com/hotspot-detect.html";
+#endif
+
+            using (UnityWebRequest request = UnityWebRequest.Head(url))
             {
                 yield return request.SendWebRequest();
                 result = !request.isNetworkError && !request.isHttpError && request.responseCode == 200 &&
@@ -207,6 +219,7 @@ namespace VirtueSky.Misc
         }
 
         #endregion
+
         /// <summary>
         /// Attach a DelayHandle on to the behaviour. If the behaviour is destroyed before the DelayHandle is completed,
         /// e.g. through a scene change, the DelayHandle callback will not execute.
