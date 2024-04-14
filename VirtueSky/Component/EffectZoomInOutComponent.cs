@@ -37,7 +37,7 @@ namespace VirtueSky.Component
             App.Delay(timeDelay * (delay ? 1 : 0),
                 () =>
                 {
-                    transform.Scale(
+                    tween = transform.Scale(
                         new Vector3(currentScale.x + offsetScale, currentScale.y + offsetScale,
                             currentScale.z + offsetScale), timeScale, ease).OnComplete(() =>
                     {
