@@ -22,14 +22,30 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        public GameObject Spawn(Transform parent = null, bool initialize = true)
+        public GameObject Spawn(Transform parent = null, bool worldPositionStays = true, bool initialize = true)
         {
-            return pools.Spawn(prefab, parent, initialize);
+            return pools.Spawn(prefab, parent, worldPositionStays, initialize);
         }
 
-        public T Spawn<T>(Transform parent = null, bool initialize = true) where T : Component
+
+        public T Spawn<T>(Transform parent = null, bool worldPositionStays = true, bool initialize = true)
+            where T : Component
         {
-            return pools.Spawn(prefab, parent, initialize).GetComponent<T>();
+            return pools.Spawn(prefab, parent, worldPositionStays, initialize).GetComponent<T>();
+        }
+
+        public GameObject Spawn(Vector3 position, Quaternion rotation, Transform parent = null,
+            bool worldPositionStays = true,
+            bool initialize = true)
+        {
+            return pools.Spawn(prefab, position, rotation, parent, worldPositionStays, initialize);
+        }
+
+        public T Spawn<T>(Vector3 position, Quaternion rotation, Transform parent = null,
+            bool worldPositionStays = true, bool initialize = true)
+            where T : Component
+        {
+            return pools.Spawn(prefab, position, rotation, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
         public void DeSpawn(GameObject gameObject)

@@ -58,7 +58,8 @@ namespace VirtueSky.ObjectPooling
             DeSpawn(gameObject, false);
         }
 
-        public void DeSpawn(GameObject gameObject, bool destroy = false)
+
+        public void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
         {
             var id = gameObject.GetComponent<PooledObjectId>();
             if (id == null)
@@ -94,7 +95,7 @@ namespace VirtueSky.ObjectPooling
             else
             {
                 gameObject.SetActive(false);
-                gameObject.transform.parent = container;
+                gameObject.transform.SetParent(container, worldPositionStays);
                 stack.Enqueue(gameObject);
             }
         }
@@ -135,12 +136,14 @@ namespace VirtueSky.ObjectPooling
             waitPool.Clear();
         }
 
-        public T Spawn<T>(T type, Transform parent = null, bool initialize = true) where T : Component
+        public T Spawn<T>(T type, Transform parent = null, bool worldPositionStays = true, bool initialize = true)
+            where T : Component
         {
-            return Spawn(type.gameObject, parent, initialize).GetComponent<T>();
+            return Spawn(type.gameObject, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
-        public GameObject Spawn(GameObject prefab, Transform parent = null, bool initialize = true)
+        public GameObject Spawn(GameObject prefab, Transform parent = null, bool worldPositionStays = true,
+            bool initialize = true)
         {
             if (!waitPool.ContainsKey(prefab))
             {
@@ -155,7 +158,51 @@ namespace VirtueSky.ObjectPooling
 
             var gameObject = stack.Dequeue();
 
-            gameObject.transform.parent = parent;
+            gameObject.transform.SetParent(parent, worldPositionStays);
+
+            if (parent == null)
+            {
+                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+            }
+
+            gameObject.SetActive(true);
+
+            if (initialize)
+            {
+                InitializeObj(gameObject);
+            }
+
+            activePool.AddLast(gameObject);
+
+            return gameObject;
+        }
+
+        public T Spawn<T>(T type, Vector3 position, Quaternion rotation, Transform parent = null,
+            bool worldPositionStays = true, bool initialize = true)
+            where T : Component
+        {
+            return Spawn(type.gameObject, position, rotation, parent, worldPositionStays, initialize).GetComponent<T>();
+        }
+
+        public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null,
+            bool worldPositionStays = true,
+            bool initialize = true)
+        {
+            if (!waitPool.ContainsKey(prefab))
+            {
+                waitPool.Add(prefab, new Queue<GameObject>());
+            }
+
+            var stack = waitPool[prefab];
+            if (stack.Count == 0)
+            {
+                SpawnNew(prefab);
+            }
+
+            var gameObject = stack.Dequeue();
+
+            gameObject.transform.SetParent(parent, worldPositionStays);
+            gameObject.transform.SetPositionAndRotation(position, rotation);
 
             if (parent == null)
             {
