@@ -88,7 +88,7 @@ namespace VirtueSky.Audio
             float durationOut,
             float durationIn)
         {
-            if (isMusicFadeVolume)
+            if (isMusicFadeVolume && volume != 0)
             {
                 if (audioSource.isPlaying)
                 {
