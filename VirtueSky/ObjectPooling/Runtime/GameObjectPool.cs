@@ -48,9 +48,9 @@ namespace VirtueSky.ObjectPooling
             return pools.Spawn(prefab, position, rotation, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
-        public void DeSpawn(GameObject gameObject)
+        public void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
         {
-            pools.DeSpawn(gameObject);
+            pools.DeSpawn(gameObject, destroy, worldPositionStays);
         }
 
 #if UNITY_EDITOR
