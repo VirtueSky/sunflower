@@ -18,6 +18,11 @@
             "name": "com.unity.serialization",
             "expression": "3.1.1",
             "define": "UNITY_SERIALIZATION"
+        },
+        {
+            "name": "com.unity.collections",
+            "expression": "2.1.4",
+            "define": "UNITY_SERIALIZATION"
         }
     ],
     "noEngineReferences": false
