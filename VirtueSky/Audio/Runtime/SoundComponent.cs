@@ -84,16 +84,25 @@ namespace VirtueSky.Audio
             App.Delay(this, remainingTime, OnCompletedInvoke);
         }
 
-        internal void FadePlayMusic(AudioClip audioClip, bool isLooping, float volume, float durationOut,
+        internal void FadePlayMusic(AudioClip audioClip, bool isLooping, float volume, bool isMusicFadeVolume,
+            float durationOut,
             float durationIn)
         {
-            if (audioSource.isPlaying)
+            if (isMusicFadeVolume)
             {
-                FadeOutVolumeMusic(durationOut, () => { FadeInVolumeMusic(audioClip, isLooping, volume, durationIn); });
+                if (audioSource.isPlaying)
+                {
+                    FadeOutVolumeMusic(durationOut,
+                        () => { FadeInVolumeMusic(audioClip, isLooping, volume, durationIn); });
+                }
+                else
+                {
+                    FadeInVolumeMusic(audioClip, isLooping, volume, durationIn);
+                }
             }
             else
             {
-                FadeInVolumeMusic(audioClip, isLooping, volume, durationIn);
+                PlayAudioClip(audioClip, isLooping, volume);
             }
         }
 
