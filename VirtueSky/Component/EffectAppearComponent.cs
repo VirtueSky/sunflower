@@ -30,5 +30,11 @@ namespace VirtueSky.Component
             if (!gameObject.activeInHierarchy) return;
             _tween = Tween.Scale(transform, CurrentScale, TimeScale, ease).OnComplete(() => { _tween.Stop(); });
         }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            _tween.Stop();
+        }
     }
 }
