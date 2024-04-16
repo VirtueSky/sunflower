@@ -11,6 +11,9 @@ namespace VirtueSky.Component
     public class HandleAnimancerComponent : MonoBehaviour
     {
         [SerializeField] private AnimancerComponent animancerComponent;
+        public AnimancerComponent AnimancerComponent => animancerComponent;
+
+        public bool IsPlaying(ClipTransition clip) => animancerComponent.IsPlaying(clip);
 
         public void PlayAnim(ClipTransition clip, Action _endAnim = null, float _durationFade = .2f,
             bool isCheckPlayingClip = true,
