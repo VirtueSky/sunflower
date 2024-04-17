@@ -1,4 +1,4 @@
-#if PRIME_TWEEN_SAFETY_CHECKS && UNITY_ASSERTIONS && UNITY_2019_4_OR_NEWER
+#if PRIME_TWEEN_SAFETY_CHECKS && UNITY_ASSERTIONS
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,37 @@ namespace PrimeTween {
     internal static class StackTraces {
         static readonly List<int> idToHash = new List<int>(1000);
         static readonly Dictionary<int, List<byte[]>> hashToTraces = new Dictionary<int, List<byte[]>>(100);
-        
+        static bool didWarn;
+
         /// https://github.com/Unity-Technologies/UnityCsReference/blob/6230ef8f9bed142ddf6a5e338d6e0faf3368d313/Runtime/Export/Scripting/StackTrace.cs#L31-L47
         internal static unsafe void Record(int id) {
+            if (!didWarn && ENABLE_IL2CPP) {
+                didWarn = true;
+                Debug.LogWarning("PRIME_TWEEN_SAFETY_CHECKS is used in IL2CPP build, which has negative performance impact in Development Builds. " +
+                                 "Please remove the PRIME_TWEEN_SAFETY_CHECKS from 'Project Settings/Player/Scripting Define Symbols' if you no longer need deep debugging support.");
+            }
             if (id == 1) {
                 idToHash.Clear();
                 idToHash.Add(0);
             }
-            const int maxLength = 16 * 1024;
-            byte* buf = stackalloc byte[maxLength];
-            int len = Debug.ExtractStackTraceNoAlloc(buf, maxLength, Application.dataPath);
-            Assert.IsTrue(len > 0);
+            const int bufLength = 16 * 1024;
+            byte* buf = stackalloc byte[bufLength];
+            int len;
+            #if UNITY_2019_4_OR_NEWER
+            len = Debug.ExtractStackTraceNoAlloc(buf, bufLength, Application.dataPath);
+            #else
+            Fallback();
+            #endif
+            if (len <= 0) {
+                // ExtractStackTraceNoAlloc() doesn't work with IL2CPP, so use the allocating version instead
+                Fallback();
+            }
+            void Fallback() {
+                string trace = StackTraceUtility.ExtractStackTrace();
+                fixed (char* chars = trace) {
+                    Encoding.UTF8.GetEncoder().Convert(chars, trace.Length, buf, bufLength, true, out _, out len, out _);
+                }
+            }
             int hash = ComputeHash(buf, len);
             Assert.AreEqual(id, idToHash.Count);
             idToHash.Add(hash);
@@ -31,13 +51,23 @@ namespace PrimeTween {
             } else {
                 hashToTraces.Add(hash, new List<byte[]> { BufToArray() });
             }
-            
+
             byte[] BufToArray() {
                 var result = new byte[len];
                 for (int i = 0; i < len; i++) {
                     result[i] = buf[i];
                 }
                 return result;
+            }
+        }
+
+        static bool ENABLE_IL2CPP {
+            get {
+                #if ENABLE_IL2CPP
+                return true;
+                #else
+                return false;
+                #endif
             }
         }
 
@@ -60,7 +90,7 @@ namespace PrimeTween {
             }
             return false;
         }
-        
+
         /// https://stackoverflow.com/a/468084
         static unsafe int ComputeHash(byte* data, int length) {
             unchecked {

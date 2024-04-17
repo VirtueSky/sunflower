@@ -81,7 +81,8 @@ namespace PrimeTween {
             return _isAlive;
         }
 
-        internal bool isUpdating;
+        bool isUpdating; // todo place this check only calls that come from public API
+
         internal void SetElapsedTimeTotal(float newElapsedTimeTotal, bool earlyExitSequenceIfPaused = true) {
             if (isUpdating) {
                 Debug.LogError(Constants.recursiveCallError);
@@ -212,7 +213,7 @@ namespace PrimeTween {
 
         bool isDone(int cyclesDiff) {
             Assert.IsTrue(settings.cycles == -1 || cyclesDone <= settings.cycles);
-            if (timeScale >= 0f) {
+            if (timeScale > 0f) {
                 return cyclesDiff > 0 && cyclesDone == settings.cycles;
             }
             return cyclesDiff < 0 && cyclesDone == iniCyclesDone;
@@ -234,8 +235,9 @@ namespace PrimeTween {
 
         void setElapsedTimeTotal(float _elapsedTimeTotal, out int cyclesDiff) {
             elapsedTimeTotal = _elapsedTimeTotal;
-            float t = calcTFromElapsedTimeTotal(_elapsedTimeTotal, out cyclesDiff, out var newState);
-            cyclesDone += cyclesDiff;
+            int oldCyclesDone = cyclesDone;
+            float t = calcTFromElapsedTimeTotal(_elapsedTimeTotal, out var newState);
+            cyclesDiff = cyclesDone - oldCyclesDone;
             if (newState == State.Running || state != newState) {
                 if (isUnityTargetDestroyed()) {
                     EmergencyStop(true);
@@ -248,21 +250,20 @@ namespace PrimeTween {
             }
         }
 
-        float calcTFromElapsedTimeTotal(float _elapsedTimeTotal, out int cyclesDiff, out State newState) {
+        float calcTFromElapsedTimeTotal(float _elapsedTimeTotal, out State newState) {
             // key timeline points: 0 | startDelay | duration | 1 | endDelay | onComplete
             var cyclesTotal = settings.cycles;
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (_elapsedTimeTotal == float.MaxValue) {
                 Assert.AreNotEqual(-1, cyclesTotal);
-                var cyclesLeft = cyclesTotal - cyclesDone;
-                Assert.IsTrue(cyclesLeft >= 0);
-                cyclesDiff = cyclesLeft;
+                Assert.IsTrue(cyclesDone <= cyclesTotal);
+                cyclesDone = cyclesTotal;
                 newState = State.After;
                 return 1f;
             }
             _elapsedTimeTotal -= waitDelay; // waitDelay is applied before calculating cycles
             if (_elapsedTimeTotal < 0f) {
-                cyclesDiff = iniCyclesDone - cyclesDone;
+                cyclesDone = iniCyclesDone;
                 newState = State.Before;
                 return 0f;
             }
@@ -271,33 +272,44 @@ namespace PrimeTween {
             var duration = settings.duration;
             if (duration == 0f) {
                 if (cyclesTotal == -1) {
-                    cyclesDiff = cyclesDone == iniCyclesDone ? 2 : 1;
+                    // add max one cycle per frame
+                    if (timeScale > 0f) {
+                        if (cyclesDone == iniCyclesDone) {
+                            cyclesDone = 1;
+                        } else {
+                            cyclesDone++;
+                        }
+                    } else if (timeScale != 0f) {
+                        cyclesDone--;
+                        if (cyclesDone == iniCyclesDone) {
+                            newState = State.Before;
+                            return 0f;
+                        }
+                    }
                     newState = State.Running;
                     return 1f;
                 }
                 Assert.AreNotEqual(-1, cyclesTotal);
                 if (_elapsedTimeTotal == 0f) {
-                    cyclesDiff = iniCyclesDone - cyclesDone;
+                    cyclesDone = iniCyclesDone;
                     newState = State.Before;
                     return 0f;
                 }
-                var cyclesLeft = cyclesTotal - cyclesDone;
-                Assert.IsTrue(cyclesLeft >= 0);
-                cyclesDiff = cyclesLeft;
+                Assert.IsTrue(cyclesDone <= cyclesTotal);
+                cyclesDone = cyclesTotal;
                 newState = State.After;
                 return 1f;
             }
             Assert.AreNotEqual(0f, cycleDuration);
-            var newCyclesDone = (int) (_elapsedTimeTotal / cycleDuration);
-            if (cyclesTotal != -1 && newCyclesDone > cyclesTotal) {
-                newCyclesDone = cyclesTotal;
+            cyclesDone = (int) (_elapsedTimeTotal / cycleDuration);
+            if (cyclesTotal != -1 && cyclesDone > cyclesTotal) {
+                cyclesDone = cyclesTotal;
             }
-            cyclesDiff = newCyclesDone - cyclesDone;
-            if (cyclesTotal != -1 && cyclesDone + cyclesDiff == cyclesTotal) {
+            if (cyclesTotal != -1 && cyclesDone == cyclesTotal) {
                 newState = State.After;
                 return 1f;
             }
-            var elapsedTimeInCycle = _elapsedTimeTotal - cycleDuration * newCyclesDone - settings.startDelay;
+            var elapsedTimeInCycle = _elapsedTimeTotal - cycleDuration * cyclesDone - settings.startDelay;
             if (elapsedTimeInCycle < 0f) {
                 newState = State.Before;
                 return 0f;
@@ -314,9 +326,7 @@ namespace PrimeTween {
             return result;
         }
 
-        /*void print(object msg) {
-            Debug.Log($"[{Time.frameCount}]  id {id}  {msg}");
-        }*/
+        // void print(object msg) => Debug.Log($"[{Time.frameCount}]  id {id}  {msg}");
 
         internal void Reset() {
             Assert.IsFalse(isUpdating);
@@ -401,6 +411,7 @@ namespace PrimeTween {
             Assert.LogError($"Tween's onComplete callback raised exception, tween: {GetDescription()}, exception:\n{e}\n", id, target as UnityEngine.Object);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         static bool isDestroyedUnityObject<T>(T obj) where T: class => obj is UnityEngine.Object unityObject && unityObject == null;
 
         void validateOnCompleteAssignment() {
@@ -517,6 +528,7 @@ namespace PrimeTween {
                 result += " - ";
             }
             if (target != PrimeTweenManager.dummyTarget) {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 result += $"{(target is UnityEngine.Object unityObject && unityObject != null ? unityObject.name : target?.GetType().Name)} / ";
             }
             var duration = settings.duration;
@@ -610,40 +622,34 @@ namespace PrimeTween {
         internal Quaternion QuaternionVal => Quaternion.SlerpUnclamped(startValue.QuaternionVal, endValue.QuaternionVal, easedInterpolationFactor);
 
         float calcEasedT(float t, int cyclesDone) {
-            var cycleMode = settings.cycleMode;
-            var cyclesTotal = settings.cycles;
-            if (cyclesDone == cyclesTotal) {
-                // Debug.Log("cyclesDone == cyclesTotal");
-                Assert.AreNotEqual(-1, cyclesTotal);
-                switch (cycleMode) {
-                    case CycleMode.Restart:
-                        return evaluate(1f);
-                    case CycleMode.Yoyo:
-                    case CycleMode.Rewind:
-                        return evaluate(cyclesTotal % 2);
-                    case CycleMode.Incremental:
-                        return cyclesTotal;
-                    default:
-                        throw new Exception();
+            switch (settings.cycleMode) {
+                case CycleMode.Restart:
+                    return evaluate(t);
+                case CycleMode.Incremental:
+                    return evaluate(t) + clampCyclesDone();
+                case CycleMode.Yoyo: {
+                    var isForwardCycle = clampCyclesDone() % 2 == 0;
+                    return isForwardCycle ? evaluate(t) : 1 - evaluate(t);
                 }
+                case CycleMode.Rewind: {
+                    var isForwardCycle = clampCyclesDone() % 2 == 0;
+                    return isForwardCycle ? evaluate(t) : evaluate(1 - t);
+                }
+                default:
+                    throw new Exception();
             }
-            if (cycleMode == CycleMode.Restart) {
-                return evaluate(t);
+
+            int clampCyclesDone() {
+                if (cyclesDone == iniCyclesDone) {
+                    return 0;
+                }
+                int cyclesTotal = settings.cycles;
+                if (cyclesDone == cyclesTotal) {
+                    Assert.AreNotEqual(-1, cyclesTotal);
+                    return cyclesTotal - 1;
+                }
+                return cyclesDone;
             }
-            if (cycleMode == CycleMode.Incremental) {
-                return evaluate(t) + cyclesDone;
-            }
-            var isForwardCycle = cyclesDone % 2 == 0;
-            if (isForwardCycle) {
-                return evaluate(t);
-            }
-            if (cycleMode == CycleMode.Yoyo) {
-                return 1 - evaluate(t);
-            }
-            if (cycleMode == CycleMode.Rewind) {
-                return evaluate(1 - t);
-            }
-            throw new Exception();
         }
 
         float evaluate(float t) {

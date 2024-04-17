@@ -194,7 +194,11 @@ namespace PrimeTween {
             get => tryManipulate() && tween._isPaused;
             set {
                 if (tryManipulate() && tween.trySetPause(value)) {
-                    if (!value && cyclesDone == cyclesTotal) {
+                    if (value) {
+                        return;
+                    }
+                    if ((timeScale > 0 && progressTotal >= 1f) ||
+                        (timeScale < 0 && progressTotal == 0f)) {
                         if (tween.isMainSequenceRoot()) {
                             tween.sequence.releaseTweens();
                         } else {

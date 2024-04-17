@@ -78,6 +78,11 @@ namespace PrimeTween {
             w = val.w;
         }
 
+        internal void CopyFrom(ref double val) {
+            Reset();
+            DoubleVal = val;
+        }
+
         internal void Reset() {
             x = y = z = w = 0f;
         }

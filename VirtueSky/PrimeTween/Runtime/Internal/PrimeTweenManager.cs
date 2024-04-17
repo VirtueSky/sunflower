@@ -327,7 +327,7 @@ namespace PrimeTween {
                     Debug.LogWarning($"Tween is started on GameObject that is not active in hierarchy: {comp.name}. {Constants.buildWarningCanBeDisabledMessage(nameof(warnTweenOnDisabledTarget))}", comp);
                 }
             }
-            #if SAFETY_CHECKS && UNITY_2019_4_OR_NEWER
+            #if SAFETY_CHECKS
             // Debug.Log($"[frame:{Time.frameCount}] created: {tween.GetDescription()}", tween.unityTarget);
             StackTraces.Record(tween.id);
             #endif

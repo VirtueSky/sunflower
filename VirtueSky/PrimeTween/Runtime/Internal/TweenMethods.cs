@@ -51,7 +51,7 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.propType = PropType.Double;
+            tween.setPropType(PropType.Double);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<Double>;
@@ -89,7 +89,7 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.propType = PropType.Double;
+            tween.setPropType(PropType.Double);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {

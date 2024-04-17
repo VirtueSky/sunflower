@@ -6,15 +6,15 @@ namespace PrimeTween {
         internal static void LogError(string msg, int id, [CanBeNull] Object context = null) {
             Debug.LogError(TryAddStackTrace(msg, id), context);
         }
-        
+
         internal static void LogWarning(string msg, int id, [CanBeNull] Object context = null) {
             Debug.LogWarning(TryAddStackTrace(msg, id), context);
         }
 
         [CanBeNull, PublicAPI]
         static string TryAddStackTrace([CanBeNull] string msg, int tweenId) {
-            #if UNITY_ASSERTIONS && UNITY_2019_4_OR_NEWER
-                #if PRIME_TWEEN_SAFETY_CHECKS 
+            #if UNITY_ASSERTIONS
+                #if PRIME_TWEEN_SAFETY_CHECKS
                 if (tweenId == 0) {
                     msg += "\nTween is not created (id == 0).\n";
                 } else {
@@ -26,7 +26,7 @@ namespace PrimeTween {
             #endif
             return msg;
         }
-        
+
         #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
         [ContractAnnotation("condition:false => halt")]
         internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) => UnityEngine.Assertions.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
