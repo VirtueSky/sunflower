@@ -15,26 +15,40 @@ namespace VirtueSky.Component
 
         private Vector3 _posOffset;
         private Vector3 _tempPos;
-
+        private bool isBounce = true;
 
         public override void OnEnable()
         {
             base.OnEnable();
+            isBounce = true;
             _posOffset = transform.localPosition;
+        }
+
+        public void Pause()
+        {
+            isBounce = false;
+        }
+
+        public void Resume()
+        {
+            isBounce = true;
         }
 
         public override void FixedTick()
         {
             base.FixedTick();
-            if (isRotate)
+            if (isBounce)
             {
-                transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.World);
+                if (isRotate)
+                {
+                    transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.World);
+                }
+
+                _tempPos = _posOffset;
+                _tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
+
+                transform.localPosition = _tempPos;
             }
-
-            _tempPos = _posOffset;
-            _tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
-
-            transform.localPosition = _tempPos;
         }
     }
 }

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
@@ -14,44 +15,59 @@ namespace VirtueSky.Component
         public bool rotateY;
         public bool rotateZ;
         public bool isReverse;
+        private bool isRotate = true;
+
+        public void Resume()
+        {
+            isRotate = true;
+        }
+
+        public void Pause()
+        {
+            isRotate = false;
+        }
 
         public override void FixedTick()
         {
             base.FixedTick();
-            var transformTemp = transform;
-            if (rotateX)
+            if (isRotate)
             {
-                if (!isReverse)
+                var transformTemp = transform;
+                if (rotateX)
                 {
-                    transform.RotateAround(transform.position, transform.right, Time.deltaTime * 90f * speed);
+                    if (!isReverse)
+                    {
+                        transform.RotateAround(transform.position, transform.right, Time.deltaTime * 90f * speed);
+                    }
+                    else
+                    {
+                        transform.RotateAround(transform.position, transform.right, Time.deltaTime * 90f * -speed);
+                    }
                 }
-                else
-                {
-                    transform.RotateAround(transform.position, transform.right, Time.deltaTime * 90f * -speed);
-                }
-            }
 
-            if (rotateY)
-            {
-                if (!isReverse)
+                if (rotateY)
                 {
-                    transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f * speed);
+                    if (!isReverse)
+                    {
+                        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f * speed);
+                    }
+                    else
+                    {
+                        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f * -speed);
+                    }
                 }
-                else
-                {
-                    transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f * -speed);
-                }
-            }
 
-            if (rotateZ)
-            {
-                if (!isReverse)
+                if (rotateZ)
                 {
-                    transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f * speed * 1);
-                }
-                else
-                {
-                    transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f * speed * -1);
+                    if (!isReverse)
+                    {
+                        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f * speed * 1);
+                    }
+                    else
+                    {
+                        transform.RotateAround(transform.position, transform.forward,
+                            Time.deltaTime * 90f * speed * -1);
+                    }
                 }
             }
         }
