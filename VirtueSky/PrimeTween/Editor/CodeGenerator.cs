@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using Assert = UnityEngine.Assertions.Assert;
 
+// todo check all TweenType are covered in TweenTypeToTweenData()
 internal class CodeGenerator : ScriptableObject {
     [SerializeField] MonoScript methodsScript;
     [SerializeField] MonoScript dotweenMethodsScript;

@@ -370,10 +370,19 @@ namespace PrimeTween {
                 Debug.LogWarning("Please call TMP_Text.ForceMeshUpdate() before animating maxVisibleCharacters.");
             }
             var floatSettings = new TweenSettings<float>(settings.startValue, settings.endValue, settings.settings);
-            return animate(target, ref floatSettings, _tween => {
+            return animateIntAsFloat(target, ref floatSettings, _tween => {
                 var _target = _tween.target as TMPro.TMP_Text;
                 _target.maxVisibleCharacters = Mathf.RoundToInt(_tween.FloatVal);
             }, t => new ValueContainer { FloatVal = (t.target as TMPro.TMP_Text).maxVisibleCharacters }, TweenType.TextMaxVisibleCharacters);
+        }
+        // todo fix this correctly
+        static Tween animateIntAsFloat(object target, ref TweenSettings<float> settings, [NotNull] Action<ReusableTween> setter, Func<ReusableTween, ValueContainer> getter, TweenType _tweenType) {
+            var tween = PrimeTweenManager.fetchTween();
+            tween.startValue.CopyFrom(ref settings.startValue);
+            tween.endValue.CopyFrom(ref settings.endValue);
+            tween.setPropType(PropType.Int);
+            tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
+            return PrimeTweenManager.Animate(tween);
         }
         #endif
 

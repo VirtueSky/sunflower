@@ -5,7 +5,7 @@ namespace PrimeTween {
     /// <summary>
     /// A wrapper struct that encapsulates three available easing methods: standard Ease, AnimationCurve, or Parametric Easing.<br/>
     /// Use static methods to create an Easing struct, for example: Easing.Standard(Ease.OutBounce), Easing.Curve(animationCurve),
-    /// Easing.Elastic(strength, period), etc. 
+    /// Easing.Elastic(strength, period), etc.
     /// </summary>
     [PublicAPI]
     public readonly struct Easing {
@@ -36,9 +36,9 @@ namespace PrimeTween {
             parametricEaseStrength = float.NaN;
             parametricEasePeriod = float.NaN;
         }
-        
+
         public static implicit operator Easing(Ease ease) => Standard(ease);
-        
+
         /// <summary>Standard Robert Penner's easing method. Or simply use Ease enum instead.</summary>
         public static Easing Standard(Ease ease) {
             Assert.AreNotEqual(Ease.Custom, ease);
@@ -49,19 +49,19 @@ namespace PrimeTween {
         }
 
         public static implicit operator Easing([NotNull] AnimationCurve curve) => Curve(curve);
-        
+
         /// <summary>AnimationCurve to use as an easing function. Or simply use AnimationCurve instead.</summary>
         public static Easing Curve([NotNull] AnimationCurve curve) => new Easing(Ease.Custom, curve);
 
         /// <summary>Customizes the bounce <see cref="strength"/> of Ease.OutBounce.</summary>
         public static Easing Bounce(float strength) => new Easing(ParametricEase.Bounce, strength);
-        
+
         /// <summary>Customizes the exact <see cref="amplitude"/> of the first bounce in meters/angles.</summary>
         public static Easing BounceExact(float amplitude) => new Easing(ParametricEase.BounceExact, amplitude);
-        
+
         /// <summary>Customizes the overshoot <see cref="strength"/> of Ease.OutBack.</summary>
         public static Easing Overshoot(float strength) => new Easing(ParametricEase.Overshoot, strength * StandardEasing.backEaseConst);
-        
+
         /// <summary>Customizes the <see cref="strength"/> and oscillation <see cref="period"/> of Ease.OutElastic.</summary>
         public static Easing Elastic(float strength, float period = StandardEasing.defaultElasticEasePeriod) {
             if (strength < 1) {
@@ -105,9 +105,20 @@ namespace PrimeTween {
             var parametricEase = settings.parametricEase;
             var strength = settings.parametricEaseStrength;
             if (parametricEase == ParametricEase.BounceExact) {
-                var fullAmplitude = tween.getPropType() == PropType.Quaternion ? 
-                    Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) : 
+                var fullAmplitude = tween.getPropType() == PropType.Quaternion ?
+                    Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) :
                     tween.diff.Vector4Val.magnitude;
+                // todo account for double
+                /*double calcFullAmplitude() {
+                    switch (tween.getPropType()) {
+                        case PropType.Quaternion:
+                            return Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal);
+                        case PropType.Double:
+                            return tween.startValue.DoubleVal - tween.endValue.DoubleVal;
+                        default:
+                            return tween.diff.Vector4Val.magnitude;
+                    }
+                }*/
                 var strengthFactor = fullAmplitude < 0.0001f ? 1 : 1f / (fullAmplitude * (1f - firstBounceAmpl));
                 return Bounce(t, strength * strengthFactor);
             }
@@ -148,7 +159,7 @@ namespace PrimeTween {
             return Evaluate(interpolationFactor, ease);
         }
         #endif
-        
+
         #if PRIME_TWEEN_DOTWEEN_ADAPTER || PRIME_TWEEN_EXPERIMENTAL
         public static float Evaluate(float interpolationFactor, Ease ease) {
             switch (ease) {

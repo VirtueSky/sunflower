@@ -12,7 +12,7 @@ namespace PrimeTween {
             return (int) (frequency * 1.35f);
         }
 
-        public static Tween DOShakePosition([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool snapping = false, bool fadeOut = true) 
+        public static Tween DOShakePosition([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool snapping = false, bool fadeOut = true)
             => DOShakePosition(target, duration, Vector3.one * strength, vibrato, randomness, snapping, fadeOut);
         public static Tween DOShakePosition([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool snapping = false, bool fadeOut = true) {
             if (Math.Abs(randomness - 90f) > 0.001f) {
@@ -36,7 +36,7 @@ namespace PrimeTween {
             return Tween.PunchLocalPosition(target.transform, shakeSettings);
         }
 
-        public static Tween DOShakeRotation([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) 
+        public static Tween DOShakeRotation([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true)
             => DOShakeRotation(target, duration, Vector3.one * strength, vibrato, randomness, fadeOut);
         public static Tween DOShakeRotation([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) {
             if (Math.Abs(randomness - 90f) > 0.001f) {
@@ -54,7 +54,7 @@ namespace PrimeTween {
             return Tween.PunchLocalRotation(target.transform, shakeSettings);
         }
 
-        public static Tween DOShakeScale([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) 
+        public static Tween DOShakeScale([NotNull] this Component target, float duration, float strength, int vibrato = 10, float randomness = 90, bool fadeOut = true)
             => DOShakeScale(target, duration, Vector3.one * strength, vibrato, randomness, fadeOut);
         public static Tween DOShakeScale([NotNull] this Component target, float duration, Vector3 strength, int vibrato = 10, float randomness = 90, bool fadeOut = true) {
             if (Math.Abs(randomness - 90f) > 0.001f) {
@@ -71,7 +71,7 @@ namespace PrimeTween {
             var shakeSettings = new ShakeSettings(punch, duration, remapFrequency(vibrato), asymmetryFactor: 1 - elasticity);
             return Tween.PunchScale(target.transform, shakeSettings);
         }
-        
+
         public static Tween DORotate([NotNull] this Transform target, Vector3 endValue, float duration) {
             return Tween.Rotation(target, Quaternion.Euler(endValue), duration);
         }
@@ -94,7 +94,7 @@ namespace PrimeTween {
             PrimeTweenManager.logCantManipulateError = prevLogCantManipulateError;
             return result;
         }
-        
+
         internal static Easing GetEasing(Ease ease, float? maybeStrength, float? maybePeriod) {
             var strength = maybeStrength ?? 1;
             switch (ease) {
@@ -110,7 +110,7 @@ namespace PrimeTween {
             }
             return Easing.Standard(ease);
         }
-        
+
         // public static Tween DOTWEEN_METHOD_NAME([NotNull] this UnityEngine.Camera target, Single endValue, float duration) => Tween.METHOD_NAME(target, endValue, duration);
     }
 
@@ -119,11 +119,11 @@ namespace PrimeTween {
             get => PrimeTweenConfig.defaultEase;
             set => PrimeTweenConfig.defaultEase = value;
         }
-        
+
         public static Sequence Sequence() => PrimeTween.Sequence.Create();
-        
+
         public static void Kill([NotNull] object target, bool complete = false) => DOTweenAdapter.doKill_internal(target, complete);
-        
+
         public static void KillAll(bool complete = false) => DOTweenAdapter.doKill_internal(null, complete);
 
         public static Tween To([NotNull] Func<float> getter, [NotNull] Action<float> setter, float endValue, float duration) => Tween.Custom(getter(), endValue, duration, val => setter(val));
@@ -136,23 +136,23 @@ namespace PrimeTween {
     }
 
     public static class DOVirtual {
-        public static Tween DelayedCall(float delay, Action callback, bool ignoreTimeScale = true) 
+        public static Tween DelayedCall(float delay, Action callback, bool ignoreTimeScale = true)
             => Tween.Delay(delay, callback, ignoreTimeScale);
-        
+
         public static Tween Float(float startValue, float endValue, float duration, Action<float> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
         public static Tween Vector3(Vector3 startValue, Vector3 endValue, float duration, Action<Vector3> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
         public static Tween Color(Color startValue, Color endValue, float duration, Action<Color> onValueChange) => Tween.Custom(startValue, endValue, duration, onValueChange);
-        
-        public static float EasedValue(float from, float to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null) 
+
+        public static float EasedValue(float from, float to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null)
             => Mathf.LerpUnclamped(from, to, DOTweenAdapter.GetEasing(easeType, amplitude, period).Evaluate(lifetimePercentage));
         public static float EasedValue(float from, float to, float lifetimePercentage, [NotNull] AnimationCurve easeCurve)
             => Mathf.LerpUnclamped(from, to, Easing.Curve(easeCurve).Evaluate(lifetimePercentage));
-        public static Vector3 EasedValue(Vector3 from, Vector3 to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null) 
+        public static Vector3 EasedValue(Vector3 from, Vector3 to, float lifetimePercentage, Ease easeType, float? amplitude = null, float? period = null)
             => UnityEngine.Vector3.LerpUnclamped(from, to, DOTweenAdapter.GetEasing(easeType, amplitude, period).Evaluate(lifetimePercentage));
         public static Vector3 EasedValue(Vector3 from, Vector3 to, float lifetimePercentage, [NotNull] AnimationCurve easeCurve)
             => UnityEngine.Vector3.LerpUnclamped(from, to, Easing.Curve(easeCurve).Evaluate(lifetimePercentage));
     }
-    
+
     public partial struct Sequence {
         public Sequence AppendCallback([NotNull] Action callback) {
             return ChainCallback(callback);
@@ -178,7 +178,7 @@ namespace PrimeTween {
             }
             return Group(other);
         }
-        
+
         /// <summary>Schedules <see cref="other"/> after the last added tween.
         /// Internal because this API is hard to understand, but needed for adapter.</summary>
         internal Sequence ChainLast(Tween other) {
@@ -276,7 +276,7 @@ namespace PrimeTween {
             return this;
         }
     }
-    
+
     public partial struct Tween {
         public Tween SetEase(Ease ease, float? amplitude = null, float? period = null) {
             Assert.IsTrue(isAlive);
@@ -300,6 +300,7 @@ namespace PrimeTween {
                     Debug.LogWarning("SetRelative() immediately adds the dest and doesn't wait for startDelay.");
                 }
                 var getter = tween.getter;
+                // todo this doesn't account for double val
                 if (tween.getPropType() == PropType.Quaternion) {
                     if (getter != null) {
                         tween.endValue.QuaternionVal *= getter(tween).QuaternionVal;
@@ -311,7 +312,7 @@ namespace PrimeTween {
                         tween.endValue.Vector4Val += getter(tween).Vector4Val;
                     } else {
                         tween.endValue.Vector4Val += tween.startValue.Vector4Val;
-                    }    
+                    }
                 }
             }
             return this;
@@ -330,7 +331,7 @@ namespace PrimeTween {
                 case LoopType.Restart:
                     return CycleMode.Restart;
                 case LoopType.Yoyo:
-                    // yoyo in dotween behaves like rewind. But yoyo in other tween libraries (like tween.js) preserves the normal ease 
+                    // yoyo in dotween behaves like rewind. But yoyo in other tween libraries (like tween.js) preserves the normal ease
                     return CycleMode.Rewind;
                 case LoopType.Incremental:
                     return CycleMode.Incremental;
@@ -409,7 +410,7 @@ namespace PrimeTween {
             tween.cacheDiff();
             return this;
         }
-        
+
         public Tween From() {
             Assert.IsTrue(isAlive);
             var getter = tween.getter;
@@ -423,13 +424,13 @@ namespace PrimeTween {
             tween.cacheDiff();
             return this;
         }
-        
+
         [PublicAPI]
         public Tween SetLink(GameObject gameObject) {
             return this;
         }
     }
-    
+
     public enum LoopType {
         Restart,
         Yoyo,
