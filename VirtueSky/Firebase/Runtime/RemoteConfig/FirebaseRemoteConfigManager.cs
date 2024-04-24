@@ -30,7 +30,11 @@ namespace VirtueSky.FirebaseTracking
 #if VIRTUESKY_FIREBASE
         private void Start()
         {
-            isFetchRemoteConfigCompleted.Value = false;
+            if (isFetchRemoteConfigCompleted != null)
+            {
+                isFetchRemoteConfigCompleted.Value = false;
+            }
+
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
                 dependencyStatus = task.Result;
