@@ -1,7 +1,7 @@
 using UnityEngine;
 using VirtueSky.Inspector;
 
-namespace VirtueSky.FirebaseTraking
+namespace VirtueSky.FirebaseTracking
 {
     [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Log Event 1 Param",
         fileName = "log_event_firebase_1_param")]

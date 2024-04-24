@@ -1,5 +1,5 @@
 using UnityEditor;
-using VirtueSky.FirebaseTraking;
+using VirtueSky.FirebaseTracking;
 using VirtueSky.UtilsEditor;
 
 public class FirebaseWindowEditor : EditorWindow

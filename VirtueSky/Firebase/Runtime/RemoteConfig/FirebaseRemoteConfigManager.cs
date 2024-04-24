@@ -11,10 +11,10 @@ using Firebase.RemoteConfig;
 #endif
 
 using UnityEngine;
-using VirtueSky.Events;
 using VirtueSky.Inspector;
+using VirtueSky.Variables;
 
-namespace VirtueSky.FirebaseTraking
+namespace VirtueSky.FirebaseTracking
 {
     [EditorIcon("icon_controller")]
     public class FirebaseRemoteConfigManager : MonoBehaviour
@@ -23,13 +23,14 @@ namespace VirtueSky.FirebaseTraking
         [ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
 #endif
 
-        [SerializeField] private EventNoParam fetchRemoteConfigCompleted;
+        [SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
         [SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
 
 
 #if VIRTUESKY_FIREBASE
         private void Start()
         {
+            isFetchRemoteConfigCompleted.Value = false;
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
                 dependencyStatus = task.Result;
@@ -87,9 +88,9 @@ namespace VirtueSky.FirebaseTraking
                                 }
                             }
 
-                            if (fetchRemoteConfigCompleted != null)
+                            if (isFetchRemoteConfigCompleted != null)
                             {
-                                fetchRemoteConfigCompleted.Raise();
+                                isFetchRemoteConfigCompleted.Value = true;
                             }
                         });
 
