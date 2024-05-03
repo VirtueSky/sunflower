@@ -4,7 +4,7 @@ using com.adjust.sdk;
 
 namespace VirtueSky.TrackingRevenue
 {
-    public static class AdjustTrackingRevenue
+    public struct AdjustTrackingRevenue
     {
         public static void AdjustTrackRevenue(double value, string network, string unitId,
             string placement, string adNetwork)

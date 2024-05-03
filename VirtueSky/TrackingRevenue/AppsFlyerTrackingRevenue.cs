@@ -11,7 +11,7 @@ using UnityEngine.Purchasing;
 
 namespace VirtueSky.TrackingRevenue
 {
-    public static class AppsFlyerTrackingRevenue
+    public struct AppsFlyerTrackingRevenue
     {
         public static void AppsFlyerTrackRevenueAd(double value, string network, string unitId,
             string format, string adNetwork)

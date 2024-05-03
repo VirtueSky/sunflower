@@ -4,7 +4,7 @@ using Firebase.Analytics;
 
 namespace VirtueSky.TrackingRevenue
 {
-    public static class FirebaseAnalyticTrackingRevenue
+    public struct FirebaseAnalyticTrackingRevenue
     {
         public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId,
             string format, string adNetwork)
