@@ -67,6 +67,18 @@ namespace VirtueSky.Events
             CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_vector3_event");
         }
 
+        [MenuItem(menuEvent + "GameObject Event")]
+        public static void CreateEventGameObject()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_gameobject_event");
+        }
+
+        [MenuItem(menuEvent + "Transform Event")]
+        public static void CreateEventTransform()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_transform_event");
+        }
+
         #endregion
 
         #region Create Scriptable Event Result
@@ -123,6 +135,20 @@ namespace VirtueSky.Events
                 "bool_event_vector3_result");
         }
 
+        [MenuItem(menuEventResult + menuBoolEventResult + "GameObject Result")]
+        public static void CreateBoolEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventGameObjectResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuBoolEventResult + "Transform Result")]
+        public static void CreateBoolEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<BoolEventTransformResult>(pathEventResult + pathBoolEventResult,
+                "bool_event_transform_result");
+        }
+
         #endregion
 
         #region Float Event - Result
@@ -172,6 +198,22 @@ namespace VirtueSky.Events
                 "float_event_vector3_result");
         }
 
+        [MenuItem(menuEventResult + menuFloatEventResult + "GameObject Result")]
+        public static void CreateFloatEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventGameObjectResult>(
+                pathEventResult + pathFloatEventResult,
+                "float_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuFloatEventResult + "Transform Result")]
+        public static void CreateFloatEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<FloatEventTransformResult>(
+                pathEventResult + pathFloatEventResult,
+                "float_event_transform_result");
+        }
+
         #endregion
 
         #region Int Event - Result
@@ -219,6 +261,20 @@ namespace VirtueSky.Events
         {
             CreateAsset.CreateScriptableAssetsOnlyName<IntEventObjectResult>(pathEventResult + pathIntEventResult,
                 "int_event_vector3_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "GameObject Result")]
+        public static void CreateIntEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventGameObjectResult>(pathEventResult + pathIntEventResult,
+                "int_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuIntEventResult + "Transform Result")]
+        public static void CreateIntEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<IntEventTransformResult>(pathEventResult + pathIntEventResult,
+                "int_event_transform_result");
         }
 
         #endregion
@@ -271,6 +327,22 @@ namespace VirtueSky.Events
                 "object_event_vector3_result");
         }
 
+        [MenuItem(menuEventResult + menuObjectEventResult + "GameObject Result")]
+        public static void CreateObjectEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventGameObjectResult>(
+                pathEventResult + pathObjectEventResult,
+                "object_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuObjectEventResult + "Transform Result")]
+        public static void CreateObjectEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<ObjectEventTransformResult>(
+                pathEventResult + pathObjectEventResult,
+                "object_event_transform_result");
+        }
+
         #endregion
 
         #region String Event - Result
@@ -319,6 +391,22 @@ namespace VirtueSky.Events
             CreateAsset.CreateScriptableAssetsOnlyName<StringEventVector3Result>(
                 pathEventResult + pathStringEventResult,
                 "string_event_vector3_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "GameObject Result")]
+        public static void CreateStringEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventGameObjectResult>(
+                pathEventResult + pathStringEventResult,
+                "string_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuStringEventResult + "Transform Result")]
+        public static void CreateStringEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<StringEventTransformResult>(
+                pathEventResult + pathStringEventResult,
+                "string_event_transform_result");
         }
 
         #endregion
@@ -374,6 +462,22 @@ namespace VirtueSky.Events
                 "vector3_event_vector3_result");
         }
 
+        [MenuItem(menuEventResult + menuVector3EventResult + "GameObject Result")]
+        public static void CreateVector3EventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventGameObjectResult>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuVector3EventResult + "Transform Result")]
+        public static void CreateVector3EventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector3EventTransformResult>(
+                pathEventResult + pathVector3EventResult,
+                "vector3_event_transform_result");
+        }
+
         #endregion
 
         #region Event No Param - Result
@@ -425,6 +529,22 @@ namespace VirtueSky.Events
             CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamVector3Result>(
                 pathEventResult + pathEventNoParamResult,
                 "event_no_param_vector3_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "GameObject Result")]
+        public static void CreateEventNoParamGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamGameObjectResult>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuEventNoParamResult + "Transform Result")]
+        public static void CreateEventNoParamTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<EventNoParamTransformResult>(
+                pathEventResult + pathEventNoParamResult,
+                "event_no_param_transform_result");
         }
 
         #endregion

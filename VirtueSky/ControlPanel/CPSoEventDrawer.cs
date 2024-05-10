@@ -71,6 +71,16 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 EventWindowEditor.CreateEventVector3();
             }
+
+            if (GUILayout.Button("Create GameObject Event"))
+            {
+                EventWindowEditor.CreateEventGameObject();
+            }
+
+            if (GUILayout.Button("Create Transform Event"))
+            {
+                EventWindowEditor.CreateEventTransform();
+            }
         }
 
         static void DrawButtonEventResult()
@@ -107,6 +117,16 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     EventWindowEditor.CreateBoolEventVector3Result();
                 }
+
+                if (GUILayout.Button("Bool Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateBoolEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Bool Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateBoolEventTransformResult();
+                }
             }, false);
             GUILayout.Space(10);
             Uniform.DrawGroupFoldout("cp_draw_float_event_result", "Float Event-Result", () =>
@@ -139,6 +159,16 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Float Event - Vector3 Result"))
                 {
                     EventWindowEditor.CreateFloatEventVector3Result();
+                }
+
+                if (GUILayout.Button("Float Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateFloatEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Float Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateFloatEventTransformResult();
                 }
             }, false);
             GUILayout.Space(10);
@@ -173,6 +203,16 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     EventWindowEditor.CreateIntEventVector3Result();
                 }
+
+                if (GUILayout.Button("Int Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateIntEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Int Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateIntEventTransformResult();
+                }
             }, false);
             GUILayout.Space(10);
             Uniform.DrawGroupFoldout("cp_draw_object_event_result", "Object Event-Result", () =>
@@ -205,6 +245,16 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Object Event - Vector3 Result"))
                 {
                     EventWindowEditor.CreateObjectEventVector3Result();
+                }
+
+                if (GUILayout.Button("Object Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateObjectEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Object Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateObjectEventTransformResult();
                 }
             }, false);
             GUILayout.Space(10);
@@ -239,6 +289,16 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     EventWindowEditor.CreateStringEventVector3Result();
                 }
+
+                if (GUILayout.Button("String Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateStringEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("String Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateStringEventTransformResult();
+                }
             }, false);
             GUILayout.Space(10);
             Uniform.DrawGroupFoldout("cp_draw_vector3_event_result", "Vector3 Event-Result", () =>
@@ -272,6 +332,16 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     EventWindowEditor.CreateVector3EventVector3Result();
                 }
+
+                if (GUILayout.Button("Vector3 Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateVector3EventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Vector3 Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateVector3EventTransformResult();
+                }
             }, false);
             GUILayout.Space(10);
             Uniform.DrawGroupFoldout("cp_draw_event_no_param_result", "Event No Param-Result", () =>
@@ -304,6 +374,16 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Event No Param - Vector3 Result"))
                 {
                     EventWindowEditor.CreateEventNoParamVector3Result();
+                }
+
+                if (GUILayout.Button("Event No Param - GameObject Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamGameObjectResult();
+                }
+
+                if (GUILayout.Button("Event No Param - Transform Result"))
+                {
+                    EventWindowEditor.CreateEventNoParamTransformResult();
                 }
             }, false);
             GUILayout.Space(10);
