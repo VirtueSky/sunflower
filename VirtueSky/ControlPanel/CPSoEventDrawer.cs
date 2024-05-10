@@ -387,6 +387,91 @@ namespace VirtueSky.ControlPanel.Editor
                 }
             }, false);
             GUILayout.Space(10);
+            Uniform.DrawGroupFoldout("cp_draw_gameobject_event_result", "GameObject Event-Result", () =>
+            {
+                if (GUILayout.Button("GameObject Event - Bool Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventBoolResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - Float Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventFloatResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - Int Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventIntResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - Object Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventObjectResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - String Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventStringResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventTransformResult();
+                }
+
+                if (GUILayout.Button("GameObject Event - Vector3 Result"))
+                {
+                    EventWindowEditor.CreateGameObjectEventVector3Result();
+                }
+            }, false);
+            GUILayout.Space(10);
+            Uniform.DrawGroupFoldout("cp_draw_transform_event_result", "Transform Event-Result", () =>
+            {
+                if (GUILayout.Button("Transform Event - Bool Result"))
+                {
+                    EventWindowEditor.CreateTransformEventBoolResult();
+                }
+
+                if (GUILayout.Button("Transform Event - Float Result"))
+                {
+                    EventWindowEditor.CreateTransformEventFloatResult();
+                }
+
+                if (GUILayout.Button("Transform Event - GameObject Result"))
+                {
+                    EventWindowEditor.CreateTransformEventGameObjectResult();
+                }
+
+                if (GUILayout.Button("Transform Event - Int Result"))
+                {
+                    EventWindowEditor.CreateTransformEventIntResult();
+                }
+
+                if (GUILayout.Button("Transform Event - Object Result"))
+                {
+                    EventWindowEditor.CreateTransformEventObjectResult();
+                }
+
+                if (GUILayout.Button("Transform Event - String Result"))
+                {
+                    EventWindowEditor.CreateTransformEventStringResult();
+                }
+
+                if (GUILayout.Button("Transform Event - Transform Result"))
+                {
+                    EventWindowEditor.CreateTransformEventTransformResult();
+                }
+
+                if (GUILayout.Button("Transform Event - Vector3 Result"))
+                {
+                    EventWindowEditor.CreateTransformEventVector3Result();
+                }
+            }, false);
         }
     }
 }
