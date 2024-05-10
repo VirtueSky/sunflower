@@ -606,7 +606,7 @@ namespace VirtueSky.Events
         {
             CreateAsset.CreateScriptableAssetsOnlyName<TransformEventStringResult>(
                 pathEventResult + pathTransformEventResult,
-                "transform_event_bool_result");
+                "transform_event_string_result");
         }
 
         [MenuItem(menuEventResult + menuTransformEventResult + "Transform Result")]
