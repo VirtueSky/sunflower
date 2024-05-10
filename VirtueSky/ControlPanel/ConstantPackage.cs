@@ -50,27 +50,27 @@
         public const string PackageNameFirebaseApp = "com.google.firebase.app";
 
         public const string MaxVersionFirebaseApp =
-            "https://github.com/firebase-unity/firebase-app.git#11.9.0";
+            "https://github.com/firebase-unity/firebase-app.git#12.0.0";
 
         public const string PackageNameFirebaseRemoteConfig = "com.google.firebase.remote-config";
 
         public const string MaxVersionFirebaseRemoteConfig =
-            "https://github.com/firebase-unity/firebase-remote-config.git#11.9.0";
+            "https://github.com/firebase-unity/firebase-remote-config.git#12.0.0";
 
         public const string PackageNameFirebaseAnalytics = "com.google.firebase.analytics";
 
         public const string MaxVersionFirebaseAnalytics =
-            "https://github.com/firebase-unity/firebase-analytics.git#11.9.0";
+            "https://github.com/firebase-unity/firebase-analytics.git#12.0.0";
 
         public const string PackageNameFirebaseDatabase = "com.google.firebase.database";
 
         public const string MaxVersionFirebaseDatabase =
-            "https://github.com/firebase-unity/firebase-database.git#11.9.0";
+            "https://github.com/firebase-unity/firebase-database.git#12.0.0";
 
         public const string PackageNameFirebaseCrashlytics = "com.google.firebase.crashlytics";
 
         public const string MaxVersionFirebaseCrashlytics =
-            "https://github.com/firebase-unity/firebase-crashlytics.git#11.9.0";
+            "https://github.com/firebase-unity/firebase-crashlytics.git#12.0.0";
 
         #endregion
 
