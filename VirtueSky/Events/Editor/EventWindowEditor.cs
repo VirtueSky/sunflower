@@ -549,6 +549,84 @@ namespace VirtueSky.Events
 
         #endregion
 
+        #region GameObject Event - Result
+
+        private const string menuGameObjectEventResult = "GameObject Event/";
+        private const string pathGameObjectEventResult = "/GameObject_Event_Result";
+
+        #endregion
+
+        #region Transform Event - Result
+
+        private const string menuTransformEventResult = "Transform Event/";
+        private const string pathTransformEventResult = "/Transform_Event_Result";
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Bool Result")]
+        public static void CreateTransformEventBoolResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventBoolResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Float Result")]
+        public static void CreateTransformEventFloatResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventFloatResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_float_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "GameObject Result")]
+        public static void CreateTransformEventGameObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventGameObjectResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_gameobject_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Int Result")]
+        public static void CreateTransformEventIntResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventIntResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_int_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Object Result")]
+        public static void CreateTransformEventObjectResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventObjectResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_object_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "String Result")]
+        public static void CreateTransformEventStringResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventStringResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_bool_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Transform Result")]
+        public static void CreateTransformEventTransformResult()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventTransformResult>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_transform_result");
+        }
+
+        [MenuItem(menuEventResult + menuTransformEventResult + "Vector3 Result")]
+        public static void CreateTransformEventVector3Result()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEventVector3Result>(
+                pathEventResult + pathTransformEventResult,
+                "transform_event_vector3_result");
+        }
+
+        #endregion
+
         #endregion
     }
 #endif
