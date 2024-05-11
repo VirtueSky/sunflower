@@ -70,13 +70,13 @@ namespace VirtueSky.Events
         [MenuItem(menuEvent + "GameObject Event")]
         public static void CreateEventGameObject()
         {
-            CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_gameobject_event");
+            CreateAsset.CreateScriptableAssetsOnlyName<GameObjectEvent>(pathEvent, "so_gameobject_event");
         }
 
         [MenuItem(menuEvent + "Transform Event")]
         public static void CreateEventTransform()
         {
-            CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_transform_event");
+            CreateAsset.CreateScriptableAssetsOnlyName<TransformEvent>(pathEvent, "so_transform_event");
         }
 
         #endregion
