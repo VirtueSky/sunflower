@@ -1,6 +1,6 @@
 using System;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VirtueSky.DataStorage;
 using VirtueSky.Events;
 using VirtueSky.Inspector;
@@ -9,6 +9,9 @@ namespace VirtueSky.Variables
 {
     public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver
     {
+        [ShowIf(nameof(isSetData)), ReadOnly, SerializeField]
+        private string id;
+
         [SerializeField] private TType initializeValue;
         [SerializeField] private bool isSetData;
 
@@ -25,6 +28,20 @@ namespace VirtueSky.Variables
         public TType InitializeValue => initializeValue;
 
 
+#if UNITY_EDITOR
+        [ContextMenu("GetGuid")]
+        public void GetGuid()
+        {
+            id = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this));
+            EditorUtility.SetDirty(this);
+        }
+
+        private void Reset()
+        {
+            GetGuid();
+        }
+#endif
+
         private void OnEnable()
         {
 #if UNITY_EDITOR
@@ -34,12 +51,12 @@ namespace VirtueSky.Variables
 
         public TType Value
         {
-            get => isSetData ? GameData.Get(Id, initializeValue) : runtimeValue;
+            get => isSetData ? GameData.Get(id, initializeValue) : runtimeValue;
             set
             {
                 if (isSetData)
                 {
-                    GameData.Set(Id, value);
+                    GameData.Set(id, value);
                     if (isSaveData)
                     {
                         GameData.Save();

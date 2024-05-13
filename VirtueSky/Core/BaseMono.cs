@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using VirtueSky.Inspector;
 
 
@@ -8,19 +7,6 @@ namespace VirtueSky.Core
     [EditorIcon("icon_csharp")]
     public class BaseMono : MonoBehaviour, IEntity
     {
-        [SerializeField, NamedId] string id;
-
-        public string Id => id;
-
-#if UNITY_EDITOR
-        [ContextMenu("ResetId")]
-        public void ResetId()
-        {
-            id = NamedIdAttributeDrawer.ToSnakeCase(name);
-            EditorUtility.SetDirty(this);
-        }
-#endif
-
         public virtual void OnEnable()
         {
             SubTick();

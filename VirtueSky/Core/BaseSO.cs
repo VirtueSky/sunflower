@@ -1,28 +1,12 @@
-﻿using UnityEditor;
-using UnityEngine;
-using VirtueSky.Inspector;
+﻿using UnityEngine;
 
 
 namespace VirtueSky.Core
 {
     public class BaseSO : ScriptableObject, IEntity
     {
-        [SerializeField, NamedId] string id;
-
         [Space(10)] [SerializeField] [TextArea(2, 5)]
         private string description;
-
-        public string Id => id;
-
-#if UNITY_EDITOR
-
-        [ContextMenu("ResetId")]
-        public void ResetId()
-        {
-            id = NamedIdAttributeDrawer.ToSnakeCase(name);
-            EditorUtility.SetDirty(this);
-        }
-#endif
 
         public void Enable()
         {

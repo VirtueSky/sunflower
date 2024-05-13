@@ -8,7 +8,7 @@ namespace VirtueSky.UtilsEditor
     public static class CreateAsset
     {
 #if UNITY_EDITOR
-        public static void CreateScriptableAssets<T>(string path = "", bool isPingAsset = true)
+        public static T CreateScriptableAssets<T>(string path = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
             var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
@@ -23,9 +23,10 @@ namespace VirtueSky.UtilsEditor
 
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
+            return setting;
         }
 
-        public static void CreateScriptableAssets<T>(string path = "", string name = "", bool isPingAsset = true)
+        public static T CreateScriptableAssets<T>(string path = "", string name = "", bool isPingAsset = true)
             where T : ScriptableObject
         {
             string newName = name == "" ? typeof(T).Name : name;
@@ -41,9 +42,10 @@ namespace VirtueSky.UtilsEditor
 
             Debug.Log(
                 $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
+            return setting;
         }
 
-        public static void CreateScriptableAssetsOnlyName<T>(string path = "", string name = "",
+        public static T CreateScriptableAssetsOnlyName<T>(string path = "", string name = "",
             bool isPingAsset = true)
             where T : ScriptableObject
         {
@@ -71,6 +73,7 @@ namespace VirtueSky.UtilsEditor
 
             Debug.Log(
                 $"<color=Green>{typeof(T).Name} was created at {assetPath}</color>");
+            return setting;
         }
 
 
