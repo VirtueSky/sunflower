@@ -29,7 +29,8 @@ namespace VirtueSky.Variables
 
 
 #if UNITY_EDITOR
-        [ContextMenu("GetGuid")]
+
+        [ShowIf(nameof(ConditionShowButtonGetGuid)), Button]
         public void GetGuid()
         {
             id = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this));
@@ -40,6 +41,8 @@ namespace VirtueSky.Variables
         {
             GetGuid();
         }
+
+        private bool ConditionShowButtonGetGuid => id == "" && isSetData;
 #endif
 
         private void OnEnable()
