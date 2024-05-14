@@ -110,7 +110,9 @@ namespace PrimeTween {
         internal void updateSequence(float _elapsedTimeTotal, bool isRestart, bool earlyExitSequenceIfPaused = true) {
             Assert.IsTrue(isSequenceRoot());
             float prevEasedT = easedInterpolationFactor;
-            setElapsedTimeTotal(_elapsedTimeTotal, out int cyclesDiff); // update sequence root
+            if (!setElapsedTimeTotal(_elapsedTimeTotal, out int cyclesDiff)) { // update sequence root
+                return;
+            }
 
             bool isRestartToBeginning = isRestart && cyclesDiff < 0;
             Assert.IsTrue(!isRestartToBeginning || cyclesDone == 0 || cyclesDone == iniCyclesDone);
@@ -233,7 +235,7 @@ namespace PrimeTween {
         internal bool isMainSequenceRoot() => tweenType == TweenType.MainSequence;
         internal bool isSequenceRoot() => tweenType == TweenType.MainSequence || tweenType == TweenType.NestedSequence;
 
-        void setElapsedTimeTotal(float _elapsedTimeTotal, out int cyclesDiff) {
+        bool setElapsedTimeTotal(float _elapsedTimeTotal, out int cyclesDiff) {
             elapsedTimeTotal = _elapsedTimeTotal;
             int oldCyclesDone = cyclesDone;
             float t = calcTFromElapsedTimeTotal(_elapsedTimeTotal, out var newState);
@@ -241,13 +243,15 @@ namespace PrimeTween {
             if (newState == State.Running || state != newState) {
                 if (isUnityTargetDestroyed()) {
                     EmergencyStop(true);
-                    return;
+                    return false;
                 }
-                var easedT = calcEasedT(t, cyclesDone);
+                float easedT = calcEasedT(t, cyclesDone);
                 // print($"state: {state}/{newState}, cycles: {cyclesDone}/{settings.cycles} (diff: {cyclesDiff}), elapsedTimeTotal: {elapsedTimeTotal}, interpolation: {t}/{easedT}");
                 state = newState;
                 ReportOnValueChange(easedT);
+                return true;
             }
+            return false;
         }
 
         float calcTFromElapsedTimeTotal(float _elapsedTimeTotal, out State newState) {

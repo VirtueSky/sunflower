@@ -202,10 +202,6 @@ internal static class Utils {
             #endif
             case TweenType.None:
                 return (PropType.None, null);
-            #if PRIME_TWEEN_PRO
-            case TweenType.TweenComponent:
-                return (PropType.None, typeof(PrimeTween.TweenComponent));
-            #endif
             case TweenType.Delay:
                 return (PropType.Float, null);
             case TweenType.Callback:
