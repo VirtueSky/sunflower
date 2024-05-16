@@ -47,7 +47,7 @@ for version `2.7.0`
 ├── Mobile Notification
 ├── Object Pooling
 ├── Prime tween
-├── QHierarchy
+├── Hierarchy
 ├── In app review
 ├── UniTask
 ├── SimpleJSON
