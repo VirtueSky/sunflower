@@ -46,7 +46,7 @@ namespace VirtueSky.Ads
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
-            MaxSdk.LoadAppOpenAd(Id);
+            MaxSdk.ShowAppOpenAd(Id);
 #endif
         }
 
