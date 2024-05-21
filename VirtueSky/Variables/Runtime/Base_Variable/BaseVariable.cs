@@ -10,20 +10,20 @@ namespace VirtueSky.Variables
     public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver
     {
         [ShowIf(nameof(isSetData)), ReadOnly, SerializeField]
-        private string id;
+        protected string id;
 
-        [SerializeField] private TType initializeValue;
-        [SerializeField] private bool isSetData;
+        [SerializeField] protected TType initializeValue;
+        [SerializeField] protected bool isSetData;
 
         [ShowIf(nameof(isSetData))] [SerializeField]
-        private bool isSaveData;
+        protected bool isSaveData;
 
-        [SerializeField] private bool isRaiseEvent;
+        [SerializeField] protected bool isRaiseEvent;
 
-        [NonSerialized] TType runtimeValue;
+        [NonSerialized] protected TType runtimeValue;
 #if UNITY_EDITOR
         [ShowIf(nameof(ConditionShow))] [ReadOnly, SerializeField]
-        private TType currentValue;
+        protected TType currentValue;
 #endif
         public TType InitializeValue => initializeValue;
 
@@ -52,7 +52,7 @@ namespace VirtueSky.Variables
 #endif
         }
 
-        public TType Value
+        public virtual TType Value
         {
             get => isSetData ? GameData.Get(id, initializeValue) : runtimeValue;
             set

@@ -7,5 +7,9 @@ namespace VirtueSky.Variables
     [EditorIcon("scriptable_variable")]
     public class BooleanVariable : BaseVariable<bool>
     {
+        public void Toggle()
+        {
+            Value = !Value;
+        }
     }
 }
