@@ -70,16 +70,7 @@ namespace VirtueSky.Ads
 
         private void Start()
         {
-            switch (adSetting.CurrentAdNetwork)
-            {
-                case AdNetwork.Max:
-                    currentAdClient = adSetting.MaxAdClient;
-                    break;
-                case AdNetwork.Admob:
-                    currentAdClient = adSetting.AdmobAdClient;
-                    break;
-            }
-
+            InitAdClient();
             if (changePreventDisplayAppOpenEvent != null)
                 changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
             if (adSetting.EnableGDPR)
@@ -94,13 +85,28 @@ namespace VirtueSky.Ads
             }
         }
 
+        void InitAdClient()
+        {
+            switch (adSetting.CurrentAdNetwork)
+            {
+                case AdNetwork.Max:
+                    currentAdClient = new MaxAdClient();
+                    break;
+                case AdNetwork.Admob:
+                    currentAdClient = new AdmobAdClient();
+                    break;
+            }
+
+            currentAdClient.SetupAdSetting(adSetting);
+            currentAdClient.Initialize();
+        }
+
         public void InitAutoLoadAds()
         {
-            currentAdClient.Initialize();
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
             autoLoadAdCoroutine = IeAutoLoadAll();
             StartCoroutine(autoLoadAdCoroutine);
-            Debug.Log("currentAdClient: " + currentAdClient.name);
+            Debug.Log("currentAdClient: " + currentAdClient);
         }
 
         public void OnChangePreventDisplayOpenAd(bool state)

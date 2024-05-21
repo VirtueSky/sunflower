@@ -8,10 +8,15 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Ads
 {
-    public abstract class AdClient : ScriptableObject
+    public abstract class AdClient
     {
         [SerializeField, ReadOnly] protected AdSetting adSetting;
         protected bool statusAppOpenFirstIgnore;
+
+        public void SetupAdSetting(AdSetting _adSetting)
+        {
+            this.adSetting = _adSetting;
+        }
 
         public abstract void Initialize();
         public abstract void LoadInterstitial();

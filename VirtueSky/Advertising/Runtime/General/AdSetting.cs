@@ -32,7 +32,6 @@ namespace VirtueSky.Ads
 
         [TextArea, SerializeField] private string sdkKey;
         [SerializeField] private bool applovinEnableAgeRestrictedUser;
-        [SerializeField] private MaxAdClient maxAdClient;
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
@@ -41,7 +40,6 @@ namespace VirtueSky.Ads
 
         public string SdkKey => sdkKey;
         public bool ApplovinEnableAgeRestrictedUser => applovinEnableAgeRestrictedUser;
-        public MaxAdClient MaxAdClient => maxAdClient;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
@@ -68,7 +66,6 @@ namespace VirtueSky.Ads
         private const string pathAdmob = "/Ads/Admob";
 
         // [HeaderLine("Admob")] 
-        [SerializeField] private AdmobAdClient admobAdClient;
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
@@ -78,7 +75,6 @@ namespace VirtueSky.Ads
         [SerializeField] private bool enableGDPR;
         [SerializeField] private bool enableGDPRTestMode;
         [SerializeField] private List<string> admobDevicesTest;
-        public AdmobAdClient AdmobAdClient => admobAdClient;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;

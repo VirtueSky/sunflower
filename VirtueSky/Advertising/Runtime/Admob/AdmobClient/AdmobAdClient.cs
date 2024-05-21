@@ -9,10 +9,8 @@ using VirtueSky.TrackingRevenue;
 namespace VirtueSky.Ads
 {
     [EditorIcon("icon_scriptable")]
-    public class AdmobAdClient : AdClient
+    public sealed class AdmobAdClient : AdClient
     {
-        [ReadOnly, SerializeField, TextArea] string AppIdTest = "ca-app-pub-3940256099942544~3347511713";
-
         public override void Initialize()
         {
 #if VIRTUESKY_ADS && ADS_ADMOB
