@@ -99,6 +99,7 @@ namespace VirtueSky.Ads
 
             currentAdClient.SetupAdSetting(adSetting);
             currentAdClient.Initialize();
+            Debug.Log("currentAdClient: " + currentAdClient);
         }
 
         public void InitAutoLoadAds()
@@ -106,7 +107,6 @@ namespace VirtueSky.Ads
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
             autoLoadAdCoroutine = IeAutoLoadAll();
             StartCoroutine(autoLoadAdCoroutine);
-            Debug.Log("currentAdClient: " + currentAdClient);
         }
 
         public void OnChangePreventDisplayOpenAd(bool state)
