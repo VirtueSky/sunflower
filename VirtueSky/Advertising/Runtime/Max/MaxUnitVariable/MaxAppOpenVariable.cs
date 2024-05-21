@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
@@ -8,7 +10,11 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class MaxAppOpenVariable : AdUnitVariable
     {
+        [Tooltip("Automatically show AppOpenAd when app status is changed"), SerializeField]
+        private bool autoShow = false;
+
         private bool _registerCallback = false;
+        public bool AutoShow => autoShow;
 
         public override void Init()
         {

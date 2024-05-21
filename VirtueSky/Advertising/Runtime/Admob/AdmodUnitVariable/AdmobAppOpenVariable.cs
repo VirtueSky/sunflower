@@ -13,11 +13,15 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdmobAppOpenVariable : AdUnitVariable
     {
+        [Tooltip("Automatically show AppOpenAd when app status is changed"), SerializeField]
+        private bool autoShow = false;
+
         public bool useTestId;
 #if VIRTUESKY_ADS && ADS_ADMOB
         private AppOpenAd _appOpenAd;
 #endif
         private DateTime _expireTime;
+        public bool AutoShow => autoShow;
 
         public override void Init()
         {
