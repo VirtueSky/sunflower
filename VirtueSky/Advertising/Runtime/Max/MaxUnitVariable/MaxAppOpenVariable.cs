@@ -33,6 +33,7 @@ namespace VirtueSky.Ads
                 MaxSdkCallbacks.AppOpen.OnAdDisplayFailedEvent += OnAdDisplayFailed;
                 MaxSdkCallbacks.AppOpen.OnAdLoadFailedEvent += OnAdLoadFailed;
                 MaxSdkCallbacks.AppOpen.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+                MaxSdkCallbacks.AppOpen.OnAdClickedEvent += OnAdClicked;
                 _registerCallback = true;
             }
 
@@ -99,6 +100,11 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
+        }
+
+        private void OnAdClicked(string unit, MaxSdkBase.AdInfo info)
+        {
+            Common.CallActionAndClean(ref clickedCallback);
         }
 #endif
 

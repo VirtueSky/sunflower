@@ -44,6 +44,12 @@ namespace VirtueSky.Ads
             return unit;
         }
 
+        public static AdUnitVariable OnClicked(this AdUnitVariable unit, Action onClicked)
+        {
+            unit.clickedCallback = onClicked;
+            return unit;
+        }
+
         public static AdUnitVariable OnCompleted(this AdUnitVariable unit, Action onCompleted)
         {
             if (!Application.isMobilePlatform)

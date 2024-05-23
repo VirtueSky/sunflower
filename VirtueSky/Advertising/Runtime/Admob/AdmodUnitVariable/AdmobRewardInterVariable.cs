@@ -95,7 +95,13 @@ namespace VirtueSky.Ads
             _rewardedInterstitialAd.OnAdFullScreenContentOpened += OnAdOpening;
             _rewardedInterstitialAd.OnAdFullScreenContentFailed += OnAdFailedToShow;
             _rewardedInterstitialAd.OnAdPaid += OnAdPaided;
+            _rewardedInterstitialAd.OnAdClicked += OnAdClicked;
             OnAdLoaded();
+        }
+
+        private void OnAdClicked()
+        {
+            Common.CallActionAndClean(ref clickedCallback);
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
