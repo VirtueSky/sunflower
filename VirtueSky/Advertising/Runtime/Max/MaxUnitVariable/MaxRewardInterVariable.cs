@@ -98,11 +98,13 @@ namespace VirtueSky.Ads
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnFailedToLoadAdEvent?.Invoke(error.Message);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,

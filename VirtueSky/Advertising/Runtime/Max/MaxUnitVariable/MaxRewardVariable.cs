@@ -96,6 +96,7 @@ namespace VirtueSky.Ads
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnFailedToLoadAdEvent?.Invoke(info.Message);
         }
 
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo errorInfo,
@@ -107,6 +108,7 @@ namespace VirtueSky.Ads
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)

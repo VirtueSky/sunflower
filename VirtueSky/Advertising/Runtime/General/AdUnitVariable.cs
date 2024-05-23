@@ -19,6 +19,9 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action clickedCallback;
         [NonSerialized] public Action<double, string, string, string, string> paidedCallback;
 
+        public Action OnLoadAdEvent;
+        public Action<string> OnFailedToLoadAdEvent;
+
         public string Id
         {
             get

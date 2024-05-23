@@ -107,11 +107,13 @@ namespace VirtueSky.Ads
         private void OnAdFailedToLoad(LoadAdError error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnFailedToLoadAdEvent?.Invoke(error.GetMessage());
         }
 
         private void OnAdLoaded()
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdPaided(AdValue value)

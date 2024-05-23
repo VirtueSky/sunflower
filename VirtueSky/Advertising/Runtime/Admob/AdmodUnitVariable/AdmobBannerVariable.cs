@@ -142,11 +142,13 @@ namespace VirtueSky.Ads
         private void OnAdLoaded()
         {
             Common.CallActionAndClean(ref loadedCallback);
+            OnLoadAdEvent?.Invoke();
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
+            OnFailedToLoadAdEvent?.Invoke(error.GetMessage());
             if (_reload != null) App.StopCoroutine(_reload);
             _reload = DelayBannerReload();
             App.StartCoroutine(_reload);
