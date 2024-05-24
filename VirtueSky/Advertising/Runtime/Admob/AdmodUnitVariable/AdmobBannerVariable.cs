@@ -44,6 +44,7 @@ namespace VirtueSky.Ads
             _bannerView.OnBannerAdLoaded += OnAdLoaded;
             _bannerView.OnAdFullScreenContentOpened += OnAdOpening;
             _bannerView.OnAdPaid += OnAdPaided;
+            _bannerView.OnAdClicked += OnAdClicked;
             var adRequest = new AdRequest();
             if (useCollapsible)
             {
@@ -54,6 +55,7 @@ namespace VirtueSky.Ads
 
 #endif
         }
+
 
         public override bool IsReady()
         {
@@ -132,6 +134,11 @@ namespace VirtueSky.Ads
                 "Admob",
                 Id,
                 "BannerAd", AdNetwork.Admob.ToString());
+        }
+
+        private void OnAdClicked()
+        {
+            Common.CallActionAndClean(ref clickedCallback);
         }
 
         private void OnAdOpening()
