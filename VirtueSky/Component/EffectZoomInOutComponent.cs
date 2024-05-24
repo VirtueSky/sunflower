@@ -6,12 +6,12 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class EffectZoomInOutComponent : BaseMono
     {
         public bool playOnAwake = true;
         [Range(0, 2f)] public float timeDelay;
-        [Range(.1f, 2f)] public float offsetScale = .1f;
+        [Range(0, 2f)] public float offsetScale = .1f;
         [Range(0, 2f)] public float timeScale = .7f;
         public Ease ease = Ease.Linear;
         private Vector3 currentScale;

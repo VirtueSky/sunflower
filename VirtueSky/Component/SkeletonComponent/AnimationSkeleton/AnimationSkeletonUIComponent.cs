@@ -6,7 +6,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(SkeletonGraphic))]
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class AnimationSkeletonUIComponent : AnimationSkeleton
     {
         [SerializeField] SkeletonGraphic skeletonGraphic;

@@ -7,7 +7,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(AnimancerComponent))]
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class HandleAnimancerComponent : MonoBehaviour
     {
         [SerializeField] private AnimancerComponent animancerComponent;

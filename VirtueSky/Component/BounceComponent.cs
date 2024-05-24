@@ -4,7 +4,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class BounceComponent : BaseMono
     {
         [Header("Attributes")] public bool isRotate = false;

@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Component
 {
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class EffectAppearComponent : BaseMono
     {
         [Range(0, 2f)] public float TimeScale = .7f;

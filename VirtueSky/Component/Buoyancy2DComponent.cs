@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Component
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [EditorIcon("icon_csharp")]
+    [EditorIcon("icon_csharp"), HideMonoScript]
     public class Buoyancy2DComponent : BaseMono
     {
         public Transform[] floaters;
