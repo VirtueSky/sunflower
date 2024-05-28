@@ -139,11 +139,13 @@ namespace VirtueSky.Ads
         private void OnAdClicked()
         {
             Common.CallActionAndClean(ref clickedCallback);
+            OnClickedAdEvent?.Invoke();
         }
 
         private void OnAdOpening()
         {
             Common.CallActionAndClean(ref displayedCallback);
+            OnDisplayedAdEvent?.Invoke();
         }
 
         private void OnAdLoaded()
@@ -164,6 +166,7 @@ namespace VirtueSky.Ads
         private void OnAdClosed()
         {
             Common.CallActionAndClean(ref closedCallback);
+            OnClosedAdEvent?.Invoke();
         }
 
         private IEnumerator DelayBannerReload()

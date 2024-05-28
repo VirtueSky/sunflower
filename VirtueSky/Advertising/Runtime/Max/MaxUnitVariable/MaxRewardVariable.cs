@@ -103,6 +103,7 @@ namespace VirtueSky.Ads
             MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
+            OnFailedToDisplayAdEvent?.Invoke(errorInfo.Message);
         }
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
@@ -115,6 +116,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
+            OnClosedAdEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedAd(Id);
             if (IsEarnRewarded)
             {
@@ -130,11 +132,13 @@ namespace VirtueSky.Ads
         {
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
+            OnDisplayedAdEvent?.Invoke();
         }
 
         private void OnAdClicked(string unit, MaxSdkBase.AdInfo info)
         {
             Common.CallActionAndClean(ref clickedCallback);
+            OnClickedAdEvent?.Invoke();
         }
 #endif
 

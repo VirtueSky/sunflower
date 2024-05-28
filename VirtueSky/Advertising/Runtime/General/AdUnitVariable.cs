@@ -21,6 +21,10 @@ namespace VirtueSky.Ads
 
         public Action OnLoadAdEvent;
         public Action<string> OnFailedToLoadAdEvent;
+        public Action OnDisplayedAdEvent;
+        public Action<string> OnFailedToDisplayAdEvent;
+        public Action OnClosedAdEvent;
+        public Action OnClickedAdEvent;
 
         public string Id
         {
