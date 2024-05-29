@@ -12,7 +12,7 @@ namespace VirtueSky.Variables
         private const string pathVariable = "/Variable";
         private const string menuVariable = "Sunflower/Scriptable/Create Variable/";
 
-        [MenuItem(menuVariable + "Transform Variable")]
+        [MenuItem(menuVariable + "Transform Variable", priority = 201)]
         public static void CreateVariableTransform()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<TransformVariable>(pathVariable,
@@ -20,28 +20,28 @@ namespace VirtueSky.Variables
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Rect Variable")]
+        [MenuItem(menuVariable + "Rect Variable", priority = 201)]
         public static void CreateVariableRect()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<RectVariable>(pathVariable, "so_rect_variable");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Object Variable")]
+        [MenuItem(menuVariable + "Object Variable", priority = 201)]
         public static void CreateVariableObject()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<ObjectVariable>(pathVariable, "so_object_variables");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Boolean Variable")]
+        [MenuItem(menuVariable + "Boolean Variable", priority = 201)]
         public static void CreateVariableBoolean()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<BooleanVariable>(pathVariable, "so_bool_variables");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Short Double Variable")]
+        [MenuItem(menuVariable + "Short Double Variable", priority = 201)]
         public static void CreateVariableShortDouble()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<ShortDoubleVariable>(pathVariable,
@@ -49,28 +49,28 @@ namespace VirtueSky.Variables
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Vector3 Variable")]
+        [MenuItem(menuVariable + "Vector3 Variable", priority = 201)]
         public static void CreateVariableVector3()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<Vector3Variable>(pathVariable, "so_vector3_variable");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "String Variable")]
+        [MenuItem(menuVariable + "String Variable", priority = 201)]
         public static void CreateVariableString()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<StringVariable>(pathVariable, "so_string_variable");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Float Variable")]
+        [MenuItem(menuVariable + "Float Variable", priority = 201)]
         public static void CreateVariableFloat()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<FloatVariable>(pathVariable, "so_float_variables");
             so.GetGuid();
         }
 
-        [MenuItem(menuVariable + "Integer Variable")]
+        [MenuItem(menuVariable + "Integer Variable", priority = 201)]
         public static void CreateVariableInt()
         {
             var so = CreateAsset.CreateScriptableAssetsOnlyName<IntegerVariable>(pathVariable, "so_int_variable");

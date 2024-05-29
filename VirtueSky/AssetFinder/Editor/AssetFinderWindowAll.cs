@@ -14,7 +14,7 @@ namespace VirtueSky.AssetFinder.Editor
     // optimize lag duplicate khi use
     public class AssetFinderWindowAll : AssetFinderWindowBase, IHasCustomMenu
     {
-        [MenuItem("Sunflower/Asset Finder %#k")]
+        [MenuItem("Sunflower/Asset Finder %#k", false, priority = 101)]
         public static void ShowWindow()
         {
             var _window = CreateInstance<AssetFinderWindowAll>();

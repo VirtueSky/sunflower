@@ -15,7 +15,7 @@ namespace VirtueSky.ControlPanel.Editor
         private string inputPackageFullNameRemove = "";
         private Vector2 scrollButton = Vector2.zero;
 
-        [MenuItem("Sunflower/Control Panel &1", false)]
+        [MenuItem("Sunflower/Control Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window =
