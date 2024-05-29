@@ -26,18 +26,30 @@ namespace VirtueSky.Ads
         public Action OnClosedAdEvent;
         public Action OnClickedAdEvent;
 
+        [NonSerialized] private string idRuntime = string.Empty;
+
         public string Id
         {
             get
             {
+                if (idRuntime == String.Empty)
+                {
 #if UNITY_ANDROID
-                return androidId;
+                    return androidId;
 #elif UNITY_IOS
                 return iOSId;
 #else
                 return string.Empty;
 #endif
+                }
+
+                return idRuntime;
             }
+        }
+
+        public void SetIdRuntime(string unitId)
+        {
+            idRuntime = unitId;
         }
 
         public abstract void Init();
