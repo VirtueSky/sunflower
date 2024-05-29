@@ -196,12 +196,16 @@ internal static class Utils {
             case TweenType.VisualElementBackgroundColor:
                 return (PropType.Color, typeof(UnityEngine.UIElements.VisualElement));
             #endif
-            #if TEXT_MESH_PRO_INSTALLED
+            #if TEXT_MESH_PRO_INSTALLED || (UNITY_6000_0_OR_NEWER && UNITY_UGUI_INSTALLED)
             case TweenType.TextMaxVisibleCharacters:
                 return (PropType.Int, typeof(TMPro.TMP_Text));
             #endif
             case TweenType.None:
                 return (PropType.None, null);
+            #if PRIME_TWEEN_PRO
+            case TweenType.TweenComponent:
+                return (PropType.None, typeof(PrimeTween.TweenComponent));
+            #endif
             case TweenType.Delay:
                 return (PropType.Float, null);
             case TweenType.Callback:
