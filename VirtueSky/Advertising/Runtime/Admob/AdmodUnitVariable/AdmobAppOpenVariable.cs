@@ -105,6 +105,7 @@ namespace VirtueSky.Ads
 
         private void OnAdOpening()
         {
+            AdStatic.waitAppOpenDisplayedAction?.Invoke();
             AdStatic.isShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
@@ -118,6 +119,7 @@ namespace VirtueSky.Ads
 
         private void OnAdClosed()
         {
+            AdStatic.waitAppOpenClosedAction?.Invoke();
             AdStatic.isShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
