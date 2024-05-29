@@ -24,6 +24,7 @@ namespace VirtueSky.Ads
 
         private readonly WaitForSeconds _waitBannerReload = new WaitForSeconds(5f);
         private IEnumerator _reload;
+        private bool isBannerShowing;
 
         public override void Init()
         {
@@ -52,7 +53,6 @@ namespace VirtueSky.Ads
             }
 
             _bannerView.LoadAd(adRequest);
-
 #endif
         }
 
@@ -69,7 +69,12 @@ namespace VirtueSky.Ads
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && ADS_ADMOB
-            Load();
+            isBannerShowing = true;
+            if (_bannerView == null)
+            {
+                Load();
+            }
+
             _bannerView.Show();
 #endif
         }
@@ -78,8 +83,17 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && ADS_ADMOB
             if (_bannerView == null) return;
+            isBannerShowing = false;
             _bannerView.Destroy();
             _bannerView = null;
+#endif
+        }
+
+        public void HideBanner()
+        {
+#if VIRTUESKY_ADS && ADS_ADMOB
+            isBannerShowing = false;
+            if (_bannerView != null) _bannerView.Hide();
 #endif
         }
 

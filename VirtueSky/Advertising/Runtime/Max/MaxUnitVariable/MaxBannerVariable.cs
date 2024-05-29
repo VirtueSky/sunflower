@@ -14,6 +14,7 @@ namespace VirtueSky.Ads
 
         private bool isBannerDestroyed = true;
         private bool _registerCallback = false;
+        private bool isBannerShowing;
 
         public override void Init()
         {
@@ -40,6 +41,7 @@ namespace VirtueSky.Ads
             if (isBannerDestroyed)
             {
                 MaxSdk.CreateBanner(Id, ConvertPosition());
+                isBannerDestroyed = false;
             }
 #endif
         }
@@ -53,6 +55,7 @@ namespace VirtueSky.Ads
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
+            isBannerShowing = true;
             Load();
             MaxSdk.ShowBanner(Id);
 #endif
@@ -62,8 +65,18 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
+            isBannerShowing = false;
             isBannerDestroyed = true;
             MaxSdk.DestroyBanner(Id);
+#endif
+        }
+
+        public void Hide()
+        {
+#if VIRTUESKY_ADS && ADS_APPLOVIN
+            isBannerShowing = false;
+            if (string.IsNullOrEmpty(Id)) return;
+            MaxSdk.HideBanner(Id);
 #endif
         }
 
