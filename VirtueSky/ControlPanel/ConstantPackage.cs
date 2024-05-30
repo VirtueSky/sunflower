@@ -72,6 +72,11 @@
         public const string MaxVersionFirebaseCrashlytics =
             "https://github.com/firebase-unity/firebase-crashlytics.git#12.0.0";
 
+        public const string PackageNameFirebaseSupportIos = "com.google.firebase.support-ios";
+
+        public const string MaxVersionFirebaseSupportIos =
+            "https://github.com/firebase-unity/firebase-support-ios.git#12.0.0";
+
         #endregion
 
         public const string PackageNameAdjust = "com.pancake.adjust";
