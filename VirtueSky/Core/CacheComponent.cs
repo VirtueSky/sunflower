@@ -7,7 +7,7 @@ namespace VirtueSky.Core
         public T component;
         public Transform CacheTransform { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (CacheTransform == null) CacheTransform = transform;
             GetCacheComponent();
@@ -21,7 +21,7 @@ namespace VirtueSky.Core
             }
         }
 #if UNITY_EDITOR
-        private void Reset()
+        protected virtual void Reset()
         {
             GetCacheComponent();
         }
