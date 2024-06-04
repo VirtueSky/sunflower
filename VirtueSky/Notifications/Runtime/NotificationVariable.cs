@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
+using VirtueSky.Variables;
 
 namespace VirtueSky.Notifications
 {
@@ -25,7 +26,14 @@ namespace VirtueSky.Notifications
         }
 
         [SerializeField] private string identifier;
+        [SerializeField] private bool isRemoteConfigTimeSchedule;
+
+        [ShowIf(nameof(isRemoteConfigTimeSchedule)), SerializeField]
+        private IntegerVariable remoteConfigMinute;
+
+        [HideIf(nameof(isRemoteConfigTimeSchedule))]
         public int minute;
+
         [SerializeField] private bool repeat;
         [SerializeField] internal bool bigPicture;
 
@@ -49,6 +57,15 @@ namespace VirtueSky.Notifications
 
         [SerializeField] private NotificationData[] datas;
 
+        int GetMinute()
+        {
+            if (isRemoteConfigTimeSchedule)
+            {
+                return remoteConfigMinute.Value;
+            }
+
+            return minute;
+        }
 
         public void Send()
         {
@@ -74,7 +91,7 @@ namespace VirtueSky.Notifications
             NotificationConsole.Schedule(identifier,
                 data.title,
                 data.message,
-                TimeSpan.FromMinutes(minute),
+                TimeSpan.FromMinutes(GetMinute()),
                 smallIcon: smallIcon,
                 largeIcon: largeIcon,
                 bigPicture: bigPicture,
