@@ -80,7 +80,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.pancake.adjust";
-        public const string MaxVersionAdjust = "https://github.com/pancake-llc/adjust.git#4.37.1";
+        public const string MaxVersionAdjust = "https://github.com/pancake-llc/adjust.git#4.38.0";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
