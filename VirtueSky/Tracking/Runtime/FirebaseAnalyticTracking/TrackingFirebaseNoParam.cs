@@ -1,12 +1,12 @@
 using UnityEngine;
 using VirtueSky.Inspector;
 
-namespace VirtueSky.FirebaseTracking
+namespace VirtueSky.Tracking
 {
-    [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Log Event No Param",
-        fileName = "log_event_firebase_no_param")]
+    [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Tracking No Param",
+        fileName = "tracking_firebase_no_param")]
     [EditorIcon("scriptable_firebase")]
-    public class LogEventFirebaseNoParam : ScriptableObject
+    public class TrackingFirebaseNoParam : ScriptableObject
     {
         [Space] [HeaderLine("Event Name")] [SerializeField]
         private string eventName;

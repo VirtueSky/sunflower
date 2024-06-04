@@ -1,13 +1,14 @@
 {
-    "name": "Virtuesky.Sunflower.FirebaseTracking.Editor",
+    "name": "Virtuesky.Sunflower.Tracking",
     "rootNamespace": "",
     "references": [
-        "GUID:dfdafb54d3ba8a04393a1204cd5ba02d",
-        "GUID:c904f6d969e991d459a0843b71c22ec5"
+        "VirtueSky.Sunflower.Inspector",
+        "Pancake.Adjust",
+        "AppsFlyer",
+        "AppsFlyerAdRevenue",
+        "UnityEngine.Purchasing"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

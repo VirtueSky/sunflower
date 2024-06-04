@@ -14,7 +14,7 @@ using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Variables;
 
-namespace VirtueSky.FirebaseTracking
+namespace VirtueSky.RemoteConfigs
 {
     [EditorIcon("icon_controller")]
     public class FirebaseRemoteConfigManager : MonoBehaviour

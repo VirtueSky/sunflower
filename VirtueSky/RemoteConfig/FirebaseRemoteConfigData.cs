@@ -8,7 +8,7 @@ using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Variables;
 
-namespace VirtueSky.FirebaseTracking
+namespace VirtueSky.RemoteConfigs
 {
     [Serializable]
     public class FirebaseRemoteConfigData
