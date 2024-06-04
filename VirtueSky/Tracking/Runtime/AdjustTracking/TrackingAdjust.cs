@@ -1,4 +1,3 @@
-using com.adjust.sdk;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -15,7 +14,7 @@ namespace VirtueSky.Tracking
         public void TrackEvent()
         {
 #if VIRTUESKY_ADJUST
-            com.adjust.sdk.Adjust.trackEvent(new AdjustEvent(eventToken));
+            com.adjust.sdk.Adjust.trackEvent(new com.adjust.sdk.AdjustEvent(eventToken));
 #endif
         }
     }
