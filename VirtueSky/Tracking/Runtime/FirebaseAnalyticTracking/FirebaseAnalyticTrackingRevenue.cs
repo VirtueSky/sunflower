@@ -2,7 +2,7 @@
 using Firebase.Analytics;
 #endif
 
-namespace VirtueSky.TrackingRevenue
+namespace VirtueSky.Tracking
 {
     public struct FirebaseAnalyticTrackingRevenue
     {

@@ -2,7 +2,7 @@
 using com.adjust.sdk;
 #endif
 
-namespace VirtueSky.TrackingRevenue
+namespace VirtueSky.Tracking
 {
     public struct AdjustTrackingRevenue
     {

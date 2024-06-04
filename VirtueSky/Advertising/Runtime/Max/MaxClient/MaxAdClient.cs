@@ -1,5 +1,5 @@
 using VirtueSky.Inspector;
-using VirtueSky.TrackingRevenue;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {

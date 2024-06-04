@@ -9,7 +9,7 @@ using UnityEngine.Purchasing;
 #endif
 
 
-namespace VirtueSky.TrackingRevenue
+namespace VirtueSky.Tracking
 {
     public struct AppsFlyerTrackingRevenue
     {

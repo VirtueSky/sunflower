@@ -4,7 +4,7 @@ using GoogleMobileAds.Api;
 using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Core;
-using VirtueSky.TrackingRevenue;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {

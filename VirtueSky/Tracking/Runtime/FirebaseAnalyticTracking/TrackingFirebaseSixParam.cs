@@ -3,7 +3,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Tracking
 {
-    [CreateAssetMenu(menuName = "Sunflower/Firebase Analytic/Tracking 6 Param",
+    [CreateAssetMenu(menuName = "Sunflower/Tracking Event/Firebase Analytic/Tracking 6 Param",
         fileName = "tracking_firebase_6_param")]
     [EditorIcon("scriptable_firebase")]
     public class TrackingFirebaseSixParam : ScriptableObject
@@ -20,7 +20,7 @@ namespace VirtueSky.Tracking
         [SerializeField] private string parameterName5;
         [SerializeField] private string parameterName6;
 
-        public void LogEvent(string parameterValue1, string parameterValue2, string parameterValue3,
+        public void TrackEvent(string parameterValue1, string parameterValue2, string parameterValue3,
             string parameterValue4, string parameterValue5, string parameterValue6)
         {
             if (!Application.isMobilePlatform) return;
