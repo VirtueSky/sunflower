@@ -16,86 +16,45 @@ namespace VirtueSky.UtilsEditor
 #if UNITY_EDITOR
     public static class FileExtension
     {
-        public static T GetConfigFromFolder<T>(string path) where T : ScriptableObject
+        public static List<T> FindAll<T>(string path) where T : Object
         {
-            var fileEntries = Directory.GetFiles(path, ".", SearchOption.AllDirectories);
+            var results = new List<T>();
+            var filter = $"t:{typeof(T).Name}";
+            var assetNames = AssetDatabase.FindAssets(filter, new[] { path });
 
-            foreach (var fileEntry in fileEntries)
-                if (fileEntry.EndsWith(".asset"))
-                {
-                    var item =
-                        AssetDatabase.LoadAssetAtPath<T>(fileEntry.Replace("\\", "/"));
-                    if (item)
-                        return item;
-                }
-
-            return null;
-        }
-
-        public static List<T> GetConfigsFromFolder<T>(string path) where T : ScriptableObject
-        {
-            var fileEntries = Directory.GetFiles(path, ".", SearchOption.AllDirectories);
-            var result = new List<T>();
-            foreach (var fileEntry in fileEntries)
-                if (fileEntry.EndsWith(".asset"))
-                {
-                    var item = AssetDatabase.LoadAssetAtPath<T>(fileEntry.Replace("\\", "/"));
-
-                    if (item)
-                        result.Add(item);
-                }
-
-            if (result.Count > 0)
-                return result;
-
-            return null;
-        }
-
-        public static T GetConfigFromResource<T>(string path) where T : ScriptableObject
-        {
-            T config =
-                Resources.Load<T>(path);
-            if (config != null)
+            foreach (string assetName in assetNames)
             {
-                return config;
+                var assetPath = AssetDatabase.GUIDToAssetPath(assetName);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset == null) continue;
+
+                results.Add(asset);
             }
 
-            return null;
+            return results;
         }
 
-        public static T GetPrefabFromFolder<T>(string path) where T : MonoBehaviour
+        /// <summary>
+        /// Find all asset with type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static List<T> FindAll<T>() where T : Object
         {
-            var fileEntries = Directory.GetFiles(path, ".", SearchOption.AllDirectories);
+            var results = new List<T>();
+            var filter = $"t:{typeof(T).Name}";
+            var assetNames = AssetDatabase.FindAssets(filter);
 
-            foreach (var fileEntry in fileEntries)
-                if (fileEntry.EndsWith(".prefab"))
-                {
-                    var item =
-                        AssetDatabase.LoadAssetAtPath<T>(fileEntry.Replace("\\", "/"));
-                    if (item)
-                        return item;
-                }
+            foreach (string assetName in assetNames)
+            {
+                var assetPath = AssetDatabase.GUIDToAssetPath(assetName);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset == null) continue;
 
-            return null;
-        }
+                results.Add(asset);
+            }
 
-        public static List<T> GetPrefabsFromFolder<T>(string path) where T : MonoBehaviour
-        {
-            var fileEntries = Directory.GetFiles(path, ".", SearchOption.AllDirectories);
-            var result = new List<T>();
-            foreach (var fileEntry in fileEntries)
-                if (fileEntry.EndsWith(".prefab"))
-                {
-                    var item = AssetDatabase.LoadAssetAtPath<T>(fileEntry.Replace("\\", "/"));
-
-                    if (item)
-                        result.Add(item);
-                }
-
-            if (result.Count > 0)
-                return result;
-
-            return null;
+            return results;
         }
 
         public static T FindAssetWithPath<T>(string fullPath) where T : Object
@@ -121,6 +80,41 @@ namespace VirtueSky.UtilsEditor
             var t = AssetDatabase.LoadAllAssetsAtPath(path).OfType<T>().ToArray();
             if (t.Length == 0) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
             return t;
+        }
+
+        public static void ChangeAssetName(Object asset, string name)
+        {
+            var assetPath = AssetDatabase.GetAssetPath(asset.GetInstanceID());
+            AssetDatabase.RenameAsset(assetPath, name);
+            AssetDatabase.SaveAssets();
+        }
+
+        public static T[] FindAssetAtFolder<T>(string[] paths) where T : Object
+        {
+            var list = new List<T>();
+            var guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}", paths);
+            foreach (var guid in guids)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+                if (asset)
+                {
+                    list.Add(asset);
+                }
+            }
+
+            return list.ToArray();
+        }
+
+        public static T FindAssetAtResource<T>(string path) where T : ScriptableObject
+        {
+            T config =
+                Resources.Load<T>(path);
+            if (config != null)
+            {
+                return config;
+            }
+
+            return null;
         }
 
         public static string AssetInPackagePath(string relativePath, string nameAsset)

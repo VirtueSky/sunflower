@@ -7,7 +7,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Variables
 {
-    public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver
+    public class BaseVariable<TType> : BaseEvent<TType>, IVariable<TType>, ISerializationCallbackReceiver, IGuidVariable
     {
         [ShowIf(nameof(isSetData)), ReadOnly, SerializeField]
         protected string id;
@@ -27,23 +27,11 @@ namespace VirtueSky.Variables
 #endif
         public TType InitializeValue => initializeValue;
 
-
-#if UNITY_EDITOR
-
-        [ShowIf(nameof(ConditionShowButtonGetGuid)), Button]
-        public void GetGuid()
+        public string Guid
         {
-            id = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(this));
-            EditorUtility.SetDirty(this);
+            get => id;
+            set => id = value;
         }
-
-        private void Reset()
-        {
-            GetGuid();
-        }
-
-        private bool ConditionShowButtonGetGuid => id == "" && isSetData;
-#endif
 
         private void OnEnable()
         {
