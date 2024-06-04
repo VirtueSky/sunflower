@@ -6,7 +6,8 @@
         "Pancake.Adjust",
         "AppsFlyer",
         "AppsFlyerAdRevenue",
-        "UnityEngine.Purchasing"
+        "UnityEngine.Purchasing",
+        "Virtuesky.Sunflower.Misc"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

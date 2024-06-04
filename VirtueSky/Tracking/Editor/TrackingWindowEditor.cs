@@ -4,13 +4,17 @@ using VirtueSky.UtilsEditor;
 
 public class TrackingWindowEditor : EditorWindow
 {
-    private const string path = "/FirebaseAnalytic_LogEvent";
+    private const string pathFirebaseTracking = "/FirebaseAnalytic_Tracking";
+    private const string pathAdjustTracking = "/AdjustTracking";
+    private const string pathAppsFlyerTracking = "/AppsFlyerTracking";
+
+    #region Firebase Tracking
 
     // [MenuItem("Sunflower/Firebase Analytic/Log Event Firebase No Param")]
     public static void CreateLogEventFirebaseNoParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseNoParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_no_param");
     }
 
@@ -18,7 +22,7 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseOneParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseOneParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_1_param");
     }
 
@@ -26,7 +30,7 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseTwoParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseTwoParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_2_param");
     }
 
@@ -34,7 +38,7 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseThreeParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseThreeParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_3_param");
     }
 
@@ -42,7 +46,7 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseFourParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseFourParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_4_param");
     }
 
@@ -50,7 +54,7 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseFiveParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseFiveParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_5_param");
     }
 
@@ -58,7 +62,60 @@ public class TrackingWindowEditor : EditorWindow
     public static void CreateLogEventFirebaseSixParam()
     {
         CreateAsset.CreateScriptableAssetsOnlyName<TrackingFirebaseSixParam>(
-            path,
+            pathFirebaseTracking,
             "tracking_firebase_6_param");
+    }
+
+    #endregion
+
+    #region AppsFlyer Tracking
+
+    public static void CreateTrackingAfNoParam()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerNoParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_no_param");
+    }
+
+    public static void CreateTrackingAf1Param()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerOneParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_1_param");
+    }
+
+    public static void CreateTrackingAf2Param()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerTwoParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_2_param");
+    }
+
+    public static void CreateTrackingAf3Param()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerThreeParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_3_param");
+    }
+
+    public static void CreateTrackingAf4Param()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerFourParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_4_param");
+    }
+
+    public static void CreateTrackingAf5Param()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerFiveParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_5_param");
+    }
+
+    public static void CreateTrackingAfHasParam()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAppsFlyerHasParam>(pathAppsFlyerTracking,
+            "tracking_appsflyer_has_param");
+    }
+
+    #endregion
+
+    public static void CreateTrackingAdjust()
+    {
+        CreateAsset.CreateScriptableAssetsOnlyName<TrackingAdjust>(pathAdjustTracking, "tracking_adjust");
     }
 }

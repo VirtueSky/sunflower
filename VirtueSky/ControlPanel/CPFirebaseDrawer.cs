@@ -94,37 +94,37 @@ namespace VirtueSky.ControlPanel.Editor
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Create Log Event Firebase No Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase No Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseNoParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 1 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 1 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseOneParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 2 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 2 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseTwoParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 3 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 3 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseThreeParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 4 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 4 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseFourParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 5 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 5 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseFiveParam();
             }
 
-            if (GUILayout.Button("Create Log Event Firebase 6 Param"))
+            if (GUILayout.Button("Create Scriptable Tracking Firebase 6 Param"))
             {
                 TrackingWindowEditor.CreateLogEventFirebaseSixParam();
             }

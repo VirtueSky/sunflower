@@ -76,6 +76,8 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Audio", StatePanelControl.Audio);
             DrawButtonChooseState("Pools", StatePanelControl.Pools);
             DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
+            DrawButtonChooseState("Adjust", StatePanelControl.Adjust);
+            DrawButtonChooseState("AppsFlyer", StatePanelControl.AppsFlyer);
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
@@ -133,6 +135,12 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
+                    break;
+                case StatePanelControl.Adjust:
+                    CPAdjustDrawer.OnDrawAdjust();
+                    break;
+                case StatePanelControl.AppsFlyer:
+                    CPAppsFlyerDrawer.OnDrawAppsFlyer();
                     break;
                 case StatePanelControl.GameService:
                     CPGameServiceDrawer.OnDrawGameService();
@@ -193,6 +201,8 @@ namespace VirtueSky.ControlPanel.Editor
         NotificationsChanel,
         SO_Event,
         SO_Variable,
+        Adjust,
+        AppsFlyer,
         ScriptDefineSymbols,
         RegisterPackage,
         Hierarchy,

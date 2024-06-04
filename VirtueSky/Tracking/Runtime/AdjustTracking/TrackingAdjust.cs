@@ -1,3 +1,4 @@
+using com.adjust.sdk;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -8,8 +9,14 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_adjust2")]
     public class TrackingAdjust : ScriptableObject
     {
+        [HeaderLine("Event Token"), SerializeField]
+        private string eventToken;
+
         public void TrackEvent()
         {
+#if VIRTUESKY_ADJUST
+            com.adjust.sdk.Adjust.trackEvent(new AdjustEvent(eventToken));
+#endif
         }
     }
 }
