@@ -16,6 +16,7 @@ namespace VirtueSky.Notifications
 
         private void Start()
         {
+            PermissionPostNotification();
             if (Application.isMobilePlatform)
             {
                 var strs = new List<string>();
@@ -41,6 +42,14 @@ namespace VirtueSky.Notifications
                 UnityWebRequest.Get(Path.Combine(Application.streamingAssetsPath, filename));
             yield return uwr.SendWebRequest();
             File.WriteAllBytes(path, uwr.downloadHandler.data);
+        }
+
+        void PermissionPostNotification()
+        {
+            if (!UnityEngine.Android.Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+            {
+                UnityEngine.Android.Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+            }
         }
 #endif
     }
