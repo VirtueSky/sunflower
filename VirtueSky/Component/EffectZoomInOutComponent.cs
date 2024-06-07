@@ -52,15 +52,13 @@ namespace VirtueSky.Component
         {
             if (!gameObject.activeInHierarchy) return;
             if (isBreak) return;
-            App.Delay(timeDelay * (delay ? 1 : 0),
+            App.Delay(this, timeDelay * (delay ? 1 : 0),
                 () =>
                 {
                     tween = transform.Scale(
-                        new Vector3(currentScale.x + offsetScale, currentScale.y + offsetScale,
-                            currentScale.z + offsetScale), timeScale, ease).OnComplete(() =>
-                    {
-                        DoEffect(-offsetScale, !delay);
-                    });
+                            new Vector3(currentScale.x + offsetScale, currentScale.y + offsetScale,
+                                currentScale.z + offsetScale), timeScale, ease)
+                        .OnComplete(() => { DoEffect(-offsetScale, !delay); }, false);
                 });
         }
     }
