@@ -74,7 +74,6 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Scriptable Event", StatePanelControl.SO_Event);
             DrawButtonChooseState("Scriptable Variable", StatePanelControl.SO_Variable);
             DrawButtonChooseState("Audio", StatePanelControl.Audio);
-            DrawButtonChooseState("Pools", StatePanelControl.Pools);
             DrawButtonChooseState("Firebase", StatePanelControl.Firebase);
             DrawButtonChooseState("Adjust", StatePanelControl.Adjust);
             DrawButtonChooseState("AppsFlyer", StatePanelControl.AppsFlyer);
@@ -105,9 +104,6 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.Audio:
                     CPAudioDrawer.OnDrawAudio(position);
-                    break;
-                case StatePanelControl.Pools:
-                    CPPoolDrawer.OnDrawPools();
                     break;
                 case StatePanelControl.InAppReview:
                     CPInAppReviewDrawer.OnDrawInAppReview(position);
@@ -195,7 +191,6 @@ namespace VirtueSky.ControlPanel.Editor
         InAppPurchase,
         AssetsFinder,
         Audio,
-        Pools,
         InAppReview,
         LevelEditor,
         NotificationsChanel,

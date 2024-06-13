@@ -1,29 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VirtueSky.Core;
-using VirtueSky.Inspector;
 #if UNITY_EDITOR
 #endif
 
 namespace VirtueSky.ObjectPooling
 {
-    [CreateAssetMenu(menuName = "Sunflower/ObjectPooling/Pools")]
-    [EditorIcon("scriptable_pool")]
-    public class Pools : ScriptableObject, ISerializationCallbackReceiver
+    internal sealed class PoolHandle
     {
-        [SerializeField] PoolData[] poolDatas;
+        private Dictionary<GameObject, Queue<GameObject>> waitPool;
+        private LinkedList<GameObject> activePool;
+        private Transform container;
+        private bool initialized;
 
-        Dictionary<GameObject, Queue<GameObject>> waitPool;
-        LinkedList<GameObject> activePool;
-
-        Transform container;
-
-        bool initialized;
-
-        public void Initialize()
+        internal void Initialize()
         {
             if (initialized) return;
             initialized = true;
@@ -31,25 +23,20 @@ namespace VirtueSky.ObjectPooling
             waitPool = new Dictionary<GameObject, Queue<GameObject>>();
             activePool = new LinkedList<GameObject>();
             container = new GameObject("PoolContainer").transform;
-            DontDestroyOnLoad(container.gameObject);
-
-            PreSpawn();
+            UnityEngine.Object.DontDestroyOnLoad(container.gameObject);
         }
 
-        void PreSpawn()
+        internal void PreSpawn(PoolData poolData)
         {
-            foreach (var data in poolDatas)
+            for (var i = 0; i < poolData.count; i++)
             {
-                for (var i = 0; i < data.preSpawn; i++)
-                {
-                    SpawnNew(data.prefab);
-                }
+                SpawnNew(poolData.prefab);
             }
         }
 
-        public void SpawnNew(GameObject prefab)
+        private void SpawnNew(GameObject prefab)
         {
-            var gameObject = Instantiate(prefab);
+            var gameObject = UnityEngine.Object.Instantiate(prefab);
             var id = gameObject.AddComponent<PooledObjectId>();
             id.prefab = prefab;
 
@@ -58,8 +45,12 @@ namespace VirtueSky.ObjectPooling
             DeSpawn(gameObject, false);
         }
 
+        internal void DeSpawn<T>(T type, bool destroy = false, bool worldPositionStays = true) where T : Component
+        {
+            DeSpawn(type.gameObject, destroy, worldPositionStays);
+        }
 
-        public void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
+        internal void DeSpawn(GameObject gameObject, bool destroy = false, bool worldPositionStays = true)
         {
             var id = gameObject.GetComponent<PooledObjectId>();
             if (id == null)
@@ -90,7 +81,7 @@ namespace VirtueSky.ObjectPooling
             CleanUp(gameObject);
             if (destroy)
             {
-                Destroy(gameObject);
+                UnityEngine.Object.Destroy(gameObject);
             }
             else
             {
@@ -100,7 +91,7 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        public void DeSpawnAll()
+        internal void DeSpawnAll()
         {
             var arr = activePool.ToArray();
             foreach (var o in arr)
@@ -109,14 +100,14 @@ namespace VirtueSky.ObjectPooling
             }
         }
 
-        public void DestroyAllWaitPools()
+        internal void DestroyAllWaitPools()
         {
             foreach (var (key, queue) in waitPool)
             {
                 foreach (var go in queue)
                 {
                     CleanUp(go);
-                    DestroyImmediate(go);
+                    UnityEngine.Object.DestroyImmediate(go);
                 }
 
                 queue.Clear();
@@ -125,24 +116,24 @@ namespace VirtueSky.ObjectPooling
             waitPool.Clear();
         }
 
-        public void DestroyAll()
+        internal void DestroyAll()
         {
             var arr = waitPool.Values.SelectMany(g => g).ToArray();
             for (var i = 0; i < arr.Length; i++)
             {
-                Destroy(arr[i].gameObject);
+                UnityEngine.Object.Destroy(arr[i].gameObject);
             }
 
             waitPool.Clear();
         }
 
-        public T Spawn<T>(T type, Transform parent = null, bool worldPositionStays = true, bool initialize = true)
+        internal T Spawn<T>(T type, Transform parent = null, bool worldPositionStays = true, bool initialize = true)
             where T : Component
         {
             return Spawn(type.gameObject, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
-        public GameObject Spawn(GameObject prefab, Transform parent = null, bool worldPositionStays = true,
+        internal GameObject Spawn(GameObject prefab, Transform parent = null, bool worldPositionStays = true,
             bool initialize = true)
         {
             if (!waitPool.ContainsKey(prefab))
@@ -177,14 +168,14 @@ namespace VirtueSky.ObjectPooling
             return gameObject;
         }
 
-        public T Spawn<T>(T type, Vector3 position, Quaternion rotation, Transform parent = null,
+        internal T Spawn<T>(T type, Vector3 position, Quaternion rotation, Transform parent = null,
             bool worldPositionStays = true, bool initialize = true)
             where T : Component
         {
             return Spawn(type.gameObject, position, rotation, parent, worldPositionStays, initialize).GetComponent<T>();
         }
 
-        public GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null,
+        internal GameObject Spawn(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null,
             bool worldPositionStays = true,
             bool initialize = true)
         {
@@ -238,21 +229,5 @@ namespace VirtueSky.ObjectPooling
                 mono.CleanUp();
             }
         }
-
-        public void OnBeforeSerialize()
-        {
-        }
-
-        public void OnAfterDeserialize()
-        {
-            initialized = false;
-        }
-    }
-
-    [Serializable]
-    public class PoolData
-    {
-        public GameObject prefab;
-        public int preSpawn;
     }
 }

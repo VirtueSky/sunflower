@@ -12,11 +12,6 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("AUDIO", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (GUILayout.Button("Create Sound Component Pool"))
-            {
-                AudioWindowEditor.CreateSoundComponentPool();
-            }
-
             if (GUILayout.Button("Create Sound Data"))
             {
                 AudioWindowEditor.CreateSoundData();

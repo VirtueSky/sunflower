@@ -11,10 +11,6 @@ namespace VirtueSky.Audio
             CreateAsset.CreateScriptableAssetsOnlyName<SoundData>("/Audio/SoundData", "sound_data");
         }
 
-        public static void CreateSoundComponentPool()
-        {
-            CreateAsset.CreateScriptableAssets<SoundComponentPool>("/Audio", "sound_component_pool");
-        }
 
         #region Event Music
 

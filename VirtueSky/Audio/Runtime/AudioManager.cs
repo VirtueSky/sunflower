@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
+using VirtueSky.ObjectPooling;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
@@ -13,8 +14,8 @@ namespace VirtueSky.Audio
     public class AudioManager : BaseMono
     {
         [Space] [SerializeField] private bool isDontDestroyOnLoad;
+        [SerializeField] private SoundComponent soundComponentPrefab;
 
-        [Space] [SerializeField] private SoundComponentPool soundComponentPool;
         [SerializeField] private Transform audioHolder;
 
         [Space] [TitleColor("Music Listening", CustomColor.Aqua, CustomColor.Lime)] [SerializeField]
@@ -108,7 +109,7 @@ namespace VirtueSky.Audio
 
         private SoundCache PlaySfx(SoundData soundData)
         {
-            var sfxComponent = soundComponentPool.Spawn<SoundComponent>(audioHolder);
+            var sfxComponent = soundComponentPrefab.Spawn(audioHolder);
             sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * sfxVolume.Value);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
@@ -168,7 +169,7 @@ namespace VirtueSky.Audio
         {
             if (music == null || !music.IsPlaying)
             {
-                music = soundComponentPool.Spawn<SoundComponent>(audioHolder);
+                music = soundComponentPrefab.Spawn(audioHolder);
             }
 
             music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * musicVolume.Value,
@@ -181,7 +182,7 @@ namespace VirtueSky.Audio
             if (music != null && music.IsPlaying)
             {
                 music.Stop();
-                soundComponentPool.DeSpawn(music.gameObject);
+                music.gameObject.DeSpawn();
             }
         }
 
@@ -217,13 +218,13 @@ namespace VirtueSky.Audio
             }
 
             soundComponent.Stop();
-            soundComponentPool.DeSpawn(soundComponent.gameObject);
+            soundComponent.gameObject.DeSpawn();
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
         {
             soundComponent.OnCompleted -= StopAudioMusic;
-            soundComponentPool.DeSpawn(soundComponent.gameObject);
+            soundComponent.gameObject.DeSpawn();
         }
 
         SoundComponent GetSoundComponent(SoundCache soundCache)
@@ -250,8 +251,6 @@ namespace VirtueSky.Audio
 #if UNITY_EDITOR
         private void Reset()
         {
-            soundComponentPool =
-                CreateAsset.CreateAndGetScriptableAsset<SoundComponentPool>("/Audio", "sound_component_pool", false);
             eventPlayMusic =
                 CreateAsset.CreateAndGetScriptableAsset<PlayMusicEvent>("/Audio/Music_Event", "play_music_event",
                     false);
