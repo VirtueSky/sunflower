@@ -70,7 +70,6 @@ namespace VirtueSky.Ads
 
         private void Start()
         {
-            InitAdClient();
             if (changePreventDisplayAppOpenEvent != null)
                 changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
             if (adSetting.EnableGDPR)
@@ -81,7 +80,7 @@ namespace VirtueSky.Ads
             }
             else
             {
-                InitAutoLoadAds();
+                InitAdClient();
             }
         }
 
@@ -100,6 +99,7 @@ namespace VirtueSky.Ads
             currentAdClient.SetupAdSetting(adSetting);
             currentAdClient.Initialize();
             Debug.Log("currentAdClient: " + currentAdClient);
+            InitAutoLoadAds();
         }
 
         public void InitAutoLoadAds()
@@ -230,7 +230,7 @@ namespace VirtueSky.Ads
                     if (ConsentInformation.CanRequestAds())
                     {
                         MobileAds.RaiseAdEventsOnUnityMainThread = true;
-                        InitAutoLoadAds();
+                        InitAdClient();
                         if (isGDPRCanRequestAds != null)
                         {
                             isGDPRCanRequestAds.Value = true;
