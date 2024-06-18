@@ -13,7 +13,6 @@ using VirtueSky.UtilsEditor;
 #endif
 using VirtueSky.Events;
 using VirtueSky.Inspector;
-using VirtueSky.Variables;
 
 namespace VirtueSky.Ads
 {
@@ -27,16 +26,8 @@ namespace VirtueSky.Ads
         private BooleanEvent changePreventDisplayAppOpenEvent;
 
         [Space] [HeaderLine("Admob GDPR")] [Tooltip("Allows nulls"), SerializeField]
-        private BooleanVariable isGDPRCanRequestAds;
+        private EventNoParam callShowAgainGDPREvent;
 
-        [Tooltip("Allows nulls"), SerializeField]
-        private BooleanVariable isPrivacyRequiredGDPR;
-
-        [Tooltip("Allows nulls"), SerializeField]
-        private EventNoParam showPrivacyOptionsFormSuccessEvent;
-
-        [Tooltip("Allows nulls"), SerializeField]
-        private EventNoParam callShowPrivacyOptionFormEvent;
 
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
@@ -58,9 +49,9 @@ namespace VirtueSky.Ads
         private void OnEnable()
         {
 #if ADS_ADMOB
-            if (callShowPrivacyOptionFormEvent != null)
+            if (callShowAgainGDPREvent != null)
             {
-                callShowPrivacyOptionFormEvent.AddListener(ShowPrivacyOptionsForm);
+                callShowAgainGDPREvent.AddListener(ShowPrivacyOptionsForm);
             }
 #endif
         }
@@ -68,9 +59,9 @@ namespace VirtueSky.Ads
         private void OnDisable()
         {
 #if ADS_ADMOB
-            if (callShowPrivacyOptionFormEvent != null)
+            if (callShowAgainGDPREvent != null)
             {
-                callShowPrivacyOptionFormEvent.RemoveListener(ShowPrivacyOptionsForm);
+                callShowAgainGDPREvent.RemoveListener(ShowPrivacyOptionsForm);
             }
 #endif
         }
@@ -215,21 +206,11 @@ namespace VirtueSky.Ads
 
                     Debug.Log("ConsentStatus = " + ConsentInformation.ConsentStatus.ToString());
                     Debug.Log("CanRequestAds = " + ConsentInformation.CanRequestAds());
-                    if (isPrivacyRequiredGDPR != null)
-                    {
-                        isPrivacyRequiredGDPR.Value = ConsentInformation.PrivacyOptionsRequirementStatus ==
-                                                      PrivacyOptionsRequirementStatus.Required;
-                    }
 
                     if (ConsentInformation.CanRequestAds())
                     {
                         MobileAds.RaiseAdEventsOnUnityMainThread = true;
                         InitAdClient();
-                    }
-
-                    if (isGDPRCanRequestAds != null)
-                    {
-                        isGDPRCanRequestAds.Value = ConsentInformation.CanRequestAds();
                     }
                 }
             );
@@ -259,7 +240,7 @@ namespace VirtueSky.Ads
             });
         }
 
-        public void ShowPrivacyOptionsForm()
+        private void ShowPrivacyOptionsForm()
         {
             Debug.Log("Showing privacy options form.");
 
@@ -269,20 +250,7 @@ namespace VirtueSky.Ads
                 {
                     Debug.LogError("Error showing privacy options form with error: " + showError.Message);
                 }
-
-                if (showPrivacyOptionsFormSuccessEvent != null)
-                {
-                    showPrivacyOptionsFormSuccessEvent.Raise();
-                }
             });
-        }
-
-        public void ResetGDPR()
-        {
-#if !UNITY_EDITOR
-            Debug.Log("Reset GDPR!");
-            ConsentInformation.Reset();
-#endif
         }
 #endif
 
