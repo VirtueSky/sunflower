@@ -52,79 +52,8 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        public override void LoadInterstitial()
-        {
 #if VIRTUESKY_ADS && ADS_ADMOB
-            if (!IsInterstitialReady()) adSetting.AdmobInterVariable.Load();
-#endif
-        }
-
-        public override bool IsInterstitialReady()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            return adSetting.AdmobInterVariable.IsReady();
-#else
-            return false;
-#endif
-        }
-
-        public override void LoadRewarded()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            if (!IsRewardedReady()) adSetting.AdmobRewardVariable.Load();
-#endif
-        }
-
-        public override bool IsRewardedReady()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            return adSetting.AdmobRewardVariable.IsReady();
-#else
-            return false;
-#endif
-        }
-
-        public override void LoadRewardedInterstitial()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            if (!IsRewardedInterstitialReady()) adSetting.AdmobRewardInterVariable.Load();
-#endif
-        }
-
-        public override bool IsRewardedInterstitialReady()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            return adSetting.AdmobRewardInterVariable.IsReady();
-#else
-            return false;
-#endif
-        }
-
-        public override void LoadAppOpen()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            if (!IsAppOpenReady()) adSetting.AdmobAppOpenVariable.Load();
-#endif
-        }
-
-        public override bool IsAppOpenReady()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            return adSetting.AdmobAppOpenVariable.IsReady();
-#else
-            return false;
-#endif
-        }
-
-        void ShowAppOpen()
-        {
-#if VIRTUESKY_ADS && ADS_ADMOB
-            if (statusAppOpenFirstIgnore) adSetting.AdmobAppOpenVariable.Show();
-            statusAppOpenFirstIgnore = true;
-#endif
-        }
-#if VIRTUESKY_ADS && ADS_ADMOB
-        public void RegisterAppStateChange()
+        void RegisterAppStateChange()
         {
             GoogleMobileAds.Api.AppStateEventNotifier.AppStateChanged += OnAppStateChanged;
         }
