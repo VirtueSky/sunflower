@@ -21,15 +21,22 @@ namespace VirtueSky.Ads
     public class Advertising : MonoBehaviour
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
-        [SerializeField] private AdSetting adSetting;
-        [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
+        [Tooltip("Require"), SerializeField] private AdSetting adSetting;
 
-        [Space] [HeaderLine("Admob GDPR")] [SerializeField]
+        [Tooltip("Allows nulls"), SerializeField]
+        private BooleanEvent changePreventDisplayAppOpenEvent;
+
+        [Space] [HeaderLine("Admob GDPR")] [Tooltip("Allows nulls"), SerializeField]
         private BooleanVariable isGDPRCanRequestAds;
 
-        [SerializeField] private BooleanVariable isPrivacyRequiredGDPR;
-        [SerializeField] private EventNoParam showPrivacyOptionsFormSuccessEvent;
-        [SerializeField] private EventNoParam callShowPrivacyOptionFormEvent;
+        [Tooltip("Allows nulls"), SerializeField]
+        private BooleanVariable isPrivacyRequiredGDPR;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private EventNoParam showPrivacyOptionsFormSuccessEvent;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private EventNoParam callShowPrivacyOptionFormEvent;
 
         private IEnumerator autoLoadAdCoroutine;
         private float _lastTimeLoadInterstitialAdTimestamp = DEFAULT_TIMESTAMP;
@@ -171,34 +178,21 @@ namespace VirtueSky.Ads
 #if !UNITY_EDITOR
             string deviceID = SystemInfo.deviceUniqueIdentifier;
             string deviceIDUpperCase = deviceID.ToUpper();
-           
+
             Debug.Log("TestDeviceHashedId = " + deviceIDUpperCase);
-            
+            ConsentRequestParameters request = new ConsentRequestParameters { TagForUnderAgeOfConsent = false };
             if (adSetting.EnableGDPRTestMode)
             {
                 List<string> listDeviceIdTestMode = new List<string>();
                 listDeviceIdTestMode.Add(deviceIDUpperCase);
-                ConsentRequestParameters request = new ConsentRequestParameters
+                request.ConsentDebugSettings = new ConsentDebugSettings
                 {
-                    TagForUnderAgeOfConsent = false,
-                    ConsentDebugSettings = new ConsentDebugSettings()
-                    {
-                        DebugGeography = DebugGeography.EEA,
-                        TestDeviceHashedIds = listDeviceIdTestMode
-                    }
+                    DebugGeography = DebugGeography.EEA,
+                    TestDeviceHashedIds = listDeviceIdTestMode
                 };
-
-                ConsentInformation.Update(request, OnConsentInfoUpdated);
             }
-            else
-            {
-                ConsentRequestParameters request = new ConsentRequestParameters
-                {
-                    TagForUnderAgeOfConsent = false,
-                };
 
-                ConsentInformation.Update(request, OnConsentInfoUpdated);
-            }
+            ConsentInformation.Update(request, OnConsentInfoUpdated);
 #endif
         }
 
@@ -231,17 +225,11 @@ namespace VirtueSky.Ads
                     {
                         MobileAds.RaiseAdEventsOnUnityMainThread = true;
                         InitAdClient();
-                        if (isGDPRCanRequestAds != null)
-                        {
-                            isGDPRCanRequestAds.Value = true;
-                        }
                     }
-                    else
+
+                    if (isGDPRCanRequestAds != null)
                     {
-                        if (isGDPRCanRequestAds != null)
-                        {
-                            isGDPRCanRequestAds.Value = false;
-                        }
+                        isGDPRCanRequestAds.Value = ConsentInformation.CanRequestAds();
                     }
                 }
             );
