@@ -59,7 +59,7 @@ namespace VirtueSky.Ads
         void OnWaitAppOpenDisplayed()
         {
             _previousBannerShowStatus = _isBannerShowing;
-            if (_isBannerShowing) Hide();
+            if (_isBannerShowing) HideBanner();
         }
 
         public override bool IsReady()
@@ -90,8 +90,9 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        public void Hide()
+        public override void HideBanner()
         {
+            base.HideBanner();
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             _isBannerShowing = false;
             if (string.IsNullOrEmpty(Id)) return;

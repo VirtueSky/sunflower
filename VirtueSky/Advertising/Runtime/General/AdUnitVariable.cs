@@ -77,5 +77,9 @@ namespace VirtueSky.Ads
 
         protected abstract void ShowImpl();
         public abstract void Destroy();
+
+        public virtual void HideBanner()
+        {
+        }
     }
 }
