@@ -18,7 +18,7 @@ namespace VirtueSky.Iap
             return product;
         }
 
-        public static void Purchase(this IapDataVariable product, EventIapProduct @event)
+        public static void Purchase(this IapDataVariable product, EventPurchaseProduct @event)
         {
             @event.Raise(product);
         }

@@ -4,7 +4,8 @@ using VirtueSky.Events;
 
 namespace VirtueSky.Iap
 {
-    public class IapProductEventListener : BaseEventListener<IapDataVariable, EventIapProduct, UnityEvent<IapDataVariable>>
+    public class
+        IapPurchaseProductEventListener : BaseEventListener<IapDataVariable, EventPurchaseProduct, UnityEvent<IapDataVariable>>
     {
     }
 }

@@ -77,14 +77,14 @@ namespace VirtueSky.Iap
         // [MenuItem("Sunflower/Iap/Iap Purchase Product Event")]
         public static void CreateIapProductEvent()
         {
-            CreateAsset.CreateScriptableAssets<EventIapProduct>("/Iap", "iap_purchase_product");
+            CreateAsset.CreateScriptableAssets<EventPurchaseProduct>("/Iap", "iap_purchase_product_event");
         }
 
         //  [MenuItem("Sunflower/Iap/Iap Is Purchase Product Event")]
         public static void CreateIsPurchaseProductEvent()
         {
             CreateAsset.CreateScriptableAssets<EventIsPurchaseProduct>("/Iap",
-                "iap_is_purchase_product");
+                "iap_is_purchase_product_event");
         }
 
         // [MenuItem("Sunflower/Iap/Iap Tracking Revenue Event")]

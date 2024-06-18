@@ -20,9 +20,9 @@ namespace VirtueSky.Iap
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
         [SerializeField] private IapSetting iapSetting;
-        [SerializeField] private EventIapProduct eventIapProduct;
+        [SerializeField] private EventPurchaseProduct eventPurchaseProduct;
         [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;
-        [SerializeField] EventIapTrackingRevenue eventIapTrackingRevenue;
+        [SerializeField] private EventIapTrackingRevenue eventIapTrackingRevenue;
         [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
 #if UNITY_IOS
         [SerializeField] private EventNoParam restoreEvent;
@@ -43,7 +43,7 @@ namespace VirtueSky.Iap
         public override void OnEnable()
         {
             base.OnEnable();
-            eventIapProduct.AddListener(PurchaseProduct);
+            eventPurchaseProduct.AddListener(PurchaseProduct);
             if (eventIsPurchaseProduct != null)
             {
                 eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
@@ -57,7 +57,7 @@ namespace VirtueSky.Iap
         public override void OnDisable()
         {
             base.OnDisable();
-            eventIapProduct.RemoveListener(PurchaseProduct);
+            eventPurchaseProduct.RemoveListener(PurchaseProduct);
             if (eventIsPurchaseProduct != null)
             {
                 eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
