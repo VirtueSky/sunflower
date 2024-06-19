@@ -11,11 +11,11 @@ namespace VirtueSky.Notifications
     [EditorIcon("script_noti"), HideMonoScript]
     public class NotificationPrepare : BaseMono
     {
-#if UNITY_ANDROID
         [SerializeField] private NotificationVariable[] notificationVariables;
-
+        [SerializeField] private bool autoSchedule = true;
         private void Start()
         {
+#if UNITY_ANDROID
             PermissionPostNotification();
             if (Application.isMobilePlatform)
             {
@@ -32,8 +32,10 @@ namespace VirtueSky.Notifications
                     App.StartCoroutine(PrepareImage(Application.persistentDataPath, s));
                 }
             }
+#endif
+            if (autoSchedule) AutoSchedule();
         }
-
+#if UNITY_ANDROID
         private IEnumerator PrepareImage(string destDir, string filename)
         {
             string path = Path.Combine(destDir, filename);
@@ -51,6 +53,14 @@ namespace VirtueSky.Notifications
                 UnityEngine.Android.Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
             }
         }
+
 #endif
+        void AutoSchedule()
+        {
+            foreach (var notification in notificationVariables)
+            {
+                notification.Schedule();
+            }
+        }
     }
 }
