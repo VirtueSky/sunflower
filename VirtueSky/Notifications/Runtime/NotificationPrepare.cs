@@ -8,7 +8,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Notifications
 {
-    [EditorIcon("script_noti")]
+    [EditorIcon("script_noti"), HideMonoScript]
     public class NotificationPrepare : BaseMono
     {
 #if UNITY_ANDROID

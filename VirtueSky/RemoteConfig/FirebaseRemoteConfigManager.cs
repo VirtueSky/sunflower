@@ -24,7 +24,7 @@ namespace VirtueSky.RemoteConfigs
 #endif
 
         [SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
-        [SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
+        [Space, SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
 
 
 #if VIRTUESKY_FIREBASE
@@ -83,13 +83,18 @@ namespace VirtueSky.RemoteConfigs
                             Debug.Log(String.Format(
                                 "Remote data loaded and ready (last fetch time {0}).",
                                 info.FetchTime));
-                            foreach (var remoteConfigData in listRemoteConfigData)
+                            foreach (var rmcData in listRemoteConfigData)
                             {
-                                if (!string.IsNullOrEmpty(remoteConfigData.key))
-                                {
-                                    remoteConfigData.SetUpData(FirebaseRemoteConfig.DefaultInstance
-                                        .GetValue(remoteConfigData.key));
-                                }
+                                if (string.IsNullOrEmpty(rmcData.key) ||
+                                    (rmcData.typeRemoteConfigData == TypeRemoteConfigData.BooleanData &&
+                                     rmcData.boolValue == null) ||
+                                    (rmcData.typeRemoteConfigData == TypeRemoteConfigData.StringData &&
+                                     rmcData.stringValue == null) ||
+                                    (rmcData.typeRemoteConfigData == TypeRemoteConfigData.IntData &&
+                                     rmcData.intValue == null)) continue;
+
+                                rmcData.SetUpData(FirebaseRemoteConfig.DefaultInstance
+                                    .GetValue(rmcData.key));
                             }
 
                             if (isFetchRemoteConfigCompleted != null)

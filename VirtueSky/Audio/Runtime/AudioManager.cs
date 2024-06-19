@@ -10,7 +10,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Audio
 {
-    [EditorIcon("icon_sound_mixer")]
+    [EditorIcon("icon_sound_mixer"), HideMonoScript]
     public class AudioManager : BaseMono
     {
         [Space] [SerializeField] private bool isDontDestroyOnLoad;

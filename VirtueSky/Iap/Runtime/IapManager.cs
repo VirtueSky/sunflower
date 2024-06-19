@@ -15,7 +15,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.Iap
 {
-    [EditorIcon("icon_controller")]
+    [EditorIcon("icon_controller"), HideMonoScript]
     public class IapManager : BaseMono, IDetailedStoreListener
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
