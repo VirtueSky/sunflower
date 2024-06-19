@@ -11,7 +11,7 @@ namespace VirtueSky.Notifications
     [EditorIcon("script_noti"), HideMonoScript]
     public class NotificationPrepare : BaseMono
     {
-        [SerializeField] private NotificationVariable[] notificationVariables;
+        [Space(20), SerializeField] private NotificationVariable[] notificationVariables;
         [SerializeField] private bool autoSchedule = true;
         private void Start()
         {
