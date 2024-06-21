@@ -63,4 +63,3 @@ for version `2.7.8`
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
 - [Project implementation](https://github.com/VirtueSky/TheBeginning)
 - [Core has similar modules that use singleton](https://github.com/wolf-package/unity-common)
-- (Reference: https://github.com/pancake-llc/foundation/tree/main/Assets/Heart)
