@@ -1,11 +1,6 @@
 using UnityEngine;
 using VirtueSky.Inspector;
 
-#if UNITY_EDITOR
-using VirtueSky.UtilsEditor;
-#endif
-
-
 namespace VirtueSky.Ads
 {
     public abstract class AdClient
@@ -117,12 +112,5 @@ namespace VirtueSky.Ads
         }
 
         #endregion
-
-#if UNITY_EDITOR
-        private void Reset()
-        {
-            adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
-        }
-#endif
     }
 }
