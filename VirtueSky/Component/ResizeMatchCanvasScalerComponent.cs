@@ -16,7 +16,10 @@ namespace VirtueSky.Component
         {
             base.Awake();
             GetCanvas();
-            component.matchWidthOrHeight = camera.aspect > aspectRatio ? 1 : 0;
+            if (camera != null)
+            {
+                component.matchWidthOrHeight = camera.aspect > aspectRatio ? 1 : 0;
+            }
         }
 
         void GetCanvas()
@@ -24,7 +27,10 @@ namespace VirtueSky.Component
             if (canvas == null)
             {
                 canvas = GetComponent<Canvas>();
-                camera = canvas.worldCamera;
+                if (canvas.worldCamera)
+                {
+                    camera = canvas.worldCamera;
+                }
             }
         }
 #if UNITY_EDITOR
