@@ -19,11 +19,20 @@ namespace VirtueSky.Iap
     public class IapManager : BaseMono, IDetailedStoreListener
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
-        [SerializeField] private IapSetting iapSetting;
-        [SerializeField] private EventPurchaseProduct eventPurchaseProduct;
-        [SerializeField] private EventIsPurchaseProduct eventIsPurchaseProduct;
-        [SerializeField] private EventIapTrackingRevenue eventIapTrackingRevenue;
-        [SerializeField] private BooleanEvent changePreventDisplayAppOpenEvent;
+        [Tooltip("Require"), SerializeField] private IapSetting iapSetting;
+        [Tooltip("Require"), SerializeField] private EventPurchaseProduct eventPurchaseProduct;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private EventIsPurchaseProduct eventIsPurchaseProduct;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private EventLocalizedPriceProduct eventLocalizedPriceProduct;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private EventIapTrackingPurchaseProduct eventIapTrackingPurchaseProduct;
+
+        [Tooltip("Allows nulls"), SerializeField]
+        private BooleanEvent changePreventDisplayAppOpenEvent;
 #if UNITY_IOS
         [SerializeField] private EventNoParam restoreEvent;
 #endif
@@ -49,6 +58,11 @@ namespace VirtueSky.Iap
                 eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
             }
 
+            if (eventLocalizedPriceProduct != null)
+            {
+                eventLocalizedPriceProduct.AddListener(GetLocalizedPriceProduct);
+            }
+
 #if UNITY_IOS
              restoreEvent.AddListener(RestorePurchase);
 #endif
@@ -61,6 +75,11 @@ namespace VirtueSky.Iap
             if (eventIsPurchaseProduct != null)
             {
                 eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
+            }
+
+            if (eventLocalizedPriceProduct != null)
+            {
+                eventLocalizedPriceProduct.RemoveListener(GetLocalizedPriceProduct);
             }
 
 #if UNITY_IOS
@@ -91,12 +110,19 @@ namespace VirtueSky.Iap
             IsInitialized = true;
         }
 
-        public bool IsPurchasedProduct(IapDataVariable product)
+        private bool IsPurchasedProduct(IapDataVariable product)
         {
             if (_controller == null) return false;
             return product.productType == ProductType.NonConsumable &&
                    _controller.products.WithID(product.id).hasReceipt;
         }
+
+        private string GetLocalizedPriceProduct(IapDataVariable product)
+        {
+            if (_controller == null) return "";
+            return _controller.products.WithID(product.id).metadata.localizedPriceString;
+        }
+
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
@@ -158,7 +184,8 @@ namespace VirtueSky.Iap
         void PurchaseVerified(PurchaseEventArgs purchaseEvent)
         {
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
-            if (eventIapTrackingRevenue != null) eventIapTrackingRevenue.Raise(purchaseEvent.purchasedProduct);
+            if (eventIapTrackingPurchaseProduct != null)
+                eventIapTrackingPurchaseProduct.Raise(purchaseEvent.purchasedProduct);
             InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
         }
 
@@ -270,7 +297,19 @@ namespace VirtueSky.Iap
 #if UNITY_EDITOR
         private void Reset()
         {
-            iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap");
+            iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap/Setting");
+            eventPurchaseProduct =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventPurchaseProduct>("/Iap",
+                    "iap_purchase_product_event");
+            eventIsPurchaseProduct =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIsPurchaseProduct>("/Iap",
+                    "iap_is_purchase_product_event");
+            eventLocalizedPriceProduct =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventLocalizedPriceProduct>("/Iap",
+                    "iap_localized_price_product_event");
+            eventIapTrackingPurchaseProduct =
+                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIapTrackingPurchaseProduct>("/Iap",
+                    "iap_tracking_purchase_product_event");
         }
 #endif
     }

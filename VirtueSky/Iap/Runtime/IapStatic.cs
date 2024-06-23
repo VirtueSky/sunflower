@@ -32,6 +32,12 @@ namespace VirtueSky.Iap
         {
             return @event.Raise(product);
         }
+
+        public static string LocalizedPrice(this IapDataVariable product,
+            EventLocalizedPriceProduct @event)
+        {
+            return @event.Raise(product);
+        }
     }
 }
 #endif

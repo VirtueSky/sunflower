@@ -269,7 +269,7 @@ namespace VirtueSky.Ads
 #if UNITY_EDITOR
         private void Reset()
         {
-            adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads");
+            adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads/Setting");
         }
 #endif
     }

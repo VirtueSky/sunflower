@@ -42,7 +42,9 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 if (GUILayout.Button("Create AdSetting"))
                 {
-                    _adSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads", "", false);
+                    _adSetting =
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Ads.AdSetting>("/Ads/Setting",
+                            isPingAsset: false);
                     Init();
                 }
             }

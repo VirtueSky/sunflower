@@ -47,7 +47,8 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create IAP Setting"))
                 {
                     _iapSetting =
-                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap", "", false);
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap/Setting",
+                            isPingAsset: false);
                     Init();
                 }
             }
@@ -95,10 +96,20 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             }
 
-            if (GUILayout.Button("Create Iap Tracking Revenue Event"))
+            if (GUILayout.Button("Create Iap Localized Price Product Event"))
             {
 #if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapTrackingRevenueEvent();
+                IapWindowEditor.CreateIapLocalizedPriceProductEvent();
+
+#else
+                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
+#endif
+            }
+
+            if (GUILayout.Button("Create Iap Tracking Purchase Product Event"))
+            {
+#if VIRTUESKY_IAP
+                IapWindowEditor.CreateIapTrackingPurchaseProductEvent();
 
 #else
                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
