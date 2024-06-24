@@ -18,6 +18,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.mobile.notifications",
+            "expression": "2.2.2",
+            "define": "VIRTUESKY_NOTIFICATION"
+        }
+    ],
     "noEngineReferences": false
 }

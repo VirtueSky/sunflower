@@ -23,6 +23,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.purchasing",
+            "expression": "4.11.0",
+            "define": "VIRTUESKY_IAP"
+        }
+    ],
     "noEngineReferences": false
 }
