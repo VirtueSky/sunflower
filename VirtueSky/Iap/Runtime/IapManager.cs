@@ -200,7 +200,6 @@ namespace VirtueSky.Iap
 
         void InternalPurchaseSuccess(string id)
         {
-            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
             foreach (var product in iapSetting.Products)
             {
                 if (product.id != id) continue;
