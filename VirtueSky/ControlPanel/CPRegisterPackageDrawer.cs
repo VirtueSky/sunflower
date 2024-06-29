@@ -58,6 +58,8 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameFirebaseCrashlytics, ConstantPackage.MaxVersionFirebaseCrashlytics);
             CPUtility.DrawButtonInstallPackage("Install Firebase Database", "Remove Firebase Database",
                 ConstantPackage.PackageNameFirebaseDatabase, ConstantPackage.MaxVersionFirebaseDatabase);
+            CPUtility.DrawButtonInstallPackage("Install Firebase Auth", "Remove Firebase Auth",
+                ConstantPackage.PackageNameFirebaseAuth, ConstantPackage.MaxVersionFirebaseAuth);
             CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
                 "Remove Google External Dependency Manager",
                 ConstantPackage.PackageNameGGExternalDependencyManager,
