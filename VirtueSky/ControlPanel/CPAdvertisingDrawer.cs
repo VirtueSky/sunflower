@@ -70,6 +70,9 @@ namespace VirtueSky.ControlPanel.Editor
                     case AdNetwork.Admob:
                         DrawAdmobField(position);
                         break;
+                    case AdNetwork.IronSource_UnityLevelPlay:
+                        DrawIronSource(position);
+                        break;
                 }
             }
 
@@ -153,6 +156,36 @@ namespace VirtueSky.ControlPanel.Editor
 
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
+        }
+
+        static void DrawIronSource(Rect position)
+        {
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            GUILayout.Label("INSTALL IRON-SOURCE (UNITY LEVEL PLAY) SDK", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+            if (GUILayout.Button("Install IronSource Sdk Plugin"))
+            {
+                AssetDatabase.ImportPackage(
+                    FileExtension.GetPathInCurrentEnvironent(
+                        "VirtueSky/Utils/Editor/UnityPackage/is-sdk.unitypackage"), false);
+            }
+
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+#if !VIRTUESKY_ADS || !ADS_IRONSOURCE
+            EditorGUILayout.HelpBox(
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_IRONSOURCE}\" to use IronSource Ads",
+                MessageType.Info);
+#endif
+
+
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_IRONSOURCE);
         }
     }
 }

@@ -33,8 +33,14 @@ namespace VirtueSky.Ads
         private SerializedProperty _enableGDPR;
         private SerializedProperty _enableGDPRTestMode;
         private SerializedProperty _admobDevicesTest;
+
+        private SerializedProperty _androidAppKey;
+        private SerializedProperty _iOSAppKey;
+        private SerializedProperty _useTestAppKey;
+
         const string pathMax = "/Ads/Applovin";
         const string pathAdmob = "/Ads/Admob";
+        const string pathIronSource = "/Ads/IronSource";
 
         void Initialize()
         {
@@ -61,6 +67,10 @@ namespace VirtueSky.Ads
             _admobDevicesTest = serializedObject.FindProperty("admobDevicesTest");
             _enableGDPR = serializedObject.FindProperty("enableGDPR");
             _enableGDPRTestMode = serializedObject.FindProperty("enableGDPRTestMode");
+
+            _androidAppKey = serializedObject.FindProperty("androidAppKey");
+            _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
+            _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
         }
 
         void Draw()
@@ -74,11 +84,23 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_adLoadingInterval);
             EditorGUILayout.PropertyField(_adNetwork);
             GUILayout.Space(10);
-            SetupMax();
-            SetupAdmob();
+            switch (_adNetwork.enumValueIndex)
+            {
+                case (int)AdNetwork.Max:
+                    SetupMax();
+                    break;
+                case (int)AdNetwork.Admob:
+                    SetupAdmob();
+                    break;
+                case (int)AdNetwork.IronSource_UnityLevelPlay:
+                    SetupIronSource();
+                    break;
+            }
+
             EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();
         }
+
 
         public override void OnInspectorGUI()
         {
@@ -87,171 +109,175 @@ namespace VirtueSky.Ads
 
         void SetupMax()
         {
-            if (_adNetwork.enumValueIndex == (int)AdNetwork.Max)
+            EditorGUILayout.LabelField("MAX", EditorStyles.boldLabel);
+            GuiLine(2);
+            GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_sdkKey);
+            EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_maxBannerVariable);
+            if (_maxBannerVariable.objectReferenceValue == null)
             {
-                EditorGUILayout.LabelField("MAX", EditorStyles.boldLabel);
-                GuiLine(2);
-                GUILayout.Space(10);
-                EditorGUILayout.PropertyField(_sdkKey);
-                EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_maxBannerVariable);
-                if (_maxBannerVariable.objectReferenceValue == null)
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _maxBannerVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
-                    }
+                    _maxBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
                 }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_maxInterVariable);
-                if (_maxInterVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _maxInterVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_maxRewardVariable);
-                if (_maxRewardVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _maxRewardVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_maxRewardInterVariable);
-                if (_maxRewardInterVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _maxRewardInterVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_maxAppOpenVariable);
-                if (_maxAppOpenVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _maxAppOpenVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
             }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_maxInterVariable);
+            if (_maxInterVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _maxInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_maxRewardVariable);
+            if (_maxRewardVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _maxRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_maxRewardInterVariable);
+            if (_maxRewardInterVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _maxRewardInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_maxAppOpenVariable);
+            if (_maxAppOpenVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _maxAppOpenVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         void SetupAdmob()
         {
-            if (_adNetwork.enumValueIndex == (int)AdNetwork.Admob)
+            EditorGUILayout.LabelField("ADMOB", EditorStyles.boldLabel);
+            GuiLine(2);
+            GUILayout.Space(10);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobBannerVariable);
+            if (_admobBannerVariable.objectReferenceValue == null)
             {
-                EditorGUILayout.LabelField("ADMOB", EditorStyles.boldLabel);
-                GuiLine(2);
-                GUILayout.Space(10);
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_admobBannerVariable);
-                if (_admobBannerVariable.objectReferenceValue == null)
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _admobBannerVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_admobInterVariable);
-                if (_admobInterVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _admobInterVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_admobRewardVariable);
-                if (_admobRewardVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _admobRewardVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_admobRewardInterVariable);
-                if (_admobRewardInterVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _admobRewardInterVariable.objectReferenceValue =
-                            CreateAsset
-                                .CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(_admobAppOpenVariable);
-                if (_admobAppOpenVariable.objectReferenceValue == null)
-                {
-                    GUILayout.Space(2);
-                    if (GUILayout.Button("Create", GUILayout.Width(55)))
-                    {
-                        _admobAppOpenVariable.objectReferenceValue =
-                            CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
-                    }
-                }
-
-                EditorGUILayout.EndHorizontal();
-                EditorGUILayout.PropertyField(_admobEnableTestMode);
-                EditorGUILayout.PropertyField(_admobDevicesTest);
-                GUI.enabled = false;
-                EditorGUILayout.TextField("App Id Test", "ca-app-pub-3940256099942544~3347511713");
-                GUI.enabled = true;
-                EditorGUILayout.PropertyField(_enableGDPR);
-                if (_enableGDPR.boolValue)
-                {
-                    EditorGUILayout.PropertyField(_enableGDPRTestMode);
-                }
-
-                GUILayout.Space(10);
-                if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
-                {
-                    EditorApplication.ExecuteMenuItem("Assets/Google Mobile Ads/Settings...");
+                    _admobBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
                 }
             }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobInterVariable);
+            if (_admobInterVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _admobInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobRewardVariable);
+            if (_admobRewardVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _admobRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobRewardInterVariable);
+            if (_admobRewardInterVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _admobRewardInterVariable.objectReferenceValue =
+                        CreateAsset
+                            .CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobAppOpenVariable);
+            if (_admobAppOpenVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _admobAppOpenVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.PropertyField(_admobEnableTestMode);
+            EditorGUILayout.PropertyField(_admobDevicesTest);
+            GUI.enabled = false;
+            EditorGUILayout.TextField("App Id Test", "ca-app-pub-3940256099942544~3347511713");
+            GUI.enabled = true;
+            EditorGUILayout.PropertyField(_enableGDPR);
+            if (_enableGDPR.boolValue)
+            {
+                EditorGUILayout.PropertyField(_enableGDPRTestMode);
+            }
+
+            GUILayout.Space(10);
+            if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
+            {
+                EditorApplication.ExecuteMenuItem("Assets/Google Mobile Ads/Settings...");
+            }
+        }
+
+        void SetupIronSource()
+        {
+            EditorGUILayout.LabelField("IRON-SOURCE (UNITY LEVEL PLAY)", EditorStyles.boldLabel);
+            GuiLine(2);
+            GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_androidAppKey);
+            EditorGUILayout.PropertyField(_iOSAppKey);
+            EditorGUILayout.PropertyField(_useTestAppKey);
         }
 
         void GuiLine(int i_height = 1)

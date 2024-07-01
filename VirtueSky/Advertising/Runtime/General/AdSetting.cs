@@ -11,12 +11,10 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdSetting : ScriptableObject
     {
-        // [SerializeField] private bool autoInit = true;
         [Range(5, 100), SerializeField] private float adCheckingInterval = 8f;
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
         [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
 
-        //  public bool AutoInit => autoInit;
         public float AdCheckingInterval => adCheckingInterval;
         public float AdLoadingInterval => adLoadingInterval;
 
@@ -27,8 +25,6 @@ namespace VirtueSky.Ads
         }
 
         #region AppLovin
-
-        private const string pathMax = "/Ads/Applovin";
 
         [TextArea, SerializeField] private string sdkKey;
         [SerializeField] private bool applovinEnableAgeRestrictedUser;
@@ -46,24 +42,9 @@ namespace VirtueSky.Ads
         public MaxRewardInterVariable MaxRewardInterVariable => maxRewardInterVariable;
         public MaxAppOpenVariable MaxAppOpenVariable => maxAppOpenVariable;
 
-
-#if UNITY_EDITOR
-        public void CreateMax()
-        {
-            // maxAdClient = CreateAsset.CreateAndGetScriptableAsset<MaxAdClient>(pathMax);
-            // maxBannerVariable = CreateAsset.CreateAndGetScriptableAsset<MaxBannerVariable>(pathMax);
-            // maxInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxInterVariable>(pathMax);
-            // maxRewardVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardVariable>(pathMax);
-            // maxRewardInterVariable = CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
-            // maxAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<MaxAppOpenVariable>(pathMax);
-        }
-#endif
-
         #endregion
 
         #region Admob
-
-        private const string pathAdmob = "/Ads/Admob";
 
         // [HeaderLine("Admob")] 
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
@@ -84,18 +65,50 @@ namespace VirtueSky.Ads
         public bool EnableGDPR => enableGDPR;
         public bool EnableGDPRTestMode => enableGDPRTestMode;
         public List<string> AdmobDevicesTest => admobDevicesTest;
-#if UNITY_EDITOR
-        public void CreateAdmob()
+
+        #endregion
+
+        #region IronSource
+
+        [SerializeField] private string androidAppKey;
+        [SerializeField] private string iOSAppKey;
+        [SerializeField] private bool useTestAppKey;
+
+        public string AndroidAppKey
         {
-            //admobAdClient = CreateAsset.CreateAndGetScriptableAsset<AdmobAdClient>(pathAdmob);
-            // admobBannerVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobBannerVariable>(pathAdmob);
-            // admobInterVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobInterVariable>(pathAdmob);
-            // admobRewardVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobRewardVariable>(pathAdmob);
-            // admobRewardInterVariable =
-            //     CreateAsset.CreateAndGetScriptableAsset<AdmobRewardInterVariable>(pathAdmob);
-            // admobAppOpenVariable = CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+            get => androidAppKey;
+            set => androidAppKey = value;
         }
+
+        public string IosAppKey
+        {
+            get => iOSAppKey;
+            set => iOSAppKey = value;
+        }
+
+        public string AppKey
+        {
+            get
+            {
+#if UNITY_ANDROID
+                return androidAppKey;
+#elif UNITY_IOS
+                return iOSAppKey;
+#else
+                return string.Empty;
 #endif
+            }
+            set
+            {
+#if UNITY_ANDROID
+                androidAppKey = value;
+#elif UNITY_IOS
+                iOSAppKey = value;
+#endif
+            }
+        }
+
+        public bool UseTestAppKey => useTestAppKey;
 
         #endregion
     }
@@ -103,7 +116,8 @@ namespace VirtueSky.Ads
     public enum AdNetwork
     {
         Max,
-        Admob
+        Admob,
+        IronSource_UnityLevelPlay
     }
 
     public enum BannerPosition

@@ -18,6 +18,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_IRONSOURCE);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADJUST);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC);
