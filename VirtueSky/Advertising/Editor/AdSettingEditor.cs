@@ -37,6 +37,9 @@ namespace VirtueSky.Ads
         private SerializedProperty _androidAppKey;
         private SerializedProperty _iOSAppKey;
         private SerializedProperty _useTestAppKey;
+        private SerializedProperty _ironSourceBannerVariable;
+        private SerializedProperty _ironSourceInterVariable;
+        private SerializedProperty _ironSourceRewardVariable;
 
         const string pathMax = "/Ads/Applovin";
         const string pathAdmob = "/Ads/Admob";
@@ -71,6 +74,9 @@ namespace VirtueSky.Ads
             _androidAppKey = serializedObject.FindProperty("androidAppKey");
             _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
             _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
+            _ironSourceBannerVariable = serializedObject.FindProperty("ironSourceBannerVariable");
+            _ironSourceInterVariable = serializedObject.FindProperty("ironSourceInterVariable");
+            _ironSourceRewardVariable = serializedObject.FindProperty("ironSourceRewardVariable");
         }
 
         void Draw()
@@ -92,7 +98,7 @@ namespace VirtueSky.Ads
                 case (int)AdNetwork.Admob:
                     SetupAdmob();
                     break;
-                case (int)AdNetwork.IronSource_UnityLevelPlay:
+                case (int)AdNetwork.IronSource:
                     SetupIronSource();
                     break;
             }
@@ -272,12 +278,51 @@ namespace VirtueSky.Ads
 
         void SetupIronSource()
         {
-            EditorGUILayout.LabelField("IRON-SOURCE (UNITY LEVEL PLAY)", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("IRON-SOURCE", EditorStyles.boldLabel);
             GuiLine(2);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);
             EditorGUILayout.PropertyField(_useTestAppKey);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_ironSourceBannerVariable);
+            if (_ironSourceBannerVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _ironSourceBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<IronSourceBannerVariable>(pathIronSource);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_ironSourceInterVariable);
+            if (_ironSourceInterVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _ironSourceInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<IronSourceInterVariable>(pathIronSource);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_ironSourceRewardVariable);
+            if (_ironSourceRewardVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _ironSourceRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<IronSourceRewardVariable>(pathIronSource);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         void GuiLine(int i_height = 1)

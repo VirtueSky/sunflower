@@ -70,7 +70,7 @@ namespace VirtueSky.ControlPanel.Editor
                     case AdNetwork.Admob:
                         DrawAdmobField(position);
                         break;
-                    case AdNetwork.IronSource_UnityLevelPlay:
+                    case AdNetwork.IronSource:
                         DrawIronSource(position);
                         break;
                 }
@@ -163,7 +163,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL IRON-SOURCE (UNITY LEVEL PLAY) SDK", EditorStyles.boldLabel);
+            GUILayout.Label("INSTALL IRON-SOURCE SDK", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Install IronSource Sdk Plugin"))
             {

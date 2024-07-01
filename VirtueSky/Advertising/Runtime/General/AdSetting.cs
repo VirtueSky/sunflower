@@ -74,6 +74,10 @@ namespace VirtueSky.Ads
         [SerializeField] private string iOSAppKey;
         [SerializeField] private bool useTestAppKey;
 
+        [SerializeField] private IronSourceBannerVariable ironSourceBannerVariable;
+        [SerializeField] private IronSourceInterVariable ironSourceInterVariable;
+        [SerializeField] private IronSourceRewardVariable ironSourceRewardVariable;
+
         public string AndroidAppKey
         {
             get => androidAppKey;
@@ -109,6 +113,9 @@ namespace VirtueSky.Ads
         }
 
         public bool UseTestAppKey => useTestAppKey;
+        public IronSourceBannerVariable IronSourceBannerVariable => ironSourceBannerVariable;
+        public IronSourceInterVariable IronSourceInterVariable => ironSourceInterVariable;
+        public IronSourceRewardVariable IronSourceRewardVariable => ironSourceRewardVariable;
 
         #endregion
     }
@@ -117,7 +124,7 @@ namespace VirtueSky.Ads
     {
         Max,
         Admob,
-        IronSource_UnityLevelPlay
+        IronSource
     }
 
     public enum BannerPosition
