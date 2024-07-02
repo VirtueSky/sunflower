@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
@@ -13,30 +12,26 @@ namespace VirtueSky.Ads
         [Tooltip("Automatically show AppOpenAd when app status is changed"), SerializeField]
         private bool autoShow = false;
 
-        private bool _registerCallback = false;
         public bool AutoShow => autoShow;
 
         public override void Init()
         {
-            _registerCallback = false;
+#if VIRTUESKY_ADS && ADS_APPLOVIN
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            MaxSdkCallbacks.AppOpen.OnAdDisplayedEvent += OnAdDisplayed;
+            MaxSdkCallbacks.AppOpen.OnAdHiddenEvent += OnAdHidden;
+            MaxSdkCallbacks.AppOpen.OnAdLoadedEvent += OnAdLoaded;
+            MaxSdkCallbacks.AppOpen.OnAdDisplayFailedEvent += OnAdDisplayFailed;
+            MaxSdkCallbacks.AppOpen.OnAdLoadFailedEvent += OnAdLoadFailed;
+            MaxSdkCallbacks.AppOpen.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+            MaxSdkCallbacks.AppOpen.OnAdClickedEvent += OnAdClicked;
+#endif
         }
 
         public override void Load()
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            if (!_registerCallback)
-            {
-                MaxSdkCallbacks.AppOpen.OnAdDisplayedEvent += OnAdDisplayed;
-                MaxSdkCallbacks.AppOpen.OnAdHiddenEvent += OnAdHidden;
-                MaxSdkCallbacks.AppOpen.OnAdLoadedEvent += OnAdLoaded;
-                MaxSdkCallbacks.AppOpen.OnAdDisplayFailedEvent += OnAdDisplayFailed;
-                MaxSdkCallbacks.AppOpen.OnAdLoadFailedEvent += OnAdLoadFailed;
-                MaxSdkCallbacks.AppOpen.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                MaxSdkCallbacks.AppOpen.OnAdClickedEvent += OnAdClicked;
-                _registerCallback = true;
-            }
-
             MaxSdk.LoadAppOpenAd(Id);
 #endif
         }

@@ -13,30 +13,29 @@ namespace VirtueSky.Ads
         public BannerPosition position;
 
         private bool _isBannerDestroyed = true;
-        private bool _registerCallback = false;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
 
         public override void Init()
         {
-            _registerCallback = false;
+#if VIRTUESKY_ADS && ADS_APPLOVIN
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnAdLoaded;
+            MaxSdkCallbacks.Banner.OnAdExpandedEvent += OnAdExpanded;
+            MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
+            MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
+            MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
+            MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
+#endif
         }
 
         public override void Load()
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            if (!_registerCallback)
+            if (size != BannerSize.Adaptive)
             {
-                MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnAdLoaded;
-                MaxSdkCallbacks.Banner.OnAdExpandedEvent += OnAdExpanded;
-                MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnAdLoadFailed;
-                MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
-                MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
-                MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
-                if (size != BannerSize.Adaptive)
-                    MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
-                _registerCallback = true;
+                MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
             }
 
             if (_isBannerDestroyed)
