@@ -28,6 +28,10 @@ namespace VirtueSky.Ads
             MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnAdCollapsed;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnAdRevenuePaid;
             MaxSdkCallbacks.Banner.OnAdClickedEvent += OnAdClicked;
+            if (size != BannerSize.Adaptive)
+            {
+                MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
+            }
 #endif
         }
 
@@ -35,11 +39,6 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            if (size != BannerSize.Adaptive)
-            {
-                MaxSdk.SetBannerExtraParameter(Id, "adaptive_banner", "false");
-            }
-
             if (_isBannerDestroyed)
             {
                 MaxSdk.CreateBanner(Id, ConvertPosition());
