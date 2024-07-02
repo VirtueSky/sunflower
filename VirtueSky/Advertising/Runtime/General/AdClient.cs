@@ -5,8 +5,8 @@ namespace VirtueSky.Ads
 {
     public abstract class AdClient
     {
-        [SerializeField, ReadOnly] protected AdSetting adSetting;
-        protected bool statusAppOpenFirstIgnore;
+        protected AdSetting adSetting;
+        private bool _statusAppOpenFirstIgnore;
 
         public void SetupAdSetting(AdSetting _adSetting)
         {
@@ -109,8 +109,8 @@ namespace VirtueSky.Ads
 
         public virtual void ShowAppOpen()
         {
-            if (statusAppOpenFirstIgnore) AppOpenAdUnit().Show();
-            statusAppOpenFirstIgnore = true;
+            if (_statusAppOpenFirstIgnore) AppOpenAdUnit().Show();
+            _statusAppOpenFirstIgnore = true;
         }
 
         #endregion

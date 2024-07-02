@@ -14,18 +14,17 @@ namespace VirtueSky.Ads
                 adSetting.IosAppKey = "8545d445";
             }
 #if VIRTUESKY_ADS && ADS_IRONSOURCE
+            IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
+            IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
             adSetting.IronSourceBannerVariable.Init();
             adSetting.IronSourceInterVariable.Init();
             adSetting.IronSourceRewardVariable.Init();
-            IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
-            IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
-
             IronSource.Agent.validateIntegration();
-            IronSource.Agent.init(adSetting.AppKey);
-
+            IronSource.Agent.init(adSetting.AppKey, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL,
+                IronSourceAdUnits.BANNER);
+#endif
             LoadInterstitial();
             LoadRewarded();
-#endif
         }
 #if VIRTUESKY_ADS && ADS_IRONSOURCE
         private void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
