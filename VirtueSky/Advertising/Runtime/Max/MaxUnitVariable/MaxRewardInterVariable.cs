@@ -2,6 +2,7 @@ using System;
 using VirtueSky.Ads;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -52,6 +53,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
             MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayedEvent += OnAdDisplayed;
             MaxSdkCallbacks.RewardedInterstitial.OnAdHiddenEvent += OnAdHidden;
             MaxSdkCallbacks.RewardedInterstitial.OnAdDisplayFailedEvent += OnAdDisplayFailed;

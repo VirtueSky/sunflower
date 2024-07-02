@@ -1,14 +1,10 @@
 #if VIRTUESKY_ADS && ADS_ADMOB
 using GoogleMobileAds.Api;
 #endif
-using UnityEngine;
-using VirtueSky.Inspector;
 using VirtueSky.Core;
-using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
-    [EditorIcon("icon_scriptable")]
     public sealed class AdmobAdClient : AdClient
     {
         public override void Initialize()
@@ -23,12 +19,6 @@ namespace VirtueSky.Ads
             // https://developers.google.com/admob/unity/quick-start#raise_ad_events_on_the_unity_main_thread
             MobileAds.RaiseAdEventsOnUnityMainThread = true;
 
-            adSetting.AdmobBannerVariable.Init();
-            adSetting.AdmobInterVariable.Init();
-            adSetting.AdmobRewardVariable.Init();
-            adSetting.AdmobRewardInterVariable.Init();
-            adSetting.AdmobAppOpenVariable.Init();
-
             MobileAds.Initialize(initStatus =>
             {
                 App.RunOnMainThread(() =>
@@ -39,11 +29,13 @@ namespace VirtueSky.Ads
                     MobileAds.SetRequestConfiguration(configuration);
                 });
             });
-            adSetting.AdmobBannerVariable.paidedCallback = AppTracking.TrackRevenue;
-            adSetting.AdmobInterVariable.paidedCallback = AppTracking.TrackRevenue;
-            adSetting.AdmobRewardVariable.paidedCallback = AppTracking.TrackRevenue;
-            adSetting.AdmobRewardInterVariable.paidedCallback = AppTracking.TrackRevenue;
-            adSetting.AdmobAppOpenVariable.paidedCallback = AppTracking.TrackRevenue;
+
+            adSetting.AdmobBannerVariable.Init();
+            adSetting.AdmobInterVariable.Init();
+            adSetting.AdmobRewardVariable.Init();
+            adSetting.AdmobRewardInterVariable.Init();
+            adSetting.AdmobAppOpenVariable.Init();
+
             RegisterAppStateChange();
             LoadInterstitial();
             LoadRewarded();

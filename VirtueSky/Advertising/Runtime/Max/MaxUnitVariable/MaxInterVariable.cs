@@ -3,6 +3,7 @@ using UnityEngine;
 using VirtueSky.Ads;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
@@ -17,6 +18,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && ADS_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            paidedCallback = AppTracking.TrackRevenue;
             MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnAdLoaded;
             MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += OnAdRevenuePaid;
