@@ -22,7 +22,8 @@ namespace VirtueSky.Ads
             return adSetting.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSetting.MaxInterVariable,
-                _ => adSetting.AdmobInterVariable,
+                AdNetwork.Admob => adSetting.AdmobInterVariable,
+                _ => adSetting.IronSourceInterVariable,
             };
         }
 
@@ -45,7 +46,8 @@ namespace VirtueSky.Ads
             return adSetting.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSetting.MaxRewardVariable,
-                _ => adSetting.AdmobRewardVariable,
+                AdNetwork.Admob => adSetting.AdmobRewardVariable,
+                _ => adSetting.IronSourceRewardVariable,
             };
         }
 

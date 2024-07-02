@@ -92,6 +92,9 @@ namespace VirtueSky.Ads
                 case AdNetwork.Admob:
                     currentAdClient = new AdmobAdClient();
                     break;
+                case AdNetwork.IronSource:
+                    currentAdClient = new IronSourceAdClient();
+                    break;
             }
 
             currentAdClient.SetupAdSetting(adSetting);
