@@ -81,6 +81,16 @@ namespace VirtueSky.Threading.Tasks
             return factory();
         }
 
+        public static UniTask Create(Func<CancellationToken, UniTask> factory, CancellationToken cancellationToken)
+        {
+            return factory(cancellationToken);
+        }
+
+        public static UniTask Create<T>(T state, Func<T, UniTask> factory)
+        {
+            return factory(state);
+        }
+
         public static UniTask<T> Create<T>(Func<UniTask<T>> factory)
         {
             return factory();
@@ -132,16 +142,25 @@ namespace VirtueSky.Threading.Tasks
         /// <summary>
         /// helper of create add UniTaskVoid to delegate.
         /// </summary>
-        public static Action Action(Func<CancellationToken, UniTaskVoid> asyncAction, CancellationToken cancellationToken)
+        public static Action Action(Func<CancellationToken, UniTaskVoid> asyncAction,
+            CancellationToken cancellationToken)
         {
             return () => asyncAction(cancellationToken).Forget();
+        }
+
+        /// <summary>
+        /// helper of create add UniTaskVoid to delegate.
+        /// </summary>
+        public static Action Action<T>(T state, Func<T, UniTaskVoid> asyncAction)
+        {
+            return () => asyncAction(state).Forget();
         }
 
 #if UNITY_2018_3_OR_NEWER
 
         /// <summary>
         /// Create async void(UniTaskVoid) UnityAction.
-        /// For exampe: onClick.AddListener(UniTask.UnityAction(async () => { /* */ } ))
+        /// For example: onClick.AddListener(UniTask.UnityAction(async () => { /* */ } ))
         /// </summary>
         public static UnityEngine.Events.UnityAction UnityAction(Func<UniTaskVoid> asyncAction)
         {
@@ -150,11 +169,21 @@ namespace VirtueSky.Threading.Tasks
 
         /// <summary>
         /// Create async void(UniTaskVoid) UnityAction.
-        /// For exampe: onClick.AddListener(UniTask.UnityAction(FooAsync, this.GetCancellationTokenOnDestroy()))
+        /// For example: onClick.AddListener(UniTask.UnityAction(FooAsync, this.GetCancellationTokenOnDestroy()))
         /// </summary>
-        public static UnityEngine.Events.UnityAction UnityAction(Func<CancellationToken, UniTaskVoid> asyncAction, CancellationToken cancellationToken)
+        public static UnityEngine.Events.UnityAction UnityAction(Func<CancellationToken, UniTaskVoid> asyncAction,
+            CancellationToken cancellationToken)
         {
             return () => asyncAction(cancellationToken).Forget();
+        }
+
+        /// <summary>
+        /// Create async void(UniTaskVoid) UnityAction.
+        /// For example: onClick.AddListener(UniTask.UnityAction(FooAsync, Argument))
+        /// </summary>
+        public static UnityEngine.Events.UnityAction UnityAction<T>(T state, Func<T, UniTaskVoid> asyncAction)
+        {
+            return () => asyncAction(state).Forget();
         }
 
 #endif
@@ -208,6 +237,7 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
             }
 
@@ -252,6 +282,7 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
                 return default;
             }
@@ -263,6 +294,7 @@ namespace VirtueSky.Threading.Tasks
                     calledGet = true;
                     GC.SuppressFinalize(this);
                 }
+
                 exception.Throw();
             }
 
@@ -489,7 +521,9 @@ namespace VirtueSky.Threading.Tasks
 
     internal static class CompletedTasks
     {
-        public static readonly UniTask<AsyncUnit> AsyncUnit = UniTask.FromResult(VirtueSky.Threading.Tasks.AsyncUnit.Default);
+        public static readonly UniTask<AsyncUnit> AsyncUnit =
+            UniTask.FromResult(VirtueSky.Threading.Tasks.AsyncUnit.Default);
+
         public static readonly UniTask<bool> True = UniTask.FromResult(true);
         public static readonly UniTask<bool> False = UniTask.FromResult(false);
         public static readonly UniTask<int> Zero = UniTask.FromResult(0);

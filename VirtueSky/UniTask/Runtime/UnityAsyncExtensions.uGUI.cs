@@ -10,7 +10,8 @@ namespace VirtueSky.Threading.Tasks
 {
     public static partial class UnityAsyncExtensions
     {
-        public static AsyncUnityEventHandler GetAsyncEventHandler(this UnityEvent unityEvent, CancellationToken cancellationToken)
+        public static AsyncUnityEventHandler GetAsyncEventHandler(this UnityEvent unityEvent,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler(unityEvent, cancellationToken, false);
         }
@@ -20,12 +21,14 @@ namespace VirtueSky.Threading.Tasks
             return new AsyncUnityEventHandler(unityEvent, cancellationToken, true).OnInvokeAsync();
         }
 
-        public static IUniTaskAsyncEnumerable<AsyncUnit> OnInvokeAsAsyncEnumerable(this UnityEvent unityEvent, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<AsyncUnit> OnInvokeAsAsyncEnumerable(this UnityEvent unityEvent,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable(unityEvent, cancellationToken);
         }
 
-        public static AsyncUnityEventHandler<T> GetAsyncEventHandler<T>(this UnityEvent<T> unityEvent, CancellationToken cancellationToken)
+        public static AsyncUnityEventHandler<T> GetAsyncEventHandler<T>(this UnityEvent<T> unityEvent,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<T>(unityEvent, cancellationToken, false);
         }
@@ -35,7 +38,8 @@ namespace VirtueSky.Threading.Tasks
             return new AsyncUnityEventHandler<T>(unityEvent, cancellationToken, true).OnInvokeAsync();
         }
 
-        public static IUniTaskAsyncEnumerable<T> OnInvokeAsAsyncEnumerable<T>(this UnityEvent<T> unityEvent, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<T> OnInvokeAsAsyncEnumerable<T>(this UnityEvent<T> unityEvent,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<T>(unityEvent, cancellationToken);
         }
@@ -45,14 +49,16 @@ namespace VirtueSky.Threading.Tasks
             return new AsyncUnityEventHandler(button.onClick, button.GetCancellationTokenOnDestroy(), false);
         }
 
-        public static IAsyncClickEventHandler GetAsyncClickEventHandler(this Button button, CancellationToken cancellationToken)
+        public static IAsyncClickEventHandler GetAsyncClickEventHandler(this Button button,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler(button.onClick, cancellationToken, false);
         }
 
         public static UniTask OnClickAsync(this Button button)
         {
-            return new AsyncUnityEventHandler(button.onClick, button.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler(button.onClick, button.GetCancellationTokenOnDestroy(), true)
+                .OnInvokeAsync();
         }
 
         public static UniTask OnClickAsync(this Button button, CancellationToken cancellationToken)
@@ -65,24 +71,28 @@ namespace VirtueSky.Threading.Tasks
             return new UnityEventHandlerAsyncEnumerable(button.onClick, button.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<AsyncUnit> OnClickAsAsyncEnumerable(this Button button, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<AsyncUnit> OnClickAsAsyncEnumerable(this Button button,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable(button.onClick, cancellationToken);
         }
 
         public static IAsyncValueChangedEventHandler<bool> GetAsyncValueChangedEventHandler(this Toggle toggle)
         {
-            return new AsyncUnityEventHandler<bool>(toggle.onValueChanged, toggle.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<bool>(toggle.onValueChanged, toggle.GetCancellationTokenOnDestroy(),
+                false);
         }
 
-        public static IAsyncValueChangedEventHandler<bool> GetAsyncValueChangedEventHandler(this Toggle toggle, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<bool> GetAsyncValueChangedEventHandler(this Toggle toggle,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<bool>(toggle.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<bool> OnValueChangedAsync(this Toggle toggle)
         {
-            return new AsyncUnityEventHandler<bool>(toggle.onValueChanged, toggle.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<bool>(toggle.onValueChanged, toggle.GetCancellationTokenOnDestroy(), true)
+                .OnInvokeAsync();
         }
 
         public static UniTask<bool> OnValueChangedAsync(this Toggle toggle, CancellationToken cancellationToken)
@@ -92,27 +102,32 @@ namespace VirtueSky.Threading.Tasks
 
         public static IUniTaskAsyncEnumerable<bool> OnValueChangedAsAsyncEnumerable(this Toggle toggle)
         {
-            return new UnityEventHandlerAsyncEnumerable<bool>(toggle.onValueChanged, toggle.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<bool>(toggle.onValueChanged,
+                toggle.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<bool> OnValueChangedAsAsyncEnumerable(this Toggle toggle, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<bool> OnValueChangedAsAsyncEnumerable(this Toggle toggle,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<bool>(toggle.onValueChanged, cancellationToken);
         }
 
         public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Scrollbar scrollbar)
         {
-            return new AsyncUnityEventHandler<float>(scrollbar.onValueChanged, scrollbar.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<float>(scrollbar.onValueChanged,
+                scrollbar.GetCancellationTokenOnDestroy(), false);
         }
 
-        public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Scrollbar scrollbar, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Scrollbar scrollbar,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<float>(scrollbar.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<float> OnValueChangedAsync(this Scrollbar scrollbar)
         {
-            return new AsyncUnityEventHandler<float>(scrollbar.onValueChanged, scrollbar.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<float>(scrollbar.onValueChanged,
+                scrollbar.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
         }
 
         public static UniTask<float> OnValueChangedAsync(this Scrollbar scrollbar, CancellationToken cancellationToken)
@@ -122,57 +137,70 @@ namespace VirtueSky.Threading.Tasks
 
         public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Scrollbar scrollbar)
         {
-            return new UnityEventHandlerAsyncEnumerable<float>(scrollbar.onValueChanged, scrollbar.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<float>(scrollbar.onValueChanged,
+                scrollbar.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Scrollbar scrollbar, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Scrollbar scrollbar,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<float>(scrollbar.onValueChanged, cancellationToken);
         }
 
-        public static IAsyncValueChangedEventHandler<Vector2> GetAsyncValueChangedEventHandler(this ScrollRect scrollRect)
+        public static IAsyncValueChangedEventHandler<Vector2> GetAsyncValueChangedEventHandler(
+            this ScrollRect scrollRect)
         {
-            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged, scrollRect.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged,
+                scrollRect.GetCancellationTokenOnDestroy(), false);
         }
 
-        public static IAsyncValueChangedEventHandler<Vector2> GetAsyncValueChangedEventHandler(this ScrollRect scrollRect, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<Vector2> GetAsyncValueChangedEventHandler(
+            this ScrollRect scrollRect, CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<Vector2> OnValueChangedAsync(this ScrollRect scrollRect)
         {
-            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged, scrollRect.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged,
+                scrollRect.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
         }
 
-        public static UniTask<Vector2> OnValueChangedAsync(this ScrollRect scrollRect, CancellationToken cancellationToken)
+        public static UniTask<Vector2> OnValueChangedAsync(this ScrollRect scrollRect,
+            CancellationToken cancellationToken)
         {
-            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged, cancellationToken, true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<Vector2>(scrollRect.onValueChanged, cancellationToken, true)
+                .OnInvokeAsync();
         }
 
         public static IUniTaskAsyncEnumerable<Vector2> OnValueChangedAsAsyncEnumerable(this ScrollRect scrollRect)
         {
-            return new UnityEventHandlerAsyncEnumerable<Vector2>(scrollRect.onValueChanged, scrollRect.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<Vector2>(scrollRect.onValueChanged,
+                scrollRect.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<Vector2> OnValueChangedAsAsyncEnumerable(this ScrollRect scrollRect, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<Vector2> OnValueChangedAsAsyncEnumerable(this ScrollRect scrollRect,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<Vector2>(scrollRect.onValueChanged, cancellationToken);
         }
 
         public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Slider slider)
         {
-            return new AsyncUnityEventHandler<float>(slider.onValueChanged, slider.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<float>(slider.onValueChanged, slider.GetCancellationTokenOnDestroy(),
+                false);
         }
 
-        public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Slider slider, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<float> GetAsyncValueChangedEventHandler(this Slider slider,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<float>(slider.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<float> OnValueChangedAsync(this Slider slider)
         {
-            return new AsyncUnityEventHandler<float>(slider.onValueChanged, slider.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<float>(slider.onValueChanged, slider.GetCancellationTokenOnDestroy(),
+                true).OnInvokeAsync();
         }
 
         public static UniTask<float> OnValueChangedAsync(this Slider slider, CancellationToken cancellationToken)
@@ -182,27 +210,32 @@ namespace VirtueSky.Threading.Tasks
 
         public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Slider slider)
         {
-            return new UnityEventHandlerAsyncEnumerable<float>(slider.onValueChanged, slider.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<float>(slider.onValueChanged,
+                slider.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Slider slider, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<float> OnValueChangedAsAsyncEnumerable(this Slider slider,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<float>(slider.onValueChanged, cancellationToken);
         }
 
         public static IAsyncEndEditEventHandler<string> GetAsyncEndEditEventHandler(this InputField inputField)
         {
-            return new AsyncUnityEventHandler<string>(inputField.onEndEdit, inputField.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<string>(inputField.onEndEdit, inputField.GetCancellationTokenOnDestroy(),
+                false);
         }
 
-        public static IAsyncEndEditEventHandler<string> GetAsyncEndEditEventHandler(this InputField inputField, CancellationToken cancellationToken)
+        public static IAsyncEndEditEventHandler<string> GetAsyncEndEditEventHandler(this InputField inputField,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<string>(inputField.onEndEdit, cancellationToken, false);
         }
 
         public static UniTask<string> OnEndEditAsync(this InputField inputField)
         {
-            return new AsyncUnityEventHandler<string>(inputField.onEndEdit, inputField.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<string>(inputField.onEndEdit, inputField.GetCancellationTokenOnDestroy(),
+                true).OnInvokeAsync();
         }
 
         public static UniTask<string> OnEndEditAsync(this InputField inputField, CancellationToken cancellationToken)
@@ -212,57 +245,70 @@ namespace VirtueSky.Threading.Tasks
 
         public static IUniTaskAsyncEnumerable<string> OnEndEditAsAsyncEnumerable(this InputField inputField)
         {
-            return new UnityEventHandlerAsyncEnumerable<string>(inputField.onEndEdit, inputField.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<string>(inputField.onEndEdit,
+                inputField.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<string> OnEndEditAsAsyncEnumerable(this InputField inputField, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<string> OnEndEditAsAsyncEnumerable(this InputField inputField,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<string>(inputField.onEndEdit, cancellationToken);
         }
 
-        public static IAsyncValueChangedEventHandler<string> GetAsyncValueChangedEventHandler(this InputField inputField)
+        public static IAsyncValueChangedEventHandler<string> GetAsyncValueChangedEventHandler(
+            this InputField inputField)
         {
-            return new AsyncUnityEventHandler<string>(inputField.onValueChanged, inputField.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<string>(inputField.onValueChanged,
+                inputField.GetCancellationTokenOnDestroy(), false);
         }
 
-        public static IAsyncValueChangedEventHandler<string> GetAsyncValueChangedEventHandler(this InputField inputField, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<string> GetAsyncValueChangedEventHandler(
+            this InputField inputField, CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<string>(inputField.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<string> OnValueChangedAsync(this InputField inputField)
         {
-            return new AsyncUnityEventHandler<string>(inputField.onValueChanged, inputField.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<string>(inputField.onValueChanged,
+                inputField.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
         }
 
-        public static UniTask<string> OnValueChangedAsync(this InputField inputField, CancellationToken cancellationToken)
+        public static UniTask<string> OnValueChangedAsync(this InputField inputField,
+            CancellationToken cancellationToken)
         {
-            return new AsyncUnityEventHandler<string>(inputField.onValueChanged, cancellationToken, true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<string>(inputField.onValueChanged, cancellationToken, true)
+                .OnInvokeAsync();
         }
 
         public static IUniTaskAsyncEnumerable<string> OnValueChangedAsAsyncEnumerable(this InputField inputField)
         {
-            return new UnityEventHandlerAsyncEnumerable<string>(inputField.onValueChanged, inputField.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<string>(inputField.onValueChanged,
+                inputField.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<string> OnValueChangedAsAsyncEnumerable(this InputField inputField, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<string> OnValueChangedAsAsyncEnumerable(this InputField inputField,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<string>(inputField.onValueChanged, cancellationToken);
         }
 
         public static IAsyncValueChangedEventHandler<int> GetAsyncValueChangedEventHandler(this Dropdown dropdown)
         {
-            return new AsyncUnityEventHandler<int>(dropdown.onValueChanged, dropdown.GetCancellationTokenOnDestroy(), false);
+            return new AsyncUnityEventHandler<int>(dropdown.onValueChanged, dropdown.GetCancellationTokenOnDestroy(),
+                false);
         }
 
-        public static IAsyncValueChangedEventHandler<int> GetAsyncValueChangedEventHandler(this Dropdown dropdown, CancellationToken cancellationToken)
+        public static IAsyncValueChangedEventHandler<int> GetAsyncValueChangedEventHandler(this Dropdown dropdown,
+            CancellationToken cancellationToken)
         {
             return new AsyncUnityEventHandler<int>(dropdown.onValueChanged, cancellationToken, false);
         }
 
         public static UniTask<int> OnValueChangedAsync(this Dropdown dropdown)
         {
-            return new AsyncUnityEventHandler<int>(dropdown.onValueChanged, dropdown.GetCancellationTokenOnDestroy(), true).OnInvokeAsync();
+            return new AsyncUnityEventHandler<int>(dropdown.onValueChanged, dropdown.GetCancellationTokenOnDestroy(),
+                true).OnInvokeAsync();
         }
 
         public static UniTask<int> OnValueChangedAsync(this Dropdown dropdown, CancellationToken cancellationToken)
@@ -272,10 +318,12 @@ namespace VirtueSky.Threading.Tasks
 
         public static IUniTaskAsyncEnumerable<int> OnValueChangedAsAsyncEnumerable(this Dropdown dropdown)
         {
-            return new UnityEventHandlerAsyncEnumerable<int>(dropdown.onValueChanged, dropdown.GetCancellationTokenOnDestroy());
+            return new UnityEventHandlerAsyncEnumerable<int>(dropdown.onValueChanged,
+                dropdown.GetCancellationTokenOnDestroy());
         }
 
-        public static IUniTaskAsyncEnumerable<int> OnValueChangedAsAsyncEnumerable(this Dropdown dropdown, CancellationToken cancellationToken)
+        public static IUniTaskAsyncEnumerable<int> OnValueChangedAsAsyncEnumerable(this Dropdown dropdown,
+            CancellationToken cancellationToken)
         {
             return new UnityEventHandlerAsyncEnumerable<int>(dropdown.onValueChanged, cancellationToken);
         }
@@ -339,7 +387,7 @@ namespace VirtueSky.Threading.Tasks
 
         void InvokeCore(string item1, int item2, int item3)
         {
-            innerEvent.Invoke(item1, item2, item3);
+            Invoke((item1, item2, item3));
         }
 
         public void Dispose()
@@ -392,6 +440,7 @@ namespace VirtueSky.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
+
             return new UniTask(this, core.Version);
         }
 
@@ -417,6 +466,7 @@ namespace VirtueSky.Threading.Tasks
                 {
                     unityEvent.RemoveListener(action);
                 }
+
                 core.TrySetCanceled(cancellationToken);
             }
         }
@@ -457,8 +507,10 @@ namespace VirtueSky.Threading.Tasks
         }
     }
 
-    public class AsyncUnityEventHandler<T> : IUniTaskSource<T>, IDisposable, IAsyncValueChangedEventHandler<T>, IAsyncEndEditEventHandler<T>
-        , IAsyncEndTextSelectionEventHandler<T>, IAsyncTextSelectionEventHandler<T>, IAsyncDeselectEventHandler<T>, IAsyncSelectEventHandler<T>, IAsyncSubmitEventHandler<T>
+    public class AsyncUnityEventHandler<T> : IUniTaskSource<T>, IDisposable, IAsyncValueChangedEventHandler<T>,
+        IAsyncEndEditEventHandler<T>
+        , IAsyncEndTextSelectionEventHandler<T>, IAsyncTextSelectionEventHandler<T>, IAsyncDeselectEventHandler<T>,
+        IAsyncSelectEventHandler<T>, IAsyncSubmitEventHandler<T>
     {
         static Action<object> cancellationCallback = CancellationCallback;
 
@@ -502,6 +554,7 @@ namespace VirtueSky.Threading.Tasks
             {
                 core.TrySetCanceled(this.cancellationToken);
             }
+
             return new UniTask<T>(this, core.Version);
         }
 
@@ -624,7 +677,8 @@ namespace VirtueSky.Threading.Tasks
         {
             if (this.cancellationToken1 == cancellationToken)
             {
-                return new UnityEventHandlerAsyncEnumerator(unityEvent, this.cancellationToken1, CancellationToken.None);
+                return new UnityEventHandlerAsyncEnumerator(unityEvent, this.cancellationToken1,
+                    CancellationToken.None);
             }
             else
             {
@@ -646,7 +700,8 @@ namespace VirtueSky.Threading.Tasks
             CancellationTokenRegistration registration2;
             bool isDisposed;
 
-            public UnityEventHandlerAsyncEnumerator(UnityEvent unityEvent, CancellationToken cancellationToken1, CancellationToken cancellationToken2)
+            public UnityEventHandlerAsyncEnumerator(UnityEvent unityEvent, CancellationToken cancellationToken1,
+                CancellationToken cancellationToken2)
             {
                 this.unityEvent = unityEvent;
                 this.cancellationToken1 = cancellationToken1;
@@ -671,6 +726,7 @@ namespace VirtueSky.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
+
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -744,7 +800,8 @@ namespace VirtueSky.Threading.Tasks
         {
             if (this.cancellationToken1 == cancellationToken)
             {
-                return new UnityEventHandlerAsyncEnumerator(unityEvent, this.cancellationToken1, CancellationToken.None);
+                return new UnityEventHandlerAsyncEnumerator(unityEvent, this.cancellationToken1,
+                    CancellationToken.None);
             }
             else
             {
@@ -766,7 +823,8 @@ namespace VirtueSky.Threading.Tasks
             CancellationTokenRegistration registration2;
             bool isDisposed;
 
-            public UnityEventHandlerAsyncEnumerator(UnityEvent<T> unityEvent, CancellationToken cancellationToken1, CancellationToken cancellationToken2)
+            public UnityEventHandlerAsyncEnumerator(UnityEvent<T> unityEvent, CancellationToken cancellationToken1,
+                CancellationToken cancellationToken2)
             {
                 this.unityEvent = unityEvent;
                 this.cancellationToken1 = cancellationToken1;
@@ -791,6 +849,7 @@ namespace VirtueSky.Threading.Tasks
                     {
                         registration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(cancel1, this);
                     }
+
                     if (cancellationToken2.CanBeCanceled)
                     {
                         registration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(cancel2, this);
@@ -844,6 +903,7 @@ namespace VirtueSky.Threading.Tasks
                     {
                         disp.Dispose();
                     }
+
                     unityEvent.RemoveListener(unityAction);
 
                     completionSource.TrySetCanceled();
