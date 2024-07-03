@@ -33,7 +33,7 @@ for version `2.8.0`
 ```bash
 ├── Core (Update only called once in Monobehaviour,...)
 ├── ATT_IOS
-├── Advertising (Support for Max & Admob)
+├── Advertising (Support for Max, Admob and IronSource)
 ├── In App Purchase (IAP)
 ├── Asset Finder
 ├── Audio
