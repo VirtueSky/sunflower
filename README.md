@@ -55,6 +55,7 @@ for version `2.8.1`
 ├── Vibration (Vibration native support for android & ios)
 ├── Game Service (Login by Google Play Game or Apple Auth)
 ├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
+├── Touch Input
 ├── Component
 ```
 
