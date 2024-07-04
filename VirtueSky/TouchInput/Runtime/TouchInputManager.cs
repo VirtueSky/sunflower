@@ -1,12 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using VirtueSky.Core;
 using VirtueSky.Inspector;
 
 namespace VirtueSky.TouchInput
 {
     [EditorIcon("icon_controller")]
-    public class TouchInputManager : BaseMono
+    public class TouchInputManager : MonoBehaviour
     {
         [SerializeField, Tooltip("Event A finger touched the screen")]
         private InputEventTouchBegin inputEventTouchBegin;
@@ -43,9 +43,8 @@ namespace VirtueSky.TouchInput
         private bool _mouseDown;
         private bool _mouseUpdate;
 
-        public override void Tick()
+        private void Update()
         {
-            base.Tick();
             if (ignoreUI)
             {
                 if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null)
