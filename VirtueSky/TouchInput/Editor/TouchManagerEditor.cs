@@ -4,7 +4,7 @@ using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.TouchInput
 {
-    [CustomEditor(typeof(TouchManager))]
+    [CustomEditor(typeof(TouchInputManager))]
     public class TouchManagerEditor : Editor
     {
         private SerializedProperty _inputEventTouchBegin;

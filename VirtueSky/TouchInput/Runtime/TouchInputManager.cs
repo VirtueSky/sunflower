@@ -6,7 +6,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.TouchInput
 {
     [EditorIcon("icon_controller")]
-    public class TouchManager : BaseMono
+    public class TouchInputManager : BaseMono
     {
         [SerializeField, Tooltip("Event A finger touched the screen")]
         private InputEventTouchBegin inputEventTouchBegin;
