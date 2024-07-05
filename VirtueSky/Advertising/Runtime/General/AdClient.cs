@@ -29,11 +29,12 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsInterstitialReady()
         {
-            return InterstitialAdUnit() != null && InterstitialAdUnit().IsReady();
+            return InterstitialAdUnit().IsReady();
         }
 
         public virtual void LoadInterstitial()
         {
+            if (InterstitialAdUnit() == null) return;
             if (!IsInterstitialReady()) InterstitialAdUnit().Load();
         }
 
@@ -53,11 +54,12 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsRewardedReady()
         {
-            return RewardAdUnit() != null && RewardAdUnit().IsReady();
+            return RewardAdUnit().IsReady();
         }
 
         public virtual void LoadRewarded()
         {
+            if (RewardAdUnit() == null) return;
             if (!IsRewardedReady()) RewardAdUnit().Load();
         }
 
@@ -77,11 +79,12 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsRewardedInterstitialReady()
         {
-            return RewardedInterstitialAdUnit() != null && RewardedInterstitialAdUnit().IsReady();
+            return RewardedInterstitialAdUnit().IsReady();
         }
 
         public virtual void LoadRewardedInterstitial()
         {
+            if (RewardedInterstitialAdUnit() == null) return;
             if (!IsRewardedInterstitialReady()) RewardedInterstitialAdUnit().Load();
         }
 
@@ -101,11 +104,12 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsAppOpenReady()
         {
-            return AppOpenAdUnit() != null && AppOpenAdUnit().IsReady();
+            return AppOpenAdUnit().IsReady();
         }
 
         public virtual void LoadAppOpen()
         {
+            if (AppOpenAdUnit() == null) return;
             if (!IsAppOpenReady()) AppOpenAdUnit().Load();
         }
 
