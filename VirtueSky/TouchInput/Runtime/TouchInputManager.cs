@@ -8,7 +8,7 @@ namespace VirtueSky.TouchInput
     [EditorIcon("icon_controller")]
     public class TouchInputManager : MonoBehaviour
     {
-        [SerializeField, Tooltip("Event A finger touched the screen")]
+        [HeaderLine("Input Event Touch")] [SerializeField, Tooltip("Event A finger touched the screen")]
         private InputEventTouchBegin inputEventTouchBegin;
 
         [SerializeField, Tooltip("Event A finger moved on the screen")]
@@ -26,7 +26,7 @@ namespace VirtueSky.TouchInput
         [SerializeField, Tooltip("Use mouse in editor")]
         private bool useMouse = false;
 
-        [SerializeField, Tooltip("Event start click the mouse button")]
+        [HeaderLine("Input Event Mouse")] [SerializeField, Tooltip("Event start click the mouse button")]
         private InputEventMouseDown inputEventMouseDown;
 
         [SerializeField, Tooltip("Event hold the mouse button")]
