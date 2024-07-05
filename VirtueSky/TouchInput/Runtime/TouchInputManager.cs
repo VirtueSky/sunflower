@@ -45,7 +45,7 @@ namespace VirtueSky.TouchInput
 
         private void Update()
         {
-            if (ignoreUI)
+            if (ignoreUI && EventSystem.current != null)
             {
                 if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null)
                 {
@@ -62,7 +62,7 @@ namespace VirtueSky.TouchInput
 #if UNITY_EDITOR
             if (useMouse)
             {
-                if (ignoreUI)
+                if (ignoreUI && EventSystem.current != null)
                 {
                     if (EventSystem.current.currentSelectedGameObject == null)
                     {
