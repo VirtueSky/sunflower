@@ -29,7 +29,7 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsInterstitialReady()
         {
-            return InterstitialAdUnit().IsReady();
+            return InterstitialAdUnit() != null && InterstitialAdUnit().IsReady();
         }
 
         public virtual void LoadInterstitial()
@@ -53,7 +53,7 @@ namespace VirtueSky.Ads
 
         protected virtual bool IsRewardedReady()
         {
-            return RewardAdUnit().IsReady();
+            return RewardAdUnit() != null && RewardAdUnit().IsReady();
         }
 
         public virtual void LoadRewarded()
@@ -70,13 +70,14 @@ namespace VirtueSky.Ads
             return adSetting.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSetting.MaxRewardInterVariable,
-                _ => adSetting.AdmobRewardInterVariable,
+                AdNetwork.Admob => adSetting.AdmobRewardInterVariable,
+                _ => null,
             };
         }
 
         protected virtual bool IsRewardedInterstitialReady()
         {
-            return RewardedInterstitialAdUnit().IsReady();
+            return RewardedInterstitialAdUnit() != null && RewardedInterstitialAdUnit().IsReady();
         }
 
         public virtual void LoadRewardedInterstitial()
@@ -93,13 +94,14 @@ namespace VirtueSky.Ads
             return adSetting.CurrentAdNetwork switch
             {
                 AdNetwork.Max => adSetting.MaxAppOpenVariable,
-                _ => adSetting.AdmobAppOpenVariable,
+                AdNetwork.Admob => adSetting.AdmobAppOpenVariable,
+                _ => null
             };
         }
 
         protected virtual bool IsAppOpenReady()
         {
-            return AppOpenAdUnit().IsReady();
+            return AppOpenAdUnit() != null && AppOpenAdUnit().IsReady();
         }
 
         public virtual void LoadAppOpen()
