@@ -1,3 +1,6 @@
+using UnityEngine;
+using VirtueSky.Core;
+
 namespace VirtueSky.Ads
 {
     public sealed class MaxAdClient : AdClient
@@ -13,11 +16,22 @@ namespace VirtueSky.Ads
             adSetting.MaxRewardVariable.Init();
             adSetting.MaxAppOpenVariable.Init();
             adSetting.MaxRewardInterVariable.Init();
+            App.AddPauseCallback(OnAppStateChange);
             LoadInterstitial();
             LoadRewarded();
             LoadRewardedInterstitial();
             LoadAppOpen();
 #endif
         }
+
+#if VIRTUESKY_ADS && ADS_APPLOVIN
+        private void OnAppStateChange(bool pauseStatus)
+        {
+            if (!pauseStatus && adSetting.MaxAppOpenVariable.AutoShow && !AdStatic.isShowingAd)
+            {
+                ShowAppOpen();
+            }
+        }
+#endif
     }
 }

@@ -259,17 +259,6 @@ namespace VirtueSky.Ads
 
         #endregion
 
-#if ADS_APPLOVIN
-        private void OnApplicationPause(bool pauseStatus)
-        {
-            if (adSetting.CurrentAdNetwork != AdNetwork.Max) return;
-            if (!pauseStatus && adSetting.MaxAppOpenVariable.AutoShow && !AdStatic.isShowingAd)
-            {
-                (currentAdClient as MaxAdClient)?.ShowAppOpen();
-            }
-        }
-#endif
-
 #if UNITY_EDITOR
         private void Reset()
         {

@@ -1,3 +1,5 @@
+using UnityEngine;
+using VirtueSky.Core;
 using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
@@ -14,14 +16,14 @@ namespace VirtueSky.Ads
                 adSetting.IosAppKey = "8545d445";
             }
 #if VIRTUESKY_ADS && ADS_IRONSOURCE
+            App.AddPauseCallback(OnAppStateChange);
             IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
             IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
             adSetting.IronSourceBannerVariable.Init();
             adSetting.IronSourceInterVariable.Init();
             adSetting.IronSourceRewardVariable.Init();
             IronSource.Agent.validateIntegration();
-            IronSource.Agent.init(adSetting.AppKey, IronSourceAdUnits.REWARDED_VIDEO, IronSourceAdUnits.INTERSTITIAL,
-                IronSourceAdUnits.BANNER);
+            IronSource.Agent.init(adSetting.AppKey);
 #endif
             LoadInterstitial();
             LoadRewarded();
@@ -41,5 +43,11 @@ namespace VirtueSky.Ads
         {
             SdkInitializationCompleted = true;
         }
+#if VIRTUESKY_ADS && ADS_IRONSOURCE
+        private void OnAppStateChange(bool pauseStatus)
+        {
+            IronSource.Agent.onApplicationPause(pauseStatus);
+        }
+#endif
     }
 }
