@@ -38,16 +38,15 @@ namespace VirtueSky.Ads
                     impressionData.placement, AdNetwork.IronSource.ToString());
             }
         }
-#endif
-        void SdkInitializationCompletedEvent()
-        {
-            SdkInitializationCompleted = true;
-        }
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+
         private void OnAppStateChange(bool pauseStatus)
         {
             IronSource.Agent.onApplicationPause(pauseStatus);
         }
 #endif
+        void SdkInitializationCompletedEvent()
+        {
+            SdkInitializationCompleted = true;
+        }
     }
 }
