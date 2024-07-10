@@ -142,6 +142,7 @@ namespace VirtueSky.Ads
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
             OnFailedToLoadAdEvent?.Invoke(info.Message);
+            Destroy();
         }
 
         private void OnAdCollapsed(string unit, MaxSdkBase.AdInfo info)

@@ -142,7 +142,7 @@ namespace VirtueSky.Ads
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
             OnFailedToLoadAdEvent?.Invoke(ironSourceError.ToString());
-            Load();
+            Destroy();
         }
 
         void BannerOnAdClickedEvent(IronSourceAdInfo adInfo)
