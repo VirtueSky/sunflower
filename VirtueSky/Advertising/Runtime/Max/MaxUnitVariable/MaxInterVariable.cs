@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
             MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnAdLoaded;
@@ -31,7 +31,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             MaxSdk.LoadInterstitial(Id);
 #endif
@@ -39,7 +39,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             return !string.IsNullOrEmpty(Id) && MaxSdk.IsInterstitialReady(Id);
 #else
             return false;
@@ -48,7 +48,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             MaxSdk.ShowInterstitial(Id);
 #endif
         }
@@ -65,7 +65,7 @@ namespace VirtueSky.Ads
 
         #region Func Callback
 
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo error,
             MaxSdkBase.AdInfo info)
         {

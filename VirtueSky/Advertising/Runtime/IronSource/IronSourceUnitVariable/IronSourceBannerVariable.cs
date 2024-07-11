@@ -17,7 +17,7 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             if (AdStatic.IsRemoveAd) return;
             IronSourceBannerEvents.onAdLoadedEvent += BannerOnAdLoadedEvent;
             IronSourceBannerEvents.onAdLoadFailedEvent += BannerOnAdLoadFailedEvent;
@@ -30,7 +30,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             if (AdStatic.IsRemoveAd) return;
             var bannerSize = ConvertBannerSize();
             if (size == BannerSize.Adaptive) bannerSize.SetAdaptive(true);
@@ -59,7 +59,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             return true;
 #else
             return false;
@@ -76,7 +76,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             _isBannerShowing = true;
             AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
             AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
@@ -87,7 +87,7 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             _isBannerShowing = false;
             _isBannerDestroyed = true;
             AdStatic.waitAppOpenClosedAction = null;
@@ -99,14 +99,14 @@ namespace VirtueSky.Ads
         public override void HideBanner()
         {
             base.HideBanner();
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             _isBannerShowing = false;
             IronSource.Agent.hideBanner();
 #endif
         }
 
 
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
 
         private IronSourceBannerSize ConvertBannerSize()
         {

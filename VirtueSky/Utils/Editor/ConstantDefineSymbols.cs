@@ -3,9 +3,9 @@ namespace VirtueSky.UtilsEditor
     public class ConstantDefineSymbols
     {
         public const string VIRTUESKY_ADS = "VIRTUESKY_ADS";
-        public const string ADS_APPLOVIN = "ADS_APPLOVIN";
-        public const string ADS_ADMOB = "ADS_ADMOB";
-        public const string ADS_IRONSOURCE = "ADS_IRONSOURCE";
+        public const string VIRTUESKY_APPLOVIN = "VIRTUESKY_APPLOVIN";
+        public const string VIRTUESKY_ADMOB = "VIRTUESKY_ADMOB";
+        public const string VIRTUESKY_IRONSOURCE = "VIRTUESKY_IRONSOURCE";
         public const string VIRTUESKY_ADJUST = "VIRTUESKY_ADJUST";
         public const string VIRTUESKY_FIREBASE_ANALYTIC = "VIRTUESKY_FIREBASE_ANALYTIC";
         public const string VIRTUESKY_FIREBASE_REMOTECONFIG = "VIRTUESKY_FIREBASE_REMOTECONFIG";

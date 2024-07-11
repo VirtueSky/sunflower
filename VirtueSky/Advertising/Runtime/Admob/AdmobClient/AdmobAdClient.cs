@@ -1,4 +1,4 @@
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 #endif
 using VirtueSky.Core;
@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
     {
         public override void Initialize()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             // On Android, Unity is paused when displaying interstitial or rewarded video.
             // This setting makes iOS behave consistently with Android.
             MobileAds.SetiOSAppPauseOnBackground(true);
@@ -44,7 +44,7 @@ namespace VirtueSky.Ads
 #endif
         }
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         void RegisterAppStateChange()
         {
             GoogleMobileAds.Api.AppStateEventNotifier.AppStateChanged += OnAppStateChanged;

@@ -119,14 +119,14 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-#if !VIRTUESKY_ADS || !ADS_APPLOVIN
+#if !VIRTUESKY_ADS || !VIRTUESKY_APPLOVIN
             EditorGUILayout.HelpBox(
-                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_APPLOVIN}\" to use Max Ads",
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.VIRTUESKY_APPLOVIN}\" to use Max Ads",
                 MessageType.Info);
 #endif
 
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
-            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_APPLOVIN);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPLOVIN);
         }
 
         static void DrawAdmobField(Rect position)
@@ -148,14 +148,14 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-#if !VIRTUESKY_ADS || !ADS_ADMOB
+#if !VIRTUESKY_ADS || !VIRTUESKY_ADMOB
             EditorGUILayout.HelpBox(
-                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_ADMOB}\" to use Admob Ads",
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.VIRTUESKY_ADMOB}\" to use Admob Ads",
                 MessageType.Info);
 #endif
 
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
-            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_ADMOB);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADMOB);
         }
 
         static void DrawIronSource(Rect position)
@@ -177,15 +177,15 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             GUILayout.Label("ADD SYMBOLS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-#if !VIRTUESKY_ADS || !ADS_IRONSOURCE
+#if !VIRTUESKY_ADS || !VIRTUESKY_IRONSOURCE
             EditorGUILayout.HelpBox(
-                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.ADS_IRONSOURCE}\" to use IronSource Ads",
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.VIRTUESKY_IRONSOURCE}\" to use IronSource Ads",
                 MessageType.Info);
 #endif
 
 
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
-            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ADS_IRONSOURCE);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_IRONSOURCE);
         }
     }
 }

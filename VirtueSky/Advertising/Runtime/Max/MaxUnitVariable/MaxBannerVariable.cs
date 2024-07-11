@@ -19,7 +19,7 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
             MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnAdLoaded;
@@ -37,7 +37,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             if (_isBannerDestroyed)
             {
@@ -69,7 +69,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             _isBannerShowing = true;
             AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
             AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
@@ -80,7 +80,7 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
             _isBannerShowing = false;
             _isBannerDestroyed = true;
@@ -93,7 +93,7 @@ namespace VirtueSky.Ads
         public override void HideBanner()
         {
             base.HideBanner();
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             _isBannerShowing = false;
             if (string.IsNullOrEmpty(Id)) return;
             MaxSdk.HideBanner(Id);
@@ -102,7 +102,7 @@ namespace VirtueSky.Ads
 
         #region Fun Callback
 
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         public MaxSdkBase.BannerPosition ConvertPosition()
         {
             switch (position)

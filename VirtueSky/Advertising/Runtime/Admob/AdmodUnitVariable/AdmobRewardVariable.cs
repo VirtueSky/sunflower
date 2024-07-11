@@ -1,5 +1,5 @@
 using System;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
         public bool useTestId;
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private RewardedAd _rewardedAd;
 #endif
         public override void Init()
@@ -25,7 +25,7 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
 #endif
@@ -35,7 +35,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (string.IsNullOrEmpty(Id)) return;
             Destroy();
             RewardedAd.Load(Id, new AdRequest(), AdLoadCallback);
@@ -44,7 +44,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             return _rewardedAd != null && _rewardedAd.CanShowAd();
 #else
             return false;
@@ -53,7 +53,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _rewardedAd.Show(UserRewardEarnedCallback);
 #endif
         }
@@ -76,7 +76,7 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_rewardedAd == null) return;
             _rewardedAd.Destroy();
             _rewardedAd = null;
@@ -84,7 +84,7 @@ namespace VirtueSky.Ads
 #endif
         }
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private void AdLoadCallback(RewardedAd ad, LoadAdError error)
         {
             // if error is not null, the load request failed.

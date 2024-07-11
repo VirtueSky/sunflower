@@ -1,5 +1,5 @@
 using System;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using VirtueSky.Tracking;
 #endif
@@ -17,7 +17,7 @@ namespace VirtueSky.Ads
         private bool autoShow = false;
 
         public bool useTestId;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private AppOpenAd _appOpenAd;
 #endif
         private DateTime _expireTime;
@@ -29,7 +29,7 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
 #endif
@@ -37,7 +37,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
 
             Destroy();
@@ -47,7 +47,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             return _appOpenAd != null && _appOpenAd.CanShowAd() && DateTime.Now < _expireTime;
 #else
             return false;
@@ -65,21 +65,21 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _appOpenAd.Show();
 #endif
         }
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_appOpenAd == null) return;
             _appOpenAd.Destroy();
             _appOpenAd = null;
 #endif
         }
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private void OnAdLoadCallback(AppOpenAd ad, LoadAdError error)
         {
             // if error is not null, the load request failed.

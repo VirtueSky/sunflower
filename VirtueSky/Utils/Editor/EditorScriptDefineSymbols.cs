@@ -29,18 +29,18 @@ namespace VirtueSky.UtilsEditor
         //
         // #region Applovin
         //
-        // private const string menuPathApplovin = defaultMenuPath + ConstantDefineSymbols.ADS_APPLOVIN;
+        // private const string menuPathApplovin = defaultMenuPath + ConstantDefineSymbols.VIRTUESKY_APPLOVIN;
         //
         // [MenuItem(menuPathApplovin)]
         // public static void ApplovinConfigFlag()
         // {
-        //     SwitchFlag(ConstantDefineSymbols.ADS_APPLOVIN);
+        //     SwitchFlag(ConstantDefineSymbols.VIRTUESKY_APPLOVIN);
         // }
         //
         // [MenuItem(menuPathApplovin, true)]
         // public static bool IsApplovinConfigFlagEnable()
         // {
-        //     Menu.SetChecked(menuPathApplovin, IsFlagEnabled(ConstantDefineSymbols.ADS_APPLOVIN));
+        //     Menu.SetChecked(menuPathApplovin, IsFlagEnabled(ConstantDefineSymbols.VIRTUESKY_APPLOVIN));
         //     return true;
         // }
         //
@@ -48,18 +48,18 @@ namespace VirtueSky.UtilsEditor
         //
         // #region Admob
         //
-        // private const string menuPathAdmob = defaultMenuPath + ConstantDefineSymbols.ADS_ADMOB;
+        // private const string menuPathAdmob = defaultMenuPath + ConstantDefineSymbols.VIRTUESKY_ADMOB;
         //
         // [MenuItem(menuPathAdmob)]
         // public static void AdmobConfigFlag()
         // {
-        //     SwitchFlag(ConstantDefineSymbols.ADS_ADMOB);
+        //     SwitchFlag(ConstantDefineSymbols.VIRTUESKY_ADMOB);
         // }
         //
         // [MenuItem(menuPathAdmob, true)]
         // public static bool IsAdmobConfigFlagEnable()
         // {
-        //     Menu.SetChecked(menuPathAdmob, IsFlagEnabled(ConstantDefineSymbols.ADS_ADMOB));
+        //     Menu.SetChecked(menuPathAdmob, IsFlagEnabled(ConstantDefineSymbols.VIRTUESKY_ADMOB));
         //     return true;
         // }
         //

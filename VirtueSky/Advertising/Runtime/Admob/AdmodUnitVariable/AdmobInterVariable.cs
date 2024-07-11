@@ -1,5 +1,5 @@
 using System;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using VirtueSky.Tracking;
 #endif
@@ -15,7 +15,7 @@ namespace VirtueSky.Ads
     {
         public bool useTestId;
         [NonSerialized] internal Action completedCallback;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private InterstitialAd _interstitialAd;
 #endif
         public override void Init()
@@ -24,7 +24,7 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
 #endif
@@ -32,7 +32,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
 
             Destroy();
@@ -43,7 +43,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             return _interstitialAd != null && _interstitialAd.CanShowAd();
 #else
             return false;
@@ -61,7 +61,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _interstitialAd.Show();
 #endif
         }
@@ -74,14 +74,14 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_interstitialAd == null) return;
             _interstitialAd.Destroy();
             _interstitialAd = null;
 #endif
         }
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private void AdLoadCallback(InterstitialAd ad, LoadAdError error)
         {
             // if error is not null, the load request failed.

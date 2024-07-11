@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnAdDisplayed;
@@ -32,7 +32,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
             MaxSdk.LoadRewardedAd(Id);
 #endif
@@ -40,7 +40,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             return !string.IsNullOrEmpty(Id) && MaxSdk.IsRewardedAdReady(Id);
 #else
             return false;
@@ -49,7 +49,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             MaxSdk.ShowRewardedAd(Id);
 #endif
         }
@@ -75,7 +75,7 @@ namespace VirtueSky.Ads
 
         #region Func Callback
 
-#if VIRTUESKY_ADS && ADS_APPLOVIN
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         private void OnAdReceivedReward(string unit, MaxSdkBase.Reward reward,
             MaxSdkBase.AdInfo info)
         {

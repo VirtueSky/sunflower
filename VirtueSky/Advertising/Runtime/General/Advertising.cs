@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
-
-#if ADS_ADMOB
 using System.Collections.Generic;
+#if VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using GoogleMobileAds.Ump.Api;
 #endif
@@ -25,8 +24,10 @@ namespace VirtueSky.Ads
         [Tooltip("Allows nulls"), SerializeField]
         private BooleanEvent changePreventDisplayAppOpenEvent;
 
+#if VIRTUESKY_ADMOB
         [Space] [HeaderLine("Admob GDPR")] [Tooltip("Allows nulls"), SerializeField]
         private EventNoParam callShowAgainGDPREvent;
+#endif
 
 
         private IEnumerator autoLoadAdCoroutine;
@@ -48,7 +49,7 @@ namespace VirtueSky.Ads
 
         private void OnEnable()
         {
-#if ADS_ADMOB
+#if VIRTUESKY_ADMOB
             if (callShowAgainGDPREvent != null)
             {
                 callShowAgainGDPREvent.AddListener(ShowPrivacyOptionsForm);
@@ -58,7 +59,7 @@ namespace VirtueSky.Ads
 
         private void OnDisable()
         {
-#if ADS_ADMOB
+#if VIRTUESKY_ADMOB
             if (callShowAgainGDPREvent != null)
             {
                 callShowAgainGDPREvent.RemoveListener(ShowPrivacyOptionsForm);
@@ -72,7 +73,7 @@ namespace VirtueSky.Ads
                 changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
             if (adSetting.EnableGDPR)
             {
-#if ADS_ADMOB
+#if VIRTUESKY_ADMOB
                 InitGDPR();
 #endif
             }
@@ -166,7 +167,7 @@ namespace VirtueSky.Ads
 
         #region Admob GDPR
 
-#if ADS_ADMOB
+#if VIRTUESKY_ADMOB
         public void InitGDPR()
         {
 #if !UNITY_EDITOR

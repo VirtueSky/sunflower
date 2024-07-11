@@ -14,7 +14,7 @@ namespace VirtueSky.Ads
 
         public override void Init()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             if (AdStatic.IsRemoveAd) return;
             IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoOnAdOpenedEvent;
             IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
@@ -30,7 +30,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             if (AdStatic.IsRemoveAd) return;
             IronSource.Agent.loadRewardedVideo();
             OnAdLoaded();
@@ -39,7 +39,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             return IronSource.Agent.isRewardedVideoAvailable();
 #else
             return false;
@@ -48,7 +48,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             IronSource.Agent.showRewardedVideo();
 #endif
         }
@@ -73,7 +73,7 @@ namespace VirtueSky.Ads
         }
 
 
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
 
         #region Fun Callback
 

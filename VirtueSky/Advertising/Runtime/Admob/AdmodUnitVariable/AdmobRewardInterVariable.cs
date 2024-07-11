@@ -1,5 +1,5 @@
 using System;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 #endif
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
         public bool useTestId;
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private RewardedInterstitialAd _rewardedInterstitialAd;
 #endif
         public override void Init()
@@ -25,7 +25,7 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
 #endif
@@ -35,7 +35,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (string.IsNullOrEmpty(Id)) return;
             Destroy();
             RewardedInterstitialAd.Load(Id, new AdRequest(), OnAdLoadCallback);
@@ -44,7 +44,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             return _rewardedInterstitialAd != null && _rewardedInterstitialAd.CanShowAd();
 #else
             return false;
@@ -53,7 +53,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _rewardedInterstitialAd.Show(UserEarnedRewardCallback);
 #endif
         }
@@ -76,7 +76,7 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_rewardedInterstitialAd == null) return;
             _rewardedInterstitialAd.Destroy();
             _rewardedInterstitialAd = null;
@@ -84,7 +84,7 @@ namespace VirtueSky.Ads
 #endif
         }
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private void OnAdLoadCallback(RewardedInterstitialAd ad, LoadAdError error)
         {
             // if error is not null, the load request failed.

@@ -15,7 +15,7 @@ namespace VirtueSky.Ads
                 adSetting.AndroidAppKey = "85460dcd";
                 adSetting.IosAppKey = "8545d445";
             }
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
             App.AddPauseCallback(OnAppStateChange);
             IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
             IronSourceEvents.onImpressionDataReadyEvent += ImpressionDataReadyEvent;
@@ -28,7 +28,7 @@ namespace VirtueSky.Ads
             LoadInterstitial();
             LoadRewarded();
         }
-#if VIRTUESKY_ADS && ADS_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
         private void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
         {
             if (impressionData.revenue != null)

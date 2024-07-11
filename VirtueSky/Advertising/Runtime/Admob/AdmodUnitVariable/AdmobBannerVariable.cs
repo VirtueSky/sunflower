@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 using VirtueSky.Tracking;
 #endif
@@ -19,7 +19,7 @@ namespace VirtueSky.Ads
         public BannerPosition position = BannerPosition.Bottom;
         public bool useCollapsible;
         public bool useTestId;
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private BannerView _bannerView;
 #endif
 
@@ -34,7 +34,7 @@ namespace VirtueSky.Ads
             {
                 GetUnitTest();
             }
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             paidedCallback = AppTracking.TrackRevenue;
 #endif
@@ -42,7 +42,7 @@ namespace VirtueSky.Ads
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             Destroy();
             _bannerView = new BannerView(Id, ConvertSize(), ConvertPosition());
@@ -79,7 +79,7 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             return _bannerView != null;
 #else
             return false;
@@ -88,7 +88,7 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _isBannerShowing = true;
             AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
             AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
@@ -103,7 +103,7 @@ namespace VirtueSky.Ads
 
         public override void Destroy()
         {
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_bannerView == null) return;
             _isBannerShowing = false;
             AdStatic.waitAppOpenClosedAction = null;
@@ -116,14 +116,14 @@ namespace VirtueSky.Ads
         public override void HideBanner()
         {
             base.HideBanner();
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _isBannerShowing = false;
             if (_bannerView != null) _bannerView.Hide();
 #endif
         }
 
 
-#if VIRTUESKY_ADS && ADS_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         public AdSize ConvertSize()
         {
             switch (size)
