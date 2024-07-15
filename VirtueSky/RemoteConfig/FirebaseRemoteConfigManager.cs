@@ -16,20 +16,36 @@ using VirtueSky.Variables;
 
 namespace VirtueSky.RemoteConfigs
 {
-    [EditorIcon("icon_controller")]
+    [EditorIcon("icon_controller"), HideMonoScript]
     public class FirebaseRemoteConfigManager : MonoBehaviour
     {
+        [SerializeField] private TypeInitRemoteConfig typeInitRemoteConfig;
 #if VIRTUESKY_FIREBASE
-        [ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
+        [Space, ReadOnly, SerializeField] private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
 #endif
 
-        [SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
+        [Space, SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
         [Space, SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
 
+        private void Awake()
+        {
+            if (typeInitRemoteConfig == TypeInitRemoteConfig.InitOnAwake)
+            {
+                InitRemoteConfig();
+            }
+        }
 
-#if VIRTUESKY_FIREBASE
         private void Start()
         {
+            if (typeInitRemoteConfig == TypeInitRemoteConfig.InitOnStart)
+            {
+                InitRemoteConfig();
+            }
+        }
+
+        private void InitRemoteConfig()
+        {
+#if VIRTUESKY_FIREBASE
             if (isFetchRemoteConfigCompleted != null)
             {
                 isFetchRemoteConfigCompleted.Value = false;
@@ -50,8 +66,8 @@ namespace VirtueSky.RemoteConfigs
                                    dependencyStatus);
                 }
             });
-        }
 #endif
+        }
 
 #if VIRTUESKY_FIREBASE_REMOTECONFIG && VIRTUESKY_FIREBASE
         public Task FetchDataAsync()
@@ -112,5 +128,11 @@ namespace VirtueSky.RemoteConfigs
             });
         }
 #endif
+    }
+
+    enum TypeInitRemoteConfig
+    {
+        InitOnAwake,
+        InitOnStart
     }
 }
