@@ -8,9 +8,13 @@ namespace VirtueSky.Component
     [EditorIcon("icon_csharp"), HideMonoScript]
     public class FollowTargetComponent : BaseMono
     {
-        [SerializeField] private DirectionFollowTarget directionFollowTarget;
-        [Space, SerializeField] private Transform target;
-        [ReadOnly, SerializeField] private Vector3 offset;
+        [Tooltip("if currentTrans is null, then currentTrans will be set up with the current game object"),
+         SerializeField]
+        private Transform currentTrans;
+
+        [Space, SerializeField] private Transform targetTrans;
+        [ReadOnly, SerializeField] private Vector3 offsetTrans;
+        [Space, SerializeField] private DirectionFollowTarget directionFollowTarget;
         [Space, SerializeField] private TypeFollowTarget typeFollowTarget;
 
         [Tooltip("Value used to interpolate between target and this object"),
@@ -33,12 +37,17 @@ namespace VirtueSky.Component
 
         private void Awake()
         {
-            offset = transform.position - target.position;
+            if (currentTrans == null)
+            {
+                currentTrans = gameObject.transform;
+            }
+
+            offsetTrans = currentTrans.position - targetTrans.position;
         }
 
         public void SetTarget(Transform t)
         {
-            target = t;
+            targetTrans = t;
         }
 
         public void SetDirectionFollowTarget(DirectionFollowTarget d)
@@ -70,89 +79,89 @@ namespace VirtueSky.Component
 
         private void HandleSetPos()
         {
-            Vector3 targetPos = target.position + offset;
+            Vector3 targetPos = targetTrans.position + offsetTrans;
             switch (directionFollowTarget)
             {
                 case DirectionFollowTarget.XYZ:
-                    transform.SetPosition(targetPos);
+                    currentTrans.SetPosition(targetPos);
                     break;
                 case DirectionFollowTarget.XY:
-                    transform.SetPositionXY(targetPos);
+                    currentTrans.SetPositionXY(targetPos);
                     break;
                 case DirectionFollowTarget.XZ:
-                    transform.SetPositionXZ(targetPos);
+                    currentTrans.SetPositionXZ(targetPos);
                     break;
                 case DirectionFollowTarget.YZ:
-                    transform.SetPositionYZ(targetPos);
+                    currentTrans.SetPositionYZ(targetPos);
                     break;
                 case DirectionFollowTarget.X:
-                    transform.SetPositionX(targetPos.x);
+                    currentTrans.SetPositionX(targetPos.x);
                     break;
                 case DirectionFollowTarget.Y:
-                    transform.SetPositionY(targetPos.y);
+                    currentTrans.SetPositionY(targetPos.y);
                     break;
                 case DirectionFollowTarget.Z:
-                    transform.SetPositionZ(targetPos.y);
+                    currentTrans.SetPositionZ(targetPos.y);
                     break;
             }
         }
 
         private void HandleLerp()
         {
-            Vector3 interpolateVector3 = Vector3.Lerp(transform.position, target.position + offset,
+            Vector3 interpolateVector3 = Vector3.Lerp(currentTrans.position, targetTrans.position + offsetTrans,
                 interpolateValue);
             switch (directionFollowTarget)
             {
                 case DirectionFollowTarget.XYZ:
-                    transform.SetPosition(interpolateVector3);
+                    currentTrans.SetPosition(interpolateVector3);
                     break;
                 case DirectionFollowTarget.XY:
-                    transform.SetPositionXY(interpolateVector3);
+                    currentTrans.SetPositionXY(interpolateVector3);
                     break;
                 case DirectionFollowTarget.XZ:
-                    transform.SetPositionXZ(interpolateVector3);
+                    currentTrans.SetPositionXZ(interpolateVector3);
                     break;
                 case DirectionFollowTarget.YZ:
-                    transform.SetPositionYZ(interpolateVector3);
+                    currentTrans.SetPositionYZ(interpolateVector3);
                     break;
                 case DirectionFollowTarget.X:
-                    transform.SetPositionX(interpolateVector3.x);
+                    currentTrans.SetPositionX(interpolateVector3.x);
                     break;
                 case DirectionFollowTarget.Y:
-                    transform.SetPositionY(interpolateVector3.y);
+                    currentTrans.SetPositionY(interpolateVector3.y);
                     break;
                 case DirectionFollowTarget.Z:
-                    transform.SetPositionZ(interpolateVector3.z);
+                    currentTrans.SetPositionZ(interpolateVector3.z);
                     break;
             }
         }
 
         private void HandleSmoothDamp()
         {
-            Vector3 smoothDampVector3 = Vector3.SmoothDamp(transform.position, target.position + offset,
+            Vector3 smoothDampVector3 = Vector3.SmoothDamp(currentTrans.position, targetTrans.position + offsetTrans,
                 ref currentVelocity, smoothTime, maxSpeed);
             switch (directionFollowTarget)
             {
                 case DirectionFollowTarget.XYZ:
-                    transform.SetPosition(smoothDampVector3);
+                    currentTrans.SetPosition(smoothDampVector3);
                     break;
                 case DirectionFollowTarget.XY:
-                    transform.SetPositionXY(smoothDampVector3);
+                    currentTrans.SetPositionXY(smoothDampVector3);
                     break;
                 case DirectionFollowTarget.XZ:
-                    transform.SetPositionXZ(smoothDampVector3);
+                    currentTrans.SetPositionXZ(smoothDampVector3);
                     break;
                 case DirectionFollowTarget.YZ:
-                    transform.SetPositionYZ(smoothDampVector3);
+                    currentTrans.SetPositionYZ(smoothDampVector3);
                     break;
                 case DirectionFollowTarget.X:
-                    transform.SetPositionX(smoothDampVector3.x);
+                    currentTrans.SetPositionX(smoothDampVector3.x);
                     break;
                 case DirectionFollowTarget.Y:
-                    transform.SetPositionY(smoothDampVector3.y);
+                    currentTrans.SetPositionY(smoothDampVector3.y);
                     break;
                 case DirectionFollowTarget.Z:
-                    transform.SetPositionZ(smoothDampVector3.z);
+                    currentTrans.SetPositionZ(smoothDampVector3.z);
                     break;
             }
         }
