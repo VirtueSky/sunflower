@@ -61,7 +61,13 @@ namespace VirtueSky.Misc
             return worldPosition;
         }
 
+
         #region Position X Y Z
+
+        public static void SetPosition(this Transform transform, in Vector3 v3)
+        {
+            transform.position = v3;
+        }
 
         public static void SetPositionX(this Transform transform, float x)
         {
@@ -192,6 +198,11 @@ namespace VirtueSky.Misc
 
 
         #region Relative Position X Y Z
+
+        public static void SetRelativePosition(this Transform transform, in Vector3 v3)
+        {
+            transform.position += v3;
+        }
 
         public static void SetRelativePositionX(this Transform transform, float x)
         {
