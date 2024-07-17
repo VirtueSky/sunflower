@@ -10,37 +10,30 @@ namespace VirtueSky.Tracking
             string format, string adNetwork)
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
+            string ad_platform = "";
             switch (adNetwork.ToLower())
             {
                 case "admob":
                     return;
                 case "max":
-                    Parameter[] parametersMax =
-                    {
-                        new("value", value),
-                        new("ad_platform", "AppLovin"),
-                        new("ad_format", format),
-                        new("currency", "USD"),
-                        new("ad_unit_name", unitId),
-                        new("ad_source", network)
-                    };
-
-                    FirebaseAnalytics.LogEvent("ad_impression", parametersMax);
+                    ad_platform = "AppLovin";
                     break;
                 case "ironsource":
-                    Parameter[] parametersIS =
-                    {
-                        new("value", value),
-                        new("ad_platform", "IronSource"),
-                        new("ad_format", format),
-                        new("currency", "USD"),
-                        new("ad_unit_name", unitId),
-                        new("ad_source", network)
-                    };
-
-                    FirebaseAnalytics.LogEvent("ad_impression", parametersIS);
+                    ad_platform = "IronSource";
                     break;
             }
+
+            Parameter[] parameters =
+            {
+                new("value", value),
+                new("ad_platform", ad_platform),
+                new("ad_format", format),
+                new("currency", "USD"),
+                new("ad_unit_name", unitId),
+                new("ad_source", network)
+            };
+
+            FirebaseAnalytics.LogEvent("ad_impression", parameters);
 #endif
         }
     }
