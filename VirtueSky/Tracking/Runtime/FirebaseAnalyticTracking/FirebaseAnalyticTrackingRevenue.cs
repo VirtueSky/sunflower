@@ -15,7 +15,7 @@ namespace VirtueSky.Tracking
                 case "admob":
                     return;
                 case "max":
-                    Parameter[] parameters =
+                    Parameter[] parametersMax =
                     {
                         new("value", value),
                         new("ad_platform", "AppLovin"),
@@ -25,7 +25,20 @@ namespace VirtueSky.Tracking
                         new("ad_source", network)
                     };
 
-                    FirebaseAnalytics.LogEvent("ad_impression", parameters);
+                    FirebaseAnalytics.LogEvent("ad_impression", parametersMax);
+                    break;
+                case "ironsource":
+                    Parameter[] parametersIS =
+                    {
+                        new("value", value),
+                        new("ad_platform", "IronSource"),
+                        new("ad_format", format),
+                        new("currency", "USD"),
+                        new("ad_unit_name", unitId),
+                        new("ad_source", network)
+                    };
+
+                    FirebaseAnalytics.LogEvent("ad_impression", parametersIS);
                     break;
             }
 #endif

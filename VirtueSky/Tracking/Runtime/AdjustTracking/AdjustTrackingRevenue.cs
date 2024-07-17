@@ -19,6 +19,9 @@ namespace VirtueSky.Tracking
                 case "max":
                     source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceAppLovinMAX;
                     break;
+                case "ironsource":
+                    source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceIronSource;
+                    break;
             }
 
             AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(source);

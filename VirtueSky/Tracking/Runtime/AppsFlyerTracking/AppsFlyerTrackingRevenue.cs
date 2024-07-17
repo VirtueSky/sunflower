@@ -29,6 +29,10 @@ namespace VirtueSky.Tracking
                     mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
                         .AppsFlyerAdRevenueMediationNetworkTypeApplovinMax;
                     break;
+                case "ironsource":
+                    mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
+                        .AppsFlyerAdRevenueMediationNetworkTypeIronSource;
+                    break;
             }
 
             Dictionary<string, string> additionalParams = new Dictionary<string, string>();
