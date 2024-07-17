@@ -33,8 +33,8 @@ namespace VirtueSky.Iap
             return @event.Raise(product);
         }
 
-        public static string LocalizedPrice(this IapDataVariable product,
-            EventLocalizedPriceProduct @event)
+        public static UnityEngine.Purchasing.Product GetProduct(this IapDataVariable product,
+            EventGetProduct @event)
         {
             return @event.Raise(product);
         }

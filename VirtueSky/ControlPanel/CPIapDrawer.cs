@@ -96,20 +96,10 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             }
 
-            if (GUILayout.Button("Create Iap Localized Price Product Event"))
+            if (GUILayout.Button("Create Iap Get Product Event"))
             {
 #if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapLocalizedPriceProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-            if (GUILayout.Button("Create Iap Tracking Purchase Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapTrackingPurchaseProductEvent();
+                IapWindowEditor.CreateIapGetProductEvent();
 
 #else
                 Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
