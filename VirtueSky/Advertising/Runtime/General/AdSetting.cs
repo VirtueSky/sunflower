@@ -15,6 +15,10 @@ namespace VirtueSky.Ads
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
         [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
 
+        [Tooltip("Install google-mobile-ads sdk to use GDPR"), SerializeField]
+        private bool enableGDPR;
+
+        [SerializeField] private bool enableGDPRTestMode;
         public float AdCheckingInterval => adCheckingInterval;
         public float AdLoadingInterval => adLoadingInterval;
 
@@ -23,6 +27,9 @@ namespace VirtueSky.Ads
             get => adNetwork;
             set => adNetwork = value;
         }
+
+        public bool EnableGDPR => enableGDPR;
+        public bool EnableGDPRTestMode => enableGDPRTestMode;
 
         #region AppLovin
 
@@ -53,8 +60,6 @@ namespace VirtueSky.Ads
         [SerializeField] private AdmobRewardInterVariable admobRewardInterVariable;
         [SerializeField] private AdmobAppOpenVariable admobAppOpenVariable;
         [SerializeField] private bool admobEnableTestMode;
-        [SerializeField] private bool enableGDPR;
-        [SerializeField] private bool enableGDPRTestMode;
         [SerializeField] private List<string> admobDevicesTest;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
@@ -62,8 +67,7 @@ namespace VirtueSky.Ads
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
         public bool AdmobEnableTestMode => admobEnableTestMode;
-        public bool EnableGDPR => enableGDPR;
-        public bool EnableGDPRTestMode => enableGDPRTestMode;
+
         public List<string> AdmobDevicesTest => admobDevicesTest;
 
         #endregion

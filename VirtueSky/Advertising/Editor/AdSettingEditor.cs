@@ -90,6 +90,13 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_adLoadingInterval);
             EditorGUILayout.PropertyField(_adNetwork);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_enableGDPR);
+            if (_enableGDPR.boolValue)
+            {
+                EditorGUILayout.PropertyField(_enableGDPRTestMode);
+            }
+
+            GUILayout.Space(10);
             switch (_adNetwork.enumValueIndex)
             {
                 case (int)AdNetwork.Max:
@@ -263,12 +270,6 @@ namespace VirtueSky.Ads
             GUI.enabled = false;
             EditorGUILayout.TextField("App Id Test", "ca-app-pub-3940256099942544~3347511713");
             GUI.enabled = true;
-            EditorGUILayout.PropertyField(_enableGDPR);
-            if (_enableGDPR.boolValue)
-            {
-                EditorGUILayout.PropertyField(_enableGDPRTestMode);
-            }
-
             GUILayout.Space(10);
             if (GUILayout.Button("Open GoogleAdmobSetting", GUILayout.Height(20)))
             {
