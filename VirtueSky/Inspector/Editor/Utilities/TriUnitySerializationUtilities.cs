@@ -14,6 +14,11 @@ namespace VirtueSky.Inspector.Utilities
 
         public static bool IsSerializableByUnity(FieldInfo fieldInfo)
         {
+            if (fieldInfo.IsInitOnly)
+            {
+                return false;
+            }
+
             if (fieldInfo.GetCustomAttribute<NonSerializedAttribute>() != null ||
                 fieldInfo.GetCustomAttribute<HideInInspector>() != null)
             {
@@ -22,7 +27,28 @@ namespace VirtueSky.Inspector.Utilities
 
             if (fieldInfo.GetCustomAttribute<SerializeReference>() != null)
             {
-                return true;
+                // if it's a list or array, the base type should be serializable
+                if (fieldInfo.FieldType.IsArray)
+                {
+                    var type = fieldInfo.FieldType.GetElementType();
+                    if (type.IsSerializable || type.IsInterface)
+                        return true;
+                    else
+                        return false;
+                }
+                else if (fieldInfo.FieldType.IsGenericType &&
+                         fieldInfo.FieldType.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    var type = fieldInfo.FieldType.GenericTypeArguments[0];
+                    if (type.IsSerializable || type.IsInterface)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
 
             if (fieldInfo.IsPublic || fieldInfo.GetCustomAttribute<SerializeField>() != null)
