@@ -11,17 +11,13 @@ namespace VirtueSky.DataType
     public class DictionaryCustom<TKey, TValue> : ISerializationCallbackReceiver, IDictionary, IDictionary<TKey, TValue>
     {
         [TableList, SerializeField] private List<DictionaryCustomData<TKey, TValue>> dictionaryData;
+
         [NonSerialized] private Dictionary<TKey, TValue> m_dictionary = new Dictionary<TKey, TValue>();
         private ICollection _keys;
         private ICollection _values;
-        private int _count;
-        private bool _isReadOnly;
-        private ICollection _keys1;
-        private ICollection _values1;
-        private int _count1;
-        private bool _isReadOnly1;
-        private ICollection<TKey> _keys2;
-        private ICollection<TValue> _values2;
+        private ICollection<TKey> _keys1;
+        private ICollection<TValue> _values1;
+
         public Dictionary<TKey, TValue> GetDictionary => m_dictionary;
 
         public void OnAfterDeserialize()
@@ -96,9 +92,10 @@ namespace VirtueSky.DataType
             return ((IDictionary<TKey, TValue>)m_dictionary).Remove(item);
         }
 
-        int ICollection<KeyValuePair<TKey, TValue>>.Count => _count1;
+        public int Count => m_dictionary.Count;
 
-        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => _isReadOnly1;
+        public bool IsReadOnly => ((IDictionary)m_dictionary).IsReadOnly;
+
 
         void IDictionary.Clear()
         {
@@ -128,13 +125,20 @@ namespace VirtueSky.DataType
 
         public bool IsFixedSize => ((IDictionary)m_dictionary).IsFixedSize;
 
-        bool IDictionary.IsReadOnly => _isReadOnly;
 
         public object this[object key]
         {
             get => ((IDictionary)m_dictionary)[key];
             set => ((IDictionary)m_dictionary)[key] = value;
         }
+
+        ICollection IDictionary.Keys => ((IDictionary)m_dictionary).Keys;
+
+        ICollection<TValue> IDictionary<TKey, TValue>.Values => (ICollection<TValue>)((IDictionary)m_dictionary).Values;
+
+        ICollection<TKey> IDictionary<TKey, TValue>.Keys => (ICollection<TKey>)((IDictionary)m_dictionary).Keys;
+
+        ICollection IDictionary.Values => ((IDictionary)m_dictionary).Values;
 
         public void Add(TKey key, TValue value)
         {
@@ -163,13 +167,6 @@ namespace VirtueSky.DataType
             set => ((IDictionary<TKey, TValue>)m_dictionary)[key] = value;
         }
 
-        ICollection IDictionary.Keys => _keys1;
-
-        ICollection<TValue> IDictionary<TKey, TValue>.Values => _values2;
-
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys => _keys2;
-
-        ICollection IDictionary.Values => _values1;
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -181,7 +178,6 @@ namespace VirtueSky.DataType
             ((IDictionary)m_dictionary).CopyTo(array, index);
         }
 
-        int ICollection.Count => _count;
 
         public bool IsSynchronized => ((IDictionary)m_dictionary).IsSynchronized;
         public object SyncRoot => ((IDictionary)m_dictionary).SyncRoot;
