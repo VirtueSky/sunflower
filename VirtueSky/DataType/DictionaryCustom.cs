@@ -13,6 +13,7 @@ namespace VirtueSky.DataType
         [TableList, SerializeField] private List<DictionaryCustomData<TKey, TValue>> dictionaryData;
 
         [NonSerialized] private Dictionary<TKey, TValue> m_dict = new Dictionary<TKey, TValue>();
+        public Dictionary<TKey, TValue> GetDict => m_dict;
 
         public void OnAfterDeserialize()
         {
@@ -47,9 +48,9 @@ namespace VirtueSky.DataType
         {
             if (Application.isPlaying)
             {
+                dictionaryData.Clear();
                 if (m_dict is { Count: > 0 })
                 {
-                    dictionaryData.Clear();
                     foreach (var kvp in m_dict)
                     {
                         dictionaryData.Add(new DictionaryCustomData<TKey, TValue>(kvp.Key, kvp.Value));
@@ -140,14 +141,74 @@ namespace VirtueSky.DataType
             m_dict.Add(key, value);
         }
 
+        public void Clear()
+        {
+            m_dict.Clear();
+        }
+
         public bool ContainsKey(TKey key)
         {
             return m_dict.ContainsKey(key);
         }
 
+        public bool ContainsValue(TValue value)
+        {
+            return m_dict.ContainsValue(value);
+        }
+
         public bool Remove(TKey key)
         {
             return m_dict.Remove(key);
+        }
+
+        public bool Remove(TKey key, out TValue value)
+        {
+            return m_dict.Remove(key, out value);
+        }
+
+        public int EnsureCapacity(int capacity)
+        {
+            return m_dict.EnsureCapacity(capacity);
+        }
+
+        public virtual bool Equals(object? obj)
+        {
+            return m_dict.Equals(obj);
+        }
+
+        public System.Collections.Generic.Dictionary<TKey, TValue>.Enumerator GetEnumerator()
+        {
+            return m_dict.GetEnumerator();
+        }
+
+        public virtual int GetHashCode()
+        {
+            return m_dict.GetHashCode();
+        }
+
+        public Type GetType()
+        {
+            return m_dict.GetType();
+        }
+
+        public virtual string? ToString()
+        {
+            return m_dict.ToString();
+        }
+
+        public void TrimExcess()
+        {
+            m_dict.TrimExcess();
+        }
+
+        public void TrimExcess(int capacity)
+        {
+            m_dict.TrimExcess(capacity);
+        }
+
+        public bool TryAdd(TKey key, TValue value)
+        {
+            return m_dict.TryAdd(key, value);
         }
 
         public bool TryGetValue(TKey key, out TValue value)
@@ -175,6 +236,8 @@ namespace VirtueSky.DataType
 
         public bool IsSynchronized => ((IDictionary)m_dict).IsSynchronized;
         public object SyncRoot => ((IDictionary)m_dict).SyncRoot;
+        public System.Collections.Generic.Dictionary<TKey, TValue>.KeyCollection Keys => m_dict.Keys;
+        public System.Collections.Generic.Dictionary<TKey, TValue>.ValueCollection Values => m_dict.Values;
     }
 
     [Serializable]
