@@ -23,9 +23,9 @@
 
 ### Add the line below to `Packages/manifest.json`
 
-for version `2.8.5`
+for version `2.8.6`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.8.5",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.8.6",
 ```
 
 ## Includes modules
