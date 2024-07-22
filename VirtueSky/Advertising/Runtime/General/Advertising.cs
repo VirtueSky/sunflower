@@ -74,7 +74,7 @@ namespace VirtueSky.Ads
             if (adSetting.EnableGDPR)
             {
 #if VIRTUESKY_ADMOB
-                InitGDPR();
+                InitGdpr();
 #endif
             }
             else
@@ -104,14 +104,14 @@ namespace VirtueSky.Ads
             InitAutoLoadAds();
         }
 
-        public void InitAutoLoadAds()
+        private void InitAutoLoadAds()
         {
             if (autoLoadAdCoroutine != null) StopCoroutine(autoLoadAdCoroutine);
             autoLoadAdCoroutine = IeAutoLoadAll();
             StartCoroutine(autoLoadAdCoroutine);
         }
 
-        public void OnChangePreventDisplayOpenAd(bool state)
+        private void OnChangePreventDisplayOpenAd(bool state)
         {
             AdStatic.isShowingAd = state;
         }
@@ -168,9 +168,11 @@ namespace VirtueSky.Ads
         #region Admob GDPR
 
 #if VIRTUESKY_ADMOB
-        public void InitGDPR()
+        private void InitGdpr()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
+            InitAdClient();
+#else
             string deviceID = SystemInfo.deviceUniqueIdentifier;
             string deviceIDUpperCase = deviceID.ToUpper();
 
