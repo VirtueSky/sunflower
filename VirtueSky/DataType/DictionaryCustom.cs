@@ -16,6 +16,16 @@ namespace VirtueSky.DataType
 
         public void OnAfterDeserialize()
         {
+            UpdateDict();
+        }
+
+        public void OnBeforeSerialize()
+        {
+            UpdateList();
+        }
+
+        private void UpdateDict()
+        {
             if (dictionaryData is { Count: > 0 })
             {
                 if (m_dict is { Count: > 0 })
@@ -31,11 +41,6 @@ namespace VirtueSky.DataType
                     }
                 }
             }
-        }
-
-        public void OnBeforeSerialize()
-        {
-            UpdateList();
         }
 
         private void UpdateList()
