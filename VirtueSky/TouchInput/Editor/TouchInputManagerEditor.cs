@@ -12,6 +12,8 @@ namespace VirtueSky.TouchInput
         private SerializedProperty _inputEventTouchStationary;
         private SerializedProperty _inputEventTouchEnd;
         private SerializedProperty _inputEventTouchCancel;
+        private SerializedProperty _inputEventPreventTouch;
+        private SerializedProperty _preventTouch;
         private SerializedProperty _touchPosition;
         private const string path = "/InputEvent";
 
@@ -22,6 +24,8 @@ namespace VirtueSky.TouchInput
             _inputEventTouchStationary = serializedObject.FindProperty("inputEventTouchStationary");
             _inputEventTouchEnd = serializedObject.FindProperty("inputEventTouchEnd");
             _inputEventTouchCancel = serializedObject.FindProperty("inputEventTouchCancel");
+            _inputEventPreventTouch = serializedObject.FindProperty("inputEventPreventTouch");
+            _preventTouch = serializedObject.FindProperty("preventTouch");
             _touchPosition = serializedObject.FindProperty("touchPosition");
         }
 
@@ -38,6 +42,14 @@ namespace VirtueSky.TouchInput
             DrawEvent<InputEventTouchStationary>(ref _inputEventTouchStationary, "input_event_touch_stationary");
             DrawEvent<InputEventTouchEnd>(ref _inputEventTouchEnd, "input_event_touch_end");
             DrawEvent<InputEventTouchCancel>(ref _inputEventTouchCancel, "input_event_touch_cancel");
+            GUILayout.Space(5);
+            DrawEvent<InputEventPreventTouch>(ref _inputEventPreventTouch, "input_event_prevent_touch");
+            GUILayout.Space(5);
+            if (Application.isPlaying)
+            {
+                EditorGUILayout.PropertyField(_preventTouch);
+            }
+
             GUILayout.Space(5);
             if (Application.isPlaying)
             {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -21,13 +22,33 @@ namespace VirtueSky.TouchInput
         [SerializeField, Tooltip("The system cancelled tracking for the touch")]
         private InputEventTouchCancel inputEventTouchCancel;
 
-        [SerializeField] private Vector3 touchPosition;
+        [SerializeField, Tooltip("Event prevent touch")]
+        private InputEventPreventTouch inputEventPreventTouch;
 
+        [SerializeField] private Vector3 touchPosition;
+        [SerializeField] private bool preventTouch = false;
         private bool _mouseDown;
         private bool _mouseUpdate;
 
+
+        private void OnEnable()
+        {
+            inputEventPreventTouch.AddListener(OnChangePreventTouch);
+        }
+
+        private void OnDisable()
+        {
+            inputEventPreventTouch.RemoveListener(OnChangePreventTouch);
+        }
+
+        void OnChangePreventTouch(bool prevent)
+        {
+            preventTouch = prevent;
+        }
+
         private void Update()
         {
+            if (preventTouch) return;
 #if UNITY_EDITOR
             if (UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop)
             {
