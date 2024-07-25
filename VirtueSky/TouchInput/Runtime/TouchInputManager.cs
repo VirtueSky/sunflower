@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -22,8 +21,8 @@ namespace VirtueSky.TouchInput
         [SerializeField, Tooltip("The system cancelled tracking for the touch")]
         private InputEventTouchCancel inputEventTouchCancel;
 
-        [SerializeField, Tooltip("Event prevent touch")]
-        private InputEventPreventTouch inputEventPreventTouch;
+        [SerializeField, Tooltip("Prevent touch variable")]
+        private InputPreventTouchVariable inputPreventTouchVariable;
 
         [SerializeField] private Vector3 touchPosition;
         [SerializeField] private bool preventTouch = false;
@@ -33,12 +32,19 @@ namespace VirtueSky.TouchInput
 
         private void OnEnable()
         {
-            inputEventPreventTouch.AddListener(OnChangePreventTouch);
+            if (inputPreventTouchVariable != null)
+            {
+                inputPreventTouchVariable.Value = preventTouch;
+                inputPreventTouchVariable.AddListener(OnChangePreventTouch);
+            }
         }
 
         private void OnDisable()
         {
-            inputEventPreventTouch.RemoveListener(OnChangePreventTouch);
+            if (inputPreventTouchVariable != null)
+            {
+                inputPreventTouchVariable.RemoveListener(OnChangePreventTouch);
+            }
         }
 
         void OnChangePreventTouch(bool prevent)
