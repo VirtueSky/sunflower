@@ -62,6 +62,16 @@ namespace VirtueSky.Ads
 #endif
         }
 
+        public bool IsCollapsible()
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            if (_bannerView == null) return false;
+            return _bannerView.IsCollapsible();
+#else
+            return false;
+#endif
+        }
+
         void OnWaitAppOpenClosed()
         {
             if (_previousBannerShowStatus)
