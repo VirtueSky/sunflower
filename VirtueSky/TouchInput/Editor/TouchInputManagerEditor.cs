@@ -5,18 +5,13 @@ using VirtueSky.UtilsEditor;
 namespace VirtueSky.TouchInput
 {
     [CustomEditor(typeof(TouchInputManager))]
-    public class TouchManagerEditor : Editor
+    public class TouchInputManagerEditor : Editor
     {
         private SerializedProperty _inputEventTouchBegin;
         private SerializedProperty _inputEventTouchMove;
         private SerializedProperty _inputEventTouchStationary;
         private SerializedProperty _inputEventTouchEnd;
         private SerializedProperty _inputEventTouchCancel;
-        private SerializedProperty _useMouse;
-        private SerializedProperty _inputEventMouseDown;
-        private SerializedProperty _inputEventMouseUpdate;
-        private SerializedProperty _inputEventMouseUp;
-        private SerializedProperty _ignoreUI;
         private SerializedProperty _touchPosition;
         private const string path = "/InputEvent";
 
@@ -27,11 +22,6 @@ namespace VirtueSky.TouchInput
             _inputEventTouchStationary = serializedObject.FindProperty("inputEventTouchStationary");
             _inputEventTouchEnd = serializedObject.FindProperty("inputEventTouchEnd");
             _inputEventTouchCancel = serializedObject.FindProperty("inputEventTouchCancel");
-            _useMouse = serializedObject.FindProperty("useMouse");
-            _inputEventMouseDown = serializedObject.FindProperty("inputEventMouseDown");
-            _inputEventMouseUpdate = serializedObject.FindProperty("inputEventMouseUpdate");
-            _inputEventMouseUp = serializedObject.FindProperty("inputEventMouseUp");
-            _ignoreUI = serializedObject.FindProperty("ignoreUI");
             _touchPosition = serializedObject.FindProperty("touchPosition");
         }
 
@@ -48,16 +38,6 @@ namespace VirtueSky.TouchInput
             DrawEvent<InputEventTouchStationary>(ref _inputEventTouchStationary, "input_event_touch_stationary");
             DrawEvent<InputEventTouchEnd>(ref _inputEventTouchEnd, "input_event_touch_end");
             DrawEvent<InputEventTouchCancel>(ref _inputEventTouchCancel, "input_event_touch_cancel");
-            EditorGUILayout.PropertyField(_useMouse);
-            if (_useMouse.boolValue)
-            {
-                DrawEvent<InputEventMouseDown>(ref _inputEventMouseDown, "input_event_mouse_down");
-                DrawEvent<InputEventMouseUpdate>(ref _inputEventMouseUpdate, "input_event_mouse_update");
-                DrawEvent<InputEventMouseUp>(ref _inputEventMouseUp, "input_event_mouse_up");
-            }
-
-            EditorGUILayout.PropertyField(_ignoreUI);
-
             GUILayout.Space(5);
             if (Application.isPlaying)
             {

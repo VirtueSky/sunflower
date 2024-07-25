@@ -7,7 +7,7 @@ namespace VirtueSky.TouchInput
     [CreateAssetMenu(menuName = "Sunflower/Scriptable/Touch Input/Event Touch End",
         fileName = "input_event_touch_end")]
     [EditorIcon("scriptable_event")]
-    public class InputEventTouchEnd : BaseEvent<Touch>
+    public class InputEventTouchEnd : Vector3Event
     {
     }
 }

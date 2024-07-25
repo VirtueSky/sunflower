@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using VirtueSky.Inspector;
 
 namespace VirtueSky.TouchInput
@@ -8,7 +6,7 @@ namespace VirtueSky.TouchInput
     [EditorIcon("icon_controller")]
     public class TouchInputManager : MonoBehaviour
     {
-        [HeaderLine("Input Event Touch")] [SerializeField, Tooltip("Event A finger touched the screen")]
+        [SerializeField, Tooltip("Event A finger touched the screen")]
         private InputEventTouchBegin inputEventTouchBegin;
 
         [SerializeField, Tooltip("Event A finger moved on the screen")]
@@ -23,21 +21,6 @@ namespace VirtueSky.TouchInput
         [SerializeField, Tooltip("The system cancelled tracking for the touch")]
         private InputEventTouchCancel inputEventTouchCancel;
 
-        [SerializeField, Tooltip("Use mouse in editor")]
-        private bool useMouse = false;
-
-        [HeaderLine("Input Event Mouse")] [SerializeField, Tooltip("Event start click the mouse button")]
-        private InputEventMouseDown inputEventMouseDown;
-
-        [SerializeField, Tooltip("Event hold the mouse button")]
-        private InputEventMouseUpdate inputEventMouseUpdate;
-
-        [SerializeField, Tooltip("Event releases the mouse button")]
-        private InputEventMouseUp inputEventMouseUp;
-
-        [SerializeField, Tooltip("Disable when touching UI")]
-        private bool ignoreUI = true;
-
         [SerializeField] private Vector3 touchPosition;
 
         private bool _mouseDown;
@@ -45,82 +28,66 @@ namespace VirtueSky.TouchInput
 
         private void Update()
         {
-            if (ignoreUI && EventSystem.current != null)
+#if UNITY_EDITOR
+            if (UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop)
             {
-                if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null)
-                {
-                    HandleTouch();
-                }
+                HandleTouch();
             }
             else
             {
-                if (Input.touchCount > 0)
-                {
-                    HandleTouch();
-                }
+                HandleMouse();
             }
-#if UNITY_EDITOR
-            if (useMouse)
-            {
-                if (ignoreUI && EventSystem.current != null)
-                {
-                    if (EventSystem.current.currentSelectedGameObject == null)
-                    {
-                        HandleMouse();
-                    }
-                }
-                else
-                {
-                    HandleMouse();
-                }
-            }
-
+#else
+            HandleTouch();
 #endif
         }
 
         void HandleTouch()
         {
-            Touch touch = Input.GetTouch(0);
-            switch (touch.phase)
+            if (Input.touchCount > 0)
             {
-                case TouchPhase.Began:
-                    if (inputEventTouchBegin != null)
-                    {
-                        inputEventTouchBegin.Raise(touch);
-                    }
+                Touch touch = Input.GetTouch(0);
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        if (inputEventTouchBegin != null)
+                        {
+                            inputEventTouchBegin.Raise(touch.position);
+                        }
 
-                    break;
-                case TouchPhase.Moved:
-                    if (inputEventTouchMove != null)
-                    {
-                        inputEventTouchMove.Raise(touch);
-                    }
+                        break;
+                    case TouchPhase.Moved:
+                        if (inputEventTouchMove != null)
+                        {
+                            inputEventTouchMove.Raise(touch.position);
+                        }
 
-                    break;
-                case TouchPhase.Stationary:
-                    if (inputEventTouchStationary != null)
-                    {
-                        inputEventTouchStationary.Raise(touch);
-                    }
+                        break;
+                    case TouchPhase.Stationary:
+                        if (inputEventTouchStationary != null)
+                        {
+                            inputEventTouchStationary.Raise(touch.position);
+                        }
 
-                    break;
-                case TouchPhase.Ended:
-                    if (inputEventTouchEnd != null)
-                    {
-                        inputEventTouchEnd.Raise(touch);
-                    }
+                        break;
+                    case TouchPhase.Ended:
+                        if (inputEventTouchEnd != null)
+                        {
+                            inputEventTouchEnd.Raise(touch.position);
+                        }
 
-                    break;
-                case TouchPhase.Canceled:
-                    if (inputEventTouchCancel != null)
-                    {
-                        inputEventTouchCancel.Raise(touch);
-                    }
+                        break;
+                    case TouchPhase.Canceled:
+                        if (inputEventTouchCancel != null)
+                        {
+                            inputEventTouchCancel.Raise(touch.position);
+                        }
 
-                    break;
+                        break;
+                }
+
+                touchPosition = touch.position;
             }
-
-            touchPosition = touch.position;
         }
 
         void HandleMouse()
@@ -131,9 +98,9 @@ namespace VirtueSky.TouchInput
                 {
                     _mouseDown = true;
                     _mouseUpdate = true;
-                    if (inputEventMouseDown != null)
+                    if (inputEventTouchBegin != null)
                     {
-                        inputEventMouseDown.Raise(Input.mousePosition);
+                        inputEventTouchBegin.Raise(Input.mousePosition);
                     }
 
                     touchPosition = Input.mousePosition;
@@ -143,9 +110,9 @@ namespace VirtueSky.TouchInput
             {
                 _mouseDown = false;
                 _mouseUpdate = false;
-                if (inputEventMouseUp != null)
+                if (inputEventTouchEnd != null)
                 {
-                    inputEventMouseUp.Raise(Input.mousePosition);
+                    inputEventTouchEnd.Raise(Input.mousePosition);
                 }
 
                 touchPosition = Input.mousePosition;
@@ -153,9 +120,9 @@ namespace VirtueSky.TouchInput
 
             if (_mouseDown && _mouseUpdate)
             {
-                if (inputEventMouseUpdate != null)
+                if (inputEventTouchMove != null)
                 {
-                    inputEventMouseUpdate.Raise(Input.mousePosition);
+                    inputEventTouchMove.Raise(Input.mousePosition);
                 }
 
                 touchPosition = Input.mousePosition;
