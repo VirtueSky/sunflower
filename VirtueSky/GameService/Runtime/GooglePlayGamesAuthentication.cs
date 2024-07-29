@@ -53,7 +53,7 @@ namespace VirtueSky.GameService
                         }
                         else
                         {
-                            Debug.Log("Login Unsuccessful");
+                            Debug.Log("Login Failed");
                             serverCode.Value = "";
                             status.SetFailed();
                         }
