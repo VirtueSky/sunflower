@@ -1,0 +1,19 @@
+{
+    "name": "Virtuesky.Sunflower.FolderIcon",
+    "rootNamespace": "",
+    "references": [
+        "GUID:324caed91501a9c47a04ebfd87b68794",
+        "GUID:c904f6d969e991d459a0843b71c22ec5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

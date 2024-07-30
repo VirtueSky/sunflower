@@ -36,6 +36,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
             CPLevelEditorDrawer.OnEnable();
+            CPFolderIconDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -81,6 +82,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
+            DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
             DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
@@ -125,6 +127,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.RegisterPackage:
                     CPRegisterPackageDrawer.OnDrawRegisterPackageByManifest(position);
+                    break;
+                case StatePanelControl.FolderIcon:
+                    CPFolderIconDrawer.OnDrawFolderIcon();
                     break;
                 case StatePanelControl.Hierarchy:
                     CPHierarchyDrawer.OnDrawQHierarchyEvent(position, this);
@@ -201,6 +206,7 @@ namespace VirtueSky.ControlPanel.Editor
         ScriptDefineSymbols,
         RegisterPackage,
         Hierarchy,
+        FolderIcon,
         Firebase,
         GameService,
         Extensions,
