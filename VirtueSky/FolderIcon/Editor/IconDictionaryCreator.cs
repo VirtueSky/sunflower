@@ -30,7 +30,7 @@ namespace Virtuesky.FolderIcon.Editor
             foreach (string str in assets)
             {
                 if (ReplaceSeparatorChar(Path.GetDirectoryName(str)) ==
-                    FileExtension.GetPathInCurrentEnvironent(AssetsPath))
+                    FileExtension.GetPathFileInCurrentEnvironment(AssetsPath))
                 {
                     return true;
                 }
@@ -52,13 +52,13 @@ namespace Virtuesky.FolderIcon.Editor
             {
                 if (folderIconSettings.setupIconDefault)
                 {
-                    var dir = new DirectoryInfo(FileExtension.GetPathInCurrentEnvironent(AssetsPath));
+                    var dir = new DirectoryInfo(FileExtension.GetPathFolderInCurrentEnvironment(AssetsPath));
                     FileInfo[] info = dir.GetFiles("*.png");
                     foreach (FileInfo f in info)
                     {
                         var texture =
                             (Texture)AssetDatabase.LoadAssetAtPath(
-                                FileExtension.GetPathInCurrentEnvironent($"{AssetsPath}/{f.Name}"),
+                                FileExtension.GetPathFileInCurrentEnvironment($"{AssetsPath}/{f.Name}"),
                                 typeof(Texture2D));
                         dictionary.Add(Path.GetFileNameWithoutExtension(f.Name), texture);
                     }

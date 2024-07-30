@@ -59,7 +59,7 @@ namespace VirtueSky.UtilsEditor
 
         public static T FindAssetWithPath<T>(string fullPath) where T : Object
         {
-            string path = GetPathInCurrentEnvironent(fullPath);
+            string path = GetPathFileInCurrentEnvironment(fullPath);
             var t = AssetDatabase.LoadAssetAtPath(path, typeof(T));
             if (t == null) Debug.LogError($"Couldn't load the {nameof(T)} at path :{path}");
             return t as T;
@@ -119,14 +119,21 @@ namespace VirtueSky.UtilsEditor
 
         public static string AssetInPackagePath(string relativePath, string nameAsset)
         {
-            return GetPathInCurrentEnvironent($"{relativePath}/{nameAsset}");
+            return GetPathFileInCurrentEnvironment($"{relativePath}/{nameAsset}");
         }
 
-        public static string GetPathInCurrentEnvironent(string fullRelativePath)
+        public static string GetPathFileInCurrentEnvironment(string fullRelativePath)
         {
             var upmPath = $"Packages/com.virtuesky.sunflower/{fullRelativePath}";
             var normalPath = $"Assets/Sunflower/{fullRelativePath}";
             return !File.Exists(Path.GetFullPath(upmPath)) ? normalPath : upmPath;
+        }
+
+        public static string GetPathFolderInCurrentEnvironment(string fullRelativePath)
+        {
+            var upmPath = $"Packages/com.virtuesky.sunflower/{fullRelativePath}";
+            var normalPath = $"Assets/Sunflower/{fullRelativePath}";
+            return Directory.Exists(upmPath) ? upmPath : normalPath;
         }
 
         public static string FormatJson(string json)

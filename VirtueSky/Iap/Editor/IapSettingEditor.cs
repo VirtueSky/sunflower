@@ -85,10 +85,10 @@ namespace VirtueSky.Iap
                 googleError: ref appleError,
                 googlePlayPublicKey: _iapSetting.GooglePlayStoreKey);
             string pathAsmdef =
-                FileExtension.GetPathInCurrentEnvironent(
+                FileExtension.GetPathFileInCurrentEnvironment(
                     $"VirtueSky/Utils/Editor/TemplateAssembly/PurchasingGeneratedAsmdef.txt");
             string pathAsmdefMeta =
-                FileExtension.GetPathInCurrentEnvironent(
+                FileExtension.GetPathFileInCurrentEnvironment(
                     $"VirtueSky/Utils/Editor/TemplateAssembly/PurchasingGeneratedAsmdefMeta.txt");
             var asmdef = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdef, typeof(TextAsset));
             var meta = (TextAsset)AssetDatabase.LoadAssetAtPath(pathAsmdefMeta, typeof(TextAsset));

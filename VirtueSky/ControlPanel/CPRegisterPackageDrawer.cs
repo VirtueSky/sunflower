@@ -106,7 +106,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
             {
                 AssetDatabase.ImportPackage(
-                    FileExtension.GetPathInCurrentEnvironent(
+                    FileExtension.GetPathFileInCurrentEnvironment(
                         "VirtueSky/Utils/Editor/UnityPackage/google-play-game.unitypackage"), false);
             }
         }

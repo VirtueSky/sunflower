@@ -58,7 +58,7 @@ namespace VirtueSky.ControlPanel.Editor
                         if (GUILayout.Button("Import texture icon folder"))
                         {
                             AssetDatabase.ImportPackage(
-                                FileExtension.GetPathInCurrentEnvironent(
+                                FileExtension.GetPathFileInCurrentEnvironment(
                                     "VirtueSky/FolderIcon/Editor/PackageIcon/icon_folder.unitypackage"), false);
                         }
                     }
