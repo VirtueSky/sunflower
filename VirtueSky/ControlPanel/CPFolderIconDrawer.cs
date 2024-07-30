@@ -52,19 +52,19 @@ namespace VirtueSky.ControlPanel.Editor
                 else
                 {
                     _editor.OnInspectorGUI();
+                    GUILayout.Space(10);
+                    if (_settings.customIcon)
+                    {
+                        if (GUILayout.Button("Import texture icon folder"))
+                        {
+                            AssetDatabase.ImportPackage(
+                                FileExtension.GetPathInCurrentEnvironent(
+                                    "VirtueSky/FolderIcon/Editor/PackageIcon/icon_folder.unitypackage"), false);
+                        }
+                    }
                 }
             }
 
-            GUILayout.Space(10);
-            if (_settings.customIcon)
-            {
-                if (GUILayout.Button("Import texture icon folder"))
-                {
-                    AssetDatabase.ImportPackage(
-                        FileExtension.GetPathInCurrentEnvironent(
-                            "VirtueSky/FolderIcon/Editor/PackageIcon/icon_folder.unitypackage"), false);
-                }
-            }
 
             GUILayout.EndVertical();
         }
