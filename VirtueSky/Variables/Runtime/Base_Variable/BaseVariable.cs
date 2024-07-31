@@ -12,13 +12,20 @@ namespace VirtueSky.Variables
         [ShowIf(nameof(isSetData)), ReadOnly, SerializeField]
         protected string id;
 
-        [SerializeField] protected TType initializeValue;
-        [SerializeField] protected bool isSetData;
+        [Tooltip("Set initial value for scriptable variable"), SerializeField]
+        protected TType initializeValue;
 
-        [ShowIf(nameof(isSetData))] [SerializeField]
+        [Tooltip("Set data into dictionary, if not set data then scriptable variable will action as runtime variable"),
+         SerializeField]
+        protected bool isSetData;
+
+        [Tooltip(
+             "Save data from dictionary to file when value is changed. If not saved, data will be saved to file when game is paused or quit"),
+         ShowIf(nameof(isSetData)), SerializeField]
         protected bool isSaveData;
 
-        [SerializeField] protected bool isRaiseEvent;
+        [Tooltip("Raise event when value is changed"), SerializeField]
+        protected bool isRaiseEvent;
 
         [NonSerialized] protected TType runtimeValue;
 #if UNITY_EDITOR
