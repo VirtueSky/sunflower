@@ -54,7 +54,7 @@ for version `2.8.9`
 ├── SimpleJSON
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
 ├── Vibration (Vibration native support for android & ios)
-├── Game Service (Login by Google Play Game or Apple Auth)
+├── Game Service (Sign in with apple id / google play games service)
 ├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
 ├── Touch Input
 ├── Component
