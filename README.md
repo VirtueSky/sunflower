@@ -23,9 +23,9 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `2.8.9`
+for version `2.9.0`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.8.9",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#2.9.0",
 ```
 
 ## Includes modules
