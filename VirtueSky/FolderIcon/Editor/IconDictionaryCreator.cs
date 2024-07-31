@@ -9,7 +9,8 @@ namespace Virtuesky.FolderIcon.Editor
     public class IconDictionaryCreator : AssetPostprocessor
     {
         private const string AssetsPath = "/VirtueSky/FolderIcon/Icons";
-        internal static Dictionary<string, Texture> IconDictionary;
+        internal static FolderIconSettings folderIconSettings;
+        private static bool isInitialized = false;
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromAssetPaths)
@@ -46,36 +47,31 @@ namespace Virtuesky.FolderIcon.Editor
 
         internal static void BuildDictionary()
         {
-            var dictionary = new Dictionary<string, Texture>();
-            var folderIconSettings = CreateAsset.GetScriptableAsset<FolderIconSettings>();
-            if (folderIconSettings != null)
+            if (!isInitialized)
             {
-                if (folderIconSettings.setupIconDefault)
-                {
-                    var dir = new DirectoryInfo(FileExtension.GetPathFolderInCurrentEnvironment(AssetsPath));
-                    FileInfo[] info = dir.GetFiles("*.png");
-                    foreach (FileInfo f in info)
-                    {
-                        var texture =
-                            (Texture)AssetDatabase.LoadAssetAtPath(
-                                FileExtension.GetPathFileInCurrentEnvironment($"{AssetsPath}/{f.Name}"),
-                                typeof(Texture2D));
-                        dictionary.Add(Path.GetFileNameWithoutExtension(f.Name), texture);
-                    }
-                }
+                folderIconSettings = CreateAsset.GetScriptableAsset<FolderIconSettings>();
+                isInitialized = true;
+            }
 
-                if (folderIconSettings.customIcon)
+
+            if (folderIconSettings != null && folderIconSettings.enableFolderIcons &&
+                folderIconSettings.enableAutoCustomIconsDefault)
+            {
+                var dir = new DirectoryInfo(FileExtension.GetPathFolderInCurrentEnvironment(AssetsPath));
+                FileInfo[] info = dir.GetFiles("*.png");
+                foreach (FileInfo f in info)
                 {
-                    foreach (var folderIconData in folderIconSettings.folderIconDatas)
+                    var texture =
+                        (Texture)AssetDatabase.LoadAssetAtPath(
+                            FileExtension.GetPathFileInCurrentEnvironment($"{AssetsPath}/{f.Name}"),
+                            typeof(Texture2D));
+                    if (texture == null) continue;
+                    if (!folderIconSettings.folderIconsDictionary.ContainsKey(Path.GetFileNameWithoutExtension(f.Name)))
                     {
-                        if (folderIconData == null) continue;
-                        if (folderIconData.icon == null || folderIconData.folderName == null) continue;
-                        dictionary.TryAdd(folderIconData.folderName, folderIconData.icon);
+                        folderIconSettings.folderIconsDictionary.Add(Path.GetFileNameWithoutExtension(f.Name), texture);
                     }
                 }
             }
-
-            IconDictionary = dictionary;
         }
     }
 }

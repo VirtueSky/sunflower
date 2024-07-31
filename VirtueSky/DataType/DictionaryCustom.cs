@@ -27,6 +27,7 @@ namespace VirtueSky.DataType
 
         private void UpdateDict()
         {
+#if UNITY_EDITOR
             if (dictionaryData is { Count: > 0 })
             {
                 if (m_dict is { Count: > 0 })
@@ -42,21 +43,21 @@ namespace VirtueSky.DataType
                     }
                 }
             }
+#endif
         }
 
         private void UpdateList()
         {
-            if (Application.isPlaying)
+#if UNITY_EDITOR
+            dictionaryData.Clear();
+            if (m_dict is { Count: > 0 })
             {
-                dictionaryData.Clear();
-                if (m_dict is { Count: > 0 })
+                foreach (var kvp in m_dict)
                 {
-                    foreach (var kvp in m_dict)
-                    {
-                        dictionaryData.Add(new DictionaryCustomData<TKey, TValue>(kvp.Key, kvp.Value));
-                    }
+                    dictionaryData.Add(new DictionaryCustomData<TKey, TValue>(kvp.Key, kvp.Value));
                 }
             }
+#endif
         }
 
         public void Add(object key, object value)

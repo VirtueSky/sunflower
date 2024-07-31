@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using VirtueSky.DataType;
 using VirtueSky.Inspector;
 
 namespace Virtuesky.FolderIcon.Editor
@@ -8,22 +7,20 @@ namespace Virtuesky.FolderIcon.Editor
     [HideMonoScript]
     public class FolderIconSettings : ScriptableObject
     {
-        public bool setupIconDefault;
-        public bool customIcon;
+        public bool enableFolderIcons;
+        public bool enableAutoCustomIconsDefault;
 
-        [ShowIf(nameof(customIcon)), TableList]
-        public List<FolderIconData> folderIconDatas;
+        [ShowIf(nameof(enableFolderIcons)), SerializeField]
+        internal DictionaryCustom<string, Texture2D> folderIconsDictionary;
+
+        public void ClearCache()
+        {
+            folderIconsDictionary.Clear();
+        }
 
         public void OnValidate()
         {
             IconDictionaryCreator.BuildDictionary();
         }
-    }
-
-    [Serializable]
-    public class FolderIconData
-    {
-        public Texture2D icon;
-        public string folderName;
     }
 }

@@ -9,6 +9,7 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private static UnityEditor.Editor _editor;
         private static FolderIconSettings _settings;
+        private static Vector2 scroll = Vector2.zero;
 
         public static void OnEnable()
         {
@@ -32,6 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("FOLDER ICON", EditorStyles.boldLabel);
             GUILayout.Space(10);
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_settings == null)
             {
                 if (GUILayout.Button("Create FolderIconSetting"))
@@ -53,7 +55,13 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     _editor.OnInspectorGUI();
                     GUILayout.Space(10);
-                    if (_settings.customIcon)
+                    if (GUILayout.Button("Clear cache"))
+                    {
+                        _settings.ClearCache();
+                    }
+
+                    GUILayout.Space(10);
+                    if (_settings.enableFolderIcons)
                     {
                         if (GUILayout.Button("Import texture icon folder"))
                         {
@@ -65,7 +73,7 @@ namespace VirtueSky.ControlPanel.Editor
                 }
             }
 
-
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
     }
