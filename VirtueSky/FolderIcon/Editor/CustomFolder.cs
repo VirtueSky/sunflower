@@ -16,7 +16,8 @@ namespace Virtuesky.FolderIcon.Editor
 
         static void DrawFolderIcon(string guid, Rect rect)
         {
-            if (!IconDictionaryCreator.folderIconSettings.enableFolderIcons) return;
+            if (IconDictionaryCreator.folderIconSettings == null ||
+                !IconDictionaryCreator.folderIconSettings.enableFolderIcons) return;
             var path = AssetDatabase.GUIDToAssetPath(guid);
             if (path == "" ||
                 Event.current.type != EventType.Repaint ||

@@ -49,7 +49,7 @@ namespace VirtueSky.Iap
             serializedObject.ApplyModifiedProperties();
         }
 
-        private string path = CreateAsset.DefaultResourcesPath("/Iap/Products");
+        private string path = CreateAsset.DefaultPath("/Iap/Products");
 
         void GenerateProduct()
         {

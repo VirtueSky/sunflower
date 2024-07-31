@@ -39,7 +39,7 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create FolderIconSetting"))
                 {
                     _settings = CreateAsset.CreateAndGetScriptableAsset<FolderIconSettings>(
-                        "Assets/_Sunflower/Editor/FolderIcon");
+                        "Assets/_Sunflower/Editor/FolderIconSettings", useDefaultPath: false);
                     Init();
                 }
             }
@@ -55,14 +55,15 @@ namespace VirtueSky.ControlPanel.Editor
                 {
                     _editor.OnInspectorGUI();
                     GUILayout.Space(10);
-                    if (GUILayout.Button("Clear cache"))
-                    {
-                        _settings.ClearCache();
-                    }
 
-                    GUILayout.Space(10);
                     if (_settings.enableFolderIcons)
                     {
+                        if (GUILayout.Button("Clear cache"))
+                        {
+                            _settings.ClearCache();
+                        }
+
+                        GUILayout.Space(10);
                         if (GUILayout.Button("Import texture icon folder"))
                         {
                             AssetDatabase.ImportPackage(

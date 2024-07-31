@@ -10,7 +10,6 @@ namespace Virtuesky.FolderIcon.Editor
     {
         private const string AssetsPath = "/VirtueSky/FolderIcon/Icons";
         internal static FolderIconSettings folderIconSettings;
-        private static bool isInitialized = false;
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromAssetPaths)
@@ -47,10 +46,9 @@ namespace Virtuesky.FolderIcon.Editor
 
         internal static void BuildDictionary()
         {
-            if (!isInitialized)
+            if (folderIconSettings == null)
             {
                 folderIconSettings = CreateAsset.GetScriptableAsset<FolderIconSettings>();
-                isInitialized = true;
             }
 
 

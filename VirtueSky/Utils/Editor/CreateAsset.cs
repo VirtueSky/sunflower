@@ -8,11 +8,12 @@ namespace VirtueSky.UtilsEditor
     public static class CreateAsset
     {
 #if UNITY_EDITOR
-        public static T CreateScriptableAssets<T>(string path = "", bool isPingAsset = true)
+        public static T CreateScriptableAssets<T>(string path = "", bool isPingAsset = true, bool useDefaultPath = true)
             where T : ScriptableObject
         {
             var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
-            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{typeof(T).Name}.asset");
+            UnityEditor.AssetDatabase.CreateAsset(setting,
+                $"{DefaultPath(path, useDefaultPath)}/{typeof(T).Name}.asset");
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
@@ -22,16 +23,17 @@ namespace VirtueSky.UtilsEditor
             }
 
             Debug.Log(
-                $"<color=Green>{typeof(T).Name} was created ad {DefaultResourcesPath(path)}/{typeof(T).Name}.asset</color>");
+                $"<color=Green>{typeof(T).Name} was created ad {DefaultPath(path, useDefaultPath)}/{typeof(T).Name}.asset</color>");
             return setting;
         }
 
-        public static T CreateScriptableAssets<T>(string path = "", string name = "", bool isPingAsset = true)
+        public static T CreateScriptableAssets<T>(string path = "", string name = "", bool isPingAsset = true,
+            bool useDefaultPath = true)
             where T : ScriptableObject
         {
             string newName = name == "" ? typeof(T).Name : name;
             var setting = UnityEngine.ScriptableObject.CreateInstance<T>();
-            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultResourcesPath(path)}/{newName}.asset");
+            UnityEditor.AssetDatabase.CreateAsset(setting, $"{DefaultPath(path, useDefaultPath)}/{newName}.asset");
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             Selection.activeObject = setting;
@@ -41,23 +43,23 @@ namespace VirtueSky.UtilsEditor
             }
 
             Debug.Log(
-                $"<color=Green>{newName} was created ad {DefaultResourcesPath(path)}/{newName}.asset</color>");
+                $"<color=Green>{newName} was created ad {DefaultPath(path, useDefaultPath)}/{newName}.asset</color>");
             return setting;
         }
 
         public static T CreateScriptableAssetsOnlyName<T>(string path = "", string name = "",
-            bool isPingAsset = true)
+            bool isPingAsset = true, bool useDefaultPath = true)
             where T : ScriptableObject
         {
             int assetCounter = 0;
             string assetName = name == "" ? $"{typeof(T).Name}" : name;
-            string assetPath = $"{DefaultResourcesPath(path)}/{assetName}.asset";
+            string assetPath = $"{DefaultPath(path, useDefaultPath)}/{assetName}.asset";
 
             while (AssetDatabase.LoadAssetAtPath<T>(assetPath) != null)
             {
                 assetCounter++;
                 assetPath =
-                    $"{DefaultResourcesPath(path)}/{CreateNameBasedOnGameObjectNamingScheme(assetName, assetCounter)}.asset";
+                    $"{DefaultPath(path)}/{CreateNameBasedOnGameObjectNamingScheme(assetName, assetCounter)}.asset";
             }
 
             var setting = ScriptableObject.CreateInstance<T>();
@@ -77,13 +79,14 @@ namespace VirtueSky.UtilsEditor
         }
 
 
-        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "", bool isPingAsset = true)
+        public static T CreateAndGetScriptableAsset<T>(string path = "", string assetName = "", bool isPingAsset = true,
+            bool useDefaultPath = true)
             where T : ScriptableObject
         {
             var so = FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             if (so == null)
             {
-                CreateScriptableAssets<T>(path, assetName, isPingAsset);
+                CreateScriptableAssets<T>(path, assetName, isPingAsset, useDefaultPath);
                 so = FileExtension.FindAssetAtFolder<T>(new string[] { "Assets" }).FirstOrDefault();
             }
 
@@ -124,15 +127,25 @@ namespace VirtueSky.UtilsEditor
 #endif
 
 
-        public static string DefaultResourcesPath(string path = "")
+        public static string DefaultPath(string path = "", bool useDefaultPath = true)
         {
-            const string defaultResourcePath = "Assets/_Sunflower/Scriptable";
-            if (!Directory.Exists(defaultResourcePath + path))
+            if (useDefaultPath)
             {
-                Directory.CreateDirectory(defaultResourcePath + path);
+                const string defaultPath = "Assets/_Sunflower/Scriptable";
+                ValidatePath(defaultPath + path);
+                return defaultPath + path;
             }
 
-            return defaultResourcePath + path;
+            ValidatePath(path);
+            return path;
+        }
+
+        public static void ValidatePath(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
     }
 }
