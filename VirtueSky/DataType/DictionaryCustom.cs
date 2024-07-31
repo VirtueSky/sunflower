@@ -22,6 +22,7 @@ namespace VirtueSky.DataType
 
         public void OnBeforeSerialize()
         {
+            if (!Application.isPlaying) return;
             UpdateList();
         }
 
@@ -63,11 +64,13 @@ namespace VirtueSky.DataType
         public void Add(object key, object value)
         {
             m_dict.Add((TKey)key, (TValue)value);
+            UpdateList();
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             m_dict.Add(item.Key, item.Value);
+            UpdateList();
         }
 
         void ICollection<KeyValuePair<TKey, TValue>>.Clear()
@@ -87,7 +90,9 @@ namespace VirtueSky.DataType
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return ((IDictionary<TKey, TValue>)m_dict).Remove(item);
+            var result = ((IDictionary<TKey, TValue>)m_dict).Remove(item);
+            if (result) UpdateList();
+            return result;
         }
 
         public int Count => m_dict.Count;
@@ -118,6 +123,7 @@ namespace VirtueSky.DataType
         public void Remove(object key)
         {
             m_dict.Remove((TKey)key);
+            UpdateList();
         }
 
         public bool IsFixedSize => ((IDictionary)m_dict).IsFixedSize;
@@ -140,11 +146,13 @@ namespace VirtueSky.DataType
         public void Add(TKey key, TValue value)
         {
             m_dict.Add(key, value);
+            UpdateList();
         }
 
         public void Clear()
         {
             m_dict.Clear();
+            UpdateList();
         }
 
         public bool ContainsKey(TKey key)
@@ -159,12 +167,16 @@ namespace VirtueSky.DataType
 
         public bool Remove(TKey key)
         {
-            return m_dict.Remove(key);
+            var result = m_dict.Remove(key);
+            if (result) UpdateList();
+            return result;
         }
 
         public bool Remove(TKey key, out TValue value)
         {
-            return m_dict.Remove(key, out value);
+            var result = m_dict.Remove(key, out value);
+            if (result) UpdateList();
+            return result;
         }
 
         public int EnsureCapacity(int capacity)
@@ -209,7 +221,9 @@ namespace VirtueSky.DataType
 
         public bool TryAdd(TKey key, TValue value)
         {
-            return m_dict.TryAdd(key, value);
+            var result = m_dict.TryAdd(key, value);
+            if (result) UpdateList();
+            return result;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
