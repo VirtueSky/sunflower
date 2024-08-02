@@ -28,7 +28,6 @@ namespace VirtueSky.DataType
 
         private void UpdateDict()
         {
-#if UNITY_EDITOR
             if (dictionaryData is { Count: > 0 })
             {
                 if (m_dict is { Count: > 0 })
@@ -44,12 +43,10 @@ namespace VirtueSky.DataType
                     }
                 }
             }
-#endif
         }
 
         private void UpdateList()
         {
-#if UNITY_EDITOR
             dictionaryData.Clear();
             if (m_dict is { Count: > 0 })
             {
@@ -58,7 +55,6 @@ namespace VirtueSky.DataType
                     dictionaryData.Add(new DictionaryCustomData<TKey, TValue>(kvp.Key, kvp.Value));
                 }
             }
-#endif
         }
 
         public void Add(object key, object value)
