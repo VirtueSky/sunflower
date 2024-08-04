@@ -13,6 +13,7 @@ namespace VirtueSky.Ads
         }
 
         internal static bool isShowingAd;
+        public static bool IsShowingAd => isShowingAd;
         internal static Action waitAppOpenDisplayedAction;
         internal static Action waitAppOpenClosedAction;
 
