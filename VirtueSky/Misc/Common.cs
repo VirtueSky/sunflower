@@ -44,6 +44,12 @@ namespace VirtueSky.Misc
             action = null;
         }
 
+        public static void Clear<T>(this T[] collection)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            Array.Clear(collection, 0, collection.Length);
+        }
+
         #region IsNullOrEmpty
 
         public static bool IsNullOrEmpty<T>(this List<T> source)
@@ -167,6 +173,35 @@ namespace VirtueSky.Misc
 
             var index = UnityEngine.Random.Range(0, collection.Count);
             return collection.Count == 0 ? (default, -1) : (collection[index], index);
+        }
+
+        public static List<T> PickRandomSubList<T>(this List<T> collection, int length)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            var listTemp = collection.ToList();
+            List<T> pickList = new List<T>();
+            listTemp.Shuffle();
+            for (int i = 0; i < listTemp.Count; i++)
+            {
+                if (i < length) pickList.Add(listTemp[i]);
+            }
+
+            return pickList;
+        }
+
+        public static T[] PickRandomSubArray<T>(this T[] collection, int length)
+        {
+            if (collection == null) throw new ArgumentNullException(nameof(collection));
+            T[] arrayTemp = new T[collection.Length];
+            Array.Copy(collection, arrayTemp, collection.Length);
+            T[] pickArray = new T[length <= collection.Length ? length : collection.Length];
+            arrayTemp.Shuffle();
+            for (int i = 0; i < arrayTemp.Length; i++)
+            {
+                if (i < length) pickArray[i] = arrayTemp[i];
+            }
+
+            return pickArray;
         }
 
         #endregion
