@@ -25,6 +25,7 @@ namespace VirtueSky.RemoteConfigs
 #endif
 
         [Space, SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
+        [Space, SerializeField] private BooleanVariable firebaseDependencyAvailable;
         [Space, SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
 
         private void Awake()
@@ -51,11 +52,21 @@ namespace VirtueSky.RemoteConfigs
                 isFetchRemoteConfigCompleted.Value = false;
             }
 
+            if (firebaseDependencyAvailable != null)
+            {
+                firebaseDependencyAvailable.Value = false;
+            }
+
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
                 dependencyStatus = task.Result;
                 if (dependencyStatus == DependencyStatus.Available)
                 {
+                    var app = FirebaseApp.DefaultInstance;
+                    if (firebaseDependencyAvailable != null)
+                    {
+                        firebaseDependencyAvailable.Value = true;
+                    }
 #if VIRTUESKY_FIREBASE_REMOTECONFIG
                     FetchDataAsync();
 #endif
