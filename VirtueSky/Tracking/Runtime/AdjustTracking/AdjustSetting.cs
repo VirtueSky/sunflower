@@ -7,7 +7,7 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Tracking
 {
     [EditorIcon("icon_scriptable"), HideMonoScript]
-    public class AdjustSettings : ScriptableObject
+    public class AdjustSetting : ScriptableObject
     {
         [SerializeField] private string appToken;
 #if VIRTUESKY_ADJUST

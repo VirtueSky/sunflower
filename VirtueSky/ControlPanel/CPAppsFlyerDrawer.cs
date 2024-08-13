@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAppsFlyerDrawer
     {
-        private static AppsFlyerSettings _settings;
+        private static AppsFlyerSetting _setting;
         private static UnityEditor.Editor _editor;
 
         public static void OnEnable()
@@ -18,8 +18,8 @@ namespace VirtueSky.ControlPanel.Editor
         private static void Init()
         {
             if (_editor != null) _editor = null;
-            _settings = CreateAsset.GetScriptableAsset<AppsFlyerSettings>();
-            _editor = UnityEditor.Editor.CreateEditor(_settings);
+            _setting = CreateAsset.GetScriptableAsset<AppsFlyerSetting>();
+            _editor = UnityEditor.Editor.CreateEditor(_setting);
         }
 
         public static void OnDrawAppsFlyer()
@@ -47,12 +47,12 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.GuiLine(2);
             GUILayout.Label("APPSFLYER SETTINGS", EditorStyles.boldLabel);
             GUILayout.Space(10);
-            if (_settings == null)
+            if (_setting == null)
             {
                 if (GUILayout.Button("Create AppsFlyerSettings"))
                 {
-                    _settings =
-                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSettings>("/AppsFlyerTracking/Settings",
+                    _setting =
+                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSetting>("/AppsFlyerTracking/Settings",
                             isPingAsset: false);
                     Init();
                 }
