@@ -34,6 +34,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPLevelEditorDrawer.OnEnable();
             CPFolderIconDrawer.OnEnable();
             CPAdjustDrawer.OnEnable();
+            CPAppsFlyerDrawer.OnEnable();
         }
 
         private void OnDisable()

@@ -1,11 +1,27 @@
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Tracking;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAppsFlyerDrawer
     {
+        private static AppsFlyerSettings _settings;
+        private static UnityEditor.Editor _editor;
+
+        public static void OnEnable()
+        {
+            Init();
+        }
+
+        private static void Init()
+        {
+            if (_editor != null) _editor = null;
+            _settings = CreateAsset.GetScriptableAsset<AppsFlyerSettings>();
+            _editor = UnityEditor.Editor.CreateEditor(_settings);
+        }
+
         public static void OnDrawAppsFlyer()
         {
             GUILayout.Space(10);
@@ -20,7 +36,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
 #if !VIRTUESKY_APPSFLYER
-                EditorGUILayout.HelpBox(
+            EditorGUILayout.HelpBox(
                 $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_APPSFLYER} for AppsFlyer to use",
                 MessageType.Info);
 #endif
@@ -29,7 +45,37 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPSFLYER);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
+            GUILayout.Label("APPSFLYER SETTINGS", EditorStyles.boldLabel);
             GUILayout.Space(10);
+            if (_settings == null)
+            {
+                if (GUILayout.Button("Create AppsFlyerSettings"))
+                {
+                    _settings =
+                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSettings>("/AppsFlyerTracking/Settings",
+                            isPingAsset: false);
+                    Init();
+                }
+            }
+            else
+            {
+                if (_editor == null)
+                {
+                    EditorGUILayout.HelpBox("Couldn't create the settings editor.",
+                        MessageType.Error);
+                    return;
+                }
+                else
+                {
+                    EditorGUILayout.HelpBox(
+                        "Set your devKey and appID to init the AppsFlyer SDK and start tracking. You must modify these fields and provide:\ndevKey - Your application devKey provided by AppsFlyer.\nappId - For iOS only. Your iTunes Application ID.\nUWP app id - For UWP only. Your application app id \nMac OS app id - For MacOS app only.",
+                        MessageType.Info);
+                    _editor.OnInspectorGUI();
+                }
+            }
+
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
             GUILayout.Label("APPSFLYER TRACKING", EditorStyles.boldLabel);
             GUILayout.Space(10);
 
