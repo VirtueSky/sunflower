@@ -14,9 +14,12 @@
                 if (instance != null) return instance;
 
                 instance = Resources.Load<T>(typeof(T).Name);
-                if (instance == null) throw new Exception($"Scriptable setting for {typeof(T)} must be create before run!");
+                if (instance == null)
+                    throw new Exception($"Scriptable setting for {typeof(T)} must be create before run!");
                 return instance;
             }
         }
+
+        public static bool IsExist() => Resources.Load<T>(typeof(T).Name) != null;
     }
 }

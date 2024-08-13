@@ -8,8 +8,6 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAdvertisingDrawer
     {
-        private static bool isFieldMax = false;
-        private static bool isFielAdmob = false;
         private static Vector2 _scrollPosition;
         private static UnityEditor.Editor _editor;
         private static AdSetting _adSetting;
