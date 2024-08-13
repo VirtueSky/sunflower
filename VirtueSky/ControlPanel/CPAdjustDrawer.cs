@@ -51,7 +51,7 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create AdjustSettings"))
                 {
                     _setting =
-                        CreateAsset.CreateAndGetScriptableAsset<AdjustSetting>("/AdjustTracking/Settings",
+                        CreateAsset.CreateAndGetScriptableAsset<AdjustSetting>("/AdjustTracking/Resources",
                             isPingAsset: false);
                     Init();
                 }

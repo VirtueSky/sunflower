@@ -7,7 +7,8 @@
         "AppsFlyer",
         "AppsFlyerAdRevenue",
         "UnityEngine.Purchasing",
-        "Virtuesky.Sunflower.Misc"
+        "Virtuesky.Sunflower.Misc",
+        "Virtuesky.Sunflower.Utils"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

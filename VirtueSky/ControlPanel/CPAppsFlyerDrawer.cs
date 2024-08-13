@@ -52,7 +52,7 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create AppsFlyerSettings"))
                 {
                     _setting =
-                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSetting>("/AppsFlyerTracking/Settings",
+                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSetting>("/AppsFlyerTracking/Resources",
                             isPingAsset: false);
                     Init();
                 }
