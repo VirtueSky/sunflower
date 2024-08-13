@@ -9,10 +9,6 @@ namespace VirtueSky.ControlPanel.Editor
     public class ControlPanelWindowEditor : EditorWindow
     {
         private StatePanelControl statePanelControl;
-        private bool isFieldMax = false;
-        private bool isFielAdmob = false;
-        private string inputPackageFullNameAdd = "";
-        private string inputPackageFullNameRemove = "";
         private Vector2 scrollButton = Vector2.zero;
 
         [MenuItem("Sunflower/Control Panel &1", false, priority = 1)]
@@ -37,6 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPIapDrawer.OnEnable();
             CPLevelEditorDrawer.OnEnable();
             CPFolderIconDrawer.OnEnable();
+            CPAdjustDrawer.OnEnable();
         }
 
         private void OnDisable()

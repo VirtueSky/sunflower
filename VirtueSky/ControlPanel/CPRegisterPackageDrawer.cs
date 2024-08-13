@@ -7,11 +7,8 @@ namespace VirtueSky.ControlPanel.Editor
     public static class CPRegisterPackageDrawer
     {
         private static Vector2 scrollPositionFileManifest = Vector2.zero;
-        private static Vector2 scrollPositionAddPackage = Vector2.zero;
-        private static Vector2 scrollPositionRemovePackage = Vector2.zero;
         private static Vector2 scrollPositionAddSomePackage = Vector2.zero;
-        private static bool isShowAddPackage = false;
-        private static bool isShowRemovePackage = false;
+
 
         public static void OnDrawRegisterPackageByManifest(Rect position)
         {
