@@ -119,7 +119,7 @@ namespace PrimeTween {
                             return tween.diff.Vector4Val.magnitude;
                     }
                 }*/
-                var strengthFactor = fullAmplitude < 0.0001f ? 1 : 1f / (fullAmplitude * (1f - firstBounceAmpl));
+                float strengthFactor = fullAmplitude < 0.0001f ? 1f : 1f / (fullAmplitude * (1f - firstBounceAmpl));
                 return Bounce(t, strength * strengthFactor);
             }
             return Evaluate(t, parametricEase, strength, settings.parametricEasePeriod, settings.duration);

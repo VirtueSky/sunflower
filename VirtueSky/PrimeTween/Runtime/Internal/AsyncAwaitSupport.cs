@@ -44,7 +44,7 @@ namespace PrimeTween {
                         }
                     }, null, TweenType.Callback);
                     Assert.IsTrue(wait.isAlive);
-                    wait.tween.intParam = tween.id;
+                    wait.tween.longParam = tween.id;
                     wait.tween.OnComplete(continuation, true);
                 } catch (Exception e) {
                     Debug.LogException(e);

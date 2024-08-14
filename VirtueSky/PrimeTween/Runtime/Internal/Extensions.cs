@@ -31,6 +31,7 @@ namespace PrimeTween {
         internal static ValueContainer ToContainer(this Color c) => new ValueContainer { ColorVal = c };
         internal static ValueContainer ToContainer(this Quaternion q) => new ValueContainer { QuaternionVal = q };
         internal static ValueContainer ToContainer(this Rect r) => new ValueContainer { RectVal = r };
+        internal static ValueContainer ToContainer(this double d) => new ValueContainer { DoubleVal = d };
 
         internal static Vector2 WithComponent(this Vector2 v, int index, float val) {
             v[index] = val;

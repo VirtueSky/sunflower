@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace PrimeTween {
     internal static class Assert {
-        internal static void LogError(string msg, int id, [CanBeNull] Object context = null) {
+        internal static void LogError(string msg, long id, [CanBeNull] Object context = null) {
             Debug.LogError(TryAddStackTrace(msg, id), context);
         }
 
-        internal static void LogWarning(string msg, int id, [CanBeNull] Object context = null) {
+        internal static void LogWarning(string msg, long id, [CanBeNull] Object context = null) {
             Debug.LogWarning(TryAddStackTrace(msg, id), context);
         }
 
         [CanBeNull, PublicAPI]
-        static string TryAddStackTrace([CanBeNull] string msg, int tweenId) {
+        static string TryAddStackTrace([CanBeNull] string msg, long tweenId) {
             #if UNITY_ASSERTIONS
                 #if PRIME_TWEEN_SAFETY_CHECKS
                 if (tweenId == 0) {
@@ -29,7 +29,7 @@ namespace PrimeTween {
 
         #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
         [ContractAnnotation("condition:false => halt")]
-        internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) => UnityEngine.Assertions.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
+        internal static void IsTrue(bool condition, long? tweenId = null, string msg = null) => UnityEngine.Assertions.Assert.IsTrue(condition, AddStackTrace(!condition, msg, tweenId));
         internal static void AreEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreEqual(expected, actual, msg);
         internal static void AreNotEqual<T>(T expected, T actual, string msg = null) => UnityEngine.Assertions.Assert.AreNotEqual(expected, actual, msg);
         internal static void IsFalse(bool condition, string msg = null) => UnityEngine.Assertions.Assert.IsFalse(condition, msg);
@@ -37,7 +37,7 @@ namespace PrimeTween {
         internal static void IsNotNull<T>(T value, string msg = null) where T : class => UnityEngine.Assertions.Assert.IsNotNull(value, msg);
         internal static void IsNull<T>(T value, string msg = null) where T : class => UnityEngine.Assertions.Assert.IsNull(value, msg);
         [CanBeNull]
-        static string AddStackTrace(bool add, [CanBeNull] string msg, int? tweenId) {
+        static string AddStackTrace(bool add, [CanBeNull] string msg, long? tweenId) {
             if (add && tweenId.HasValue) {
                 return TryAddStackTrace(msg, tweenId.Value);
             }
@@ -46,7 +46,7 @@ namespace PrimeTween {
         #else
         const string DUMMY = "_";
         // ReSharper disable UnusedParameter.Global
-        [System.Diagnostics.Conditional(DUMMY)] internal static void IsTrue(bool condition, int? tweenId = null, string msg = null) {}
+        [System.Diagnostics.Conditional(DUMMY)] internal static void IsTrue(bool condition, long? tweenId = null, string msg = null) {}
         [System.Diagnostics.Conditional(DUMMY)] internal static void AreEqual<T>(T expected, T actual, string msg = null) {}
         [System.Diagnostics.Conditional(DUMMY)] internal static void AreNotEqual<T>(T expected, T actual, string msg = null) {}
         [System.Diagnostics.Conditional(DUMMY)] internal static void IsFalse(bool condition, string msg = null) {}

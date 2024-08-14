@@ -295,11 +295,15 @@ namespace PrimeTween {
 
         public Tween SetRelative(bool isRelative = true) {
             Assert.IsTrue(isAlive);
-            if (isRelative) {
-                if (tween.settings.startDelay != 0) {
-                    Debug.LogWarning("SetRelative() immediately adds the dest and doesn't wait for startDelay.");
-                }
-                var getter = tween.getter;
+            if (!isRelative) {
+                return this;
+            }
+            var getter = tween.getter;
+            if (getter == null) {
+                return this;
+            }
+            tween.endValue = CalculateRelative(tween, getter(tween), tween.endValue);
+            /*var getter = tween.getter;
                 // todo this doesn't account for double val
                 if (tween.getPropType() == PropType.Quaternion) {
                     if (getter != null) {
@@ -313,8 +317,7 @@ namespace PrimeTween {
                     } else {
                         tween.endValue.Vector4Val += tween.startValue.Vector4Val;
                     }
-                }
-            }
+                }*/
             return this;
         }
 
@@ -395,33 +398,66 @@ namespace PrimeTween {
             return this;
         }
 
-        public Tween From(float fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Color fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Vector2 fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Vector3 fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Vector4 fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Quaternion fromValue) => setFrom(fromValue.ToContainer());
-        public Tween From(Rect fromValue) => setFrom(fromValue.ToContainer());
+        public Tween From() => setFrom(true, false);
+        public Tween From(bool isRelative) => setFrom(true, isRelative);
+        public Tween From(bool setImmediately, bool isRelative) => setFrom(setImmediately, isRelative);
 
-        Tween setFrom(ValueContainer fromValue) {
-            Assert.IsTrue(isAlive);
-            tween.startFromCurrent = false;
-            tween.startValue = fromValue;
-            tween.cacheDiff();
-            return this;
+        public Tween From(float fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Float);
+        public Tween From(Color fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Color);
+        public Tween From(Vector2 fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Vector2);
+        public Tween From(Vector3 fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Vector3);
+        public Tween From(Vector4 fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Vector4);
+        public Tween From(Quaternion fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Quaternion);
+        public Tween From(Rect fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Rect);
+
+        static ValueContainer CalculateRelative(ReusableTween tween, ValueContainer current, ValueContainer diff) {
+            switch (tween.getPropType()) {
+                case PropType.Quaternion:
+                    return (current.QuaternionVal * diff.QuaternionVal).ToContainer();
+                case PropType.Double:
+                    return (current.DoubleVal + diff.DoubleVal).ToContainer();
+                default:
+                    return (current.Vector4Val + diff.Vector4Val).ToContainer();
+            }
         }
 
-        public Tween From() {
-            Assert.IsTrue(isAlive);
+        Tween setFrom(bool setImmediately, bool isRelative, ValueContainer? fromValue = null, PropType propType = PropType.None) {
+            if (!tryManipulate()) {
+                return this;
+            }
+            if (elapsedTimeTotal != 0f) {
+                Debug.LogError(Constants.animationAlreadyStarted);
+                return this;
+            }
+            if (tween.isUnityTargetDestroyed()) {
+                Debug.LogError("Tween's target has been destroyed.");
+                return this;
+            }
             var getter = tween.getter;
-            if (getter != null) {
+            if (getter == null) {
+                Debug.LogError("Custom tweens don't support 'From()'.");
+                return this;
+            }
+            var current = getter(tween);
+            if (isRelative) {
+                tween.endValue = CalculateRelative(tween, current, tween.endValue);
+            }
+            if (fromValue.HasValue) {
+                if (tween.getPropType() != propType) {
+                    Debug.LogError($"Animated value is {tween.getPropType()}, but '{nameof(From)}()' was called with {propType}. Please provide a correct type.");
+                    return this;
+                }
+                tween.startFromCurrent = false;
+                tween.startValue = isRelative ? CalculateRelative(tween, current, fromValue.Value) : fromValue.Value;
+            } else {
                 tween.startFromCurrent = false;
                 tween.startValue = tween.endValue;
-                tween.endValue = getter(tween);
-            } else {
-                (tween.startValue, tween.endValue) = (tween.endValue, tween.startValue);
+                tween.endValue = current;
             }
             tween.cacheDiff();
+            if (setImmediately) {
+                tween.ReportOnValueChange(0f);
+            }
             return this;
         }
 

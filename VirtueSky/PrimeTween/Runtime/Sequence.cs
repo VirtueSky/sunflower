@@ -35,7 +35,7 @@ namespace PrimeTween {
             #endif
             Tween root;
         internal bool IsCreated => root.IsCreated;
-        int id => root.id;
+        long id => root.id;
 
         /// Sequence is 'alive' when any of its tweens is 'alive'.
         public bool isAlive => root.isAlive;
@@ -94,7 +94,7 @@ namespace PrimeTween {
                 return false;
             }
             if (root.elapsedTimeTotal != 0f) {
-                Debug.LogError(Constants.sequenceAlreadyStarted);
+                Debug.LogError(Constants.animationAlreadyStarted);
                 return false;
             }
             return true;
@@ -338,7 +338,7 @@ namespace PrimeTween {
                 }
                 root.isPaused = false;
                 Assert.IsTrue(root.tween.isMainSequenceRoot());
-                root.tween.updateSequence(float.MaxValue, false);
+                root.tween.updateSequence(float.MaxValue, false, allowSkipChildrenUpdate: false);
                 Assert.IsFalse(isAlive);
             }
         }
@@ -372,7 +372,7 @@ namespace PrimeTween {
         }
 
         static void releaseTween([NotNull] ReusableTween tween) {
-            // Debug.Log($"sequence {id} releaseTween {tween.id}");
+            // Debug.Log($"[{Time.frameCount}] releaseTween {tween.id}");
             Assert.AreNotEqual(0, tween.sequence.root.id);
             tween.next = default;
             tween.prev = default;

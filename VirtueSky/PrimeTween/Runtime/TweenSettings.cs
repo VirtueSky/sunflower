@@ -99,13 +99,20 @@ namespace PrimeTween {
             useFixedUpdate = other.useFixedUpdate;
         }
 
+        internal const float minDuration = 0.0001f;
+
         internal void SetValidValues() {
             validateFiniteDuration(duration);
             validateFiniteDuration(startDelay);
             validateFiniteDuration(endDelay);
             setCyclesTo1If0(ref cycles);
             if (duration != 0f) {
-                duration = Mathf.Max(0.001f, duration);
+                #if UNITY_EDITOR && PRIME_TWEEN_SAFETY_CHECKS
+                if (duration < minDuration) {
+                    Debug.LogError("duration = Mathf.Max(minDuration, duration);");
+                }
+                #endif
+                duration = Mathf.Max(minDuration, duration);
             }
             startDelay = Mathf.Max(0f, startDelay);
             endDelay = Mathf.Max(0f, endDelay);

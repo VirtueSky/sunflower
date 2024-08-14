@@ -39,7 +39,7 @@ namespace PrimeTween {
         internal int maxSimultaneousTweensCount { get; private set; }
 
         [HideInInspector]
-        internal int lastId = 1;
+        internal long lastId = 1;
         internal Ease defaultEase = Ease.OutQuad;
         internal const Ease defaultShakeEase = Ease.OutQuad;
         internal bool warnTweenOnDisabledTarget = true;
@@ -328,7 +328,7 @@ namespace PrimeTween {
                 }
             }
             #if SAFETY_CHECKS
-            // Debug.Log($"[frame:{Time.frameCount}] created: {tween.GetDescription()}", tween.unityTarget);
+            // Debug.Log($"[{Time.frameCount}] created: {tween.GetDescription()}", tween.unityTarget);
             StackTraces.Record(tween.id);
             #endif
             if (tween.settings.useFixedUpdate) {
@@ -445,7 +445,7 @@ namespace PrimeTween {
         }
 
         [Conditional("UNITY_ASSERTIONS")]
-        internal void warnStructBoxingInCoroutineOnce(int id) {
+        internal void warnStructBoxingInCoroutineOnce(long id) {
             if (!warnStructBoxingAllocationInCoroutine) {
                 return;
             }
