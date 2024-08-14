@@ -41,7 +41,8 @@ for version `2.9.5`
 ├── Data
 ├── Scriptable Event
 ├── Scriptable Variable
-├── Firebase (Remote config, Analytic)
+├── Remote Config
+├── Tracking (Firebase Analytics, Adjust, AppsFlyer)
 ├── Tri-Inspector
 ├── Level Editor
 ├── Mobile Notification
