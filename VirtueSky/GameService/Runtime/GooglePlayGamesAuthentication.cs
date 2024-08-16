@@ -53,6 +53,7 @@ namespace VirtueSky.GameService
                         {
                             Debug.Log("Authorization code: " + code);
                             serverCode.Value = code;
+                            nameVariable.Value = PlayGamesPlatform.Instance.GetUserDisplayName();
                             status.SetSuccessful();
                         });
                 }
@@ -67,6 +68,7 @@ namespace VirtueSky.GameService
                                 {
                                     Debug.Log("Authorization code: " + code);
                                     serverCode.Value = code;
+                                    nameVariable.Value = PlayGamesPlatform.Instance.GetUserDisplayName();
                                     status.SetSuccessful();
                                 });
                         }

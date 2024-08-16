@@ -9,6 +9,7 @@ using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using AppleAuth.Native;
+
 #endif
 
 
@@ -93,10 +94,13 @@ namespace VirtueSky.GameService
                         serverCode.Value = identityToken;
                         authorizationCodeVariable.Value = authorizationCode;
                         userIdVariable.Value = userId;
+                        nameVariable.Value = $"{fullName.GivenName} {fullName.FamilyName}";
                         status.SetSuccessful();
                     }
                     else
                     {
+                        serverCode.Value = "";
+                        userIdVariable.Value = "";
                         status.SetFailed();
                     }
                 },
@@ -104,6 +108,8 @@ namespace VirtueSky.GameService
                 {
                     // Something went wrong
                     var authorizationErrorCode = error.GetAuthorizationErrorCode();
+                    serverCode.Value = "";
+                    userIdVariable.Value = "";
                     status.SetFailed();
                 });
 #endif
