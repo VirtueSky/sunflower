@@ -79,8 +79,9 @@ namespace PrimeTween {
         }
 
         internal void CopyFrom(ref double val) {
-            Reset();
             DoubleVal = val;
+            z = 0f;
+            w = 0f;
         }
 
         internal void Reset() {

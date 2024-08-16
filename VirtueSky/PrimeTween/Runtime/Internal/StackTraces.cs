@@ -13,7 +13,7 @@ namespace PrimeTween {
         static bool didWarn;
 
         /// https://github.com/Unity-Technologies/UnityCsReference/blob/6230ef8f9bed142ddf6a5e338d6e0faf3368d313/Runtime/Export/Scripting/StackTrace.cs#L31-L47
-        internal static unsafe void Record(int id) {
+        internal static unsafe void Record(long id) {
             if (!didWarn && ENABLE_IL2CPP) {
                 didWarn = true;
                 Debug.LogWarning("PRIME_TWEEN_SAFETY_CHECKS is used in IL2CPP build, which has negative performance impact in Development Builds. " +
@@ -104,9 +104,10 @@ namespace PrimeTween {
         }
 
         [NotNull]
-        internal static string Get(int id) {
+        internal static string Get(long id) {
             Assert.IsTrue(id < idToHash.Count);
-            var isSuccess = hashToTraces.TryGetValue(idToHash[id], out var traces);
+            // todo limit the max number of stack traces or wrap them around max value
+            bool isSuccess = hashToTraces.TryGetValue(idToHash[(int)id], out var traces);
             Assert.IsTrue(isSuccess);
             Assert.IsNotNull(traces);
             return string.Join("\n\n", traces.Select(bytes => {

@@ -9,6 +9,7 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private static AppsFlyerSetting _setting;
         private static UnityEditor.Editor _editor;
+        private static Vector2 scroll = Vector2.zero;
 
         public static void OnEnable()
         {
@@ -28,6 +29,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.BeginVertical();
             GUILayout.Label("APPSFLYER", EditorStyles.boldLabel);
             GUILayout.Space(10);
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
                 ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer Revenue Generic", "Remove AppsFlyer Revenue Generic",
@@ -115,6 +117,7 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
+            EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
     }

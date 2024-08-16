@@ -60,7 +60,8 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButton();
             EditorGUILayout.EndScrollView();
             Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 0),
-                new Vector3(210, position.height));
+                new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, position.height));
+
             GUILayout.EndVertical();
             DrawContent();
             GUILayout.EndHorizontal();

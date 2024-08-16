@@ -13,7 +13,7 @@ namespace PrimeTween {
         [SerializeField, HideInInspector] internal string debugDescription;
         [SerializeField, CanBeNull, UsedImplicitly] internal UnityEngine.Object unityTarget;
         #endif
-        internal int id = -1;
+        internal long id = -1;
         /// Holds a reference to tween's target. If the target is UnityEngine.Object, the tween will gracefully stop when the target is destroyed. That is, destroying object with running tweens is perfectly ok.
         /// Keep in mind: when animating plain C# objects (not derived from UnityEngine.Object), the plugin will hold a strong reference to the object for the entire tween duration.
         ///     If plain C# target holds a reference to UnityEngine.Object and animates its properties, then it's user's responsibility to ensure that UnityEngine.Object still exists.
@@ -46,7 +46,11 @@ namespace PrimeTween {
         const int iniCyclesDone = -1;
 
         internal object customOnValueChange;
-        internal int intParam;
+        internal long longParam;
+        internal int intParam {
+            get => (int)longParam;
+            set => longParam = value;
+        }
         Action<ReusableTween> onValueChange;
 
         [CanBeNull] Action<ReusableTween> onComplete;
@@ -81,7 +85,7 @@ namespace PrimeTween {
             return _isAlive;
         }
 
-        bool isUpdating; // todo place this check only calls that come from public API
+        bool isUpdating; // todo place this check only on calls that come from Tween.Custom()? no, then it would not be possible to call .Complete() on custom tweens
 
         internal void SetElapsedTimeTotal(float newElapsedTimeTotal, bool earlyExitSequenceIfPaused = true) {
             if (isUpdating) {
@@ -90,7 +94,7 @@ namespace PrimeTween {
             }
             isUpdating = true;
             if (!sequence.IsCreated) {
-                setElapsedTimeTotal(newElapsedTimeTotal, out var cyclesDiff);
+                setElapsedTimeTotal(newElapsedTimeTotal, out int cyclesDiff);
                 if (!stoppedEmergently && _isAlive && isDone(cyclesDiff)) {
                     if (!_isPaused) {
                         kill();
@@ -107,10 +111,10 @@ namespace PrimeTween {
             isUpdating = false;
         }
 
-        internal void updateSequence(float _elapsedTimeTotal, bool isRestart, bool earlyExitSequenceIfPaused = true) {
+        internal void updateSequence(float _elapsedTimeTotal, bool isRestart, bool earlyExitSequenceIfPaused = true, bool allowSkipChildrenUpdate = true) {
             Assert.IsTrue(isSequenceRoot());
             float prevEasedT = easedInterpolationFactor;
-            if (!setElapsedTimeTotal(_elapsedTimeTotal, out int cyclesDiff)) { // update sequence root
+            if (!setElapsedTimeTotal(_elapsedTimeTotal, out int cyclesDiff) && allowSkipChildrenUpdate) { // update sequence root
                 return;
             }
 
@@ -330,7 +334,7 @@ namespace PrimeTween {
             return result;
         }
 
-        // void print(object msg) => Debug.Log($"[{Time.frameCount}]  id {id}  {msg}");
+        // void print(string msg) => Debug.Log($"[{Time.frameCount}]  id {id}  {msg}");
 
         internal void Reset() {
             Assert.IsFalse(isUpdating);
@@ -486,7 +490,7 @@ namespace PrimeTween {
 
         /// Tween.Custom and Tween.ShakeCustom try-catch the <see cref="onValueChange"/> and calls <see cref="ReusableTween.EmergencyStop"/> if an exception occurs.
         /// <see cref="ReusableTween.EmergencyStop"/> sets <see cref="stoppedEmergently"/> to true.
-        void ReportOnValueChange(float _easedInterpolationFactor) {
+        internal void ReportOnValueChange(float _easedInterpolationFactor) {
             // Debug.Log($"id {id}, ReportOnValueChange {_easedInterpolationFactor}");
             Assert.IsFalse(isUnityTargetDestroyed());
             if (startFromCurrent) {
@@ -750,7 +754,7 @@ namespace PrimeTween {
         }
 
         internal void kill() {
-            // Debug.Log($"[{Time.frameCount}] kill {GetDescription()}");
+            // print($"kill {GetDescription()}");
             Assert.IsTrue(_isAlive);
             _isAlive = false;
             #if UNITY_EDITOR
@@ -822,7 +826,7 @@ namespace PrimeTween {
             return GetDescription();
         }
 
-        enum State {
+        enum State : byte {
             Before, Running, After
         }
 

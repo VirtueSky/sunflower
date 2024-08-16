@@ -428,7 +428,7 @@ namespace PrimeTween {
                 target.timeScale = t.FloatVal;
             }, t => (t.target as ReusableTween).timeScale.ToContainer(), tweenType);
             Assert.IsTrue(result.isAlive);
-            result.tween.intParam = tween.id;
+            result.tween.longParam = tween.id;
             return result;
         }
         public static Tween TweenTimeScale(Sequence sequence, TweenSettings<float> settings) => AnimateTimeScale(sequence.root, settings, TweenType.TweenTimeScaleSequence);

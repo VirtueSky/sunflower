@@ -12,12 +12,8 @@ namespace VirtueSky.GameService
         [SerializeField] private bool dontDestroyOnLoad;
         [SerializeField] protected StatusLoginVariable status;
         [SerializeField] protected StringVariable serverCode;
+        [SerializeField] protected StringVariable nameVariable;
         [SerializeField] protected EventNoParam loginEvent;
-
-        private void Start()
-        {
-            Init();
-        }
 
         protected virtual void Awake()
         {
@@ -25,6 +21,11 @@ namespace VirtueSky.GameService
             {
                 DontDestroyOnLoad(gameObject);
             }
+        }
+
+        private void Start()
+        {
+            Init();
         }
 
         protected abstract void Init();

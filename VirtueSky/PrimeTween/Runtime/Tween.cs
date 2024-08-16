@@ -36,7 +36,7 @@ namespace PrimeTween {
             #if !ENABLE_SERIALIZATION
             readonly
             #endif
-            int id;
+            long id;
 
         internal readonly ReusableTween tween;
 
@@ -119,7 +119,7 @@ namespace PrimeTween {
             if (!tryManipulate()) {
                 return;
             }
-            if (value < 0f || float.IsNaN(value) || (cyclesTotal == -1 && value >= float.MaxValue)) {
+            if (value < 0f || float.IsNaN(value) || (cyclesTotal == -1 && value >= float.MaxValue)) { // >= tests for positive infinity, see SetInfiniteTweenElapsedTime() test
                 Debug.LogError($"Invalid elapsedTimeTotal value: {value}, tween: {ToString()}");
                 return;
             }
