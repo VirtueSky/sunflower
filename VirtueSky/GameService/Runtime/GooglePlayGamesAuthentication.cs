@@ -40,9 +40,10 @@ namespace VirtueSky.GameService
                 code => taskSource.SetResult((code, StatusLogin.Successful)));
             return taskSource.Task;
         }
-
+#endif
         protected override void Login()
         {
+#if UNITY_ANDROID && VIRTUESKY_GPGS
             PlayGamesPlatform.Instance.Authenticate((success) =>
             {
                 if (success == SignInStatus.Success)
@@ -81,8 +82,9 @@ namespace VirtueSky.GameService
                     });
                 }
             });
-        }
 #endif
+        }
+
         public static bool IsSignIn()
         {
 #if UNITY_ANDROID && VIRTUESKY_GPGS

@@ -15,17 +15,17 @@ namespace VirtueSky.GameService
         [SerializeField] protected StringVariable nameVariable;
         [SerializeField] protected EventNoParam loginEvent;
 
-        private void Start()
-        {
-            Init();
-        }
-
         protected virtual void Awake()
         {
             if (dontDestroyOnLoad)
             {
                 DontDestroyOnLoad(gameObject);
             }
+        }
+
+        private void Start()
+        {
+            Init();
         }
 
         protected abstract void Init();
