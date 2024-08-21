@@ -31,7 +31,7 @@ namespace VirtueSky.ControlPanel.Editor
                 }
             }
 
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            GUI.backgroundColor = Color.white;
 
             GUILayout.Space(10);
             GUILayout.Toggle(isInstall, TextIsInstallPackage(isInstall));
@@ -57,7 +57,7 @@ namespace VirtueSky.ControlPanel.Editor
                 EditorScriptDefineSymbols.SwitchFlag(flagSymbols);
             }
 
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            GUI.backgroundColor = Color.white;
 
             GUILayout.Space(10);
             GUILayout.Toggle(isAddSymbols, TextIsEnable(isAddSymbols));

@@ -44,12 +44,12 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
-                GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
+            // EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
+            //     CustomColor.Aqua.ToColor());
             GUILayout.Space(10);
-            GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
+            // GUI.contentColor = CustomColor.Aquamarine.ToColor();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
+            //   GUI.backgroundColor = CustomColor.Gold.ToColor();
             Handles.color = Color.black;
             Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
             // GuiLine(2, Color.black);
@@ -154,29 +154,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
         }
 
-        #region Setup theme color
-
-        void OnSettingColorTheme()
-        {
-            GameDataEditor.ColorContentWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Content:",
-                    GameDataEditor.ColorContentWindowSunflower);
-            GameDataEditor.ColorTextContentWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:",
-                    GameDataEditor.ColorTextContentWindowSunflower);
-            GameDataEditor.ColorBackgroundRectWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
-                    GameDataEditor.ColorBackgroundRectWindowSunflower);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Theme Default"))
-            {
-                GameDataEditor.ColorContentWindowSunflower = CustomColor.Bright;
-                GameDataEditor.ColorTextContentWindowSunflower = CustomColor.Gold;
-                GameDataEditor.ColorBackgroundRectWindowSunflower = CustomColor.DarkSlateGray;
-            }
-        }
-
-        #endregion
 
         void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
         {
