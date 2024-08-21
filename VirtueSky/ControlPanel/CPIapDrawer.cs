@@ -38,7 +38,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.InAppPurchase, "IN APP PURCHASE");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
 #if VIRTUESKY_IAP

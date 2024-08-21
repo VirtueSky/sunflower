@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("AUDIO", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Audio, "AUDIO");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Sound Data"))
             {

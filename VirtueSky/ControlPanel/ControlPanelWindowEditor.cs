@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Inspector;
+using VirtueSky.UtilsEditor;
 
 
 namespace VirtueSky.ControlPanel.Editor
@@ -44,12 +45,13 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnGUI()
         {
-            // EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
-            //     CustomColor.Aqua.ToColor());
             GUILayout.Space(10);
-            // GUI.contentColor = CustomColor.Aquamarine.ToColor();
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
             GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            //   GUI.backgroundColor = CustomColor.Gold.ToColor();
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             Handles.color = Color.black;
             Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
             // GuiLine(2, Color.black);
@@ -59,7 +61,7 @@ namespace VirtueSky.ControlPanel.Editor
             scrollButton = EditorGUILayout.BeginScrollView(scrollButton);
             DrawButton();
             EditorGUILayout.EndScrollView();
-            Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 0),
+            Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 30),
                 new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, position.height));
 
             GUILayout.EndVertical();
@@ -157,12 +159,19 @@ namespace VirtueSky.ControlPanel.Editor
 
         void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
         {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(5);
+            GUILayout.Box(CPUtility.GetIcon(_statePanelControlTab), GUIStyle.none, GUILayout.ExpandWidth(true),
+                GUILayout.Width(18), GUILayout.Height(18));
             bool clicked = GUILayout.Toggle(_statePanelControlTab == statePanelControl, title, GUI.skin.button,
-                GUILayout.ExpandWidth(true));
+                GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true), GUILayout.Height(20));
             if (clicked && statePanelControl != _statePanelControlTab)
             {
                 statePanelControl = _statePanelControlTab;
             }
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2);
         }
     }
 

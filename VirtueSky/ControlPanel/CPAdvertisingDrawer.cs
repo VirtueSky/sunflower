@@ -33,7 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ADVERTISING", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Advertising, "ADVERTISING");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_adSetting == null)

@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ABOUT", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.About, "ABOUT");
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
             GUILayout.TextArea(

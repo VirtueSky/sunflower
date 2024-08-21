@@ -48,7 +48,6 @@ namespace VirtueSky.ControlPanel.Editor
 
         static void DrawRemoteConfig(Rect position)
         {
-            GUILayout.Space(10);
             GUILayout.Label("FIREBASE REMOTE CONFIG", EditorStyles.boldLabel);
             GUILayout.Space(10);
             isShowInstallRemoteConfig =

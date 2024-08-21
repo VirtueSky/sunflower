@@ -15,7 +15,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTABLE OBJECT EVENT", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.SO_Event, "SCRIPTABLE EVENT");
             GUILayout.Space(10);
             scroll = GUILayout.BeginScrollView(scroll);
             CPUtility.DrawToggle(ref isShowFielEvent, "Scriptable Event", () => DrawButtonEvent());

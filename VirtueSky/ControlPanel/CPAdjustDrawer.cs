@@ -27,7 +27,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ADJUST", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Adjust, "ADJUST");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install Adjust", "Remove Adjust",
                 ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);

@@ -108,5 +108,39 @@ namespace VirtueSky.ControlPanel.Editor
                 draw?.Invoke();
             }
         }
+
+        public static Texture2D GetIcon(StatePanelControl statePanelControl)
+        {
+            return statePanelControl switch
+            {
+                StatePanelControl.Advertising => EditorResources.IconAds,
+                StatePanelControl.InAppPurchase => EditorResources.IconIap,
+                StatePanelControl.Audio => EditorResources.IconAudio,
+                StatePanelControl.InAppReview => EditorResources.IconInAppReview,
+                StatePanelControl.NotificationsChanel => EditorResources.IconPushNotification,
+                StatePanelControl.SO_Event => EditorResources.IconScriptableEvent,
+                StatePanelControl.SO_Variable => EditorResources.IconScriptableVariable,
+                StatePanelControl.Adjust => EditorResources.IconAdjust,
+                StatePanelControl.AppsFlyer => EditorResources.IconAppsFlyer,
+                StatePanelControl.GameService => EditorResources.IconGameService,
+                StatePanelControl.Firebase => EditorResources.IconFirebase,
+                StatePanelControl.Hierarchy => EditorResources.IconHierarchy,
+                StatePanelControl.Extensions => EditorResources.IconExtension,
+                StatePanelControl.FolderIcon => EditorResources.IconFolder,
+                StatePanelControl.RegisterPackage => EditorResources.IconPackage,
+                StatePanelControl.About => EditorResources.IconAbout,
+                _ => EditorResources.IconUnity
+            };
+        }
+
+        public static void DrawHeaderIcon(StatePanelControl statePanelControl, string textHeader)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(CPUtility.GetIcon(statePanelControl), GUIStyle.none,
+                GUILayout.Width(32), GUILayout.Height(32));
+            GUILayout.Space(3);
+            GUILayout.Label(textHeader, EditorStyles.boldLabel, GUILayout.ExpandHeight(false));
+            GUILayout.EndHorizontal();
+        }
     }
 }
