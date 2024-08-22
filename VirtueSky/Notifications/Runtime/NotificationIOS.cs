@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Notifications.iOS;
 using UnityEngine;
-using VirtueSky.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace VirtueSky.Notifications
 {
@@ -23,7 +23,8 @@ namespace VirtueSky.Notifications
             }
         }
 
-        private static async UniTask RegisterNotificationChannel(string identifier, string title, string subtitle, string body, iOSNotificationTrigger trigger)
+        private static async UniTask RegisterNotificationChannel(string identifier, string title, string subtitle,
+            string body, iOSNotificationTrigger trigger)
         {
             await RequestAuthorization();
 
@@ -42,7 +43,8 @@ namespace VirtueSky.Notifications
                     Body = body,
                     Subtitle = subtitle,
                     ShowInForeground = true,
-                    ForegroundPresentationOption = (PresentationOption.Alert | PresentationOption.Badge | PresentationOption.Sound),
+                    ForegroundPresentationOption =
+                        (PresentationOption.Alert | PresentationOption.Badge | PresentationOption.Sound),
                     CategoryIdentifier = "category_a",
                     ThreadIdentifier = "thread1",
                     Trigger = trigger,
@@ -60,7 +62,8 @@ namespace VirtueSky.Notifications
             }
         }
 
-        internal static void Schedule(string identifier, string title, string subtitle, string text, TimeSpan fireTime, bool repeat)
+        internal static void Schedule(string identifier, string title, string subtitle, string text, TimeSpan fireTime,
+            bool repeat)
         {
             var interval = fireTime;
             if (interval <= TimeSpan.Zero) interval = TimeSpan.FromSeconds(1);
