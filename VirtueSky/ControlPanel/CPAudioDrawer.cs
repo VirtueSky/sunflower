@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("AUDIO", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Audio, "Audio");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Sound Data"))
             {
@@ -20,7 +20,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("MUSIC EVENT", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Music Event");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Play Music Event"))
             {
@@ -45,7 +45,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("SFX EVENT", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Sfx Event");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Play Sfx Event"))
             {
@@ -80,7 +80,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("VOLUME CHANGE", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Volume Changed Variable");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Music Volume Variable"))
             {

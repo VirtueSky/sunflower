@@ -11,7 +11,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("IN APP REVIEW", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.InAppReview, "In App Review");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Scriptable In App Review"))
             {
@@ -21,7 +21,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL PACKAGE IN APP REVIEW", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install Google Play Review", "Remove Google Play Review",
                 ConstantPackage.PackageNameGGPlayReview, ConstantPackage.MaxVersionGGPlayReview);
@@ -39,7 +39,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_RATING
             EditorGUILayout.HelpBox(

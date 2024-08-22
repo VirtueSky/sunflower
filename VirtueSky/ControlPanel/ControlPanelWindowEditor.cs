@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Inspector;
+using VirtueSky.UtilsEditor;
 
 
 namespace VirtueSky.ControlPanel.Editor
@@ -11,11 +12,11 @@ namespace VirtueSky.ControlPanel.Editor
         private StatePanelControl statePanelControl;
         private Vector2 scrollButton = Vector2.zero;
 
-        [MenuItem("Sunflower/Control Panel &1", false, priority = 1)]
+        [MenuItem("Sunflower/Magic Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window =
-                GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
+                GetWindow<ControlPanelWindowEditor>("Magic Panel");
             if (window == null)
             {
                 Debug.LogError("Couldn't open the window!");
@@ -44,12 +45,12 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnGUI()
         {
-            EditorGUI.DrawRect(new Rect(0, 0, position.width, position.height),
-                GameDataEditor.ColorBackgroundRectWindowSunflower.ToColor());
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            CPUtility.DrawHeader("Magic Panel", 17);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
             GUILayout.Space(10);
-            GUI.contentColor = GameDataEditor.ColorTextContentWindowSunflower.ToColor();
-            GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
-            GUI.backgroundColor = GameDataEditor.ColorContentWindowSunflower.ToColor();
             Handles.color = Color.black;
             Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
             // GuiLine(2, Color.black);
@@ -59,7 +60,7 @@ namespace VirtueSky.ControlPanel.Editor
             scrollButton = EditorGUILayout.BeginScrollView(scrollButton);
             DrawButton();
             EditorGUILayout.EndScrollView();
-            Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 0),
+            Handles.DrawAAPolyLine(4, new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, 30),
                 new Vector3(ConstantControlPanel.POSITION_X_START_CONTENT, position.height));
 
             GUILayout.EndVertical();
@@ -83,7 +84,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
-            DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
+            DrawButtonChooseState("Notifications", StatePanelControl.NotificationsChanel);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
             DrawButtonChooseState("Extensions", StatePanelControl.Extensions);
@@ -154,38 +155,22 @@ namespace VirtueSky.ControlPanel.Editor
             }
         }
 
-        #region Setup theme color
-
-        void OnSettingColorTheme()
-        {
-            GameDataEditor.ColorContentWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Content:",
-                    GameDataEditor.ColorContentWindowSunflower);
-            GameDataEditor.ColorTextContentWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Text Content:",
-                    GameDataEditor.ColorTextContentWindowSunflower);
-            GameDataEditor.ColorBackgroundRectWindowSunflower =
-                (CustomColor)EditorGUILayout.EnumPopup("Color Background:",
-                    GameDataEditor.ColorBackgroundRectWindowSunflower);
-            GUILayout.Space(10);
-            if (GUILayout.Button("Theme Default"))
-            {
-                GameDataEditor.ColorContentWindowSunflower = CustomColor.Bright;
-                GameDataEditor.ColorTextContentWindowSunflower = CustomColor.Gold;
-                GameDataEditor.ColorBackgroundRectWindowSunflower = CustomColor.DarkSlateGray;
-            }
-        }
-
-        #endregion
 
         void DrawButtonChooseState(string title, StatePanelControl _statePanelControlTab)
         {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(5);
+            GUILayout.Box(CPUtility.GetIcon(_statePanelControlTab), GUIStyle.none, GUILayout.ExpandWidth(true),
+                GUILayout.Width(18), GUILayout.Height(18));
             bool clicked = GUILayout.Toggle(_statePanelControlTab == statePanelControl, title, GUI.skin.button,
-                GUILayout.ExpandWidth(true));
+                GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true), GUILayout.Height(20));
             if (clicked && statePanelControl != _statePanelControlTab)
             {
                 statePanelControl = _statePanelControlTab;
             }
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(2);
         }
     }
 

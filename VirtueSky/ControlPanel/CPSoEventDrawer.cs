@@ -15,12 +15,12 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTABLE OBJECT EVENT", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.SO_Event, "Scriptable Events");
             GUILayout.Space(10);
             scroll = GUILayout.BeginScrollView(scroll);
-            CPUtility.DrawToggle(ref isShowFielEvent, "Scriptable Event", () => DrawButtonEvent());
+            CPUtility.DrawToggle(ref isShowFielEvent, "Scriptable Event", DrawButtonEvent);
             GUILayout.Space(10);
-            CPUtility.DrawToggle(ref isShowFielEventResult, "Scriptable Event-Result", () => DrawButtonEventResult());
+            CPUtility.DrawToggle(ref isShowFielEventResult, "Scriptable Event-Result", DrawButtonEventResult);
             GUILayout.EndScrollView();
             GUILayout.EndVertical();
         }

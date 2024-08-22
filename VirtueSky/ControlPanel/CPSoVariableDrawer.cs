@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTABLE OBJECT VARIABLE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.SO_Variable, "Scriptable Variables");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Boolean Variable"))
             {

@@ -12,7 +12,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("SCRIPTING DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.ScriptDefineSymbols, "Scripting Define Symbols");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);

@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("GAME SERVICE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.GameService, "Game Service");
             GUILayout.Space(10);
 
             CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",
@@ -26,7 +26,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine();
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define symbols");
             GUILayout.Space(10);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPLE_AUTH);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_GPGS);

@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "2.9.6";
+        public const string VersionSunflower = "2.9.7";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -129,5 +129,10 @@
             "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1";
 
         #endregion
+
+        public const string PackageNameUniTask = "com.cysharp.unitask";
+
+        public const string MaxVersionUniTask =
+            "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.5";
     }
 }

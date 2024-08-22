@@ -14,7 +14,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("REGISTER SOME PACKAGE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.RegisterPackage, "Register Package");
             GUILayout.Space(10);
             scrollPositionAddSomePackage =
                 EditorGUILayout.BeginScrollView(scrollPositionAddSomePackage, GUILayout.Height(150));
@@ -92,6 +92,8 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameSpineCsharp, ConstantPackage.MaxVersionSpineCsharp);
             CPUtility.DrawButtonInstallPackage("Install Spine Unity", "Remove Spine Unity",
                 ConstantPackage.PackageNameSpineUnity, ConstantPackage.MaxVersionSpineUnity);
+            CPUtility.DrawButtonInstallPackage("Install UniTask", "Remove UniTask", ConstantPackage.PackageNameUniTask,
+                ConstantPackage.MaxVersionUniTask);
             CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",
                 ConstantPackage.PackageNameAppleSignIn, ConstantPackage.MaxVersionAppleSignIn);
             // CPUtility.DrawButtonInstallPackage("Install Animancer", "Remove Animancer",

@@ -27,7 +27,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("APPSFLYER", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.AppsFlyer, "AppsFlyer");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
@@ -43,11 +43,12 @@ namespace VirtueSky.ControlPanel.Editor
                 MessageType.Info);
 #endif
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define Symbols");
+            GUILayout.Space(10);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPSFLYER);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            GUILayout.Label("APPSFLYER SETTINGS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("AppsFlyer Settings");
             GUILayout.Space(10);
             if (_setting == null)
             {
@@ -78,7 +79,7 @@ namespace VirtueSky.ControlPanel.Editor
 
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            GUILayout.Label("APPSFLYER TRACKING", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("AppsFlyer Tracking");
             GUILayout.Space(10);
 
             if (GUILayout.Button("Create Scriptable Tracking AppsFlyer No Param"))

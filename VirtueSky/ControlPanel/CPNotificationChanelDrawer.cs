@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("NOTIFICATION CHANEL", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.NotificationsChanel, "Notifications");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Notification Chanel"))
             {
@@ -20,14 +20,14 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL MOBILE NOTIFICATIONS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install Mobile Notifications", "Remove Mobile Notifications",
                 ConstantPackage.PackageNameMobileNotification, ConstantPackage.MaxVersionMobileNotification);
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_NOTIFICATION
             EditorGUILayout.HelpBox(

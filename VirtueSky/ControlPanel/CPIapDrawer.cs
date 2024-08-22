@@ -38,7 +38,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("IN APP PURCHASE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.InAppPurchase, "In App Purchase");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
 #if VIRTUESKY_IAP
@@ -111,7 +111,7 @@ namespace VirtueSky.ControlPanel.Editor
             //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("INSTALL PACKAGE IN APP PURCHASE", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
                 ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
@@ -120,7 +120,7 @@ namespace VirtueSky.ControlPanel.Editor
             //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
 
 #if !VIRTUESKY_IAP
@@ -136,7 +136,7 @@ namespace VirtueSky.ControlPanel.Editor
             //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("PING IAP SETTING", EditorStyles.boldLabel);
+            GUILayout.Label("Ping Iap Settings", EditorStyles.boldLabel);
             GUILayout.Space(10);
             if (GUILayout.Button("Ping"))
             {

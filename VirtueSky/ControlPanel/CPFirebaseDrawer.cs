@@ -9,8 +9,8 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPFirebaseDrawer
     {
-        private static bool isShowInstallRemoteConfig;
-        private static bool isShowInstallAnalytic;
+        private static bool isShowInstallRemoteConfig = true;
+        private static bool isShowInstallAnalytic = true;
         private static Vector2 scroll = Vector2.zero;
         private static bool isCustomPackageName;
         private static string packageName;
@@ -19,13 +19,13 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
+            CPUtility.DrawHeaderIcon(StatePanelControl.Firebase, "Firebase");
             scroll = EditorGUILayout.BeginScrollView(scroll);
-            DrawRemoteConfig(position);
-            DrawAnalytic(position);
+            DrawInstallFirebase(position);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_FIREBASE || !VIRTUESKY_FIREBASE_REMOTECONFIG
             EditorGUILayout.HelpBox(
@@ -42,15 +42,20 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_ANALYTIC);
             GUILayout.Space(10);
+            DrawTracking(position);
+
+#if UNITY_ANDROID
+            CPUtility.GuiLine(2);
+            DrawDebugView();
+#endif
+            GUILayout.Space(10);
             EditorGUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
 
-        static void DrawRemoteConfig(Rect position)
+        static void DrawInstallFirebase(Rect position)
         {
-            GUILayout.Space(10);
-            GUILayout.Label("FIREBASE REMOTE CONFIG", EditorStyles.boldLabel);
-            GUILayout.Space(10);
+            GUILayout.Space(20);
             isShowInstallRemoteConfig =
                 GUILayout.Toggle(isShowInstallRemoteConfig, "Install Firebase Remote Config And Dependency");
             GUILayout.Space(10);
@@ -67,14 +72,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-            CPUtility.GuiLine(2);
-        }
-
-        static void DrawAnalytic(Rect position)
-        {
-            GUILayout.Space(10);
-            GUILayout.Label("FIREBASE ANALYTIC", EditorStyles.boldLabel);
-            GUILayout.Space(10);
             isShowInstallAnalytic = GUILayout.Toggle(isShowInstallAnalytic, "Install Firebase Analytic And Dependency");
             GUILayout.Space(10);
             if (isShowInstallAnalytic)
@@ -88,10 +85,14 @@ namespace VirtueSky.ControlPanel.Editor
                     ConstantPackage.PackageNameGGExternalDependencyManager,
                     ConstantPackage.MaxVersionGGExternalDependencyManager);
                 GUILayout.Space(10);
-                CPUtility.GuiLine();
             }
+        }
 
-
+        static void DrawTracking(Rect position)
+        {
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Firebase Tracking");
             GUILayout.Space(10);
 
             if (GUILayout.Button("Create Scriptable Tracking Firebase No Param"))
@@ -130,8 +131,13 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
-#if UNITY_ANDROID
-            CPUtility.GuiLine();
+        }
+
+        static void DrawDebugView()
+        {
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Debug View");
+            GUILayout.Space(10);
             isCustomPackageName = EditorGUILayout.Toggle("Custom Package Name: ", isCustomPackageName);
             if (isCustomPackageName)
             {
@@ -157,7 +163,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.EndHorizontal();
-#endif
         }
 
         static void SetDebugView(string package)
