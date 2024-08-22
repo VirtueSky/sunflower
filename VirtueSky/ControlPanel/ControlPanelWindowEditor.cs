@@ -12,11 +12,11 @@ namespace VirtueSky.ControlPanel.Editor
         private StatePanelControl statePanelControl;
         private Vector2 scrollButton = Vector2.zero;
 
-        [MenuItem("Sunflower/Control Panel &1", false, priority = 1)]
+        [MenuItem("Sunflower/Magic Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
         {
             ControlPanelWindowEditor window =
-                GetWindow<ControlPanelWindowEditor>("Sunflower Control Panel");
+                GetWindow<ControlPanelWindowEditor>("Magic Panel");
             if (window == null)
             {
                 Debug.LogError("Couldn't open the window!");
@@ -47,7 +47,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            CPUtility.DrawHeader("Sunflower Control Panel", 17);
+            CPUtility.DrawHeader("Magic Panel", 17);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
