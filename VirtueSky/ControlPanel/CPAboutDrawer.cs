@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -9,6 +10,8 @@ namespace VirtueSky.ControlPanel.Editor
         public static void OnDrawAbout(Rect position, Action drawSetting = null)
         {
             GUILayout.Space(10);
+            GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.About, "About");
             GUILayout.Space(10);
@@ -29,6 +32,14 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 Application.OpenURL("https://github.com/VirtueSky/sunflower/wiki");
             }
+
+            GUILayout.Space(10);
+
+            GUILayout.EndVertical();
+            GUILayout.Box(EditorResources.IconVirtueSky, GUIStyle.none,
+                GUILayout.Width(180), GUILayout.Height(180));
+            GUILayout.EndHorizontal();
+
 
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
