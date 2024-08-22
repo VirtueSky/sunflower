@@ -85,7 +85,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
-            DrawButtonChooseState("Notifications Chanel", StatePanelControl.NotificationsChanel);
+            DrawButtonChooseState("Notifications", StatePanelControl.NotificationsChanel);
             DrawButtonChooseState("Scripting Define Symbols", StatePanelControl.ScriptDefineSymbols);
             DrawButtonChooseState("Register Package", StatePanelControl.RegisterPackage);
             DrawButtonChooseState("Extensions", StatePanelControl.Extensions);

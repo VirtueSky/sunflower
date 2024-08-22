@@ -27,7 +27,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("APPSFLYER", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.AppsFlyer, "APPSFLYER");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",

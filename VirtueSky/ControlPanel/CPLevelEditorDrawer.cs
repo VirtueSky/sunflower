@@ -19,7 +19,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("LEVEL EDITOR", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.LevelEditor, "LEVEL EDITOR");
             GUILayout.Space(10);
             var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
             if (scriptableSetting == null)
@@ -31,7 +31,7 @@ namespace VirtueSky.ControlPanel.Editor
                     const string path = "Assets/_Sunflower/Editor/Resources";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                     AssetDatabase.CreateAsset(setting, $"{path}/{nameof(LevelSystemEditorSetting)}.asset");
-                    RegistryManager.Add("com.unity.addressables", "1.21.20");
+                    RegistryManager.Add("com.unity.addressables", "1.21.21");
                     RegistryManager.Resolve();
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();

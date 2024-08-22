@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("ASSET FINDER", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.AssetsFinder, "ASSET FINDER");
             GUILayout.Space(10);
             if (GUILayout.Button("Open Asset Finder Window (Ctrl+Shift+K / Command+Shift+K)"))
             {

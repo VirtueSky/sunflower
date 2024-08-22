@@ -14,7 +14,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("REGISTER SOME PACKAGE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.RegisterPackage, "REGISTER PACKAGE");
             GUILayout.Space(10);
             scrollPositionAddSomePackage =
                 EditorGUILayout.BeginScrollView(scrollPositionAddSomePackage, GUILayout.Height(150));

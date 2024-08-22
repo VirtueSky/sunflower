@@ -48,7 +48,7 @@ namespace VirtueSky.ControlPanel.Editor
 
         static void DrawRemoteConfig(Rect position)
         {
-            GUILayout.Label("FIREBASE REMOTE CONFIG", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.Firebase, "FIREBASE REMOTE CONFIG");
             GUILayout.Space(10);
             isShowInstallRemoteConfig =
                 GUILayout.Toggle(isShowInstallRemoteConfig, "Install Firebase Remote Config And Dependency");

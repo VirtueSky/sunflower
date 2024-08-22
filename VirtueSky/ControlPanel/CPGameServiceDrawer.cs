@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("GAME SERVICE", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.GameService, "GAME SERVICE");
             GUILayout.Space(10);
 
             CPUtility.DrawButtonInstallPackage("Install Apple Sign In", "Remove Apple Sign In",

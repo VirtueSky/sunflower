@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("NOTIFICATION CHANEL", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.NotificationsChanel, "NOTIFICATION");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Notification Chanel"))
             {

@@ -11,7 +11,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            GUILayout.Label("IN APP REVIEW", EditorStyles.boldLabel);
+            CPUtility.DrawHeaderIcon(StatePanelControl.InAppReview, "IN APP REVIEW");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Scriptable In App Review"))
             {
