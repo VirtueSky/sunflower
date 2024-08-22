@@ -133,14 +133,27 @@ namespace VirtueSky.ControlPanel.Editor
             };
         }
 
-        public static void DrawHeaderIcon(StatePanelControl statePanelControl, string textHeader)
+        public static void DrawHeaderIcon(StatePanelControl statePanelControl, string textHeader, int _fontSize = 17)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Box(CPUtility.GetIcon(statePanelControl), GUIStyle.none,
                 GUILayout.Width(32), GUILayout.Height(32));
             GUILayout.Space(3);
-            GUILayout.Label(textHeader, EditorStyles.boldLabel, GUILayout.ExpandHeight(false));
+            GUIStyle headerStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                fontSize = _fontSize
+            };
+            GUILayout.Label(textHeader, headerStyle, GUILayout.ExpandHeight(false), GUILayout.Height(31));
             GUILayout.EndHorizontal();
+        }
+
+        public static void DrawHeader(string textHeader, int _fontSize = 16)
+        {
+            GUIStyle headerStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                fontSize = _fontSize
+            };
+            GUILayout.Label(textHeader, headerStyle);
         }
     }
 }

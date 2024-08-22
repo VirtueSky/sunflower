@@ -19,7 +19,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            CPUtility.DrawHeaderIcon(StatePanelControl.LevelEditor, "LEVEL EDITOR");
+            CPUtility.DrawHeaderIcon(StatePanelControl.LevelEditor, "Level Editor");
             GUILayout.Space(10);
             var scriptableSetting = Resources.Load<LevelSystemEditorSetting>(nameof(LevelSystemEditorSetting));
             if (scriptableSetting == null)

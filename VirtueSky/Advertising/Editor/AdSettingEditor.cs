@@ -122,8 +122,8 @@ namespace VirtueSky.Ads
 
         void SetupMax()
         {
-            EditorGUILayout.LabelField("MAX", EditorStyles.boldLabel);
-            GuiLine(2);
+            EditorGUILayout.LabelField("Applovin - Max", EditorStyles.boldLabel);
+            GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_sdkKey);
             EditorGUILayout.PropertyField(_applovinEnableAgeRestrictedUser);
@@ -196,8 +196,8 @@ namespace VirtueSky.Ads
 
         void SetupAdmob()
         {
-            EditorGUILayout.LabelField("ADMOB", EditorStyles.boldLabel);
-            GuiLine(2);
+            EditorGUILayout.LabelField("Google - Admob", EditorStyles.boldLabel);
+            GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_admobBannerVariable);
@@ -279,8 +279,8 @@ namespace VirtueSky.Ads
 
         void SetupIronSource()
         {
-            EditorGUILayout.LabelField("IRON-SOURCE", EditorStyles.boldLabel);
-            GuiLine(2);
+            EditorGUILayout.LabelField("LevelPlay - IronSource", EditorStyles.boldLabel);
+            GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);

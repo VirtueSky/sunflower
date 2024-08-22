@@ -31,7 +31,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            CPUtility.DrawHeaderIcon(StatePanelControl.FolderIcon, "FOLDER ICON");
+            CPUtility.DrawHeaderIcon(StatePanelControl.FolderIcon, "Folder Icon");
             GUILayout.Space(10);
             scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_settings == null)

@@ -45,13 +45,12 @@ namespace VirtueSky.ControlPanel.Editor
 
         private void OnGUI()
         {
-            GUILayout.Space(10);
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            GUILayout.Label("SUNFLOWER CONTROL PANEL", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Sunflower Control Panel", 17);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-
+            GUILayout.Space(10);
             Handles.color = Color.black;
             Handles.DrawAAPolyLine(4, new Vector3(0, 30), new Vector3(position.width, 30));
             // GuiLine(2, Color.black);

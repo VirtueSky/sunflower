@@ -27,12 +27,14 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            CPUtility.DrawHeaderIcon(StatePanelControl.Adjust, "ADJUST");
+            CPUtility.DrawHeaderIcon(StatePanelControl.Adjust, "Adjust");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install Adjust", "Remove Adjust",
                 ConstantPackage.PackageNameAdjust, ConstantPackage.MaxVersionAdjust);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Add define symbols");
             GUILayout.Space(10);
 #if !VIRTUESKY_ADJUST
             EditorGUILayout.HelpBox(
@@ -40,11 +42,10 @@ namespace VirtueSky.ControlPanel.Editor
                 MessageType.Info);
 #endif
             GUILayout.Space(10);
-            GUILayout.Label("ADD DEFINE SYMBOLS", EditorStyles.boldLabel);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADJUST);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            GUILayout.Label("ADJUST SETTINGS", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Adjust Settings");
             GUILayout.Space(10);
             if (_setting == null)
             {
@@ -73,7 +74,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
-            GUILayout.Label("ADJUST TRACKING", EditorStyles.boldLabel);
+            CPUtility.DrawHeader("Adjust Tracking");
             GUILayout.Space(10);
             if (GUILayout.Button("Create Scriptable Tracking Adjust"))
             {

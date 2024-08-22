@@ -10,7 +10,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            CPUtility.DrawHeaderIcon(StatePanelControl.About, "ABOUT");
+            CPUtility.DrawHeaderIcon(StatePanelControl.About, "About");
             GUILayout.Space(10);
             GUILayout.TextArea("Name: Sunflower", EditorStyles.boldLabel);
             GUILayout.TextArea(
@@ -32,10 +32,6 @@ namespace VirtueSky.ControlPanel.Editor
 
             GUILayout.Space(10);
             CPUtility.DrawLineLastRectY(3, ConstantControlPanel.POSITION_X_START_CONTENT, position.width);
-            // GUILayout.Space(20);
-            // GUILayout.Label("SETUP THEME", EditorStyles.boldLabel);
-            // GUILayout.Space(10);
-            // drawSetting?.Invoke();
             GUILayout.EndVertical();
         }
     }

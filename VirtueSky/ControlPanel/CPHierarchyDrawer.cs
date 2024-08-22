@@ -14,7 +14,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
-            CPUtility.DrawHeaderIcon(StatePanelControl.Hierarchy, "HIERARCHY");
+            CPUtility.DrawHeaderIcon(StatePanelControl.Hierarchy, "Hierarchy");
             GUILayout.Space(10);
             OnGUI(posittion, window);
             GUILayout.EndVertical();
