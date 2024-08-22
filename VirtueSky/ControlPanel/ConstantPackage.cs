@@ -129,5 +129,10 @@
             "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1";
 
         #endregion
+
+        public const string PackageNameUniTask = "com.cysharp.unitask";
+
+        public const string MaxVersionUniTask =
+            "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.5";
     }
 }
