@@ -51,7 +51,6 @@ for version `2.9.9`
 ├── FolderIcons
 ├── Hierarchy
 ├── In app review
-├── UniTask
 ├── SimpleJSON
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
 ├── Vibration (Vibration native support for android & ios)
