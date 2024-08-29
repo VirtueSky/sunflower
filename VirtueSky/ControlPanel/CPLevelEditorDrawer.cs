@@ -150,6 +150,7 @@ namespace VirtueSky.ControlPanel.Editor
 
         public static void OnEnable()
         {
+            if (!LevelSystemEditorSetting.IsExist()) return;
             RefreshPickObject();
             SceneView.duringSceneGui += OnSceneGUI;
         }

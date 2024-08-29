@@ -14,8 +14,8 @@ namespace VirtueSky.ControlPanel.Editor
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
+            CPUtility.DrawHeaderIcon(StatePanelControl.Extensions, "Extensions");
 #if UNITY_ANDROID
-            CPUtility.DrawHeaderIcon(StatePanelControl.Extensions, "Android External Tools");
             GUILayout.Space(10);
             if (GUILayout.Button("Open Sdk"))
             {

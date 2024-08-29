@@ -36,6 +36,12 @@ namespace VirtueSky.Tracking
             //******************************/
 
             AppsFlyer.startSDK();
+
+            // Start sending AdRevenue data to AppsFlyer.
+            AppsFlyerAdRevenue.start();
+
+            // Set to true to view debug logs. (development only!)
+            AppsFlyerAdRevenue.setIsDebug(AppsFlyerSetting.IsDebugAdRevenue);
 #endif
         }
     }
