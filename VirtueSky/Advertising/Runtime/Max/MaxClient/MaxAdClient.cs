@@ -10,7 +10,6 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             MaxSdk.SetSdkKey(adSetting.SdkKey);
             MaxSdk.InitializeSdk();
-            MaxSdk.SetIsAgeRestrictedUser(adSetting.ApplovinEnableAgeRestrictedUser);
             adSetting.MaxBannerVariable.Init();
             adSetting.MaxInterVariable.Init();
             adSetting.MaxRewardVariable.Init();
