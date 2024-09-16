@@ -34,7 +34,6 @@ namespace VirtueSky.Ads
         #region AppLovin
 
         [TextArea, SerializeField] private string sdkKey;
-        [SerializeField] private bool applovinEnableAgeRestrictedUser;
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
@@ -42,7 +41,6 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxAppOpenVariable maxAppOpenVariable;
 
         public string SdkKey => sdkKey;
-        public bool ApplovinEnableAgeRestrictedUser => applovinEnableAgeRestrictedUser;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
