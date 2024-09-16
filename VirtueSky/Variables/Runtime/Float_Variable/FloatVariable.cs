@@ -42,13 +42,13 @@ namespace VirtueSky.Variables
 
         public override float Value
         {
-            get => isSetData ? GameData.Get(id, initializeValue) : runtimeValue;
+            get => isSetData ? GameData.Get(Id, initializeValue) : runtimeValue;
             set
             {
                 var clampedValue = IsClamped ? Mathf.Clamp(value, minMax.x, minMax.y) : value;
                 if (isSetData)
                 {
-                    GameData.Set(id, clampedValue);
+                    GameData.Set(Id, clampedValue);
                     if (isSaveData)
                     {
                         GameData.Save();
