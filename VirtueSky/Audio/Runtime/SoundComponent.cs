@@ -33,6 +33,12 @@ namespace VirtueSky.Audio
 
         internal void PlayAudioClip(AudioClip audioClip, bool isLooping, float volume)
         {
+            if (audioClip == null)
+            {
+                Debug.LogError($"AudioClip is null");
+                return;
+            }
+
             component.clip = audioClip;
             component.loop = isLooping;
             component.volume = volume;

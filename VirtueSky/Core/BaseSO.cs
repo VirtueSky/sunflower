@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using VirtueSky.Inspector;
 
 
 namespace VirtueSky.Core
 {
     public class BaseSO : ScriptableObject, IEntity
     {
-        [Space(10)] [SerializeField] [TextArea(2, 5)]
+        [GUIColor(0.8f, 1.0f, 0.6f), Space(10), SerializeField, TextArea(2, 5)]
         private string description;
 
         public void Enable()
