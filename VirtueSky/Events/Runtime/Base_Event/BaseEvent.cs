@@ -16,7 +16,7 @@ namespace VirtueSky.Events
 #if UNITY_EDITOR
 
         [ShowIf(nameof(ConditionShow))]
-        [Button("Raise")]
+        [GUIColor(0.6f, 0.9f, 1.0f), Button("Raise")]
         private void DebugRaiseEvent()
         {
             Raise();
@@ -82,11 +82,11 @@ namespace VirtueSky.Events
         readonly List<IEventListener<TType>> listeners = new List<IEventListener<TType>>();
         private Action<TType> onRaised = null;
 #if UNITY_EDITOR
-        [Space(10)] [ShowIf(nameof(ConditionShow))] [SerializeField]
+        [Space(10)] [ShowIf(nameof(ConditionShow))] [GUIColor(0.6f, 0.9f, 1.0f), SerializeField]
         private TType valueDebug = default(TType);
 
         [ShowIf(nameof(ConditionShow))]
-        [Button("Raise")]
+        [GUIColor(0.6f, 0.9f, 1.0f), Button("Raise")]
         private void DebugRaiseEvent()
         {
             Raise(valueDebug);
@@ -153,14 +153,14 @@ namespace VirtueSky.Events
         private Func<TType, TResult> onRaised = null;
 
 #if UNITY_EDITOR
-        [Space(10)] [ShowIf(nameof(ConditionShow))] [SerializeField]
+        [Space(10)] [ShowIf(nameof(ConditionShow))] [GUIColor(0.6f, 0.9f, 1.0f), SerializeField]
         private TType valueDebug = default(TType);
 
-        [ShowIf(nameof(ConditionShow))] [ReadOnly, SerializeField]
+        [ShowIf(nameof(ConditionShow))] [GUIColor(0.6f, 0.9f, 1.0f), ReadOnly, SerializeField]
         private TResult valueResult = default(TResult);
 
         [ShowIf(nameof(ConditionShow))]
-        [Button("Raise")]
+        [GUIColor(0.6f, 0.9f, 1.0f), Button("Raise")]
         private void DebugRaiseEvent()
         {
             valueResult = Raise(valueDebug);
