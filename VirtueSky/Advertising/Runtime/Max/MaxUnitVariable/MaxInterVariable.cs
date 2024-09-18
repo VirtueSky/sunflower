@@ -18,7 +18,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            paidedCallback = AppTracking.TrackRevenue;
+            paidedCallback += AppTracking.TrackRevenue;
             MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnAdLoaded;
             MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
             MaxSdkCallbacks.Interstitial.OnAdRevenuePaidEvent += OnAdRevenuePaid;

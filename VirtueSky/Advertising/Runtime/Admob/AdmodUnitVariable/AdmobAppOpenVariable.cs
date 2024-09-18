@@ -31,7 +31,7 @@ namespace VirtueSky.Ads
             }
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
-            paidedCallback = AppTracking.TrackRevenue;
+            paidedCallback += AppTracking.TrackRevenue;
 #endif
         }
 
