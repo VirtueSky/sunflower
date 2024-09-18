@@ -26,9 +26,6 @@ namespace VirtueSky.Iap
         private EventIsPurchaseProduct eventIsPurchaseProduct;
 
         [Tooltip("Allows nulls"), SerializeField]
-        private EventGetProduct eventGetProduct;
-
-        [Tooltip("Allows nulls"), SerializeField]
         private BooleanEvent changePreventDisplayAppOpenEvent;
 #if UNITY_IOS
         [SerializeField] private EventNoParam restoreEvent;
@@ -55,10 +52,6 @@ namespace VirtueSky.Iap
                 eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
             }
 
-            if (eventGetProduct != null)
-            {
-                eventGetProduct.AddListener(GetProduct);
-            }
 
 #if UNITY_IOS
              restoreEvent.AddListener(RestorePurchase);
@@ -74,10 +67,6 @@ namespace VirtueSky.Iap
                 eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
             }
 
-            if (eventGetProduct != null)
-            {
-                eventGetProduct.RemoveListener(GetProduct);
-            }
 
 #if UNITY_IOS
              restoreEvent.RemoveListener(RestorePurchase);
@@ -118,12 +107,6 @@ namespace VirtueSky.Iap
         {
             if (_controller == null) return "";
             return _controller.products.WithID(product.id).metadata.localizedPriceString;
-        }
-
-        private Product GetProduct(IapDataVariable iapDataVariable)
-        {
-            if (_controller == null) return null;
-            return _controller.products.WithID(iapDataVariable.id);
         }
 
 
@@ -172,6 +155,15 @@ namespace VirtueSky.Iap
                 if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
             }
 #endif
+            InitProductIapDataVariable();
+        }
+
+        private void InitProductIapDataVariable()
+        {
+            foreach (var iapDataVariable in iapSetting.Products)
+            {
+                iapDataVariable.product = _controller.products.WithID(iapDataVariable.id);
+            }
         }
 
         private IapDataVariable PurchaseProductInternal(IapDataVariable product)
@@ -239,22 +231,22 @@ namespace VirtueSky.Iap
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
-            InternalPurchaseFailed(product.definition.id);
+            InternalPurchaseFailed(product.definition.id, failureReason.ToString());
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
-            InternalPurchaseFailed(product.definition.id);
+            InternalPurchaseFailed(product.definition.id, failureDescription.reason.ToString());
         }
 
-        private void InternalPurchaseFailed(string id)
+        private void InternalPurchaseFailed(string id, string reason)
         {
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
             foreach (var product in iapSetting.Products)
             {
                 if (product.id != id) continue;
-                product.OnPurchaseFailed.Raise();
-                Common.CallActionAndClean(ref product.purchaseFailedCallback);
+                product.OnPurchaseFailed.Raise(reason);
+                Common.CallActionAndClean(ref product.purchaseFailedCallback, reason);
             }
         }
 
@@ -304,8 +296,6 @@ namespace VirtueSky.Iap
             eventIsPurchaseProduct =
                 CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIsPurchaseProduct>("/Iap",
                     "iap_is_purchase_product_event");
-            eventGetProduct = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventGetProduct>("/Iap",
-                "iap_get_product_event");
         }
 #endif
     }

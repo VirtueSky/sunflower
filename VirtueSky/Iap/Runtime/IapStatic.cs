@@ -12,7 +12,7 @@ namespace VirtueSky.Iap
             return product;
         }
 
-        public static IapDataVariable OnPurchaseFailed(this IapDataVariable product, Action onFailed)
+        public static IapDataVariable OnPurchaseFailed(this IapDataVariable product, Action<string> onFailed)
         {
             product.purchaseFailedCallback = onFailed;
             return product;
@@ -29,12 +29,6 @@ namespace VirtueSky.Iap
         }
 
         public static bool IsPurchased(this IapDataVariable product, EventIsPurchaseProduct @event)
-        {
-            return @event.Raise(product);
-        }
-
-        public static UnityEngine.Purchasing.Product GetProduct(this IapDataVariable product,
-            EventGetProduct @event)
         {
             return @event.Raise(product);
         }
