@@ -16,6 +16,8 @@ namespace VirtueSky.Iap
         public float price;
         [Space] [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
         [SerializeField] IapPurchaseFailed onPurchaseFailed;
+
+        [ReadOnly] public Product product;
         internal IapPurchaseSuccess OnPurchaseSuccess => onPurchaseSuccess;
         internal IapPurchaseFailed OnPurchaseFailed => onPurchaseFailed;
 

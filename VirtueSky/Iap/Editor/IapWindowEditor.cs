@@ -87,12 +87,6 @@ namespace VirtueSky.Iap
                 "iap_is_purchase_product_event");
         }
 
-
-        public static void CreateIapGetProductEvent()
-        {
-            CreateAsset.CreateScriptableAssets<EventGetProduct>("/Iap",
-                "iap_get_product_event");
-        }
 #endif
     }
 }

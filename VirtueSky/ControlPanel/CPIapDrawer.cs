@@ -96,15 +96,6 @@ namespace VirtueSky.ControlPanel.Editor
 #endif
             }
 
-            if (GUILayout.Button("Create Iap Get Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapGetProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
 
             GUILayout.Space(10);
             // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
