@@ -239,22 +239,22 @@ namespace VirtueSky.Iap
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
-            InternalPurchaseFailed(product.definition.id);
+            InternalPurchaseFailed(product.definition.id, failureReason.ToString());
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
-            InternalPurchaseFailed(product.definition.id);
+            InternalPurchaseFailed(product.definition.id, failureDescription.reason.ToString());
         }
 
-        private void InternalPurchaseFailed(string id)
+        private void InternalPurchaseFailed(string id, string reason)
         {
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
             foreach (var product in iapSetting.Products)
             {
                 if (product.id != id) continue;
-                product.OnPurchaseFailed.Raise();
-                Common.CallActionAndClean(ref product.purchaseFailedCallback);
+                product.OnPurchaseFailed.Raise(reason);
+                Common.CallActionAndClean(ref product.purchaseFailedCallback, reason);
             }
         }
 

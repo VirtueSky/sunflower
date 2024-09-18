@@ -5,7 +5,7 @@ namespace VirtueSky.Iap
 {
     public abstract class IapPurchaseFailed : ScriptableObject
     {
-        public abstract void Raise();
+        public abstract void Raise(string reason);
     }
 }
 #endif

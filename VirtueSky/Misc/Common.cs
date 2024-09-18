@@ -44,6 +44,14 @@ namespace VirtueSky.Misc
             action = null;
         }
 
+        public static void CallActionAndClean<T>(ref Action<T> action, T _value)
+        {
+            if (action == null) return;
+            var a = action;
+            a(_value);
+            action = null;
+        }
+
         public static void Clear<T>(this T[] collection)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));

@@ -20,7 +20,7 @@ namespace VirtueSky.Iap
         internal IapPurchaseFailed OnPurchaseFailed => onPurchaseFailed;
 
         [NonSerialized] public Action purchaseSuccessCallback;
-        [NonSerialized] public Action purchaseFailedCallback;
+        [NonSerialized] public Action<string> purchaseFailedCallback;
     }
 }
 #endif
