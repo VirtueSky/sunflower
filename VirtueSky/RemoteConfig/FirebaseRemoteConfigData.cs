@@ -19,21 +19,21 @@ namespace VirtueSky.RemoteConfigs
         [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.StringData)]
         public StringVariable stringValue;
 
-        [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.StringData)] [ReadOnly]
+        [GUIColor(0.8f, 1.0f, 0.6f)] [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.StringData)] [ReadOnly]
         public string resultStringValue;
 
 
         [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.BooleanData)]
         public BooleanVariable boolValue;
 
-        [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.BooleanData)] [ReadOnly]
+        [GUIColor(0.8f, 1.0f, 0.6f)] [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.BooleanData)] [ReadOnly]
         public bool resultBoolValue;
 
 
         [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.IntData)]
         public IntegerVariable intValue;
 
-        [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.IntData)] [ReadOnly]
+        [GUIColor(0.8f, 1.0f, 0.6f)] [ShowIf(nameof(typeRemoteConfigData), TypeRemoteConfigData.IntData)] [ReadOnly]
         public int resultIntValue;
 
 

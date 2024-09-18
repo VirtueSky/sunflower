@@ -18,7 +18,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
-            paidedCallback = AppTracking.TrackRevenue;
+            paidedCallback += AppTracking.TrackRevenue;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnAdDisplayed;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHidden;
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnAdLoaded;
