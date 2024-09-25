@@ -160,7 +160,6 @@ namespace PrimeTween {
         }
         #endif
 
-        #if PRIME_TWEEN_DOTWEEN_ADAPTER || PRIME_TWEEN_EXPERIMENTAL
         public static float Evaluate(float interpolationFactor, Ease ease) {
             switch (ease) {
                 case Ease.Custom:
@@ -177,7 +176,6 @@ namespace PrimeTween {
                     return StandardEasing.Evaluate(interpolationFactor, ease);
             }
         }
-        #endif
     }
 
     internal enum ParametricEase {

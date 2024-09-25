@@ -29,7 +29,7 @@ namespace PrimeTween {
         #if !ENABLE_SERIALIZATION
         readonly
         #endif
-        partial struct Tween {
+        partial struct Tween : IEquatable<Tween> {
         /// Uniquely identifies the tween.
         /// Can be observed from the Debug Inspector if PRIME_TWEEN_INSPECTOR_DEBUGGING is defined. Use only for debugging purposes.
         internal
@@ -332,5 +332,9 @@ namespace PrimeTween {
         }
 
         internal float durationWithWaitDelay => tween.calcDurationWithWaitDependencies();
+
+        public override int GetHashCode() => id.GetHashCode();
+        /// https://www.jacksondunstan.com/articles/5148
+        public bool Equals(Tween other) => isAlive && other.isAlive && id == other.id;
     }
 }
