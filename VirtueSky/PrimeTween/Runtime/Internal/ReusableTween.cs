@@ -81,6 +81,9 @@ namespace PrimeTween {
             }
             if (!_isPaused) {
                 SetElapsedTimeTotal(elapsedTimeTotal + dt * timeScale);
+            } else if (isUnityTargetDestroyed()) {
+                EmergencyStop(true);
+                return false;
             }
             return _isAlive;
         }
