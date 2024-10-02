@@ -14,7 +14,7 @@ namespace VirtueSky.Tracking
         public void TrackEvent()
         {
 #if VIRTUESKY_ADJUST
-            com.adjust.sdk.Adjust.trackEvent(new com.adjust.sdk.AdjustEvent(eventToken));
+            AdjustSdk.Adjust.TrackEvent(new AdjustSdk.AdjustEvent(eventToken));
 #endif
         }
     }

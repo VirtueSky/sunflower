@@ -1,5 +1,5 @@
 #if VIRTUESKY_ADJUST
-using com.adjust.sdk;
+using AdjustSdk;
 #endif
 using UnityEngine;
 using VirtueSky.Inspector;

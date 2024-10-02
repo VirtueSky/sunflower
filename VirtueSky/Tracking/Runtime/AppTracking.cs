@@ -2,6 +2,9 @@
 using Firebase.Analytics;
 #endif
 
+#if VIRTUESKY_ADJUST
+using AdjustSdk;
+#endif
 
 namespace VirtueSky.Tracking
 {
@@ -26,9 +29,11 @@ namespace VirtueSky.Tracking
         public static void StartTrackingAdjust()
         {
 #if VIRTUESKY_ADJUST
-            var adjust = new UnityEngine.GameObject("Adjust", typeof(com.adjust.sdk.Adjust));
-            com.adjust.sdk.Adjust.StartTracking(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment,
-                AdjustSetting.LogLevel);
+            var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustLogLevel.Suppress);
+            adjustConfig.IsAdServicesEnabled = true;
+            adjustConfig.IsIdfaReadingEnabled = true;
+            Adjust.InitSdk(adjustConfig);
 #endif
         }
 
