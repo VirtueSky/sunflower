@@ -31,6 +31,7 @@ namespace VirtueSky.Tracking
 #if VIRTUESKY_ADJUST
             var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
             var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustLogLevel.Suppress);
+            adjustConfig.LogLevel = AdjustSetting.LogLevel;
             adjustConfig.IsAdServicesEnabled = true;
             adjustConfig.IsIdfaReadingEnabled = true;
             Adjust.InitSdk(adjustConfig);
