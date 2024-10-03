@@ -1,12 +1,4 @@
-﻿#if VIRTUESKY_FIREBASE_ANALYTIC
-using Firebase.Analytics;
-#endif
-
-#if VIRTUESKY_ADJUST
-using AdjustSdk;
-#endif
-
-namespace VirtueSky.Tracking
+﻿namespace VirtueSky.Tracking
 {
     public struct AppTracking
     {
@@ -22,7 +14,7 @@ namespace VirtueSky.Tracking
         public static void FirebaseAnalyticTrackATTResult(int status)
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
-            FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
 #endif
         }
 
@@ -30,11 +22,11 @@ namespace VirtueSky.Tracking
         {
 #if VIRTUESKY_ADJUST
             var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
-            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustLogLevel.Suppress);
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustSdk.AdjustLogLevel.Suppress);
             adjustConfig.LogLevel = AdjustSetting.LogLevel;
             adjustConfig.IsAdServicesEnabled = true;
             adjustConfig.IsIdfaReadingEnabled = true;
-            Adjust.InitSdk(adjustConfig);
+            AdjustSdk.Adjust.InitSdk(adjustConfig);
 #endif
         }
 
