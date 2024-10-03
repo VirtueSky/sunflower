@@ -325,7 +325,7 @@ namespace PrimeTween {
                 tween => (tween.target as Material).GetVector(tween.intParam).ToContainer(), TweenType.MaterialPropertyVector4);
         }
 
-        // No 'startFromCurrent' overload
+        // No 'startFromCurrent' overload because euler angles animation should always have the startValue to prevent ambiguous results
         public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
             => EulerAngles(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
         public static Tween EulerAngles([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
