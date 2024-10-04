@@ -3,12 +3,12 @@
     "rootNamespace": "",
     "references": [
         "VirtueSky.Sunflower.Inspector",
-        "Pancake.Adjust",
         "AppsFlyer",
         "AppsFlyerAdRevenue",
         "UnityEngine.Purchasing",
         "Virtuesky.Sunflower.Misc",
-        "Virtuesky.Sunflower.Utils"
+        "Virtuesky.Sunflower.Utils",
+        "AdjustSdk.Scripts"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

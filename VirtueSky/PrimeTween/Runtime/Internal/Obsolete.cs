@@ -192,5 +192,45 @@ namespace PrimeTween {
         public bool IsAlive => isAlive;
         [EditorBrowsable(EditorBrowsableState.Never)] [Obsolete(Messages.obsoleteIsPausedMessage)]
         public bool IsPaused => isPaused;
+
+        const string chainAndInsertCallbackMessage = "The behavior of ChainCallback() and InsertCallback() methods was fixed in version 1.2.0. " +
+                                                     "Use their obsolete counterparts only if you need to preserve the old incorrect behaviour in the existing project.\n" +
+                                                     "More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/112\n\n";
+        [EditorBrowsable(EditorBrowsableState.Never)] [Obsolete(chainAndInsertCallbackMessage)]
+        public Sequence ChainCallbackObsolete([NotNull] Action callback, bool warnIfTargetDestroyed = true) {
+            if (tryManipulate()) {
+                InsertCallbackObsolete(duration, callback, warnIfTargetDestroyed);
+            }
+            return this;
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)] [Obsolete(chainAndInsertCallbackMessage)]
+        public Sequence InsertCallbackObsolete(float atTime, Action callback, bool warnIfTargetDestroyed = true) {
+            if (!tryManipulate()) {
+                return this;
+            }
+            var delay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, atTime, false);
+            Assert.IsTrue(delay.HasValue);
+            delay.Value.tween.OnComplete(callback, warnIfTargetDestroyed);
+            return Insert(0f, delay.Value);
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)] [Obsolete(chainAndInsertCallbackMessage)]
+        public Sequence ChainCallbackObsolete<T>([NotNull] T target, [NotNull] Action<T> callback, bool warnIfTargetDestroyed = true) where T: class {
+            if (tryManipulate()) {
+                InsertCallbackObsolete(duration, target, callback, warnIfTargetDestroyed);
+            }
+            return this;
+        }
+        [EditorBrowsable(EditorBrowsableState.Never)] [Obsolete(chainAndInsertCallbackMessage)]
+        public Sequence InsertCallbackObsolete<T>(float atTime, [NotNull] T target, Action<T> callback, bool warnIfTargetDestroyed = true) where T: class {
+            if (!tryManipulate()) {
+                return this;
+            }
+            var delay = PrimeTweenManager.delayWithoutDurationCheck(target, atTime, false);
+            if (!delay.HasValue) {
+                return this;
+            }
+            delay.Value.tween.OnComplete(target, callback, warnIfTargetDestroyed);
+            return Insert(0f, delay.Value);
+        }
     }
 }

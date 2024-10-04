@@ -228,11 +228,10 @@ namespace PrimeTween {
             if (!tryManipulate()) {
                 return this;
             }
-            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, atTime, false);
-            Assert.IsTrue(maybeDelay.HasValue);
-            var delay = maybeDelay.Value;
-            delay.tween.OnComplete(callback, warnIfTargetDestroyed);
-            return Insert(0f, delay);
+            var delay = PrimeTweenManager.delayWithoutDurationCheck(PrimeTweenManager.dummyTarget, 0f, false);
+            Assert.IsTrue(delay.HasValue);
+            delay.Value.tween.OnComplete(callback, warnIfTargetDestroyed);
+            return Insert(atTime, delay.Value);
         }
 
         /// <summary>Schedules <see cref="callback"/> after all previously added tweens. Passing 'target' allows to write a non-allocating callback.</summary>
@@ -248,13 +247,12 @@ namespace PrimeTween {
             if (!tryManipulate()) {
                 return this;
             }
-            var maybeDelay = PrimeTweenManager.delayWithoutDurationCheck(target, atTime, false);
-            if (!maybeDelay.HasValue) {
+            var delay = PrimeTweenManager.delayWithoutDurationCheck(target, 0f, false);
+            if (!delay.HasValue) {
                 return this;
             }
-            var delay = maybeDelay.Value;
-            delay.tween.OnComplete(target, callback, warnIfTargetDestroyed);
-            return Insert(0f, delay);
+            delay.Value.tween.OnComplete(target, callback, warnIfTargetDestroyed);
+            return Insert(atTime, delay.Value);
         }
 
         /// <summary>Schedules delay after all previously added tweens.</summary>

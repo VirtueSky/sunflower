@@ -1,9 +1,4 @@
-﻿#if VIRTUESKY_FIREBASE_ANALYTIC
-using Firebase.Analytics;
-#endif
-
-
-namespace VirtueSky.Tracking
+﻿namespace VirtueSky.Tracking
 {
     public struct AppTracking
     {
@@ -19,16 +14,21 @@ namespace VirtueSky.Tracking
         public static void FirebaseAnalyticTrackATTResult(int status)
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
-            FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("app_tracking_transparency", "status", status);
 #endif
         }
 
         public static void StartTrackingAdjust()
         {
 #if VIRTUESKY_ADJUST
-            var adjust = new UnityEngine.GameObject("Adjust", typeof(com.adjust.sdk.Adjust));
-            com.adjust.sdk.Adjust.StartTracking(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment,
-                AdjustSetting.LogLevel);
+            var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
+
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustSdk.AdjustLogLevel.Suppress);
+            adjustConfig.LogLevel = AdjustSetting.LogLevel;
+            adjustConfig.IsAdServicesEnabled = true;
+            adjustConfig.IsIdfaReadingEnabled = true;
+            AdjustSdk.Adjust.InitSdk(adjustConfig);
+            UnityEngine.Debug.Log($"Start Tracking {adjust.name}");
 #endif
         }
 
@@ -37,6 +37,7 @@ namespace VirtueSky.Tracking
 #if VIRTUESKY_APPSFLYER
             var appFlyerObject =
                 new UnityEngine.GameObject("AppsFlyerObject", typeof(VirtueSky.Tracking.AppsFlyerObject));
+            UnityEngine.Debug.Log($"Start Tracking {appFlyerObject.name}");
 #endif
         }
     }

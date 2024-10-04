@@ -1,5 +1,5 @@
 ﻿#if VIRTUESKY_ADJUST
-using com.adjust.sdk;
+using AdjustSdk;
 #endif
 
 namespace VirtueSky.Tracking
@@ -14,22 +14,22 @@ namespace VirtueSky.Tracking
             switch (adNetwork.ToLower())
             {
                 case "admob":
-                    source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceAdMob;
+                    source = "admob_sdk";
                     break;
                 case "max":
-                    source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceAppLovinMAX;
+                    source = "applovin_max_sdk";
                     break;
                 case "ironsource":
-                    source = com.adjust.sdk.AdjustConfig.AdjustAdRevenueSourceIronSource;
+                    source = "levelplay_ironsource_sdk";
                     break;
             }
 
             AdjustAdRevenue adjustAdRevenue = new AdjustAdRevenue(source);
-            adjustAdRevenue.setRevenue(value, "USD");
-            adjustAdRevenue.setAdRevenueNetwork(network);
-            adjustAdRevenue.setAdRevenueUnit(unitId);
-            adjustAdRevenue.setAdRevenuePlacement(placement);
-            Adjust.trackAdRevenue(adjustAdRevenue);
+            adjustAdRevenue.SetRevenue(value, "USD");
+            adjustAdRevenue.AdRevenueNetwork = network;
+            adjustAdRevenue.AdRevenueUnit = unitId;
+            adjustAdRevenue.AdRevenuePlacement = placement;
+            Adjust.TrackAdRevenue(adjustAdRevenue);
 #endif
         }
     }
