@@ -92,7 +92,7 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.14.3";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.15.3";
 
         public const string PackageNameAppFlyerRevenueGeneric =
             "appsflyer-unity-adrevenue-generic-connector";
