@@ -21,7 +21,7 @@ namespace VirtueSky.Tracking
 #if VIRTUESKY_APPSFLYER
             // These fields are set from the editor so do not modify!
             //******************************//
-            AppsFlyer.setIsDebug(AppsFlyerSetting.IsDebug);
+            AppsFlyer.setIsDebug(AppsFlyerConfig.IsDebug);
 #if UNITY_WSA_10_0 && !UNITY_EDITOR
             AppsFlyer.initSDK(AppsFlyerSetting.DevKey, AppsFlyerSetting.UWPAppID,
                 AppsFlyerSetting.GetConversionData ? this : null);
@@ -30,8 +30,8 @@ namespace VirtueSky.Tracking
                 AppsFlyerSetting.GetConversionData ? this : null);
 #else
 
-            AppsFlyer.initSDK(AppsFlyerSetting.DevKey, AppsFlyerSetting.AppID,
-                AppsFlyerSetting.GetConversionData ? this : null);
+            AppsFlyer.initSDK(AppsFlyerConfig.DevKey, AppsFlyerConfig.AppID,
+                AppsFlyerConfig.GetConversionData ? this : null);
 #endif
             //******************************/
 
@@ -41,7 +41,7 @@ namespace VirtueSky.Tracking
             AppsFlyerAdRevenue.start();
 
             // Set to true to view debug logs. (development only!)
-            AppsFlyerAdRevenue.setIsDebug(AppsFlyerSetting.IsDebugAdRevenue);
+            AppsFlyerAdRevenue.setIsDebug(AppsFlyerConfig.IsDebugAdRevenue);
 #endif
         }
     }

@@ -23,8 +23,8 @@
 #if VIRTUESKY_ADJUST
             var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
 
-            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustSetting.AppToken, AdjustSetting.AdjustEnvironment, AdjustSetting.LogLevel == AdjustSdk.AdjustLogLevel.Suppress);
-            adjustConfig.LogLevel = AdjustSetting.LogLevel;
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustConfig.AppToken, AdjustConfig.AdjustEnvironment, AdjustConfig.LogLevel == AdjustSdk.AdjustLogLevel.Suppress);
+            adjustConfig.LogLevel = AdjustConfig.LogLevel;
             adjustConfig.IsAdServicesEnabled = true;
             adjustConfig.IsIdfaReadingEnabled = true;
             AdjustSdk.Adjust.InitSdk(adjustConfig);

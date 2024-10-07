@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAdjustDrawer
     {
-        private static AdjustSetting _setting;
+        private static VirtueSky.Tracking.AdjustConfig _config;
         private static UnityEditor.Editor _editor;
 
         public static void OnEnable()
@@ -18,8 +18,8 @@ namespace VirtueSky.ControlPanel.Editor
         private static void Init()
         {
             if (_editor != null) _editor = null;
-            _setting = CreateAsset.GetScriptableAsset<AdjustSetting>();
-            _editor = UnityEditor.Editor.CreateEditor(_setting);
+            _config = CreateAsset.GetScriptableAsset<VirtueSky.Tracking.AdjustConfig>();
+            _editor = UnityEditor.Editor.CreateEditor(_config);
         }
 
 
@@ -45,14 +45,14 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADJUST);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            CPUtility.DrawHeader("Adjust Settings");
+            CPUtility.DrawHeader("Adjust Config");
             GUILayout.Space(10);
-            if (_setting == null)
+            if (_config == null)
             {
-                if (GUILayout.Button("Create AdjustSettings"))
+                if (GUILayout.Button("Create AdjustConfig"))
                 {
-                    _setting =
-                        CreateAsset.CreateAndGetScriptableAsset<AdjustSetting>("/AdjustTracking/Resources",
+                    _config =
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Tracking.AdjustConfig>("/AdjustTracking/Resources",
                             isPingAsset: false);
                     Init();
                 }
