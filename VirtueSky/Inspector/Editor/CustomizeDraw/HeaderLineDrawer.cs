@@ -15,7 +15,7 @@ namespace VirtueSky.Inspector
             //Draw label
             if (!string.IsNullOrWhiteSpace(Target.text))
             {
-                EditorGUI.LabelField(_rect, Target.text.ToUpper(), m_style);
+                EditorGUI.LabelField(_rect, Target.isToUpper ? Target.text.ToUpper() : Target.text, m_style);
 
                 //Move to new line and set following line height
                 _rect.y += singleLine + 1;
@@ -27,14 +27,15 @@ namespace VirtueSky.Inspector
                 _rect.height = 1;
             }
 
-            Color c = Color.gray;
-            if (EditorGUIUtility.isProSkin)
-            {
-                c = m_style.normal.textColor;
-            }
+            m_style.normal.textColor = Target.colorText.ToColor();
+            // Color c = Target.colorText.ToColor();
+            // if (EditorGUIUtility.isProSkin)
+            // {
+            //     c = m_style.normal.textColor;
+            // }
 
             //Draw spacer
-            UtilityDraw.CreateLineSpacer(EditorGUI.IndentedRect(_rect), c, _rect.height);
+            UtilityDraw.CreateLineSpacer(EditorGUI.IndentedRect(_rect), Target.colorLine.ToColor(), _rect.height);
         }
 
         //How tall the GUI is for this decorator
