@@ -7,7 +7,7 @@ namespace VirtueSky.ControlPanel.Editor
 {
     public class CPAppsFlyerDrawer
     {
-        private static AppsFlyerSetting _setting;
+        private static VirtueSky.Tracking.AppsFlyerConfig _config;
         private static UnityEditor.Editor _editor;
         private static Vector2 scroll = Vector2.zero;
 
@@ -19,8 +19,8 @@ namespace VirtueSky.ControlPanel.Editor
         private static void Init()
         {
             if (_editor != null) _editor = null;
-            _setting = CreateAsset.GetScriptableAsset<AppsFlyerSetting>();
-            _editor = UnityEditor.Editor.CreateEditor(_setting);
+            _config = CreateAsset.GetScriptableAsset<VirtueSky.Tracking.AppsFlyerConfig>();
+            _editor = UnityEditor.Editor.CreateEditor(_config);
         }
 
         public static void OnDrawAppsFlyer()
@@ -48,14 +48,14 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_APPSFLYER);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
-            CPUtility.DrawHeader("AppsFlyer Settings");
+            CPUtility.DrawHeader("AppsFlyer Config");
             GUILayout.Space(10);
-            if (_setting == null)
+            if (_config == null)
             {
-                if (GUILayout.Button("Create AppsFlyerSettings"))
+                if (GUILayout.Button("Create AppsFlyerConfig"))
                 {
-                    _setting =
-                        CreateAsset.CreateAndGetScriptableAsset<AppsFlyerSetting>("/AppsFlyerTracking/Resources",
+                    _config =
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Tracking.AppsFlyerConfig>("/AppsFlyerTracking/Resources",
                             isPingAsset: false);
                     Init();
                 }

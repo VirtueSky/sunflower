@@ -5,7 +5,7 @@ using VirtueSky.Utils;
 namespace VirtueSky.Tracking
 {
     [EditorIcon("icon_scriptable"), HideMonoScript]
-    public class AppsFlyerSetting : ScriptableSettings<AppsFlyerSetting>
+    public class AppsFlyerConfig : ScriptableSettings<AppsFlyerConfig>
     {
         [SerializeField] private string devKey;
         [SerializeField] private string appID;

@@ -23,15 +23,15 @@
 ### 1: Download the repo and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-for version `3.0.8`
+for version `3.0.9`
 ```csharp
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.0.8",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.0.9",
 ```
 
 ## Includes modules
 
 ```bash
-├── Core (Update only called once in Monobehaviour,...)
+├── Core (Update only called once in Monobehaviour, Delay...)
 ├── ATT_IOS
 ├── Advertising (Support for Max, Admob and IronSource)
 ├── In App Purchase (IAP)
