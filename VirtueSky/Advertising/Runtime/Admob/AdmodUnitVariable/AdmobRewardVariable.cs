@@ -11,7 +11,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class AdmobRewardVariable : AdUnitVariable
+    public class AdmobRewardVariable : AdmobAdUnitVariable
     {
         public bool useTestId;
         [NonSerialized] internal Action completedCallback;

@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class MaxInterVariable : AdUnitVariable
+    public class MaxInterVariable : MaxAdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;
 

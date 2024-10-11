@@ -1,16 +1,11 @@
 using System;
 using UnityEngine;
 
+
 namespace VirtueSky.Ads
 {
-    public abstract class AdUnitVariable : ScriptableObject
+    public abstract class AdUnitVariable : ScriptableObject, IAdUnit
     {
-#if UNITY_ANDROID
-        [SerializeField] protected string androidId;
-#elif UNITY_IOS
-        [SerializeField] protected string iOSId;
-#endif
-
         [NonSerialized] internal Action loadedCallback;
         [NonSerialized] internal Action failedToLoadCallback;
         [NonSerialized] internal Action displayedCallback;
@@ -26,45 +21,9 @@ namespace VirtueSky.Ads
         public Action OnClosedAdEvent;
         public Action OnClickedAdEvent;
 
-        [NonSerialized] private string idRuntime = string.Empty;
 
-        public string Id
+        protected virtual void ShowImpl()
         {
-            get
-            {
-                if (idRuntime == String.Empty)
-                {
-#if UNITY_ANDROID
-                    return androidId;
-#elif UNITY_IOS
-                return iOSId;
-#else
-                return string.Empty;
-#endif
-                }
-
-                return idRuntime;
-            }
-        }
-
-        public void SetIdRuntime(string unitId)
-        {
-            idRuntime = unitId;
-        }
-
-        public abstract void Init();
-
-        public abstract void Load();
-
-        public abstract bool IsReady();
-
-        public virtual AdUnitVariable Show()
-        {
-            ResetChainCallback();
-            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd)
-                return this;
-            ShowImpl();
-            return this;
         }
 
         protected virtual void ResetChainCallback()
@@ -75,10 +34,26 @@ namespace VirtueSky.Ads
             closedCallback = null;
         }
 
-        protected abstract void ShowImpl();
-        public abstract void Destroy();
-
         public virtual void HideBanner()
+        {
+        }
+
+        public abstract AdUnitVariable Show();
+
+        public virtual void Init()
+        {
+        }
+
+        public virtual void Load()
+        {
+        }
+
+        public virtual bool IsReady()
+        {
+            return false;
+        }
+
+        public virtual void Destroy()
         {
         }
     }

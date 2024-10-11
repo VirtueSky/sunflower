@@ -7,7 +7,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class IronSourceInterVariable : AdUnitVariable
+    public class IronSourceInterVariable : IronSourceAdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;
 
