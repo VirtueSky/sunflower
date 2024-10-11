@@ -7,7 +7,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class IronSourceBannerVariable : AdUnitVariable
+    public class IronSourceBannerVariable : IronSourceAdUnitVariable
     {
         public BannerSize size;
         public BannerPosition position;
