@@ -13,7 +13,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class AdmobBannerVariable : AdUnitVariable
+    public class AdmobBannerVariable : AdmobAdUnitVariable
     {
         public BannerSize size = BannerSize.Adaptive;
         public BannerPosition position = BannerPosition.Bottom;

@@ -8,7 +8,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class MaxAppOpenVariable : AdUnitVariable
+    public class MaxAppOpenVariable : MaxAdUnitVariable
     {
         [Tooltip("Automatically show AppOpenAd when app status is changed"), SerializeField]
         private bool autoShow = false;

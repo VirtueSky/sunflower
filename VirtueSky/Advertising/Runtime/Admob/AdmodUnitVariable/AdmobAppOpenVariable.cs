@@ -11,7 +11,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class AdmobAppOpenVariable : AdUnitVariable
+    public class AdmobAppOpenVariable : AdmobAdUnitVariable
     {
         [Tooltip("Automatically show AppOpenAd when app status is changed"), SerializeField]
         private bool autoShow = false;

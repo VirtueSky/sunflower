@@ -8,7 +8,7 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class MaxBannerVariable : AdUnitVariable
+    public class MaxBannerVariable : MaxAdUnitVariable
     {
         public BannerSize size;
         public BannerPosition position;
@@ -64,7 +64,11 @@ namespace VirtueSky.Ads
 
         public override bool IsReady()
         {
+#if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             return !string.IsNullOrEmpty(Id);
+#else
+            return false;
+#endif
         }
 
         protected override void ShowImpl()
