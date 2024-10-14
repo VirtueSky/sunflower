@@ -32,7 +32,7 @@ namespace VirtueSky.Iap
             eventPurchaseProduct.Raise(this);
         }
 
-        public bool IsPurchase()
+        public bool IsPurchased()
         {
             return eventIsPurchaseProduct.Raise(this);
         }
