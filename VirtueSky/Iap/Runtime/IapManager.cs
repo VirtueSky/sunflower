@@ -149,12 +149,13 @@ namespace VirtueSky.Iap
             _controller = controller;
             _extensionProvider = extensions;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-            foreach (var product in _controller.products.all)
-            {
-                if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
-            }
-#endif
+// #if UNITY_ANDROID && !UNITY_EDITOR
+//             foreach (var product in _controller.products.all)
+//             {
+//                 if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
+//             }
+// #endif
+
             InitProductIapDataVariable();
         }
 
