@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
         [SerializeField] protected string iOSId;
         [NonSerialized] private string idRuntime = string.Empty;
 
-        public virtual string Id
+        public override string Id
         {
             get
             {

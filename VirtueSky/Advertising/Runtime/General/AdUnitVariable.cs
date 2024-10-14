@@ -21,6 +21,10 @@ namespace VirtueSky.Ads
         public Action OnClosedAdEvent;
         public Action OnClickedAdEvent;
 
+        public virtual string Id
+        {
+            get => "";
+        }
 
         protected virtual void ShowImpl()
         {

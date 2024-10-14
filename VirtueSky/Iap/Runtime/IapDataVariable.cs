@@ -7,14 +7,16 @@ using VirtueSky.Inspector;
 namespace VirtueSky.Iap
 {
     [Serializable]
-    //[CreateAssetMenu(menuName = "Iap/Iap Data Variable", fileName = "iap_data_variables")]
     [EditorIcon("scriptable_iap")]
     public class IapDataVariable : ScriptableObject
     {
         [ReadOnly] public string id;
         [ReadOnly] public ProductType productType;
-        public float price;
-        [Space] [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
+        [ReadOnly] public EventPurchaseProduct eventPurchaseProduct;
+        [ReadOnly] public EventIsPurchaseProduct eventIsPurchaseProduct;
+
+        [Space] public float price;
+        [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
         [SerializeField] IapPurchaseFailed onPurchaseFailed;
 
         [ReadOnly] public Product product;
@@ -23,6 +25,17 @@ namespace VirtueSky.Iap
 
         [NonSerialized] public Action purchaseSuccessCallback;
         [NonSerialized] public Action<string> purchaseFailedCallback;
+
+
+        public void Purchase()
+        {
+            eventPurchaseProduct.Raise(this);
+        }
+
+        public bool IsPurchase()
+        {
+            return eventIsPurchaseProduct.Raise(this);
+        }
     }
 }
 #endif
