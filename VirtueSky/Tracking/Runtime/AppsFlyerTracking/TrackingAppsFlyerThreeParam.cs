@@ -7,7 +7,7 @@ namespace VirtueSky.Tracking
     [CreateAssetMenu(menuName = "Sunflower/Tracking Event/AppsFlyer/Tracking 3 Param",
         fileName = "tracking_appsflyer_3_param")]
     [EditorIcon("scriptable_af")]
-    public class TrackingAppsFlyerThreeParam : ScriptableObject
+    public class TrackingAppsFlyerThreeParam : TrackingAppsFlyer
     {
         [Space, HeaderLine("Event Name"), SerializeField]
         private string eventName;
@@ -26,6 +26,7 @@ namespace VirtueSky.Tracking
             eventValues.Add(parameterName2, parameterValue2);
             eventValues.Add(parameterName3, parameterValue3);
             AppsFlyerSDK.AppsFlyer.sendEvent(eventName, eventValues);
+            onTracked?.Invoke();
 #endif
         }
     }
