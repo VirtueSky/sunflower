@@ -1,4 +1,5 @@
-﻿#if VIRTUESKY_FIREBASE_ANALYTIC
+﻿using System;
+#if VIRTUESKY_FIREBASE_ANALYTIC
 using Firebase.Analytics;
 #endif
 
@@ -6,6 +7,8 @@ namespace VirtueSky.Tracking
 {
     public struct FirebaseAnalyticTrackingRevenue
     {
+        public static Action OnTracked;
+
         public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId,
             string format, string adNetwork)
         {
@@ -34,6 +37,7 @@ namespace VirtueSky.Tracking
             };
 
             FirebaseAnalytics.LogEvent("ad_impression", parameters);
+            OnTracked?.Invoke();
 #endif
         }
     }
