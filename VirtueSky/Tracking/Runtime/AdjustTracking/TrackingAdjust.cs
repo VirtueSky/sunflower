@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using VirtueSky.Inspector;
 
@@ -11,10 +12,13 @@ namespace VirtueSky.Tracking
         [HeaderLine("Event Token"), SerializeField]
         private string eventToken;
 
+        public static Action OnTracked;
+
         public void TrackEvent()
         {
 #if VIRTUESKY_ADJUST
             AdjustSdk.Adjust.TrackEvent(new AdjustSdk.AdjustEvent(eventToken));
+            OnTracked?.Invoke();
 #endif
         }
     }

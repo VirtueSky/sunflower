@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 #if VIRTUESKY_APPSFLYER
 using AppsFlyerSDK;
@@ -13,6 +14,7 @@ namespace VirtueSky.Tracking
 {
     public struct AppsFlyerTrackingRevenue
     {
+        public static Action OnTracked;
         public static void AppsFlyerTrackRevenueAd(double value, string network, string unitId,
             string format, string adNetwork)
         {
@@ -44,6 +46,7 @@ namespace VirtueSky.Tracking
                 value,
                 "USD",
                 additionalParams);
+            OnTracked?.Invoke();
 #endif
         }
 #if VIRTUESKY_APPSFLYER && VIRTUESKY_IAP

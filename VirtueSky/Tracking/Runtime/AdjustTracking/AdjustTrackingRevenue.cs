@@ -1,4 +1,5 @@
-﻿#if VIRTUESKY_ADJUST
+﻿using System;
+#if VIRTUESKY_ADJUST
 using AdjustSdk;
 #endif
 
@@ -6,6 +7,8 @@ namespace VirtueSky.Tracking
 {
     public struct AdjustTrackingRevenue
     {
+        public static Action OnTracked;
+
         public static void AdjustTrackRevenue(double value, string network, string unitId,
             string placement, string adNetwork)
         {
@@ -30,6 +33,7 @@ namespace VirtueSky.Tracking
             adjustAdRevenue.AdRevenueUnit = unitId;
             adjustAdRevenue.AdRevenuePlacement = placement;
             Adjust.TrackAdRevenue(adjustAdRevenue);
+            OnTracked?.Invoke();
 #endif
         }
     }
