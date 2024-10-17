@@ -26,16 +26,17 @@ namespace VirtueSky.ControlPanel.Editor
         private const float Padding = 12f;
 
         private static Rect ToolbarRect(Rect position) =>
-            new Rect(Padding, 10, position.width - 2 * Padding, 20);
+            new(0f, 48f, position.width - TAB_WIDTH * 4f - 22f, position.height - 172f);
 
 
         private static Rect BodyViewRect(Rect position) =>
-            new Rect(Padding, 30, position.width - 2 * Padding, position.height - 58);
+            new(0f, 28f, position.width - TAB_WIDTH * 4f - 22f, 20f);
 
 
         private static Rect BottomToolbarRect(Rect position) =>
-            new Rect(Padding, position.height - 24, position.width - 2 * Padding, 20);
+            new(0f, position.height - 118f, position.width - TAB_WIDTH * 4f - 22f, 20);
 
+        const float TAB_WIDTH = 50f;
 
         private static bool _localeInitialized;
         private static MultiColumnHeaderState _multiColumnHeaderState;
@@ -132,7 +133,8 @@ namespace VirtueSky.ControlPanel.Editor
                 BodyViewRect(position), ref _localeSearchField, ref _localeInitialized);
             HandleEditorCommands(ref _localeTreeView);
             SearchBarView(ref _localeTreeView, ref _localeSearchField, ToolbarRect(position));
-            BodyView(ref _localeTreeView, BottomToolbarRect(position));
+            BodyView(ref _localeTreeView, BodyViewRect(position));
+            BottomToolbarView(ref _localeTreeView, BottomToolbarRect(position));
         }
 
         private static void InitializeIfNeeded(
