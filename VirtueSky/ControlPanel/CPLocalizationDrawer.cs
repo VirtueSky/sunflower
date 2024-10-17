@@ -1,11 +1,14 @@
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Localization;
 
 namespace VirtueSky.ControlPanel.Editor
 {
     public class CPLocalizationDrawer
     {
         private static LocaleTabType localeTabType = LocaleTabType.Setting;
+        private static VirtueSky.Localization.LocaleSettings _config;
+        private static UnityEditor.Editor _editor;
 
         public static void OnDrawLocalization()
         {

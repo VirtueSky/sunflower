@@ -7,7 +7,7 @@ using VirtueSky.Utils;
 
 namespace VirtueSky.Localization
 {
-    [EditorIcon("scriptable_setting")]
+    [EditorIcon("icon_scriptable")]
     public sealed class LocaleSettings : ScriptableSettings<LocaleSettings>
     {
         [SerializeField] private List<Language> availableLanguages = new List<Language>(1) { Language.English };
