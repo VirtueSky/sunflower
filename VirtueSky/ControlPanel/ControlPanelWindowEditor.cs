@@ -1,9 +1,5 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.Inspector;
-using VirtueSky.UtilsEditor;
-
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -81,6 +77,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Localization", StatePanelControl.Localization);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
@@ -136,6 +133,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
+                    break;
+                case StatePanelControl.Localization:
+                    CPLocalizationDrawer.OnDrawLocalization();
                     break;
                 case StatePanelControl.Adjust:
                     CPAdjustDrawer.OnDrawAdjust();
@@ -193,6 +193,7 @@ namespace VirtueSky.ControlPanel.Editor
         FolderIcon,
         Firebase,
         GameService,
+        Localization,
         Extensions,
         About,
     }

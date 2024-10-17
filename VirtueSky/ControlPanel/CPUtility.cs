@@ -128,6 +128,7 @@ namespace VirtueSky.ControlPanel.Editor
                 StatePanelControl.Extensions => EditorResources.IconExtension,
                 StatePanelControl.FolderIcon => EditorResources.IconFolder,
                 StatePanelControl.RegisterPackage => EditorResources.IconPackage,
+                StatePanelControl.Localization => EditorResources.IconLocale,
                 StatePanelControl.About => EditorResources.IconAbout,
                 _ => EditorResources.IconUnity
             };

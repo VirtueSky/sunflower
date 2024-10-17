@@ -1,0 +1,22 @@
+{
+    "name": "VirtueSky.Sunflower.Localization",
+    "rootNamespace": "",
+    "references": [
+        "GUID:efdee36e63e4ce34a91071531ec746c1",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:324caed91501a9c47a04ebfd87b68794",
+        "GUID:bd40169efe8642149b1d2b72ba4903ce",
+        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:c282fd4f3fc2c7540914e85842a013c7",
+        "GUID:fca7ec166e04dc948b624a983315e2c9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
