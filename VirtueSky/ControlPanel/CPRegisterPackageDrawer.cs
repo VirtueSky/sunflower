@@ -102,6 +102,8 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameMobileNotification, ConstantPackage.MaxVersionMobileNotification);
             CPUtility.DrawButtonInstallPackage("Install Addressables", "Remove Addressables",
                 ConstantPackage.PackageNameAddressables, ConstantPackage.MaxVersionAddressables);
+            CPUtility.DrawButtonInstallPackage("Install Baking Sheet", "Remove Baking Sheet",
+                ConstantPackage.PackageNameBakingSheet, ConstantPackage.MaxVersionBakingSheet);
             if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
             {
                 AssetDatabase.ImportPackage(

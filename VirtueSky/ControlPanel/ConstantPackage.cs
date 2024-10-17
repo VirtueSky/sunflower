@@ -134,5 +134,10 @@
 
         public const string MaxVersionUniTask =
             "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10";
+
+        public const string PackageNameBakingSheet = "com.cathei.bakingsheet";
+
+        public const string MaxVersionBakingSheet =
+            "https://github.com/cathei/BakingSheet.git?path=UnityProject/Packages/com.cathei.bakingsheet#v4.1.3";
     }
 }
