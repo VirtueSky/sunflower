@@ -136,7 +136,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPFirebaseDrawer.OnDrawFirebase(position);
                     break;
                 case StatePanelControl.Localization:
-                    CPLocalizationDrawer.OnDrawLocalization();
+                    CPLocalizationDrawer.OnDrawLocalization(position);
                     break;
                 case StatePanelControl.Adjust:
                     CPAdjustDrawer.OnDrawAdjust();
