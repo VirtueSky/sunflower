@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
 using VirtueSky.Localization;
 using UnityEditor;
 using UnityEditorInternal;
@@ -128,7 +132,8 @@ namespace VirtueSky.LocalizationEditor
                 if (localizedAssets.Any(x => x.LocaleItems.Any(y => y.Language == language)))
                 {
                     if (!EditorUtility.DisplayDialog("Remove \"" + language + "\" language?",
-                            "\"" + language + "\" language is in-use by some localized assets." + " Are you sure to remove?",
+                            "\"" + language + "\" language is in-use by some localized assets." +
+                            " Are you sure to remove?",
                             "Remove",
                             "Cancel"))
                     {
@@ -156,7 +161,8 @@ namespace VirtueSky.LocalizationEditor
             var languages = new HashSet<Language>();
             for (var i = 0; i < _avaiableLanguageProperty.arraySize; i++)
             {
-                languages.Add(LocaleEditorUtil.GetLanguageValueFromProperty(_avaiableLanguageProperty.GetArrayElementAtIndex(i)));
+                languages.Add(
+                    LocaleEditorUtil.GetLanguageValueFromProperty(_avaiableLanguageProperty.GetArrayElementAtIndex(i)));
             }
 
             var localizedAssets = Locale.FindAllLocalizedAssets();
@@ -206,12 +212,14 @@ namespace VirtueSky.LocalizationEditor
                 EditorGUILayout.PropertyField(_googleTranslateApiKeyProperty);
                 if (string.IsNullOrEmpty(_googleTranslateApiKeyProperty.stringValue))
                 {
-                    EditorGUILayout.HelpBox("If you want to use Google Translate in editor or in-game, attach the API key file claimed from Google Cloud.",
+                    EditorGUILayout.HelpBox(
+                        "If you want to use Google Translate in editor or in-game, attach the API key file claimed from Google Cloud.",
                         MessageType.Info);
                 }
                 else
                 {
-                    if (_googleTranslateApiKeyProperty.stringValue.StartsWith("AIzaSyCdaIrr") && _googleTranslateApiKeyProperty.stringValue.EndsWith("120Dy-mfz6I"))
+                    if (_googleTranslateApiKeyProperty.stringValue.StartsWith("AIzaSyCdaIrr") &&
+                        _googleTranslateApiKeyProperty.stringValue.EndsWith("120Dy-mfz6I"))
                         EditorGUILayout.HelpBox("Do not use this key. Replace with your API key", MessageType.Info);
                 }
 
@@ -220,7 +228,8 @@ namespace VirtueSky.LocalizationEditor
                 EditorGUILayout.PropertyField(_spreadsheetKeyProperty);
                 if (GUILayout.Button("Open", GUILayout.Width(65)))
                 {
-                    Application.OpenURL($"https://docs.google.com/spreadsheets/d/{_spreadsheetKeyProperty.stringValue}");
+                    Application.OpenURL(
+                        $"https://docs.google.com/spreadsheets/d/{_spreadsheetKeyProperty.stringValue}");
                 }
 
                 GUI.backgroundColor = Uniform.Green;
@@ -256,7 +265,8 @@ namespace VirtueSky.LocalizationEditor
 
             using (var service = new SheetsService(new BaseClientService.Initializer
                    {
-                       HttpClientInitializer = GoogleCredential.FromJson(_serviceAccountCredentialProperty.stringValue).CreateScoped(DriveService.Scope.DriveReadonly)
+                       HttpClientInitializer = GoogleCredential.FromJson(_serviceAccountCredentialProperty.stringValue)
+                           .CreateScoped(DriveService.Scope.DriveReadonly)
                    }))
             {
                 var sheetReq = service.Spreadsheets.Get(_spreadsheetKeyProperty.stringValue);
@@ -274,7 +284,8 @@ namespace VirtueSky.LocalizationEditor
                         {
                             string code = g.RowData[0].Values[i].FormattedValue;
                             var language = availableLanguages.FirstOrDefault(x => x.Code == code);
-                            if (language == null) Debug.LogWarning("Language code (" + code + ") not exist in localization system.");
+                            if (language == null)
+                                Debug.LogWarning("Language code (" + code + ") not exist in localization system.");
 
                             // Add null language as well to maintain order.
                             languages.Add(language);
@@ -297,7 +308,8 @@ namespace VirtueSky.LocalizationEditor
                             // Read languages by ignoring first column (Key).
                             for (var j = 1; j < row.Count; j++)
                             {
-                                ScriptableLocaleEditor.AddOrUpdateLocale(localizedText, languages[j - 1], row[j].FormattedValue);
+                                ScriptableLocaleEditor.AddOrUpdateLocale(localizedText, languages[j - 1],
+                                    row[j].FormattedValue);
                             }
 
                             EditorUtility.SetDirty(localizedText);
@@ -308,7 +320,7 @@ namespace VirtueSky.LocalizationEditor
                 AssetDatabase.Refresh();
             }
 
-            Debug.Log("[Localization] The import process from spreasheet is complete".SetColor(Uniform.Success));
+            Debug.Log("[Localization] The import process from spreasheet is complete");
             SessionState.SetBool("spreasheet_importing", false);
         }
     }
