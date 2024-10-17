@@ -1,14 +1,27 @@
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Localization;
+using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
     public class CPLocalizationDrawer
     {
         private static LocaleTabType localeTabType = LocaleTabType.Setting;
-        private static VirtueSky.Localization.LocaleSettings _config;
+        private static VirtueSky.Localization.LocaleSettings _settings;
         private static UnityEditor.Editor _editor;
+
+        public static void OnEnable()
+        {
+            Init();
+        }
+
+        private static void Init()
+        {
+            if (_editor != null) _editor = null;
+            _settings = CreateAsset.GetScriptableAsset<LocaleSettings>();
+            _editor = UnityEditor.Editor.CreateEditor(_settings);
+        }
 
         public static void OnDrawLocalization()
         {
@@ -17,6 +30,19 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawHeaderIcon(StatePanelControl.Localization, "Localization");
             GUILayout.Space(10);
             DrawTab();
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            switch (localeTabType)
+            {
+                case LocaleTabType.Setting:
+                    DrawSetting();
+                    break;
+                case LocaleTabType.Explore:
+                    DrawExplore();
+                    break;
+            }
+
             GUILayout.EndVertical();
         }
 
@@ -28,7 +54,6 @@ namespace VirtueSky.ControlPanel.Editor
             if (clickSetting && localeTabType != LocaleTabType.Setting)
             {
                 localeTabType = LocaleTabType.Setting;
-                DrawSetting();
             }
 
             bool clickPickup = GUILayout.Toggle(localeTabType == LocaleTabType.Explore, "Explore",
@@ -36,7 +61,6 @@ namespace VirtueSky.ControlPanel.Editor
             if (clickPickup && localeTabType != LocaleTabType.Explore)
             {
                 localeTabType = LocaleTabType.Explore;
-                DrawExplore();
             }
 
             EditorGUILayout.EndHorizontal();
@@ -44,12 +68,29 @@ namespace VirtueSky.ControlPanel.Editor
 
         private static void DrawSetting()
         {
-            Debug.Log("draw setting");
+            if (_settings == null)
+            {
+                if (GUILayout.Button("Create LocaleSettings"))
+                {
+                    _settings = CreateAsset.CreateAndGetScriptableAsset<LocaleSettings>("/Localization/Resources", isPingAsset: false);
+                    Init();
+                }
+            }
+            else
+            {
+                if (_editor == null)
+                {
+                    EditorGUILayout.HelpBox("Couldn't create the settings editor.",
+                        MessageType.Error);
+                    return;
+                }
+
+                _editor.OnInspectorGUI();
+            }
         }
 
         private static void DrawExplore()
         {
-            Debug.Log("draw explore");
         }
     }
 
