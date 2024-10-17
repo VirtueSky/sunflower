@@ -6,7 +6,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Localization
 {
-    [CreateAssetMenu(menuName = "Pancake/Localization/VideoClip", fileName = "videoclip_localizevalue", order = 8)]
+    [CreateAssetMenu(menuName = "Sunflower/Localization/VideoClip", fileName = "videoclip_localizevalue", order = 8)]
     [EditorIcon("scriptable_yellow_videoclip")]
     public class LocaleVideoClip : LocaleVariable<VideoClip>
     {

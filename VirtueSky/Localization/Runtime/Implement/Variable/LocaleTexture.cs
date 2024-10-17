@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Localization
 {
-    [CreateAssetMenu(menuName = "Pancake/Localization/Texture", fileName = "texture_localizevalue", order = 6)]
+    [CreateAssetMenu(menuName = "Sunflower/Localization/Texture", fileName = "texture_localizevalue", order = 6)]
     [EditorIcon("scriptable_yellow_texture")]
     public class LocaleTexture : LocaleVariable<Texture>
     {

@@ -6,15 +6,15 @@ namespace VirtueSky.LocalizationEditor
 {
     public static class EditorMenu
     {
-        private const string MENU_NAME = "Tools/Pancake/Localization/Change Locale/";
+        private const string MENU_NAME = "Sunflower/Localization/Change Locale/";
 
-        [MenuItem("Tools/Pancake/Localization/Import CSV", priority = 10000)]
+        [MenuItem("Sunflower/Localization/Import CSV", priority = 10000)]
         private static void ImportCsv()
         {
             LocaleEditorUtil.Import();
         }
 
-        [MenuItem("Tools/Pancake/Localization/Export CSV", priority = 10001)]
+        [MenuItem("Sunflower/Localization/Export CSV", priority = 10001)]
         private static void ExportCsv()
         {
             LocaleEditorUtil.Export();

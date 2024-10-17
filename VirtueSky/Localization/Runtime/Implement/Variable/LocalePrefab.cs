@@ -5,7 +5,7 @@ using VirtueSky.Inspector;
 
 namespace VirtueSky.Localization
 {
-    [CreateAssetMenu(menuName = "Pancake/Localization/GameObject", fileName = "gameobject_localizevalue", order = 2)]
+    [CreateAssetMenu(menuName = "Sunflower/Localization/GameObject", fileName = "gameobject_localizevalue", order = 2)]
     [EditorIcon("scriptable_yellow_gameobject")]
     public class LocalePrefab : LocaleVariable<GameObject>
     {
