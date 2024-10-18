@@ -91,7 +91,7 @@ namespace VirtueSky.LocalizationEditor
         /// </summary>
         protected override float GetCustomRowHeight(int row, TreeViewItem item)
         {
-            var h = base.GetCustomRowHeight(row, item);
+            float h = base.GetCustomRowHeight(row, item);
             if (item is LocaleTreeViewItem localeItem)
             {
                 var assetItem = localeItem.Parent;
@@ -101,7 +101,7 @@ namespace VirtueSky.LocalizationEditor
                     if (column != null)
                     {
                         var stringValue = (string)localeItem.LocaleItem.ObjectValue;
-                        var calculatedRowHeight = _textAreaStyle.CalcHeight(new GUIContent(stringValue), column.width) + 4;
+                        float calculatedRowHeight = _textAreaStyle.CalcHeight(new GUIContent(stringValue), column.width) + 4;
                         h = Mathf.Clamp(calculatedRowHeight, h, 100);
                     }
                 }
@@ -262,7 +262,7 @@ namespace VirtueSky.LocalizationEditor
                 var item = FindItem(args.itemID, rootItem) as AssetTreeViewItem;
                 if (item != null)
                 {
-                    var assetPath = AssetDatabase.GetAssetPath(item.Asset.GetInstanceID());
+                    string assetPath = AssetDatabase.GetAssetPath(item.Asset.GetInstanceID());
                     AssetDatabase.RenameAsset(assetPath, args.newName);
                     AssetDatabase.SaveAssets();
                     Reload();
@@ -293,7 +293,7 @@ namespace VirtueSky.LocalizationEditor
             var typeColumnWidth = 30;
             var nameColumnWidth = 150;
             var languageColumnWidth = 110;
-            var valueColumnWidth = treeViewWidth - typeColumnWidth - nameColumnWidth - languageColumnWidth;
+            float valueColumnWidth = treeViewWidth - typeColumnWidth - nameColumnWidth - languageColumnWidth;
             var columns = new[]
             {
                 new MultiColumnHeaderState.Column

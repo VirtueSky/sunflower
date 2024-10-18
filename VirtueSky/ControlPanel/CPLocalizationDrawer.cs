@@ -23,20 +23,22 @@ namespace VirtueSky.ControlPanel.Editor
         private static TreeViewState _treeViewState;
         public static LocaleTreeView _localeTreeView;
         private static SearchField _localeSearchField;
+        private static float cacheYToolBarRect;
+        private static float cacheWidth;
 
-        private static Rect ToolbarRect(Rect position) =>
-            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 10, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10,
-                GUILayoutUtility.GetLastRect().y + 30);
-
-
-        private static Rect BodyViewRect(Rect position) =>
-            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 30, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 400);
+        // private static Rect ToolbarRect(Rect position) =>
+        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 10, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10,
+        //         GUILayoutUtility.GetLastRect().y + 30);
 
 
-        private static Rect BottomToolbarRect(Rect position) =>
-            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, position.height - 25, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 20);
+        // private static Rect BodyViewRect(Rect position) =>
+        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 30, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 400);
 
-        const float TAB_WIDTH = 50f;
+
+        // private static Rect BottomToolbarRect(Rect position) =>
+        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, position.height - 25, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 20);
+
+        // const float TAB_WIDTH = 50f;
 
         private static bool _localeInitialized;
         private static MultiColumnHeaderState _multiColumnHeaderState;
@@ -129,19 +131,27 @@ namespace VirtueSky.ControlPanel.Editor
 
         private static void DrawExplore(Rect position)
         {
+            cacheYToolBarRect = GUILayoutUtility.GetLastRect().y + 10;
+            cacheWidth = position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10;
+            Rect ToolbarRect =
+                new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, cacheYToolBarRect, cacheWidth, 5);
+            Rect BottomToolbarRect =
+                new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, position.height - 20, cacheWidth, 20);
             InitializeIfNeeded(ref _treeViewState, ref _localeTreeView, ref _multiColumnHeaderState,
-                BodyViewRect(position), ref _localeSearchField, ref _localeInitialized);
+                cacheWidth, ref _localeSearchField, ref _localeInitialized);
             HandleEditorCommands(ref _localeTreeView);
-            SearchBarView(ref _localeTreeView, ref _localeSearchField, ToolbarRect(position));
-            BodyView(ref _localeTreeView, BodyViewRect(position));
-            BottomToolbarView(ref _localeTreeView, BottomToolbarRect(position));
+            SearchBarView(ref _localeTreeView, ref _localeSearchField, ToolbarRect);
+            BottomToolbarView(ref _localeTreeView, BottomToolbarRect);
+            Rect BodyViewRect =
+                new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, cacheYToolBarRect + 20, cacheWidth, position.height - cacheYToolBarRect - 45);
+            BodyView(ref _localeTreeView, BodyViewRect);
         }
 
         private static void InitializeIfNeeded(
             ref TreeViewState treeViewState,
             ref LocaleTreeView treeView,
             ref MultiColumnHeaderState multiColumnHeaderState,
-            Rect bodyViewRect,
+            float bodyViewRectWidth,
             ref SearchField searchField,
             ref bool initialized)
         {
@@ -151,7 +161,7 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 if (treeViewState == null) treeViewState = new TreeViewState();
                 bool firstInit = multiColumnHeaderState == null;
-                var headerState = LocaleTreeView.CreateDefaultMultiColumnHeaderState(bodyViewRect.width);
+                var headerState = LocaleTreeView.CreateDefaultMultiColumnHeaderState(bodyViewRectWidth);
                 if (MultiColumnHeaderState.CanOverwriteSerializedFields(multiColumnHeaderState, headerState))
                 {
                     MultiColumnHeaderState.OverwriteSerializedFields(multiColumnHeaderState, headerState);
@@ -326,7 +336,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static void CreateLocalizedAssetPopup(Vector2 mousePosition)
         {
             var popupPosition = new Rect(mousePosition, Vector2.zero);
-            EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/Pancake/Localization/", null);
+            EditorUtility.DisplayPopupMenu(popupPosition, "Assets/_Sunflower/Scriptable/Localization/", null);
         }
 
         private static void AssetItemContextMenu_Rename()
@@ -443,6 +453,7 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 var settings = LocaleSettings.Instance;
                 if (settings) Selection.activeObject = settings;
+                localeTabType = LocaleTabType.Setting;
             }
 
             if (GUILayout.Button(Uniform.IconContent("refresh", "Refresh the window"), EditorStyles.toolbarButton))
