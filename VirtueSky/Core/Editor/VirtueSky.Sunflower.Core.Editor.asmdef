@@ -1,0 +1,18 @@
+{
+    "name": "VirtueSky.Sunflower.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:acb3cac55c622ec459c8caadf707623a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
