@@ -23,18 +23,18 @@ namespace VirtueSky.ControlPanel.Editor
         private static TreeViewState _treeViewState;
         public static LocaleTreeView _localeTreeView;
         private static SearchField _localeSearchField;
-        private const float Padding = 12f;
 
         private static Rect ToolbarRect(Rect position) =>
-            new(0f, 48f, position.width - TAB_WIDTH * 4f - 22f, position.height - 172f);
+            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 10, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10,
+                GUILayoutUtility.GetLastRect().y + 30);
 
 
         private static Rect BodyViewRect(Rect position) =>
-            new(0f, 28f, position.width - TAB_WIDTH * 4f - 22f, 20f);
+            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 30, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 400);
 
 
         private static Rect BottomToolbarRect(Rect position) =>
-            new(0f, position.height - 118f, position.width - TAB_WIDTH * 4f - 22f, 20);
+            new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, position.height - 25, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 20);
 
         const float TAB_WIDTH = 50f;
 
@@ -731,5 +731,16 @@ namespace VirtueSky.ControlPanel.Editor
     {
         Setting,
         Explore
+    }
+
+    /// <summary>
+    /// Refreshes localization tab wizard if is opened.
+    /// </summary>
+    public class ScriptableLocalePostprocessor : AssetPostprocessor
+    {
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        {
+            if (CPLocalizationDrawer._localeTreeView != null) CPLocalizationDrawer._localeTreeView?.Reload();
+        }
     }
 }

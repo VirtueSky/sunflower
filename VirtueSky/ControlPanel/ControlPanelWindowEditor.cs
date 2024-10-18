@@ -13,6 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             ControlPanelWindowEditor window =
                 GetWindow<ControlPanelWindowEditor>("Magic Panel");
+
             if (window == null)
             {
                 Debug.LogError("Couldn't open the window!");
@@ -22,6 +23,7 @@ namespace VirtueSky.ControlPanel.Editor
             window.minSize = new Vector2(600, 300);
             window.Show();
         }
+
 
         private void OnEnable()
         {
