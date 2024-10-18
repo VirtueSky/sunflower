@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using VirtueSky.DataStorage;
 
 namespace VirtueSky.Localization
 {
@@ -44,6 +45,7 @@ namespace VirtueSky.Localization
                 if (Instance._currentLanguage != value)
                 {
                     Instance._currentLanguage = value;
+                    SetCurrentLanguageCode(value);
                     var oldValue = Instance._currentLanguage;
                     Instance._currentLanguage = value;
                     Instance.OnLanguageChanged(new LocaleChangedEventArgs(oldValue, value));
@@ -109,6 +111,35 @@ namespace VirtueSky.Localization
         public static ScriptableLocaleBase[] FindAllLocalizedAssets()
         {
             return FindAllLocalizedAssets<ScriptableLocaleBase>();
+        }
+
+        const string KEY_LANGUAGE = "KEY_LANGUAGE";
+        public static string GetCurrentLanguageCode() => GameData.Get(KEY_LANGUAGE, "");
+        public static void SetCurrentLanguageCode(Language language) => GameData.Set(KEY_LANGUAGE, language.Code);
+        public static void SetCurrentLanguageCode(string languageCode) => GameData.Set(KEY_LANGUAGE, languageCode);
+
+        public static void LoadLanguageSetting()
+        {
+            var list = LocaleSettings.AvailableLanguages;
+            string lang = GetCurrentLanguageCode();
+            // for first time when user not choose lang to display
+            // use system language, if you don't use detect system language use first language in list available laguages
+            if (string.IsNullOrEmpty(lang))
+            {
+                var index = 0;
+                if (LocaleSettings.DetectDeviceLanguage)
+                {
+                    var nameSystemLang = UnityEngine.Application.systemLanguage.ToString();
+                    index = list.FindIndex(x => x.Name == nameSystemLang);
+                    if (index < 0) index = 0;
+                }
+
+                lang = list[index].Code;
+                SetCurrentLanguageCode(lang);
+            }
+
+            int i = list.FindIndex(x => x.Code == lang);
+            Locale.CurrentLanguage = list[i];
         }
     }
 }
