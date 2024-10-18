@@ -12,7 +12,7 @@ namespace VirtueSky.Localization
     {
         [SerializeField] private List<Language> availableLanguages = new(1) { Language.English };
         [SerializeField] private bool detectDeviceLanguage;
-        [SerializeField] private string importLocation = "Assets";
+        [SerializeField] private string importLocation = "Assets/_Sunflower/Scriptable/Localization";
         [SerializeField] private string googleTranslateApiKey;
         [SerializeField] private string spreadsheetKey;
         [SerializeField, TextArea] private string serviceAccountCredential;

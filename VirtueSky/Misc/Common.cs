@@ -11,6 +11,8 @@ namespace VirtueSky.Misc
 {
     public static partial class Common
     {
+        public static string Format(this string fmt, params object[] args) => string.Format(System.Globalization.CultureInfo.InvariantCulture.NumberFormat, fmt, args);
+
         public static bool IsInteger(this float value)
         {
             return (value == (int)value);

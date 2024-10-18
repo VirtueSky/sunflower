@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -179,6 +180,51 @@ namespace VirtueSky.Misc
             colorCache.b += b;
             renderer.color = colorCache;
             return renderer;
+        }
+
+
+        /// <summary>
+        ///   <para>Returns the color as a hexadecimal string in the format "#RRGGBB".</para>
+        /// </summary>
+        /// <param name="color">The color to be converted.</param>
+        /// <returns>
+        ///   <para>Hexadecimal string representing the color.</para>
+        /// </returns>
+        public static string ToHtmlStringRGB(this Color color)
+        {
+            var color32 = new Color32((byte)Mathf.Clamp(Mathf.RoundToInt(color.r * byte.MaxValue), 0, byte.MaxValue),
+                (byte)Mathf.Clamp(Mathf.RoundToInt(color.g * byte.MaxValue), 0, byte.MaxValue),
+                (byte)Mathf.Clamp(Mathf.RoundToInt(color.b * byte.MaxValue), 0, byte.MaxValue),
+                1);
+
+            return "#{0:X2}{1:X2}{2:X2}".Format(color32.r, color32.g, color32.b);
+        }
+
+
+        /// <summary>
+        ///   <para>Returns the color as a hexadecimal string in the format "#RRGGBBAA".</para>
+        /// </summary>
+        /// <param name="color">The color to be converted.</param>
+        /// <returns>
+        ///   <para>Hexadecimal string representing the color.</para>
+        /// </returns>
+        // ReSharper disable once InconsistentNaming
+        public static string ToHtmlStringRGBA(this Color color)
+        {
+            var color32 = new Color32((byte)Mathf.Clamp(Mathf.RoundToInt(color.r * byte.MaxValue), 0, byte.MaxValue),
+                (byte)Mathf.Clamp(Mathf.RoundToInt(color.g * byte.MaxValue), 0, byte.MaxValue),
+                (byte)Mathf.Clamp(Mathf.RoundToInt(color.b * byte.MaxValue), 0, byte.MaxValue),
+                (byte)Mathf.Clamp(Mathf.RoundToInt(color.a * byte.MaxValue), 0, byte.MaxValue));
+
+            return "#{0:X2}{1:X2}{2:X2}{3:X2}".Format(color32.r, color32.g, color32.b, color32.a);
+        }
+
+
+        public static bool TryParseHtmlString(this string htmlString, out Color color)
+        {
+            string stringColor = htmlString;
+            if (!stringColor[0].Equals('#')) stringColor = stringColor.Insert(0, "#");
+            return ColorUtility.TryParseHtmlString(stringColor, out color);
         }
     }
 }

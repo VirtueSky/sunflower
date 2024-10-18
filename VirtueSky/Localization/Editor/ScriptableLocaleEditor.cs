@@ -5,12 +5,16 @@ using VirtueSky.Localization;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using VirtueSky.Misc;
+using VirtueSky.Utils;
 
 namespace VirtueSky.LocalizationEditor
 {
     [CustomEditor(typeof(ScriptableLocaleBase), true)]
+    [CanEditMultipleObjects]
     public class ScriptableLocaleEditor : UnityEditor.Editor
     {
+        private static GoogleTranslator Translator => new(LocaleSettings.GoogleTranslateApiKey);
         private ReorderableList _reorderable;
         private SerializedProperty _itemsProperty;
         private Rect _currentLayoutRect;
@@ -38,7 +42,7 @@ namespace VirtueSky.LocalizationEditor
                     drawHeaderCallback = rect => { EditorGUI.LabelField(rect, ObjectNames.NicifyVariableName(target.GetType().Name) + "s"); }
                 };
 
-                _reorderable.drawElementCallback = (rect, index, isActive, isFocused) =>
+                _reorderable.drawElementCallback = (rect, index, _, _) =>
                 {
                     var element = _reorderable.serializedProperty.GetArrayElementAtIndex(index);
 
@@ -64,17 +68,17 @@ namespace VirtueSky.LocalizationEditor
                 {
                     var element = _reorderable.serializedProperty.GetArrayElementAtIndex(index);
                     var valueProperty = element.FindPropertyRelative("value");
-                    var elementHeight = EditorGUIUtility.singleLineHeight;
+                    float elementHeight = EditorGUIUtility.singleLineHeight;
 
                     if (assetValueType == typeof(string))
                     {
-                        var valueWidth = _currentLayoutRect.width - 100 - 30;
+                        float valueWidth = _currentLayoutRect.width - 100 - 30;
                         elementHeight = TextAreaStyle.CalcHeight(new GUIContent(valueProperty.stringValue), valueWidth);
                     }
 
                     return Mathf.Max(EditorGUIUtility.singleLineHeight, elementHeight) + 4;
                 };
-                _reorderable.onAddDropdownCallback = (Rect buttonRect, ReorderableList list) =>
+                _reorderable.onAddDropdownCallback = (_, list) =>
                 {
                     var menu = new GenericMenu();
                     menu.AddItem(new GUIContent("Language", "Adds a language."),
@@ -105,6 +109,12 @@ namespace VirtueSky.LocalizationEditor
 
         public override void OnInspectorGUI()
         {
+            if (Selection.objects.Length > 1)
+            {
+                EditorGUILayout.HelpBox("Currently does not support editing multiple Locales at the same time. Just choose one", MessageType.Warning);
+                return;
+            }
+
             if (_reorderable != null)
             {
                 _currentLayoutRect = GUILayoutUtility.GetRect(0, _reorderable.GetHeight(), GUILayout.ExpandWidth(true));
@@ -112,8 +122,86 @@ namespace VirtueSky.LocalizationEditor
                 _reorderable.DoList(_currentLayoutRect);
                 serializedObject.ApplyModifiedProperties();
 
-                var helpRect = _currentLayoutRect;
-                helpRect.y += _reorderable.GetHeight() + 4;
+                Rect helpRect;
+                if (target is LocaleText localeText)
+                {
+                    if (GUILayout.Button("Translate"))
+                    {
+                        Debug.Log("[Localization] Starting Translate LocaleText: ".SetColor(Color.cyan) + localeText.name);
+                        var firstLocale = localeText.TypedLocaleItems.First();
+                        foreach (var locale in localeText.TypedLocaleItems)
+                        {
+                            if (!string.IsNullOrEmpty(locale.Value)) continue;
+
+                            var localeItem = locale;
+                            Translator.Translate(new GoogleTranslateRequest(firstLocale.Language, locale.Language, firstLocale.Value),
+                                e =>
+                                {
+                                    var response = e.Responses.FirstOrDefault();
+                                    if (response != null)
+                                    {
+                                        localeItem.Value = response.translatedText;
+                                        Debug.Log("[Localization] Translate Successfull: ".SetColor(CustomColor.Green) + localeText.name);
+                                    }
+
+                                    EditorUtility.SetDirty(localeText);
+                                },
+                                e => { Debug.LogError("Response (" + e.ResponseCode + "): " + e.Message); });
+                        }
+                    }
+
+                    if (GUILayout.Button("Fill Language Same Avaiable Language"))
+                    {
+                        Debug.Log("[Localization] Starting fill language same with AvaiableLanguage for LocaleText!".SetColor(Color.cyan));
+
+                        foreach (var item in localeText.LocaleItems.ToList())
+                        {
+                            var result = localeText.LocaleItems.Select(itemBase => new LocaleItem<string>(itemBase.Language, itemBase.ObjectValue.ToString())).ToList();
+
+                            // remove duplicate
+                            for (var i = 0; i < result.ToList().Count - 1; i++)
+                            {
+                                var cache = result[i];
+                                for (var j = 0; j < result.ToList().Count; j++)
+                                {
+                                    if (j == i) continue;
+                                    if (result[j].Language == cache.Language) result.RemoveAt(j);
+                                }
+                            }
+
+                            int index = Array.FindIndex(localeText.LocaleItems, x => x.Language == item.Language);
+                            if (!LocaleSettings.AvailableLanguages.Contains(localeText.LocaleItems[index].Language)) result.RemoveAt(index);
+
+                            localeText.SetLocaleItems(result);
+                        }
+
+                        if (localeText.LocaleItems.Length < LocaleSettings.AvailableLanguages.Count)
+                        {
+                            foreach (var lang in LocaleSettings.AvailableLanguages)
+                            {
+                                int index = Array.FindIndex(localeText.LocaleItems, x => x.Language == lang);
+                                if (index >= 0) continue;
+
+                                AddLocale(localeText);
+                                index = localeText.LocaleItems.Length - 1;
+                                var localeItem = localeText.LocaleItems[index];
+                                localeItem.Language = lang;
+                                localeItem.ObjectValue = "";
+                            }
+                        }
+
+                        Debug.Log("[Localization] Fill language same with AvaiableLanguage Successfull: ".SetColor(CustomColor.Green) + localeText.name);
+                    }
+
+                    helpRect = _currentLayoutRect;
+                    helpRect.y += _reorderable.GetHeight() + 50;
+                }
+                else
+                {
+                    helpRect = _currentLayoutRect;
+                    helpRect.y += _reorderable.GetHeight() + 4;
+                }
+
                 helpRect.height = EditorGUIUtility.singleLineHeight * 1.5f;
                 EditorGUI.HelpBox(helpRect, "First locale item is used as fallback if needed.", MessageType.Info);
             }
@@ -139,7 +227,7 @@ namespace VirtueSky.LocalizationEditor
         {
             var filteredLanguages = languages.Where(x => !IsLanguageExist(_itemsProperty, x)).ToArray();
 
-            var startIndex = _itemsProperty.arraySize;
+            int startIndex = _itemsProperty.arraySize;
             _itemsProperty.arraySize += filteredLanguages.Length;
 
             for (var i = 0; i < filteredLanguages.Length; i++)
@@ -168,7 +256,7 @@ namespace VirtueSky.LocalizationEditor
             {
                 var element = localeItemsProperty.GetArrayElementAtIndex(i);
                 var languageProperty = element.FindPropertyRelative("language");
-                var languageCode = languageProperty.FindPropertyRelative("code").stringValue;
+                string languageCode = languageProperty.FindPropertyRelative("code").stringValue;
                 if (languageCode == language.Code)
                 {
                     return true;
@@ -179,7 +267,7 @@ namespace VirtueSky.LocalizationEditor
         }
 
         /// <summary>
-        /// Adds a locale and the value or updates if specified language is exists.
+        /// Adds a locale and the value or updates if specified language is existing.
         /// </summary>
         public static bool AddOrUpdateLocale(ScriptableLocaleBase localizedAsset, Language language, object value)
         {
@@ -189,7 +277,7 @@ namespace VirtueSky.LocalizationEditor
             var elements = serializedObject.FindProperty("items");
             if (elements != null && elements.arraySize > 0)
             {
-                var index = Array.FindIndex(localizedAsset.LocaleItems, x => x.Language == language);
+                int index = Array.FindIndex(localizedAsset.LocaleItems, x => x.Language == language);
                 if (index < 0)
                 {
                     AddLocale(localizedAsset);
@@ -236,7 +324,7 @@ namespace VirtueSky.LocalizationEditor
             var elements = serializedObject.FindProperty("items");
             if (elements != null && elements.arraySize > 1)
             {
-                var index = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
+                int index = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
                 if (index >= 0)
                 {
                     elements.DeleteArrayElementAtIndex(index);

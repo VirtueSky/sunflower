@@ -1,28 +1,29 @@
 {
-    "name": "Virtuesky.Sunflower.Button",
-    "rootNamespace": "",
-    "references": [
-        "GUID:bd40169efe8642149b1d2b72ba4903ce",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:acb3cac55c622ec459c8caadf707623a",
-        "GUID:c904f6d969e991d459a0843b71c22ec5",
-        "GUID:fca7ec166e04dc948b624a983315e2c9",
-        "GUID:324caed91501a9c47a04ebfd87b68794",
-        "GUID:80ecb87cae9c44d19824e70ea7229748"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.unity.textmeshpro",
-            "expression": "",
-            "define": ""
-        }
-    ],
-    "noEngineReferences": false
+  "name": "Virtuesky.Sunflower.Button",
+  "rootNamespace": "",
+  "references": [
+    "GUID:bd40169efe8642149b1d2b72ba4903ce",
+    "GUID:6055be8ebefd69e48b49212b09b47b2f",
+    "GUID:acb3cac55c622ec459c8caadf707623a",
+    "GUID:c904f6d969e991d459a0843b71c22ec5",
+    "GUID:fca7ec166e04dc948b624a983315e2c9",
+    "GUID:324caed91501a9c47a04ebfd87b68794",
+    "GUID:80ecb87cae9c44d19824e70ea7229748",
+    "GUID:c282fd4f3fc2c7540914e85842a013c7"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [
+    {
+      "name": "com.unity.textmeshpro",
+      "expression": "",
+      "define": ""
+    }
+  ],
+  "noEngineReferences": false
 }
