@@ -17,7 +17,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static LocaleTabType localeTabType = LocaleTabType.Setting;
         private static VirtueSky.Localization.LocaleSettings _settings;
         private static UnityEditor.Editor _editor;
-
+        private static Vector2 scroll = Vector2.zero;
 
         private static LocaleTabType _currentLocaleTab = LocaleTabType.Setting;
         private static TreeViewState _treeViewState;
@@ -25,21 +25,6 @@ namespace VirtueSky.ControlPanel.Editor
         private static SearchField _localeSearchField;
         private static float cacheYToolBarRect;
         private static float cacheWidth;
-
-        // private static Rect ToolbarRect(Rect position) =>
-        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 10, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10,
-        //         GUILayoutUtility.GetLastRect().y + 30);
-
-
-        // private static Rect BodyViewRect(Rect position) =>
-        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, GUILayoutUtility.GetLastRect().y + 30, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 400);
-
-
-        // private static Rect BottomToolbarRect(Rect position) =>
-        //     new(ConstantControlPanel.POSITION_X_START_CONTENT + 5, position.height - 25, position.width - ConstantControlPanel.POSITION_X_START_CONTENT - 10, 20);
-
-        // const float TAB_WIDTH = 50f;
-
         private static bool _localeInitialized;
         private static MultiColumnHeaderState _multiColumnHeaderState;
 
@@ -75,7 +60,7 @@ namespace VirtueSky.ControlPanel.Editor
             switch (localeTabType)
             {
                 case LocaleTabType.Setting:
-                    DrawSetting();
+                    DrawSetting(position);
                     break;
                 case LocaleTabType.Explore:
                     DrawExplore(position);
@@ -105,8 +90,9 @@ namespace VirtueSky.ControlPanel.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private static void DrawSetting()
+        private static void DrawSetting(Rect position)
         {
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             if (_settings == null)
             {
                 if (GUILayout.Button("Create LocaleSettings"))
@@ -126,7 +112,23 @@ namespace VirtueSky.ControlPanel.Editor
                 }
 
                 _editor.OnInspectorGUI();
+                GUILayout.Space(10);
+                CPUtility.GuiLine(2);
+                GUILayout.Space(10);
+                CPUtility.DrawHeader("Install Sdk");
+                GUILayout.Space(10);
+                CPUtility.DrawButtonInstallPackage("Install Baking Sheet", "Remove Baking Sheet",
+                    ConstantPackage.PackageNameBakingSheet, ConstantPackage.MaxVersionBakingSheet);
+                GUILayout.Space(10);
+                CPUtility.GuiLine(2);
+                GUILayout.Space(10);
+                CPUtility.DrawHeader("Define Symbols");
+                GUILayout.Space(10);
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_BAKINGSHEET);
             }
+
+            EditorGUILayout.EndScrollView();
+            GUILayout.Space(10);
         }
 
         private static void DrawExplore(Rect position)

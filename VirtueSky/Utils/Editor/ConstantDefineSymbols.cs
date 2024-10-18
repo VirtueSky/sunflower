@@ -23,5 +23,6 @@ namespace VirtueSky.UtilsEditor
         public const string UNITASK_ADDRESSABLE_SUPPORT = "UNITASK_ADDRESSABLE_SUPPORT";
         public const string UNITASK_DOTWEEN_SUPPORT = "UNITASK_DOTWEEN_SUPPORT";
         public const string UNITASK_TEXTMESHPRO_SUPPORT = "UNITASK_TEXTMESHPRO_SUPPORT";
+        public const string VIRTUESKY_BAKINGSHEET = "VIRTUESKY_BAKINGSHEET";
     }
 }

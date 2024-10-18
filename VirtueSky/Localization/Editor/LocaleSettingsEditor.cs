@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+#if VIRTUESKY_BAKINGSHEET
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
+#endif
+
 using VirtueSky.Localization;
 using UnityEditor;
 using UnityEditorInternal;
@@ -224,6 +228,7 @@ namespace VirtueSky.LocalizationEditor
                 }
 
                 EditorGUILayout.Separator();
+#if VIRTUESKY_BAKINGSHEET
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.PropertyField(_spreadsheetKeyProperty);
                 if (GUILayout.Button("Open", GUILayout.Width(65)))
@@ -248,6 +253,12 @@ namespace VirtueSky.LocalizationEditor
                 GUI.enabled = true;
                 GUI.backgroundColor = Color.white;
                 EditorGUILayout.EndHorizontal();
+#else
+                EditorGUILayout.HelpBox(
+                    $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_BAKINGSHEET} and install sdk to use spread sheet",
+                    MessageType.Info);
+#endif
+
                 EditorGUILayout.PropertyField(_serviceAccountCredentialProperty, GUILayout.MaxHeight(150));
                 serializedObject.ApplyModifiedProperties();
             }
@@ -262,8 +273,8 @@ namespace VirtueSky.LocalizationEditor
             SessionState.SetBool("spreasheet_importing", true);
             string importLocation = LocaleSettings.ImportLocation;
             var localizedTexts = Locale.FindAllLocalizedAssets<LocaleText>();
-
-            using (var service = new SheetsService(new BaseClientService.Initializer
+#if VIRTUESKY_BAKINGSHEET
+                    using (var service = new SheetsService(new BaseClientService.Initializer
                    {
                        HttpClientInitializer = GoogleCredential.FromJson(_serviceAccountCredentialProperty.stringValue)
                            .CreateScoped(DriveService.Scope.DriveReadonly)
@@ -322,6 +333,7 @@ namespace VirtueSky.LocalizationEditor
 
             Debug.Log("[Localization] The import process from spreasheet is complete");
             SessionState.SetBool("spreasheet_importing", false);
+#endif
         }
     }
 }
