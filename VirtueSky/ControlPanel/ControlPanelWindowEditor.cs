@@ -1,9 +1,5 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.Inspector;
-using VirtueSky.UtilsEditor;
-
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -17,6 +13,7 @@ namespace VirtueSky.ControlPanel.Editor
         {
             ControlPanelWindowEditor window =
                 GetWindow<ControlPanelWindowEditor>("Magic Panel");
+
             if (window == null)
             {
                 Debug.LogError("Couldn't open the window!");
@@ -27,6 +24,7 @@ namespace VirtueSky.ControlPanel.Editor
             window.Show();
         }
 
+
         private void OnEnable()
         {
             statePanelControl = StatePanelControl.About;
@@ -36,6 +34,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPFolderIconDrawer.OnEnable();
             CPAdjustDrawer.OnEnable();
             CPAppsFlyerDrawer.OnEnable();
+            CPLocalizationDrawer.OnEnable();
         }
 
         private void OnDisable()
@@ -81,6 +80,7 @@ namespace VirtueSky.ControlPanel.Editor
             DrawButtonChooseState("Assets Finder", StatePanelControl.AssetsFinder);
             DrawButtonChooseState("In App Review", StatePanelControl.InAppReview);
             DrawButtonChooseState("Level Editor", StatePanelControl.LevelEditor);
+            DrawButtonChooseState("Localization", StatePanelControl.Localization);
             DrawButtonChooseState("Game Service", StatePanelControl.GameService);
             DrawButtonChooseState("Folder Icon", StatePanelControl.FolderIcon);
             DrawButtonChooseState("Hierarchy", StatePanelControl.Hierarchy);
@@ -136,6 +136,9 @@ namespace VirtueSky.ControlPanel.Editor
                     break;
                 case StatePanelControl.Firebase:
                     CPFirebaseDrawer.OnDrawFirebase(position);
+                    break;
+                case StatePanelControl.Localization:
+                    CPLocalizationDrawer.OnDrawLocalization(position);
                     break;
                 case StatePanelControl.Adjust:
                     CPAdjustDrawer.OnDrawAdjust();
@@ -193,6 +196,7 @@ namespace VirtueSky.ControlPanel.Editor
         FolderIcon,
         Firebase,
         GameService,
+        Localization,
         Extensions,
         About,
     }

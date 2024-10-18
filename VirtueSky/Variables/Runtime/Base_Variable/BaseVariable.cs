@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 using VirtueSky.DataStorage;
 using VirtueSky.Events;
 using VirtueSky.Inspector;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Variables
 {

@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.1.2";
+        public const string VersionSunflower = "3.1.3";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -134,5 +134,10 @@
 
         public const string MaxVersionUniTask =
             "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10";
+
+        public const string PackageNameBakingSheet = "com.cathei.bakingsheet";
+
+        public const string MaxVersionBakingSheet =
+            "https://github.com/cathei/BakingSheet.git?path=UnityProject/Packages/com.cathei.bakingsheet#v4.1.3";
     }
 }
