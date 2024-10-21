@@ -10,11 +10,11 @@ namespace VirtueSky.Tracking
         public static Action OnTracked;
 
         public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId,
-            string format, string adNetwork)
+            string format, string currentAdSettingNetwork)
         {
 #if VIRTUESKY_FIREBASE_ANALYTIC
             string ad_platform = "";
-            switch (adNetwork.ToLower())
+            switch (currentAdSettingNetwork.ToLower())
             {
                 case "admob":
                     return;

@@ -16,12 +16,12 @@ namespace VirtueSky.Tracking
     {
         public static Action OnTracked;
         public static void AppsFlyerTrackRevenueAd(double value, string network, string unitId,
-            string format, string adNetwork)
+            string format, string currentAdSettingNetwork)
         {
 #if VIRTUESKY_APPSFLYER
             var mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
                 .AppsFlyerAdRevenueMediationNetworkTypeGoogleAdMob;
-            switch (adNetwork.ToLower())
+            switch (currentAdSettingNetwork.ToLower())
             {
                 case "admob":
                     mediationNetworks = AppsFlyerAdRevenueMediationNetworkType

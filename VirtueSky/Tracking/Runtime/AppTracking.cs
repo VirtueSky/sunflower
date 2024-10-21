@@ -3,12 +3,12 @@
     public struct AppTracking
     {
         public static void TrackRevenue(double value, string network, string unitId, string format,
-            string adNetwork)
+            string currentAdSettingNetwork)
         {
-            AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, adNetwork);
+            AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, currentAdSettingNetwork);
             FirebaseAnalyticTrackingRevenue.FirebaseAnalyticTrackRevenue(value, network, unitId,
-                format, adNetwork);
-            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, adNetwork);
+                format, currentAdSettingNetwork);
+            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, currentAdSettingNetwork);
         }
 
         public static void FirebaseAnalyticTrackATTResult(int status)
