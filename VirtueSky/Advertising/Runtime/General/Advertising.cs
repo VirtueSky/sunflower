@@ -17,6 +17,8 @@ using VirtueSky.UtilsEditor;
 #endif
 using VirtueSky.Events;
 using VirtueSky.Inspector;
+using VirtueSky.Misc;
+using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
 {
@@ -119,7 +121,7 @@ namespace VirtueSky.Ads
 
             currentAdClient.SetupAdSetting(adSetting);
             currentAdClient.Initialize();
-            Debug.Log("currentAdClient: " + currentAdClient);
+            Debug.Log($"currentAdClient: {currentAdClient}".SetColor(CustomColor.Cyan));
             InitAutoLoadAds();
         }
 
