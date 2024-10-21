@@ -12,6 +12,8 @@ using Firebase.RemoteConfig;
 
 using UnityEngine;
 using VirtueSky.Inspector;
+using VirtueSky.Misc;
+using VirtueSky.Utils;
 using VirtueSky.Variables;
 
 namespace VirtueSky.RemoteConfigs
@@ -73,8 +75,7 @@ namespace VirtueSky.RemoteConfigs
                 }
                 else
                 {
-                    Debug.LogError("Could not resolve all Firebase dependencies: " +
-                                   dependencyStatus);
+                    Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}".SetColor(Color.red));
                 }
             });
 #endif
@@ -83,22 +84,9 @@ namespace VirtueSky.RemoteConfigs
 #if VIRTUESKY_FIREBASE_REMOTECONFIG && VIRTUESKY_FIREBASE
         public Task FetchDataAsync()
         {
-            Debug.Log("Fetching data...");
+            Debug.Log("Fetching data...".SetColor(CustomColor.Cyan));
             Task fetchTask = FirebaseRemoteConfig.DefaultInstance
                 .FetchAsync(TimeSpan.Zero);
-            if (fetchTask.IsCanceled)
-            {
-                Debug.Log("Fetch canceled.");
-            }
-            else if (fetchTask.IsFaulted)
-            {
-                Debug.Log("Fetch encountered an error.");
-            }
-            else if (fetchTask.IsCompleted)
-            {
-                Debug.Log("Fetch completed successfully!");
-            }
-
             return fetchTask.ContinueWithOnMainThread(tast =>
             {
                 var info = FirebaseRemoteConfig.DefaultInstance.Info;
@@ -107,9 +95,7 @@ namespace VirtueSky.RemoteConfigs
                     FirebaseRemoteConfig.DefaultInstance.ActivateAsync().ContinueWithOnMainThread(
                         task =>
                         {
-                            Debug.Log(String.Format(
-                                "Remote data loaded and ready (last fetch time {0}).",
-                                info.FetchTime));
+                            Debug.Log(String.Format("Remote data loaded and ready (last fetch time {0}).".SetColor(CustomColor.Cyan), info.FetchTime));
                             foreach (var rmcData in listRemoteConfigData)
                             {
                                 if (string.IsNullOrEmpty(rmcData.key) ||
@@ -130,11 +116,11 @@ namespace VirtueSky.RemoteConfigs
                             }
                         });
 
-                    Debug.Log("<color=Green>Firebase Remote Config Fetching completed!</color>");
+                    Debug.Log("Firebase Remote Config Fetching completed!".SetColor(Color.green));
                 }
                 else
                 {
-                    Debug.Log("Fetching data did not completed!");
+                    Debug.Log("Fetching data did not completed!".SetColor(Color.red));
                 }
             });
         }
