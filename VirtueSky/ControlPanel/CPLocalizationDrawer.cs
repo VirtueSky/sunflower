@@ -338,7 +338,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static void CreateLocalizedAssetPopup(Vector2 mousePosition)
         {
             var popupPosition = new Rect(mousePosition, Vector2.zero);
-            EditorUtility.DisplayPopupMenu(popupPosition, "Assets/_Sunflower/Scriptable/Localization/", null);
+            EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/Sunflower/Localization/", null);
         }
 
         private static void AssetItemContextMenu_Rename()

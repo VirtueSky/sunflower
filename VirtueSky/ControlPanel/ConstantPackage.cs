@@ -83,7 +83,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.3";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.4";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
