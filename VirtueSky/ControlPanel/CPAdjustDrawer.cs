@@ -82,6 +82,25 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.Space(10);
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Ping AdjustConfig");
+            GUILayout.Space(10);
+            if (GUILayout.Button("Ping"))
+            {
+                if (_config == null)
+                {
+                    Debug.LogError("AdjustConfig have not been created yet");
+                }
+                else
+                {
+                    EditorGUIUtility.PingObject(_config);
+                    Selection.activeObject = _config;
+                }
+            }
+
+            GUILayout.Space(10);
             GUILayout.EndVertical();
         }
     }
