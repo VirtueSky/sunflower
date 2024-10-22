@@ -20,12 +20,12 @@
         public const string PackageNameGGPlayCore = "com.google.play.core";
 
         public const string MaxVersionGGPlayCore =
-            "https://github.com/google-unity/google-play-core.git#1.8.4";
+            "https://github.com/google-unity/google-play-core.git#1.8.5";
 
         public const string PackageNameGGPlayCommon = "com.google.play.common";
 
         public const string MaxVersionGGPlayCommon =
-            "https://github.com/google-unity/google-play-common.git#1.9.1";
+            "https://github.com/google-unity/google-play-common.git#1.9.2";
 
         public const string PackageNameGGAndroidAppBundle = "com.google.android.appbundle";
 
@@ -41,7 +41,7 @@
         public const string PackageNameGGPlayReview = "com.google.play.review";
 
         public const string MaxVersionGGPlayReview =
-            "https://github.com/google-unity/in-app-review.git#1.8.2";
+            "https://github.com/google-unity/in-app-review.git#1.8.3";
 
         #endregion
 
