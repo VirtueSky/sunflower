@@ -127,6 +127,25 @@ namespace VirtueSky.ControlPanel.Editor
                 CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_BAKINGSHEET);
             }
 
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            CPUtility.DrawHeader("Ping LocaleSettings");
+            GUILayout.Space(10);
+            if (GUILayout.Button("Ping"))
+            {
+                if (_settings == null)
+                {
+                    Debug.LogError("LocaleSettings have not been created yet");
+                }
+                else
+                {
+                    EditorGUIUtility.PingObject(_settings);
+                    Selection.activeObject = _settings;
+                }
+            }
+
+            GUILayout.Space(10);
             EditorGUILayout.EndScrollView();
             GUILayout.Space(10);
         }
