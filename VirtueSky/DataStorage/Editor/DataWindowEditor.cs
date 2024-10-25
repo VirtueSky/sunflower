@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using VirtueSky.Misc;
+using VirtueSky.Utils;
 using VirtueSky.UtilsEditor;
 
 namespace VirtueSky.DataStorage
@@ -13,14 +15,14 @@ namespace VirtueSky.DataStorage
             GameData.DeleteAll();
             GameData.DeleteFileData();
             PlayerPrefs.DeleteAll();
-            Debug.Log($"<color=Green>Clear all data succeed</color>");
+            Debug.Log($"Clear all data succeed".SetColor(Color.green));
         }
 
         [MenuItem("Sunflower/Save Data", priority = 504)]
         public static void SaveData()
         {
             GameData.Save();
-            Debug.Log($"<color=Green>Save data succeed</color>");
+            Debug.Log($"Save data succeed".SetColor(Color.green));
         }
 
         [MenuItem("Sunflower/Clear Path Data", priority = 502)]
@@ -28,7 +30,7 @@ namespace VirtueSky.DataStorage
         {
             GameData.DeleteAll();
             GameData.DeleteFileData();
-            Debug.Log($"<color=Green>Clear sun path data succeed</color>");
+            Debug.Log($"Clear sun path data succeed".SetColor(Color.green));
         }
 
         [MenuItem("Sunflower/Open Path Data", priority = 503)]
