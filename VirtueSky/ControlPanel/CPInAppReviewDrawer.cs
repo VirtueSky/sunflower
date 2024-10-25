@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using VirtueSky.Misc;
 using VirtueSky.Rating;
 using VirtueSky.UtilsEditor;
 
@@ -43,7 +44,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
 #if !VIRTUESKY_RATING
             EditorGUILayout.HelpBox(
-                "Add scripting define symbols \"VIRTUESKY_RATING\" to use IAP",
+                "Add scripting define symbols \"VIRTUESKY_RATING\" to use In App Review",
                 MessageType.Info);
 #endif
 
