@@ -22,11 +22,12 @@
         {
 #if VIRTUESKY_ADJUST
             var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
-
-            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustConfig.AppToken, AdjustConfig.AdjustEnvironment, AdjustConfig.LogLevel == AdjustSdk.AdjustLogLevel.Suppress);
-            adjustConfig.LogLevel = AdjustConfig.LogLevel;
-            adjustConfig.IsAdServicesEnabled = true;
-            adjustConfig.IsIdfaReadingEnabled = true;
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustConfig.AppToken, AdjustConfig.AdjustEnvironment, AdjustConfig.LogLevel == AdjustSdk.AdjustLogLevel.Suppress)
+            {
+                LogLevel = AdjustConfig.LogLevel,
+                IsAdServicesEnabled = true,
+                IsIdfaReadingEnabled = true
+            };
             AdjustSdk.Adjust.InitSdk(adjustConfig);
             UnityEngine.Debug.Log($"Start Tracking {adjust.name}");
 #endif
