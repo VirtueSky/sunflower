@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.1.4";
+        public const string VersionSunflower = "3.1.5";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -83,7 +83,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.4";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.0.5";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =

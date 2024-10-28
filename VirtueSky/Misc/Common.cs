@@ -245,9 +245,9 @@ namespace VirtueSky.Misc
         public static IEnumerator InternetConnection(Action<bool> action)
         {
             bool result;
-            string url = "http://google.com";
+            string url = "https://google.com";
 #if UNITY_ANDROID
-            url = "http://google.com";
+            url = "https://google.com";
 #elif UNITY_IOS
             url = "https://captive.apple.com/hotspot-detect.html";
 #endif
