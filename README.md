@@ -1,4 +1,4 @@
-# Core scriptable object architecture for building Unity games (Android & Ios)
+# Core scriptable object architecture for building Unity games (Android & iOS)
 
 <p align="left">
   <a>
