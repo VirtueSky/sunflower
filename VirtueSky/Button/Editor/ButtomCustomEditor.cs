@@ -17,6 +17,9 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
     private SerializedProperty _isShrugOver;
     private SerializedProperty _timeShrug;
     private SerializedProperty _strength;
+    private SerializedProperty _useSoundFx;
+    private SerializedProperty _playSfxEvent;
+    private SerializedProperty _soundDataClickButton;
 
     protected override void OnEnable()
     {
@@ -29,6 +32,9 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         _isShrugOver = serializedObject.FindProperty("isShrugOver");
         _timeShrug = serializedObject.FindProperty("timeShrug");
         _strength = serializedObject.FindProperty("strength");
+        _useSoundFx = serializedObject.FindProperty("useSoundFx");
+        _playSfxEvent = serializedObject.FindProperty("playSfxEvent");
+        _soundDataClickButton = serializedObject.FindProperty("soundDataClickButton");
     }
 
     public override void OnInspectorGUI()
@@ -67,6 +73,14 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
                 EditorGUILayout.PropertyField(_timeShrug);
                 EditorGUILayout.PropertyField(_strength);
             }
+        }
+
+        GUILayout.Space(5);
+        EditorGUILayout.PropertyField(_useSoundFx);
+        if (_useSoundFx.boolValue)
+        {
+            EditorGUILayout.PropertyField(_playSfxEvent);
+            EditorGUILayout.PropertyField(_soundDataClickButton);
         }
     }
 }
