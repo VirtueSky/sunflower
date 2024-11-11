@@ -43,7 +43,7 @@ public class ButtomCustomEditor : UnityEditor.UI.ButtonEditor
         serializedObject.Update();
         GUILayout.Space(5);
         GUILayout.Space(5);
-        Uniform.DrawGroupFoldout("button_custom_setting", "Setting", () => DrawSetting(), false);
+        Uniform.DrawGroupFoldout("button_custom_setting", "Setting", () => DrawSetting(), true);
 
         serializedObject.ApplyModifiedProperties();
         serializedObject.Update();
