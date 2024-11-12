@@ -27,13 +27,18 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
-#if !VIRTUESKY_FIREBASE || !VIRTUESKY_FIREBASE_REMOTECONFIG
+#if !VIRTUESKY_FIREBASE
             EditorGUILayout.HelpBox(
-                $"Add scripting define symbols: \n {ConstantDefineSymbols.VIRTUESKY_FIREBASE} for Firebase App,\n {ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG} for Firebase Remote Config to use",
+                $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_FIREBASE} for Firebase App",
                 MessageType.Info);
 #endif
 
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE);
+#if !VIRTUESKY_FIREBASE_REMOTECONFIG
+            EditorGUILayout.HelpBox(
+                $"Add scripting define symbols: {ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG} for Firebase Remote Config to use",
+                MessageType.Info);
+#endif
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_FIREBASE_REMOTECONFIG);
 #if !VIRTUESKY_FIREBASE_ANALYTIC
             EditorGUILayout.HelpBox(

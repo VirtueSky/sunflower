@@ -2,6 +2,7 @@ using PrimeTween;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VirtueSky.Audio;
 using VirtueSky.Inspector;
 using VirtueSky.Events;
 using VirtueSky.Misc;
@@ -20,7 +21,7 @@ namespace VirtueSky.UIButton
     {
         public ClickButtonEvent clickButtonEvent;
 
-        [TitleColor("Motion", CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
+        [HeaderLine("Motion", false, CustomColor.Yellow, CustomColor.Orange)] [SerializeField]
         private bool isMotion = true;
 
         [SerializeField] private Ease easingTypes = Ease.OutQuint;
@@ -29,6 +30,12 @@ namespace VirtueSky.UIButton
         [SerializeField] private bool isShrugOver;
         [SerializeField] private float timeShrug = .2f;
         [SerializeField] private float strength = .2f;
+
+        [HeaderLine("Sound Fx Click Button", false, CustomColor.Aqua, CustomColor.Salmon)] [SerializeField]
+        private bool useSoundFx;
+
+        [SerializeField] private PlaySfxEvent playSfxEvent;
+        [SerializeField] private SoundData soundDataClickButton;
 
         Vector3 originScale = Vector3.one;
         private bool canShrug = true;
@@ -51,6 +58,11 @@ namespace VirtueSky.UIButton
         {
             base.OnPointerDown(eventData);
             DoScale();
+            if (useSoundFx)
+            {
+                soundDataClickButton.PlaySfx(playSfxEvent);
+            }
+
             if (clickButtonEvent != null)
             {
                 clickButtonEvent.Raise();

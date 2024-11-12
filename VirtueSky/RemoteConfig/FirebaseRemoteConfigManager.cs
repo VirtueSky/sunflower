@@ -28,7 +28,7 @@ namespace VirtueSky.RemoteConfigs
 
         [Space, SerializeField] private BooleanVariable isFetchRemoteConfigCompleted;
         [Space, SerializeField] private BooleanVariable firebaseDependencyAvailable;
-        [Space, SerializeField] private List<FirebaseRemoteConfigData> listRemoteConfigData;
+        [Space, SerializeField] private FirebaseRemoteConfigData[] listRemoteConfigData;
 
         private void Awake()
         {

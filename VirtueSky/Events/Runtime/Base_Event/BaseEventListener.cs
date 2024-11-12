@@ -119,7 +119,7 @@ namespace VirtueSky.Events
         where TEvent : BaseEvent<TType, TResult>
         where TResponse : UnityEvent<TType>
     {
-        [SerializeField] protected List<EventResponseData> listEventResponseDatas = new List<EventResponseData>();
+        [SerializeField] protected EventResponseData[] listEventResponseDatas;
 
         protected readonly Dictionary<BaseEvent<TType, TResult>, UnityEvent<TType>> _dictionary =
             new Dictionary<BaseEvent<TType, TResult>, UnityEvent<TType>>();
