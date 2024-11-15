@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.DataType;
@@ -42,8 +44,7 @@ namespace VirtueSky.Audio
 
         private SoundComponent music;
 
-        [ReadOnly, SerializeField] private DictionaryCustom<int, SoundComponent> dictSfxCache =
-            new DictionaryCustom<int, SoundComponent>();
+        [ReadOnly, SerializeField] private List<SoundComponent> listCacheSfx = new List<SoundComponent>();
 
         private int key = 0;
 
@@ -100,9 +101,9 @@ namespace VirtueSky.Audio
 
         void OnSfxVolumeChanged(float volume)
         {
-            foreach (var cache in dictSfxCache)
+            for (var i = 0; i < listCacheSfx.Count; i++)
             {
-                cache.Value.Volume = volume;
+                listCacheSfx[i].Volume = volume;
             }
         }
 
@@ -115,7 +116,7 @@ namespace VirtueSky.Audio
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
             sfxComponent.Key = key;
-            dictSfxCache.Add(soundCache.key, sfxComponent);
+            listCacheSfx.Add(sfxComponent);
             return soundCache;
         }
 
@@ -124,10 +125,6 @@ namespace VirtueSky.Audio
             var soundComponent = GetSoundComponent(soundCache);
             if (soundComponent == null) return;
             StopAndCleanAudioComponent(soundComponent);
-            if (dictSfxCache.ContainsKey(soundCache.key))
-            {
-                dictSfxCache.Remove(soundCache.key);
-            }
         }
 
         private void PauseSfx(SoundCache soundCache)
@@ -154,15 +151,14 @@ namespace VirtueSky.Audio
 
         private void StopAllSfx()
         {
-            foreach (var cache in dictSfxCache)
+            var listTemp = listCacheSfx.ToList();
+            for (int i = 0; i < listTemp.Count; i++)
             {
-                StopAndCleanAudioComponent(cache.Value);
+                StopAndCleanAudioComponent(listTemp[i]);
             }
 
-            if (dictSfxCache.Count > 0)
-            {
-                dictSfxCache.Clear();
-            }
+            listCacheSfx.Clear();
+            listTemp.Clear();
 
             key = 0;
         }
@@ -225,7 +221,7 @@ namespace VirtueSky.Audio
 
             soundComponent.Stop();
             soundComponent.gameObject.DeSpawn();
-            dictSfxCache.Remove(soundComponent.Key);
+            if (listCacheSfx.Contains(soundComponent)) listCacheSfx.Remove(soundComponent);
         }
 
         void StopAudioMusic(SoundComponent soundComponent)
@@ -237,13 +233,9 @@ namespace VirtueSky.Audio
         SoundComponent GetSoundComponent(SoundCache soundCache)
         {
             if (soundCache == null) return null;
-            if (!dictSfxCache.ContainsKey(soundCache.key)) return null;
-            foreach (var cache in dictSfxCache.GetDict)
+            for (var i = 0; i < listCacheSfx.Count; i++)
             {
-                if (cache.Key == soundCache.key)
-                {
-                    return cache.Value;
-                }
+                if (soundCache.key == listCacheSfx[i].Key) return listCacheSfx[i];
             }
 
             return null;
