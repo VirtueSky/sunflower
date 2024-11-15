@@ -11,6 +11,7 @@ namespace VirtueSky.Audio
     [EditorIcon("icon_csharp")]
     public class SoundComponent : CacheComponent<AudioSource>
     {
+        [ReadOnly, SerializeField] private int key;
         public event UnityAction<SoundComponent> OnCompleted;
         public event UnityAction<SoundComponent> OnPaused;
         public event UnityAction<SoundComponent> OnResumed;
@@ -24,6 +25,12 @@ namespace VirtueSky.Audio
         {
             get => component.volume;
             set => component.volume = value;
+        }
+
+        public int Key
+        {
+            get => key;
+            set => key = value;
         }
 
         private void Awake()
