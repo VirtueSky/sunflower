@@ -119,6 +119,7 @@ namespace VirtueSky.UIButton
         {
             base.Reset();
             GetClickButtonEvent();
+            playSfxEvent = CreateAsset.CreateAndGetScriptableAsset<PlaySfxEvent>("/Audio/Sfx_Event", "play_sfx_event", false);
         }
 
         public void GetClickButtonEvent()
