@@ -75,8 +75,6 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameGGPlayCore, ConstantPackage.MaxVersionGGPlayCore);
             CPUtility.DrawButtonInstallPackage("Install Google Play Common", "Remove Google Play Common",
                 ConstantPackage.PackageNameGGPlayCommon, ConstantPackage.MaxVersionGGPlayCommon);
-            CPUtility.DrawButtonInstallPackage("Install Android App Bundle", "Remove Android App Bundle",
-                ConstantPackage.PackageNameGGAndroidAppBundle, ConstantPackage.MaxVersionAndroidAppBundle);
             CPUtility.DrawButtonInstallPackage("Install Newtonsoft.Json", "Remove Newtonsoft.Json",
                 ConstantPackage.PackageNameNewtonsoftJson, ConstantPackage.MaxVersionNewtonsoftJson);
             CPUtility.DrawButtonInstallPackage("Install PlayFab", "Remove PlayFab", ConstantPackage.PackageNamePlayFab,

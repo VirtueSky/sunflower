@@ -30,8 +30,6 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameGGPlayCore, ConstantPackage.MaxVersionGGPlayCore);
             CPUtility.DrawButtonInstallPackage("Install Google Play Common", "Remove Google Play Common",
                 ConstantPackage.PackageNameGGPlayCommon, ConstantPackage.MaxVersionGGPlayCommon);
-            CPUtility.DrawButtonInstallPackage("Install Android App Bundle", "Remove Android App Bundle",
-                ConstantPackage.PackageNameGGAndroidAppBundle, ConstantPackage.MaxVersionAndroidAppBundle);
             CPUtility.DrawButtonInstallPackage("Install Google External Dependency Manager",
                 "Remove Google External Dependency Manager",
                 ConstantPackage.PackageNameGGExternalDependencyManager,
