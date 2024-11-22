@@ -6,7 +6,7 @@ namespace VirtueSky.Component
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [EditorIcon("icon_csharp"), HideMonoScript]
-    public class Buoyancy2DComponent : BaseMono
+    public class Buoyancy2DComponent : CacheComponent<Rigidbody2D>
     {
         public Transform[] floaters;
         public float underWaterDrag = 3f;
@@ -15,7 +15,6 @@ namespace VirtueSky.Component
         public float airAngularDrag = 0.05f;
         public float floatingPower = 15f;
         public float waterHeight = 0f;
-        public Rigidbody2D rb;
         bool Underwater;
 
         int floatersUnderWater;
@@ -31,7 +30,7 @@ namespace VirtueSky.Component
                 float diff = floaters[i].position.y - waterHeight;
                 if (diff < 0)
                 {
-                    rb.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(diff), floaters[i].position,
+                    component.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(diff), floaters[i].position,
                         ForceMode2D.Force);
                     floatersUnderWater += 1;
                     if (!Underwater)
@@ -51,25 +50,13 @@ namespace VirtueSky.Component
 
         void SwitchState(bool isUnderwater)
         {
-            if (isUnderwater)
-            {
-                rb.drag = underWaterDrag;
-                rb.angularDrag = underWaterAngularDrag;
-            }
-            else
-            {
-                rb.drag = airDrag;
-                rb.angularDrag = airAngularDrag;
-            }
-        }
-#if UNITY_EDITOR
-        private void Reset()
-        {
-            if (rb == null)
-            {
-                rb = GetComponent<Rigidbody2D>();
-            }
-        }
+#if UNITY_6000_0_OR_NEWER
+            component.linearDamping = isUnderwater ? underWaterDrag : airDrag;
+            component.angularDamping = isUnderwater ? underWaterAngularDrag : airAngularDrag;
+#else
+            component.drag = isUnderwater ? underWaterDrag : airDrag;
+            component.angularDrag = isUnderwater ? underWaterAngularDrag : airAngularDrag;
 #endif
+        }
     }
 }

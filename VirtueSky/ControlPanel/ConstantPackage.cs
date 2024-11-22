@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.1.7";
+        public const string VersionSunflower = "3.1.8";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -20,28 +20,22 @@
         public const string PackageNameGGPlayCore = "com.google.play.core";
 
         public const string MaxVersionGGPlayCore =
-            "https://github.com/google-unity/google-play-core.git#1.8.5";
+            "https://github.com/pancake-llc/google-play-core.git#1.8.5";
 
         public const string PackageNameGGPlayCommon = "com.google.play.common";
 
         public const string MaxVersionGGPlayCommon =
-            "https://github.com/google-unity/google-play-common.git#1.9.2";
-
-        public const string PackageNameGGAndroidAppBundle = "com.google.android.appbundle";
-
-        public const string MaxVersionAndroidAppBundle =
-            "https://github.com/google-unity/android-app-bundle.git#1.9.0";
+            "https://github.com/pancake-llc/google-play-common.git#1.9.2";
 
         public const string PackageNameGGExternalDependencyManager =
             "com.google.external-dependency-manager";
 
-        public const string MaxVersionGGExternalDependencyManager =
-            "https://github.com/google-unity/external-dependency-manager.git#1.2.183";
+        public const string MaxVersionGGExternalDependencyManager = "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.183";
 
         public const string PackageNameGGPlayReview = "com.google.play.review";
 
         public const string MaxVersionGGPlayReview =
-            "https://github.com/google-unity/in-app-review.git#1.8.3";
+            "https://github.com/pancake-llc/in-app-review.git#1.8.3";
 
         #endregion
 
@@ -50,35 +44,35 @@
         public const string PackageNameFirebaseApp = "com.google.firebase.app";
 
         public const string MaxVersionFirebaseApp =
-            "https://github.com/firebase-unity/firebase-app.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-app.git#12.4.1";
 
         public const string PackageNameFirebaseRemoteConfig = "com.google.firebase.remote-config";
 
         public const string MaxVersionFirebaseRemoteConfig =
-            "https://github.com/firebase-unity/firebase-remote-config.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-remote-config.git#12.4.1";
 
         public const string PackageNameFirebaseAnalytics = "com.google.firebase.analytics";
 
         public const string MaxVersionFirebaseAnalytics =
-            "https://github.com/firebase-unity/firebase-analytics.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-analytics.git#12.4.1";
 
         public const string PackageNameFirebaseDatabase = "com.google.firebase.database";
 
         public const string MaxVersionFirebaseDatabase =
-            "https://github.com/firebase-unity/firebase-database.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-database.git#12.4.1";
 
         public const string PackageNameFirebaseAuth = "com.google.firebase.auth";
-        public const string MaxVersionFirebaseAuth = "https://github.com/firebase-unity/firebase-auth.git#12.4.0";
+        public const string MaxVersionFirebaseAuth = "https://github.com/firebase-unity/firebase-auth.git#12.4.1";
 
         public const string PackageNameFirebaseCrashlytics = "com.google.firebase.crashlytics";
 
         public const string MaxVersionFirebaseCrashlytics =
-            "https://github.com/firebase-unity/firebase-crashlytics.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-crashlytics.git#12.4.1";
 
         public const string PackageNameFirebaseSupportIos = "com.google.firebase.support-ios";
 
         public const string MaxVersionFirebaseSupportIos =
-            "https://github.com/firebase-unity/firebase-support-ios.git#12.4.0";
+            "https://github.com/firebase-unity/firebase-support-ios.git#12.4.1";
 
         #endregion
 
@@ -108,7 +102,7 @@
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.2";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.3";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
