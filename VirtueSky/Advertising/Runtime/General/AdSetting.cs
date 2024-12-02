@@ -57,6 +57,7 @@ namespace VirtueSky.Ads
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
         [SerializeField] private AdmobRewardInterVariable admobRewardInterVariable;
         [SerializeField] private AdmobAppOpenVariable admobAppOpenVariable;
+        [SerializeField] private AdmobNativeOverlayVariable admobNativeOverlayVariable;
         [SerializeField] private bool admobEnableTestMode;
         [SerializeField] private List<string> admobDevicesTest;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
@@ -64,6 +65,7 @@ namespace VirtueSky.Ads
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
+        public AdmobNativeOverlayVariable AdmobNativeOverlayVariable => admobNativeOverlayVariable;
         public bool AdmobEnableTestMode => admobEnableTestMode;
 
         public List<string> AdmobDevicesTest => admobDevicesTest;
@@ -129,7 +131,7 @@ namespace VirtueSky.Ads
         IronSource
     }
 
-    public enum BannerPosition
+    public enum AdsPosition
     {
         Top = 1,
         Bottom = 0,
@@ -137,15 +139,16 @@ namespace VirtueSky.Ads
         TopRight = 3,
         BottomLeft = 4,
         BottomRight = 5,
+        Center = 6,
     }
 
-    public enum BannerSize
+    public enum AdsSize
     {
         Banner = 0, // 320x50
         Adaptive = 5, // full width
         MediumRectangle = 1, // 300x250
         IABBanner = 2, // 468x60
         Leaderboard = 3, // 728x90
-        //    SmartBanner = 4,
+        // SmartBanner = 4,
     }
 }

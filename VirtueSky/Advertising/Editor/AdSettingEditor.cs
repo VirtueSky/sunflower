@@ -28,6 +28,7 @@ namespace VirtueSky.Ads
         private SerializedProperty _admobRewardVariable;
         private SerializedProperty _admobRewardInterVariable;
         private SerializedProperty _admobAppOpenVariable;
+        private SerializedProperty _admobNativeOverlayVariable;
         private SerializedProperty _admobEnableTestMode;
         private SerializedProperty _enableGDPR;
         private SerializedProperty _enableGDPRTestMode;
@@ -63,6 +64,7 @@ namespace VirtueSky.Ads
             _admobRewardVariable = serializedObject.FindProperty("admobRewardVariable");
             _admobRewardInterVariable = serializedObject.FindProperty("admobRewardInterVariable");
             _admobAppOpenVariable = serializedObject.FindProperty("admobAppOpenVariable");
+            _admobNativeOverlayVariable = serializedObject.FindProperty("admobNativeOverlayVariable");
             _admobEnableTestMode = serializedObject.FindProperty("admobEnableTestMode");
             _admobDevicesTest = serializedObject.FindProperty("admobDevicesTest");
             _enableGDPR = serializedObject.FindProperty("enableGDPR");
@@ -257,6 +259,19 @@ namespace VirtueSky.Ads
                 {
                     _admobAppOpenVariable.objectReferenceValue =
                         CreateAsset.CreateAndGetScriptableAsset<AdmobAppOpenVariable>(pathAdmob);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(_admobNativeOverlayVariable);
+            if (_admobNativeOverlayVariable.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    _admobNativeOverlayVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<AdmobNativeOverlayVariable>(pathAdmob);
                 }
             }
 
