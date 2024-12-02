@@ -189,6 +189,21 @@ namespace VirtueSky.Ads
 #endif
         }
 
+        public void RenderAd(RectTransform uiElement, Canvas canvas, int width, int height)
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            if (_nativeOverlayAd == null) return;
+            var worldPosition = uiElement.TransformPoint(uiElement.position);
+            Vector2 screenPosition = canvas.worldCamera.WorldToScreenPoint(worldPosition);
+
+            float dpi = Screen.dpi / 160f;
+            var admobX = (int)((screenPosition.x - width / 2) / dpi);
+            var admobY = (int)(((Screen.height - (int)screenPosition.y) - height / 2) / dpi);
+
+            _nativeOverlayAd?.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
+#endif
+        }
+
 
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         public NativeTemplateStyle Style()
