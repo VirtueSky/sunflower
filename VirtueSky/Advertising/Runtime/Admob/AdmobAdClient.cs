@@ -35,6 +35,7 @@ namespace VirtueSky.Ads
             adSetting.AdmobRewardVariable.Init();
             adSetting.AdmobRewardInterVariable.Init();
             adSetting.AdmobAppOpenVariable.Init();
+            adSetting.AdmobNativeOverlayVariable.Init();
 
             RegisterAppStateChange();
             LoadInterstitial();

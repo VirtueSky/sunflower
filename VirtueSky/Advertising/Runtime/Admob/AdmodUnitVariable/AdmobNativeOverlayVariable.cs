@@ -90,8 +90,10 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd != null)
                 _nativeOverlayAd.Show();
+#endif
         }
 
         /// <summary>
@@ -99,11 +101,13 @@ namespace VirtueSky.Ads
         /// </summary>
         public override void Destroy()
         {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd != null)
             {
                 _nativeOverlayAd.Destroy();
                 _nativeOverlayAd = null;
             }
+#endif
         }
 
         /// <summary>
@@ -111,24 +115,11 @@ namespace VirtueSky.Ads
         /// </summary>
         public void Hide()
         {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd != null) _nativeOverlayAd.Hide();
+#endif
         }
 
-        public NativeTemplateStyle Style()
-        {
-            return new NativeTemplateStyle
-            {
-                TemplateId = nativeTemplate.ToString().ToLower(),
-                // MainBackgroundColor = Color.red,
-                // CallToActionText = new NativeTemplateTextStyle
-                // {
-                //     BackgroundColor = Color.green,
-                //     TextColor = Color.white,
-                //     FontSize = 9,
-                //     Style = nativeTemplateFontStyle
-                // }
-            };
-        }
 
         /// <summary>
         /// Render native overlay ads default
@@ -177,6 +168,22 @@ namespace VirtueSky.Ads
         }
 
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+        public NativeTemplateStyle Style()
+        {
+            return new NativeTemplateStyle
+            {
+                TemplateId = nativeTemplate.ToString().ToLower(),
+                // MainBackgroundColor = Color.red,
+                // CallToActionText = new NativeTemplateTextStyle
+                // {
+                //     BackgroundColor = Color.green,
+                //     TextColor = Color.white,
+                //     FontSize = 9,
+                //     Style = nativeTemplateFontStyle
+                // }
+            };
+        }
+
         AdPosition ConvertPosition()
         {
             return adsPosition switch
