@@ -15,8 +15,8 @@ namespace VirtueSky.Ads
     [EditorIcon("icon_scriptable")]
     public class AdmobBannerVariable : AdmobAdUnitVariable
     {
-        public BannerSize size = BannerSize.Adaptive;
-        public BannerPosition position = BannerPosition.Bottom;
+        public AdsSize size = AdsSize.Adaptive;
+        public AdsPosition position = AdsPosition.Bottom;
         public bool useCollapsible;
         public bool useTestId;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
@@ -138,12 +138,12 @@ namespace VirtueSky.Ads
         {
             switch (size)
             {
-                case BannerSize.Adaptive:
+                case AdsSize.Adaptive:
                     return AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(
                         AdSize.FullWidth);
-                case BannerSize.MediumRectangle: return AdSize.MediumRectangle;
-                case BannerSize.Leaderboard: return AdSize.Leaderboard;
-                case BannerSize.IABBanner: return AdSize.IABBanner;
+                case AdsSize.MediumRectangle: return AdSize.MediumRectangle;
+                case AdsSize.Leaderboard: return AdSize.Leaderboard;
+                case AdsSize.IABBanner: return AdSize.IABBanner;
                 //case BannerSize.SmartBanner: return AdSize.SmartBanner;
                 default: return AdSize.Banner;
             }
@@ -153,23 +153,23 @@ namespace VirtueSky.Ads
         {
             switch (position)
             {
-                case BannerPosition.Top: return AdPosition.Top;
-                case BannerPosition.Bottom: return AdPosition.Bottom;
-                case BannerPosition.TopLeft: return AdPosition.TopLeft;
-                case BannerPosition.TopRight: return AdPosition.TopRight;
-                case BannerPosition.BottomLeft: return AdPosition.BottomLeft;
-                case BannerPosition.BottomRight: return AdPosition.BottomRight;
+                case AdsPosition.Top: return AdPosition.Top;
+                case AdsPosition.Bottom: return AdPosition.Bottom;
+                case AdsPosition.TopLeft: return AdPosition.TopLeft;
+                case AdsPosition.TopRight: return AdPosition.TopRight;
+                case AdsPosition.BottomLeft: return AdPosition.BottomLeft;
+                case AdsPosition.BottomRight: return AdPosition.BottomRight;
                 default: return AdPosition.Bottom;
             }
         }
 
         public string ConvertPlacementCollapsible()
         {
-            if (position == BannerPosition.Top)
+            if (position == AdsPosition.Top)
             {
                 return "top";
             }
-            else if (position == BannerPosition.Bottom)
+            else if (position == AdsPosition.Bottom)
             {
                 return "bottom";
             }
