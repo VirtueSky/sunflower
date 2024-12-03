@@ -18,15 +18,13 @@ namespace PrimeTween {
     [Serializable]
     public struct TweenSettings {
         public float duration;
-        [Tooltip("The easing curve of an animation.\n\n" +
-                 "Default is Ease." + nameof(Ease.OutQuad) + ". The Default ease can be modified via '" + nameof(PrimeTweenConfig) + "." + nameof(PrimeTweenConfig.defaultEase) + "' setting.\n\n" +
-                 "Set to " + nameof(Ease) + "." + nameof(Ease.Custom) + " to control the easing with custom " + nameof(AnimationCurve) + ".")]
+        [Tooltip(Constants.easeTooltip)]
         public Ease ease;
         [Tooltip("A custom Animation Curve that will work as an easing curve.")]
         [CanBeNull] public AnimationCurve customEase;
         [Tooltip(Constants.cyclesTooltip)]
         public int cycles;
-        [Tooltip("See the documentation of each cycle mode by hoovering the dropdown.")]
+        [Tooltip(Constants.cycleModeTooltip)]
         public CycleMode cycleMode;
         [Tooltip(Constants.startDelayTooltip)]
         public float startDelay;

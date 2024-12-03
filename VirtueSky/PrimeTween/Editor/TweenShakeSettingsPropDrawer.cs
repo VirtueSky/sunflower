@@ -6,7 +6,7 @@ using static UnityEditor.EditorGUI;
 using static UnityEditor.EditorGUIUtility;
 
 [CustomPropertyDrawer(typeof(ShakeSettings))]
-internal class TweenShakeSettingsPropDrawer : PropertyDrawer {
+internal class TweenShakeSettingsPropDrawer : PropertyDrawer { // todo rename to ShakeSettingsPropDrawer
     public override float GetPropertyHeight([NotNull] SerializedProperty property, GUIContent label) {
         if (!property.isExpanded) {
             return singleLineHeight;

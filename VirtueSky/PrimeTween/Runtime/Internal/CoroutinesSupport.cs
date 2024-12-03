@@ -64,11 +64,11 @@ namespace PrimeTween {
     }
 
     internal class TweenCoroutineEnumerator : IEnumerator {
-        Tween tween;
+        internal Tween tween;
         bool isRunning;
 
         internal void SetTween(Tween _tween) {
-            Assert.IsFalse(isRunning);
+            Assert.IsFalse(isRunning); // todo turn to error?
             Assert.IsTrue(!tween.IsCreated || tween.id == _tween.id);
             Assert.IsTrue(_tween.isAlive);
             tween = _tween;
@@ -83,14 +83,18 @@ namespace PrimeTween {
             return result;
         }
 
-        internal void resetEnumerator() {
-            tween = default;
-            isRunning = false;
+        internal bool resetEnumerator() {
+            if (tween.IsCreated) {
+                tween = default;
+                isRunning = false;
+                return true;
+            }
+            return false;
         }
 
         object IEnumerator.Current {
             get {
-                Assert.IsTrue(tween.isAlive);
+                Assert.IsTrue(tween.isAlive); // todo throws if debugger is attached
 				Assert.IsTrue(isRunning);
                 return null;
             }

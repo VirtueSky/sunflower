@@ -304,6 +304,7 @@ internal static class Utils {
                 (TweenType.ShakeLocalRotation, PropType.Quaternion, typeof(Transform)),
                 (TweenType.ShakeScale, PropType.Vector3, typeof(Transform)),
                 (TweenType.ShakeCustom, PropType.Vector3, typeof(Transform)),
+                (TweenType.ShakeCamera, PropType.Float, typeof(Camera)),
                 (TweenType.CustomFloat, PropType.Float, null),
                 (TweenType.CustomColor, PropType.Color, null),
                 (TweenType.CustomVector2, PropType.Vector2, null),

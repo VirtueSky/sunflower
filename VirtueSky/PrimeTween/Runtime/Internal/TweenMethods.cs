@@ -421,7 +421,7 @@ namespace PrimeTween {
             }
             var result = animate(tween.tween, ref settings, t => {
                 var target = t.target as ReusableTween;
-                if (t.intParam != target.id) {
+                if (t.longParam != target.id || !target._isAlive) {
                     t.EmergencyStop();
                     return;
                 }

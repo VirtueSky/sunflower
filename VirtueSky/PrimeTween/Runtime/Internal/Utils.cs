@@ -214,6 +214,8 @@ internal static class Utils {
                 return (PropType.Vector3, typeof(UnityEngine.Transform));
             case TweenType.ShakeCustom:
                 return (PropType.Vector3, typeof(UnityEngine.Transform));
+            case TweenType.ShakeCamera:
+                return (PropType.Float, typeof(UnityEngine.Camera));
             case TweenType.CustomFloat:
                 return (PropType.Float, null);
             case TweenType.CustomColor:

@@ -162,7 +162,8 @@ namespace PrimeTween {
                 }
                 #endif
                 // ReSharper disable once PossibleNullReferenceException
-                if (tween.updateAndCheckIfRunning(tween.settings.useUnscaledTime ? unscaledDeltaTime : deltaTime)) {
+                // delay release for one frame if coroutineEnumerator.resetEnumerator()
+                if (tween.updateAndCheckIfRunning(tween.settings.useUnscaledTime ? unscaledDeltaTime : deltaTime) || tween.coroutineEnumerator.resetEnumerator()) {
                     if (i != newIndex) {
                         tweens[i] = null;
                         tweens[newIndex] = tween;

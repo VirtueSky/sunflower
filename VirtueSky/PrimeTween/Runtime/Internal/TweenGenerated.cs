@@ -21,6 +21,7 @@ namespace PrimeTween {
         ShakeLocalRotation,
         ShakeScale,
         ShakeCustom,
+        ShakeCamera,
 
         CustomFloat,
         CustomColor,

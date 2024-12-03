@@ -172,7 +172,7 @@ namespace PrimeTween {
             Assert.IsFalse(tween.tween.prev.IsCreated);
             last.tween.next = tween;
             tween.tween.prev = last;
-            root.tween.intParam = 0;
+            root.tween.intParam = emptySequenceTag - emptySequenceTag; // set to 0 in a way to be able to search the code better
         }
 
         Tween getLast() {

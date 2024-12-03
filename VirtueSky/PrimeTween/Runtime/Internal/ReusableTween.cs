@@ -744,6 +744,7 @@ namespace PrimeTween {
                     }
                     mainSequence = parent;
                 }
+                Assert.IsTrue(mainSequence.isAlive);
                 Assert.IsTrue(mainSequence.root.tween.isMainSequenceRoot());
                 mainSequence.emergencyStop();
             } else if (_isAlive) {
@@ -766,7 +767,7 @@ namespace PrimeTween {
         }
 
         void revive() {
-            // Debug.Log($"[{Time.frameCount}] revive {GetDescription()}");
+            // print($"revive {GetDescription()}");
             Assert.IsFalse(_isAlive);
             _isAlive = true;
             #if UNITY_EDITOR

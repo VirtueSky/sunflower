@@ -7,10 +7,8 @@ namespace PrimeTween {
     internal struct ValueContainerStartEnd {
         [SerializeField] internal TweenType tweenType; // todo HideInInspector?
         [SerializeField, Tooltip(Constants.startFromCurrentTooltip)] internal bool startFromCurrent;
-        [Tooltip(Constants.startValueTooltip)]
-        [SerializeField] internal ValueContainer startValue;
-        [Tooltip(Constants.endValueTooltip)]
-        [SerializeField] internal ValueContainer endValue;
+        [SerializeField, Tooltip(Constants.startValueTooltip)] internal ValueContainer startValue;
+        [SerializeField, Tooltip(Constants.endValueTooltip)] internal ValueContainer endValue;
     }
 
     [Serializable, StructLayout(LayoutKind.Explicit)]
