@@ -174,7 +174,7 @@ namespace VirtueSky.Ads
         /// Can use position and size of uiElement for native overlay ads
         /// </summary>
         /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
-        /// <param name="canvas">Canvas containing popups with cameras attached</param>
+        /// <param name="canvas">Canvas containing camera render uiElement</param>
         public void RenderAd(RectTransform uiElement, Canvas canvas, bool useSizeUiElement = true)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
@@ -201,7 +201,7 @@ namespace VirtueSky.Ads
         /// Can use position of uiElement and custom size for native overlay ads
         /// </summary>
         /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
-        /// <param name="canvas">Canvas containing popups with cameras attached</param>
+        /// <param name="canvas">Canvas containing camera render uiElement</param>
         /// <param name="width">Custom width for native overlay ads</param>
         /// <param name="height">Custom height for native overlay ads</param>
         public void RenderAd(RectTransform uiElement, Canvas canvas, int width, int height)
@@ -214,7 +214,6 @@ namespace VirtueSky.Ads
             float dpi = Screen.dpi / 160f;
             var admobX = (int)((screenPosition.x - width / 2) / dpi);
             var admobY = (int)(((Screen.height - (int)screenPosition.y) - height / 2) / dpi);
-
             _nativeOverlayAd?.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
 #endif
         }
