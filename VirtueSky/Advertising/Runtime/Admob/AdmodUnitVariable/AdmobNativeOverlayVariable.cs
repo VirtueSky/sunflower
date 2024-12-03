@@ -32,6 +32,7 @@ namespace VirtueSky.Ads
 
 
         [HeaderLine("NativeAd Style", false)] public NativeTemplate nativeTemplate;
+        public Color mainBackgroundColor = Color.white;
         public AdsSize adsSize = AdsSize.MediumRectangle;
         public AdsPosition adsPosition = AdsPosition.Bottom;
 
@@ -135,7 +136,7 @@ namespace VirtueSky.Ads
         /// <summary>
         /// Render native ads according to uiElement, use canvas overlay
         /// </summary>
-        /// <param name="uiElement"></param>
+        /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
         public void RenderAd(RectTransform uiElement)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADS
@@ -150,24 +151,30 @@ namespace VirtueSky.Ads
         }
 
         /// <summary>
-        /// Render native ads according to uiElement, use canvas screen-space camera
+        /// Render native ads according to uiElement, use canvas overlay
         /// </summary>
-        /// <param name="uiElement"></param>
-        /// <param name="canvas"></param>
-        public void RenderAd(RectTransform uiElement, Canvas canvas)
+        /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
+        /// <param name="width">Custom width for native overlay ads</param>
+        /// <param name="height">Custom height for native overlay ads</param>
+        public void RenderAd(RectTransform uiElement, int width, int height)
         {
-#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+#if VIRTUESKY_ADS && VIRTUESKY_ADS
             if (_nativeOverlayAd == null) return;
-            var worldPosition = uiElement.TransformPoint(uiElement.position);
-            Vector2 screenPosition = canvas.worldCamera.WorldToScreenPoint(worldPosition);
+            var screenPosition = uiElement.ToWorldPosition();
 
             float dpi = Screen.dpi / 160f;
             var admobX = (int)(screenPosition.x / dpi);
             var admobY = (int)((Screen.height - (int)screenPosition.y) / dpi);
-            _nativeOverlayAd?.RenderTemplate(Style(), admobX, admobY);
+            _nativeOverlayAd.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
 #endif
         }
 
+        /// <summary>
+        /// Render native ads according to uiElement, use canvas screen-space camera
+        /// Can use position and size of uiElement for native overlay ads
+        /// </summary>
+        /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
+        /// <param name="canvas">Canvas containing popups with cameras attached</param>
         public void RenderAd(RectTransform uiElement, Canvas canvas, bool useSizeUiElement = true)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
@@ -189,6 +196,14 @@ namespace VirtueSky.Ads
 #endif
         }
 
+        /// <summary>
+        /// Render native ads according to uiElement, use canvas screen-space camera
+        /// Can use position of uiElement and custom size for native overlay ads
+        /// </summary>
+        /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
+        /// <param name="canvas">Canvas containing popups with cameras attached</param>
+        /// <param name="width">Custom width for native overlay ads</param>
+        /// <param name="height">Custom height for native overlay ads</param>
         public void RenderAd(RectTransform uiElement, Canvas canvas, int width, int height)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
@@ -211,7 +226,7 @@ namespace VirtueSky.Ads
             return new NativeTemplateStyle
             {
                 TemplateId = nativeTemplate.ToString().ToLower(),
-                // MainBackgroundColor = Color.red,
+                MainBackgroundColor = mainBackgroundColor,
                 // CallToActionText = new NativeTemplateTextStyle
                 // {
                 //     BackgroundColor = Color.green,
