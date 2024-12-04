@@ -34,6 +34,53 @@ namespace VirtueSky.Component
          ShowIf(nameof(typeFollowTarget), TypeFollowTarget.SmoothDamp), SerializeField]
         private float maxSpeed = Mathf.Infinity;
 
+        public Transform TargetTransform
+        {
+            get => targetTrans;
+            set => targetTrans = value;
+        }
+
+        public Vector3 OffsetTrans
+        {
+            get => offsetTrans;
+            set => offsetTrans = value;
+        }
+
+        public DirectionFollowTarget DirectionFollowTarget
+        {
+            get => directionFollowTarget;
+            set => directionFollowTarget = value;
+        }
+
+        public TypeFollowTarget TypeFollowTarget
+        {
+            get => typeFollowTarget;
+            set => typeFollowTarget = value;
+        }
+
+        public float InterpolateValue
+        {
+            get => interpolateValue;
+            set => interpolateValue = value;
+        }
+
+        public Vector3 CurrentVelocity
+        {
+            get => currentVelocity;
+            set => currentVelocity = value;
+        }
+
+        public float SmoothTime
+        {
+            get => smoothTime;
+            set => smoothTime = value;
+        }
+
+        public float MaxSpeed
+        {
+            get => maxSpeed;
+            set => maxSpeed = value;
+        }
 
         private void Awake()
         {
