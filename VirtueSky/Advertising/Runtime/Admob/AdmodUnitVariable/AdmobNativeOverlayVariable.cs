@@ -129,7 +129,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADS
             if (_nativeOverlayAd == null) return;
-            _nativeOverlayAd.RenderTemplate(Style(), ConvertSize(), ConvertPosition());
+            _nativeOverlayAd.RenderTemplate(Style(), ConvertSize(), ConvertPosition(adsPosition));
 #endif
         }
 
@@ -141,11 +141,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADS
             if (_nativeOverlayAd == null) return;
-            var screenPosition = uiElement.ToWorldPosition();
-
-            float dpi = Screen.dpi / 160f;
-            var admobX = (int)(screenPosition.x / dpi);
-            var admobY = (int)((Screen.height - (int)screenPosition.y) / dpi);
+            (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement);
             _nativeOverlayAd.RenderTemplate(Style(), admobX, admobY);
 #endif
         }
@@ -160,11 +156,7 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADS
             if (_nativeOverlayAd == null) return;
-            var screenPosition = uiElement.ToWorldPosition();
-
-            float dpi = Screen.dpi / 160f;
-            var admobX = (int)(screenPosition.x / dpi);
-            var admobY = (int)((Screen.height - (int)screenPosition.y) / dpi);
+            (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement);
             _nativeOverlayAd.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
 #endif
         }
@@ -174,17 +166,12 @@ namespace VirtueSky.Ads
         /// Can use position and size of uiElement for native overlay ads
         /// </summary>
         /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
-        /// <param name="canvas">Canvas containing camera render uiElement</param>
-        public void RenderAd(RectTransform uiElement, Canvas canvas, bool useSizeUiElement = true)
+        /// <param name="camera">Camera render uiElement</param>
+        public void RenderAd(RectTransform uiElement, Camera camera, bool useSizeUiElement = true)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd == null) return;
-            var worldPosition = uiElement.TransformPoint(uiElement.position);
-            Vector2 screenPosition = canvas.worldCamera.WorldToScreenPoint(worldPosition);
-
-            float dpi = Screen.dpi / 160f;
-            var admobX = (int)((screenPosition.x - (uiElement.rect.width / 2)) / dpi);
-            var admobY = (int)(((Screen.height - (int)screenPosition.y) - (uiElement.rect.height / 2)) / dpi);
+            (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement, camera);
             if (useSizeUiElement)
             {
                 _nativeOverlayAd?.RenderTemplate(Style(), new AdSize((int)uiElement.rect.width, (int)uiElement.rect.height), admobX, admobY);
@@ -201,20 +188,76 @@ namespace VirtueSky.Ads
         /// Can use position of uiElement and custom size for native overlay ads
         /// </summary>
         /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
-        /// <param name="canvas">Canvas containing camera render uiElement</param>
+        /// <param name="camera">Camera render uiElement</param>
         /// <param name="width">Custom width for native overlay ads</param>
         /// <param name="height">Custom height for native overlay ads</param>
-        public void RenderAd(RectTransform uiElement, Canvas canvas, int width, int height)
+        public void RenderAd(RectTransform uiElement, Camera camera, int width, int height)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd == null) return;
+            (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement, camera, width, height);
+            _nativeOverlayAd?.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
+#endif
+        }
+
+        (int, int) ConvertUiElementPosToNativeAdsPos(RectTransform uiElement, Camera camera, int width, int height)
+        {
             var worldPosition = uiElement.TransformPoint(uiElement.position);
-            Vector2 screenPosition = canvas.worldCamera.WorldToScreenPoint(worldPosition);
+            Vector2 screenPosition = camera.WorldToScreenPoint(worldPosition);
 
             float dpi = Screen.dpi / 160f;
             var admobX = (int)((screenPosition.x - width / 2) / dpi);
             var admobY = (int)(((Screen.height - (int)screenPosition.y) - height / 2) / dpi);
-            _nativeOverlayAd?.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
+            return (admobX, admobY);
+        }
+
+        (int, int) ConvertUiElementPosToNativeAdsPos(RectTransform uiElement, Camera camera)
+        {
+            var worldPosition = uiElement.TransformPoint(uiElement.position);
+            Vector2 screenPosition = camera.WorldToScreenPoint(worldPosition);
+
+            float dpi = Screen.dpi / 160f;
+            var admobX = (int)((screenPosition.x - (int)uiElement.rect.width / 2) / dpi);
+            var admobY = (int)(((Screen.height - (int)screenPosition.y) - (int)uiElement.rect.height / 2) / dpi);
+            return (admobX, admobY);
+        }
+
+        (int, int) ConvertUiElementPosToNativeAdsPos(RectTransform uiElement)
+        {
+            var screenPosition = uiElement.ToWorldPosition();
+            float dpi = Screen.dpi / 160f;
+            var admobX = (int)(screenPosition.x / dpi);
+            var admobY = (int)((Screen.height - (int)screenPosition.y) / dpi);
+            return (admobX, admobY);
+        }
+
+        public void SetPosition(AdsPosition adsPosition)
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            _nativeOverlayAd.SetTemplatePosition(ConvertPosition(adsPosition));
+#endif
+        }
+
+        public void SetPosition(int x, int y)
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            _nativeOverlayAd.SetTemplatePosition(x, y);
+#endif
+        }
+
+        public void SetPosition(RectTransform uiElement)
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            (int x, int y) = ConvertUiElementPosToNativeAdsPos(uiElement);
+            _nativeOverlayAd.SetTemplatePosition(x, y);
+#endif
+        }
+
+        public void SetPosition(RectTransform uiElement, Camera camera)
+        {
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
+            (int x, int y) = ConvertUiElementPosToNativeAdsPos(uiElement, camera);
+            _nativeOverlayAd.SetTemplatePosition(x, y);
 #endif
         }
 
@@ -236,9 +279,9 @@ namespace VirtueSky.Ads
             };
         }
 
-        AdPosition ConvertPosition()
+        AdPosition ConvertPosition(AdsPosition _adsPosition)
         {
-            return adsPosition switch
+            return _adsPosition switch
             {
                 AdsPosition.Top => AdPosition.Top,
                 AdsPosition.Bottom => AdPosition.Bottom,
