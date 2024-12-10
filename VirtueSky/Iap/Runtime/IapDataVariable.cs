@@ -17,15 +17,18 @@ namespace VirtueSky.Iap
 
         [Space] public float price;
         [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
-        [SerializeField] IapPurchaseFailed onPurchaseFailed;
+        [SerializeField] private IapPurchaseFailed onPurchaseFailed;
 
-        [ReadOnly] public Product product;
+        [ReadOnly] internal Product product;
+        [ReadOnly] internal SubscriptionInfo subscriptionInfo;
         internal IapPurchaseSuccess OnPurchaseSuccess => onPurchaseSuccess;
         internal IapPurchaseFailed OnPurchaseFailed => onPurchaseFailed;
 
         [NonSerialized] public Action purchaseSuccessCallback;
         [NonSerialized] public Action<string> purchaseFailedCallback;
 
+        public Product Product => product;
+        public SubscriptionInfo SubscriptionInfo => subscriptionInfo;
 
         public void Purchase()
         {
