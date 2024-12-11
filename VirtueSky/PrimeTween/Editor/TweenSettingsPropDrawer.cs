@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using PrimeTween;
 using UnityEditor;
@@ -56,13 +57,13 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
 
     internal static void DrawDuration(Rect rect, [NotNull] SerializedProperty property) {
         if (GUI.enabled) {
-            if (property.floatValue == 0f) {
-                property.floatValue = 1f;
-            } else if (property.floatValue < 0) {
-                property.floatValue = 0.01f;
-            }
+            ClampProperty(property, 1f);
         }
         PropertyField(rect, property);
+    }
+
+    internal static void ClampProperty(SerializedProperty prop, float defaultValue, float min = 0.01f, float max = float.MaxValue) {
+        prop.floatValue = prop.floatValue == 0f ? defaultValue : Mathf.Clamp(prop.floatValue, min, max);
     }
 
     internal static void drawEaseTillEnd([NotNull] SerializedProperty property, ref Rect rect) {
@@ -70,16 +71,16 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
         drawStartDelayTillEnd(ref rect, property);
     }
 
-    internal static void DrawEaseAndCycles(SerializedProperty property, ref Rect rect, bool addSpace = true) {
+    internal static void DrawEaseAndCycles(SerializedProperty property, ref Rect rect, bool addSpace = true, bool draw = true) {
         { // ease
             property.NextVisible(true);
-            PropertyField(rect, property);
+            if (draw) PropertyField(rect, property);
             moveToNextLine(ref rect);
             // customEase
             bool isCustom = property.intValue == (int) Ease.Custom;
             property.NextVisible(true);
             if (isCustom) {
-                PropertyField(rect, property);
+                if (draw) PropertyField(rect, property);
                 moveToNextLine(ref rect);
             }
         }
@@ -87,13 +88,13 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
             rect.y += standardVerticalSpacing * 2;
         }
         { // cycles
-            var cycles = drawCycles(rect, property);
+            var cycles = drawCycles(rect, property, draw);
             moveToNextLine(ref rect);
             {
                 // cycleMode
                 property.NextVisible(true);
                 if (cycles != 0 && cycles != 1) {
-                    PropertyField(rect, property);
+                    if (draw) PropertyField(rect, property);
                     moveToNextLine(ref rect);
                 }
             }
@@ -123,14 +124,14 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
         }
     }
 
-    internal static int drawCycles(Rect rect, [NotNull] SerializedProperty property) {
+    internal static int drawCycles(Rect rect, [NotNull] SerializedProperty property, bool draw = true) {
         property.NextVisible(false);
         if (property.intValue == 0) {
             property.intValue = 1;
         } else if (property.intValue < -1) {
             property.intValue = -1;
         }
-        PropertyField(rect, property);
+        if (draw) PropertyField(rect, property);
         return property.intValue;
     }
 

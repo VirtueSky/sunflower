@@ -96,19 +96,25 @@ namespace VirtueSky.Iap
             IsInitialized = true;
         }
 
+        #region Internal Api
+
         private bool IsPurchasedProduct(IapDataVariable product)
         {
             if (_controller == null) return false;
-            return product.productType == ProductType.NonConsumable &&
+            return product.productType is ProductType.NonConsumable or ProductType.Subscription &&
                    _controller.products.WithID(product.id).hasReceipt;
         }
 
-        private string GetLocalizedPriceProduct(IapDataVariable product)
+        void PurchaseProduct(IapDataVariable product)
         {
-            if (_controller == null) return "";
-            return _controller.products.WithID(product.id).metadata.localizedPriceString;
+            // call when IAPDataVariable raise event
+            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(true);
+            PurchaseProductInternal(product);
         }
 
+        #endregion
+
+        #region Implement
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
@@ -143,7 +149,6 @@ namespace VirtueSky.Iap
             return PurchaseProcessingResult.Complete;
         }
 
-
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
         {
             _controller = controller;
@@ -159,53 +164,10 @@ namespace VirtueSky.Iap
             InitProductIapDataVariable();
         }
 
-        private void InitProductIapDataVariable()
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
         {
-            foreach (var iapDataVariable in iapSetting.Products)
-            {
-                iapDataVariable.product = _controller.products.WithID(iapDataVariable.id);
-            }
+            OnInitializeFailed(error);
         }
-
-        private IapDataVariable PurchaseProductInternal(IapDataVariable product)
-        {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _controller?.InitiatePurchase(product.id);
-#elif UNITY_EDITOR
-            InternalPurchaseSuccess(product.id);
-#endif
-            return product;
-        }
-
-        void PurchaseVerified(PurchaseEventArgs purchaseEvent)
-        {
-            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
-            InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
-        }
-
-        void PurchaseProduct(IapDataVariable product)
-        {
-            // call when IAPDataVariable raise event
-            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(true);
-            PurchaseProductInternal(product);
-        }
-
-        #region Purchase Success
-
-        void InternalPurchaseSuccess(string id)
-        {
-            foreach (var product in iapSetting.Products)
-            {
-                if (product.id != id) continue;
-                product.OnPurchaseSuccess.Raise();
-                Common.CallActionAndClean(ref product.purchaseSuccessCallback);
-            }
-        }
-
-        #endregion
-
-
-        #region Purchase Failed
 
         public void OnInitializeFailed(InitializationFailureReason error)
         {
@@ -225,11 +187,6 @@ namespace VirtueSky.Iap
             }
         }
 
-        public void OnInitializeFailed(InitializationFailureReason error, string message)
-        {
-            OnInitializeFailed(error);
-        }
-
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
         {
             InternalPurchaseFailed(product.definition.id, failureReason.ToString());
@@ -239,6 +196,57 @@ namespace VirtueSky.Iap
         {
             InternalPurchaseFailed(product.definition.id, failureDescription.reason.ToString());
         }
+
+        #endregion
+
+
+        private void InitProductIapDataVariable()
+        {
+            foreach (var iapDataVariable in iapSetting.Products)
+            {
+                var product = _controller.products.WithID(iapDataVariable.id);
+                iapDataVariable.product = product;
+                if (iapDataVariable.productType == ProductType.Subscription)
+                {
+                    var subManager = new SubscriptionManager(product, null);
+                    iapDataVariable.subscriptionInfo = subManager.getSubscriptionInfo();
+                }
+            }
+        }
+
+        private IapDataVariable PurchaseProductInternal(IapDataVariable product)
+        {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            _controller?.InitiatePurchase(product.id);
+#elif UNITY_EDITOR
+            InternalPurchaseSuccess(product.id);
+#endif
+            return product;
+        }
+
+        void PurchaseVerified(PurchaseEventArgs purchaseEvent)
+        {
+            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
+            InternalPurchaseSuccess(purchaseEvent.purchasedProduct.definition.id);
+        }
+
+
+        #region Purchase Success
+
+        void InternalPurchaseSuccess(string id)
+        {
+            foreach (var product in iapSetting.Products)
+            {
+                if (product.id != id) continue;
+                product.OnPurchaseSuccess.Raise();
+                Common.CallActionAndClean(ref product.purchaseSuccessCallback);
+            }
+        }
+
+        #endregion
+
+
+        #region Purchase Failed
 
         private void InternalPurchaseFailed(string id, string reason)
         {

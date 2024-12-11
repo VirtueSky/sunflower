@@ -38,7 +38,7 @@ namespace PrimeTween {
                     var wait = animate(tween.tween, ref infiniteSettings, t => {
                         if (t._isAlive) {
                             var target = t.target as ReusableTween;
-                            if (t.intParam != target.id) {
+                            if (t.longParam != target.id || !target._isAlive) {
                                 t.ForceComplete();
                             }
                         }

@@ -7,11 +7,14 @@ using UnityEngine;
 public class ValueContainerStartEndPropDrawer : PropertyDrawer {
     public override float GetPropertyHeight(SerializedProperty prop, GUIContent label) {
         prop.Next(true);
-        var propType = Utils.TweenTypeToTweenData((TweenType)prop.enumValueIndex).Item1;
-        if (propType == PropType.None) {
-            return 0f;
-        }
+        var tweenType = (TweenType)prop.enumValueIndex;
         prop.Next(false);
+        return GetHeight(prop, label, tweenType);
+    }
+
+    internal static float GetHeight(SerializedProperty prop, GUIContent label, TweenType tweenType) {
+        var propType = Utils.TweenTypeToTweenData(tweenType).Item1;
+        Assert.AreNotEqual(PropType.None, propType);
         bool startFromCurrent = prop.boolValue;
         bool hasStartValue = !startFromCurrent;
         if (hasStartValue) {
@@ -49,16 +52,18 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
 
     public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label) {
         prop.Next(true);
-        var propType = Utils.TweenTypeToTweenData((TweenType)prop.enumValueIndex).Item1;
-        if (propType == PropType.None) {
-            return;
-        }
+        var tweenType = (TweenType)prop.enumValueIndex;
         prop.Next(false);
+        Draw(ref pos, prop, tweenType);
+    }
 
+    internal static void Draw(ref Rect pos, SerializedProperty prop, TweenType tweenType) {
+        var propType = Utils.TweenTypeToTweenData(tweenType).Item1;
+        Assert.AreNotEqual(PropType.None, propType);
         const float toggleWidth = 18f;
         EditorGUIUtility.labelWidth -= toggleWidth;
         var togglePos = new Rect(pos.x + 2, pos.y, toggleWidth - 2, EditorGUIUtility.singleLineHeight);
-        var guiContent = EditorGUI.BeginProperty(togglePos, new GUIContent(), prop);
+        var guiContent = EditorGUI.BeginProperty(togglePos, new GUIContent(), prop); // todo is it possible to display tooltip? tooltip is only displayed over the label, but I need to display it over the ToggleLeft
         EditorGUI.BeginChangeCheck();
         bool newStartFromCurrent = !EditorGUI.ToggleLeft(togglePos, guiContent, !prop.boolValue);
         if (EditorGUI.EndChangeCheck()) {
@@ -68,12 +73,11 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
 
         pos.x += toggleWidth;
         pos.width -= toggleWidth;
+
         prop.Next(false);
         if (newStartFromCurrent) {
             pos.height = EditorGUIUtility.singleLineHeight;
-            using (new EditorGUI.DisabledScope(false)) {
-                EditorGUI.LabelField(pos, new GUIContent(prop.displayName, prop.tooltip));
-            }
+            EditorGUI.LabelField(pos, new GUIContent(prop.displayName, prop.tooltip));
             prop.Next(false);
         } else {
             DrawValueContainer(ref pos, prop, propType);
@@ -81,6 +85,10 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
 
         pos.y += pos.height + EditorGUIUtility.standardVerticalSpacing;
         DrawValueContainer(ref pos, prop, propType);
+        pos.y += pos.height + EditorGUIUtility.standardVerticalSpacing;
+
+        pos.x -= toggleWidth;
+        pos.width += toggleWidth;
     }
 
     static void DrawValueContainer(ref Rect pos, SerializedProperty prop, PropType propType) {
@@ -107,7 +115,7 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
                 case PropType.Vector3:
                     return EditorGUI.Vector3Field(position, guiContent, valueContainer.Vector3Val).ToContainer();
                 case PropType.Vector4:
-                case PropType.Quaternion:
+                case PropType.Quaternion: // todo don't draw quaternion
                     return EditorGUI.Vector4Field(position, guiContent, valueContainer.Vector4Val).ToContainer();
                 case PropType.Rect:
                     return EditorGUI.RectField(position, guiContent, valueContainer.RectVal).ToContainer();

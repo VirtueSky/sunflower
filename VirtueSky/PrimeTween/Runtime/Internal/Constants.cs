@@ -17,7 +17,11 @@ namespace PrimeTween {
 
         internal const string isDeadMessage = "Tween/Sequence is not alive. Please check the 'isAlive' property before calling this API.\n";
         internal const string unscaledTimeTooltip = "The tween will use real time, ignoring Time.timeScale.";
+        internal const string easeTooltip = "The easing curve of an animation.\n\n" +
+                                              "Default is Ease." + nameof(Ease.OutQuad) + ". The Default ease can be modified via '" + nameof(PrimeTweenConfig) + "." + nameof(PrimeTweenConfig.defaultEase) + "' setting.\n\n" +
+                                              "Set to " + nameof(Ease) + "." + nameof(Ease.Custom) + " to control the easing with custom " + nameof(AnimationCurve) + ".";
         internal const string cyclesTooltip = "Setting cycles to -1 will repeat the tween indefinitely.";
+        internal const string cycleModeTooltip = "See the documentation of each cycle mode by hoovering the dropdown.";
         internal const string defaultCtorError = "Tween or Sequence is not created properly.\n" +
                                                  "- Use Sequence." + nameof(Sequence.Create) + "() to start a Sequence.\n" +
                                                  "- Use static 'Tween.' methods to start a Tween.\n";

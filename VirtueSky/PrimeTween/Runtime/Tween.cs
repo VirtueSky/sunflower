@@ -264,7 +264,7 @@ namespace PrimeTween {
             if (tween.tweenType == TweenType.Delay && tween.HasOnComplete) {
                 Debug.LogError("Applying cycles to Delay will not repeat the OnComplete() callback, but instead will increase the Delay duration.\n" +
                                "OnComplete() is called only once when ALL tween cycles complete. To repeat the OnComplete() callback, please use the Sequence.Create(cycles: numCycles) and put the tween inside a Sequence.\n" +
-                               "More info: https://forum.unity.com/threads/1479609/page-3#post-9415922\n");
+                               "More info: https://discussions.unity.com/t/926420/101\n");
             }
             if (cycles == -1) {
                 tween.settings.cycles = -1;
