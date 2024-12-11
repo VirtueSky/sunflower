@@ -196,7 +196,7 @@ internal static class Utils {
             case TweenType.VisualElementBackgroundColor:
                 return (PropType.Color, typeof(UnityEngine.UIElements.VisualElement));
             #endif
-            #if TEXT_MESH_PRO_INSTALLED || (UNITY_6000_0_OR_NEWER && UNITY_UGUI_INSTALLED)
+            #if TEXT_MESH_PRO_INSTALLED
             case TweenType.TextMaxVisibleCharacters:
                 return (PropType.Int, typeof(TMPro.TMP_Text));
             #endif
