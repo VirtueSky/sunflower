@@ -1,0 +1,1077 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81c141b47ab4aee9ea1454818ce73d3, type: 3}
+  m_Name: CodeGenerator
+  m_EditorClassIdentifier: 
+  methodsScript: {fileID: 11500000, guid: 51610f0e9d8e4ccead49e9fcc96d54e3, type: 3}
+  dotweenMethodsScript: {fileID: 11500000, guid: 3c238e2b584a4987b714406da2cf9c56, type: 3}
+  tweenComponentScript: {fileID: 11500000, guid: f191f8e3fa31440d9f1217f1f80dba7d, type: 3}
+  editorUtilsScript: {fileID: 11500000, guid: 7f3bfd9524c14644bfbab698076886f3, type: 3}
+  methodsData:
+  - description: Range_Light
+    methodName: Range
+    targetType: UnityEngine.Light
+    propertyType: 1
+    propertyName: range
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 7
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: ShadowStrength_Light
+    methodName: ShadowStrength
+    targetType: UnityEngine.Light
+    propertyType: 1
+    propertyName: shadowStrength
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOShadowStrength
+    dependency: 7
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Intensity_Light
+    methodName: Intensity
+    targetType: UnityEngine.Light
+    propertyType: 1
+    propertyName: intensity
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOIntensity
+    dependency: 7
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OrthographicSize_Camera
+    methodName: OrthographicSize
+    targetType: UnityEngine.Camera
+    propertyType: 1
+    propertyName: orthographicSize
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOOrthoSize
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: BackgroundColor_Camera
+    methodName: BackgroundColor
+    targetType: UnityEngine.Camera
+    propertyType: 2
+    propertyName: backgroundColor
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Aspect_Camera
+    methodName: Aspect
+    targetType: UnityEngine.Camera
+    propertyType: 1
+    propertyName: aspect
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOAspect
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FarClipPlane_Camera
+    methodName: FarClipPlane
+    targetType: UnityEngine.Camera
+    propertyType: 1
+    propertyName: farClipPlane
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOFarClipPlane
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FieldOfView_Camera
+    methodName: FieldOfView
+    targetType: UnityEngine.Camera
+    propertyType: 1
+    propertyName: fieldOfView
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOFieldOfView
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: NearClipPlane_Camera
+    methodName: NearClipPlane
+    targetType: UnityEngine.Camera
+    propertyType: 1
+    propertyName: nearClipPlane
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DONearClipPlane
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PixelRect_Camera
+    methodName: PixelRect
+    targetType: UnityEngine.Camera
+    propertyType: 7
+    propertyName: pixelRect
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOPixelRect
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Rect_Camera
+    methodName: Rect
+    targetType: UnityEngine.Camera
+    propertyType: 7
+    propertyName: rect
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DORect
+    dependency: 5
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalRotation_Transform
+    methodName: LocalRotation
+    targetType: UnityEngine.Transform
+    propertyType: 4
+    propertyName: 
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 0
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 1
+  - description: Scale_Transform
+    methodName: Scale
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 0
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 1
+  - description: Rotation_Transform
+    methodName: Rotation
+    targetType: UnityEngine.Transform
+    propertyType: 4
+    propertyName: 
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 0
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 1
+  - description: SliderValue_Slider
+    methodName: SliderValue
+    targetType: UnityEngine.UI.Slider
+    propertyType: 1
+    propertyName: value
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOValue
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: NormalizedPosition_ScrollRect
+    methodName: NormalizedPosition
+    targetType: UnityEngine.UI.ScrollRect
+    propertyType: 3
+    propertyName: 
+    propertyGetter: GetNormalizedPosition()
+    propertySetter: SetNormalizedPosition(val)
+    dotweenMethodName: DONormalizedPos
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: HorizontalNormalizedPosition_ScrollRect
+    methodName: HorizontalNormalizedPosition
+    targetType: UnityEngine.UI.ScrollRect
+    propertyType: 1
+    propertyName: horizontalNormalizedPosition
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOHorizontalNormalizedPos
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VerticalNormalizedPosition_ScrollRect
+    methodName: VerticalNormalizedPosition
+    targetType: UnityEngine.UI.ScrollRect
+    propertyType: 1
+    propertyName: verticalNormalizedPosition
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOVerticalNormalizedPos
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PivotX_RectTransform
+    methodName: PivotX
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: pivot[0]
+    propertySetter: pivot = _target.pivot.WithComponent(0, val)
+    dotweenMethodName: DOPivotX
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PivotY_RectTransform
+    methodName: PivotY
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: pivot[1]
+    propertySetter: pivot = _target.pivot.WithComponent(1, val)
+    dotweenMethodName: DOPivotY
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Pivot_RectTransform
+    methodName: Pivot
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: pivot
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOPivot
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchorMax_RectTransform
+    methodName: AnchorMax
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: anchorMax
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOAnchorMax
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchorMin_RectTransform
+    methodName: AnchorMin
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: anchorMin
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOAnchorMin
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPosition3D_RectTransform
+    methodName: AnchoredPosition3D
+    targetType: UnityEngine.RectTransform
+    propertyType: 4
+    propertyName: anchoredPosition3D
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOAnchorPos3D
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPosition3DX_RectTransform
+    methodName: AnchoredPosition3DX
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: anchoredPosition3D[0]
+    propertySetter: anchoredPosition3D = _target.anchoredPosition3D.WithComponent(0,
+      val)
+    dotweenMethodName: DOAnchorPos3DX
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPosition3DY_RectTransform
+    methodName: AnchoredPosition3DY
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: anchoredPosition3D[1]
+    propertySetter: anchoredPosition3D = _target.anchoredPosition3D.WithComponent(1,
+      val)
+    dotweenMethodName: DOAnchorPos3DY
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPosition3DZ_RectTransform
+    methodName: AnchoredPosition3DZ
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: anchoredPosition3D[2]
+    propertySetter: anchoredPosition3D = _target.anchoredPosition3D.WithComponent(2,
+      val)
+    dotweenMethodName: DOAnchorPos3DZ
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: EffectDistance_Shadow
+    methodName: EffectDistance
+    targetType: UnityEngine.UI.Shadow
+    propertyType: 3
+    propertyName: effectDistance
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOScale
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Alpha_Shadow
+    methodName: Alpha
+    targetType: UnityEngine.UI.Shadow
+    propertyType: 1
+    propertyName: 
+    propertyGetter: effectColor.a
+    propertySetter: effectColor = _target.effectColor.WithAlpha(val)
+    dotweenMethodName: DOFade
+    dependency: 1
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 0
+  - description: Color_Shadow
+    methodName: Color
+    targetType: UnityEngine.UI.Shadow
+    propertyType: 2
+    propertyName: effectColor
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 1
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 0
+  - description: PreferredSize_LayoutElement
+    methodName: PreferredSize
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 3
+    propertyName: 
+    propertyGetter: GetPreferredSize()
+    propertySetter: SetPreferredSize(val)
+    dotweenMethodName: DOPreferredSize
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PreferredWidth_LayoutElement
+    methodName: PreferredWidth
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: preferredWidth
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PreferredHeight_LayoutElement
+    methodName: PreferredHeight
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: preferredHeight
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MovePosition_Rigidbody
+    methodName: MovePosition
+    targetType: UnityEngine.Rigidbody
+    propertyType: 4
+    propertyName: 
+    propertyGetter: position
+    propertySetter: MovePosition(val)
+    dotweenMethodName: DOMove
+    dependency: 3
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MoveRotation_Rigidbody
+    methodName: MoveRotation
+    targetType: UnityEngine.Rigidbody
+    propertyType: 6
+    propertyName: 
+    propertyGetter: rotation
+    propertySetter: MoveRotation(val)
+    dotweenMethodName: DORotate
+    dependency: 3
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MovePosition_Rigidbody2D
+    methodName: MovePosition
+    targetType: UnityEngine.Rigidbody2D
+    propertyType: 3
+    propertyName: 
+    propertyGetter: position
+    propertySetter: MovePosition(val)
+    dotweenMethodName: DOMove
+    dependency: 4
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MoveRotation_Rigidbody2D
+    methodName: MoveRotation
+    targetType: UnityEngine.Rigidbody2D
+    propertyType: 1
+    propertyName: 
+    propertyGetter: rotation
+    propertySetter: MoveRotation(val)
+    dotweenMethodName: DORotate
+    dependency: 4
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FlexibleSize_LayoutElement
+    methodName: FlexibleSize
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 3
+    propertyName: 
+    propertyGetter: GetFlexibleSize()
+    propertySetter: SetFlexibleSize(val)
+    dotweenMethodName: DOFlexibleSize
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FlexibleWidth_LayoutElement
+    methodName: FlexibleWidth
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: flexibleWidth
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FlexibleHeight_LayoutElement
+    methodName: FlexibleHeight
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: flexibleHeight
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MinSize_LayoutElement
+    methodName: MinSize
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 3
+    propertyName: 
+    propertyGetter: GetMinSize()
+    propertySetter: SetMinSize(val)
+    dotweenMethodName: DOMinSize
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MinWidth_LayoutElement
+    methodName: MinWidth
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: minWidth
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MinHeight_LayoutElement
+    methodName: MinHeight
+    targetType: UnityEngine.UI.LayoutElement
+    propertyType: 1
+    propertyName: minHeight
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Position_Transform
+    methodName: Position
+    targetType: UnityEngine.Transform
+    propertyType: 4
+    propertyName: position
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOMove
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PositionX_Transform
+    methodName: PositionX
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: position.x
+    propertySetter: position = _target.position.WithComponent(0, val)
+    dotweenMethodName: DOMoveX
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PositionY_Transform
+    methodName: PositionY
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: position.y
+    propertySetter: position = _target.position.WithComponent(1, val)
+    dotweenMethodName: DOMoveY
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PositionZ_Transform
+    methodName: PositionZ
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: position.z
+    propertySetter: position = _target.position.WithComponent(2, val)
+    dotweenMethodName: DOMoveZ
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalPosition_Transform
+    methodName: LocalPosition
+    targetType: UnityEngine.Transform
+    propertyType: 4
+    propertyName: localPosition
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOLocalMove
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalPositionX_Transform
+    methodName: LocalPositionX
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localPosition.x
+    propertySetter: localPosition = _target.localPosition.WithComponent(0, val)
+    dotweenMethodName: DOLocalMoveX
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalPositionY_Transform
+    methodName: LocalPositionY
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localPosition.y
+    propertySetter: localPosition = _target.localPosition.WithComponent(1, val)
+    dotweenMethodName: DOLocalMoveY
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalPositionZ_Transform
+    methodName: LocalPositionZ
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localPosition.z
+    propertySetter: localPosition = _target.localPosition.WithComponent(2, val)
+    dotweenMethodName: DOLocalMoveZ
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Rotation_Transform
+    methodName: Rotation
+    targetType: UnityEngine.Transform
+    propertyType: 6
+    propertyName: rotation
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DORotateQuaternion
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: LocalRotation_Transform
+    methodName: LocalRotation
+    targetType: UnityEngine.Transform
+    propertyType: 6
+    propertyName: localRotation
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOLocalRotateQuaternion
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Scale_Transform
+    methodName: Scale
+    targetType: UnityEngine.Transform
+    propertyType: 4
+    propertyName: localScale
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOScale
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: ScaleX_Transform
+    methodName: ScaleX
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localScale.x
+    propertySetter: localScale = _target.localScale.WithComponent(0, val)
+    dotweenMethodName: DOScaleX
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: ScaleY_Transform
+    methodName: ScaleY
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localScale.y
+    propertySetter: localScale = _target.localScale.WithComponent(1, val)
+    dotweenMethodName: DOScaleY
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: ScaleZ_Transform
+    methodName: ScaleZ
+    targetType: UnityEngine.Transform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: localScale.z
+    propertySetter: localScale = _target.localScale.WithComponent(2, val)
+    dotweenMethodName: DOScaleZ
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Color_Graphic
+    methodName: Color
+    targetType: UnityEngine.UI.Graphic
+    propertyType: 2
+    propertyName: color
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 1
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 0
+  - description: Color_SpriteRenderer
+    methodName: Color
+    targetType: UnityEngine.SpriteRenderer
+    propertyType: 2
+    propertyName: color
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Color_Material
+    methodName: Color
+    targetType: UnityEngine.Material
+    propertyType: 2
+    propertyName: color
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 6
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Color_Light
+    methodName: Color
+    targetType: UnityEngine.Light
+    propertyType: 2
+    propertyName: color
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOColor
+    dependency: 7
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPosition_RectTransform
+    methodName: AnchoredPosition
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: anchoredPosition
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOAnchorPos
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPositionX_RectTransform
+    methodName: AnchoredPositionX
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: anchoredPosition.x
+    propertySetter: anchoredPosition = _target.anchoredPosition.WithComponent(0,
+      val)
+    dotweenMethodName: DOAnchorPosX
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: AnchoredPositionY_RectTransform
+    methodName: AnchoredPositionY
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: anchoredPosition.y
+    propertySetter: anchoredPosition = _target.anchoredPosition.WithComponent(1,
+      val)
+    dotweenMethodName: DOAnchorPosY
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: SizeDelta_RectTransform
+    methodName: SizeDelta
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: sizeDelta
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOSizeDelta
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Alpha_CanvasGroup
+    methodName: Alpha
+    targetType: UnityEngine.CanvasGroup
+    propertyType: 1
+    propertyName: alpha
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOFade
+    dependency: 1
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 0
+  - description: Alpha_Graphic
+    methodName: Alpha
+    targetType: UnityEngine.UI.Graphic
+    propertyType: 1
+    propertyName: 
+    propertyGetter: color.a
+    propertySetter: color = _target.color.WithAlpha(val)
+    dotweenMethodName: DOFade
+    dependency: 1
+    placeInGlobalScope: 1
+    generateOnlyOverloads: 0
+  - description: Alpha_SpriteRenderer
+    methodName: Alpha
+    targetType: UnityEngine.SpriteRenderer
+    propertyType: 1
+    propertyName: 
+    propertyGetter: color.a
+    propertySetter: color = _target.color.WithAlpha(val)
+    dotweenMethodName: DOFade
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Alpha_Material
+    methodName: Alpha
+    targetType: UnityEngine.Material
+    propertyType: 1
+    propertyName: 
+    propertyGetter: color.a
+    propertySetter: color = _target.color.WithAlpha(val)
+    dotweenMethodName: DOFade
+    dependency: 6
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MainTextureOffset_Material
+    methodName: MainTextureOffset
+    targetType: UnityEngine.Material
+    propertyType: 3
+    propertyName: mainTextureOffset
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOOffset
+    dependency: 6
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: MainTextureScale_Material
+    methodName: MainTextureScale
+    targetType: UnityEngine.Material
+    propertyType: 3
+    propertyName: mainTextureScale
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOTiling
+    dependency: 6
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: FillAmount_Image
+    methodName: FillAmount
+    targetType: UnityEngine.UI.Image
+    propertyType: 1
+    propertyName: fillAmount
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOFillAmount
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Volume_AudioSource
+    methodName: Volume
+    targetType: UnityEngine.AudioSource
+    propertyType: 1
+    propertyName: volume
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOFade
+    dependency: 2
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Pitch_AudioSource
+    methodName: Pitch
+    targetType: UnityEngine.AudioSource
+    propertyType: 1
+    propertyName: pitch
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOPitch
+    dependency: 2
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: PanStereo_AudioSource
+    methodName: PanStereo
+    targetType: UnityEngine.AudioSource
+    propertyType: 1
+    propertyName: panStereo
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 2
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: TweenTimeScale_Tween
+    methodName: TweenTimeScale
+    targetType: PrimeTween.Tween
+    propertyType: 1
+    propertyName: 
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOTimeScale
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 1
+  - description: TweenTimeScale_Sequence
+    methodName: TweenTimeScale
+    targetType: PrimeTween.Sequence
+    propertyType: 1
+    propertyName: 
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOTimeScale
+    dependency: 0
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 1
+  - description: VisualElementLayout_VisualElement
+    methodName: VisualElementLayout
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 7
+    propertyName: 
+    propertyGetter: GetResolvedStyleRect()
+    propertySetter: SetStyleRect(val)
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Position_ITransform
+    methodName: Position
+    targetType: UnityEngine.UIElements.ITransform
+    propertyType: 4
+    propertyName: position
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Rotation_ITransform
+    methodName: Rotation
+    targetType: UnityEngine.UIElements.ITransform
+    propertyType: 6
+    propertyName: rotation
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Scale_ITransform
+    methodName: Scale
+    targetType: UnityEngine.UIElements.ITransform
+    propertyType: 4
+    propertyName: scale
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementSize_VisualElement
+    methodName: VisualElementSize
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 3
+    propertyName: 
+    propertyGetter: layout.size
+    propertySetter: style.width = val.x; _target.style.height = val.y
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementTopLeft_VisualElement
+    methodName: VisualElementTopLeft
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 3
+    propertyName: 
+    propertyGetter: GetTopLeft()
+    propertySetter: SetTopLeft(val)
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementColor_VisualElement
+    methodName: VisualElementColor
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 2
+    propertyName: 
+    propertyGetter: style.color.value
+    propertySetter: style.color = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementBackgroundColor_VisualElement
+    methodName: VisualElementBackgroundColor
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 2
+    propertyName: 
+    propertyGetter: style.backgroundColor.value
+    propertySetter: style.backgroundColor = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMin_RectTransform
+    methodName: OffsetMin
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: offsetMin
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMinX_RectTransform
+    methodName: OffsetMinX
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: offsetMin[0]
+    propertySetter: offsetMin = _target.offsetMin.WithComponent(0, val)
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMinY_RectTransform
+    methodName: OffsetMinY
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: offsetMin[1]
+    propertySetter: offsetMin = _target.offsetMin.WithComponent(1, val)
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMax_RectTransform
+    methodName: OffsetMax
+    targetType: UnityEngine.RectTransform
+    propertyType: 3
+    propertyName: offsetMax
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMaxX_RectTransform
+    methodName: OffsetMaxX
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: offsetMax[0]
+    propertySetter: offsetMax = _target.offsetMax.WithComponent(0, val)
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: OffsetMaxY_RectTransform
+    methodName: OffsetMaxY
+    targetType: UnityEngine.RectTransform
+    propertyType: 1
+    propertyName: 
+    propertyGetter: offsetMax[1]
+    propertySetter: offsetMax = _target.offsetMax.WithComponent(1, val)
+    dotweenMethodName: 
+    dependency: 1
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: TextMaxVisibleCharacters_TMP_Text
+    methodName: TextMaxVisibleCharacters
+    targetType: TMPro.TMP_Text
+    propertyType: 8
+    propertyName: maxVisibleCharacters
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: DOMaxVisibleCharacters
+    dependency: 10
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 1
+  additiveMethodsGenerator:
+    additiveMethods:
+    - methodName: PositionAdditive
+      propertyType: 4
+      setter: _target.position += delta
+    - methodName: LocalPositionAdditive
+      propertyType: 4
+      setter: _target.localPosition += delta
+    - methodName: ScaleAdditive
+      propertyType: 4
+      setter: _target.localScale += delta
+    - methodName: RotationAdditive
+      propertyType: 4
+      setter: _target.rotation *= UnityEngine.Quaternion.Euler(delta)
+    - methodName: LocalRotationAdditive
+      propertyType: 4
+      setter: _target.localRotation *= UnityEngine.Quaternion.Euler(delta)
+    - methodName: RotationAdditive
+      propertyType: 6
+      setter: _target.rotation *= delta
+    - methodName: LocalRotationAdditive
+      propertyType: 6
+      setter: _target.localRotation *= delta
+  speedBasedMethodsGenerator:
+    data:
+    - methodName: Position
+      propType: 4
+      propName: position
+      speedParamName: averageSpeed
+    - methodName: LocalPosition
+      propType: 4
+      propName: localPosition
+      speedParamName: averageSpeed
+    - methodName: Rotation
+      propType: 6
+      propName: rotation
+      speedParamName: averageAngularSpeed
+    - methodName: LocalRotation
+      propType: 6
+      propName: localRotation
+      speedParamName: averageAngularSpeed
