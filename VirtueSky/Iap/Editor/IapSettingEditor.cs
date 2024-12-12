@@ -49,29 +49,20 @@ namespace VirtueSky.Iap
             serializedObject.ApplyModifiedProperties();
         }
 
-        private string path = CreateAsset.DefaultPath("/Iap/Products");
-
         void GenerateProduct()
         {
             _iapSetting.Products.Clear();
             for (int i = 0; i < _iapSetting.SkusData.Count; i++)
             {
                 string itemName = _iapSetting.SkusData[i].id.Split('.').Last();
-                //  Debug.Log(itemName);
-                AssetDatabase.DeleteAsset($"{path}/iap_{itemName.ToLower()}.asset");
-                var itemDataVariable = CreateInstance<IapDataVariable>();
+                var itemDataVariable = CreateAsset.CreateAndGetScriptableAssetByName<IapDataVariable>("/Iap/Products", $"iap_{itemName.ToLower()}");
                 itemDataVariable.id = _iapSetting.SkusData[i].id;
                 itemDataVariable.productType = _iapSetting.SkusData[i].productType;
+                _iapSetting.Products.Add(itemDataVariable);
                 itemDataVariable.eventPurchaseProduct = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventPurchaseProduct>("/Iap",
                     "iap_purchase_product_event");
                 itemDataVariable.eventIsPurchaseProduct = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIsPurchaseProduct>("/Iap",
                     "iap_is_purchase_product_event");
-                _iapSetting.Products.Add(itemDataVariable);
-                AssetDatabase.CreateAsset(itemDataVariable, $"{path}/iap_{itemName.ToLower()}.asset");
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-
-                //  Selection.activeObject = itemDataVariable;
             }
 
             serializedObject.ApplyModifiedProperties();
