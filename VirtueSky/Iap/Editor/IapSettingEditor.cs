@@ -59,10 +59,6 @@ namespace VirtueSky.Iap
                 itemDataVariable.id = _iapSetting.SkusData[i].id;
                 itemDataVariable.productType = _iapSetting.SkusData[i].productType;
                 _iapSetting.Products.Add(itemDataVariable);
-                itemDataVariable.eventPurchaseProduct = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventPurchaseProduct>("/Iap",
-                    "iap_purchase_product_event");
-                itemDataVariable.eventIsPurchaseProduct = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIsPurchaseProduct>("/Iap",
-                    "iap_is_purchase_product_event");
             }
 
             serializedObject.ApplyModifiedProperties();

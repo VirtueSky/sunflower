@@ -20,20 +20,16 @@ namespace VirtueSky.Iap
     {
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
         [Tooltip("Require"), SerializeField] private IapSetting iapSetting;
-        [Tooltip("Require"), SerializeField] private EventPurchaseProduct eventPurchaseProduct;
-
-        [Tooltip("Allows nulls"), SerializeField]
-        private EventIsPurchaseProduct eventIsPurchaseProduct;
 
         [Tooltip("Allows nulls"), SerializeField]
         private BooleanEvent changePreventDisplayAppOpenEvent;
-#if UNITY_IOS
-        [SerializeField] private EventNoParam restoreEvent;
-#endif
+
 
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
-        public bool IsInitialized { get; set; }
+        private static event Action RestoreEvent;
+        public static bool IsInitialized { get; set; }
+        public static void Restore() => RestoreEvent?.Invoke();
 
         private void Awake()
         {
@@ -46,30 +42,16 @@ namespace VirtueSky.Iap
         public override void OnEnable()
         {
             base.OnEnable();
-            eventPurchaseProduct.AddListener(PurchaseProduct);
-            if (eventIsPurchaseProduct != null)
-            {
-                eventIsPurchaseProduct.AddListener(IsPurchasedProduct);
-            }
-
-
 #if UNITY_IOS
-             restoreEvent.AddListener(RestorePurchase);
+              RestoreEvent += RestorePurchase;
 #endif
         }
 
         public override void OnDisable()
         {
             base.OnDisable();
-            eventPurchaseProduct.RemoveListener(PurchaseProduct);
-            if (eventIsPurchaseProduct != null)
-            {
-                eventIsPurchaseProduct.RemoveListener(IsPurchasedProduct);
-            }
-
-
 #if UNITY_IOS
-             restoreEvent.RemoveListener(RestorePurchase);
+             RestoreEvent -= RestorePurchase;
 #endif
         }
 
@@ -98,14 +80,14 @@ namespace VirtueSky.Iap
 
         #region Internal Api
 
-        private bool IsPurchasedProduct(IapDataVariable product)
+        internal bool IsPurchasedProduct(IapDataVariable product)
         {
             if (_controller == null) return false;
             return product.productType is ProductType.NonConsumable or ProductType.Subscription &&
                    _controller.products.WithID(product.id).hasReceipt;
         }
 
-        void PurchaseProduct(IapDataVariable product)
+        internal void PurchaseProduct(IapDataVariable product)
         {
             // call when IAPDataVariable raise event
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(true);
@@ -204,6 +186,7 @@ namespace VirtueSky.Iap
         {
             foreach (var iapDataVariable in iapSetting.Products)
             {
+                iapDataVariable.InitIapManager(this);
                 var product = _controller.products.WithID(iapDataVariable.id);
                 iapDataVariable.product = product;
                 if (iapDataVariable.productType == ProductType.Subscription)
@@ -270,7 +253,7 @@ namespace VirtueSky.Iap
         }
 
 #if UNITY_IOS
-        private void RestorePurchase()
+        internal void RestorePurchase()
         {
             if (!IsInitialized)
             {
@@ -299,12 +282,6 @@ namespace VirtueSky.Iap
         private void Reset()
         {
             iapSetting = CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.IapSetting>("/Iap/Setting");
-            eventPurchaseProduct =
-                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventPurchaseProduct>("/Iap",
-                    "iap_purchase_product_event");
-            eventIsPurchaseProduct =
-                CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Iap.EventIsPurchaseProduct>("/Iap",
-                    "iap_is_purchase_product_event");
         }
 #endif
     }
