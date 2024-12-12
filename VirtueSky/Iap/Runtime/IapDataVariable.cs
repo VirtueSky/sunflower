@@ -12,8 +12,6 @@ namespace VirtueSky.Iap
     {
         [ReadOnly] public string id;
         [ReadOnly] public ProductType productType;
-        [ReadOnly] public EventPurchaseProduct eventPurchaseProduct;
-        [ReadOnly] public EventIsPurchaseProduct eventIsPurchaseProduct;
 
         [Space] public float price;
         [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
@@ -30,14 +28,21 @@ namespace VirtueSky.Iap
         public Product Product => product;
         public SubscriptionInfo SubscriptionInfo => subscriptionInfo;
 
+        private IapManager iapManager;
+
+        internal void InitIapManager(IapManager _iapManager)
+        {
+            iapManager = _iapManager;
+        }
+
         public void Purchase()
         {
-            eventPurchaseProduct.Raise(this);
+            iapManager.PurchaseProduct(this);
         }
 
         public bool IsPurchased()
         {
-            return eventIsPurchaseProduct.Raise(this);
+            return iapManager.IsPurchasedProduct(this);
         }
     }
 }

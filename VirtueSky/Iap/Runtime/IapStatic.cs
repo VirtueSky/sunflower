@@ -17,21 +17,6 @@ namespace VirtueSky.Iap
             product.purchaseFailedCallback = onFailed;
             return product;
         }
-
-        public static void Purchase(this IapDataVariable product, EventPurchaseProduct @event)
-        {
-            @event.Raise(product);
-        }
-
-        public static void RestorePurchase(this EventNoParam @event)
-        {
-            @event.Raise();
-        }
-
-        public static bool IsPurchased(this IapDataVariable product, EventIsPurchaseProduct @event)
-        {
-            return @event.Raise(product);
-        }
     }
 }
 #endif

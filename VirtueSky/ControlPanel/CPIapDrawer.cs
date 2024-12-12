@@ -71,44 +71,14 @@ namespace VirtueSky.ControlPanel.Editor
                 MessageType.Warning);
 #endif
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
-            GUILayout.Space(10);
 
-            if (GUILayout.Button("Create Iap Purchase Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIapProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-            if (GUILayout.Button("Create Iap Is Purchase Product Event"))
-            {
-#if VIRTUESKY_IAP
-                IapWindowEditor.CreateIsPurchaseProductEvent();
-
-#else
-                Debug.LogError("Add scripting define symbols ( VIRTUESKY_IAP ) to use IAP");
-#endif
-            }
-
-
-            GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
-            CPUtility.GuiLine(2);
             GUILayout.Space(10);
             CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
             CPUtility.DrawButtonInstallPackage("Install In App Purchasing", "Remove In App Purchasing",
                 ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             CPUtility.DrawHeader("Define Symbols");
@@ -123,8 +93,6 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_IAP);
 #if VIRTUESKY_IAP
             GUILayout.Space(10);
-            // Handles.DrawAAPolyLine(3, new Vector3(210, GUILayoutUtility.GetLastRect().y + 10),
-            //     new Vector3(position.width, GUILayoutUtility.GetLastRect().y + 10));
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
             GUILayout.Label("Ping Iap Settings", EditorStyles.boldLabel);
