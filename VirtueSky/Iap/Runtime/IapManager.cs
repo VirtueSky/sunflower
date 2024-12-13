@@ -92,8 +92,7 @@ namespace VirtueSky.Iap
 
         internal SubscriptionInfo GetSubscriptionInfo(IapDataVariable product)
         {
-            if (_controller == null) return null;
-            if (!IsPurchasedProduct(product)) return null;
+            if (_controller == null || product.productType != ProductType.Subscription || !_controller.products.WithID(product.id).hasReceipt) return null;
             var subscriptionManager = new SubscriptionManager(GetProduct(product), null);
             var subscriptionInfo = subscriptionManager.getSubscriptionInfo();
             return subscriptionInfo;
