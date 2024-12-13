@@ -1,7 +1,6 @@
 #if VIRTUESKY_IAP
 using System;
-using Unity.Services.Core;
-using Unity.Services.Core.Environments;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
@@ -28,7 +27,7 @@ namespace VirtueSky.Iap
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         private static event Action RestoreEvent;
-        public static bool IsInitialized { get; set; }
+        public static bool IsInitialized { get; private set; }
         public static void Restore() => RestoreEvent?.Invoke();
 
         private void Awake()
@@ -62,20 +61,12 @@ namespace VirtueSky.Iap
 
         private async void Init()
         {
-            var options = new InitializationOptions().SetEnvironmentName("production");
-            await UnityServices.InitializeAsync(options);
-            InitImpl();
-        }
-
-        void InitImpl()
-        {
             if (IsInitialized) return;
+            await UniTask.WaitUntil(() => UnityServiceInitialization.IsUnityServiceReady);
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
             RequestProductData(builder);
             builder.Configure<IGooglePlayConfiguration>();
-
             UnityPurchasing.Initialize(this, builder);
-            IsInitialized = true;
         }
 
         #region Internal Api
@@ -89,9 +80,22 @@ namespace VirtueSky.Iap
 
         internal void PurchaseProduct(IapDataVariable product)
         {
-            // call when IAPDataVariable raise event
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(true);
             PurchaseProductInternal(product);
+        }
+
+        internal Product GetProduct(IapDataVariable product)
+        {
+            if (_controller == null) return null;
+            return _controller.products.WithID(product.id);
+        }
+
+        internal SubscriptionInfo GetSubscriptionInfo(IapDataVariable product)
+        {
+            if (_controller == null || product.productType != ProductType.Subscription || !_controller.products.WithID(product.id).hasReceipt) return null;
+            var subscriptionManager = new SubscriptionManager(GetProduct(product), null);
+            var subscriptionInfo = subscriptionManager.getSubscriptionInfo();
+            return subscriptionInfo;
         }
 
         #endregion
@@ -136,14 +140,12 @@ namespace VirtueSky.Iap
             _controller = controller;
             _extensionProvider = extensions;
 
-// #if UNITY_ANDROID && !UNITY_EDITOR
-//             foreach (var product in _controller.products.all)
-//             {
-//                 if (product != null && !string.IsNullOrEmpty(product.transactionID)) _controller.ConfirmPendingPurchase(product);
-//             }
-// #endif
+            foreach (var iapDataVariable in iapSetting.Products)
+            {
+                iapDataVariable.InitIapManager(this);
+            }
 
-            InitProductIapDataVariable();
+            IsInitialized = true;
         }
 
         public void OnInitializeFailed(InitializationFailureReason error, string message)
@@ -180,22 +182,6 @@ namespace VirtueSky.Iap
         }
 
         #endregion
-
-
-        private void InitProductIapDataVariable()
-        {
-            foreach (var iapDataVariable in iapSetting.Products)
-            {
-                iapDataVariable.InitIapManager(this);
-                var product = _controller.products.WithID(iapDataVariable.id);
-                iapDataVariable.product = product;
-                if (iapDataVariable.productType == ProductType.Subscription)
-                {
-                    var subManager = new SubscriptionManager(product, null);
-                    iapDataVariable.subscriptionInfo = subManager.getSubscriptionInfo();
-                }
-            }
-        }
 
         private IapDataVariable PurchaseProductInternal(IapDataVariable product)
         {

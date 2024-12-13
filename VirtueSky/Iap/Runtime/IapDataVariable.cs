@@ -16,23 +16,29 @@ namespace VirtueSky.Iap
         [Space] public float price;
         [SerializeField] private IapPurchaseSuccess onPurchaseSuccess;
         [SerializeField] private IapPurchaseFailed onPurchaseFailed;
-
-        [ReadOnly] internal Product product;
-        [ReadOnly] internal SubscriptionInfo subscriptionInfo;
         internal IapPurchaseSuccess OnPurchaseSuccess => onPurchaseSuccess;
         internal IapPurchaseFailed OnPurchaseFailed => onPurchaseFailed;
 
         [NonSerialized] public Action purchaseSuccessCallback;
         [NonSerialized] public Action<string> purchaseFailedCallback;
 
-        public Product Product => product;
-        public SubscriptionInfo SubscriptionInfo => subscriptionInfo;
-
         private IapManager iapManager;
 
         internal void InitIapManager(IapManager _iapManager)
         {
             iapManager = _iapManager;
+        }
+
+        public Product GetProduct()
+        {
+            if (iapManager == null) return null;
+            return iapManager.GetProduct(this);
+        }
+
+        public SubscriptionInfo GetSubscriptionInfo()
+        {
+            if (iapManager == null) return null;
+            return iapManager.GetSubscriptionInfo(this);
         }
 
         public void Purchase()
