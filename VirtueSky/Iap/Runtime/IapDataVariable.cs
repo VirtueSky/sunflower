@@ -1,5 +1,7 @@
 ﻿#if VIRTUESKY_IAP
 using System;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using VirtueSky.Inspector;
@@ -43,11 +45,13 @@ namespace VirtueSky.Iap
 
         public void Purchase()
         {
+            if (iapManager == null) return;
             iapManager.PurchaseProduct(this);
         }
 
         public bool IsPurchased()
         {
+            if (iapManager == null) return false;
             return iapManager.IsPurchasedProduct(this);
         }
     }
