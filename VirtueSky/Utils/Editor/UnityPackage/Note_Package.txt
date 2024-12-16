@@ -1,4 +1,4 @@
 - Version Max Sdk: 8.0.1
-- Version Admob Sdk: v9.4.0
+- Version Admob Sdk: v9.5.0
 - Version IronSource (UnityLevelPlay) Skd: 8.4.0
 - Version Google Game Play Service: v11.01
