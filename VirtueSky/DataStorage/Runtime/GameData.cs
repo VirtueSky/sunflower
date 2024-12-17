@@ -13,6 +13,7 @@ namespace VirtueSky.DataStorage
         private static Dictionary<string, byte[]> datas = new();
         private const int INIT_SIZE = 64;
 
+        public static bool IsAutoSave { get; set; } = true;
         public static event Action OnSaveEvent;
 
         #region Internal Stuff
