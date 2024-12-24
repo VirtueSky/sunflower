@@ -102,7 +102,7 @@
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.4";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.5";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
