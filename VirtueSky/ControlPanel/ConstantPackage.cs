@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.2.4";
+        public const string VersionSunflower = "3.2.5";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -97,18 +97,16 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.1";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.0.2";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.3";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.5";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
         public const string MaxVersionAppleSignIn = "https://github.com/lupidan/apple-signin-unity.git#v1.4.3";
-        //public const string PackageNameAnimancer = "com.virtuesky.animancer";
-        //public const string MaxVersionAnimancer = "https://github.com/VirtueSky/animancer-unity.git#7.0.0";
 
         #region Spine
 
