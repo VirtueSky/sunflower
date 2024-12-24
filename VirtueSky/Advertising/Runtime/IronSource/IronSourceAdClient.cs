@@ -1,4 +1,3 @@
-using UnityEngine;
 using VirtueSky.Core;
 using VirtueSky.Tracking;
 
@@ -7,6 +6,7 @@ namespace VirtueSky.Ads
     public class IronSourceAdClient : AdClient
     {
         public bool SdkInitializationCompleted { get; private set; }
+
         public override void Initialize()
         {
             SdkInitializationCompleted = false;
@@ -27,7 +27,9 @@ namespace VirtueSky.Ads
 #endif
             LoadInterstitial();
             LoadRewarded();
+            LoadBanner();
         }
+
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
         private void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
         {
@@ -47,6 +49,36 @@ namespace VirtueSky.Ads
         void SdkInitializationCompletedEvent()
         {
             SdkInitializationCompleted = true;
+        }
+
+        public override void LoadBanner()
+        {
+            if (adSetting.IronSourceBannerVariable == null) return;
+            adSetting.IronSourceBannerVariable.Load();
+        }
+
+        public override void LoadInterstitial()
+        {
+            if (adSetting.IronSourceInterVariable == null) return;
+            if (!adSetting.IronSourceInterVariable.IsReady()) adSetting.IronSourceInterVariable.Load();
+        }
+
+        public override void LoadRewarded()
+        {
+            if (adSetting.IronSourceRewardVariable == null) return;
+            if (!adSetting.IronSourceRewardVariable.IsReady()) adSetting.IronSourceRewardVariable.Load();
+        }
+
+        public override void LoadRewardedInterstitial()
+        {
+        }
+
+        public override void LoadAppOpen()
+        {
+        }
+
+        public override void ShowAppOpen()
+        {
         }
     }
 }

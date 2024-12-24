@@ -42,8 +42,10 @@ namespace VirtueSky.Ads
             LoadRewarded();
             LoadRewardedInterstitial();
             LoadAppOpen();
+            LoadBanner();
 #endif
         }
+
 
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         void RegisterAppStateChange()
@@ -60,5 +62,40 @@ namespace VirtueSky.Ads
             }
         }
 #endif
+        public override void LoadBanner()
+        {
+            if (adSetting.AdmobBannerVariable == null) return;
+            adSetting.AdmobBannerVariable.Load();
+        }
+
+        public override void LoadInterstitial()
+        {
+            if (adSetting.AdmobInterVariable == null) return;
+            if (!adSetting.AdmobInterVariable.IsReady()) adSetting.AdmobInterVariable.Load();
+        }
+
+        public override void LoadRewarded()
+        {
+            if (adSetting.AdmobRewardVariable == null) return;
+            if (!adSetting.AdmobRewardVariable.IsReady()) adSetting.AdmobRewardVariable.Load();
+        }
+
+        public override void LoadRewardedInterstitial()
+        {
+            if (adSetting.AdmobRewardInterVariable == null) return;
+            if (!adSetting.AdmobRewardInterVariable.IsReady()) adSetting.AdmobRewardInterVariable.Load();
+        }
+
+        public override void LoadAppOpen()
+        {
+            if (adSetting.AdmobAppOpenVariable == null) return;
+            if (!adSetting.AdmobAppOpenVariable.IsReady()) adSetting.AdmobAppOpenVariable.Load();
+        }
+
+        public override void ShowAppOpen()
+        {
+            if (statusAppOpenFirstIgnore) adSetting.AdmobAppOpenVariable.Show();
+            statusAppOpenFirstIgnore = true;
+        }
     }
 }
