@@ -69,5 +69,9 @@ namespace VirtueSky.Ads
             if (statusAppOpenFirstIgnore) adSetting.MaxAppOpenVariable.Show();
             statusAppOpenFirstIgnore = true;
         }
+
+        public override void LoadNativeOverlay()
+        {
+        }
     }
 }

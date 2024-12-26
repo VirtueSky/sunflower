@@ -80,5 +80,9 @@ namespace VirtueSky.Ads
         public override void ShowAppOpen()
         {
         }
+
+        public override void LoadNativeOverlay()
+        {
+        }
     }
 }
