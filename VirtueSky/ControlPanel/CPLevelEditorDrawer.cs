@@ -111,10 +111,14 @@ namespace VirtueSky.ControlPanel.Editor
 
         public static void ClearPreview(GameObject go)
         {
-            if (previewDict?.TryGetValue(go, out var tex) ?? false)
+            if (previewDict != null)
             {
-                UnityEngine.Object.DestroyImmediate(tex);
-                previewDict.Remove(go);
+                foreach (var kvp in previewDict.ToList())
+                {
+                    previewDict[kvp.Key] = null;
+                }
+
+                previewDict.Clear();
             }
         }
 
