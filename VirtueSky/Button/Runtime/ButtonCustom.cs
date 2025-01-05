@@ -17,7 +17,7 @@ using VirtueSky.UtilsEditor;
 namespace VirtueSky.UIButton
 {
     [EditorIcon("icon_button")]
-    public class ButtonCustom : Button
+    public abstract class ButtonCustom : Button
     {
         public ClickButtonEvent clickButtonEvent;
 
@@ -119,7 +119,8 @@ namespace VirtueSky.UIButton
         {
             base.Reset();
             GetClickButtonEvent();
-            playSfxEvent = CreateAsset.CreateAndGetScriptableAsset<PlaySfxEvent>("/Audio/Sfx_Event", "play_sfx_event", false);
+            playSfxEvent =
+                CreateAsset.CreateAndGetScriptableAsset<PlaySfxEvent>("/Audio/Sfx_Event", "play_sfx_event", false);
         }
 
         public void GetClickButtonEvent()
