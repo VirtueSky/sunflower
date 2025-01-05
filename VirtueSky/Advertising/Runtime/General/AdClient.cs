@@ -17,5 +17,8 @@ namespace VirtueSky.Ads
         public abstract void LoadRewardedInterstitial();
         public abstract void LoadAppOpen();
         public abstract void ShowAppOpen();
+
+        //Currently, native overlay ads is only available for admob.
+        public abstract void LoadNativeOverlay();
     }
 }

@@ -43,6 +43,7 @@ namespace VirtueSky.Ads
             LoadRewardedInterstitial();
             LoadAppOpen();
             LoadBanner();
+            LoadNativeOverlay();
 #endif
         }
 
@@ -96,6 +97,12 @@ namespace VirtueSky.Ads
         {
             if (statusAppOpenFirstIgnore) adSetting.AdmobAppOpenVariable.Show();
             statusAppOpenFirstIgnore = true;
+        }
+
+        public override void LoadNativeOverlay()
+        {
+            if (adSetting.AdmobNativeOverlayVariable == null) return;
+            if (!adSetting.AdmobNativeOverlayVariable.IsReady()) adSetting.AdmobNativeOverlayVariable.Load();
         }
     }
 }
