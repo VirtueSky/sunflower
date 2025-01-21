@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.2.6";
+        public const string VersionSunflower = "3.2.7";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -98,12 +98,12 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.1.0";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.2.2";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.6";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.10.7";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
