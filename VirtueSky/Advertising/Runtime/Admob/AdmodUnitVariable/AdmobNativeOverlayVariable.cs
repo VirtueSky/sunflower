@@ -127,7 +127,7 @@ namespace VirtueSky.Ads
         /// </summary>
         public void RenderAd()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_ADS
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd == null) return;
             _nativeOverlayAd.RenderTemplate(Style(), ConvertSize(), ConvertPosition(adsPosition));
 #endif
@@ -139,7 +139,7 @@ namespace VirtueSky.Ads
         /// <param name="uiElement">RectTransform of uiElement, used to determine position for native overlay ads</param>
         public void RenderAd(RectTransform uiElement)
         {
-#if VIRTUESKY_ADS && VIRTUESKY_ADS
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd == null) return;
             (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement);
             _nativeOverlayAd.RenderTemplate(Style(), admobX, admobY);
@@ -154,7 +154,7 @@ namespace VirtueSky.Ads
         /// <param name="height">Custom height for native overlay ads</param>
         public void RenderAd(RectTransform uiElement, int width, int height)
         {
-#if VIRTUESKY_ADS && VIRTUESKY_ADS
+#if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd == null) return;
             (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement);
             _nativeOverlayAd.RenderTemplate(Style(), new AdSize(width, height), admobX, admobY);
@@ -174,7 +174,8 @@ namespace VirtueSky.Ads
             (int admobX, int admobY) = ConvertUiElementPosToNativeAdsPos(uiElement, camera);
             if (useSizeUiElement)
             {
-                _nativeOverlayAd?.RenderTemplate(Style(), new AdSize((int)uiElement.rect.width, (int)uiElement.rect.height), admobX, admobY);
+                _nativeOverlayAd?.RenderTemplate(Style(),
+                    new AdSize((int)uiElement.rect.width, (int)uiElement.rect.height), admobX, admobY);
             }
             else
             {
