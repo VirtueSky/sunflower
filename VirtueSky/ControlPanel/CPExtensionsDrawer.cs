@@ -52,6 +52,8 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.EndVertical();
         }
 
+#if UNITY_ANDROID
+
         static void OpenSdkPath()
         {
             var path = $"{AndroidExternalToolsSettings.sdkRootPath}/";
@@ -120,5 +122,6 @@ namespace VirtueSky.ControlPanel.Editor
                 process.Start();
             }
         }
+#endif
     }
 }
