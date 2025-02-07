@@ -138,6 +138,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
         }
 
+#if UNITY_ANDROID
         static void DrawDebugView()
         {
             GUILayout.Space(10);
@@ -187,5 +188,6 @@ namespace VirtueSky.ControlPanel.Editor
             process!.WaitForExit();
             UnityEngine.Debug.Log($"{fileName} {arguments}");
         }
+#endif
     }
 }
