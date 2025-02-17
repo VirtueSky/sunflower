@@ -165,19 +165,6 @@ namespace VirtueSky.Ads
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(_maxRewardInterVariable);
-            if (_maxRewardInterVariable.objectReferenceValue == null)
-            {
-                GUILayout.Space(2);
-                if (GUILayout.Button("Create", GUILayout.Width(55)))
-                {
-                    _maxRewardInterVariable.objectReferenceValue =
-                        CreateAsset.CreateAndGetScriptableAsset<MaxRewardInterVariable>(pathMax);
-                }
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_maxAppOpenVariable);
             if (_maxAppOpenVariable.objectReferenceValue == null)
             {

@@ -37,14 +37,12 @@ namespace VirtueSky.Ads
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
-        [SerializeField] private MaxRewardInterVariable maxRewardInterVariable;
         [SerializeField] private MaxAppOpenVariable maxAppOpenVariable;
 
         public string SdkKey => sdkKey;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
-        public MaxRewardInterVariable MaxRewardInterVariable => maxRewardInterVariable;
         public MaxAppOpenVariable MaxAppOpenVariable => maxAppOpenVariable;
 
         #endregion
