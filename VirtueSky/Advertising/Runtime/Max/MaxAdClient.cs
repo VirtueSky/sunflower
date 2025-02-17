@@ -13,7 +13,6 @@ namespace VirtueSky.Ads
             adSetting.MaxInterVariable.Init();
             adSetting.MaxRewardVariable.Init();
             adSetting.MaxAppOpenVariable.Init();
-            adSetting.MaxRewardInterVariable.Init();
             App.AddPauseCallback(OnAppStateChange);
             LoadInterstitial();
             LoadRewarded();
@@ -54,8 +53,6 @@ namespace VirtueSky.Ads
 
         public override void LoadRewardedInterstitial()
         {
-            if (adSetting.MaxRewardInterVariable == null) return;
-            if (!adSetting.MaxRewardInterVariable.IsReady()) adSetting.MaxRewardInterVariable.Load();
         }
 
         public override void LoadAppOpen()

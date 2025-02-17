@@ -77,9 +77,6 @@ namespace VirtueSky.Ads
                 case MaxRewardVariable maxReward:
                     maxReward.completedCallback = onCompleted;
                     return unit;
-                case MaxRewardInterVariable maxRewardInter:
-                    maxRewardInter.completedCallback = onCompleted;
-                    return unit;
                 case IronSourceInterVariable ironSourceInterVariable:
                     ironSourceInterVariable.completedCallback = onCompleted;
                     return unit;
@@ -103,9 +100,6 @@ namespace VirtueSky.Ads
                     return unit;
                 case MaxRewardVariable maxReward:
                     maxReward.skippedCallback = onSkipped;
-                    return unit;
-                case MaxRewardInterVariable maxRewardInter:
-                    maxRewardInter.skippedCallback = onSkipped;
                     return unit;
                 case IronSourceRewardVariable ironSourceRewardVariable:
                     ironSourceRewardVariable.skippedCallback = onSkipped;
