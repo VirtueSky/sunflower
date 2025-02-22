@@ -19,7 +19,6 @@ namespace VirtueSky.Ads
         private SerializedProperty _maxBannerVariable;
         private SerializedProperty _maxInterVariable;
         private SerializedProperty _maxRewardVariable;
-        private SerializedProperty _maxRewardInterVariable;
         private SerializedProperty _maxAppOpenVariable;
 
 
@@ -56,7 +55,6 @@ namespace VirtueSky.Ads
             _maxBannerVariable = serializedObject.FindProperty("maxBannerVariable");
             _maxInterVariable = serializedObject.FindProperty("maxInterVariable");
             _maxRewardVariable = serializedObject.FindProperty("maxRewardVariable");
-            _maxRewardInterVariable = serializedObject.FindProperty("maxRewardInterVariable");
             _maxAppOpenVariable = serializedObject.FindProperty("maxAppOpenVariable");
 
             _admobBannerVariable = serializedObject.FindProperty("admobBannerVariable");
