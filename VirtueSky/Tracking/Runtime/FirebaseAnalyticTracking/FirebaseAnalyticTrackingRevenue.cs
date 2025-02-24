@@ -8,6 +8,7 @@ namespace VirtueSky.Tracking
     public struct FirebaseAnalyticTrackingRevenue
     {
         public static Action OnTracked;
+        public static bool autoTrackAdImpressionAdmob;
 
         public static void FirebaseAnalyticTrackRevenue(double value, string network, string unitId,
             string format, string currentAdSettingNetwork)
@@ -17,7 +18,10 @@ namespace VirtueSky.Tracking
             switch (currentAdSettingNetwork.ToLower())
             {
                 case "admob":
-                    return;
+                    if (autoTrackAdImpressionAdmob) return;
+                    ad_platform = "Admob";
+                    break;
+
                 case "max":
                     ad_platform = "AppLovin";
                     break;
