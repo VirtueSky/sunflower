@@ -1,3 +1,5 @@
+using VirtueSky.Tracking;
+
 namespace VirtueSky.Ads
 {
     public abstract class AdClient
@@ -8,6 +10,7 @@ namespace VirtueSky.Ads
         public void SetupAdSetting(AdSetting _adSetting)
         {
             this.adSetting = _adSetting;
+            FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
         }
 
         public abstract void Initialize();
