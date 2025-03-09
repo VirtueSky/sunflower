@@ -8,9 +8,6 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_firebase")]
     public class TrackingFirebaseTwoParam : TrackingFirebase
     {
-        [Space] [HeaderLine("Event Name")] [SerializeField]
-        private string eventName;
-
         [Space] [HeaderLine("Parameter Name")] [SerializeField]
         private string parameterName1;
 

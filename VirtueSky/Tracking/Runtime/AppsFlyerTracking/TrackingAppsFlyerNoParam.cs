@@ -8,9 +8,6 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_af")]
     public class TrackingAppsFlyerNoParam : TrackingAppsFlyer
     {
-        [Space, HeaderLine("Event Name"), SerializeField]
-        private string eventName;
-
         public void TrackEvent()
         {
 #if VIRTUESKY_APPSFLYER

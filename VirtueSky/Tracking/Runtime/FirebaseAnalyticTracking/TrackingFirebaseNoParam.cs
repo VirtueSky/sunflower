@@ -8,9 +8,6 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_firebase")]
     public class TrackingFirebaseNoParam : TrackingFirebase
     {
-        [Space] [HeaderLine("Event Name")] [SerializeField]
-        private string eventName;
-
         public void TrackEvent()
         {
             if (!Application.isMobilePlatform) return;
