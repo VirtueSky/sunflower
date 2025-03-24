@@ -30,7 +30,7 @@ namespace VirtueSky.Misc
         public static SkeletonGraphic OnComplete(this SkeletonGraphic skeletonGraphic, Action onComplete,
             int trackIndex = 0, MonoBehaviour target = null)
         {
-            App.Delay(target, skeletonGraphic.Duration(trackIndex), () =>
+            App.Delay(target != null ? target : skeletonGraphic, skeletonGraphic.Duration(trackIndex), () =>
             {
                 if (skeletonGraphic != null)
                 {
@@ -44,7 +44,7 @@ namespace VirtueSky.Misc
         public static SkeletonGraphic OnUpdate(this SkeletonGraphic skeletonGraphic, Action<float> onUpdate,
             int trackIndex = 0, MonoBehaviour target = null)
         {
-            App.Delay(target, skeletonGraphic.Duration(trackIndex), null, onUpdate);
+            App.Delay(target != null ? target : skeletonGraphic, skeletonGraphic.Duration(trackIndex), null, onUpdate);
             return skeletonGraphic;
         }
 
