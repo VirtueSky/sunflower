@@ -32,8 +32,6 @@ namespace VirtueSky.ControlPanel.Editor
             scroll = EditorGUILayout.BeginScrollView(scroll);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
                 ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
-            CPUtility.DrawButtonInstallPackage("Install AppsFlyer Revenue Generic", "Remove AppsFlyer Revenue Generic",
-                ConstantPackage.PackageNameAppFlyerRevenueGeneric, ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
@@ -55,7 +53,8 @@ namespace VirtueSky.ControlPanel.Editor
                 if (GUILayout.Button("Create AppsFlyerConfig"))
                 {
                     _config =
-                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Tracking.AppsFlyerConfig>("/AppsFlyerTracking/Resources",
+                        CreateAsset.CreateAndGetScriptableAsset<VirtueSky.Tracking.AppsFlyerConfig>(
+                            "/AppsFlyerTracking/Resources",
                             isPingAsset: false);
                     Init();
                 }

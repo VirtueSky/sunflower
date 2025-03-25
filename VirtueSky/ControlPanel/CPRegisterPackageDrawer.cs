@@ -67,8 +67,6 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameInAppPurchase, ConstantPackage.MaxVersionInAppPurchase);
             CPUtility.DrawButtonInstallPackage("Install AppsFlyer", "Remove AppsFlyer",
                 ConstantPackage.PackageNameAppFlyer, ConstantPackage.MaxVersionAppFlyer);
-            CPUtility.DrawButtonInstallPackage("Install AppsFlyer Revenue Generic", "Remove AppsFlyer Revenue Generic",
-                ConstantPackage.PackageNameAppFlyerRevenueGeneric, ConstantPackage.MaxVersionAppFlyerRevenueGeneric);
             CPUtility.DrawButtonInstallPackage("Install Google Play Review", "Remove Google Play Review",
                 ConstantPackage.PackageNameGGPlayReview, ConstantPackage.MaxVersionGGPlayReview);
             CPUtility.DrawButtonInstallPackage("Install Google Play Core", "Remove Google Play Core",
