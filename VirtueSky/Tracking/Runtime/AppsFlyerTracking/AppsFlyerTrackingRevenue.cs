@@ -34,9 +34,9 @@ namespace VirtueSky.Tracking
             }
 
             Dictionary<string, string> additionalParams = new Dictionary<string, string>();
-            additionalParams.Add(AFAdRevenueEvent.COUNTRY, "US");
-            additionalParams.Add(AFAdRevenueEvent.AD_UNIT, unitId);
-            additionalParams.Add(AFAdRevenueEvent.AD_TYPE, format);
+            additionalParams.Add(AdRevenueScheme.COUNTRY, "US");
+            additionalParams.Add(AdRevenueScheme.AD_UNIT, unitId);
+            additionalParams.Add(AdRevenueScheme.AD_TYPE, format);
             AppsFlyer.logAdRevenue(new AFAdRevenueData(network, mediationNetworks, "USD", value), additionalParams);
             OnTracked?.Invoke();
 #endif
