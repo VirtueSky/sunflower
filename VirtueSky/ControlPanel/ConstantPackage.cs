@@ -78,7 +78,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.1.2";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.1.3";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
@@ -87,7 +87,7 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.15.3";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.16.2";
 
         public const string PackageNameAppFlyerRevenueGeneric =
             "appsflyer-unity-adrevenue-generic-connector";
