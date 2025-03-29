@@ -96,7 +96,11 @@ namespace VirtueSky.Core
             _localToMainThreads.Clear();
             lock (_toMainThreads)
             {
-                _localToMainThreads.AddRange(_toMainThreads);
+                for (var i = 0; i < _toMainThreads.Count; i++)
+                {
+                    _localToMainThreads.Add(_toMainThreads[i]);
+                }
+
                 _toMainThreads.Clear();
                 _isToMainThreadQueueEmpty = true;
             }
