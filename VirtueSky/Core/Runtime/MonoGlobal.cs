@@ -161,9 +161,9 @@ namespace VirtueSky.Core
 
         internal void CancelAllDelayHandle()
         {
-            foreach (var timer in _timers)
+            for (var i = 0; i < _timers.Count; i++)
             {
-                timer.Cancel();
+                _timers[i].Cancel();
             }
 
             _timers = new List<DelayHandle>();
@@ -172,17 +172,17 @@ namespace VirtueSky.Core
 
         internal void PauseAllDelayHandle()
         {
-            foreach (var timer in _timers)
+            for (var i = 0; i < _timers.Count; i++)
             {
-                timer.Pause();
+                _timers[i].Pause();
             }
         }
 
         internal void ResumeAllDelayHandle()
         {
-            foreach (var timer in _timers)
+            for (var i = 0; i < _timers.Count; i++)
             {
-                timer.Resume();
+                _timers[i].Resume();
             }
         }
 
@@ -190,13 +190,17 @@ namespace VirtueSky.Core
         {
             if (_timersToAdd.Count > 0)
             {
-                _timers.AddRange(_timersToAdd);
+                for (var i = 0; i < _timersToAdd.Count; i++)
+                {
+                    _timers.Add(_timersToAdd[i]);
+                }
+
                 _timersToAdd.Clear();
             }
 
-            foreach (var timer in _timers)
+            for (var i = 0; i < _timers.Count; i++)
             {
-                timer.Update();
+                _timers[i].Update();
             }
 
             _timers.RemoveAll(t => t.IsDone);
