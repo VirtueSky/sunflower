@@ -11,9 +11,6 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_af")]
     public class TrackingAppsFlyerHasParam : TrackingAppsFlyer
     {
-        [Space, HeaderLine("Event Name"), SerializeField]
-        private string eventName;
-
         public void TrackEvent(Dictionary<string, string> eventValues)
         {
 #if VIRTUESKY_APPSFLYER

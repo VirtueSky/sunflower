@@ -19,33 +19,25 @@ namespace VirtueSky.Tracking
             string format, string currentAdSettingNetwork)
         {
 #if VIRTUESKY_APPSFLYER
-            var mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
-                .AppsFlyerAdRevenueMediationNetworkTypeGoogleAdMob;
+            var mediationNetworks = MediationNetwork.GoogleAdMob;
             switch (currentAdSettingNetwork.ToLower())
             {
                 case "admob":
-                    mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
-                        .AppsFlyerAdRevenueMediationNetworkTypeGoogleAdMob;
+                    mediationNetworks = MediationNetwork.GoogleAdMob;
                     break;
                 case "max":
-                    mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
-                        .AppsFlyerAdRevenueMediationNetworkTypeApplovinMax;
+                    mediationNetworks = MediationNetwork.ApplovinMax;
                     break;
                 case "ironsource":
-                    mediationNetworks = AppsFlyerAdRevenueMediationNetworkType
-                        .AppsFlyerAdRevenueMediationNetworkTypeIronSource;
+                    mediationNetworks = MediationNetwork.IronSource;
                     break;
             }
 
             Dictionary<string, string> additionalParams = new Dictionary<string, string>();
-            additionalParams.Add(AFAdRevenueEvent.COUNTRY, "US");
-            additionalParams.Add(AFAdRevenueEvent.AD_UNIT, unitId);
-            additionalParams.Add(AFAdRevenueEvent.AD_TYPE, format);
-            AppsFlyerAdRevenue.logAdRevenue(network,
-                mediationNetworks,
-                value,
-                "USD",
-                additionalParams);
+            additionalParams.Add(AdRevenueScheme.COUNTRY, "US");
+            additionalParams.Add(AdRevenueScheme.AD_UNIT, unitId);
+            additionalParams.Add(AdRevenueScheme.AD_TYPE, format);
+            AppsFlyer.logAdRevenue(new AFAdRevenueData(network, mediationNetworks, "USD", value), additionalParams);
             OnTracked?.Invoke();
 #endif
         }

@@ -1,22 +1,22 @@
 {
-  "name": "Virtuesky.Sunflower.Misc",
-  "rootNamespace": "",
-  "references": [
-    "GUID:acb3cac55c622ec459c8caadf707623a",
-    "GUID:ce8c6e3f188ed064f933ef35b46bf8bd",
-    "GUID:80ecb87cae9c44d19824e70ea7229748",
-    "GUID:72d1fea872bd7a449bf3818f2b0a6708",
-    "GUID:68765d262e2128e4ab49c983f3411946",
-    "GUID:4c25c05f410a3a447a75c3b0909152ef",
-    "GUID:c282fd4f3fc2c7540914e85842a013c7"
-  ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
-  "versionDefines": [],
-  "noEngineReferences": false
+    "name": "Virtuesky.Sunflower.Misc",
+    "rootNamespace": "",
+    "references": [
+        "GUID:acb3cac55c622ec459c8caadf707623a",
+        "GUID:ce8c6e3f188ed064f933ef35b46bf8bd",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
+        "GUID:72d1fea872bd7a449bf3818f2b0a6708",
+        "GUID:68765d262e2128e4ab49c983f3411946",
+        "GUID:4c25c05f410a3a447a75c3b0909152ef",
+        "GUID:c282fd4f3fc2c7540914e85842a013c7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

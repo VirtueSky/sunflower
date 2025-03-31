@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Animation = Spine.Animation;
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
@@ -14,9 +14,16 @@ namespace VirtueSky.Misc
     {
         public static float Duration(this SkeletonAnimation skeletonAnimation, string animationName)
         {
-            var animation =
-                skeletonAnimation.AnimationState.Data.SkeletonData.Animations.Items.FirstOrDefault(animation =>
-                    animation.Name.Equals(animationName));
+            Animation animation = null;
+            foreach (var animationsItem in skeletonAnimation.AnimationState.Data.SkeletonData.Animations.Items)
+            {
+                if (animationsItem.Name.Equals(animationName))
+                {
+                    animation = animationsItem;
+                    break;
+                }
+            }
+
             if (animation == null) return 0;
             return animation.Duration;
         }
@@ -31,7 +38,7 @@ namespace VirtueSky.Misc
         public static SkeletonAnimation OnComplete(this SkeletonAnimation skeletonAnimation, Action onComplete,
             int trackIndex = 0, MonoBehaviour target = null)
         {
-            App.Delay(target, skeletonAnimation.Duration(trackIndex), () =>
+            App.Delay(target != null ? target : skeletonAnimation, skeletonAnimation.Duration(trackIndex), () =>
             {
                 if (skeletonAnimation != null)
                 {
@@ -44,7 +51,8 @@ namespace VirtueSky.Misc
         public static SkeletonAnimation OnUpdate(this SkeletonAnimation skeletonAnimation, Action<float> onUpdate,
             int trackIndex = 0, MonoBehaviour target = null)
         {
-            App.Delay(target, skeletonAnimation.Duration(trackIndex), null, onUpdate);
+            App.Delay(target != null ? target : skeletonAnimation, skeletonAnimation.Duration(trackIndex), null,
+                onUpdate);
             return skeletonAnimation;
         }
 

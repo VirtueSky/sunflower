@@ -20,7 +20,10 @@ namespace VirtueSky.Linq
 
             foreach (var array in source)
             {
-                result.AddRange(array);
+                foreach (var s1 in array)
+                {
+                    result.Add(s1);
+                }
             }
 
             return result.ToArray();
@@ -44,7 +47,10 @@ namespace VirtueSky.Linq
 
             foreach (var array in source)
             {
-                result.AddRange(array);
+                for (var i = 0; i < array.Count; i++)
+                {
+                    result.Add(array[i]);
+                }
             }
 
             return result;
@@ -64,7 +70,10 @@ namespace VirtueSky.Linq
 
             foreach (var array in source)
             {
-                result.AddRange(array);
+                foreach (var s1 in array)
+                {
+                    result.Add(s1);
+                }
             }
 
             return result;

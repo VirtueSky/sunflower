@@ -9,9 +9,6 @@ namespace VirtueSky.Tracking
     [EditorIcon("scriptable_af")]
     public class TrackingAppsFlyerTwoParam : TrackingAppsFlyer
     {
-        [Space, HeaderLine("Event Name"), SerializeField]
-        private string eventName;
-
         [Space, HeaderLine("Parameter Name"), SerializeField]
         private string parameterName1;
 

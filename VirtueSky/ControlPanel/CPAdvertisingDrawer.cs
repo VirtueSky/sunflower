@@ -134,13 +134,8 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawHeader("Install Admob Sdk");
             GUILayout.Space(10);
-            if (GUILayout.Button("Install Admob Sdk Plugin"))
-            {
-                AssetDatabase.ImportPackage(
-                    FileExtension.GetPathFileInCurrentEnvironment(
-                        "VirtueSky/Utils/Editor/UnityPackage/google-mobile-ads.unitypackage"), false);
-            }
-
+            CPUtility.DrawButtonInstallPackage("Install Admob Sdk Plugin", "Remove Admob Sdk Plugin",
+                ConstantPackage.PackageNameAdmob, ConstantPackage.VersionAdmob);
             GUILayout.Space(10);
             CPUtility.GuiLine(2);
             GUILayout.Space(10);
