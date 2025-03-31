@@ -14,6 +14,10 @@
         public const string PackageNameAddressables = "com.unity.addressables";
         public const string MaxVersionAddressables = "1.21.21";
 
+        public const string PackageNameAdmob = "com.google.ads.mobile";
+
+        public const string VersionAdmob =
+            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.0.0";
 
         #region Google Unity
 
