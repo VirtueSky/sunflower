@@ -12,8 +12,12 @@ namespace VirtueSky.Ads
     public class AdSetting : ScriptableObject
     {
         [Range(5, 100), SerializeField] private float adCheckingInterval = 8f;
+
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
-        [SerializeField] private AdNetwork adNetwork = AdNetwork.Max;
+
+        [SerializeField] private bool useMax = true;
+        [SerializeField] private bool useAdmob;
+        [SerializeField] private bool useIronSource;
 
         [Tooltip("Install google-mobile-ads sdk to use GDPR"), SerializeField]
         private bool enableGDPR;
@@ -22,11 +26,10 @@ namespace VirtueSky.Ads
         public float AdCheckingInterval => adCheckingInterval;
         public float AdLoadingInterval => adLoadingInterval;
 
-        public AdNetwork CurrentAdNetwork
-        {
-            get => adNetwork;
-            set => adNetwork = value;
-        }
+        public bool UseMax => useMax;
+        public bool UseAdmob => useAdmob;
+
+        public bool UseIronSource => useIronSource;
 
         public bool EnableGDPR => enableGDPR;
         public bool EnableGDPRTestMode => enableGDPRTestMode;

@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.3.1";
+        public const string VersionSunflower = "3.3.2";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -96,7 +96,7 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.6.1";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.6.2";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 

@@ -44,7 +44,10 @@ namespace VirtueSky.Ads
         private float _lastTimeLoadAppOpenTimestamp = DEFAULT_TIMESTAMP;
         private const float DEFAULT_TIMESTAMP = -1000;
 
-        private AdClient currentAdClient;
+        // private AdClient currentAdClient;
+        private AdClient maxAdClient;
+        private AdClient admobAdClient;
+        private AdClient ironSourceAdClient;
 
         private void Awake()
         {
@@ -106,22 +109,39 @@ namespace VirtueSky.Ads
 
         void InitAdClient()
         {
-            switch (adSetting.CurrentAdNetwork)
+            // switch (adSetting.CurrentAdNetwork)
+            // {
+            //     case AdNetwork.Max:
+            //         currentAdClient = new MaxAdClient();
+            //         break;
+            //     case AdNetwork.Admob:
+            //         currentAdClient = new AdmobAdClient();
+            //         break;
+            //     case AdNetwork.IronSource:
+            //         currentAdClient = new IronSourceAdClient();
+            //         break;
+            // }
+
+            // currentAdClient.SetupAdSetting(adSetting);
+            // currentAdClient.Initialize();
+            if (adSetting.UseMax)
             {
-                case AdNetwork.Max:
-                    currentAdClient = new MaxAdClient();
-                    break;
-                case AdNetwork.Admob:
-                    currentAdClient = new AdmobAdClient();
-                    break;
-                case AdNetwork.IronSource:
-                    currentAdClient = new IronSourceAdClient();
-                    break;
+                maxAdClient = new MaxAdClient(adSetting);
+                Debug.Log($"Use: {maxAdClient}".SetColor(CustomColor.Cyan));
             }
 
-            currentAdClient.SetupAdSetting(adSetting);
-            currentAdClient.Initialize();
-            Debug.Log($"currentAdClient: {currentAdClient}".SetColor(CustomColor.Cyan));
+            if (adSetting.UseAdmob)
+            {
+                admobAdClient = new AdmobAdClient(adSetting);
+                Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
+            }
+
+            if (adSetting.UseIronSource)
+            {
+                ironSourceAdClient = new IronSourceAdClient(adSetting);
+                Debug.Log($"Use: {ironSourceAdClient}".SetColor(CustomColor.Cyan));
+            }
+
             InitAutoLoadAds();
         }
 
@@ -156,7 +176,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
                 adSetting.AdLoadingInterval) return;
-            currentAdClient.LoadInterstitial();
+            if (adSetting.UseMax) maxAdClient.LoadInterstitial();
+            if (adSetting.UseAdmob) admobAdClient.LoadInterstitial();
+            if (adSetting.UseIronSource) ironSourceAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -164,7 +186,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
                 adSetting.AdLoadingInterval) return;
-            currentAdClient.LoadRewarded();
+            if (adSetting.UseMax) maxAdClient.LoadRewarded();
+            if (adSetting.UseAdmob) admobAdClient.LoadRewarded();
+            if (adSetting.UseIronSource) ironSourceAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -172,7 +196,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
                 adSetting.AdLoadingInterval) return;
-            currentAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseMax) maxAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseAdmob) admobAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseIronSource) ironSourceAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -180,7 +206,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
                 adSetting.AdLoadingInterval) return;
-            currentAdClient.LoadAppOpen();
+            if (adSetting.UseMax) maxAdClient.LoadAppOpen();
+            if (adSetting.UseAdmob) admobAdClient.LoadAppOpen();
+            if (adSetting.UseIronSource) ironSourceAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
         }
 
