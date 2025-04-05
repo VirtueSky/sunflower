@@ -4,6 +4,11 @@ namespace VirtueSky.Ads
 {
     public sealed class MaxAdClient : AdClient
     {
+        public MaxAdClient(AdSetting _adSetting)
+        {
+            adSetting = _adSetting;
+        }
+
         public override void Initialize()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN

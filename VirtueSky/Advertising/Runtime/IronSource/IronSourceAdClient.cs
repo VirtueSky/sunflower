@@ -3,8 +3,13 @@ using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
-    public class IronSourceAdClient : AdClient
+    public sealed class IronSourceAdClient : AdClient
     {
+        public IronSourceAdClient(AdSetting _adSetting)
+        {
+            adSetting = _adSetting;
+        }
+
         public bool SdkInitializationCompleted { get; private set; }
 
         public override void Initialize()

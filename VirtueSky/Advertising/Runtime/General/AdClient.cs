@@ -7,10 +7,14 @@ namespace VirtueSky.Ads
         protected AdSetting adSetting;
         protected bool statusAppOpenFirstIgnore;
 
+        // public AdClient(AdSetting _adSetting)
+        // {
+        //     adSetting = _adSetting;
+        // }
+
         public void SetupAdSetting(AdSetting _adSetting)
         {
             this.adSetting = _adSetting;
-            FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
         }
 
         public abstract void Initialize();

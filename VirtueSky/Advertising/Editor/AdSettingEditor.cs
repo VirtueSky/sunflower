@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Inspector;
@@ -10,7 +11,11 @@ namespace VirtueSky.Ads
     public class AdSettingEditor : Editor
     {
         private AdSetting _adSetting;
-        private SerializedProperty _adNetwork;
+
+        private SerializedProperty _useMax;
+        private SerializedProperty _useAdmob;
+        private SerializedProperty _useIronSource;
+
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
 
@@ -48,7 +53,9 @@ namespace VirtueSky.Ads
         void Initialize()
         {
             _adSetting = target as AdSetting;
-            _adNetwork = serializedObject.FindProperty("adNetwork");
+            _useMax = serializedObject.FindProperty("useMax");
+            _useAdmob = serializedObject.FindProperty("useAdmob");
+            _useIronSource = serializedObject.FindProperty("useIronSource");
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
 
@@ -87,7 +94,9 @@ namespace VirtueSky.Ads
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_adCheckingInterval);
             EditorGUILayout.PropertyField(_adLoadingInterval);
-            EditorGUILayout.PropertyField(_adNetwork);
+            EditorGUILayout.PropertyField(_useMax);
+            EditorGUILayout.PropertyField(_useAdmob);
+            EditorGUILayout.PropertyField(_useIronSource);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_enableGDPR);
             if (_enableGDPR.boolValue)
@@ -96,18 +105,9 @@ namespace VirtueSky.Ads
             }
 
             GUILayout.Space(10);
-            switch (_adNetwork.enumValueIndex)
-            {
-                case (int)AdNetwork.Max:
-                    SetupMax();
-                    break;
-                case (int)AdNetwork.Admob:
-                    SetupAdmob();
-                    break;
-                case (int)AdNetwork.IronSource:
-                    SetupIronSource();
-                    break;
-            }
+            if (_useMax.boolValue) SetupMax();
+            if (_useAdmob.boolValue) SetupAdmob();
+            if (_useIronSource.boolValue) SetupIronSource();
 
             EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();
@@ -121,7 +121,7 @@ namespace VirtueSky.Ads
 
         void SetupMax()
         {
-            EditorGUILayout.LabelField("Applovin - Max", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Applovin - Max", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_sdkKey);
@@ -177,11 +177,12 @@ namespace VirtueSky.Ads
             }
 
             EditorGUILayout.EndHorizontal();
+            GUILayout.Space(10);
         }
 
         void SetupAdmob()
         {
-            EditorGUILayout.LabelField("Google - Admob", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Google - Admob", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.BeginHorizontal();
@@ -274,11 +275,13 @@ namespace VirtueSky.Ads
             {
                 EditorApplication.ExecuteMenuItem("Assets/Google Mobile Ads/Settings...");
             }
+
+            GUILayout.Space(10);
         }
 
         void SetupIronSource()
         {
-            EditorGUILayout.LabelField("LevelPlay - IronSource", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("LevelPlay - IronSource", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_androidAppKey);
@@ -323,6 +326,15 @@ namespace VirtueSky.Ads
             }
 
             EditorGUILayout.EndHorizontal();
+            GUILayout.Space(10);
+        }
+
+        GUIStyle StyleLabel()
+        {
+            var style = new GUIStyle();
+            style.fontSize = 14;
+            style.normal.textColor = Color.white;
+            return style;
         }
 
         void GuiLine(int i_height = 1)
