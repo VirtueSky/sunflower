@@ -109,36 +109,24 @@ namespace VirtueSky.Ads
 
         void InitAdClient()
         {
-            // switch (adSetting.CurrentAdNetwork)
-            // {
-            //     case AdNetwork.Max:
-            //         currentAdClient = new MaxAdClient();
-            //         break;
-            //     case AdNetwork.Admob:
-            //         currentAdClient = new AdmobAdClient();
-            //         break;
-            //     case AdNetwork.IronSource:
-            //         currentAdClient = new IronSourceAdClient();
-            //         break;
-            // }
-
-            // currentAdClient.SetupAdSetting(adSetting);
-            // currentAdClient.Initialize();
             if (adSetting.UseMax)
             {
                 maxAdClient = new MaxAdClient(adSetting);
+                maxAdClient.Initialize();
                 Debug.Log($"Use: {maxAdClient}".SetColor(CustomColor.Cyan));
             }
 
             if (adSetting.UseAdmob)
             {
                 admobAdClient = new AdmobAdClient(adSetting);
+                admobAdClient.Initialize();
                 Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
             }
 
             if (adSetting.UseIronSource)
             {
                 ironSourceAdClient = new IronSourceAdClient(adSetting);
+                ironSourceAdClient.Initialize();
                 Debug.Log($"Use: {ironSourceAdClient}".SetColor(CustomColor.Cyan));
             }
 
