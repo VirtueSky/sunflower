@@ -1,3 +1,2 @@
 - Version Max Sdk: 8.2.0
-- Version IronSource (UnityLevelPlay) Skd: 8.7.0
 - Version Google Game Play Service: v2.0.0
