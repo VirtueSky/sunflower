@@ -154,7 +154,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (_adSetting.UseIronSource)
             {
                 GUILayout.Space(10);
-                CPUtility.DrawButtonInstallPackage("Install IronSource Sdk Plugin", "Remove IronSource Sdk Plugin",
+                CPUtility.DrawButtonInstallPackage("Install LevelPlay Sdk Plugin", "Remove LevelPlay Sdk Plugin",
                     ConstantPackage.PackageNameLevelPlay, ConstantPackage.MaxVersionLevelPlay);
             }
         }

@@ -102,7 +102,7 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameBakingSheet, ConstantPackage.MaxVersionBakingSheet);
             CPUtility.DrawButtonInstallPackage("Install Admob Sdk Plugin", "Remove Admob Sdk Plugin",
                 ConstantPackage.PackageNameAdmob, ConstantPackage.VersionAdmob);
-            CPUtility.DrawButtonInstallPackage("Install IronSource Sdk Plugin", "Remove IronSource Sdk Plugin",
+            CPUtility.DrawButtonInstallPackage("Install LevelPlay Sdk Plugin", "Remove LevelPlay Sdk Plugin",
                 ConstantPackage.PackageNameLevelPlay, ConstantPackage.MaxVersionLevelPlay);
             
             if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
