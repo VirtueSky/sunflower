@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Animation = Spine.Animation;
 #if VIRTUESKY_SKELETON
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 using VirtueSky.Core;
-
+using Animation = Spine.Animation;
 
 namespace VirtueSky.Misc
 {
