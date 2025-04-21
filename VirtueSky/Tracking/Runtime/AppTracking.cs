@@ -2,7 +2,12 @@
 {
     public struct AppTracking
     {
-        public static bool enableTrackRevenue;
+        private static bool enableTrackRevenue;
+
+        public static void Init(bool _enableTrackRevenue)
+        {
+            enableTrackRevenue = _enableTrackRevenue;
+        }
 
         public static void TrackRevenue(double value, string network, string unitId, string format,
             string currentAdSettingNetwork)
