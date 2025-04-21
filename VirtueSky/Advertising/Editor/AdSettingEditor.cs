@@ -15,7 +15,7 @@ namespace VirtueSky.Ads
         private SerializedProperty _useMax;
         private SerializedProperty _useAdmob;
         private SerializedProperty _useIronSource;
-
+        private SerializedProperty _enableTrackAdRevenue;
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
 
@@ -56,6 +56,7 @@ namespace VirtueSky.Ads
             _useMax = serializedObject.FindProperty("useMax");
             _useAdmob = serializedObject.FindProperty("useAdmob");
             _useIronSource = serializedObject.FindProperty("useIronSource");
+            _enableTrackAdRevenue = serializedObject.FindProperty("enableTrackAdRevenue");
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
 
@@ -97,7 +98,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_useMax);
             EditorGUILayout.PropertyField(_useAdmob);
             EditorGUILayout.PropertyField(_useIronSource);
-            GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_enableTrackAdRevenue);
             EditorGUILayout.PropertyField(_enableGDPR);
             if (_enableGDPR.boolValue)
             {

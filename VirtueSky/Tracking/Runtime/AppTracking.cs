@@ -2,9 +2,12 @@
 {
     public struct AppTracking
     {
+        public static bool enableTrackRevenue;
+
         public static void TrackRevenue(double value, string network, string unitId, string format,
             string currentAdSettingNetwork)
         {
+            if (!enableTrackRevenue) return;
             AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, currentAdSettingNetwork);
             FirebaseAnalyticTrackingRevenue.FirebaseAnalyticTrackRevenue(value, network, unitId,
                 format, currentAdSettingNetwork);
@@ -22,7 +25,8 @@
         {
 #if VIRTUESKY_ADJUST
             var adjust = new UnityEngine.GameObject("Adjust", typeof(AdjustSdk.Adjust));
-            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustConfig.AppToken, AdjustConfig.AdjustEnvironment, AdjustConfig.LogLevel == AdjustSdk.AdjustLogLevel.Suppress)
+            var adjustConfig = new AdjustSdk.AdjustConfig(AdjustConfig.AppToken, AdjustConfig.AdjustEnvironment,
+                AdjustConfig.LogLevel == AdjustSdk.AdjustLogLevel.Suppress)
             {
                 LogLevel = AdjustConfig.LogLevel,
                 IsAdServicesEnabled = true,

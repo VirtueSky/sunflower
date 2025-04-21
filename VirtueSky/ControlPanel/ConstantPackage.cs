@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.3.3";
+        public const string VersionSunflower = "3.3.4";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -16,7 +16,7 @@
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
         public const string MaxVersionLevelPlay = "8.8.1";
-        
+
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
         public const string VersionAdmob =
@@ -85,7 +85,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.1.3";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.3.0";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
@@ -94,17 +94,17 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.16.2";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.16.21";
 
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.6.2";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.8.1";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
         public const string MaxVersionCoffeeUIParticle =
-            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.11.1";
+            "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.11.2";
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 

@@ -18,6 +18,7 @@ using VirtueSky.UtilsEditor;
 using VirtueSky.Events;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
+using VirtueSky.Tracking;
 using VirtueSky.Utils;
 
 namespace VirtueSky.Ads
@@ -109,6 +110,7 @@ namespace VirtueSky.Ads
 
         void InitAdClient()
         {
+            AppTracking.enableTrackRevenue = adSetting.EnableTrackAdRevenue;
             if (adSetting.UseMax)
             {
                 maxAdClient = new MaxAdClient(adSetting);
@@ -238,8 +240,7 @@ namespace VirtueSky.Ads
                 return;
             }
 
-            ConsentForm.LoadAndShowConsentFormIfRequired(
-                (FormError formError) =>
+            ConsentForm.LoadAndShowConsentFormIfRequired((FormError formError) =>
                 {
                     if (formError != null)
                     {
