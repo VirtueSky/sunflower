@@ -94,7 +94,7 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#v6.16.21";
+             "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#v6.16.21";
 
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
