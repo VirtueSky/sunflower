@@ -14,6 +14,7 @@ namespace VirtueSky.Iap
         private SerializedProperty _skusData;
         private SerializedProperty _products;
         private SerializedProperty _isValidatePurchase;
+        private SerializedProperty _isCustomValidatePurchase;
         private SerializedProperty _googlePlayStoreKey;
 
         void Initialize()
@@ -22,6 +23,7 @@ namespace VirtueSky.Iap
             _skusData = serializedObject.FindProperty("skusData");
             _products = serializedObject.FindProperty("products");
             _isValidatePurchase = serializedObject.FindProperty("isValidatePurchase");
+            _isCustomValidatePurchase = serializedObject.FindProperty("isCustomValidatePurchase");
             _googlePlayStoreKey = serializedObject.FindProperty("googlePlayStoreKey");
         }
 
@@ -39,6 +41,7 @@ namespace VirtueSky.Iap
             EditorGUILayout.PropertyField(_isValidatePurchase);
             if (_isValidatePurchase.boolValue)
             {
+                EditorGUILayout.PropertyField(_isCustomValidatePurchase);
                 EditorGUILayout.PropertyField(_googlePlayStoreKey);
                 if (GUILayout.Button("Obfuscator Key"))
                 {
@@ -55,7 +58,9 @@ namespace VirtueSky.Iap
             for (int i = 0; i < _iapSetting.SkusData.Count; i++)
             {
                 string itemName = _iapSetting.SkusData[i].id.Split('.').Last();
-                var itemDataVariable = CreateAsset.CreateAndGetScriptableAssetByName<IapDataVariable>("/Iap/Products", $"iap_{itemName.ToLower()}");
+                var itemDataVariable =
+                    CreateAsset.CreateAndGetScriptableAssetByName<IapDataVariable>("/Iap/Products",
+                        $"iap_{itemName.ToLower()}");
                 itemDataVariable.id = _iapSetting.SkusData[i].id;
                 itemDataVariable.productType = _iapSetting.SkusData[i].productType;
                 _iapSetting.Products.Add(itemDataVariable);
