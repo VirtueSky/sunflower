@@ -27,6 +27,7 @@ namespace VirtueSky.Iap
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         private static event Action RestoreEvent;
+        public static event Func<bool> CustomValidatePurchaseEvent;
         public static bool IsInitialized { get; private set; }
         public static void Restore() => RestoreEvent?.Invoke();
 
@@ -92,7 +93,8 @@ namespace VirtueSky.Iap
 
         internal SubscriptionInfo GetSubscriptionInfo(IapDataVariable product)
         {
-            if (_controller == null || product.productType != ProductType.Subscription || !_controller.products.WithID(product.id).hasReceipt) return null;
+            if (_controller == null || product.productType != ProductType.Subscription ||
+                !_controller.products.WithID(product.id).hasReceipt) return null;
             var subscriptionManager = new SubscriptionManager(GetProduct(product), null);
             var subscriptionInfo = subscriptionManager.getSubscriptionInfo();
             return subscriptionInfo;
@@ -106,26 +108,35 @@ namespace VirtueSky.Iap
         {
             if (iapSetting.IsValidatePurchase)
             {
-                bool validatedPurchase = true;
+                if (iapSetting.IsCustomValidatePurchase)
+                {
+                    if ((bool)CustomValidatePurchaseEvent?.Invoke()) PurchaseVerified(purchaseEvent);
+                }
+                else
+                {
+                    bool validatedPurchase = true;
 #if (UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
-            var validator =
-                new UnityEngine.Purchasing.Security.CrossPlatformValidator(UnityEngine.Purchasing.Security.GooglePlayTangle.Data(),
-                    UnityEngine.Purchasing.Security.AppleTangle.Data(), Application.identifier);
+                    var validator =
+                        new UnityEngine.Purchasing.Security.CrossPlatformValidator(
+                            UnityEngine.Purchasing.Security.GooglePlayTangle.Data(),
+                            UnityEngine.Purchasing.Security.AppleTangle.Data(), Application.identifier);
 
-            try
-            {
-                // On Google Play, result has a single product ID.
-                // On Apple stores, receipts contain multiple products.
-                var result = validator.Validate(purchaseEvent.purchasedProduct.receipt);
-                Debug.Log("Receipt is valid");
-            }
-            catch (UnityEngine.Purchasing.Security.IAPSecurityException)
-            {
-                Debug.Log("Invalid receipt, not unlocking content");
-                validatedPurchase = false;
-            }
+                    try
+                    {
+                        // On Google Play, result has a single product ID.
+                        // On Apple stores, receipts contain multiple products.
+                        var result = validator.Validate(purchaseEvent.purchasedProduct.receipt);
+                        Debug.Log("Receipt is valid");
+                    }
+                    catch (UnityEngine.Purchasing.Security.IAPSecurityException)
+                    {
+                        Debug.Log("Invalid receipt, not unlocking content");
+                        validatedPurchase = false;
+                    }
+
 #endif
-                if (validatedPurchase) PurchaseVerified(purchaseEvent);
+                    if (validatedPurchase) PurchaseVerified(purchaseEvent);
+                }
             }
             else
             {
