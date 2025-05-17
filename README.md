@@ -56,7 +56,7 @@ for version `3.3.5`
 ├── Tracking Revenue (by Firebase analytic, Adjust or Appsflyer)
 ├── Vibration (Vibration native support for android & ios)
 ├── Game Service (Sign in with apple id / google play games service)
-├── Misc (Extension support Transform, SafeArea, Play Animancer, Skeleton,...)
+├── Misc (Extension support Transform, SafeArea, Collections, Skeleton,...)
 ├── Touch Input
 ├── Component
 ```
