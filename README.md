@@ -24,7 +24,7 @@
 ### 2: Add the line below to `Packages/manifest.json`
 
 for version `3.3.6`
-```csharp
+```json
 "com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.3.6",
 ```
 
