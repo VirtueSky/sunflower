@@ -45,8 +45,6 @@ namespace VirtueSky.ControlPanel.Editor
         {
             CPUtility.DrawButtonInstallPackage("Install Firebase App", "Remove Firebase App",
                 ConstantPackage.PackageNameFirebaseApp, ConstantPackage.MaxVersionFirebaseApp);
-            CPUtility.DrawButtonInstallPackage("Install Firebase Support Ios", "Remove Firebase Support Ios",
-                ConstantPackage.PackageNameFirebaseSupportIos, ConstantPackage.MaxVersionFirebaseSupportIos);
             CPUtility.DrawButtonInstallPackage("Install Firebase Remote Config", "Remove Firebase Remote Config",
                 ConstantPackage.PackageNameFirebaseRemoteConfig, ConstantPackage.MaxVersionFirebaseRemoteConfig);
             CPUtility.DrawButtonInstallPackage("Install Firebase Analytics", "Remove Firebase Analytics",
@@ -104,7 +102,7 @@ namespace VirtueSky.ControlPanel.Editor
                 ConstantPackage.PackageNameAdmob, ConstantPackage.VersionAdmob);
             CPUtility.DrawButtonInstallPackage("Install LevelPlay Sdk Plugin", "Remove LevelPlay Sdk Plugin",
                 ConstantPackage.PackageNameLevelPlay, ConstantPackage.MaxVersionLevelPlay);
-            
+
             if (GUILayout.Button("Install Google Play Game Service", GUILayout.Width(400)))
             {
                 AssetDatabase.ImportPackage(

@@ -52,35 +52,32 @@
         public const string PackageNameFirebaseApp = "com.google.firebase.app";
 
         public const string MaxVersionFirebaseApp =
-            "https://github.com/firebase-unity/firebase-app.git#12.8.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.app.git#12.9.0";
 
         public const string PackageNameFirebaseRemoteConfig = "com.google.firebase.remote-config";
 
         public const string MaxVersionFirebaseRemoteConfig =
-            "https://github.com/firebase-unity/firebase-remote-config.git#12.8.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.remote-config.git#12.9.0";
 
         public const string PackageNameFirebaseAnalytics = "com.google.firebase.analytics";
 
         public const string MaxVersionFirebaseAnalytics =
-            "https://github.com/firebase-unity/firebase-analytics.git#12.8.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.analytics.git#12.9.0";
 
         public const string PackageNameFirebaseDatabase = "com.google.firebase.database";
 
         public const string MaxVersionFirebaseDatabase =
-            "https://github.com/firebase-unity/firebase-database.git#12.8.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.database.git#12.9.0";
 
         public const string PackageNameFirebaseAuth = "com.google.firebase.auth";
-        public const string MaxVersionFirebaseAuth = "https://github.com/firebase-unity/firebase-auth.git#12.8.0";
+
+        public const string MaxVersionFirebaseAuth =
+            "https://github.com/RageAgainstThePixel/com.google.firebase.auth.git#12.9.0";
 
         public const string PackageNameFirebaseCrashlytics = "com.google.firebase.crashlytics";
 
         public const string MaxVersionFirebaseCrashlytics =
-            "https://github.com/firebase-unity/firebase-crashlytics.git#12.8.0";
-
-        public const string PackageNameFirebaseSupportIos = "com.google.firebase.support-ios";
-
-        public const string MaxVersionFirebaseSupportIos =
-            "https://github.com/firebase-unity/firebase-support-ios.git#12.8.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.crashlytics.git#12.9.0";
 
         #endregion
 
