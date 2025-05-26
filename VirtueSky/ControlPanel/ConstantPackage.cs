@@ -38,7 +38,7 @@
             "com.google.external-dependency-manager";
 
         public const string MaxVersionGGExternalDependencyManager =
-            "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.185";
+            "https://github.com/googlesamples/unity-jar-resolver.git?path=upm#v1.2.186";
 
         public const string PackageNameGGPlayReview = "com.google.play.review";
 
