@@ -27,12 +27,12 @@
         public const string PackageNameGGPlayCore = "com.google.play.core";
 
         public const string MaxVersionGGPlayCore =
-            "https://github.com/pancake-llc/google-play-core.git#1.8.5";
+            "https://github.com/RageAgainstThePixel/com.google.play.core.git#1.8.5";
 
         public const string PackageNameGGPlayCommon = "com.google.play.common";
 
         public const string MaxVersionGGPlayCommon =
-            "https://github.com/pancake-llc/google-play-common.git#1.9.2";
+            "https://github.com/RageAgainstThePixel/com.google.play.common.git#1.9.2";
 
         public const string PackageNameGGExternalDependencyManager =
             "com.google.external-dependency-manager";
