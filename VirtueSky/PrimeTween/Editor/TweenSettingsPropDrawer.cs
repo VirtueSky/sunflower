@@ -1,4 +1,3 @@
-using System;
 using JetBrains.Annotations;
 using PrimeTween;
 using UnityEditor;
@@ -71,7 +70,7 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
         drawStartDelayTillEnd(ref rect, property);
     }
 
-    internal static void DrawEaseAndCycles(SerializedProperty property, ref Rect rect, bool addSpace = true, bool draw = true) {
+    internal static void DrawEaseAndCycles(SerializedProperty property, ref Rect rect, bool addSpace = true, bool draw = true, bool allowInfiniteCycles = true) {
         { // ease
             property.NextVisible(true);
             if (draw) PropertyField(rect, property);
@@ -88,7 +87,7 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
             rect.y += standardVerticalSpacing * 2;
         }
         { // cycles
-            var cycles = drawCycles(rect, property, draw);
+            var cycles = drawCycles(rect, property, draw, allowInfiniteCycles);
             moveToNextLine(ref rect);
             {
                 // cycleMode
@@ -118,24 +117,54 @@ internal class TweenSettingsPropDrawer : PropertyDrawer {
             moveToNextLine(ref rect);
         }
         { // useFixedUpdate
-            property.NextVisible(true);
-            PropertyField(rect, property);
-            moveToNextLine(ref rect);
+            property.Next(false);
+            bool useFixedUpdateObsolete = property.boolValue;
+            var useFixedUpdateProp = property.Copy();
+
+            property.NextVisible(false);
+            var current = (_UpdateType)property.enumValueIndex;
+            if (useFixedUpdateObsolete && current != _UpdateType.FixedUpdate) {
+                property.serializedObject.Update();
+                property.enumValueIndex = (int)_UpdateType.FixedUpdate;
+                property.serializedObject.ApplyModifiedProperties();
+            } else {
+                using (var propScope = new PropertyScope(rect, new GUIContent(property.displayName, property.tooltip), property)) {
+                    using (var changeCheck = new ChangeCheckScope()) {
+                        var newUpdateType = (_UpdateType)EnumPopup(rect, propScope.content, current);
+                        if (changeCheck.changed) {
+                            property.enumValueIndex = (int)newUpdateType;
+                            useFixedUpdateProp.boolValue = newUpdateType == _UpdateType.FixedUpdate;
+                        }
+                        moveToNextLine(ref rect);
+                    }
+                }
+            }
         }
     }
 
-    internal static int drawCycles(Rect rect, [NotNull] SerializedProperty property, bool draw = true) {
+    internal static int drawCycles(Rect rect, [NotNull] SerializedProperty property, bool draw = true, bool allowInfiniteCycles = true) {
         property.NextVisible(false);
-        if (property.intValue == 0) {
-            property.intValue = 1;
-        } else if (property.intValue < -1) {
-            property.intValue = -1;
+        int val = property.intValue;
+        if (val == 0) {
+            val = 1;
+        } else if (val < 0) {
+            val = allowInfiniteCycles ? -1 : 1;
         }
+        property.intValue = val;
         if (draw) PropertyField(rect, property);
-        return property.intValue;
+        return val;
     }
 
     static void moveToNextLine(ref Rect rect) {
         rect.y += singleLineHeight + standardVerticalSpacing;
+    }
+}
+
+[CustomPropertyDrawer(typeof(UpdateType))]
+class UpdateTypePropDrawer : PropertyDrawer {
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => singleLineHeight;
+    public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label) {
+        prop.Next(true);
+        PropertyField(pos, prop, label);
     }
 }

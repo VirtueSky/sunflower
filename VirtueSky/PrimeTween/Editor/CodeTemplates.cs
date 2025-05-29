@@ -70,7 +70,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);
@@ -113,7 +114,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);

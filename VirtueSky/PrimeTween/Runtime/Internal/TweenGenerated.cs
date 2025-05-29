@@ -135,7 +135,9 @@ namespace PrimeTween {
         VisualElementTopLeft,
         VisualElementColor,
         VisualElementBackgroundColor,
+        VisualElementOpacity,
         TextMaxVisibleCharacters,
+        TextFontSize,
     }
 
     public partial struct Tween {
@@ -1733,6 +1735,24 @@ namespace PrimeTween {
             }, t => (t.target as UnityEngine.UIElements.VisualElement).style.color.value.ToContainer(), TweenType.VisualElementColor);
         }
 
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Color(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Color(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Color(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Color(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, TweenSettings settings) => Color(target, new TweenSettings<UnityEngine.Color>(endValue, settings));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color startValue, UnityEngine.Color endValue, TweenSettings settings) => Color(target, new TweenSettings<UnityEngine.Color>(startValue, endValue, settings));
+        public static Tween Color([NotNull] UnityEngine.UIElements.VisualElement target, TweenSettings<UnityEngine.Color> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as UnityEngine.UIElements.VisualElement;
+                var val = _tween.ColorVal;
+                _target.style.color = val;
+            }, t => (t.target as UnityEngine.UIElements.VisualElement).style.color.value.ToContainer(), TweenType.VisualElementColor);
+        }
+
         public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
             => VisualElementBackgroundColor(target, new TweenSettings<UnityEngine.Color>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
         public static Tween VisualElementBackgroundColor([NotNull] UnityEngine.UIElements.VisualElement target, UnityEngine.Color endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
@@ -1751,6 +1771,42 @@ namespace PrimeTween {
             }, t => (t.target as UnityEngine.UIElements.VisualElement).style.backgroundColor.value.ToContainer(), TweenType.VisualElementBackgroundColor);
         }
 
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementOpacity(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementOpacity(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementOpacity(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => VisualElementOpacity(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, TweenSettings settings) => VisualElementOpacity(target, new TweenSettings<float>(endValue, settings));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, TweenSettings settings) => VisualElementOpacity(target, new TweenSettings<float>(startValue, endValue, settings));
+        public static Tween VisualElementOpacity([NotNull] UnityEngine.UIElements.VisualElement target, TweenSettings<float> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as UnityEngine.UIElements.VisualElement;
+                var val = _tween.FloatVal;
+                _target.style.opacity = val;
+            }, t => (t.target as UnityEngine.UIElements.VisualElement).style.opacity.value.ToContainer(), TweenType.VisualElementOpacity);
+        }
+
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Alpha(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Alpha(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Alpha(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => Alpha(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single endValue, TweenSettings settings) => Alpha(target, new TweenSettings<float>(endValue, settings));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, Single startValue, Single endValue, TweenSettings settings) => Alpha(target, new TweenSettings<float>(startValue, endValue, settings));
+        public static Tween Alpha([NotNull] UnityEngine.UIElements.VisualElement target, TweenSettings<float> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as UnityEngine.UIElements.VisualElement;
+                var val = _tween.FloatVal;
+                _target.style.opacity = val;
+            }, t => (t.target as UnityEngine.UIElements.VisualElement).style.opacity.value.ToContainer(), TweenType.VisualElementOpacity);
+        }
+
         #endif
         #if TEXT_MESH_PRO_INSTALLED
         public static Tween TextMaxVisibleCharacters([NotNull] TMPro.TMP_Text target, int endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
@@ -1763,6 +1819,24 @@ namespace PrimeTween {
             => TextMaxVisibleCharacters(target, new TweenSettings<int>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
         public static Tween TextMaxVisibleCharacters([NotNull] TMPro.TMP_Text target, int endValue, TweenSettings settings) => TextMaxVisibleCharacters(target, new TweenSettings<int>(endValue, settings));
         public static Tween TextMaxVisibleCharacters([NotNull] TMPro.TMP_Text target, int startValue, int endValue, TweenSettings settings) => TextMaxVisibleCharacters(target, new TweenSettings<int>(startValue, endValue, settings));
+
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => TextFontSize(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => TextFontSize(target, new TweenSettings<float>(endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single startValue, Single endValue, float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => TextFontSize(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single startValue, Single endValue, float duration, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false) 
+            => TextFontSize(target, new TweenSettings<float>(startValue, endValue, new TweenSettings(duration, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single endValue, TweenSettings settings) => TextFontSize(target, new TweenSettings<float>(endValue, settings));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, Single startValue, Single endValue, TweenSettings settings) => TextFontSize(target, new TweenSettings<float>(startValue, endValue, settings));
+        public static Tween TextFontSize([NotNull] TMPro.TMP_Text target, TweenSettings<float> settings) {
+            return animate(target, ref settings, _tween => {
+                var _target = _tween.target as TMPro.TMP_Text;
+                var val = _tween.FloatVal;
+                _target.fontSize = val;
+            }, t => (t.target as TMPro.TMP_Text).fontSize.ToContainer(), TweenType.TextFontSize);
+        }
 
         #endif
 
@@ -1779,7 +1853,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<float>;
@@ -1787,7 +1860,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);
@@ -1813,7 +1887,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -1830,7 +1903,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);
@@ -1840,7 +1914,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -1849,7 +1922,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -1867,7 +1939,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Color);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Color>;
@@ -1875,7 +1946,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomColor);
@@ -1901,7 +1973,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Color);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -1918,7 +1989,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomColor);
@@ -1928,7 +2000,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Color);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -1937,7 +2008,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Color);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -1955,7 +2025,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector2);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Vector2>;
@@ -1963,7 +2032,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector2);
@@ -1989,7 +2059,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector2);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -2006,7 +2075,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector2);
@@ -2016,7 +2086,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector2);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2025,7 +2094,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector2);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2043,7 +2111,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector3);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Vector3>;
@@ -2051,7 +2118,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector3);
@@ -2077,7 +2145,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector3);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -2094,7 +2161,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector3);
@@ -2104,7 +2172,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector3);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2113,7 +2180,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector3);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2131,7 +2197,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector4);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Vector4>;
@@ -2139,7 +2204,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector4);
@@ -2165,7 +2231,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector4);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -2182,7 +2247,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomVector4);
@@ -2192,7 +2258,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector4);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2201,7 +2266,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Vector4);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2219,7 +2283,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Quaternion);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Quaternion>;
@@ -2227,7 +2290,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomQuaternion);
@@ -2253,7 +2317,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Quaternion);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -2270,7 +2333,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomQuaternion);
@@ -2280,7 +2344,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Quaternion);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2289,7 +2352,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Quaternion);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2307,7 +2369,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Rect);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<UnityEngine.Rect>;
@@ -2315,7 +2376,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomRect);
@@ -2341,7 +2403,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Rect);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -2358,7 +2419,8 @@ namespace PrimeTween {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($"Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomRect);
@@ -2368,7 +2430,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Rect);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -2377,7 +2438,6 @@ namespace PrimeTween {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Rect);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }

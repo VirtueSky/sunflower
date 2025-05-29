@@ -276,7 +276,7 @@ namespace PrimeTween {
 
         /// <summary>Adds completion callback. Please consider using <see cref="OnComplete{T}"/> to prevent a possible capture of variable into a closure.</summary>
         /// <param name="warnIfTargetDestroyed">Set to 'false' to disable the error about target's destruction. Please note that the the <see cref="onComplete"/> callback will be silently ignored in the case of target's destruction. More info: https://github.com/KyryloKuzyk/PrimeTween/discussions/4</param>
-        public Tween OnComplete(Action onComplete, bool warnIfTargetDestroyed = true) {
+        public Tween OnComplete([CanBeNull] Action onComplete, bool warnIfTargetDestroyed = true) {
             if (validateIsAlive()) {
                 tween.OnComplete(onComplete, warnIfTargetDestroyed);
             }
@@ -291,7 +291,7 @@ namespace PrimeTween {
         /// Tween.PositionX(transform, endValue: 1.5f, duration: 1f)
         ///     .OnComplete(transform, _transform =&gt; Destroy(_transform.gameObject));
         /// </code></example>
-        public Tween OnComplete<T>([NotNull] T target, Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class {
+        public Tween OnComplete<T>([NotNull] T target, [CanBeNull] Action<T> onComplete, bool warnIfTargetDestroyed = true) where T : class {
             if (validateIsAlive()) {
                 tween.OnComplete(target, onComplete, warnIfTargetDestroyed);
             }
@@ -336,5 +336,17 @@ namespace PrimeTween {
         public override int GetHashCode() => id.GetHashCode();
         /// https://www.jacksondunstan.com/articles/5148
         public bool Equals(Tween other) => isAlive && other.isAlive && id == other.id;
+
+        #if PRIME_TWEEN_EXPERIMENTAL
+        public
+        #else
+        internal
+        #endif
+        Tween ResetBeforeComplete() {
+            if (validateIsAlive()) {
+                tween.resetBeforeComplete = true;
+            }
+            return this;
+        }
     }
 }

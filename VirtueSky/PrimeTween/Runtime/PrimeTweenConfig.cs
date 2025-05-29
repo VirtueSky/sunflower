@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -5,14 +6,7 @@ namespace PrimeTween {
     /// Global PrimeTween configuration.
     [PublicAPI]
     public static partial class PrimeTweenConfig {
-        internal static PrimeTweenManager Instance {
-            get {
-                #if UNITY_EDITOR
-                Assert.IsFalse(Constants.noInstance, Constants.editModeWarning);
-                #endif
-                return PrimeTweenManager.Instance;
-            }
-        }
+        internal static PrimeTweenManager Instance => PrimeTweenManager.Instance;
 
         /// <summary>
         /// If <see cref="PrimeTweenManager"/> instance is already created, <see cref="SetTweensCapacity"/> will allocate garbage,
@@ -30,11 +24,10 @@ namespace PrimeTween {
         /// </example>
         public static void SetTweensCapacity(int capacity) {
             Assert.IsTrue(capacity >= 0);
-            var instance = PrimeTweenManager.Instance; // should use PrimeTweenManager.Instance because Instance property has a built-in null check 
-            if (instance == null) {
-                PrimeTweenManager.customInitialCapacity = capacity;
+            if (PrimeTweenManager.HasInstance) {
+                PrimeTweenManager.Instance.SetTweensCapacity(capacity);
             } else {
-                instance.SetTweensCapacity(capacity);
+                PrimeTweenManager.customInitialCapacity = capacity;
             }
         }
 
@@ -46,6 +39,17 @@ namespace PrimeTween {
                     return;
                 }
                 Instance.defaultEase = value;
+            }
+        }
+
+        public static UpdateType defaultUpdateType {
+            get => new UpdateType(Instance.defaultUpdateType);
+            set {
+                if (value == UpdateType.Default) {
+                    Debug.LogError(nameof(defaultUpdateType) + " can't be " + nameof(_UpdateType.Default) + ".");
+                    return;
+                }
+                Instance.defaultUpdateType = value.enumValue;
             }
         }
         
@@ -74,6 +78,36 @@ namespace PrimeTween {
 
         public static bool warnEndValueEqualsCurrent {
             set => Instance.warnEndValueEqualsCurrent = value;
+        }
+
+        #if PRIME_TWEEN_EXPERIMENTAL
+        public
+        #endif
+        static void ManualUpdate(UpdateType updateType, float? deltaTime = null, float? unscaledDeltaTime = null) {
+            Instance.enabled = false;
+            Instance.UpdateTweens(updateType.enumValue, deltaTime, unscaledDeltaTime);
+        }
+
+        #if PRIME_TWEEN_EXPERIMENTAL
+        public
+        #endif
+        static void ManualUpdateApplyStartValues(UpdateType updateType) {
+            Instance.enabled = false;
+            Instance.ApplyStartValues(updateType.enumValue);
+        }
+
+        #if PRIME_TWEEN_EXPERIMENTAL
+        public
+        #else
+        internal
+        #endif
+        static void ManualInitialize() {
+            if (!PrimeTweenManager.HasInstance) {
+                PrimeTweenManager.CreateInstanceAndDontDestroy();
+            } else {
+                const string error = "'" + nameof(PrimeTweenManager) + "' is already created. Use this method only to create '" + nameof(PrimeTweenManager) + "' before '" + nameof(RuntimeInitializeLoadType) + "." + nameof(RuntimeInitializeLoadType.BeforeSceneLoad) + "'.";
+                Debug.LogError(error);
+            }
         }
     }
 }

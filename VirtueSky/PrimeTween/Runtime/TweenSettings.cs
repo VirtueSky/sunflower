@@ -32,12 +32,34 @@ namespace PrimeTween {
         public float endDelay;
         [Tooltip(Constants.unscaledTimeTooltip)]
         public bool useUnscaledTime;
-        public bool useFixedUpdate;
+
+        [Obsolete("use '" + nameof(updateType) + "' instead.")]
+        public bool useFixedUpdate {
+            get => updateType == UpdateType.FixedUpdate || _useFixedUpdate;
+            set {
+                _updateType = value ? _UpdateType.FixedUpdate : _UpdateType.Update;
+                _useFixedUpdate = value;
+            }
+        }
+        [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("useFixedUpdate")]
+        [HideInInspector]
+        bool _useFixedUpdate;
+
+        public UpdateType updateType {
+            get => _useFixedUpdate ? UpdateType.FixedUpdate : new UpdateType(_updateType);
+            set {
+                _updateType = value.enumValue;
+                _useFixedUpdate = value == UpdateType.FixedUpdate;
+            }
+        }
+        [SerializeField, Tooltip(Constants.updateTypeTooltip)]
+        internal _UpdateType _updateType;
+
         [NonSerialized] internal ParametricEase parametricEase;
         [NonSerialized] internal float parametricEaseStrength;
         [NonSerialized] internal float parametricEasePeriod;
 
-        internal TweenSettings(float duration, Ease ease, Easing? customEasing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false) {
+        internal TweenSettings(float duration, Ease ease, Easing? customEasing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, UpdateType updateType = default) {
             this.duration = duration;
             var curve = customEasing?.curve;
             if (ease == Ease.Custom && customEasing?.parametricEase == ParametricEase.None) {
@@ -56,7 +78,8 @@ namespace PrimeTween {
             parametricEase = customEasing?.parametricEase ?? ParametricEase.None;
             parametricEaseStrength = customEasing?.parametricEaseStrength ?? float.NaN;
             parametricEasePeriod = customEasing?.parametricEasePeriod ?? float.NaN;
-            this.useFixedUpdate = useFixedUpdate;
+            _useFixedUpdate = updateType == UpdateType.FixedUpdate;
+            _updateType = updateType.enumValue;
         }
 
         #if PRIME_TWEEN_DOTWEEN_ADAPTER
@@ -68,12 +91,12 @@ namespace PrimeTween {
         }
         #endif
 
-        public TweenSettings(float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false)
-            : this(duration, ease, null, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, useFixedUpdate) {
+        public TweenSettings(float duration, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, UpdateType updateType = default)
+            : this(duration, ease, null, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, updateType) {
         }
 
-        public TweenSettings(float duration, Easing easing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, bool useFixedUpdate = false)
-            : this(duration, easing.ease, easing, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, useFixedUpdate) {
+        public TweenSettings(float duration, Easing easing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, UpdateType updateType = default)
+            : this(duration, easing.ease, easing, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, updateType) {
         }
 
         internal static void setCyclesTo1If0(ref int cycles) {
@@ -94,7 +117,7 @@ namespace PrimeTween {
             parametricEase = other.parametricEase;
             parametricEaseStrength = other.parametricEaseStrength;
             parametricEasePeriod = other.parametricEasePeriod;
-            useFixedUpdate = other.useFixedUpdate;
+            updateType = other.updateType;
         }
 
         internal const float minDuration = 0.0001f;
@@ -171,6 +194,49 @@ namespace PrimeTween {
             return true;
             #endif
         }
+    }
+
+    [Serializable]
+    public struct UpdateType : IEquatable<UpdateType> {
+        /// Uses <see cref="PrimeTweenConfig.defaultUpdateType"/> to control the default Unity's event function, which updates the animation.
+        public static readonly UpdateType Default = new UpdateType(_UpdateType.Default);
+        /// Updates the animation in MonoBehaviour.Update().<br/>
+        /// If the animation has 'startValue' and doesn't have a start delay, the 'startValue' is applied in <see cref="PrimeTweenManager.LateUpdate"/>.
+        /// This ensures the animation is rendered at the 'startValue' in the same frame it's created.
+        public static readonly UpdateType Update = new UpdateType(_UpdateType.Update);
+        /// Updates the animation in MonoBehaviour.LateUpdate().<br/>
+        /// If the animation has 'startValue' and doesn't have a start delay, the 'startValue' is applied in <see cref="PrimeTweenManager.LateUpdate"/>.
+        /// This ensures the animation is rendered at the 'startValue' in the same frame it's created.
+        public static readonly UpdateType LateUpdate = new UpdateType(_UpdateType.LateUpdate);
+        /// Updates the animation in MonoBehaviour.FixedUpdate().<br/>
+        /// Unlike Update and LateUpdate animations, FixedUpdate animations don't apply the 'startValue' before the first frame is rendered.
+        /// They receive their first update in the first FixedUpdate() after creation.
+        public static readonly UpdateType FixedUpdate = new UpdateType(_UpdateType.FixedUpdate);
+
+        [SerializeField]
+        internal _UpdateType enumValue;
+        internal UpdateType(_UpdateType enumValue) { this.enumValue = enumValue; }
+        [Obsolete("use 'UpdateType.FixedUpdate' instead.")]
+        public static implicit operator UpdateType(bool isFixedUpdate) => isFixedUpdate ? FixedUpdate : Update;
+        public static bool operator==(UpdateType lhs, UpdateType rhs) => lhs.enumValue == rhs.enumValue;
+        public static bool operator !=(UpdateType lhs, UpdateType rhs) => lhs.enumValue != rhs.enumValue;
+        public bool Equals(UpdateType other) => enumValue == other.enumValue;
+        public override bool Equals(object obj) => obj is UpdateType other && Equals(other);
+        public override int GetHashCode() => ((int)enumValue).GetHashCode();
+    }
+
+    internal enum _UpdateType : byte {
+        [Tooltip("Uses 'PrimeTweenConfig.defaultUpdateType' to control the default Unity's event function, which updates the animation.")]
+        Default,
+        [Tooltip("Updates the animation in MonoBehaviour.Update().\n\n" +
+                 "If the animation has 'startValue' and doesn't have a start delay, the 'startValue' is applied in 'PrimeTweenManager.LateUpdate'. This ensures the animation is rendered at the 'startValue' in the same frame it's created.")]
+        Update,
+        [Tooltip("Updates the animation in MonoBehaviour.LateUpdate().\n\n" +
+                 "If the animation has 'startValue' and doesn't have a start delay, the 'startValue' is applied in 'PrimeTweenManager.LateUpdate'. This ensures the animation is rendered at the 'startValue' in the same frame it's created.")]
+        LateUpdate,
+        [Tooltip("Updates the animation in 'MonoBehaviour.FixedUpdate()'.\n\n" +
+                 "Unlike Update and LateUpdate animations, FixedUpdate animations don't apply the 'startValue' before the first frame is rendered. They receive their first update in the first FixedUpdate() after creation.")]
+        FixedUpdate
     }
 
     /// <summary>The standard animation easing types. Different easing curves produce a different animation 'feeling'.<br/>

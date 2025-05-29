@@ -195,10 +195,14 @@ internal static class Utils {
                 return (PropType.Color, typeof(UnityEngine.UIElements.VisualElement));
             case TweenType.VisualElementBackgroundColor:
                 return (PropType.Color, typeof(UnityEngine.UIElements.VisualElement));
+            case TweenType.VisualElementOpacity:
+                return (PropType.Float, typeof(UnityEngine.UIElements.VisualElement));
             #endif
             #if TEXT_MESH_PRO_INSTALLED
             case TweenType.TextMaxVisibleCharacters:
                 return (PropType.Int, typeof(TMPro.TMP_Text));
+            case TweenType.TextFontSize:
+                return (PropType.Float, typeof(TMPro.TMP_Text));
             #endif
             case TweenType.None:
                 return (PropType.None, null);

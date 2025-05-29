@@ -152,7 +152,7 @@ namespace PrimeTween {
                 case Ease.Custom:
                 case Ease.Default:
                 default:
-                    throw new System.Exception();
+                    throw new System.Exception($"Invalid ease type: {ease}.");
             }
         }
     }

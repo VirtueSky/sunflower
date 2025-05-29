@@ -248,9 +248,14 @@ namespace PrimeTween {
         { // generate enums
             foreach (var group in methodsData.GroupBy(_ => _.dependency)) {
                 foreach (var data in group) {
-                    text += "        ";
-                    var enumName = GetTweenTypeEnumName(data);
+                    string enumName = GetTweenTypeEnumName(data);
+                    if (methodDataToEnumName.Values.Contains(enumName)) {
+                        // skip duplicates like VisualElementColor_VisualElement / Color_VisualElement and VisualElementOpacity_VisualElement / Alpha_VisualElement
+                        Debug.Log($"skip duplicate {enumName}");
+                        continue;
+                    }
                     methodDataToEnumName.Add(data, enumName);
+                    text += "        ";
                     text += enumName;
                     text += ",\n";
                 }
@@ -281,7 +286,10 @@ internal static class Utils {
                     }
                 }
                 foreach (var data in group) {
-                    utilsText += $"            case TweenType.{methodDataToEnumName[data]}:\n";
+                    if (!methodDataToEnumName.TryGetValue(data, out string enumName)) {
+                        continue;
+                    }
+                    utilsText += $"            case TweenType.{enumName}:\n";
                     utilsText += $"                return (PropType.{data.propertyType}, typeof({getTypeByName(data.targetType).FullName}));\n";
                 }
                 if (shouldWrapInDefine(dependency)) {
@@ -348,6 +356,12 @@ internal static class Utils {
     static string GetTweenTypeEnumName(MethodGenerationData data) {
         string result = "";
         var dependency = data.dependency;
+        if (dependency == Dependency.UI_ELEMENTS_MODULE_INSTALLED) {
+            if (data.methodName == "Alpha") {
+                return "VisualElementOpacity";
+            }
+        }
+
         if (dependency != Dependency.None) {
             result += getMethodPrefix(dependency);
         }
@@ -355,7 +369,7 @@ internal static class Utils {
             result += "VisualElement";
         }
         result += data.methodName;
-        if ((data.methodName == "Alpha" || data.methodName == "Color") && data.dependency == Dependency.UNITY_UGUI_INSTALLED) {
+        if ((data.methodName == "Alpha" || data.methodName == "Color") && dependency == Dependency.UNITY_UGUI_INSTALLED) {
             result += getTypeByName(data.targetType).Name;
         } else if (data.methodName == "Scale" && data.propertyType == PropType.Float) {
             result += "Uniform";
@@ -542,7 +556,6 @@ internal static class Utils {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<Single>;
@@ -550,7 +563,8 @@ internal static class Utils {
                 try {
                     _onValueChange(val);
                 } catch (Exception e) {
-                    Assert.LogError($""Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n"", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e);
+                    Assert.LogWarning($""Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n"", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);
@@ -576,7 +590,6 @@ internal static class Utils {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -593,7 +606,8 @@ internal static class Utils {
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
-                    Assert.LogError($""Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}, exception:\n{e}\n"", _tween.id, _tween.target as UnityEngine.Object);
+                    UnityEngine.Debug.LogException(e, _target as UnityEngine.Object);
+                    Assert.LogWarning($""Tween was stopped because of exception in {nameof(onValueChange)} callback, tween: {_tween.GetDescription()}\n"", _tween.id, _tween.target as UnityEngine.Object);
                     _tween.EmergencyStop();
                 }
             }, null, false, TweenType.CustomFloat);
@@ -603,7 +617,6 @@ internal static class Utils {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -612,7 +625,6 @@ internal static class Utils {
             tween.intParam = intParam;
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Float);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }";

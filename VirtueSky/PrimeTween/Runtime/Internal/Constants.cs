@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 using T = PrimeTween.TweenSettings<float>;
@@ -29,7 +30,9 @@ namespace PrimeTween {
         internal const string endDelayTooltip = "Delays the completion of a tween.\n\n" +
                                                 "For example, can be used to add the delay between cycles.\n\n" +
                                                 "Or can be used to postpone the execution of the onComplete callback.";
-        internal const string infiniteTweenInSequenceError = "It's not allowed to have infinite tweens (cycles == -1) in a sequence. If you want the sequence to repeat forever, " + nameof(Sequence.SetRemainingCycles) + "(-1) on the parent sequence instead.";
+        internal const string updateTypeTooltip = "Controls Unity's event function, which updates the animation.\n\n" +
+                                                  "Default is MonoBehaviour.Update().";
+        internal const string infiniteTweenInSequenceError = "It's not allowed to have infinite tweens (cycles == -1) in a sequence. If you want the sequence to repeat forever, " + nameof(Sequence.SetRemainingCycles) + "(-1) on the parent sequence instead."; // todo allow this as the last animation in the Sequence? it would still not be possible to Chain anything after the infinite animation, but will unlock use cases like adding startDelay to the Sequence. I can't do by adding startDelay support to Sequence because startDelay works differently for tweens: it's applied every tween loop
         internal const string customTweensDontSupportStartFromCurrentWarning =
             "Custom tweens don't support the '" + nameof(T.startFromCurrent) + "' because they don't know the current value of animated property.\n" +
             "This means that the animated value will be changed abruptly if a new tween is started mid-way.\n" +
@@ -47,21 +50,5 @@ namespace PrimeTween {
         internal const string nestSequenceTwiceError = "Sequence can be nested in other sequence only once.";
         internal const string nestTweenTwiceError = "A tween can be added to a sequence only once and can only belong to one sequence.";
         internal const string addDeadTweenToSequenceError = "It's not allowed to add 'dead' tweens to a sequence.";
-
-        #if UNITY_EDITOR
-        internal const string editModeWarning = "Please don't call PrimeTween's API in Edit mode (while the scene is not playing).";
-
-        internal static bool warnNoInstance {
-            get {
-                if (noInstance) {
-                    Debug.LogWarning(editModeWarning);
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        internal static bool noInstance => ReferenceEquals(null, PrimeTweenManager.Instance);
-        #endif
     }
 }

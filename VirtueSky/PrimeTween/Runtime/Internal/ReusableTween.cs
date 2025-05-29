@@ -2,6 +2,7 @@
 #define SAFETY_CHECKS
 #endif
 using System;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -24,22 +25,21 @@ namespace PrimeTween {
         [SerializeField] internal float easedInterpolationFactor;
         internal float cycleDuration;
 
-        #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
-        /// todo remove here and from generated code. Only used for assertion
-        [NonSerialized] PropType propType;
-        internal void setPropType(PropType value) => propType = value;
-        #else
-        [System.Diagnostics.Conditional("_")]
-        internal void setPropType([System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "UnusedParameter.Global")] PropType value) {
-        }
-        #endif
         [SerializeField] internal ValueContainerStartEnd startEndValue;
-        internal PropType getPropType() => Utils.TweenTypeToTweenData(startEndValue.tweenType).Item1; // todo rename to propType
+
+        internal PropType propType => Utils.TweenTypeToTweenData(startEndValue.tweenType).Item1;
         internal ref TweenType tweenType => ref startEndValue.tweenType;
         internal ref ValueContainer startValue => ref startEndValue.startValue;
         internal ref ValueContainer endValue => ref startEndValue.endValue;
         internal ValueContainer diff;
-        internal bool isAdditive;
+        internal bool isAdditive {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.Additive);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.Additive, value);
+        }
+        internal bool resetBeforeComplete {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.ResetBeforeComplete);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.ResetBeforeComplete, value);
+        }
         internal ValueContainer prevVal;
         [SerializeField] internal TweenSettings settings;
         [SerializeField] int cyclesDone;
@@ -70,10 +70,24 @@ namespace PrimeTween {
         bool stoppedEmergently;
         internal readonly TweenCoroutineEnumerator coroutineEnumerator = new TweenCoroutineEnumerator();
         internal float timeScale = 1f;
-        bool warnIgnoredOnCompleteIfTargetDestroyed = true;
+        bool warnIgnoredOnCompleteIfTargetDestroyed {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.WarnIgnoredOnCompleteIfTargetDestroyed);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.WarnIgnoredOnCompleteIfTargetDestroyed, value);
+        }
         internal ShakeData shakeData;
+        internal bool shakeSign {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.ShakeSign);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.ShakeSign, value);
+        }
+        internal bool isPunch {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.ShakePunch);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.ShakePunch, value);
+        }
         State state;
-        bool warnEndValueEqualsCurrent;
+        bool warnEndValueEqualsCurrent {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] get => GetFlag(Flags.WarnEndValueEqualsCurrent);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)] set => SetFlag(Flags.WarnEndValueEqualsCurrent, value);
+        }
 
         internal bool updateAndCheckIfRunning(float dt) {
             if (!_isAlive) {
@@ -189,6 +203,16 @@ namespace PrimeTween {
                 }
                 Assert.IsTrue(newCyclesDone == cyclesDone, id);
                 if (isDone(cyclesDiff)) {
+                    if (resetBeforeComplete && isMainSequenceRoot()) {
+                        // reset Sequence
+                        foreach (var t in getSequenceSelfChildren(false)) {
+                            t.tween.updateSequenceChild(0f, true);
+                            if (isEarlyExitAfterChildUpdate()) {
+                                goto EarlyExit;
+                            }
+                        }
+                        EarlyExit:;
+                    }
                     if (isMainSequenceRoot() && !_isPaused) {
                         sequence.releaseTweens();
                     }
@@ -357,7 +381,6 @@ namespace PrimeTween {
             #endif
             id = -1;
             target = null;
-            setPropType(PropType.None);
             settings.customEase = null;
             customOnValueChange = null;
             onValueChange = null;
@@ -372,11 +395,14 @@ namespace PrimeTween {
             timeScale = 1f;
             warnIgnoredOnCompleteIfTargetDestroyed = true;
             clearOnUpdate();
+            resetBeforeComplete = false;
         }
 
         /// <param name="warnIfTargetDestroyed">https://github.com/KyryloKuzyk/PrimeTween/discussions/4</param>
-        internal void OnComplete([NotNull] Action _onComplete, bool warnIfTargetDestroyed) {
-            Assert.IsNotNull(_onComplete);
+        internal void OnComplete([CanBeNull] Action _onComplete, bool warnIfTargetDestroyed) {
+            if (_onComplete == null) {
+                return;
+            }
             validateOnCompleteAssignment();
             warnIgnoredOnCompleteIfTargetDestroyed = warnIfTargetDestroyed;
             onCompleteCallback = _onComplete;
@@ -391,12 +417,14 @@ namespace PrimeTween {
             };
         }
 
-        internal void OnComplete<T>([CanBeNull] T _target, [NotNull] Action<T> _onComplete, bool warnIfTargetDestroyed) where T : class {
+        internal void OnComplete<T>([CanBeNull] T _target, [CanBeNull] Action<T> _onComplete, bool warnIfTargetDestroyed) where T : class {
             if (_target == null || isDestroyedUnityObject(_target)) {
                 Debug.LogError($"{nameof(_target)} is null or has been destroyed. {Constants.onCompleteCallbackIgnored}");
                 return;
             }
-            Assert.IsNotNull(_onComplete);
+            if (_onComplete == null) {
+                return;
+            }
             validateOnCompleteAssignment();
             warnIgnoredOnCompleteIfTargetDestroyed = warnIfTargetDestroyed;
             onCompleteTarget = _target;
@@ -439,16 +467,8 @@ namespace PrimeTween {
             Assert.IsNotNull(_onValueChange);
             Assert.IsNull(getter);
             tweenType = _tweenType;
-            var propertyType = getPropType();
+            var propertyType = propType;
             Assert.AreNotEqual(PropType.None, propertyType);
-            #if UNITY_ASSERTIONS && !PRIME_TWEEN_DISABLE_ASSERTIONS
-            Assert.AreEqual(propType, getPropType());
-            #endif
-            #if UNITY_EDITOR
-            if (Constants.noInstance) {
-                return;
-            }
-            #endif
             if (_settings.ease == Ease.Default) {
                 _settings.ease = PrimeTweenManager.Instance.defaultEase;
             } else if (_settings.ease == Ease.Custom && _settings.parametricEase == ParametricEase.None) {
@@ -520,6 +540,10 @@ namespace PrimeTween {
             Assert.IsFalse(startFromCurrent);
             Assert.IsTrue(timeScale < 0 || cyclesDone == settings.cycles);
             Assert.IsTrue(timeScale >= 0 || cyclesDone == iniCyclesDone);
+            if (resetBeforeComplete && !sequence.IsCreated) {
+                // reset Tween
+                setElapsedTimeTotal(0f, out _);
+            }
             onComplete?.Invoke(this);
         }
 
@@ -675,7 +699,7 @@ namespace PrimeTween {
 
         internal void cacheDiff() {
             Assert.IsFalse(startFromCurrent);
-            var propertyType = getPropType();
+            var propertyType = propType;
             Assert.AreNotEqual(PropType.None, propertyType);
             switch (propertyType) {
                 case PropType.Quaternion:
@@ -860,6 +884,25 @@ namespace PrimeTween {
             }
             Assert.IsTrue(result >= 0);
             return result;
+        }
+
+        [Flags]
+        private enum Flags : byte {
+            Additive = 1 << 0,
+            ShakeSign = 1 << 1,
+            ShakePunch = 1 << 2,
+            WarnEndValueEqualsCurrent = 1 << 3,
+            WarnIgnoredOnCompleteIfTargetDestroyed = 1 << 4,
+            ResetBeforeComplete = 1 << 5
+        }
+        [SerializeField] Flags flags = Flags.WarnIgnoredOnCompleteIfTargetDestroyed; // todo how to show this in the Inspector?
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] bool GetFlag(Flags flag) => (flags & flag) != 0;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] void SetFlag(Flags flag, bool value) {
+            if (value) {
+                flags |= flag;
+            } else {
+                flags &= ~flag;
+            }
         }
     }
 }

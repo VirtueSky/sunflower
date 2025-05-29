@@ -10,11 +10,6 @@ namespace PrimeTween {
         /// <summary>Returns the number of alive tweens.</summary>
         /// <param name="onTarget">If specified, returns the number of running tweens on the target. Please note: if target is specified, this method call has O(n) complexity where n is the total number of running tweens.</param>
         public static int GetTweensCount([CanBeNull] object onTarget = null) {
-            #if UNITY_EDITOR
-            if (Constants.warnNoInstance) {
-                return default;
-            }
-            #endif
             var manager = PrimeTweenManager.Instance;
             if (onTarget == null && manager.updateDepth == 0) {
                 int result = manager.tweensCount;
@@ -51,7 +46,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Double);
             tween.customOnValueChange = onValueChange;
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings.settings, _tween => {
                 var _onValueChange = _tween.customOnValueChange as Action<Double>;
@@ -89,7 +83,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Double);
             tween.customOnValueChange = onValueChange;
             tween.isAdditive = isAdditive;
             tween.Setup(target, ref settings.settings, _tween => {
@@ -157,8 +150,9 @@ namespace PrimeTween {
                 var manager = PrimeTweenManager.Instance;
                 if (manager != null) {
                     if (manager.updateDepth == 0) {
-                        manager.FixedUpdate();
                         manager.Update();
+                        manager.LateUpdate();
+                        manager.FixedUpdate();
                     }
                     // Assert.AreEqual(0, manager.tweens.Count); // fails if user's OnComplete() creates new tweens
                 }
@@ -380,7 +374,6 @@ namespace PrimeTween {
             var tween = PrimeTweenManager.fetchTween();
             tween.startValue.CopyFrom(ref settings.startValue);
             tween.endValue.CopyFrom(ref settings.endValue);
-            tween.setPropType(PropType.Int);
             tween.Setup(target, ref settings.settings, setter, getter, settings.startFromCurrent, _tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -432,5 +425,51 @@ namespace PrimeTween {
             return result;
         }
         public static Tween TweenTimeScale(Sequence sequence, TweenSettings<float> settings) => AnimateTimeScale(sequence.root, settings, TweenType.TweenTimeScaleSequence);
+
+        public static Tween RotationAtSpeed([NotNull] Transform target, Vector3 endValue, float averageAngularSpeed, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => RotationAtSpeed(target, new TweenSettings<Vector3>(endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween RotationAtSpeed([NotNull] Transform target, Vector3 endValue, float averageAngularSpeed, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => RotationAtSpeed(target, new TweenSettings<Vector3>(endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween RotationAtSpeed([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float averageAngularSpeed, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => RotationAtSpeed(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween RotationAtSpeed([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float averageAngularSpeed, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => RotationAtSpeed(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        static Tween RotationAtSpeed([NotNull] Transform target, TweenSettings<Vector3> settingsVector3) {
+            var settings = toQuaternion(settingsVector3);
+            var speed = settings.settings.duration;
+            if (speed <= 0) {
+                Debug.LogError($"Invalid speed provided to the Tween.{nameof(RotationAtSpeed)}() method: {speed}.");
+                return default;
+            }
+            if (settings.startFromCurrent) {
+                settings.startFromCurrent = false;
+                settings.startValue = target.rotation;
+            }
+            settings.settings.duration = Extensions.CalcDistance(settings.startValue, settings.endValue) / speed;
+            return Rotation(target, settings);
+        }
+
+        public static Tween LocalRotationAtSpeed([NotNull] Transform target, Vector3 endValue, float averageAngularSpeed, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => LocalRotationAtSpeed(target, new TweenSettings<Vector3>(endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween LocalRotationAtSpeed([NotNull] Transform target, Vector3 endValue, float averageAngularSpeed, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => LocalRotationAtSpeed(target, new TweenSettings<Vector3>(endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween LocalRotationAtSpeed([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float averageAngularSpeed, Ease ease = Ease.Default, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => LocalRotationAtSpeed(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        public static Tween LocalRotationAtSpeed([NotNull] Transform target, Vector3 startValue, Vector3 endValue, float averageAngularSpeed, Easing ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false)
+            => LocalRotationAtSpeed(target, new TweenSettings<Vector3>(startValue, endValue, new TweenSettings(averageAngularSpeed, ease, cycles, cycleMode, startDelay, endDelay, useUnscaledTime)));
+        static Tween LocalRotationAtSpeed([NotNull] Transform target, TweenSettings<Vector3> settingsVector3) {
+            var settings = toQuaternion(settingsVector3);
+            var speed = settings.settings.duration;
+            if (speed <= 0) {
+                Debug.LogError($"Invalid speed provided to the Tween.{nameof(LocalRotationAtSpeed)}() method: {speed}.");
+                return default;
+            }
+            if (settings.startFromCurrent) {
+                settings.startFromCurrent = false;
+                settings.startValue = target.localRotation;
+            }
+            settings.settings.duration = Extensions.CalcDistance(settings.startValue, settings.endValue) / speed;
+            return LocalRotation(target, settings);
+        }
     }
 }
