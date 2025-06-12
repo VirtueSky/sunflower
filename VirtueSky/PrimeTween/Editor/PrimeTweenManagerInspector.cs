@@ -7,8 +7,10 @@ using UnityEngine;
 [CustomEditor(typeof(PrimeTweenManager))]
 internal class PrimeTweenManagerInspector : Editor {
     SerializedProperty tweensProp;
+    SerializedProperty lateUpdateTweensProp;
     SerializedProperty fixedUpdateTweensProp;
     GUIContent aliveTweenGuiContent;
+    GUIContent lateUpdateTweenGuiContent;
     GUIContent fixedUpdateTweenGuiContent;
     StringCache tweensCountCache;
     StringCache maxSimultaneousTweensCountCache;
@@ -16,10 +18,13 @@ internal class PrimeTweenManagerInspector : Editor {
 
     void OnEnable() {
         tweensProp = serializedObject.FindProperty(nameof(PrimeTweenManager.tweens));
+        lateUpdateTweensProp = serializedObject.FindProperty(nameof(PrimeTweenManager.lateUpdateTweens));
         fixedUpdateTweensProp = serializedObject.FindProperty(nameof(PrimeTweenManager.fixedUpdateTweens));
         Assert.IsNotNull(tweensProp);
+        Assert.IsNotNull(lateUpdateTweensProp);
         Assert.IsNotNull(fixedUpdateTweensProp);
         aliveTweenGuiContent = new GUIContent("Tweens");
+        lateUpdateTweenGuiContent = new GUIContent("Late update tweens");
         fixedUpdateTweenGuiContent = new GUIContent("Fixed update tweens");
     }
 
@@ -52,6 +57,7 @@ internal class PrimeTweenManagerInspector : Editor {
                                 "To prevent memory allocations during runtime, choose the value that is greater than the maximum number of simultaneous tweens in your game.", MessageType.None);
 
         drawList(tweensProp, manager.tweens, aliveTweenGuiContent);
+        drawList(lateUpdateTweensProp, manager.lateUpdateTweens, lateUpdateTweenGuiContent);
         drawList(fixedUpdateTweensProp, manager.fixedUpdateTweens, fixedUpdateTweenGuiContent);
         void drawList(SerializedProperty tweensProp, List<ReusableTween> list, GUIContent guiContent) {
             if (tweensProp.isExpanded) {

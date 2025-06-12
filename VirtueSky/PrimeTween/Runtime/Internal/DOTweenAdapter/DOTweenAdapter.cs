@@ -305,7 +305,7 @@ namespace PrimeTween {
             tween.endValue = CalculateRelative(tween, getter(tween), tween.endValue);
             /*var getter = tween.getter;
                 // todo this doesn't account for double val
-                if (tween.getPropType() == PropType.Quaternion) {
+                if (tween.propType == PropType.Quaternion) {
                     if (getter != null) {
                         tween.endValue.QuaternionVal *= getter(tween).QuaternionVal;
                     } else {
@@ -411,7 +411,7 @@ namespace PrimeTween {
         public Tween From(Rect fromValue, bool setImmediately = true, bool isRelative = false) => setFrom(setImmediately, isRelative, fromValue.ToContainer(), PropType.Rect);
 
         static ValueContainer CalculateRelative(ReusableTween tween, ValueContainer current, ValueContainer diff) {
-            switch (tween.getPropType()) {
+            switch (tween.propType) {
                 case PropType.Quaternion:
                     return (current.QuaternionVal * diff.QuaternionVal).ToContainer();
                 case PropType.Double:
@@ -443,8 +443,8 @@ namespace PrimeTween {
                 tween.endValue = CalculateRelative(tween, current, tween.endValue);
             }
             if (fromValue.HasValue) {
-                if (tween.getPropType() != propType) {
-                    Debug.LogError($"Animated value is {tween.getPropType()}, but '{nameof(From)}()' was called with {propType}. Please provide a correct type.");
+                if (tween.propType != propType) {
+                    Debug.LogError($"Animated value is {tween.propType}, but '{nameof(From)}()' was called with {propType}. Please provide a correct type.");
                     return this;
                 }
                 tween.startFromCurrent = false;

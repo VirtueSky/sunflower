@@ -71,7 +71,6 @@ namespace PrimeTween {
             Assert.IsNotNull(onValueChange);
             Assert.IsNotNull(getter);
             var tween = PrimeTweenManager.fetchTween();
-            tween.setPropType(propType);
             prepareShakeData(settings, tween);
             tween.customOnValueChange = onValueChange;
             var tweenSettings = settings.tweenSettings;
@@ -87,7 +86,6 @@ namespace PrimeTween {
         public static Tween ShakeCustom<T>([NotNull] T target, Vector3 startValue, ShakeSettings settings, [NotNull] Action<T, Vector3> onValueChange) where T : class {
             Assert.IsNotNull(onValueChange);
             var tween = PrimeTweenManager.fetchTween();
-            tween.setPropType(PropType.Vector3);
             tween.startValue.CopyFrom(ref startValue);
             prepareShakeData(settings, tween);
             tween.customOnValueChange = onValueChange;
@@ -110,7 +108,7 @@ namespace PrimeTween {
 
         static void prepareShakeData(ShakeSettings settings, [NotNull] ReusableTween tween) {
             tween.endValue.Reset(); // not used
-            tween.shakeData.Setup(settings);
+            tween.shakeData.Setup(settings, tween);
         }
 
         static Vector3 getShakeVal([NotNull] ReusableTween tween) {
@@ -147,13 +145,11 @@ namespace PrimeTween {
     #endif
     internal struct ShakeData {
         float t;
-        bool sign;
         Vector3 from, to;
         float symmetryFactor;
         int falloffEaseInt;
         AnimationCurve customStrengthOverTime;
         Ease easeBetweenShakes;
-        bool isPunch;
         const int disabledFalloff = -42;
         internal bool isAlive => frequency != 0f;
         internal Vector3 strengthPerAxis { get; private set; }
@@ -161,8 +157,8 @@ namespace PrimeTween {
         float prevInterpolationFactor;
         int prevCyclesDone;
 
-        internal void Setup(ShakeSettings settings) {
-            isPunch = settings.isPunch;
+        internal void Setup(ShakeSettings settings, ReusableTween tween) {
+            tween.isPunch = settings.isPunch;
             symmetryFactor = Mathf.Clamp01(1 - settings.asymmetry);
             {
                 var _strength = settings.strength;
@@ -209,14 +205,14 @@ namespace PrimeTween {
                 }
                 easeBetweenShakes = _easeBetweenShakes;
             }
-            onCycleComplete();
+            onCycleComplete(tween);
         }
 
-        internal void onCycleComplete() {
+        internal void onCycleComplete(ReusableTween tween) {
             Assert.IsTrue(isAlive);
             resetAfterCycle();
-            sign = isPunch || Random.value < 0.5f;
-            to = generateShakePoint();
+            tween.shakeSign = tween.isPunch || Random.value < 0.5f;
+            to = generateShakePoint(tween);
         }
 
         static int getMainAxisIndex(Vector3 strengthByAxis) {
@@ -240,7 +236,7 @@ namespace PrimeTween {
             int cyclesDiff = tween.getCyclesDone() - prevCyclesDone;
             prevCyclesDone = tween.getCyclesDone();
             if (interpolationFactor == 0f || (cyclesDiff > 0 && tween.getCyclesDone() != tween.settings.cycles)) {
-                onCycleComplete();
+                onCycleComplete(tween);
                 prevInterpolationFactor = interpolationFactor;
             }
 
@@ -257,15 +253,15 @@ namespace PrimeTween {
             }
             t += frequency * dt * frequencyFactor * getIniVelFactor();
             if (t < 0f || t >= 1f) {
-                sign = !sign;
+                tween.shakeSign = !tween.shakeSign;
                 if (t < 0f) {
                     t = 1f;
                     to = from;
-                    from = generateShakePoint();
+                    from = generateShakePoint(tween);
                 } else {
                     t = 0f;
                     from = to;
-                    to = generateShakePoint();
+                    to = generateShakePoint(tween);
                 }
             }
 
@@ -276,13 +272,13 @@ namespace PrimeTween {
             return result;
         }
 
-        Vector3 generateShakePoint() {
+        Vector3 generateShakePoint(ReusableTween tween) {
             var mainAxisIndex = getMainAxisIndex(strengthPerAxis);
             Vector3 result = default;
-            float signFloat = sign ? 1f : -1f;
+            float signFloat = tween.shakeSign ? 1f : -1f;
             for (int i = 0; i < 3; i++) {
                 var strength = strengthPerAxis[i];
-                if (isPunch) {
+                if (tween.isPunch) {
                     result[i] = clampBySymmetryFactor(strength * signFloat, strength, symmetryFactor);
                 } else {
                     result[i] = i == mainAxisIndex ? calcMainAxisEndVal(signFloat, strength, symmetryFactor) : calcNonMainAxisEndVal(strength, symmetryFactor);

@@ -946,6 +946,17 @@ MonoBehaviour:
     dependency: 9
     placeInGlobalScope: 0
     generateOnlyOverloads: 0
+  - description: Color_VisualElement
+    methodName: Color
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 2
+    propertyName: 
+    propertyGetter: style.color.value
+    propertySetter: style.color = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
   - description: VisualElementBackgroundColor_VisualElement
     methodName: VisualElementBackgroundColor
     targetType: UnityEngine.UIElements.VisualElement
@@ -953,6 +964,28 @@ MonoBehaviour:
     propertyName: 
     propertyGetter: style.backgroundColor.value
     propertySetter: style.backgroundColor = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: VisualElementOpacity_VisualElement
+    methodName: VisualElementOpacity
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 1
+    propertyName: 
+    propertyGetter: style.opacity.value
+    propertySetter: style.opacity = val
+    dotweenMethodName: 
+    dependency: 9
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
+  - description: Alpha_VisualElement
+    methodName: Alpha
+    targetType: UnityEngine.UIElements.VisualElement
+    propertyType: 1
+    propertyName: 
+    propertyGetter: style.opacity.value
+    propertySetter: style.opacity = val
     dotweenMethodName: 
     dependency: 9
     placeInGlobalScope: 0
@@ -1034,6 +1067,17 @@ MonoBehaviour:
     dependency: 10
     placeInGlobalScope: 0
     generateOnlyOverloads: 1
+  - description: FontSize_TMP_Text
+    methodName: TextFontSize
+    targetType: TMPro.TMP_Text
+    propertyType: 1
+    propertyName: fontSize
+    propertyGetter: 
+    propertySetter: 
+    dotweenMethodName: 
+    dependency: 10
+    placeInGlobalScope: 0
+    generateOnlyOverloads: 0
   additiveMethodsGenerator:
     additiveMethods:
     - methodName: PositionAdditive

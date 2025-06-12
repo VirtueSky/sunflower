@@ -42,7 +42,7 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
                     return SerializedPropertyType.Rect;
                 case PropType.Int:
                     return SerializedPropertyType.Integer;
-                case PropType.Double:
+                case PropType.Double: // todo support double
                 case PropType.None:
                 default:
                     throw new Exception();
@@ -122,7 +122,7 @@ public class ValueContainerStartEndPropDrawer : PropertyDrawer {
                 case PropType.Int:
                     var newIntVal = EditorGUI.IntField(position, guiContent, Mathf.RoundToInt(valueContainer.FloatVal));
                     return ((float)newIntVal).ToContainer();
-                case PropType.Double:
+                case PropType.Double: // todo support double with EditorGUI.DoubleField()?
                 case PropType.None:
                 default:
                     throw new Exception();

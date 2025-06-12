@@ -46,10 +46,33 @@ namespace PrimeTween {
         public float endDelay;
         [Tooltip(Constants.unscaledTimeTooltip)]
         public bool useUnscaledTime;
-        public bool useFixedUpdate;
+
+        [Obsolete("use '" + nameof(updateType) + "' instead.")]
+        public bool useFixedUpdate {
+            get => updateType == UpdateType.FixedUpdate || _useFixedUpdate;
+            set {
+                _updateType = value ? _UpdateType.FixedUpdate : _UpdateType.Update;
+                _useFixedUpdate = value;
+            }
+        }
+        [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("useFixedUpdate")]
+        [HideInInspector]
+        bool _useFixedUpdate;
+
+        public UpdateType updateType {
+            get => _useFixedUpdate ? UpdateType.FixedUpdate : new UpdateType(_updateType);
+            set {
+                _updateType = value.enumValue;
+                _useFixedUpdate = value == UpdateType.FixedUpdate;
+            }
+        }
+        [SerializeField, Tooltip(Constants.updateTypeTooltip)]
+        internal _UpdateType _updateType;
+
+        [field: NonSerialized]
         internal bool isPunch { get; private set; }
 
-        internal ShakeSettings(Vector3 strength, float duration, float frequency, Ease? falloffEase, [CanBeNull] AnimationCurve strengthOverTime, Ease easeBetweenShakes, float asymmetryFactor, int cycles, float startDelay, float endDelay, bool useUnscaledTime, bool useFixedUpdate) {
+        internal ShakeSettings(Vector3 strength, float duration, float frequency, Ease? falloffEase, [CanBeNull] AnimationCurve strengthOverTime, Ease easeBetweenShakes, float asymmetryFactor, int cycles, float startDelay, float endDelay, bool useUnscaledTime, UpdateType updateType) {
             this.frequency = frequency;
             this.strength = strength;
             this.duration = duration;
@@ -69,17 +92,18 @@ namespace PrimeTween {
             this.useUnscaledTime = useUnscaledTime;
             asymmetry = asymmetryFactor;
             isPunch = false;
-            this.useFixedUpdate = useFixedUpdate;
+            _useFixedUpdate = updateType == UpdateType.FixedUpdate;
+            _updateType = updateType.enumValue;
         }
 
-        public ShakeSettings(Vector3 strength, float duration = 0.5f, float frequency = defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes, bool useFixedUpdate = false)
+        public ShakeSettings(Vector3 strength, float duration = 0.5f, float frequency = defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes, UpdateType updateType = default)
             // ReSharper disable once RedundantCast
-            : this(strength, duration, frequency, enableFalloff ? Ease.Default : (Ease?)null, null, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime, useFixedUpdate) {}
+            : this(strength, duration, frequency, enableFalloff ? Ease.Default : (Ease?)null, null, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime, updateType) {}
 
-        public ShakeSettings(Vector3 strength, float duration, float frequency, AnimationCurve strengthOverTime, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes, bool useFixedUpdate = false)
-            : this(strength, duration, frequency, Ease.Custom, strengthOverTime, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime, useFixedUpdate) { }
+        public ShakeSettings(Vector3 strength, float duration, float frequency, AnimationCurve strengthOverTime, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = PrimeTweenConfig.defaultUseUnscaledTimeForShakes, UpdateType updateType = default)
+            : this(strength, duration, frequency, Ease.Custom, strengthOverTime, easeBetweenShakes, asymmetryFactor, cycles, startDelay, endDelay, useUnscaledTime, updateType) { }
 
-        internal TweenSettings tweenSettings => new TweenSettings(duration, Ease.Linear, cycles, CycleMode.Restart, startDelay, endDelay, useUnscaledTime, useFixedUpdate);
+        internal TweenSettings tweenSettings => new TweenSettings(duration, Ease.Linear, cycles, CycleMode.Restart, startDelay, endDelay, useUnscaledTime, updateType);
 
         internal
             #if UNITY_2020_2_OR_NEWER

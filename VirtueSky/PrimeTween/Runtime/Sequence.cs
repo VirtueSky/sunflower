@@ -100,14 +100,8 @@ namespace PrimeTween {
             return true;
         }
 
-        public static Sequence Create(int cycles = 1, CycleMode cycleMode = CycleMode.Restart, Ease sequenceEase = Ease.Linear, bool useUnscaledTime = false, bool useFixedUpdate = false) {
-            #if UNITY_EDITOR
-            if (Constants.warnNoInstance) {
-                return default;
-            }
-            #endif
+        public static Sequence Create(int cycles = 1, CycleMode cycleMode = CycleMode.Restart, Ease sequenceEase = Ease.Linear, bool useUnscaledTime = false, UpdateType updateType = default) {
             var tween = PrimeTweenManager.fetchTween();
-            tween.setPropType(PropType.Float);
             if (cycleMode == CycleMode.Incremental) {
                 Debug.LogError($"Sequence doesn't support CycleMode.Incremental. Parameter {nameof(sequenceEase)} is applied to the sequence's 'timeline', and incrementing the 'timeline' doesn't make sense. For the same reason, {nameof(sequenceEase)} is clamped to [0:1] range.");
                 cycleMode = CycleMode.Restart;
@@ -116,10 +110,10 @@ namespace PrimeTween {
                 Debug.LogError("Sequence doesn't support Ease.Custom.");
                 sequenceEase = Ease.Linear;
             }
-            if (sequenceEase == Ease.Default) {
+            if (sequenceEase == Ease.Default) { // todo this is questionable
                 sequenceEase = Ease.Linear;
             }
-            var settings = new TweenSettings(0f, sequenceEase, cycles, cycleMode, 0f, 0f, useUnscaledTime, useFixedUpdate);
+            var settings = new TweenSettings(0f, sequenceEase, cycles, cycleMode, 0f, 0f, useUnscaledTime, updateType);
             tween.Setup(PrimeTweenManager.dummyTarget, ref settings, _ => {}, null, false, TweenType.MainSequence);
             tween.intParam = emptySequenceTag;
             var root = PrimeTweenManager.addTween(tween);
@@ -128,11 +122,6 @@ namespace PrimeTween {
         }
 
         public static Sequence Create(Tween firstTween) {
-            #if UNITY_EDITOR
-            if (Constants.warnNoInstance) {
-                return default;
-            }
-            #endif
             return Create().Group(firstTween);
         }
 
@@ -295,22 +284,22 @@ namespace PrimeTween {
             }
             var rootTween = root.tween;
             if (tween._isPaused && tween._isPaused != rootTween._isPaused) {
-                warnIgnoredChildrenSetting(nameof(isPaused));
+                warnIgnoredChildrenSetting(nameof(isPaused), rootTween._isPaused, tween._isPaused);
             }
             if (tween.timeScale != 1f && tween.timeScale != rootTween.timeScale) {
-                warnIgnoredChildrenSetting(nameof(timeScale));
+                warnIgnoredChildrenSetting(nameof(timeScale), rootTween.timeScale, tween.timeScale);
             }
             if (tween.settings.useUnscaledTime && tween.settings.useUnscaledTime != rootTween.settings.useUnscaledTime) {
-                warnIgnoredChildrenSetting(nameof(TweenSettings.useUnscaledTime));
+                warnIgnoredChildrenSetting(nameof(TweenSettings.useUnscaledTime), rootTween.settings.useUnscaledTime, tween.settings.useUnscaledTime);
             }
-            if (tween.settings.useFixedUpdate && tween.settings.useFixedUpdate != rootTween.settings.useFixedUpdate) {
-                warnIgnoredChildrenSetting(nameof(TweenSettings.useFixedUpdate));
+            if (tween.settings._updateType != PrimeTweenManager.Instance.defaultUpdateType && tween.settings._updateType != rootTween.settings._updateType) {
+                warnIgnoredChildrenSetting(nameof(TweenSettings.updateType), rootTween.settings._updateType, tween.settings._updateType);
             }
-            void warnIgnoredChildrenSetting(string settingName) {
-                Debug.LogError($"'{settingName}' was ignored after adding child animation to the Sequence. Parent Sequence controls '{settingName}' of all its children animations.\n" +
-                               "To prevent this error:\n" +
+            void warnIgnoredChildrenSetting(string settingName, object sequenceSetting, object childSetting) {
+                Debug.LogError($"'{settingName}' was ignored after adding child animation to the Sequence (Sequence has '{sequenceSetting}', but the child had '{childSetting}').\n" +
+                               $"Parent Sequence controls '{settingName}' of all its children animations. To prevent this error:\n" +
                                $"- Use the default value of '{settingName}' in child animation.\n" +
-                               $"- OR use the same '{settingName}' in child animation.\n\n");
+                               $"- OR use the same '{settingName}' in child animation.\n");
             }
             return true;
         }
@@ -614,5 +603,13 @@ namespace PrimeTween {
 
         public override int GetHashCode() => root.GetHashCode();
         public bool Equals(Sequence other) => root.Equals(other.root);
+
+        #if PRIME_TWEEN_EXPERIMENTAL
+        public
+        #endif
+        Sequence ResetBeforeComplete() {
+            root.ResetBeforeComplete();
+            return this;
+        }
     }
 }

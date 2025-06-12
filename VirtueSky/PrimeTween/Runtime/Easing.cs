@@ -105,12 +105,12 @@ namespace PrimeTween {
             var parametricEase = settings.parametricEase;
             var strength = settings.parametricEaseStrength;
             if (parametricEase == ParametricEase.BounceExact) {
-                var fullAmplitude = tween.getPropType() == PropType.Quaternion ?
+                var fullAmplitude = tween.propType == PropType.Quaternion ?
                     Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) :
                     tween.diff.Vector4Val.magnitude;
                 // todo account for double
                 /*double calcFullAmplitude() {
-                    switch (tween.getPropType()) {
+                    switch (tween.propType) {
                         case PropType.Quaternion:
                             return Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal);
                         case PropType.Double:
@@ -166,11 +166,6 @@ namespace PrimeTween {
                     Debug.LogError("Ease.Custom is an invalid type for Easing.Evaluate(). Please choose another Ease type instead.");
                     return interpolationFactor;
                 case Ease.Default:
-                    #if UNITY_EDITOR
-                    if (Constants.warnNoInstance) {
-                        return interpolationFactor;
-                    }
-                    #endif
                     return StandardEasing.Evaluate(interpolationFactor, PrimeTweenManager.Instance.defaultEase);
                 default:
                     return StandardEasing.Evaluate(interpolationFactor, ease);
