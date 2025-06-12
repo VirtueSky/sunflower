@@ -1,4 +1,4 @@
-#if UNITY_IOS
+//#if UNITY_IOS
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -27,6 +27,19 @@ public static class PostBuildStep
 
             // Save changes to the plist:
             File.WriteAllText(plistPath, plistObj.WriteToString());
+            
+            // --- Copy GoogleService-Info.split if exist ---
+            string sourceSplitPath = Path.Combine("Assets", "GoogleService-Info.split");
+            string destSplitPath = Path.Combine(pathToXcode, "GoogleService-Info.split");
+            if (File.Exists(sourceSplitPath))
+            {
+                File.Copy(sourceSplitPath, destSplitPath, true);
+                UnityEngine.Debug.Log("[PostBuildStep] Copied GoogleService-Info.split to Xcode build folder.");
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("[PostBuildStep] GoogleService-Info.split not found in Assets.");
+            }
         }
     }
 
@@ -43,4 +56,4 @@ public static class PostBuildStep
         }
     }
 }
-#endif
+//#endif
