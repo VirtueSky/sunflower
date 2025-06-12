@@ -1,2 +1,2 @@
-- Version Max Sdk: 8.2.2
+- Version Max Sdk: 8.3.0
 - Version Google Game Play Service: v2.0.0

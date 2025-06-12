@@ -1,4 +1,4 @@
-//#if UNITY_IOS
+#if UNITY_IOS
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -56,4 +56,4 @@ public static class PostBuildStep
         }
     }
 }
-//#endif
+#endif
