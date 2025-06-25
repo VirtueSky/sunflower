@@ -96,7 +96,7 @@
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.2";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.3";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
