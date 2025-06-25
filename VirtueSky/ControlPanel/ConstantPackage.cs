@@ -105,7 +105,8 @@
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
-        public const string MaxVersionAppleSignIn = "https://github.com/lupidan/apple-signin-unity.git#v1.5.0";
+        public const string MaxVersionAppleSignIn =
+            "https://github.com/lupidan/apple-signin-unity.git?path=Source#1.5.0";
 
         #region Spine
 
