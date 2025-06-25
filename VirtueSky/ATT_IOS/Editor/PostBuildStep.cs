@@ -10,16 +10,24 @@ public static class PostBuildStep
     public static void OnPostProcessBuild(BuildTarget buildTarget, string pathToXcode)
     {
         if (buildTarget != BuildTarget.iOS) return;
+        ModifyInfoPlist(pathToXcode);
+        CopyGoogleServiceInfoPlist(pathToXcode);
+        AddCapability(pathToXcode);
+    }
 
-        // === 1. Modify Info.plist ===
+    static void ModifyInfoPlist(string pathToXcode)
+    {
         string plistPath = Path.Combine(pathToXcode, "Info.plist");
         PlistDocument plistObj = new PlistDocument();
         plistObj.ReadFromString(File.ReadAllText(plistPath));
         PlistElementDict plistRoot = plistObj.root;
-        plistRoot.SetString("NSUserTrackingUsageDescription", "Your data will be used to provide you a better and personalized ad experience.");
+        plistRoot.SetString("NSUserTrackingUsageDescription",
+            "Your data will be used to provide you a better and personalized ad experience.");
         File.WriteAllText(plistPath, plistObj.WriteToString());
+    }
 
-        // === 2. Copy GoogleService-Info.plist ===
+    static void CopyGoogleServiceInfoPlist(string pathToXcode)
+    {
         string sourceSplitPath = Path.Combine("Assets", "GoogleService-Info.plist");
         string destSplitPath = Path.Combine(pathToXcode, "GoogleService-Info.plist");
         if (File.Exists(sourceSplitPath))
@@ -31,29 +39,42 @@ public static class PostBuildStep
         {
             UnityEngine.Debug.LogWarning("[PostBuildStep] GoogleService-Info.plist not found in Assets.");
         }
+    }
 
-        // === 3. Setup Push Notification Capability ===
+    static void AddCapability(string pathToXcode)
+    {
         string projPath = PBXProject.GetPBXProjectPath(pathToXcode);
         PBXProject proj = new PBXProject();
         proj.ReadFromFile(projPath);
 
         string targetGuid = proj.GetUnityMainTargetGuid();
+        string frameworkTargetGuid = proj.GetUnityFrameworkTargetGuid();
 
-        // Determine environment type (Debug or Release)
         string apsEnvironment = EditorUserBuildSettings.development ? "development" : "production";
 
-        // Create Entitlements.entitlements
-        string entitlementsFileName = "Entitlements.entitlements";
-        string entitlementsPath = Path.Combine(pathToXcode, entitlementsFileName);
+        // Use a safe path
+        string entitlementsFileName = "Unity-iPhone/Entitlements.entitlements";
+        string entitlementsFullPath = Path.Combine(pathToXcode, entitlementsFileName);
+
+        // Create Entitlements file
         PlistDocument entitlements = new PlistDocument();
         entitlements.root.SetString("aps-environment", apsEnvironment);
-        File.WriteAllText(entitlementsPath, entitlements.WriteToString());
+        File.WriteAllText(entitlementsFullPath, entitlements.WriteToString());
 
-        // Add Push Notification capability and entitlements
-        proj.AddCapability(targetGuid, PBXCapabilityType.PushNotifications, entitlementsFileName);
+        // Capability manager
+        var projCapability = new ProjectCapabilityManager(projPath, entitlementsFileName, "Unity-iPhone");
 
-        // Use SetBuildProperty to avoid duplicate CODE_SIGN_ENTITLEMENTS
+        projCapability.AddPushNotifications(false);
+
+#if VIRTUESKY_APPLE_AUTH
+        projCapability.AddSignInWithApple();
+#endif
+
+        projCapability.WriteToFile();
+
+        // update build property for target
         proj.SetBuildProperty(targetGuid, "CODE_SIGN_ENTITLEMENTS", entitlementsFileName);
+        proj.SetBuildProperty(frameworkTargetGuid, "CODE_SIGN_ENTITLEMENTS", entitlementsFileName);
 
         proj.WriteToFile(projPath);
     }
@@ -66,7 +87,8 @@ public static class PostBuildStep
         string projPath = PBXProject.GetPBXProjectPath(pathToBuiltProject);
         PBXProject proj = new PBXProject();
         proj.ReadFromFile(projPath);
-        proj.AddFileToBuild(proj.GetUnityMainTargetGuid(), proj.AddFile("GoogleService-Info.plist", "GoogleService-Info.plist"));
+        proj.AddFileToBuild(proj.GetUnityMainTargetGuid(),
+            proj.AddFile("GoogleService-Info.plist", "GoogleService-Info.plist"));
         proj.WriteToFile(projPath);
     }
 }
