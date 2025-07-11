@@ -1,5 +1,6 @@
 using System.Text;
 using UnityEngine;
+using VirtueSky.Events;
 using VirtueSky.Inspector;
 using VirtueSky.Variables;
 
@@ -20,6 +21,7 @@ namespace VirtueSky.GameService
     {
         [SerializeField] private StringVariable authorizationCodeVariable;
         [SerializeField] private StringVariable userIdVariable;
+        [SerializeField] private EventNoParam tryLoginEvent;
 
 #if UNITY_IOS && VIRTUESKY_APPLE_AUTH
         private IAppleAuthManager _iAppleAuthManager;
@@ -39,6 +41,7 @@ namespace VirtueSky.GameService
                 // Creates an Apple Authentication manager with the deserializer
                 this._iAppleAuthManager = new AppleAuthManager(deserializer);
                 loginEvent.AddListener(Login);
+                tryLoginEvent.AddListener(TryLogin);
             }
 #endif
         }
@@ -108,10 +111,36 @@ namespace VirtueSky.GameService
                 {
                     // Something went wrong
                     var authorizationErrorCode = error.GetAuthorizationErrorCode();
-                    serverCode.Value = "";
-                    userIdVariable.Value = "";
                     status.SetFailed();
                 });
+#endif
+        }
+
+        /// <summary>
+        /// Login when Apple credential still valid.
+        /// </summary>
+        private void TryLogin()
+        {
+#if UNITY_IOS && VIRTUESKY_APPLE_AUTH
+            if (string.IsNullOrEmpty(userIdVariable.Value)) return;
+            this._iAppleAuthManager.GetCredentialState(userIdVariable.Value, state =>
+            {
+                switch (state)
+                {
+                    case CredentialState.Revoked:
+                        break;
+                    case CredentialState.Authorized:
+                        Debug.Log($"Apple credential still valid. Auto-login with userId: {userIdVariable.Value}");
+                        Login();
+                        break;
+                    case CredentialState.NotFound:
+                        Debug.LogWarning("Apple credential invalid or revoked.");
+                        userIdVariable.Value = "";
+                        break;
+                    case CredentialState.Transferred:
+                        break;
+                }
+            }, error => { Debug.LogError("CredentialState check failed: " + error.ToString()); });
 #endif
         }
     }

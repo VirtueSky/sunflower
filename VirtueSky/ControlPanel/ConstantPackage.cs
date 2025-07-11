@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.3.9";
+        public const string VersionSunflower = "3.4.0";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.12.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -15,12 +15,12 @@
         public const string MaxVersionAddressables = "1.21.21";
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
-        public const string MaxVersionLevelPlay = "8.8.1";
+        public const string MaxVersionLevelPlay = "8.10.0";
 
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
         public const string VersionAdmob =
-            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.2.0";
+            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.3.0";
 
         #region Google Unity
 
@@ -52,37 +52,37 @@
         public const string PackageNameFirebaseApp = "com.google.firebase.app";
 
         public const string MaxVersionFirebaseApp =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.app.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.app.git#12.10.1";
 
         public const string PackageNameFirebaseRemoteConfig = "com.google.firebase.remote-config";
 
         public const string MaxVersionFirebaseRemoteConfig =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.remote-config.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.remote-config.git#12.10.1";
 
         public const string PackageNameFirebaseAnalytics = "com.google.firebase.analytics";
 
         public const string MaxVersionFirebaseAnalytics =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.analytics.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.analytics.git#12.10.1";
 
         public const string PackageNameFirebaseDatabase = "com.google.firebase.database";
 
         public const string MaxVersionFirebaseDatabase =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.database.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.database.git#12.10.1";
 
         public const string PackageNameFirebaseAuth = "com.google.firebase.auth";
 
         public const string MaxVersionFirebaseAuth =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.auth.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.auth.git#12.10.1";
 
         public const string PackageNameFirebaseCrashlytics = "com.google.firebase.crashlytics";
 
         public const string MaxVersionFirebaseCrashlytics =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.crashlytics.git#12.9.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.crashlytics.git#12.10.1";
 
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.0";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.1";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
@@ -91,12 +91,12 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#v6.16.21";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#v6.17.1";
 
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.2";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.5";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
@@ -105,7 +105,8 @@
 
         public const string PackageNameAppleSignIn = "com.lupidan.apple-signin-unity";
 
-        public const string MaxVersionAppleSignIn = "https://github.com/lupidan/apple-signin-unity.git#v1.5.0";
+        public const string MaxVersionAppleSignIn =
+            "https://github.com/lupidan/apple-signin-unity.git?path=Source#1.5.0";
 
         #region Spine
 
