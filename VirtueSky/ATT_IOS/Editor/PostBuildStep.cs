@@ -21,8 +21,11 @@ public static class PostBuildStep
         PlistDocument plistObj = new PlistDocument();
         plistObj.ReadFromString(File.ReadAllText(plistPath));
         PlistElementDict plistRoot = plistObj.root;
+        // add privacy tracking
         plistRoot.SetString("NSUserTrackingUsageDescription",
             "Your data will be used to provide you a better and personalized ad experience.");
+        // add non-exempt encryption
+        plistRoot.SetBoolean("ITSAppUsesNonExemptEncryption", false);
         File.WriteAllText(plistPath, plistObj.WriteToString());
     }
 
