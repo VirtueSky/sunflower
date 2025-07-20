@@ -258,14 +258,24 @@ namespace VirtueSky.ControlPanel.Editor
             SceneView.RepaintAll();
             if (levelEditorTabType == LevelEditorTabType.Setting)
             {
-                InternalDrawDropArea(position);
-                GUILayout.Space(4);
-                InternalDrawSetting();
+                InternalDrawSettingTab(position);
             }
             else
             {
                 InternalDrawPickupArea(position);
             }
+        }
+
+        private static void InternalDrawSettingTab(Rect position)
+        {
+            GUILayout.BeginVertical();
+            LevelSystemEditorSetting.Instance.SettingTabScrollPosition =
+                GUILayout.BeginScrollView(LevelSystemEditorSetting.Instance.SettingTabScrollPosition);
+            InternalDrawDropArea(position);
+            GUILayout.Space(4);
+            InternalDrawSetting();
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
         }
 
         private static void InternalDrawDropArea(Rect position)
@@ -281,10 +291,11 @@ namespace VirtueSky.ControlPanel.Editor
                 #region horizontal
 
                 EditorGUILayout.BeginHorizontal();
-                var whiteArea = GUILayoutUtility.GetRect(0.0f, 50f, GUILayout.ExpandWidth(true));
-                var blackArea = GUILayoutUtility.GetRect(0.0f, 50f, GUILayout.ExpandWidth(true));
+                float widthArea = (float)(position.width - ConstantControlPanel.POSITION_X_START_CONTENT) / 2 - 5;
+                var whiteArea = GUILayoutUtility.GetRect(widthArea, 50f, GUILayout.ExpandWidth(true));
+                var blackArea = GUILayoutUtility.GetRect(widthArea, 50f, GUILayout.ExpandWidth(true));
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (whiteArea.width == 1f) width = (position.width - ConstantControlPanel.POSITION_X_START_CONTENT) / 2;
+                if (whiteArea.width == 1f) width = widthArea;
                 else width = whiteArea.width;
                 GUI.backgroundColor = new Color(0f, 0.83f, 1f);
                 GUI.Box(whiteArea, "[WHITE LIST]",
@@ -725,7 +736,7 @@ namespace VirtueSky.ControlPanel.Editor
                     }
                     else
                     {
-                        height -= 342;
+                        // height -= 342;
                     }
                 }
                 else
@@ -764,7 +775,6 @@ namespace VirtueSky.ControlPanel.Editor
                 }
 
                 var h = position.height + height;
-
                 LevelSystemEditorSetting.Instance.PickObjectScrollPosition =
                     GUILayout.BeginScrollView(LevelSystemEditorSetting.Instance.PickObjectScrollPosition,
                         GUILayout.Height(h));
