@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
-using VirtueSky.UtilsEditor;
 using VirtueSky.Utils;
 
 namespace VirtueSky.LevelEditor
@@ -17,7 +14,8 @@ namespace VirtueSky.LevelEditor
         public readonly string[] optionsSpawn = { "Default", "Index", "Custom" };
         public readonly string[] optionsMode = { "Renderer", "Ignore" };
 
-        public Vector2 PickObjectScrollPosition { get; set; }
+        public Vector2 SettingTabScrollPosition { get; set; } = Vector2.zero;
+        public Vector2 PickObjectScrollPosition { get; set; } = Vector2.zero;
         public Vector2 WhitelistScrollPosition { get; set; }
         public Vector2 BlacklistScrollPosition { get; set; }
         public PickObject CurrentPickObject { get; set; }

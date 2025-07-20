@@ -22,14 +22,19 @@ namespace VirtueSky.UtilsEditor
             result = Vector2.zero;
 
             var cam = Camera.current;
-            var mp = Event.current.mousePosition;
-            mp.y = cam.pixelHeight - mp.y;
-            var ray = cam.ScreenPointToRay(mp);
+            if (cam == null) return false;
+
+            var guiMouse = Event.current.mousePosition;
+            var pixelMouse = guiMouse * EditorGUIUtility.pixelsPerPoint;
+            pixelMouse.y = cam.pixelHeight - pixelMouse.y; // không dùng Screen.height!
+
+            var ray = cam.ScreenPointToRay(pixelMouse);
             if (ray.direction != Vector3.forward) return false;
 
             result = ray.origin;
             return true;
         }
+
 
         /// <summary>
         /// Render an object on sceneView using sprite renderers
@@ -132,7 +137,8 @@ namespace VirtueSky.UtilsEditor
 
                         var rendererBounds = renderer.bounds;
 
-                        rendererBounds.SetMinMax(root.transform.InverseTransformPoint(rendererBounds.min), root.transform.InverseTransformPoint(rendererBounds.max));
+                        rendererBounds.SetMinMax(root.transform.InverseTransformPoint(rendererBounds.min),
+                            root.transform.InverseTransformPoint(rendererBounds.max));
 
                         if (first)
                         {
@@ -164,7 +170,8 @@ namespace VirtueSky.UtilsEditor
 
                         var meshBounds = mesh.bounds;
 
-                        meshBounds.SetMinMax(root.transform.InverseTransformPoint(meshFilter.transform.TransformPoint(meshBounds.min)),
+                        meshBounds.SetMinMax(
+                            root.transform.InverseTransformPoint(meshFilter.transform.TransformPoint(meshBounds.min)),
                             root.transform.InverseTransformPoint(meshFilter.transform.TransformPoint(meshBounds.max)));
 
                         if (first)
@@ -226,7 +233,8 @@ namespace VirtueSky.UtilsEditor
 
                         var colliderBounds = collider.bounds;
 
-                        colliderBounds.SetMinMax(root.transform.InverseTransformPoint(colliderBounds.min), root.transform.InverseTransformPoint(colliderBounds.max));
+                        colliderBounds.SetMinMax(root.transform.InverseTransformPoint(colliderBounds.min),
+                            root.transform.InverseTransformPoint(colliderBounds.max));
 
                         if (first)
                         {
@@ -293,7 +301,8 @@ namespace VirtueSky.UtilsEditor
 
                         var meshBounds = mesh.bounds;
 
-                        meshBounds.SetMinMax(root.transform.TransformPoint(meshBounds.min), root.transform.TransformPoint(meshBounds.max));
+                        meshBounds.SetMinMax(root.transform.TransformPoint(meshBounds.min),
+                            root.transform.TransformPoint(meshBounds.max));
 
                         if (first)
                         {
@@ -454,7 +463,9 @@ namespace VirtueSky.UtilsEditor
         {
             if (position == default)
             {
-                EditorGUILayout.HelpBox($"{type} is not marked as Serializable," + "\n Add [System.Serializable] attribute.", MessageType.Error);
+                EditorGUILayout.HelpBox(
+                    $"{type} is not marked as Serializable," + "\n Add [System.Serializable] attribute.",
+                    MessageType.Error);
             }
             else
             {
