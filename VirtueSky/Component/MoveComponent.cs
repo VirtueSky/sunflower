@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using VirtueSky.Core;
 using VirtueSky.Inspector;
 
@@ -17,6 +18,7 @@ namespace VirtueSky.Component
         private bool _reverse; // Flag to indicate whether the object should move in reverse
         private int _currentPoint; // The current point the object is moving towards
         private bool _isMoving = true; // Flag to indicate whether the object is currently moving
+        public UnityEvent<int> onPointReached; // Unity event to notify when a point is reached
 
         void Start()
         {
@@ -40,6 +42,7 @@ namespace VirtueSky.Component
                     if (movingObject.transform.position == points[_currentPoint].position)
                     {
                         // When the object reaches the point, move on to the next one
+                        onPointReached?.Invoke(_currentPoint);
                         if (!_reverse)
                         {
                             _currentPoint++;
@@ -73,18 +76,17 @@ namespace VirtueSky.Component
             _isMoving = true;
         }
 
-        // [Button]
-        // public void ReverseMoving()
-        // {
-        //     _reverse = !_reverse;
-        //     if (_currentPoint == 0)
-        //     {
-        //         _currentPoint = points.Count - 1;
-        //     }
-        //     else if (_currentPoint == points.Count - 1)
-        //     {
-        //         _currentPoint = 0;
-        //     }
-        // }
+        public void ReverseMoving()
+        {
+            _reverse = !_reverse;
+            if (_currentPoint == 0)
+            {
+                _currentPoint = points.Count - 1;
+            }
+            else if (_currentPoint == points.Count - 1)
+            {
+                _currentPoint = 0;
+            }
+        }
     }
 }
