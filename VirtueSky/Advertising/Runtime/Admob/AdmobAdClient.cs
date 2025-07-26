@@ -64,7 +64,7 @@ namespace VirtueSky.Ads
         {
             if (state == GoogleMobileAds.Common.AppState.Foreground && adSetting.AdmobAppOpenVariable.autoShow)
             {
-                ShowAppOpen();
+                if (adSetting.UseAdmob) ShowAppOpen();
             }
         }
 #endif

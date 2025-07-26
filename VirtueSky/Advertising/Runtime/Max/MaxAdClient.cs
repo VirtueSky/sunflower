@@ -33,7 +33,7 @@ namespace VirtueSky.Ads
         {
             if (!pauseStatus && adSetting.MaxAppOpenVariable.autoShow)
             {
-                ShowAppOpen();
+                if (adSetting.UseMax) ShowAppOpen();
             }
         }
 #endif
