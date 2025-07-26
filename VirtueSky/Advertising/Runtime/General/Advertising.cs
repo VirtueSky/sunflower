@@ -144,7 +144,7 @@ namespace VirtueSky.Ads
 
         private void OnChangePreventDisplayOpenAd(bool state)
         {
-            AdStatic.isShowingAd = state;
+            AdStatic.IsShowingAd = state;
         }
 
         IEnumerator IeAutoLoadAll(float delay = 0)

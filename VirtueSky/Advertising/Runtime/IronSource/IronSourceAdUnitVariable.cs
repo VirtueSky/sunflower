@@ -7,7 +7,7 @@ namespace VirtueSky.Ads
         public override AdUnitVariable Show()
         {
             ResetChainCallback();
-            if (!Application.isMobilePlatform || AdStatic.IsRemoveAd) return this;
+            if (!Application.isMobilePlatform || AdStatic.IsRemoveAd || !IsReady()) return this;
             ShowImpl();
             return this;
         }

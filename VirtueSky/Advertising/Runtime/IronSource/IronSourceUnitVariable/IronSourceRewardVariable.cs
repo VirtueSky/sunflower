@@ -91,14 +91,14 @@ namespace VirtueSky.Ads
 
         void RewardedVideoOnAdOpenedEvent(IronSourceAdInfo adInfo)
         {
-            AdStatic.isShowingAd = true;
+            AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
 
         void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
         {
-            AdStatic.isShowingAd = false;
+            AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (!IsReady()) IronSource.Agent.loadRewardedVideo();

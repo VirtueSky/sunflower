@@ -42,15 +42,7 @@ namespace VirtueSky.Ads
             return false;
 #endif
         }
-
-        public override AdUnitVariable Show()
-        {
-            ResetChainCallback();
-            if (!Application.isMobilePlatform || AdStatic.IsRemoveAd || !IsReady()) return this;
-            ShowImpl();
-            return this;
-        }
-
+        
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
@@ -85,7 +77,7 @@ namespace VirtueSky.Ads
 
         void InterstitialOnAdOpenedEvent(IronSourceAdInfo adInfo)
         {
-            AdStatic.isShowingAd = true;
+            AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -108,7 +100,7 @@ namespace VirtueSky.Ads
 
         void InterstitialOnAdClosedEvent(IronSourceAdInfo adInfo)
         {
-            AdStatic.isShowingAd = false;
+            AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref completedCallback);
             OnClosedAdEvent?.Invoke();
             Load();
