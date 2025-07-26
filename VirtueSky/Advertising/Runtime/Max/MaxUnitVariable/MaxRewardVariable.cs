@@ -111,7 +111,7 @@ namespace VirtueSky.Ads
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
-            AdStatic.isShowingAd = false;
+            AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedAd(Id);
@@ -127,7 +127,7 @@ namespace VirtueSky.Ads
 
         private void OnAdDisplayed(string unit, MaxSdkBase.AdInfo info)
         {
-            AdStatic.isShowingAd = true;
+            AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }

@@ -50,15 +50,6 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        public override AdUnitVariable Show()
-        {
-            ResetChainCallback();
-            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd ||
-                !IsReady()) return this;
-            ShowImpl();
-            return this;
-        }
-
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
@@ -108,7 +99,7 @@ namespace VirtueSky.Ads
 
         private void OnAdOpening()
         {
-            AdStatic.isShowingAd = true;
+            AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -121,7 +112,7 @@ namespace VirtueSky.Ads
 
         private void OnAdClosed()
         {
-            AdStatic.isShowingAd = false;
+            AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref completedCallback);
             OnClosedAdEvent?.Invoke();
             Destroy();

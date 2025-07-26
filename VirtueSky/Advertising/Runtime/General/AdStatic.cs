@@ -12,8 +12,23 @@ namespace VirtueSky.Ads
             set => GameData.Set($"{Application.identifier}_removeads", value);
         }
 
-        internal static bool isShowingAd;
-        public static bool IsShowingAd => isShowingAd;
+        public static DateTime AdClosingTime { get; internal set; }
+
+        private static bool isShowingAd;
+
+        public static bool IsShowingAd
+        {
+            get => isShowingAd;
+            internal set
+            {
+                isShowingAd = value;
+                if (!value)
+                {
+                    AdClosingTime = DateTime.Now;
+                }
+            }
+        }
+
         internal static Action waitAppOpenDisplayedAction;
         internal static Action waitAppOpenClosedAction;
 

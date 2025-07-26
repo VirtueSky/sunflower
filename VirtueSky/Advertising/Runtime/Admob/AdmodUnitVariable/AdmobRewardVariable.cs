@@ -119,7 +119,7 @@ namespace VirtueSky.Ads
 
         private void OnAdOpening()
         {
-            AdStatic.isShowingAd = true;
+            AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -132,7 +132,7 @@ namespace VirtueSky.Ads
 
         private void OnAdClosed()
         {
-            AdStatic.isShowingAd = false;
+            AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (IsEarnRewarded)
