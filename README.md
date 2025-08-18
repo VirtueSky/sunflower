@@ -32,7 +32,7 @@
 "com.unity.nuget.newtonsoft-json": "3.2.1",
 "com.unity.serialization": "3.1.1",
 "com.unity.collections": "2.1.4",
-"com.unity.services.core": "1.14.0",
+"com.unity.textmeshpro": "3.0.8",
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
 ```
 ## Includes modules
