@@ -52,37 +52,37 @@
         public const string PackageNameFirebaseApp = "com.google.firebase.app";
 
         public const string MaxVersionFirebaseApp =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.app.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.app.git#13.1.0";
 
         public const string PackageNameFirebaseRemoteConfig = "com.google.firebase.remote-config";
 
         public const string MaxVersionFirebaseRemoteConfig =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.remote-config.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.remote-config.git#13.1.0";
 
         public const string PackageNameFirebaseAnalytics = "com.google.firebase.analytics";
 
         public const string MaxVersionFirebaseAnalytics =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.analytics.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.analytics.git#13.1.0";
 
         public const string PackageNameFirebaseDatabase = "com.google.firebase.database";
 
         public const string MaxVersionFirebaseDatabase =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.database.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.database.git#13.1.0";
 
         public const string PackageNameFirebaseAuth = "com.google.firebase.auth";
 
         public const string MaxVersionFirebaseAuth =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.auth.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.auth.git#13.1.0";
 
         public const string PackageNameFirebaseCrashlytics = "com.google.firebase.crashlytics";
 
         public const string MaxVersionFirebaseCrashlytics =
-            "https://github.com/RageAgainstThePixel/com.google.firebase.crashlytics.git#13.0.0";
+            "https://github.com/RageAgainstThePixel/com.google.firebase.crashlytics.git#13.1.0";
 
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.1";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.2";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
