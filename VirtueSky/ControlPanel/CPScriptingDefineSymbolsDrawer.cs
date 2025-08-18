@@ -39,6 +39,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_BAKINGSHEET);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_UNITY_SERVICES);
             EditorGUILayout.EndScrollView();
+            GUILayout.Space(10);
             GUILayout.EndVertical();
         }
     }
