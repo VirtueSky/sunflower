@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.4.4";
+        public const string VersionSunflower = "3.4.5";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "4.13.0";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
@@ -15,7 +15,7 @@
         public const string MaxVersionAddressables = "1.21.21";
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
-        public const string MaxVersionLevelPlay = "8.10.0";
+        public const string MaxVersionLevelPlay = "8.10.1";
 
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
