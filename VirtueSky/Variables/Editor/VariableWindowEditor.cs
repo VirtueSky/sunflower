@@ -50,6 +50,12 @@ namespace VirtueSky.Variables
             var so = CreateAsset.CreateScriptableAssetsOnlyName<Vector3Variable>(pathVariable, "so_vector3_variable");
         }
 
+        [MenuItem(menuVariable + "Vector2 Variable", priority = 201)]
+        public static void CreateVariableVector2()
+        {
+            var so = CreateAsset.CreateScriptableAssetsOnlyName<Vector2Variable>(pathVariable, "so_vector2_variable");
+        }
+
         [MenuItem(menuVariable + "String Variable", priority = 201)]
         public static void CreateVariableString()
         {

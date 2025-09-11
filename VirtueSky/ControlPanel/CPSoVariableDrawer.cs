@@ -57,6 +57,11 @@ namespace VirtueSky.ControlPanel.Editor
                 VariableWindowEditor.CreateVariableVector3();
             }
 
+            if (GUILayout.Button("Create Vector2 Variable"))
+            {
+                VariableWindowEditor.CreateVariableVector2();
+            }
+
             GUILayout.EndVertical();
         }
     }

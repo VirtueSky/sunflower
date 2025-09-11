@@ -72,6 +72,11 @@ namespace VirtueSky.ControlPanel.Editor
                 EventWindowEditor.CreateEventVector3();
             }
 
+            if (GUILayout.Button("Create Vector2 Event"))
+            {
+                EventWindowEditor.CreateEventVector2();
+            }
+
             if (GUILayout.Button("Create GameObject Event"))
             {
                 EventWindowEditor.CreateEventGameObject();
