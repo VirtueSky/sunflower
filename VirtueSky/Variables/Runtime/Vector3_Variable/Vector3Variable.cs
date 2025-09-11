@@ -7,5 +7,9 @@ namespace VirtueSky.Variables
     [EditorIcon("scriptable_variable")]
     public class Vector3Variable : BaseVariable<Vector3>
     {
+        public Vector2 ToVector2()
+        {
+            return new Vector2(Value.x, Value.y);
+        }
     }
 }

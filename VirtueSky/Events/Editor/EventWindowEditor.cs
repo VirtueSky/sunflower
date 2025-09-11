@@ -67,6 +67,12 @@ namespace VirtueSky.Events
             CreateAsset.CreateScriptableAssetsOnlyName<Vector3Event>(pathEvent, "so_vector3_event");
         }
 
+        [MenuItem(menuEvent + "Vector2 Event")]
+        public static void CreateEventVector2()
+        {
+            CreateAsset.CreateScriptableAssetsOnlyName<Vector2Event>(pathEvent, "so_vector2_event");
+        }
+
         [MenuItem(menuEvent + "GameObject Event")]
         public static void CreateEventGameObject()
         {
