@@ -1,8 +1,9 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
+using VirtueSky.Audio;
 using VirtueSky.UtilsEditor;
 
-namespace VirtueSky.Audio
+namespace VirtueSky.AudioEditor
 {
     public class AudioWindowEditor : EditorWindow
     {
