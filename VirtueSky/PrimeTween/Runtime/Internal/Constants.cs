@@ -1,6 +1,5 @@
-using System;
 using JetBrains.Annotations;
-using UnityEngine;
+using AnimationCurve = UnityEngine.AnimationCurve;
 using T = PrimeTween.TweenSettings<float>;
 
 namespace PrimeTween {
@@ -50,5 +49,6 @@ namespace PrimeTween {
         internal const string nestSequenceTwiceError = "Sequence can be nested in other sequence only once.";
         internal const string nestTweenTwiceError = "A tween can be added to a sequence only once and can only belong to one sequence.";
         internal const string addDeadTweenToSequenceError = "It's not allowed to add 'dead' tweens to a sequence.";
+        internal const string customAnimationCurveInavalidError = "It's not allowed to add 'dead' tweens to a sequence.";
     }
 }

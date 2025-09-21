@@ -57,30 +57,33 @@ namespace VirtueSky.Misc
 
 
         public static SkeletonGraphic Play(this SkeletonGraphic skeletonGraphic, string animationName,
-            bool loop = false, int trackIndex = 0)
+            bool loop = false, int trackIndex = 0, float timeScale = 1f)
         {
             skeletonGraphic.Clear();
             skeletonGraphic.startingAnimation = animationName;
             skeletonGraphic.startingLoop = loop;
-            skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            var trackEntry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            trackEntry.TimeScale = timeScale;
             skeletonGraphic.LateUpdate();
             skeletonGraphic.Initialize(true);
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic PlayOnly(this SkeletonGraphic skeletonGraphic, string animationName,
-            bool loop = false, int trackIndex = 0)
+            bool loop = false, int trackIndex = 0, float timeScale = 1f)
         {
             skeletonGraphic.startingAnimation = animationName;
-            skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            var trackEntry = skeletonGraphic.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            trackEntry.TimeScale = timeScale;
             return skeletonGraphic;
         }
 
         public static SkeletonGraphic AddAnimation(this SkeletonGraphic skeletonGraphic, int trackIndex,
-            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f)
+            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f, float timeScale = 1f)
         {
             var track = skeletonGraphic.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
             track.MixDuration = mixDuration;
+            track.TimeScale = timeScale;
             return skeletonGraphic;
         }
 
@@ -168,4 +171,5 @@ namespace VirtueSky.Misc
         }
     }
 }
+
 #endif

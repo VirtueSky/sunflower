@@ -2,10 +2,15 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMethodReturnValue.Global
 using System;
-using JetBrains.Annotations;
-using UnityEngine;
-using Random = UnityEngine.Random;
+using Random = System.Random;
 using SuppressMessage = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
+using AnimationCurve = UnityEngine.AnimationCurve;
+using Transform = UnityEngine.Transform;
+using Camera = UnityEngine.Camera;
+using Vector3 = UnityEngine.Vector3;
+using Quaternion = UnityEngine.Quaternion;
+using NotNull = JetBrains.Annotations.NotNullAttribute;
+using Debug = UnityEngine.Debug;
 
 namespace PrimeTween {
     public partial struct Tween {
@@ -78,7 +83,7 @@ namespace PrimeTween {
                 var _onValueChange = state.customOnValueChange as Action<ReusableTween, Vector3>;
                 Assert.IsNotNull(_onValueChange);
                 var shakeVal = getShakeVal(state);
-                _onValueChange(state, shakeVal);
+                _onValueChange(state, ValueContainer.Create(shakeVal.x, shakeVal.y, shakeVal.z).Vector3Val);
             }, getter, true, tweenType);
             return PrimeTweenManager.Animate(tween);
         }
@@ -94,7 +99,11 @@ namespace PrimeTween {
                 var _onValueChange = _tween.customOnValueChange as Action<T, Vector3>;
                 Assert.IsNotNull(_onValueChange);
                 var _target = _tween.target as T;
-                var val = _tween.startValue.Vector3Val + getShakeVal(_tween);
+                var shakeVal = getShakeVal(_tween);
+                var val = ValueContainer.Create(
+                        _tween.startValue.x + shakeVal.x,
+                        _tween.startValue.y + shakeVal.y,
+                        _tween.startValue.z + shakeVal.z).Vector3Val;
                 try {
                     _onValueChange(_target, val);
                 } catch (Exception e) {
@@ -111,8 +120,13 @@ namespace PrimeTween {
             tween.shakeData.Setup(settings, tween);
         }
 
-        static Vector3 getShakeVal([NotNull] ReusableTween tween) {
-            return tween.shakeData.getNextVal(tween) * calcFadeInOutFactor();
+        static Vector3f getShakeVal([NotNull] ReusableTween tween) {
+            var res = tween.shakeData.getNextVal(tween);
+            float fadeInOutFactor = calcFadeInOutFactor();
+            return new Vector3f(
+                res.x * fadeInOutFactor,
+                res.y * fadeInOutFactor,
+                res.z * fadeInOutFactor);
             float calcFadeInOutFactor() {
                 var elapsedTimeInterpolating = tween.easedInterpolationFactor * tween.settings.duration;
                 Assert.IsTrue(elapsedTimeInterpolating >= 0f);
@@ -144,15 +158,16 @@ namespace PrimeTween {
     [Serializable]
     #endif
     internal struct ShakeData {
+        static readonly Random random = new Random();
         float t;
-        Vector3 from, to;
+        Vector3f from, to;
         float symmetryFactor;
         int falloffEaseInt;
         AnimationCurve customStrengthOverTime;
         Ease easeBetweenShakes;
         const int disabledFalloff = -42;
         internal bool isAlive => frequency != 0f;
-        internal Vector3 strengthPerAxis { get; private set; }
+        internal Vector3f strengthPerAxis { get; private set; }
         internal float frequency { get; private set; }
         float prevInterpolationFactor;
         int prevCyclesDone;
@@ -162,10 +177,10 @@ namespace PrimeTween {
             symmetryFactor = Mathf.Clamp01(1 - settings.asymmetry);
             {
                 var _strength = settings.strength;
-                if (_strength == Vector3.zero) {
+                if (_strength == default) {
                     Debug.LogError("Shake's strength is (0, 0, 0).");
                 }
-                strengthPerAxis = _strength;
+                strengthPerAxis = new Vector3f(_strength.x, _strength.y, _strength.z);
             }
             {
                 var _frequency = settings.frequency;
@@ -211,11 +226,11 @@ namespace PrimeTween {
         internal void onCycleComplete(ReusableTween tween) {
             Assert.IsTrue(isAlive);
             resetAfterCycle();
-            tween.shakeSign = tween.isPunch || Random.value < 0.5f;
+            tween.shakeSign = tween.isPunch || random.NextDouble() < 0.5;
             to = generateShakePoint(tween);
         }
 
-        static int getMainAxisIndex(Vector3 strengthByAxis) {
+        static int getMainAxisIndex(Vector3f strengthByAxis) {
             int mainAxisIndex = -1;
             float maxStrength = float.NegativeInfinity;
             for (int i = 0; i < 3; i++) {
@@ -229,7 +244,7 @@ namespace PrimeTween {
             return mainAxisIndex;
         }
 
-        internal Vector3 getNextVal([NotNull] ReusableTween tween) {
+        internal Vector3f getNextVal([NotNull] ReusableTween tween) {
             var interpolationFactor = tween.easedInterpolationFactor;
             Assert.IsTrue(interpolationFactor <= 1);
 
@@ -265,16 +280,16 @@ namespace PrimeTween {
                 }
             }
 
-            Vector3 result = default;
+            Vector3f result = default;
             for (int i = 0; i < 3; i++) {
                 result[i] = Mathf.Lerp(from[i], to[i], StandardEasing.Evaluate(t, easeBetweenShakes)) * strengthOverTime;
             }
             return result;
         }
 
-        Vector3 generateShakePoint(ReusableTween tween) {
+        Vector3f generateShakePoint(ReusableTween tween) {
             var mainAxisIndex = getMainAxisIndex(strengthPerAxis);
-            Vector3 result = default;
+            Vector3f result = default;
             float signFloat = tween.shakeSign ? 1f : -1f;
             for (int i = 0; i < 3; i++) {
                 var strength = strengthPerAxis[i];
@@ -300,7 +315,7 @@ namespace PrimeTween {
         }
 
         static float calcMainAxisEndVal(float velocity, float strength, float symmetryFactor) {
-            var result = Mathf.Sign(velocity) * strength * Random.Range(0.6f, 1f); // doesn't matter if we're using strength or its abs because velocity alternates
+            float result = Mathf.Sign(velocity) * strength * RandomRange(0.6f, 1f); // doesn't matter if we're using strength or its abs because velocity alternates
             return clampBySymmetryFactor(result, strength, symmetryFactor);
         }
 
@@ -313,9 +328,14 @@ namespace PrimeTween {
 
         static float calcNonMainAxisEndVal(float strength, float symmetryFactor) {
             if (strength > 0) {
-                return Random.Range(-strength * symmetryFactor, strength);
+                return RandomRange(-strength * symmetryFactor, strength);
             }
-            return Random.Range(strength, -strength * symmetryFactor);
+            return RandomRange(strength, -strength * symmetryFactor);
+        }
+
+        static float RandomRange(float minInclusive, float max) {
+            double val = random.NextDouble();
+            return (float)(minInclusive + val * (max - minInclusive));
         }
 
         internal static bool TryTakeStartValueFromOtherShake([NotNull] ReusableTween newTween) {
@@ -369,7 +389,7 @@ namespace PrimeTween {
 
         void resetAfterCycle() {
             t = 0f;
-            from = Vector3.zero;
+            from = default;
         }
     }
 }

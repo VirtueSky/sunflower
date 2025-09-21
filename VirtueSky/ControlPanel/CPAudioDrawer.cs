@@ -1,17 +1,65 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using VirtueSky.Audio;
+using VirtueSky.AudioEditor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPAudioDrawer
     {
+        public enum AudioTab
+        {
+            Explore,
+            Settings
+        }
+
+        private static AudioTab audioTab = AudioTab.Explore;
+
         public static void OnDrawAudio(Rect position)
         {
             GUILayout.Space(10);
             GUILayout.BeginVertical();
             CPUtility.DrawHeaderIcon(StatePanelControl.Audio, "Audio");
             GUILayout.Space(10);
+            DrawTab();
+            GUILayout.Space(10);
+            CPUtility.GuiLine(2);
+            GUILayout.Space(10);
+            switch (audioTab)
+            {
+                case AudioTab.Explore:
+                    DrawExplore(position);
+                    break;
+                case AudioTab.Settings:
+                    DrawSetting(position);
+                    break;
+            }
+
+            GUILayout.EndVertical();
+        }
+
+        private static void DrawExplore(Rect position)
+        {
+            CPUtility.DrawLineLastRectX(3, GUILayoutUtility.GetLastRect().y, position.width,
+                (position.width - ConstantControlPanel.POSITION_X_START_CONTENT) / 2 - 5);
+            GUILayout.BeginHorizontal();
+            DrawLeftExplore(position);
+            GUILayout.Space(20);
+            DrawRightExplore(position);
+            GUILayout.EndHorizontal();
+        }
+
+        private static void DrawLeftExplore(Rect position)
+        {
+            GUILayout.Label($"Coming soon");
+        }
+
+        private static void DrawRightExplore(Rect position)
+        {
+            GUILayout.Label($"Coming soon");
+        }
+
+        private static void DrawSetting(Rect position)
+        {
             if (GUILayout.Button("Create Sound Data"))
             {
                 AudioWindowEditor.CreateSoundData();
@@ -91,8 +139,26 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 AudioWindowEditor.CreateSfxVolume();
             }
+        }
 
-            GUILayout.EndVertical();
+        static void DrawTab()
+        {
+            EditorGUILayout.BeginHorizontal();
+            bool clickSetting = GUILayout.Toggle(audioTab == AudioTab.Explore, "Explore",
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(25));
+            if (clickSetting && audioTab != AudioTab.Explore)
+            {
+                audioTab = AudioTab.Explore;
+            }
+
+            bool clickPickup = GUILayout.Toggle(audioTab == AudioTab.Settings, "Setting",
+                GUI.skin.button, GUILayout.ExpandWidth(true), GUILayout.Height(25));
+            if (clickPickup && audioTab != AudioTab.Settings)
+            {
+                audioTab = AudioTab.Settings;
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
     }
 }

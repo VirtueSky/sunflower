@@ -375,7 +375,6 @@ namespace PrimeTween {
 
         public Tween SetEase([NotNull] AnimationCurve animCurve) {
             Assert.IsTrue(isAlive);
-            Assert.IsNotNull(animCurve);
             tween.settings.SetEasing(Easing.Curve(animCurve));
             return this;
         }

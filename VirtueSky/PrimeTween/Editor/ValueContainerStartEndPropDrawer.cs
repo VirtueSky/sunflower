@@ -2,6 +2,7 @@ using System;
 using PrimeTween;
 using UnityEditor;
 using UnityEngine;
+using Mathf = UnityEngine.Mathf;
 
 [CustomPropertyDrawer(typeof(ValueContainerStartEnd))]
 public class ValueContainerStartEndPropDrawer : PropertyDrawer {

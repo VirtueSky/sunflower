@@ -5,7 +5,8 @@ using System;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
+using SerializeField = UnityEngine.SerializeField;
+using HideInInspector = UnityEngine.HideInInspector;
 
 namespace PrimeTween {
     [Serializable]
@@ -498,7 +499,9 @@ namespace PrimeTween {
                 cacheDiff();
             }
             if (propertyType == PropType.Quaternion) {
-                prevVal.QuaternionVal = Quaternion.identity;
+                // Quaternion.identity
+                prevVal.x = prevVal.y = prevVal.z = 0f;
+                prevVal.w = 1f;
             } else {
                 prevVal.Reset();
             }
@@ -703,8 +706,8 @@ namespace PrimeTween {
             Assert.AreNotEqual(PropType.None, propertyType);
             switch (propertyType) {
                 case PropType.Quaternion:
-                    startValue.QuaternionVal.Normalize();
-                    endValue.QuaternionVal.Normalize();
+                    startValue.QuaternionNormalize();
+                    endValue.QuaternionNormalize();
                     break;
                 case PropType.Double:
                     diff.DoubleVal = endValue.DoubleVal - startValue.DoubleVal;

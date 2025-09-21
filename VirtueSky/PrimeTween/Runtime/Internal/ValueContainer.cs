@@ -1,6 +1,14 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using UnityEngine;
+using Tooltip = UnityEngine.TooltipAttribute;
+using SerializeField = UnityEngine.SerializeField;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
+using Vector4 = UnityEngine.Vector4;
+using Quaternion = UnityEngine.Quaternion;
+using Color = UnityEngine.Color;
+using Rect = UnityEngine.Rect;
 
 namespace PrimeTween {
     [Serializable]
@@ -26,6 +34,16 @@ namespace PrimeTween {
         [FieldOffset(0), NonSerialized] internal Quaternion QuaternionVal;
         [FieldOffset(0), NonSerialized] internal Rect RectVal;
         [FieldOffset(0), NonSerialized] internal double DoubleVal;
+        [FieldOffset(0), NonSerialized] internal Vector3f Vector3fVal;
+
+        internal static ValueContainer Create(float x, float y = 0f, float z = 0f, float w = 0f) {
+            return new ValueContainer {
+                x = x,
+                y = y,
+                z = z,
+                w = w
+            };
+        }
 
         internal void CopyFrom(ref float val) {
             x = val;
@@ -34,47 +52,22 @@ namespace PrimeTween {
             w = 0f;
         }
 
-        internal void CopyFrom(ref Color val) {
-            x = val.r;
-            y = val.g;
-            z = val.b;
-            w = val.a;
-        }
+        internal void CopyFrom(ref Color val) => ColorVal = val;
 
         internal void CopyFrom(ref Vector2 val) {
-            x = val.x;
-            y = val.y;
+            Vector2Val = val;
             z = 0f;
             w = 0f;
         }
 
         internal void CopyFrom(ref Vector3 val) {
-            x = val.x;
-            y = val.y;
-            z = val.z;
+            Vector3Val = val;
             w = 0f;
         }
 
-        internal void CopyFrom(ref Vector4 val) {
-            x = val.x;
-            y = val.y;
-            z = val.z;
-            w = val.w;
-        }
-
-        internal void CopyFrom(ref Rect val) {
-            x = val.x;
-            y = val.y;
-            z = val.width;
-            w = val.height;
-        }
-
-        internal void CopyFrom(ref Quaternion val) {
-            x = val.x;
-            y = val.y;
-            z = val.z;
-            w = val.w;
-        }
+        internal void CopyFrom(ref Vector4 val) => Vector4Val = val;
+        internal void CopyFrom(ref Rect val) => RectVal = val;
+        internal void CopyFrom(ref Quaternion val) => QuaternionVal = val;
 
         internal void CopyFrom(ref double val) {
             DoubleVal = val;
@@ -82,13 +75,60 @@ namespace PrimeTween {
             w = 0f;
         }
 
-        internal void Reset() {
-            x = y = z = w = 0f;
-        }
+        internal void Reset() => x = y = z = w = 0f;
 
         internal float this[int i] {
-            get => Vector4Val[i];
-            set => Vector4Val[i] = value;
+            get {
+                switch (i) {
+                    case 0: return x;
+                    case 1: return y;
+                    case 2: return z;
+                    case 3: return w;
+                    default: throw new IndexOutOfRangeException();
+                }
+            }
+            set {
+                switch (i) {
+                    case 0: x = value; break;
+                    case 1: y = value; break;
+                    case 2: z = value; break;
+                    case 3: w = value; break;
+                    default: throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static float QuaternionAngle(ValueContainer a, ValueContainer b) {
+            float num = Mathf.Min(Mathf.Abs(QuaternionDot(a, b)), 1f);
+            return QuaternionIsEqualUsingDot(num) ? 0.0f : (float)(Mathf.Acos(num) * 2.0 * 57.295780181884766);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool QuaternionIsEqualUsingDot(float dot) => dot > 0.9999989867210388;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static float QuaternionDot(ValueContainer a, ValueContainer b) {
+            return (float)((double)a.x * (double)b.x + (double)a.y * (double)b.y + (double)a.z * (double)b.z + (double)a.w * (double)b.w);
+        }
+
+        internal void QuaternionNormalize() {
+            if (Mathf.Approximately(w, 0f)) {
+                w = 1f;
+            }
+            float magnitudeSquared = Vector4Dot(this, this);
+            float invNorm = 1.0f / Mathf.Sqrt(magnitudeSquared);
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal float Vector4Magnitude() => Mathf.Sqrt(Vector4Dot(this, this));
+
+        static float Vector4Dot(ValueContainer a, ValueContainer b) {
+            return (float) ((double) a.x * (double) b.x + (double) a.y * (double) b.y + (double) a.z * (double) b.z + (double) a.w * (double) b.w);
         }
 
         public override string ToString() => Vector4Val.ToString();

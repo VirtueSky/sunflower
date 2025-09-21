@@ -60,11 +60,11 @@ namespace VirtueSky.Inspector.Elements
             }
             else if (_property.Value != null)
             {
-                _reorderableListGui.list = (IList) _property.Value;
+                _reorderableListGui.list = (IList)_property.Value;
             }
             else if (_reorderableListGui.list == null)
             {
-                _reorderableListGui.list = (IList) (_property.FieldType.IsArray
+                _reorderableListGui.list = (IList)(_property.FieldType.IsArray
                     ? Array.CreateInstance(_property.ArrayElementType, 0)
                     : Activator.CreateInstance(_property.FieldType));
             }
@@ -142,7 +142,7 @@ namespace VirtueSky.Inspector.Elements
 
             _property.SetValues(targetIndex =>
             {
-                var value = (IList) _property.GetValue(targetIndex);
+                var value = (IList)_property.GetValue(targetIndex);
 
                 if (_property.FieldType.IsArray)
                 {
@@ -160,7 +160,7 @@ namespace VirtueSky.Inspector.Elements
                 {
                     if (value == null)
                     {
-                        value = (IList) Activator.CreateInstance(_property.FieldType);
+                        value = (IList)Activator.CreateInstance(_property.FieldType);
                     }
 
                     var newElement = addedReferenceValue != null
@@ -188,7 +188,7 @@ namespace VirtueSky.Inspector.Elements
 
             _property.SetValues(targetIndex =>
             {
-                var value = (IList) _property.GetValue(targetIndex);
+                var value = (IList)_property.GetValue(targetIndex);
 
                 if (_property.FieldType.IsArray)
                 {
@@ -218,7 +218,7 @@ namespace VirtueSky.Inspector.Elements
 
             _property.SetValues(targetIndex =>
             {
-                var value = (IList) _property.GetValue(targetIndex);
+                var value = (IList)_property.GetValue(targetIndex);
 
                 if (value == mainValue)
                 {
@@ -243,6 +243,56 @@ namespace VirtueSky.Inspector.Elements
                 }
 
                 value[newIndex] = element;
+
+                return value;
+            });
+        }
+
+        private void SetArraySizeCallback(int arraySize)
+        {
+            if (arraySize < 0)
+            {
+                return;
+            }
+
+            if (_property.TryGetSerializedProperty(out var serializedProperty))
+            {
+                serializedProperty.arraySize = arraySize;
+                _property.NotifyValueChanged();
+                return;
+            }
+
+            var template = CloneValue(_property);
+
+            _property.SetValues(targetIndex =>
+            {
+                var value = (IList)_property.GetValue(targetIndex);
+
+                if (_property.FieldType.IsArray)
+                {
+                    var array = Array.CreateInstance(_property.ArrayElementType, arraySize);
+                    Array.Copy(template, array, Math.Min(arraySize, template.Length));
+
+                    value = array;
+                }
+                else
+                {
+                    if (value == null)
+                    {
+                        value = (IList)Activator.CreateInstance(_property.FieldType);
+                    }
+
+                    while (value.Count > arraySize)
+                    {
+                        value.RemoveAt(value.Count - 1);
+                    }
+
+                    while (value.Count < arraySize)
+                    {
+                        var newElement = CreateDefaultElementValue(_property);
+                        value.Add(newElement);
+                    }
+                }
 
                 return value;
             });
@@ -293,10 +343,13 @@ namespace VirtueSky.Inspector.Elements
 
         private void DrawHeaderCallback(Rect rect)
         {
-            var labelRect = new Rect(rect);
+            var labelRect = new Rect(rect)
+            {
+                xMax = rect.xMax - 50,
+            };
             var arraySizeRect = new Rect(rect)
             {
-                xMin = rect.xMax - 100,
+                xMin = labelRect.xMax,
             };
 
             if (_alwaysExpanded)
@@ -308,8 +361,16 @@ namespace VirtueSky.Inspector.Elements
                 TriEditorGUI.Foldout(labelRect, _property);
             }
 
-            var label = _reorderableListGui.count == 0 ? "Empty" : $"{_reorderableListGui.count} items";
-            GUI.Label(arraySizeRect, label, Styles.ItemsCount);
+            EditorGUI.BeginChangeCheck();
+
+            var newArraySize = EditorGUI.DelayedIntField(arraySizeRect, _reorderableListGui.count);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                SetArraySizeCallback(newArraySize);
+                GUIUtility.ExitGUI();
+                return;
+            }
 
             if (Event.current.type == EventType.DragUpdated && rect.Contains(Event.current.mousePosition))
             {
@@ -373,7 +434,7 @@ namespace VirtueSky.Inspector.Elements
 
         private static Array CloneValue(TriProperty property)
         {
-            var list = (IList) property.Value;
+            var list = (IList)property.Value;
             var template = Array.CreateInstance(property.ArrayElementType, list?.Count ?? 0);
             list?.CopyTo(template, 0);
             return template;
@@ -410,7 +471,7 @@ namespace VirtueSky.Inspector.Elements
         private class ListPropertyOverrideContext : TriPropertyOverrideContext
         {
             public static readonly ListPropertyOverrideContext Instance = new ListPropertyOverrideContext();
-            
+
             private readonly GUIContent _noneLabel = GUIContent.none;
 
             public override bool TryGetDisplayName(TriProperty property, out GUIContent displayName)
@@ -428,7 +489,7 @@ namespace VirtueSky.Inspector.Elements
                 return false;
             }
         }
- 
+
         private static class Styles
         {
             public static readonly GUIStyle ItemsCount;

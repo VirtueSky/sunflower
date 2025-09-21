@@ -1,5 +1,8 @@
-using JetBrains.Annotations;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
+using AnimationCurve = UnityEngine.AnimationCurve;
+using CanBeNull = JetBrains.Annotations.CanBeNullAttribute;
+using NotNull = JetBrains.Annotations.NotNullAttribute;
+using PublicAPI = JetBrains.Annotations.PublicAPIAttribute;
 
 namespace PrimeTween {
     /// <summary>
@@ -26,7 +29,7 @@ namespace PrimeTween {
         Easing(Ease ease, [CanBeNull] AnimationCurve curve) {
             if (ease == Ease.Custom) {
                 if (curve == null || !TweenSettings.ValidateCustomCurveKeyframes(curve)) {
-                    Debug.LogError("Ease is Ease.Custom, but AnimationCurve is not configured correctly. Using Ease.Default instead.");
+                    Debug.LogError(Constants.customAnimationCurveInavalidError);
                     ease = Ease.Default;
                 }
             }
@@ -106,8 +109,8 @@ namespace PrimeTween {
             var strength = settings.parametricEaseStrength;
             if (parametricEase == ParametricEase.BounceExact) {
                 var fullAmplitude = tween.propType == PropType.Quaternion ?
-                    Quaternion.Angle(tween.startValue.QuaternionVal, tween.endValue.QuaternionVal) :
-                    tween.diff.Vector4Val.magnitude;
+                    ValueContainer.QuaternionAngle(tween.startValue, tween.endValue) :
+                    tween.diff.Vector4Magnitude();
                 // todo account for double
                 /*double calcFullAmplitude() {
                     switch (tween.propType) {

@@ -112,7 +112,8 @@ namespace VirtueSky.Audio
         private SoundCache PlaySfx(SoundData soundData)
         {
             var sfxComponent = soundComponentPrefab.Spawn(audioHolder);
-            sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop, soundData.volume * sfxVolume.Value);
+            sfxComponent.PlayAudioClip(soundData.GetAudioClip(), soundData.loop,
+                soundData.volume * sfxVolume.Value);
             if (!soundData.loop) sfxComponent.OnCompleted += OnFinishPlayingAudio;
             SoundCache soundCache = GetSoundCache(soundData);
             sfxComponent.Key = key;

@@ -9,7 +9,6 @@
 
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CompareOfFloatsByEqualityOperator
-using UnityEngine;
 
 namespace PrimeTween {
     internal static class StandardEasing {
@@ -152,7 +151,8 @@ namespace PrimeTween {
                 case Ease.Custom:
                 case Ease.Default:
                 default:
-                    throw new System.Exception($"Invalid ease type: {ease}.");
+                    UnityEngine.Debug.LogError($"Invalid ease type: {ease}.");
+                    return t;
             }
         }
     }
