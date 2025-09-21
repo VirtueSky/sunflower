@@ -50,12 +50,12 @@ namespace VirtueSky.ControlPanel.Editor
 
         private static void DrawLeftExplore(Rect position)
         {
-            GUILayout.Label($"Explore left Audio");
+            GUILayout.Label($"Coming soon");
         }
 
         private static void DrawRightExplore(Rect position)
         {
-            GUILayout.Label($"Explore right Audio");
+            GUILayout.Label($"Coming soon");
         }
 
         private static void DrawSetting(Rect position)
