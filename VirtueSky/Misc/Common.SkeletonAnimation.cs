@@ -70,30 +70,33 @@ namespace VirtueSky.Misc
 
 
         public static SkeletonAnimation Play(this SkeletonAnimation skeletonAnimation, string animationName,
-            bool loop = false, int trackIndex = 0)
+            bool loop = false, int trackIndex = 0, float timeScale = 1f)
         {
             skeletonAnimation.ClearState();
             skeletonAnimation.AnimationName = animationName;
             skeletonAnimation.loop = loop;
-            skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            var trackEntry = skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            trackEntry.TimeScale = timeScale;
             skeletonAnimation.LateUpdate();
             skeletonAnimation.Initialize(true);
             return skeletonAnimation;
         }
 
         public static SkeletonAnimation PlayOnly(this SkeletonAnimation skeletonAnimation, string animationName,
-            bool loop = false, int trackIndex = 0)
+            bool loop = false, int trackIndex = 0, float timeScale = 1f)
         {
             skeletonAnimation.AnimationName = animationName;
-            skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            var trackEntry = skeletonAnimation.AnimationState.SetAnimation(trackIndex, animationName, loop);
+            trackEntry.TimeScale = timeScale;
             return skeletonAnimation;
         }
 
         public static SkeletonAnimation AddAnimation(this SkeletonAnimation skeletonAnimation, int trackIndex,
-            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f)
+            string animationName, bool loop, float timeDelay = 0f, float mixDuration = 0f, float timeScale = 1f)
         {
             var track = skeletonAnimation.AnimationState.AddAnimation(trackIndex, animationName, loop, timeDelay);
             track.MixDuration = mixDuration;
+            track.TimeScale = timeScale;
             return skeletonAnimation;
         }
 
@@ -183,4 +186,5 @@ namespace VirtueSky.Misc
         }
     }
 }
+
 #endif
