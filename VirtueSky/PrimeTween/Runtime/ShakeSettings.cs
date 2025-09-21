@@ -1,12 +1,18 @@
 using System;
-using JetBrains.Annotations;
-using UnityEngine;
+using SerializeField = UnityEngine.SerializeField;
+using HideInInspector = UnityEngine.HideInInspector;
+using AnimationCurve = UnityEngine.AnimationCurve;
+using CanBeNull = JetBrains.Annotations.CanBeNullAttribute;
+using Vector3 = UnityEngine.Vector3;
+using Debug = UnityEngine.Debug;
+using Tooltip = UnityEngine.TooltipAttribute;
+using Range = UnityEngine.RangeAttribute;
 
 namespace PrimeTween {
     /// <summary>
     /// ShakeSettings contains all properties needed for a shake or punch (frequency, strength per axis, duration, etc.). Can be serialized and tweaked from the Inspector.<br/>
     /// Shake methods are: Tween.ShakeLocalPosition(), Tween.ShakeLocalRotation(), Tween.ShakeScale(), and Tween.ShakeCustom().<br/><br/>
-    /// Punch is a special case of a shake that a has a punch 'direction'. The punched value will oscillate back and forth in the direction of a punch.<br/>
+    /// Punch is a special case of a shake that has a punch 'direction'. The punched value will oscillate back and forth in the direction of a punch.<br/>
     /// Punch methods are: Tween.PunchLocalPosition(), Tween.PunchLocalRotation(), Tween.PunchScale(), and Tween.PunchCustom().<br/>
     /// </summary>
     [Serializable]

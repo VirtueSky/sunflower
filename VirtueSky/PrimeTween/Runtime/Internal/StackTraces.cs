@@ -42,10 +42,7 @@ namespace PrimeTween {
                 }
             }
             int hash = ComputeHash(buf, len);
-            if (id != idToHash.Count) {
-                Debug.LogError("PRIME_TWEEN_SAFETY_CHECKS doesn't support script hot reloading (Recompile And Continue Playing). Please remove the PRIME_TWEEN_SAFETY_CHECKS define."); // todo fix?
-                return;
-            }
+            Assert.AreEqual(id, idToHash.Count);
             idToHash.Add(hash);
             if (hashToTraces.TryGetValue(hash, out var traces)) {
                 if (!Contains(traces, buf, len)) {

@@ -1,6 +1,12 @@
 using System;
-using JetBrains.Annotations;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
+using SerializeField = UnityEngine.SerializeField;
+using HideInInspector = UnityEngine.HideInInspector;
+using Tooltip = UnityEngine.TooltipAttribute;
+using AnimationCurve = UnityEngine.AnimationCurve;
+using CanBeNull = JetBrains.Annotations.CanBeNullAttribute;
+using NotNull = JetBrains.Annotations.NotNullAttribute;
+using FormerlySerializedAs = UnityEngine.Serialization.FormerlySerializedAsAttribute;
 
 namespace PrimeTween {
     /// <summary>TweenSettings contains animation properties (duration, ease, delay, etc.). Can be serialized and tweaked from the Inspector.<br/>
@@ -41,7 +47,7 @@ namespace PrimeTween {
                 _useFixedUpdate = value;
             }
         }
-        [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("useFixedUpdate")]
+        [SerializeField, FormerlySerializedAs("useFixedUpdate")]
         [HideInInspector]
         bool _useFixedUpdate;
 
@@ -64,7 +70,7 @@ namespace PrimeTween {
             var curve = customEasing?.curve;
             if (ease == Ease.Custom && customEasing?.parametricEase == ParametricEase.None) {
                 if (curve == null || !ValidateCustomCurveKeyframes(curve)) {
-                    Debug.LogError("Ease is Ease.Custom, but AnimationCurve is not configured correctly. Using Ease.Default instead.");
+                    Debug.LogError(Constants.customAnimationCurveInavalidError);
                     ease = Ease.Default;
                 }
             }
@@ -84,7 +90,8 @@ namespace PrimeTween {
 
         #if PRIME_TWEEN_DOTWEEN_ADAPTER
         internal void SetEasing(Easing easing) {
-            ease = easing.ease;
+            ease = easing.ease == Ease.Default ? PrimeTweenManager.Instance.defaultEase : easing.ease;
+            customEase = easing.curve;
             parametricEase = easing.parametricEase;
             parametricEaseStrength = easing.parametricEaseStrength;
             parametricEasePeriod = easing.parametricEasePeriod;
@@ -97,6 +104,10 @@ namespace PrimeTween {
 
         public TweenSettings(float duration, Easing easing, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, UpdateType updateType = default)
             : this(duration, easing.ease, easing, cycles, cycleMode, startDelay, endDelay, useUnscaledTime, updateType) {
+        }
+
+        public TweenSettings(float duration, AnimationCurve ease, int cycles = 1, CycleMode cycleMode = CycleMode.Restart, float startDelay = 0, float endDelay = 0, bool useUnscaledTime = false, UpdateType updateType = default)
+            : this(duration, Ease.Custom, Easing.Curve(ease), cycles, cycleMode, startDelay, endDelay, useUnscaledTime, updateType) {
         }
 
         internal static void setCyclesTo1If0(ref int cycles) {

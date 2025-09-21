@@ -1,5 +1,6 @@
 using System;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
+using Tooltip = UnityEngine.TooltipAttribute;
 
 namespace PrimeTween {
     /// <summary>Contains 'start' and 'end' values of an animation in addition to <see cref="TweenSettings"/>. Can be serialized and tweaked from the Inspector in Unity 2020.1+.<br/>

@@ -8,6 +8,9 @@ using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using SerializeField = UnityEngine.SerializeField;
+using HideInInspector = UnityEngine.HideInInspector;
+using Transform = UnityEngine.Transform;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -20,7 +23,7 @@ namespace PrimeTween {
             internal static PrimeTweenManager Instance {
                 get {
                     if (!HasInstance) {
-                        if (Application.isEditor) {
+                        if (Application.isEditor && !Application.isPlaying) {
                             CreateInstance();
                             _instance.gameObject.hideFlags = HideFlags.HideAndDontSave;
                         } else {
@@ -66,6 +69,9 @@ namespace PrimeTween {
         /// startValue can't be replaced with 'Tween lastTween'
         /// because the lastTween may already be dead, but the tween before it is still alive (count >= 1)
         /// and we can't retrieve the startValue from the dead lastTween
+        ///
+        /// We also can't implement a similar caching for non-Transform shakes because there can be multiple custom shakes on the same target.
+        /// And it's impossible to tell which shake should be de-duplicated and which should not.
         internal Dictionary<(Transform, TweenType), (ValueContainer startValue, int count)> shakes;
         internal int currentPoolCapacity { get; private set; }
         internal int maxSimultaneousTweensCount { get; private set; }
@@ -182,7 +188,7 @@ namespace PrimeTween {
                 return;
             }
             var instances = Resources.FindObjectsOfTypeAll<PrimeTweenManager>();
-            Assert.IsTrue(instances.Length <= 1, instances.Length);
+            Assert.IsTrue(instances.Length <= 1, null, instances.Length.ToString());
             if (instances.Length == 0) {
                 return;
             }
@@ -200,6 +206,7 @@ namespace PrimeTween {
             }
             foundInScene.init(foundInScene.currentPoolCapacity);
             foundInScene.updateDepth = 0;
+            foundInScene.lastId = 1;
             Instance = foundInScene;
         }
 
@@ -332,6 +339,10 @@ namespace PrimeTween {
                 updateDepth--;
             }
         }
+
+        /*public void UpdateTweens(UpdateType updateType, float deltaTime, float unscaledDeltaTime) {
+            UpdateTweensInternal(updateType.enumValue, deltaTime, unscaledDeltaTime);
+        }*/
 
         internal void UpdateTweens(_UpdateType updateType, float? deltaTime = null, float? unscaledDeltaTime = null) {
             switch (updateType) {

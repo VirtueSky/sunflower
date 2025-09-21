@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using PrimeTween;
 using UnityEditor;
 using UnityEngine;
+using Mathf = UnityEngine.Mathf;
 using static UnityEditor.EditorGUI;
 using static UnityEditor.EditorGUIUtility;
 

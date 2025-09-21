@@ -150,9 +150,9 @@ namespace PrimeTween {
                 var manager = PrimeTweenManager.Instance;
                 if (manager != null) {
                     if (manager.updateDepth == 0) {
-                        manager.Update();
-                        manager.LateUpdate();
-                        manager.FixedUpdate();
+                        manager.UpdateTweens(_UpdateType.Update, 0f, 0f);
+                        manager.UpdateTweens(_UpdateType.LateUpdate, 0f, 0f);
+                        manager.UpdateTweens(_UpdateType.FixedUpdate, 0f, 0f);
                     }
                     // Assert.AreEqual(0, manager.tweens.Count); // fails if user's OnComplete() creates new tweens
                 }
