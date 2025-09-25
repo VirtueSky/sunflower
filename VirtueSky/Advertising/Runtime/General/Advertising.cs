@@ -127,7 +127,7 @@ namespace VirtueSky.Ads
 
             if (adSetting.UseIronSource)
             {
-                ironSourceAdClient = new IronSourceAdClient(adSetting);
+                ironSourceAdClient = new LevelPlayAdClient(adSetting);
                 ironSourceAdClient.Initialize();
                 Debug.Log($"Use: {ironSourceAdClient}".SetColor(CustomColor.Cyan));
             }

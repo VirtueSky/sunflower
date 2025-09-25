@@ -1,4 +1,7 @@
 using System;
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
+using Unity.Services.LevelPlay;
+#endif
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
 
@@ -6,41 +9,43 @@ namespace VirtueSky.Ads
 {
     [Serializable]
     [EditorIcon("icon_scriptable")]
-    public class IronSourceRewardVariable : IronSourceAdUnitVariable
+    public class LevelPlayRewardVariable : LevelPlayAdUnitVariable
     {
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
         public bool IsEarnRewarded { get; private set; }
-
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
+        LevelPlayRewardedAd rewardedAd;
+#endif
         public override void Init()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoOnAdOpenedEvent;
-            IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
-            IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoOnAdAvailable;
-            IronSourceRewardedVideoEvents.onAdUnavailableEvent += RewardedVideoOnAdUnavailable;
-            IronSourceRewardedVideoEvents.onAdShowFailedEvent += RewardedVideoOnAdShowFailedEvent;
-            IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
-            IronSourceRewardedVideoEvents.onAdClickedEvent += RewardedVideoOnAdClickedEvent;
-            IronSourceRewardedVideoEvents.onAdLoadFailedEvent += RewardedVideoOnAdLoadFailedEvent;
+            rewardedAd.OnAdLoaded += OnAdLoaded;
+            rewardedAd.OnAdDisplayed += RewardedVideoOnAdDisplayedEvent;
+            rewardedAd.OnAdClosed += RewardedVideoOnAdClosedEvent;
+            rewardedAd.OnAdDisplayFailed += RewardedVideoOnAdDisplayFailedEvent;
+            rewardedAd.OnAdRewarded += RewardedVideoOnAdRewardedEvent;
+            rewardedAd.OnAdClicked += RewardedVideoOnAdClickedEvent;
+            rewardedAd.OnAdLoadFailed += RewardedVideoOnAdLoadFailedEvent;
 #endif
         }
 
 
         public override void Load()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            IronSource.Agent.loadRewardedVideo();
-            OnAdLoaded();
+            var configBuilder = new LevelPlayRewardedAd.Config.Builder();
+            var config = configBuilder.Build();
+            rewardedAd = new LevelPlayRewardedAd(Id, config);
 #endif
         }
 
         public override bool IsReady()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
-            return IronSource.Agent.isRewardedVideoAvailable();
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
+            return rewardedAd.IsAdReady();
 #else
             return false;
 #endif
@@ -48,8 +53,8 @@ namespace VirtueSky.Ads
 
         protected override void ShowImpl()
         {
-#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
-            IronSource.Agent.showRewardedVideo();
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
+            rewardedAd.ShowAd();
 #endif
         }
 
@@ -73,35 +78,35 @@ namespace VirtueSky.Ads
         }
 
 
-#if VIRTUESKY_ADS && VIRTUESKY_IRONSOURCE
+#if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
 
         #region Fun Callback
 
-        void OnAdLoaded()
+        void OnAdLoaded(LevelPlayAdInfo adInfo)
         {
             Common.CallActionAndClean(ref loadedCallback);
             OnLoadAdEvent?.Invoke();
         }
 
-        private void RewardedVideoOnAdLoadFailedEvent(IronSourceError ironSourceError)
+        private void RewardedVideoOnAdLoadFailedEvent(LevelPlayAdError ironSourceError)
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
             OnFailedToLoadAdEvent?.Invoke(ironSourceError.ToString());
         }
 
-        void RewardedVideoOnAdOpenedEvent(IronSourceAdInfo adInfo)
+        void RewardedVideoOnAdDisplayedEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
 
-        void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
+        void RewardedVideoOnAdClosedEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
-            if (!IsReady()) IronSource.Agent.loadRewardedVideo();
+            if (!IsReady()) rewardedAd.LoadAd();
             if (IsEarnRewarded)
             {
                 Common.CallActionAndClean(ref completedCallback);
@@ -112,26 +117,18 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref skippedCallback);
         }
 
-        void RewardedVideoOnAdAvailable(IronSourceAdInfo adInfo)
-        {
-        }
-
-        void RewardedVideoOnAdUnavailable()
-        {
-        }
-
-        void RewardedVideoOnAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo adInfo)
+        void RewardedVideoOnAdDisplayFailedEvent(LevelPlayAdInfo adInfo, LevelPlayAdError ironSourceError)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
             OnFailedToDisplayAdEvent?.Invoke(ironSourceError.ToString());
         }
 
-        void RewardedVideoOnAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
+        void RewardedVideoOnAdRewardedEvent(LevelPlayAdInfo info, LevelPlayReward reward)
         {
             IsEarnRewarded = true;
         }
 
-        void RewardedVideoOnAdClickedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
+        void RewardedVideoOnAdClickedEvent(LevelPlayAdInfo adInfo)
         {
             Common.CallActionAndClean(ref clickedCallback);
             OnClickedAdEvent?.Invoke();

@@ -42,13 +42,13 @@ namespace VirtueSky.Ads
         private SerializedProperty _androidAppKey;
         private SerializedProperty _iOSAppKey;
         private SerializedProperty _useTestAppKey;
-        private SerializedProperty _ironSourceBannerVariable;
-        private SerializedProperty _ironSourceInterVariable;
-        private SerializedProperty _ironSourceRewardVariable;
+        private SerializedProperty _levelPlayBannerVariable;
+        private SerializedProperty _levelPlayInterVariable;
+        private SerializedProperty _levelPlayRewardVariable;
 
         const string pathMax = "/Ads/Applovin";
         const string pathAdmob = "/Ads/Admob";
-        const string pathIronSource = "/Ads/IronSource";
+        const string pathIronSource = "/Ads/LevelPlay";
 
         void Initialize()
         {
@@ -81,9 +81,9 @@ namespace VirtueSky.Ads
             _androidAppKey = serializedObject.FindProperty("androidAppKey");
             _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
             _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
-            _ironSourceBannerVariable = serializedObject.FindProperty("ironSourceBannerVariable");
-            _ironSourceInterVariable = serializedObject.FindProperty("ironSourceInterVariable");
-            _ironSourceRewardVariable = serializedObject.FindProperty("ironSourceRewardVariable");
+            _levelPlayBannerVariable = serializedObject.FindProperty("levelPlayBannerVariable");
+            _levelPlayInterVariable = serializedObject.FindProperty("levelPlayInterVariable");
+            _levelPlayRewardVariable = serializedObject.FindProperty("levelPlayRewardVariable");
         }
 
         void Draw()
@@ -289,40 +289,40 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_iOSAppKey);
             EditorGUILayout.PropertyField(_useTestAppKey);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(_ironSourceBannerVariable);
-            if (_ironSourceBannerVariable.objectReferenceValue == null)
+            EditorGUILayout.PropertyField(_levelPlayBannerVariable);
+            if (_levelPlayBannerVariable.objectReferenceValue == null)
             {
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _ironSourceBannerVariable.objectReferenceValue =
-                        CreateAsset.CreateAndGetScriptableAsset<IronSourceBannerVariable>(pathIronSource);
+                    _levelPlayBannerVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<LevelPlayBannerVariable>(pathIronSource);
                 }
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(_ironSourceInterVariable);
-            if (_ironSourceInterVariable.objectReferenceValue == null)
+            EditorGUILayout.PropertyField(_levelPlayInterVariable);
+            if (_levelPlayInterVariable.objectReferenceValue == null)
             {
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _ironSourceInterVariable.objectReferenceValue =
-                        CreateAsset.CreateAndGetScriptableAsset<IronSourceInterVariable>(pathIronSource);
+                    _levelPlayInterVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<LevelPlayInterVariable>(pathIronSource);
                 }
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(_ironSourceRewardVariable);
-            if (_ironSourceRewardVariable.objectReferenceValue == null)
+            EditorGUILayout.PropertyField(_levelPlayRewardVariable);
+            if (_levelPlayRewardVariable.objectReferenceValue == null)
             {
                 GUILayout.Space(2);
                 if (GUILayout.Button("Create", GUILayout.Width(55)))
                 {
-                    _ironSourceRewardVariable.objectReferenceValue =
-                        CreateAsset.CreateAndGetScriptableAsset<IronSourceRewardVariable>(pathIronSource);
+                    _levelPlayRewardVariable.objectReferenceValue =
+                        CreateAsset.CreateAndGetScriptableAsset<LevelPlayRewardVariable>(pathIronSource);
                 }
             }
 
