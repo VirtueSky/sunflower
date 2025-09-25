@@ -7,6 +7,12 @@ namespace VirtueSky.ControlPanel.Editor
     {
         private StatePanelControl statePanelControl;
         private Vector2 scrollButton = Vector2.zero;
+        private const string keySaveStatePanelControl = "Window_StatePanelControl";
+        private static StatePanelControl StatePanelControl
+        {
+            get => (StatePanelControl)EditorPrefs.GetInt(keySaveStatePanelControl, (int)StatePanelControl.About);
+            set => EditorPrefs.SetInt(keySaveStatePanelControl, (int)value);
+        }
 
         [MenuItem("Sunflower/Magic Panel &1", false, priority = 1)]
         public static void ShowPanelControlWindow()
@@ -25,9 +31,8 @@ namespace VirtueSky.ControlPanel.Editor
         }
 
 
-        private void OnEnable()
-        {
-            statePanelControl = StatePanelControl.About;
+        private void OnEnable() {
+            statePanelControl = StatePanelControl;
             CPAdvertisingDrawer.OnEnable();
             CPIapDrawer.OnEnable();
             CPLevelEditorDrawer.OnEnable();
@@ -170,6 +175,7 @@ namespace VirtueSky.ControlPanel.Editor
             if (clicked && statePanelControl != _statePanelControlTab)
             {
                 statePanelControl = _statePanelControlTab;
+                StatePanelControl = statePanelControl;
             }
 
             GUILayout.EndHorizontal();
@@ -179,25 +185,25 @@ namespace VirtueSky.ControlPanel.Editor
 
     public enum StatePanelControl
     {
-        Advertising,
-        InAppPurchase,
-        AssetsFinder,
-        Audio,
-        InAppReview,
-        LevelEditor,
-        NotificationsChanel,
-        SO_Event,
-        SO_Variable,
-        Adjust,
-        AppsFlyer,
-        ScriptDefineSymbols,
-        RegisterPackage,
-        Hierarchy,
-        FolderIcon,
-        Firebase,
-        GameService,
-        Localization,
-        Extensions,
-        About,
+        Advertising = 0,
+        InAppPurchase = 1,
+        AssetsFinder = 2,
+        Audio = 3,
+        InAppReview = 4,
+        LevelEditor = 5,
+        NotificationsChanel = 6,
+        SO_Event = 7,
+        SO_Variable = 8,
+        Adjust = 9,
+        AppsFlyer = 10,
+        ScriptDefineSymbols = 11,
+        RegisterPackage = 12,
+        Hierarchy = 13,
+        FolderIcon = 14,
+        Firebase = 15,
+        GameService = 16,
+        Localization = 17,
+        Extensions = 18,
+        About = 19,
     }
 }
