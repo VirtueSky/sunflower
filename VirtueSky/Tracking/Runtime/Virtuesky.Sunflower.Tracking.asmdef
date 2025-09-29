@@ -4,11 +4,10 @@
     "references": [
         "VirtueSky.Sunflower.Inspector",
         "AppsFlyer",
-        "AppsFlyerAdRevenue",
-        "UnityEngine.Purchasing",
         "Virtuesky.Sunflower.Misc",
         "Virtuesky.Sunflower.Utils",
-        "AdjustSdk.Scripts"
+        "AdjustSdk.Scripts",
+        "Unity.Purchasing"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
