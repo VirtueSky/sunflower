@@ -10,7 +10,7 @@ namespace VirtueSky.DataType
     [Serializable]
     public class DictionaryCustom<TKey, TValue> : ISerializationCallbackReceiver, IDictionary, IDictionary<TKey, TValue>
     {
-        [TableList, SerializeField] private List<DictionaryCustomData<TKey, TValue>> dictionaryData;
+        [TableList, SerializeField] private List<DictionaryCustomData<TKey, TValue>> dictionaryData = new List<DictionaryCustomData<TKey, TValue>>();
 
         [NonSerialized] private Dictionary<TKey, TValue> m_dict = new Dictionary<TKey, TValue>();
         public Dictionary<TKey, TValue> GetDict => m_dict;

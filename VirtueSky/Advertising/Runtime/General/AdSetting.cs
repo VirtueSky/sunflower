@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VirtueSky.Inspector;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
@@ -79,15 +80,15 @@ namespace VirtueSky.Ads
 
         #endregion
 
-        #region IronSource
+        #region LevelPlay
 
         [SerializeField] private string androidAppKey;
         [SerializeField] private string iOSAppKey;
         [SerializeField] private bool useTestAppKey;
 
-        [SerializeField] private IronSourceBannerVariable ironSourceBannerVariable;
-        [SerializeField] private IronSourceInterVariable ironSourceInterVariable;
-        [SerializeField] private IronSourceRewardVariable ironSourceRewardVariable;
+        [SerializeField] private LevelPlayBannerVariable levelPlayBannerVariable;
+        [SerializeField] private LevelPlayInterVariable levelPlayInterVariable;
+        [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariable;
 
         public string AndroidAppKey
         {
@@ -124,9 +125,9 @@ namespace VirtueSky.Ads
         }
 
         public bool UseTestAppKey => useTestAppKey;
-        public IronSourceBannerVariable IronSourceBannerVariable => ironSourceBannerVariable;
-        public IronSourceInterVariable IronSourceInterVariable => ironSourceInterVariable;
-        public IronSourceRewardVariable IronSourceRewardVariable => ironSourceRewardVariable;
+        public LevelPlayBannerVariable LevelPlayBannerVariable => levelPlayBannerVariable;
+        public LevelPlayInterVariable LevelPlayInterVariable => levelPlayInterVariable;
+        public LevelPlayRewardVariable LevelPlayRewardVariable => levelPlayRewardVariable;
 
         #endregion
     }
@@ -135,7 +136,7 @@ namespace VirtueSky.Ads
     {
         Max,
         Admob,
-        IronSource
+        LevelPlay
     }
 
     public enum AdsPosition

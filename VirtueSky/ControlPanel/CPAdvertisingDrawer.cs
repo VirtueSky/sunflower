@@ -116,13 +116,13 @@ namespace VirtueSky.ControlPanel.Editor
 
             if (_adSetting.UseIronSource)
             {
-#if !VIRTUESKY_ADS || !VIRTUESKY_IRONSOURCE
+#if !VIRTUESKY_ADS || !VIRTUESKY_LEVELPLAY
             EditorGUILayout.HelpBox(
-                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.VIRTUESKY_IRONSOURCE}\" to use IronSource Ads",
+                $"Add scripting define symbols \"{ConstantDefineSymbols.VIRTUESKY_ADS}\" and \"{ConstantDefineSymbols.VIRTUESKY_LEVELPLAY}\" to use IronSource Ads",
                 MessageType.Info);
 #endif
 
-                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_IRONSOURCE);
+                CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_LEVELPLAY);
             }
         }
 
