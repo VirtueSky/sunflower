@@ -2,9 +2,9 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.4.7";
+        public const string VersionSunflower = "3.4.8";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
-        public const string MaxVersionInAppPurchase = "4.13.0";
+        public const string MaxVersionInAppPurchase = "5.0.1";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
         public const string MaxVersionNewtonsoftJson = "3.2.1";
         public const string PackageNameIOS14AdvertisingSupport = "com.unity.ads.ios-support";
@@ -91,7 +91,7 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#v6.17.5";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#6.17.5";
 
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
