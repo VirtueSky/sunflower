@@ -1,5 +1,10 @@
-﻿using UnityEditor;
+﻿// Updated CPAudioDrawer to use a vertical scrollview for SoundData assets in the left panel
+// and Unity's built-in SoundDataEditor for the right panel inspector view.
+// This provides a seamless integration with Unity's native inspector experience.
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using VirtueSky.Audio;
 using VirtueSky.AudioEditor;
 
 namespace VirtueSky.ControlPanel.Editor
@@ -41,22 +46,126 @@ namespace VirtueSky.ControlPanel.Editor
         {
             CPUtility.DrawLineLastRectX(3, GUILayoutUtility.GetLastRect().y, position.width,
                 (position.width - ConstantControlPanel.POSITION_X_START_CONTENT) / 2 - 5);
+            
+            // Calculate dimensions for the layout
+            float leftPanelWidth = (position.width - ConstantControlPanel.POSITION_X_START_CONTENT) / 2 - 15;
+            float rightPanelWidth = position.width - ConstantControlPanel.POSITION_X_START_CONTENT - leftPanelWidth - 30;
+            
             GUILayout.BeginHorizontal();
+            
+            // Left panel - SoundData list
+            GUILayout.BeginVertical(GUILayout.Width(leftPanelWidth));
             DrawLeftExplore(position);
+            GUILayout.EndVertical();
+            
             GUILayout.Space(20);
+            
+            // Right panel - Selected SoundData inspector
+            GUILayout.BeginVertical(GUILayout.Width(rightPanelWidth));
             DrawRightExplore(position);
+            GUILayout.EndVertical();
+            
             GUILayout.EndHorizontal();
         }
 
+        // Reference to the currently selected SoundData asset for inspection
+        private static SoundData selectedSoundData;
+        // Editor instance that renders the inspector for the selected SoundData
+        private static UnityEditor.Editor soundDataEditor = null;
+        // Scroll positions for maintaining scroll state in both panels
+        private static Vector2 leftPanelScrollPosition = Vector2.zero;
+        private static Vector2 rightPanelScrollPosition = Vector2.zero;
+        
+        // Draws the left panel with a vertical scrollview of all SoundData assets in the project
         private static void DrawLeftExplore(Rect position)
         {
-            GUILayout.Label($"Coming soon");
+            // Find all SoundData assets in the project using AssetDatabase
+            var soundDataAssets = AssetDatabase.FindAssets("t:SoundData");
+            var soundDataObjects = new SoundData[soundDataAssets.Length];
+
+            for (int i = 0; i < soundDataAssets.Length; i++)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(soundDataAssets[i]);
+                soundDataObjects[i] = AssetDatabase.LoadAssetAtPath<SoundData>(assetPath);
+            }
+
+            // Create a scrollable view for the SoundData assets using the left panel scroll position
+            // This allows users to scroll through long lists of SoundData assets
+            leftPanelScrollPosition = GUILayout.BeginScrollView(leftPanelScrollPosition, GUILayout.ExpandHeight(true));
+
+            for (int i = 0; i < soundDataObjects.Length; i++)
+            {
+                if (soundDataObjects[i] != null)
+                {
+                    GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+                    if (selectedSoundData == soundDataObjects[i])
+                    {
+                        buttonStyle.normal.background = Texture2D.whiteTexture;
+                        buttonStyle.normal.textColor = Color.white;
+                    }
+
+                    if (GUILayout.Button(soundDataObjects[i].name, buttonStyle, GUILayout.ExpandWidth(true)))
+                    {
+                        selectedSoundData = soundDataObjects[i];
+                    }
+                }
+            }
+
+            GUILayout.EndScrollView();
         }
 
+        // Draws the right panel using the existing SoundDataEditor to display the selected SoundData
+        // This provides the same inspector experience as viewing the asset in Unity's native inspector
         private static void DrawRightExplore(Rect position)
         {
-            GUILayout.Label($"Coming soon");
+            // Create a scrollable view for the right panel to handle tall inspector content
+            rightPanelScrollPosition = GUILayout.BeginScrollView(rightPanelScrollPosition, GUILayout.ExpandHeight(true));
+
+            if (selectedSoundData != null)
+            {
+                // Add Ping button at the top
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Ping Asset", GUILayout.Width(100)))
+                {
+                    EditorGUIUtility.PingObject(selectedSoundData);
+                    Selection.activeObject = selectedSoundData;
+                }
+                GUILayout.EndHorizontal();
+                
+                GUILayout.Space(5);
+
+                // Create or update the editor for the selected SoundData
+                if (soundDataEditor == null || (soundDataEditor.target as SoundData) != selectedSoundData)
+                {
+                    if (soundDataEditor != null)
+                    {
+                        Object.DestroyImmediate(soundDataEditor);
+                    }
+
+                    soundDataEditor = UnityEditor.Editor.CreateEditor(selectedSoundData);
+                }
+
+                // Draw the editor GUI
+                if (soundDataEditor != null)
+                {
+                    // Use BeginChangeCheck/EndChangeCheck to detect changes and repaint if needed
+                    EditorGUI.BeginChangeCheck();
+                    soundDataEditor.OnInspectorGUI();
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        // Force repaint if changes were detected
+                        UnityEditor.EditorUtility.SetDirty(selectedSoundData);
+                    }
+                }
+            }
+            else
+            {
+                GUILayout.Label("No SoundData selected", EditorStyles.centeredGreyMiniLabel);
+            }
+
+            GUILayout.EndScrollView();
         }
+
 
         private static void DrawSetting(Rect position)
         {
