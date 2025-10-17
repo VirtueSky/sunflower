@@ -29,7 +29,23 @@ namespace VirtueSky.Iap
     [Serializable]
     public class IapData
     {
-        public string id;
+        public string androidId;
+        public string iosId;
+
+        public string Id 
+        {
+            get 
+            {
+#if UNITY_ANDROID
+                return androidId;
+#elif UNITY_IOS
+                return iosId;
+#else
+                return string.Empty;
+#endif
+            }
+        }
+        
         public ProductType productType;
     }
 }

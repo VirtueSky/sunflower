@@ -76,7 +76,7 @@ namespace VirtueSky.Iap
         {
             if (_controller == null) return false;
             return product.productType is ProductType.NonConsumable or ProductType.Subscription &&
-                   _controller.products.WithID(product.id).hasReceipt;
+                   _controller.products.WithID(product.Id).hasReceipt;
         }
 
         internal void PurchaseProduct(IapDataVariable product)
@@ -88,13 +88,13 @@ namespace VirtueSky.Iap
         internal Product GetProduct(IapDataVariable product)
         {
             if (_controller == null) return null;
-            return _controller.products.WithID(product.id);
+            return _controller.products.WithID(product.Id);
         }
 
         internal SubscriptionInfo GetSubscriptionInfo(IapDataVariable product)
         {
             if (_controller == null || product.productType != ProductType.Subscription ||
-                !_controller.products.WithID(product.id).hasReceipt) return null;
+                !_controller.products.WithID(product.Id).hasReceipt) return null;
             var subscriptionManager = new SubscriptionManager(GetProduct(product), null);
             var subscriptionInfo = subscriptionManager.getSubscriptionInfo();
             return subscriptionInfo;
@@ -199,7 +199,7 @@ namespace VirtueSky.Iap
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             _controller?.InitiatePurchase(product.id);
 #elif UNITY_EDITOR
-            InternalPurchaseSuccess(product.id);
+            InternalPurchaseSuccess(product.Id);
 #endif
             return product;
         }
@@ -217,7 +217,7 @@ namespace VirtueSky.Iap
         {
             foreach (var product in iapSetting.Products)
             {
-                if (product.id != id) continue;
+                if (product.Id != id) continue;
                 product.OnPurchaseSuccess.Raise();
                 Common.CallActionAndClean(ref product.purchaseSuccessCallback);
             }
@@ -233,7 +233,7 @@ namespace VirtueSky.Iap
             if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.Raise(false);
             foreach (var product in iapSetting.Products)
             {
-                if (product.id != id) continue;
+                if (product.Id != id) continue;
                 product.OnPurchaseFailed.Raise(reason);
                 Common.CallActionAndClean(ref product.purchaseFailedCallback, reason);
             }
@@ -245,7 +245,7 @@ namespace VirtueSky.Iap
         {
             foreach (var p in iapSetting.Products)
             {
-                builder.AddProduct(p.id, p.productType);
+                builder.AddProduct(p.Id, p.productType);
             }
         }
 
