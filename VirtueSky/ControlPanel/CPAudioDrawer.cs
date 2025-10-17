@@ -17,7 +17,42 @@ namespace VirtueSky.ControlPanel.Editor
             Settings
         }
 
+        // Helper function to create a colored texture for button backgrounds
+        private static Texture2D MakeBackgroundTexture(int width, Color color)
+        {
+            Color[] pixels = new Color[width * width];
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = color;
+            }
+
+            Texture2D texture = new Texture2D(width, width);
+            texture.SetPixels(pixels);
+            texture.Apply();
+            return texture;
+        }
+
         private static AudioTab audioTab = AudioTab.Explore;
+        // Cache textures to avoid creating them every frame
+        private static Texture2D selectedButtonTexture;
+        private static Texture2D normalButtonTexture;
+
+        // Clean up textures when the editor window is closed or recompiled
+        [UnityEditor.InitializeOnLoadMethod]
+        private static void Cleanup()
+        {
+            if (selectedButtonTexture != null)
+            {
+                Object.DestroyImmediate(selectedButtonTexture);
+                selectedButtonTexture = null;
+            }
+            
+            if (normalButtonTexture != null)
+            {
+                Object.DestroyImmediate(normalButtonTexture);
+                normalButtonTexture = null;
+            }
+        }
 
         public static void OnDrawAudio(Rect position)
         {
@@ -97,11 +132,25 @@ namespace VirtueSky.ControlPanel.Editor
             {
                 if (soundDataObjects[i] != null)
                 {
+                    // Tạo style mặc định cho nút
                     GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+                    
+                    // Nếu nút này là nút được chọn, áp dụng màu nền đặc biệt
                     if (selectedSoundData == soundDataObjects[i])
                     {
-                        buttonStyle.normal.background = Texture2D.whiteTexture;
-                        buttonStyle.normal.textColor = Color.white;
+                        // Create selected button texture if it doesn't exist
+                        // Using a color that matches Unity's default selected state (Unity blue)
+                        if (selectedButtonTexture == null)
+                        {
+                            // Using Unity's default selected button color (a blueish tone)
+                            selectedButtonTexture = MakeBackgroundTexture(2, new Color(0.3f, 0.5f, 0.85f, 1f)); // Unity selected blue color
+                        }
+                        
+                        // Apply the selected background color
+                        buttonStyle.normal.background = selectedButtonTexture;
+                        buttonStyle.onNormal.background = selectedButtonTexture;
+                        buttonStyle.normal.textColor = Color.white; // Ensure text is visible on colored background
+                        buttonStyle.hover.background = selectedButtonTexture;
                     }
 
                     if (GUILayout.Button(soundDataObjects[i].name, buttonStyle, GUILayout.ExpandWidth(true)))
