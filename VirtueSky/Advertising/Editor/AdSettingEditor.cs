@@ -14,7 +14,7 @@ namespace VirtueSky.Ads
 
         private SerializedProperty _useMax;
         private SerializedProperty _useAdmob;
-        private SerializedProperty _useIronSource;
+        private SerializedProperty _useLevelPlay;
         private SerializedProperty _enableTrackAdRevenue;
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
@@ -55,7 +55,7 @@ namespace VirtueSky.Ads
             _adSetting = target as AdSetting;
             _useMax = serializedObject.FindProperty("useMax");
             _useAdmob = serializedObject.FindProperty("useAdmob");
-            _useIronSource = serializedObject.FindProperty("useIronSource");
+            _useLevelPlay = serializedObject.FindProperty("useLevelPlay");
             _enableTrackAdRevenue = serializedObject.FindProperty("enableTrackAdRevenue");
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
@@ -97,7 +97,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.PropertyField(_adLoadingInterval);
             EditorGUILayout.PropertyField(_useMax);
             EditorGUILayout.PropertyField(_useAdmob);
-            EditorGUILayout.PropertyField(_useIronSource);
+            EditorGUILayout.PropertyField(_useLevelPlay);
             EditorGUILayout.PropertyField(_enableTrackAdRevenue);
             EditorGUILayout.PropertyField(_enableGDPR);
             if (_enableGDPR.boolValue)
@@ -108,7 +108,7 @@ namespace VirtueSky.Ads
             GUILayout.Space(10);
             if (_useMax.boolValue) SetupMax();
             if (_useAdmob.boolValue) SetupAdmob();
-            if (_useIronSource.boolValue) SetupIronSource();
+            if (_useLevelPlay.boolValue) SetupIronSource();
 
             EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();
@@ -282,7 +282,7 @@ namespace VirtueSky.Ads
 
         void SetupIronSource()
         {
-            EditorGUILayout.LabelField("LevelPlay - IronSource", StyleLabel());
+            EditorGUILayout.LabelField("Unity - LevelPlay", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_androidAppKey);

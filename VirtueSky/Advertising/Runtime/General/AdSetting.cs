@@ -18,7 +18,7 @@ namespace VirtueSky.Ads
 
         [SerializeField] private bool useMax = true;
         [SerializeField] private bool useAdmob;
-        [SerializeField] private bool useIronSource;
+        [SerializeField] private bool useLevelPlay;
         [SerializeField] private bool enableTrackAdRevenue = true;
 
         [Tooltip("Install google-mobile-ads sdk to use GDPR"), SerializeField]
@@ -29,7 +29,7 @@ namespace VirtueSky.Ads
         public float AdLoadingInterval => adLoadingInterval;
         public bool UseMax => useMax;
         public bool UseAdmob => useAdmob;
-        public bool UseIronSource => useIronSource;
+        public bool UseLevelPlay => useLevelPlay;
         public bool EnableTrackAdRevenue => enableTrackAdRevenue;
         public bool EnableGDPR => enableGDPR;
         public bool EnableGDPRTestMode => enableGDPRTestMode;

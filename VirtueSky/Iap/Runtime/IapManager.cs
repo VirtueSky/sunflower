@@ -197,7 +197,7 @@ namespace VirtueSky.Iap
         private IapDataVariable PurchaseProductInternal(IapDataVariable product)
         {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-            _controller?.InitiatePurchase(product.id);
+            _controller?.InitiatePurchase(product.Id);
 #elif UNITY_EDITOR
             InternalPurchaseSuccess(product.Id);
 #endif
