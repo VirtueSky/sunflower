@@ -28,7 +28,7 @@ namespace VirtueSky.Audio
         [ShowIf(nameof(isMusicFadeVolume), true)]
         public float fadeOutDuration = .5f;
 
-        [Space] [SerializeField] private GetType getType = GetType.Random;
+        [Space] public GetType getType = GetType.Random;
         [SerializeField] private List<AudioClip> audioClips;
 
         private int sequenceIndex = 0;

@@ -12,7 +12,8 @@ namespace VirtueSky.Iap
     [EditorIcon("scriptable_iap")]
     public class IapDataVariable : ScriptableObject
     {
-        [ReadOnly] public string id;
+        [ReadOnly] public string androidId;
+        [ReadOnly] public string iosId;
         [ReadOnly] public ProductType productType;
 
         [Tooltip("Price config used for UI"), Space]
@@ -27,7 +28,19 @@ namespace VirtueSky.Iap
         [NonSerialized] public Action<string> purchaseFailedCallback;
 
         private IapManager iapManager;
-
+        public string Id 
+        {
+            get 
+            {
+#if UNITY_ANDROID
+                return androidId;
+#elif UNITY_IOS
+                return iosId;
+#else
+                return string.Empty;
+#endif
+            }
+        }
         internal void InitIapManager(IapManager _iapManager)
         {
             iapManager = _iapManager;

@@ -125,7 +125,7 @@ namespace VirtueSky.Ads
                 Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
             }
 
-            if (adSetting.UseIronSource)
+            if (adSetting.UseLevelPlay)
             {
                 ironSourceAdClient = new LevelPlayAdClient(adSetting);
                 ironSourceAdClient.Initialize();
@@ -168,7 +168,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseMax) maxAdClient.LoadInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadInterstitial();
-            if (adSetting.UseIronSource) ironSourceAdClient.LoadInterstitial();
+            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -178,7 +178,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseMax) maxAdClient.LoadRewarded();
             if (adSetting.UseAdmob) admobAdClient.LoadRewarded();
-            if (adSetting.UseIronSource) ironSourceAdClient.LoadRewarded();
+            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -188,7 +188,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseMax) maxAdClient.LoadRewardedInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadRewardedInterstitial();
-            if (adSetting.UseIronSource) ironSourceAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -198,7 +198,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseMax) maxAdClient.LoadAppOpen();
             if (adSetting.UseAdmob) admobAdClient.LoadAppOpen();
-            if (adSetting.UseIronSource) ironSourceAdClient.LoadAppOpen();
+            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
         }
 

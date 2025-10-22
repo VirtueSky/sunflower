@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +22,14 @@ namespace VirtueSky.AudioEditor
         AudioClip lastPlayed;
         double lastTickTime;
         bool isPlaying = false;
+        int lastKnownSamplePosition = 0;
+
+        Action externalRepaintCallback;
+
+        public void SetExternalRepaintCallback(Action callback)
+        {
+            externalRepaintCallback = callback;
+        }
 
         const float TimebarH = 22f;
         const float LaneH = 38f;
@@ -39,6 +48,13 @@ namespace VirtueSky.AudioEditor
             EditorAudioPreview.Stop();
             lastPlayed = null;
             activeClip = null;
+            externalRepaintCallback = null;
+        }
+
+        void RequestRepaint()
+        {
+            base.Repaint();
+            externalRepaintCallback?.Invoke();
         }
 
         GUIStyle StyleLabel()
@@ -132,11 +148,21 @@ namespace VirtueSky.AudioEditor
         {
             if (!activeClip || !isPlaying) return;
 
-            double now = EditorApplication.timeSinceStartup;
-            double dt = System.Math.Max(0, now - lastTickTime);
-            lastTickTime = now;
-
-            playheadSec += (float)dt;
+            // Sync playhead with actual audio playback position
+            float actualPosition = GetAudioPreviewPosition(activeClip);
+            
+            if (actualPosition >= 0f)
+            {
+                playheadSec = actualPosition;
+            }
+            else
+            {
+                // Fallback to time-based calculation if position can't be retrieved
+                double now = EditorApplication.timeSinceStartup;
+                double dt = System.Math.Max(0, now - lastTickTime);
+                lastTickTime = now;
+                playheadSec += (float)dt;
+            }
 
             if (HasLoop())
             {
@@ -150,6 +176,7 @@ namespace VirtueSky.AudioEditor
                         int startSample = Mathf.Clamp(Mathf.RoundToInt(a * activeClip.frequency), 0,
                             activeClip.samples - 1);
                         EditorAudioPreview.Play(activeClip, false, startSample);
+                        lastTickTime = EditorApplication.timeSinceStartup;
                     }
                 }
             }
@@ -162,7 +189,45 @@ namespace VirtueSky.AudioEditor
                 playheadSec = 0f;
             }
 
-            Repaint();
+            // Always repaint when playing to ensure smooth animation
+            RequestRepaint();
+        }
+        
+        /// <summary>
+        /// Get current audio preview position using reflection
+        /// </summary>
+        float GetAudioPreviewPosition(AudioClip clip)
+        {
+            if (clip == null) return -1f;
+            
+            try
+            {
+                var unityEditorAssembly = typeof(AudioImporter).Assembly;
+                var audioUtilClass = unityEditorAssembly.GetType("UnityEditor.AudioUtil");
+                
+                // Try to get the playing sample position
+                var method = audioUtilClass.GetMethod("GetClipSamplePosition",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                
+                if (method != null)
+                {
+                    var result = method.Invoke(null, new object[] { clip });
+                    if (result != null)
+                    {
+                        int samplePosition = (int)result;
+                        if (samplePosition >= 0 && clip.frequency > 0)
+                        {
+                            return (float)samplePosition / clip.frequency;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Fallback to time-based calculation
+            }
+            
+            return -1f;
         }
 
         // ====== Timeline UI ======
@@ -173,7 +238,7 @@ namespace VirtueSky.AudioEditor
             EditorGUI.DrawRect(timeRect, new Color(0.11f, 0.11f, 0.11f));
             DrawTicks(timeRect, clip.length);
 
-            // Lane (playhead + loop A–B)
+            // Lane (playhead + loop Aâ€“B)
             var laneRect = GUILayoutUtility.GetRect(0, 1000, LaneH, LaneH);
             EditorGUI.DrawRect(laneRect, new Color(0.09f, 0.09f, 0.09f));
 
@@ -203,7 +268,11 @@ namespace VirtueSky.AudioEditor
                     if (clip)
                     {
                         if (isPlaying)
-                            playheadSec = HasLoop() ? Mathf.Min(loopA, loopB) : 0f;
+                        {
+                            EditorAudioPreview.Stop(clip);
+                            playheadSec = 0f;
+                            lastKnownSamplePosition = 0;
+                        }
 
                         if (lastPlayed && lastPlayed != clip) EditorAudioPreview.Stop(lastPlayed);
 
@@ -212,6 +281,7 @@ namespace VirtueSky.AudioEditor
 
                         int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * clip.frequency), 0,
                             clip.samples - 1);
+                        lastKnownSamplePosition = startSample;
                         EditorAudioPreview.Play(clip, false, startSample);
                         lastTickTime = EditorApplication.timeSinceStartup;
                     }
@@ -224,7 +294,8 @@ namespace VirtueSky.AudioEditor
                         isPlaying = false;
                         EditorAudioPreview.Stop();
                         lastPlayed = null;
-                        Repaint();
+                        playheadSec = 0f; // Reset playhead to beginning when stopped
+                        RequestRepaint();
                     }
                 }
 
@@ -233,22 +304,25 @@ namespace VirtueSky.AudioEditor
                     if (clip)
                     {
                         playheadSec = 0f;
+                        lastKnownSamplePosition = 0;
                         if (isPlaying)
                         {
                             EditorAudioPreview.Play(clip, false, 0);
                             lastTickTime = EditorApplication.timeSinceStartup;
                         }
-
-                        Repaint();
+                        else
+                        {
+                            RequestRepaint(); // Only repaint if not playing to update the UI
+                        }
                     }
                 }
 
-                if (GUILayout.Button("↺ Set Loop A", GUILayout.Height(22)))
+                if (GUILayout.Button("â†º Set Loop A", GUILayout.Height(22)))
                 {
                     if (clip) loopA = Mathf.Clamp(playheadSec, 0, clip.length);
                 }
 
-                if (GUILayout.Button("↻ Set Loop B", GUILayout.Height(22)))
+                if (GUILayout.Button("â†» Set Loop B", GUILayout.Height(22)))
                 {
                     if (clip) loopB = Mathf.Clamp(playheadSec, 0, clip.length);
                 }
@@ -262,27 +336,31 @@ namespace VirtueSky.AudioEditor
                         if (isPlaying)
                         {
                             playheadSec = 0f;
+                            lastKnownSamplePosition = 0;
                             EditorAudioPreview.Play(clip, false, 0);
                             lastTickTime = EditorApplication.timeSinceStartup;
                         }
-
-                        Repaint();
+                        else
+                        {
+                            RequestRepaint(); // Only repaint if not playing to update the UI
+                        }
                     }
                 }
 
                 if (GUILayout.Button("Clear Loop", GUILayout.Height(22)))
                 {
                     loopA = loopB = -1f;
+                    RequestRepaint(); // Repaint to update the UI immediately
                 }
             }
 
             EditorGUILayout.LabelField(
-                $"Clip: {clip.name} • Length: {clip.length:0.000}s • Head: {playheadSec:0.000}s" +
-                (HasLoop() ? $" • Loop [{Mathf.Min(loopA, loopB):0.000} – {Mathf.Max(loopA, loopB):0.000}]s" : "")
+                $"Clip: {clip.name} â€¢ Length: {clip.length:0.000}s â€¢ Head: {playheadSec:0.000}s" +
+                (HasLoop() ? $" â€¢ Loop [{Mathf.Min(loopA, loopB):0.000} â€“ {Mathf.Max(loopA, loopB):0.000}]s" : "")
             );
 
             EditorGUILayout.HelpBox(
-                "Loop preview is controlled only by Set Loop A/B/Full or Clear Loop. When there is no A–B: playback will automatically return to 0s (auto-return).",
+                "Loop preview is controlled only by Set Loop A/B/Full or Clear Loop. When there is no Aâ€“B: playback will automatically return to 0s (auto-return).",
                 MessageType.Info
             );
         }
@@ -298,12 +376,32 @@ namespace VirtueSky.AudioEditor
             if (e.type == EventType.MouseDown && e.button == 0)
             {
                 playheadSec = Mathf.Clamp(PixelToTime(r, 0, len, e.mousePosition.x), 0, len);
+                // When user manually sets the playhead, update the audio preview
+                if (isPlaying && activeClip)
+                {
+                    int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * activeClip.frequency), 0,
+                        activeClip.samples - 1);
+                    lastKnownSamplePosition = startSample;
+                    EditorAudioPreview.Play(activeClip, false, startSample);
+                    lastTickTime = EditorApplication.timeSinceStartup;
+                }
                 e.Use();
+                RequestRepaint(); // Force repaint immediately to update the UI
             }
             else if (e.type == EventType.MouseDrag && e.button == 0)
             {
                 playheadSec = Mathf.Clamp(PixelToTime(r, 0, len, e.mousePosition.x), 0, len);
+                // When dragging the playhead, update the audio preview to match the position
+                if (isPlaying && activeClip)
+                {
+                    int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * activeClip.frequency), 0,
+                        activeClip.samples - 1);
+                    lastKnownSamplePosition = startSample;
+                    EditorAudioPreview.Play(activeClip, false, startSample);
+                    lastTickTime = EditorApplication.timeSinceStartup;
+                }
                 e.Use();
+                RequestRepaint(); // Force repaint immediately to update the UI
             }
 
             if (e.type == EventType.MouseDown && e.button == 1)
@@ -336,12 +434,18 @@ namespace VirtueSky.AudioEditor
             {
                 float x = Mathf.Lerp(r.x, r.xMax, t / total);
                 Handles.DrawLine(new Vector2(x, r.y), new Vector2(x, r.yMax));
+            }
+
+            Handles.EndGUI();
+            
+            // Váº½ nhÃ£n sau Ä‘á»ƒ trÃ¡nh chá»“ng chÃ©o vá»›i cÃ¡c Ä‘Æ°á»ng káº»
+            for (float t = 0f; t <= total + 0.0001f; t += step)
+            {
+                float x = Mathf.Lerp(r.x, r.xMax, t / total);
                 var label = $"{t:0.00}s";
                 var size = GUI.skin.label.CalcSize(new GUIContent(label));
                 GUI.Label(new Rect(x + 2, r.y - 1, size.x, r.height), label);
             }
-
-            Handles.EndGUI();
         }
 
         float NiceStep(float total)
@@ -381,3 +485,12 @@ namespace VirtueSky.AudioEditor
         }
     }
 }
+
+
+
+
+
+
+
+
+
