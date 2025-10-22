@@ -110,7 +110,7 @@ namespace VirtueSky.ControlPanel.Editor
                     CPAssetFinderDrawer.OnDrawAssetUsageDetector();
                     break;
                 case StatePanelControl.Audio:
-                    CPAudioDrawer.OnDrawAudio(position);
+                    CPAudioDrawer.OnDrawAudio(position, this);
                     break;
                 case StatePanelControl.InAppReview:
                     CPInAppReviewDrawer.OnDrawInAppReview(position);

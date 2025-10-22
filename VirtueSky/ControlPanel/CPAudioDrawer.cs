@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using VirtueSky.Audio;
 using VirtueSky.AudioEditor;
+using Object = UnityEngine.Object;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -31,6 +33,7 @@ namespace VirtueSky.ControlPanel.Editor
         private static AudioTab audioTab = AudioTab.Explore;
         private static SoundData selectedSoundData;
         private static UnityEditor.Editor soundDataEditor;
+        private static EditorWindow hostWindow;
         
         private static Vector2 leftPanelScrollPosition = Vector2.zero;
         private static Vector2 rightPanelScrollPosition = Vector2.zero;
@@ -180,8 +183,9 @@ namespace VirtueSky.ControlPanel.Editor
         #endregion
 
         #region Main Drawing
-        public static void OnDrawAudio(Rect position)
+        public static void OnDrawAudio(Rect position, EditorWindow ownerWindow)
         {
+            hostWindow = ownerWindow;
             GUILayout.Space(LayoutConstants.HEADER_SPACING);
             GUILayout.BeginVertical();
             
@@ -583,6 +587,13 @@ namespace VirtueSky.ControlPanel.Editor
 
             if (soundDataEditor != null)
             {
+                if (soundDataEditor is SoundDataEditor sdEditor)
+                {
+                    sdEditor.SetExternalRepaintCallback(hostWindow != null
+                        ? new Action(hostWindow.Repaint)
+                        : null);
+                }
+
                 EditorGUI.BeginChangeCheck();
                 soundDataEditor.OnInspectorGUI();
                 if (EditorGUI.EndChangeCheck())
@@ -742,3 +753,8 @@ namespace VirtueSky.ControlPanel.Editor
         #endregion
     }
 }
+
+
+
+
+
