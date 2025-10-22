@@ -265,6 +265,9 @@ namespace VirtueSky.ControlPanel.Editor
             DrawQuickActions();
             GUILayout.Space(5);
             
+            // Handle keyboard input before scrollview to capture events
+            HandleKeyboardInput();
+            
             leftPanelScrollPosition = GUILayout.BeginScrollView(
                 leftPanelScrollPosition, 
                 GUILayout.ExpandHeight(true));
@@ -281,8 +284,6 @@ namespace VirtueSky.ControlPanel.Editor
             }
 
             GUILayout.EndScrollView();
-            
-            HandleKeyboardInput();
         }
 
         private static void DrawSearchBar()
@@ -361,12 +362,30 @@ namespace VirtueSky.ControlPanel.Editor
             
             var rect = GUILayoutUtility.GetRect(new GUIContent(soundData.name), style, GUILayout.ExpandWidth(true));
             
+            // Handle events BEFORE button to capture them
+            Event evt = Event.current;
+            
+            // Handle double-click
+            if (evt.type == EventType.MouseDown && evt.clickCount == 2 && evt.button == 0 && rect.Contains(evt.mousePosition))
+            {
+                StartRename(soundData);
+                evt.Use();
+                return;
+            }
+            
+            // Handle right-click
+            if (evt.type == EventType.ContextClick && rect.Contains(evt.mousePosition))
+            {
+                ShowSoundDataContextMenu(soundData);
+                evt.Use();
+                return;
+            }
+            
+            // Normal button click
             if (GUI.Button(rect, soundData.name, style))
             {
                 SelectSoundData(soundData);
             }
-            
-            HandleButtonEvents(rect, soundData);
         }
 
         private static void DrawRenamingField(SoundData soundData)
@@ -389,25 +408,6 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.EndHorizontal();
             
             HandleRenameFieldEvents();
-        }
-
-        private static void HandleButtonEvents(Rect rect, SoundData soundData)
-        {
-            Event evt = Event.current;
-            
-            if (rect.Contains(evt.mousePosition))
-            {
-                if (evt.type == EventType.ContextClick)
-                {
-                    ShowSoundDataContextMenu(soundData);
-                    evt.Use();
-                }
-                else if (evt.type == EventType.MouseDown && evt.clickCount == 2 && evt.button == 0)
-                {
-                    StartRename(soundData);
-                    evt.Use();
-                }
-            }
         }
 
         private static void HandleRenameFieldEvents()
@@ -599,6 +599,11 @@ namespace VirtueSky.ControlPanel.Editor
             
             Event evt = Event.current;
             
+            // Accept both KeyDown and KeyUp for better compatibility
+            if (evt.type != EventType.KeyDown && evt.type != EventType.KeyUp)
+                return;
+            
+            // Only process on KeyDown to avoid double-processing
             if (evt.type != EventType.KeyDown)
                 return;
             
@@ -612,6 +617,7 @@ namespace VirtueSky.ControlPanel.Editor
                     {
                         StartRename(selectedSoundData);
                         evt.Use();
+                        GUI.changed = true;
                     }
                     break;
                 
@@ -643,7 +649,7 @@ namespace VirtueSky.ControlPanel.Editor
                     
                 case KeyCode.Delete:
                 case KeyCode.Backspace:
-                    if (selectedSoundData != null)
+                    if (selectedSoundData != null && evt.command == false && evt.control == false)
                     {
                         if (EditorUtility.DisplayDialog("Delete SoundData", 
                             $"Are you sure you want to delete '{selectedSoundData.name}'?", "Delete", "Cancel"))

@@ -21,6 +21,7 @@ namespace VirtueSky.AudioEditor
         AudioClip lastPlayed;
         double lastTickTime;
         bool isPlaying = false;
+        int lastKnownSamplePosition = 0;
 
         const float TimebarH = 22f;
         const float LaneH = 38f;
@@ -132,12 +133,21 @@ namespace VirtueSky.AudioEditor
         {
             if (!activeClip || !isPlaying) return;
 
-            double now = EditorApplication.timeSinceStartup;
-            double dt = System.Math.Max(0, now - lastTickTime);
-            lastTickTime = now;
-
-            float oldPlayheadSec = playheadSec;
-            playheadSec += (float)dt;
+            // Sync playhead with actual audio playback position
+            float actualPosition = GetAudioPreviewPosition(activeClip);
+            
+            if (actualPosition >= 0f)
+            {
+                playheadSec = actualPosition;
+            }
+            else
+            {
+                // Fallback to time-based calculation if position can't be retrieved
+                double now = EditorApplication.timeSinceStartup;
+                double dt = System.Math.Max(0, now - lastTickTime);
+                lastTickTime = now;
+                playheadSec += (float)dt;
+            }
 
             if (HasLoop())
             {
@@ -151,6 +161,7 @@ namespace VirtueSky.AudioEditor
                         int startSample = Mathf.Clamp(Mathf.RoundToInt(a * activeClip.frequency), 0,
                             activeClip.samples - 1);
                         EditorAudioPreview.Play(activeClip, false, startSample);
+                        lastTickTime = EditorApplication.timeSinceStartup;
                     }
                 }
             }
@@ -163,12 +174,45 @@ namespace VirtueSky.AudioEditor
                 playheadSec = 0f;
             }
 
-            // Optimize repaint frequency to prevent lag
-            // Only repaint at reasonable intervals (~60 FPS) to prevent UI lag
-            if (dt > 0.016f) // ~60 FPS
+            // Always repaint when playing to ensure smooth animation
+            Repaint();
+        }
+        
+        /// <summary>
+        /// Get current audio preview position using reflection
+        /// </summary>
+        float GetAudioPreviewPosition(AudioClip clip)
+        {
+            if (clip == null) return -1f;
+            
+            try
             {
-                Repaint();
+                var unityEditorAssembly = typeof(AudioImporter).Assembly;
+                var audioUtilClass = unityEditorAssembly.GetType("UnityEditor.AudioUtil");
+                
+                // Try to get the playing sample position
+                var method = audioUtilClass.GetMethod("GetClipSamplePosition",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                
+                if (method != null)
+                {
+                    var result = method.Invoke(null, new object[] { clip });
+                    if (result != null)
+                    {
+                        int samplePosition = (int)result;
+                        if (samplePosition >= 0 && clip.frequency > 0)
+                        {
+                            return (float)samplePosition / clip.frequency;
+                        }
+                    }
+                }
             }
+            catch
+            {
+                // Fallback to time-based calculation
+            }
+            
+            return -1f;
         }
 
         // ====== Timeline UI ======
@@ -221,6 +265,7 @@ namespace VirtueSky.AudioEditor
 
                         int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * clip.frequency), 0,
                             clip.samples - 1);
+                        lastKnownSamplePosition = startSample;
                         EditorAudioPreview.Play(clip, false, startSample);
                         lastTickTime = EditorApplication.timeSinceStartup;
                     }
@@ -243,6 +288,7 @@ namespace VirtueSky.AudioEditor
                     if (clip)
                     {
                         playheadSec = 0f;
+                        lastKnownSamplePosition = 0;
                         if (isPlaying)
                         {
                             EditorAudioPreview.Play(clip, false, 0);
@@ -274,6 +320,7 @@ namespace VirtueSky.AudioEditor
                         if (isPlaying)
                         {
                             playheadSec = 0f;
+                            lastKnownSamplePosition = 0;
                             EditorAudioPreview.Play(clip, false, 0);
                             lastTickTime = EditorApplication.timeSinceStartup;
                         }
@@ -313,11 +360,12 @@ namespace VirtueSky.AudioEditor
             if (e.type == EventType.MouseDown && e.button == 0)
             {
                 playheadSec = Mathf.Clamp(PixelToTime(r, 0, len, e.mousePosition.x), 0, len);
-                // When user manually sets the playhead, stop playback and update the audio preview
+                // When user manually sets the playhead, update the audio preview
                 if (isPlaying && activeClip)
                 {
                     int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * activeClip.frequency), 0,
                         activeClip.samples - 1);
+                    lastKnownSamplePosition = startSample;
                     EditorAudioPreview.Play(activeClip, false, startSample);
                     lastTickTime = EditorApplication.timeSinceStartup;
                 }
@@ -332,6 +380,7 @@ namespace VirtueSky.AudioEditor
                 {
                     int startSample = Mathf.Clamp(Mathf.RoundToInt(playheadSec * activeClip.frequency), 0,
                         activeClip.samples - 1);
+                    lastKnownSamplePosition = startSample;
                     EditorAudioPreview.Play(activeClip, false, startSample);
                     lastTickTime = EditorApplication.timeSinceStartup;
                 }
