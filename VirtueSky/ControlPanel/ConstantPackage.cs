@@ -15,12 +15,12 @@
         public const string MaxVersionAddressables = "1.21.21";
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
-        public const string MaxVersionLevelPlay = "9.0.0";
+        public const string MaxVersionLevelPlay = "9.1.0";
 
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
         public const string VersionAdmob =
-            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.5.0";
+            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.6.0";
 
         #region Google Unity
 
@@ -82,7 +82,7 @@
         #endregion
 
         public const string PackageNameAdjust = "com.adjust.sdk";
-        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.3";
+        public const string MaxVersionAdjust = "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.4.4";
         public const string PackageNamePlayFab = "com.pancake.playfab";
 
         public const string MaxVersionPlayFab =
@@ -91,12 +91,12 @@
         public const string PackageNameAppFlyer = "appsflyer-unity-plugin";
 
         public const string MaxVersionAppFlyer =
-            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#6.17.5";
+            "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git?path=Assets/AppsFlyer#6.17.7";
 
         public const string PackageNameCoffeeUIEffect = "com.coffee.ui-effect";
 
         public const string MaxVersionCoffeeUIEffect =
-            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.10.3";
+            "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.10.4";
 
         public const string PackageNameCoffeeUIParticle = "com.coffee.ui-particle";
 
