@@ -4,7 +4,8 @@
     "references": [
         "Unity.Addressables",
         "Virtuesky.Sunflower.DataStorage.Editor",
-        "VirtueSky.Sunflower.Inspector"
+        "VirtueSky.Sunflower.Inspector",
+        "Unity.Addressables.Editor"
     ],
     "includePlatforms": [
         "Editor"
