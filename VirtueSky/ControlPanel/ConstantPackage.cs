@@ -2,7 +2,7 @@
 {
     public class ConstantPackage
     {
-        public const string VersionSunflower = "3.4.9";
+        public const string VersionSunflower = "3.5.0";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
         public const string MaxVersionInAppPurchase = "5.0.1";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
