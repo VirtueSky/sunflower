@@ -947,6 +947,13 @@ namespace VirtueSky.AssetFinder.Editor
 
             // Fix: Refresh panel visibility when switching between Uses/Used By tabs
             RefreshPanelVisible();
+            
+            // Force refresh drawers when tab changes to ensure content is displayed
+            // Only skip if cache not ready or selection is null
+            if (AssetFinderCache.isReady && selection != null)
+            {
+                RefreshFR2View();
+            }
         }
 
 

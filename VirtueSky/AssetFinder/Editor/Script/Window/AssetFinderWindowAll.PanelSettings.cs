@@ -25,7 +25,7 @@ namespace VirtueSky.AssetFinder.Editor
             public AssetFinderRefDrawer.Mode groupMode = AssetFinderRefDrawer.Mode.Dependency;
             public AssetFinderRefDrawer.Sort sortMode = AssetFinderRefDrawer.Sort.Path;
 
-            public int mainTabIndex = 0; // For main tabs (e.g. Uses/Used By/Addressables)
+            public int mainTabIndex = 1; // For main tabs (e.g. Uses/Used By/Addressables) - Default to "Used By"
             public int toolTabIndex = 0; // For toolTabs (Duplicate/GUID/Unused/In Build/Others)
             public int othersTabIndex = 0; // For vertical tab bar in 'Others' section
 

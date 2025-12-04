@@ -252,16 +252,25 @@ namespace VirtueSky.AssetFinder.Editor
                 RefSceneInScene?.InvalidateGroupCache();
             };
             
-            // Initial sync with Unity selection - delay until after full initialization
-            EditorApplication.delayCall += () =>
+            // Initial sync with Unity selection - sync immediately if cache is ready
+            if (AssetFinderCache.isReady && selection != null)
             {
-                if (selection == null) return;
-                if (!AssetFinderCache.isReady) return;
-                
                 selection.SyncFromGlobalSelection();
-                isSelectionOutOfSync = false; // Reset flag after initial sync
-                RefreshFR2View();
-            };
+                isSelectionOutOfSync = false;
+            }
+            else
+            {
+                // Defer sync until cache is ready
+                EditorApplication.delayCall += () =>
+                {
+                    if (selection == null) return;
+                    if (!AssetFinderCache.isReady) return;
+                    
+                    selection.SyncFromGlobalSelection();
+                    isSelectionOutOfSync = false;
+                    RefreshFR2View();
+                };
+            }
         }
 
         private void OnLocalSelectionChanged()

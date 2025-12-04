@@ -1,5 +1,5 @@
 ﻿namespace VirtueSky.AssetFinder.Editor {
-    public class AssetFinderExtension {
+    public class AssetFinderWindowExtension {
         public static void ShowWindow() {
             AssetFinderWindowAll.ShowWindow();
         }

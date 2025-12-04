@@ -137,7 +137,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!AssetFinderCache.hasCache)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not found. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not found. Use AssetFinder.ScanProject() first.");
                 return;
             }
 
@@ -148,7 +148,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return new List<AssetFinderInfo>();
             }
 
@@ -162,7 +162,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return new List<AssetFinderInfo>();
             }
 
@@ -176,7 +176,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return new List<AssetFinderInfo>();
             }
 
@@ -188,7 +188,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return new List<AssetFinderInfo>();
             }
 
@@ -216,7 +216,7 @@ namespace VirtueSky.AssetFinder.Editor
             
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return result;
             }
 
@@ -239,7 +239,7 @@ namespace VirtueSky.AssetFinder.Editor
             
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return result;
             }
 
@@ -290,7 +290,7 @@ namespace VirtueSky.AssetFinder.Editor
         {
             if (!IsReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not ready. Use FR2.ScanProject() first.");
+                AssetFinderLOG.LogWarning("AssetFinder cache not ready. Use AssetFinder.ScanProject() first.");
                 return false;
             }
 

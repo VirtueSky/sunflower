@@ -371,7 +371,11 @@ namespace VirtueSky.AssetFinder.Editor
                 }
             };
 
-            Event.current.Use();
+            // Only use event if it exists (not null when called from context menu)
+            if (Event.current != null)
+            {
+                Event.current.Use();
+            }
         }
 
         internal void Open()
