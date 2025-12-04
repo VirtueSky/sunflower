@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VirtueSky.AssetFinder.Editor;
+using VirtueSky.UtilsEditor;
+
+//using VirtueSky.AssetFinder.Editor;
 
 namespace VirtueSky.ControlPanel.Editor
 {
@@ -14,13 +17,15 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Open Asset Finder Window (Ctrl+Shift+K / Command+Shift+K)"))
             {
-                AssetFinderWindowAll.ShowWindow();
+                AssetFinderWindowExtension.ShowWindow();
             }
 
             if (GUILayout.Button("Delete Finder Cache"))
             {
-                AssetFinderWindowAll.DeleteFinderCache();
+                AssetFinderWindowExtension.DeleteCache();
             }
+            GUILayout.Space(10);
+            CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.ASSET_FINDER_ADDRESSABLE);
 
             GUILayout.EndVertical();
         }

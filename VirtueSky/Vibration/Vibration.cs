@@ -89,24 +89,32 @@ namespace VirtueSky.Vibration
 
         public static void VibrateIOS(ImpactFeedbackStyle style)
         {
+            if (Application.isMobilePlatform && EnableVibration) 
+            {
 #if UNITY_IOS
-        _impactOccurred(style.ToString());
+                _impactOccurred(style.ToString());
 #endif
+            }
         }
 
         public static void VibrateIOS(NotificationFeedbackStyle style)
         {
+            if (Application.isMobilePlatform && EnableVibration) 
+            {
 #if UNITY_IOS
-        _notificationOccurred(style.ToString());
+                _notificationOccurred(style.ToString());
 #endif
+            }
         }
 
         public static void VibrateIOS_SelectionChanged()
-
         {
+            if (Application.isMobilePlatform && EnableVibration) 
+            {
 #if UNITY_IOS
-        _selectionChanged();
+                _selectionChanged();
 #endif
+            }
         }
 
 
@@ -118,7 +126,7 @@ namespace VirtueSky.Vibration
             if (Application.isMobilePlatform && EnableVibration)
             {
 #if UNITY_IOS
-        _VibratePop ();
+                _VibratePop ();
 #elif UNITY_ANDROID
                 VibrateAndroid(50);
 #endif
@@ -133,7 +141,7 @@ namespace VirtueSky.Vibration
             if (Application.isMobilePlatform && EnableVibration)
             {
 #if UNITY_IOS
-        _VibratePeek ();
+                _VibratePeek ();
 #elif UNITY_ANDROID
                 VibrateAndroid(100);
 #endif
@@ -148,7 +156,7 @@ namespace VirtueSky.Vibration
             if (Application.isMobilePlatform && EnableVibration)
             {
 #if UNITY_IOS
-        _VibrateNope ();
+                _VibrateNope ();
 #elif UNITY_ANDROID
                 long[] pattern = { 0, 50, 50, 50 };
                 VibrateAndroid(pattern, -1);

@@ -23,9 +23,9 @@
 ### 1: Download the repository and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-- for version `3.4.9`
+- for version `3.5.0`
 ```json
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.4.9",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.0",
 ```
 - depencies:
 ```json
