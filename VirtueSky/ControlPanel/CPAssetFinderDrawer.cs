@@ -2,6 +2,8 @@
 using UnityEngine;
 using VirtueSky.AssetFinder.Editor;
 
+//using VirtueSky.AssetFinder.Editor;
+
 namespace VirtueSky.ControlPanel.Editor
 {
     public static class CPAssetFinderDrawer
@@ -14,12 +16,12 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Open Asset Finder Window (Ctrl+Shift+K / Command+Shift+K)"))
             {
-                AssetFinderWindowAll.ShowWindow();
+                AssetFinderExtension.ShowWindow();
             }
 
             if (GUILayout.Button("Delete Finder Cache"))
             {
-                AssetFinderWindowAll.DeleteFinderCache();
+                AssetFinderExtension.DeleteCache();
             }
 
             GUILayout.EndVertical();
