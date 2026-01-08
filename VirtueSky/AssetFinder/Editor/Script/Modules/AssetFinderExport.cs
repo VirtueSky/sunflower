@@ -34,7 +34,7 @@ namespace VirtueSky.AssetFinder.Editor
         }
 
         #if AssetFinderDEV
-        [MenuItem("Assets/FR2/Debug details", false, 19)]
+        [MenuItem("Assets/AssetFinder/Debug details", false, 19)]
         private static void DebugDetails()
         {
             var s = Selection.activeObject;
@@ -59,12 +59,12 @@ namespace VirtueSky.AssetFinder.Editor
         }
         #endif
 
-        [MenuItem("Assets/FR2/Toggle Ignore", false, 19)]
+        [MenuItem("Assets/AssetFinder/Toggle Ignore", false, 19)]
         private static void Ignore()
         {
             if (!AssetFinderCache.isReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
+                AssetFinderLOG.LogWarning("AssetFinder cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
                 return;
             }
 
@@ -84,7 +84,7 @@ namespace VirtueSky.AssetFinder.Editor
             }
         }
 
-        [MenuItem("Assets/FR2/Copy GUID", false, 20)]
+        [MenuItem("Assets/AssetFinder/Copy GUID", false, 20)]
         private static void CopyGUID()
         {
             EditorGUIUtility.systemCopyBuffer = AssetDatabase.AssetPathToGUID(
@@ -92,19 +92,19 @@ namespace VirtueSky.AssetFinder.Editor
             );
         }
 
-        [MenuItem("Assets/FR2/Export Selection", false, 21)]
+        [MenuItem("Assets/AssetFinder/Export Selection", false, 21)]
         private static void ExportSelection()
         {
             if (!AssetFinderCache.isReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
+                AssetFinderLOG.LogWarning("AssetFinder cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
                 return;
             }
 
             AssetFinderUnity.ExportSelection();
         }
 
-        [MenuItem("Assets/FR2/Select Dependencies (assets I use)", false, 22)]
+        [MenuItem("Assets/AssetFinder/Select Dependencies (assets I use)", false, 22)]
         private static void SelectDependencies_wtme()
         {
             if (!AssetFinderCache.isReady)
@@ -116,7 +116,7 @@ namespace VirtueSky.AssetFinder.Editor
             SelectDependencies(false);
         }
 
-        [MenuItem("Assets/FR2/Refresh")]
+        [MenuItem("Assets/AssetFinder/Refresh")]
         public static void ForceRefreshSelection()
         {
             string[] guids = Selection.assetGUIDs;
@@ -145,7 +145,7 @@ namespace VirtueSky.AssetFinder.Editor
             AssetFinderCache.Api.Check4Work();
         }
 
-        [MenuItem("Assets/FR2/Select Dependencies included me", false, 23)]
+        [MenuItem("Assets/AssetFinder/Select Dependencies included me", false, 23)]
         private static void SelectDependencies_wme()
         {
             if (!AssetFinderCache.isReady)
@@ -157,20 +157,20 @@ namespace VirtueSky.AssetFinder.Editor
             SelectDependencies(true);
         }
 
-        //[MenuItem("Assets/FR2/Select")] 
-        [MenuItem("Assets/FR2/Select Used (assets used me)", false, 24)]
+        //[MenuItem("Assets/AssetFinder/Select")] 
+        [MenuItem("Assets/AssetFinder/Select Used (assets used me)", false, 24)]
         private static void SelectUsed_wtme()
         {
             if (!AssetFinderCache.isReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
+                AssetFinderLOG.LogWarning("AssetFinder cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
                 return;
             }
 
             SelectUsed(false);
         }
 
-        [MenuItem("Assets/FR2/Select Used included me", false, 25)]
+        [MenuItem("Assets/AssetFinder/Select Used included me", false, 25)]
         private static void SelectUsed_wme()
         {
             if (!AssetFinderCache.isReady)
@@ -182,7 +182,7 @@ namespace VirtueSky.AssetFinder.Editor
             SelectUsed(true);
         }
 
-        [MenuItem("Assets/FR2/Export Dependencies", false, 40)]
+        [MenuItem("Assets/AssetFinder/Export Dependencies", false, 40)]
         private static void ExportDependencies()
         {
             if (!AssetFinderCache.isReady)
@@ -198,12 +198,12 @@ namespace VirtueSky.AssetFinder.Editor
             AssetFinderUnity.ExportSelection();
         }
 
-        [MenuItem("Assets/FR2/Export Assets (no scripts)", false, 41)]
+        [MenuItem("Assets/AssetFinder/Export Assets (no scripts)", false, 41)]
         private static void ExportAsset()
         {
             if (!AssetFinderCache.isReady)
             {
-                AssetFinderLOG.LogWarning("FR2 cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
+                AssetFinderLOG.LogWarning("AssetFinder cache not yet ready, please open Window > AssetFinderWindow and hit scan project!");
                 return;
             }
 
@@ -484,7 +484,7 @@ namespace VirtueSky.AssetFinder.Editor
         }
 
 
-        //[MenuItem("Assets/FR2/Tools/Fix Model Import Material")]
+        //[MenuItem("Assets/AssetFinder/Tools/Fix Model Import Material")]
         //public static void FixModelImportMaterial(){
         //	if (Selection.activeObject == null) return;
         //	CreatePrefabReplaceModel((GameObject)Selection.activeObject);
