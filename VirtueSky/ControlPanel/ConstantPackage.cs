@@ -4,15 +4,15 @@
     {
         public const string VersionSunflower = "3.5.1";
         public const string PackageNameInAppPurchase = "com.unity.purchasing";
-        public const string MaxVersionInAppPurchase = "5.0.1";
+        public const string MaxVersionInAppPurchase = "5.0.2";
         public const string PackageNameNewtonsoftJson = "com.unity.nuget.newtonsoft-json";
         public const string MaxVersionNewtonsoftJson = "3.2.1";
         public const string PackageNameIOS14AdvertisingSupport = "com.unity.ads.ios-support";
         public const string MaxVersionIOS14AdvertisingSupport = "1.2.0";
         public const string PackageNameMobileNotification = "com.unity.mobile.notifications";
-        public const string MaxVersionMobileNotification = "2.4.1";
+        public const string MaxVersionMobileNotification = "2.4.2";
         public const string PackageNameAddressables = "com.unity.addressables";
-        public const string MaxVersionAddressables = "1.21.21";
+        public const string MaxVersionAddressables = "2.7.4";
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
         public const string MaxVersionLevelPlay = "9.2.0";
