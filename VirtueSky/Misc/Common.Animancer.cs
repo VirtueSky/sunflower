@@ -9,7 +9,7 @@ namespace VirtueSky.Misc
     {
         public static AnimancerComponent PlayClip(this AnimancerComponent animancerComponent, ClipTransition clip,
             Action _endAnim = null, float _durationFade = .2f, bool isCheckPlayingClip = true,
-            FadeMode mode = default)
+            FadeMode mode = default, object _owner = null)
         {
             if (isCheckPlayingClip)
             {
@@ -28,11 +28,12 @@ namespace VirtueSky.Misc
                 var state = animancerComponent.Play(clip, clip.Clip.length * _durationFade, mode);
                 if (_endAnim != null)
                 {
-                    state.Events.OnEnd += OnEndAnim;
+                    object owner = _owner ?? animancerComponent;
+                    state.Events(owner).OnEnd += OnEndAnim;
 
                     void OnEndAnim()
                     {
-                        state.Events.OnEnd -= OnEndAnim;
+                        state.Events(owner).OnEnd -= OnEndAnim;
                         _endAnim?.Invoke();
                     }
                 }
@@ -51,7 +52,7 @@ namespace VirtueSky.Misc
         // Freeze all animations on their current frame:
         public static AnimancerComponent PauseAll(this AnimancerComponent animancerComponent)
         {
-            animancerComponent.Playable.PauseGraph();
+            animancerComponent.Graph.PauseGraph();
             return animancerComponent;
         }
 
