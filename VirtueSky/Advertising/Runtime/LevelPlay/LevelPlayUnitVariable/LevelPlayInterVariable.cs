@@ -20,12 +20,6 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            interstitialAd.OnAdLoaded += InterstitialOnAdLoadedEvent;
-            interstitialAd.OnAdLoadFailed += InterstitialOnAdLoadFailed;
-            interstitialAd.OnAdDisplayed += InterstitialOnAdDisplayEvent;
-            interstitialAd.OnAdClicked += InterstitialOnAdClickedEvent;
-            interstitialAd.OnAdDisplayFailed += InterstitialOnAdDisplayFailedEvent;
-            interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
 #endif
         }
 
@@ -36,6 +30,12 @@ namespace VirtueSky.Ads
             var configBuilder = new LevelPlayInterstitialAd.Config.Builder();
             var config = configBuilder.Build();
             interstitialAd = new LevelPlayInterstitialAd(Id, config);
+            interstitialAd.OnAdLoaded += InterstitialOnAdLoadedEvent;
+            interstitialAd.OnAdLoadFailed += InterstitialOnAdLoadFailed;
+            interstitialAd.OnAdDisplayed += InterstitialOnAdDisplayEvent;
+            interstitialAd.OnAdClicked += InterstitialOnAdClickedEvent;
+            interstitialAd.OnAdDisplayFailed += InterstitialOnAdDisplayFailedEvent;
+            interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
             interstitialAd.LoadAd();
 #endif
         }
@@ -48,7 +48,7 @@ namespace VirtueSky.Ads
             return false;
 #endif
         }
-        
+
         protected override void ShowImpl()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
@@ -95,7 +95,7 @@ namespace VirtueSky.Ads
             Common.CallActionAndClean(ref clickedCallback);
             OnClickedAdEvent?.Invoke();
         }
-        
+
         void InterstitialOnAdDisplayFailedEvent(LevelPlayAdInfo adInfo, LevelPlayAdError adError)
         {
             Common.CallActionAndClean(ref failedToDisplayCallback);
