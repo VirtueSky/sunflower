@@ -20,7 +20,7 @@
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
         public const string VersionAdmob =
-            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v10.7.0";
+            "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile#v11.0.0";
 
         #region Google Unity
 
