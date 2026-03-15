@@ -1,7 +1,9 @@
 using System;
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
 using Unity.Services.LevelPlay;
+using VirtueSky.Core;
 #endif
+using System.Collections;
 using UnityEngine;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
@@ -14,22 +16,20 @@ namespace VirtueSky.Ads
     {
         public AdsSize size;
         public AdsPosition position;
+        public bool isShowOnLoad;
         private bool _isBannerDestroyed = true;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-        private LevelPlayBannerAd bannerAd;  
+        private LevelPlayBannerAd bannerAd;
+        private readonly WaitForSeconds _waitBannerReload = new WaitForSeconds(5f);
+        private IEnumerator _reload;
 #endif
         public override void Init()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            bannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
-            bannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
-            bannerAd.OnAdClicked += BannerOnAdClickedEvent;
-            bannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;
-            bannerAd.OnAdDisplayFailed += BannerOnAdDisplayFailedEvent;
-            bannerAd.OnAdLeftApplication += BannerOnAdLeftApplicationEvent;
+            _isBannerDestroyed = true;
 #endif
         }
 
@@ -37,16 +37,21 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            if (_isBannerDestroyed)
-            {
-                LevelPlayBannerAd.Config.Builder builder = new LevelPlayBannerAd.Config.Builder();
-                builder.SetPosition(ConvertBannerPosition());
-                builder.SetSize(ConvertBannerSize());
-                var config = builder.Build();
-                bannerAd = new LevelPlayBannerAd(Id, config);
-                bannerAd.LoadAd();
-                _isBannerDestroyed = false;
-            }
+            Destroy();
+            LevelPlayBannerAd.Config.Builder builder = new LevelPlayBannerAd.Config.Builder();
+            builder.SetPosition(ConvertBannerPosition());
+            builder.SetSize(ConvertBannerSize());
+            builder.SetDisplayOnLoad(isShowOnLoad);
+            var config = builder.Build();
+            bannerAd = new LevelPlayBannerAd(Id, config);
+            bannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
+            bannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
+            bannerAd.OnAdClicked += BannerOnAdClickedEvent;
+            bannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;
+            bannerAd.OnAdDisplayFailed += BannerOnAdDisplayFailedEvent;
+            bannerAd.OnAdLeftApplication += BannerOnAdLeftApplicationEvent;
+            bannerAd.LoadAd();
+            _isBannerDestroyed = false;
 #endif
         }
 
@@ -68,7 +73,7 @@ namespace VirtueSky.Ads
         public override bool IsReady()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            return true;
+            return bannerAd != null;
 #else
             return false;
 #endif
@@ -142,7 +147,15 @@ namespace VirtueSky.Ads
         {
             Common.CallActionAndClean(ref failedToLoadCallback);
             OnFailedToLoadAdEvent?.Invoke(ironSourceError.ErrorMessage);
-            Destroy();
+            if (_reload != null) App.StopCoroutine(_reload);
+            _reload = DelayBannerReload();
+            App.StartCoroutine(_reload);
+        }
+
+        private IEnumerator DelayBannerReload()
+        {
+            yield return _waitBannerReload;
+            Load();
         }
 
         void BannerOnAdClickedEvent(LevelPlayAdInfo adInfo)

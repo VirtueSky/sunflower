@@ -21,13 +21,6 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
-            rewardedAd.OnAdLoaded += OnAdLoaded;
-            rewardedAd.OnAdDisplayed += RewardedVideoOnAdDisplayedEvent;
-            rewardedAd.OnAdClosed += RewardedVideoOnAdClosedEvent;
-            rewardedAd.OnAdDisplayFailed += RewardedVideoOnAdDisplayFailedEvent;
-            rewardedAd.OnAdRewarded += RewardedVideoOnAdRewardedEvent;
-            rewardedAd.OnAdClicked += RewardedVideoOnAdClickedEvent;
-            rewardedAd.OnAdLoadFailed += RewardedVideoOnAdLoadFailedEvent;
 #endif
         }
 
@@ -39,13 +32,21 @@ namespace VirtueSky.Ads
             var configBuilder = new LevelPlayRewardedAd.Config.Builder();
             var config = configBuilder.Build();
             rewardedAd = new LevelPlayRewardedAd(Id, config);
+            rewardedAd.OnAdLoaded += OnAdLoaded;
+            rewardedAd.OnAdDisplayed += RewardedVideoOnAdDisplayedEvent;
+            rewardedAd.OnAdClosed += RewardedVideoOnAdClosedEvent;
+            rewardedAd.OnAdDisplayFailed += RewardedVideoOnAdDisplayFailedEvent;
+            rewardedAd.OnAdRewarded += RewardedVideoOnAdRewardedEvent;
+            rewardedAd.OnAdClicked += RewardedVideoOnAdClickedEvent;
+            rewardedAd.OnAdLoadFailed += RewardedVideoOnAdLoadFailedEvent;
+            rewardedAd.LoadAd();
 #endif
         }
 
         public override bool IsReady()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            return rewardedAd.IsAdReady();
+            return rewardedAd != null && rewardedAd.IsAdReady();
 #else
             return false;
 #endif

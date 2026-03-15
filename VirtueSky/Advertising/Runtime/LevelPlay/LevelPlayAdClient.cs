@@ -33,9 +33,6 @@ namespace VirtueSky.Ads
             LevelPlay.ValidateIntegration();
             LevelPlay.Init(adSetting.AppKey);
 #endif
-            LoadInterstitial();
-            LoadRewarded();
-            LoadBanner();
         }
 
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
@@ -53,12 +50,16 @@ namespace VirtueSky.Ads
         {
             LevelPlay.SetPauseGame(pauseStatus);
         }
+
         void SdkInitializationCompletedEvent(LevelPlayConfiguration config)
         {
             SdkInitializationCompleted = true;
+            LoadInterstitial();
+            LoadRewarded();
+            LoadBanner();
         }
 #endif
-       
+
 
         public override void LoadBanner()
         {

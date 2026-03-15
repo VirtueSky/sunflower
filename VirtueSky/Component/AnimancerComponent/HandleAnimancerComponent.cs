@@ -16,8 +16,7 @@ namespace VirtueSky.Component
         public bool IsPlaying(ClipTransition clip) => animancerComponent.IsPlaying(clip);
 
         public void PlayAnim(ClipTransition clip, Action _endAnim = null, float _durationFade = .2f,
-            bool isCheckPlayingClip = true,
-            FadeMode mode = default)
+            bool isCheckPlayingClip = true, FadeMode mode = default, object _owner = null)
         {
             if (isCheckPlayingClip)
             {
@@ -36,11 +35,12 @@ namespace VirtueSky.Component
                 var state = animancerComponent.Play(clip, clip.Clip.length * _durationFade, mode);
                 if (_endAnim != null)
                 {
-                    state.Events.OnEnd += OnEndAnim;
+                    object owner = _owner ?? animancerComponent;
+                    state.Events(owner).OnEnd += OnEndAnim;
 
                     void OnEndAnim()
                     {
-                        state.Events.OnEnd -= OnEndAnim;
+                        state.Events(owner).OnEnd -= OnEndAnim;
                         _endAnim?.Invoke();
                     }
                 }
@@ -56,7 +56,7 @@ namespace VirtueSky.Component
         // Freeze all animations on their current frame:
         public void PauseAll()
         {
-            animancerComponent.Playable.PauseGraph();
+            animancerComponent.Graph.PauseGraph();
         }
 
         // Stop a single animation from affecting the character and rewind it to the start:
