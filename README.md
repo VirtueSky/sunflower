@@ -34,6 +34,7 @@
 "com.unity.collections": "2.1.4",
 "com.unity.textmeshpro": "3.0.8",
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
+"com.kyrylokuzyk.primetween": "1.3.8",
 ```
 ## Includes modules
 
