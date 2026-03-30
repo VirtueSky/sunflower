@@ -23,9 +23,9 @@
 ### 1: Download the repository and drop it into folder `Assets`
 ### 2: Add the line below to `Packages/manifest.json`
 
-- for version `3.5.2`
+- for version `3.5.3`
 ```json
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.2",
+"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.3",
 ```
 - depencies:
 ```json
@@ -34,6 +34,7 @@
 "com.unity.collections": "2.1.4",
 "com.unity.textmeshpro": "3.0.8",
 "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.10",
+"com.kyrylokuzyk.primetween": "1.3.8",
 ```
 ## Includes modules
 
