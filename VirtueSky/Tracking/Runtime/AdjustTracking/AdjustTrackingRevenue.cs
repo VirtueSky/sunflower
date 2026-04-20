@@ -10,11 +10,11 @@ namespace VirtueSky.Tracking
         public static Action OnTracked;
 
         public static void AdjustTrackRevenue(double value, string network, string unitId,
-            string placement, string currentAdSettingNetwork)
+            string placement, string currentAdMediation)
         {
 #if VIRTUESKY_ADJUST
             var source = "";
-            switch (currentAdSettingNetwork.ToLower())
+            switch (currentAdMediation.ToLower())
             {
                 case "admob":
                     source = "admob_sdk";
@@ -22,7 +22,7 @@ namespace VirtueSky.Tracking
                 case "max":
                     source = "applovin_max_sdk";
                     break;
-                case "ironsource":
+                case "levelplay":
                     source = "levelplay_ironsource_sdk";
                     break;
             }
