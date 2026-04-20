@@ -1,31 +1,51 @@
-name: Notify Discord on Release
+# .github/workflows/notify-discord-release.yml
+name: Notify Discord Release
 
 on:
   release:
     types: [published]
 
 jobs:
-  notify:
+  notify-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to Discord
+      - name: Send release info to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          RELEASE_NAME: ${{ github.event.release.name }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
-          RELEASE_URL: ${{ github.event.release.html_url }}
-          REPO: ${{ github.repository }}
-          AUTHOR: ${{ github.actor }}
+          RELEASE_TITLE: ${{ github.event.release.name }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          RELEASE_NOTE: ${{ github.event.release.body }}
         run: |
-          CONTENT="🚀 New release published in ${REPO}
-          Tag: ${RELEASE_TAG}
-          Name: ${RELEASE_NAME}
-          Author: ${AUTHOR}
-          URL: ${RELEASE_URL}"
-
-          PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
+          jq -n \
+            --arg title "$RELEASE_TITLE" \
+            --arg tag "$TAG_NAME" \
+            --arg note "$RELEASE_NOTE" \
+            '{
+              embeds: [
+                {
+                  title: "New GitHub Release",
+                  fields: [
+                    {
+                      name: "Release Title",
+                      value: (if $title == "" then "(empty)" else $title end),
+                      inline: false
+                    },
+                    {
+                      name: "Tag Name",
+                      value: (if $tag == "" then "(empty)" else $tag end),
+                      inline: false
+                    },
+                    {
+                      name: "Release Note",
+                      value: (if $note == "" then "(empty)" else $note end),
+                      inline: false
+                    }
+                  ]
+                }
+              ]
+            }' > payload.json
 
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "$PAYLOAD" \
+               -d @payload.json \
                "$DISCORD_WEBHOOK_URL"
