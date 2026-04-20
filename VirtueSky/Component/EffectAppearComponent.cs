@@ -8,6 +8,7 @@ namespace VirtueSky.Component
     [EditorIcon("icon_csharp"), HideMonoScript]
     public class EffectAppearComponent : BaseMono
     {
+        public float delay = 0.1f;
         [Range(0, 2f)] public float TimeScale = .7f;
         public Ease ease = Ease.OutBack;
         public Vector3 fromScale = new Vector3(.5f, .5f, .5f);
@@ -22,7 +23,7 @@ namespace VirtueSky.Component
         public void OnEnable()
         {
             transform.localScale = fromScale;
-            DoEffect();
+            App.Delay(this, delay, DoEffect);
         }
 
         public void DoEffect()
