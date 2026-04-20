@@ -15,7 +15,7 @@
         public const string MaxVersionAddressables = "2.7.4";
 
         public const string PackageNameLevelPlay = "com.unity.services.levelplay";
-        public const string MaxVersionLevelPlay = "9.3.0";
+        public const string MaxVersionLevelPlay = "9.4.0";
 
         public const string PackageNameAdmob = "com.google.ads.mobile";
 
