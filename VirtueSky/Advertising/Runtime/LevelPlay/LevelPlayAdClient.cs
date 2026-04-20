@@ -42,7 +42,7 @@ namespace VirtueSky.Ads
             {
                 AppTracking.TrackRevenue((double)impressionData.Revenue, impressionData.AdNetwork,
                     impressionData.MediationAdUnitId,
-                    impressionData.AdFormat, AdNetwork.LevelPlay.ToString());
+                    impressionData.AdFormat, AdMediation.LevelPlay.ToString());
             }
         }
 

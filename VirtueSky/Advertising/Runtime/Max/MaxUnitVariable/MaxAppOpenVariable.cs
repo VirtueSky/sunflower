@@ -49,10 +49,10 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl()
+        protected override void ShowImpl(string placement = null)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
-            MaxSdk.ShowAppOpenAd(Id);
+            MaxSdk.ShowAppOpenAd(Id, placement: placement);
 #endif
         }
 
@@ -74,7 +74,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Max.ToString());
+                info.AdFormat, AdMediation.Max.ToString());
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
@@ -94,6 +94,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.waitAppOpenClosedAction?.Invoke();
             AdStatic.IsShowingAd = false;
+            IsShowing = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (!string.IsNullOrEmpty(Id)) MaxSdk.LoadAppOpenAd(Id);
@@ -103,6 +104,7 @@ namespace VirtueSky.Ads
         {
             AdStatic.waitAppOpenDisplayedAction?.Invoke();
             AdStatic.IsShowingAd = true;
+            IsShowing = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }

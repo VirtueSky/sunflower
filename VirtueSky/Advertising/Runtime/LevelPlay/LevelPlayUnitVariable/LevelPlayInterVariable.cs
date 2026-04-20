@@ -49,10 +49,10 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl()
+        protected override void ShowImpl(string placement = null)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            interstitialAd.ShowAd();
+            interstitialAd.ShowAd(placement);
 #endif
         }
 
@@ -86,6 +86,7 @@ namespace VirtueSky.Ads
         void InterstitialOnAdDisplayEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = true;
+            IsShowing = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -105,6 +106,7 @@ namespace VirtueSky.Ads
         void InterstitialOnAdClosedEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = false;
+            IsShowing = false;
             Common.CallActionAndClean(ref completedCallback);
             OnClosedAdEvent?.Invoke();
             Load();

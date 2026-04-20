@@ -9,6 +9,8 @@ namespace VirtueSky.Ads
         [SerializeField] protected string iOSId;
         [NonSerialized] private string idRuntime = string.Empty;
 
+        public override bool IsShowing { get; internal set; }
+
         public override string Id
         {
             get
@@ -28,19 +30,20 @@ namespace VirtueSky.Ads
             }
         }
 
+        public override AdUnitVariable Show(string placement = null)
+        {
+            ResetChainCallback();
+            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd ||
+                !IsReady()) return this;
+            ShowImpl(placement);
+            return this;
+        }
+
         public void SetIdRuntime(string unitId)
         {
             idRuntime = unitId;
         }
 
-
-        public override AdUnitVariable Show()
-        {
-            ResetChainCallback();
-            if (!Application.isMobilePlatform || string.IsNullOrEmpty(Id) || AdStatic.IsRemoveAd ||
-                !IsReady()) return this;
-            ShowImpl();
-            return this;
-        }
+        
     }
 }

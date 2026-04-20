@@ -10,13 +10,13 @@
         }
 
         public static void TrackRevenue(double value, string network, string unitId, string format,
-            string currentAdSettingNetwork)
+            string currentAdMediation)
         {
             if (!enableTrackRevenue) return;
-            AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, currentAdSettingNetwork);
+            AdjustTrackingRevenue.AdjustTrackRevenue(value, network, unitId, format, currentAdMediation);
             FirebaseAnalyticTrackingRevenue.FirebaseAnalyticTrackRevenue(value, network, unitId,
-                format, currentAdSettingNetwork);
-            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, currentAdSettingNetwork);
+                format, currentAdMediation);
+            AppsFlyerTrackingRevenue.AppsFlyerTrackRevenueAd(value, network, unitId, format, currentAdMediation);
         }
 
         public static void FirebaseAnalyticTrackATTResult(int status)

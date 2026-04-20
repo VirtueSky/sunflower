@@ -1,51 +1,64 @@
 # .github/workflows/notify-discord-release.yml
-name: Notify Discord Release
-
-on:
-  release:
-    types: [published]
-
-jobs:
-  notify-discord:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send release info to Discord
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          RELEASE_TITLE: ${{ github.event.release.name }}
-          TAG_NAME: ${{ github.event.release.tag_name }}
-          RELEASE_NOTE: ${{ github.event.release.body }}
-        run: |
-          jq -n \
-            --arg title "$RELEASE_TITLE" \
-            --arg tag "$TAG_NAME" \
-            --arg note "$RELEASE_NOTE" \
-            '{
-              embeds: [
-                {
-                  title: "New GitHub Release",
-                  fields: [
-                    {
-                      name: "Release Title",
-                      value: (if $title == "" then "(empty)" else $title end),
-                      inline: false
-                    },
-                    {
-                      name: "Tag Name",
-                      value: (if $tag == "" then "(empty)" else $tag end),
-                      inline: false
-                    },
-                    {
-                      name: "Release Note",
-                      value: (if $note == "" then "(empty)" else $note end),
-                      inline: false
-                    }
-                  ]
-                }
-              ]
-            }' > payload.json
-
-          curl -H "Content-Type: application/json" \
-               -X POST \
-               -d @payload.json \
-               "$DISCORD_WEBHOOK_URL"
+name: Notify Discord on Release                                                                                                                                                                                                  
+                                                                                                                                                                                                                                   
+  on:                                                                                                                                                                                                                              
+    release:                                                                                                                                                                                                                       
+      types: [published]                                                                                                                                                                                                           
+                                                                                                                                                                                                                                   
+  jobs:                                                                                                                                                                                                                            
+    notify-discord:                                                                                                                                                                                                                
+      runs-on: ubuntu-latest                                                                                                                                                                                                       
+      steps:                                                                                                                                                                                                                       
+        - name: Send release info to Discord                                                                                                                                                                                       
+          env:                                                                                                                                                                                                                     
+            DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}                                                                                                                                                                
+          run: |                                                                                                                                                                                                                   
+            # Escape special characters in release notes                                                                                                                                                                           
+            SAFE_NOTES="${{ github.event.release.body }}"                                                                                                                                                                          
+            SAFE_NOTES="${SAFE_NOTES//\"/\\\"}"                                                                                                                                                                                    
+            SAFE_NOTES="${SAFE_NOTES//$'\n'/\\n}"                                                                                                                                                                                  
+                                                                                                                                                                                                                                   
+            # Create timestamp                                                                                                                                                                                                     
+            CREATED_AT="${{ github.event.release.created_at }}"                                                                                                                                                                    
+            CREATED_AT="${CREATED_AT//T/ }"                                                                                                                                                                                        
+            CREATED_AT="${CREATED_AT//Z/ UTC}"                                                                                                                                                                                     
+                                                                                                                                                                                                                                   
+            jq -n \                                                                                                                                                                                                                
+              --arg title "${{ github.event.release.name }}" \                                                                                                                                                                     
+              --arg tag "${{ github.event.release.tag_name }}" \                                                                                                                                                                   
+              --arg url "${{ github.event.release.html_url }}" \                                                                                                                                                                   
+              --arg author "${{ github.actor }}" \                                                                                                                                                                                 
+              --arg notes "$SAFE_NOTES" \                                                                                                                                                                                          
+              --arg created "$CREATED_AT" \                                                                                                                                                                                        
+              --arg repo "${{ github.repository }}" \                                                                                                                                                                              
+              '{                                                                                                                                                                                                                   
+                username: "GitHub Release Bot",                                                                                                                                                                                    
+                avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",                                                                                                                           
+                embeds: [                                                                                                                                                                                                          
+                  {                                                                                                                                                                                                                
+                    title: "🚀 New Release Published",                                                                                                                                                                             
+                    url: $url,                                                                                                                                                                                                     
+                    color: 5793266,                                                                                                                                                                                                
+                    author: {                                                                                                                                                                                                      
+                      name: $author,                                                                                                                                                                                               
+                      icon_url: ("https://github.com/" + $author + ".png")                                                                                                                                                         
+                    },                                                                                                                                                                                                             
+                    fields: [                                                                                                                                                                                                      
+                      {name: "Repository", value: $repo, inline: true},                                                                                                                                                            
+                      {name: "Tag", value: $tag, inline: true},                                                                                                                                                                    
+                      {name: "Released at", value: $created, inline: false},                                                                                                                                                       
+                      {name: "Release Notes", value: (if $notes == "" then "No description" else $notes end), inline: false}                                                                                                       
+                    ],                                                                                                                                                                                                             
+                    footer: {                                                                                                                                                                                                      
+                      text: "GitHub Actions",                                                                                                                                                                                      
+                      icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"                                                                                                                        
+                    },                                                                                                                                                                                                             
+                    timestamp: (now | todate)                                                                                                                                                                                      
+                  }                                                                                                                                                                                                                
+                ]                                                                                                                                                                                                                  
+              }' > payload.json                                                                                                                                                                                                    
+                                                                                                                                                                                                                                   
+            curl -H "Content-Type: application/json" \                                                                                                                                                                             
+                 -X POST \                                                                                                                                                                                                         
+                 -d @payload.json \                                                                                                                                                                                                
+                 "$DISCORD_WEBHOOK_URL"                         

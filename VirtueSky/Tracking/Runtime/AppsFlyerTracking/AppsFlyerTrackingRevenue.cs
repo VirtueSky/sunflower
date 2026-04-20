@@ -16,11 +16,11 @@ namespace VirtueSky.Tracking
     {
         public static Action OnTracked;
         public static void AppsFlyerTrackRevenueAd(double value, string network, string unitId,
-            string format, string currentAdSettingNetwork)
+            string format, string currentAdMediation)
         {
 #if VIRTUESKY_APPSFLYER
             var mediationNetworks = MediationNetwork.GoogleAdMob;
-            switch (currentAdSettingNetwork.ToLower())
+            switch (currentAdMediation.ToLower())
             {
                 case "admob":
                     mediationNetworks = MediationNetwork.GoogleAdMob;
@@ -28,7 +28,7 @@ namespace VirtueSky.Tracking
                 case "max":
                     mediationNetworks = MediationNetwork.ApplovinMax;
                     break;
-                case "ironsource":
+                case "levelplay":
                     mediationNetworks = MediationNetwork.IronSource;
                     break;
             }

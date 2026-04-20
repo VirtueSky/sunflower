@@ -132,7 +132,7 @@ namespace VirtueSky.Ads
         #endregion
     }
 
-    public enum AdNetwork
+    public enum AdMediation
     {
         Max,
         Admob,

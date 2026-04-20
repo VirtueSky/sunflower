@@ -47,18 +47,18 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl()
+        protected override void ShowImpl(string placement = null)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
-            MaxSdk.ShowRewardedAd(Id);
+            MaxSdk.ShowRewardedAd(Id, placement: placement);
 #endif
         }
 
-        public override AdUnitVariable Show()
+        public override AdUnitVariable Show(string placement = null)
         {
             ResetChainCallback();
             if (!UnityEngine.Application.isMobilePlatform || !IsReady()) return this;
-            ShowImpl();
+            ShowImpl(placement);
             return this;
         }
 
@@ -87,7 +87,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(info.Revenue,
                 info.NetworkName,
                 unit,
-                info.AdFormat, AdNetwork.Max.ToString());
+                info.AdFormat, AdMediation.Max.ToString());
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
@@ -112,6 +112,7 @@ namespace VirtueSky.Ads
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
             AdStatic.IsShowingAd = false;
+            IsShowing = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (!IsReady()) MaxSdk.LoadRewardedAd(Id);
@@ -128,6 +129,7 @@ namespace VirtueSky.Ads
         private void OnAdDisplayed(string unit, MaxSdkBase.AdInfo info)
         {
             AdStatic.IsShowingAd = true;
+            IsShowing = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
