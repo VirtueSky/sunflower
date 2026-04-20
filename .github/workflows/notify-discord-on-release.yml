@@ -11,23 +11,24 @@ jobs:
       - name: Send release info to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RELEASE_TITLE: ${{ github.event.release.name }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+          RELEASE_NOTE: ${{ github.event.release.body }}
         run: |
-          RELEASE_TITLE="${{ github.event.release.name }}"
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          RELEASE_NOTE="${{ github.event.release.body }}"
+          NOTE="$RELEASE_NOTE"
 
-          if [ -z "$RELEASE_NOTE" ]; then
-            RELEASE_NOTE="(empty)"
+          if [ -z "$NOTE" ]; then
+            NOTE="(empty)"
           fi
 
-          if [ ${#RELEASE_NOTE} -gt 1000 ]; then
-            RELEASE_NOTE="${RELEASE_NOTE:0:1000}..."
+          if [ ${#NOTE} -gt 1000 ]; then
+            NOTE="${NOTE:0:1000}..."
           fi
 
           jq -n \
             --arg title "$RELEASE_TITLE" \
             --arg tag "$TAG_NAME" \
-            --arg note "$RELEASE_NOTE" \
+            --arg note "$NOTE" \
             '{
               embeds: [
                 {
