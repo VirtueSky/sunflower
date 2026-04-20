@@ -2,9 +2,14 @@
   "name": "com.virtuesky.sunflower",
   "displayName": "Sunflower",
   "description": "Core ScriptableObject Architecture for building Unity games",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "unity": "2022.3",
   "category": "virtuesky",
+  "author": {
+    "name": "virtuesky",
+    "email": "virtuesky.0520@gmail.com",
+    "url": "https://github.com/VirtueSky"
+  },
   "license": "MIT",
   "keywords": [
     "ScriptableObjectArchitecture",
