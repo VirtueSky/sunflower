@@ -21,12 +21,13 @@ namespace VirtueSky.Ads
         public Action OnClosedAdEvent;
         public Action OnClickedAdEvent;
 
+        public abstract bool IsShowing { get; internal set; }
         public virtual string Id
         {
             get => "";
         }
 
-        protected virtual void ShowImpl()
+        protected virtual void ShowImpl(string placement = null)
         {
         }
 
@@ -42,7 +43,7 @@ namespace VirtueSky.Ads
         {
         }
 
-        public abstract AdUnitVariable Show();
+        public abstract AdUnitVariable Show(string placement = null);
 
         public virtual void Init()
         {

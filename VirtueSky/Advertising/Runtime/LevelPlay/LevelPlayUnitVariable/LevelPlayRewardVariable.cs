@@ -52,18 +52,18 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl()
+        protected override void ShowImpl(string placement = null)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            rewardedAd.ShowAd();
+            rewardedAd.ShowAd(placement);
 #endif
         }
 
-        public override AdUnitVariable Show()
+        public override AdUnitVariable Show(string placement = null)
         {
             ResetChainCallback();
             if (!UnityEngine.Application.isMobilePlatform || !IsReady()) return this;
-            ShowImpl();
+            ShowImpl(placement);
             return this;
         }
 
@@ -98,6 +98,7 @@ namespace VirtueSky.Ads
         void RewardedVideoOnAdDisplayedEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = true;
+            IsShowing = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -105,6 +106,7 @@ namespace VirtueSky.Ads
         void RewardedVideoOnAdClosedEvent(LevelPlayAdInfo adInfo)
         {
             AdStatic.IsShowingAd = false;
+            IsShowing = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
             if (!IsReady()) rewardedAd.LoadAd();

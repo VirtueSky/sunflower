@@ -89,7 +89,7 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl()
+        protected override void ShowImpl(string placement = null)
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             if (_nativeOverlayAd != null)
@@ -330,12 +330,14 @@ namespace VirtueSky.Ads
 
         private void OnAdClosed()
         {
+            IsShowing = false;
             Common.CallActionAndClean(ref closedCallback);
             OnClosedAdEvent?.Invoke();
         }
 
         private void OnAdOpening()
         {
+            IsShowing = true;
             Common.CallActionAndClean(ref displayedCallback);
             OnDisplayedAdEvent?.Invoke();
         }
@@ -351,7 +353,7 @@ namespace VirtueSky.Ads
             paidedCallback?.Invoke(value.Value / 1000000f,
                 "Admob",
                 Id,
-                "NativeOverlayAd", AdNetwork.Admob.ToString());
+                "NativeOverlayAd", AdMediation.Admob.ToString());
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
