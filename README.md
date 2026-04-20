@@ -72,3 +72,5 @@
 - [See Document](https://github.com/VirtueSky/sunflower/wiki)
 - [Project implementation](https://github.com/VirtueSky/TheBeginning)
 - [Core has similar modules but does not use scriptable architecture](https://github.com/wolf-package/unity-common)
+
+[Discord](https://discord.gg/bpcUyHRZ)
