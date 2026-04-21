@@ -111,7 +111,7 @@ namespace VirtueSky.Ads
         void InitAdClient()
         {
             AppTracking.Init(adSetting.EnableTrackAdRevenue);
-            if (adSetting.UseMax)
+            if (adSetting.UseAppLovin)
             {
                 maxAdClient = new MaxAdClient(adSetting);
                 maxAdClient.Initialize();
@@ -166,7 +166,7 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseMax) maxAdClient.LoadInterstitial();
+            if (adSetting.UseAppLovin) maxAdClient.LoadInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadInterstitial();
             if (adSetting.UseLevelPlay) ironSourceAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
@@ -176,7 +176,7 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseMax) maxAdClient.LoadRewarded();
+            if (adSetting.UseAppLovin) maxAdClient.LoadRewarded();
             if (adSetting.UseAdmob) admobAdClient.LoadRewarded();
             if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
@@ -186,7 +186,7 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseMax) maxAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseAppLovin) maxAdClient.LoadRewardedInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadRewardedInterstitial();
             if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
@@ -196,7 +196,7 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseMax) maxAdClient.LoadAppOpen();
+            if (adSetting.UseAppLovin) maxAdClient.LoadAppOpen();
             if (adSetting.UseAdmob) admobAdClient.LoadAppOpen();
             if (adSetting.UseLevelPlay) ironSourceAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;

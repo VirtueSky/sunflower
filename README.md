@@ -25,7 +25,21 @@
 
 - for version `3.5.4`
 ```json
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.4",
+{
+  "scopedRegistries": [
+    {
+      "name": "npm",
+      "url": "https://registry.npmjs.org/",
+      "scopes": [
+        "com.kyrylokuzyk"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.4"
+  }
+}
+
 ```
 - depencies:
 ```json
@@ -73,4 +87,4 @@
 - [Project implementation](https://github.com/VirtueSky/TheBeginning)
 - [Core has similar modules but does not use scriptable architecture](https://github.com/wolf-package/unity-common)
 
-[Discord](https://discord.gg/bpcUyHRZ)
+[Join Discord to receive update notifications](https://discord.gg/bpcUyHRZ)

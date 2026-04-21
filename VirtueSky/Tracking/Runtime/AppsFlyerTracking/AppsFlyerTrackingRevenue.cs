@@ -25,7 +25,7 @@ namespace VirtueSky.Tracking
                 case "admob":
                     mediationNetworks = MediationNetwork.GoogleAdMob;
                     break;
-                case "max":
+                case "applovin":
                     mediationNetworks = MediationNetwork.ApplovinMax;
                     break;
                 case "levelplay":
