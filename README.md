@@ -87,4 +87,4 @@
 - [Project implementation](https://github.com/VirtueSky/TheBeginning)
 - [Core has similar modules but does not use scriptable architecture](https://github.com/wolf-package/unity-common)
 
-[Discord](https://discord.gg/bpcUyHRZ)
+[Join Discord to receive update notifications](https://discord.gg/bpcUyHRZ)
