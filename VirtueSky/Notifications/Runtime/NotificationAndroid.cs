@@ -54,6 +54,52 @@ namespace VirtueSky.Notifications
             AndroidNotificationCenter.SendNotification(notification, identifier);
         }
 
+        internal static void ScheduleAtSpecificTime(
+            string identifier,
+            string title,
+            string text,
+            DateTime fireTime,
+            string largeIcon = null,
+            string channelName = "Nova",
+            string channelDescription = "Newsletter Announcement",
+            string smallIcon = "icon_0",
+            BigPictureStyle? bigPictureStyle = null,
+            bool repeat = false)
+        {
+            RegisterNotificationChannel(identifier, channelName, channelDescription);
+            var now = DateTime.Now;
+            var todayFireTime = new DateTime(now.Year, now.Month, now.Day, 
+                fireTime.Hour, fireTime.Minute, fireTime.Second);
+            var adjustedFireTime = todayFireTime;
+            if (adjustedFireTime <= now)
+            {
+                adjustedFireTime = adjustedFireTime.AddDays(1);
+            }
+            
+            var timeOffset = adjustedFireTime - now;
+
+            var notification = new AndroidNotification()
+            {
+                Title = title,
+                Text = text,
+                FireTime = DateTime.Now + timeOffset,
+                Group = identifier,
+                GroupSummary = true,
+                ShouldAutoCancel = true,
+                BigPicture = bigPictureStyle,
+            };
+            
+            if (repeat)
+            {
+                notification.RepeatInterval = TimeSpan.FromDays(1);
+            }
+
+            if (largeIcon != null) notification.LargeIcon = largeIcon;
+            if (smallIcon != null) notification.SmallIcon = smallIcon;
+
+            AndroidNotificationCenter.SendNotification(notification, identifier);
+        }
+
         internal static void CancelAllScheduled()
         {
             AndroidNotificationCenter.CancelAllScheduledNotifications();
