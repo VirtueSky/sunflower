@@ -25,7 +25,21 @@
 
 - for version `3.5.4`
 ```json
-"com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.4",
+{
+  "scopedRegistries": [
+    {
+      "name": "npm",
+      "url": "https://registry.npmjs.org/",
+      "scopes": [
+        "com.kyrylokuzyk"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.virtuesky.sunflower":"https://github.com/VirtueSky/sunflower.git#3.5.4"
+  }
+}
+
 ```
 - depencies:
 ```json
