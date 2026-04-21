@@ -13,6 +13,11 @@ namespace VirtueSky.Notifications
     {
         [Space(20), SerializeField] private NotificationVariable[] notificationVariables;
         [SerializeField] private bool autoSchedule = true;
+        
+        [Header("Schedule On Quit/Pause")]
+        [SerializeField] private bool scheduleOnQuit = true;
+        [SerializeField] private NotificationVariable[] notificationOnQuitVariables;
+        
         private void Start()
         {
 #if UNITY_ANDROID
@@ -26,6 +31,12 @@ namespace VirtueSky.Notifications
                     if (!variable.bigPicture) continue;
                     if (!strs.Contains(variable.namePicture)) strs.Add(variable.namePicture);
                 }
+                
+                foreach (var variable in notificationOnQuitVariables)
+                {
+                    if (variable == null || !variable.bigPicture) continue;
+                    if (!strs.Contains(variable.namePicture)) strs.Add(variable.namePicture);
+                }
 
                 foreach (string s in strs)
                 {
@@ -33,8 +44,43 @@ namespace VirtueSky.Notifications
                 }
             }
 #endif
-            if (autoSchedule) AutoSchedule();
+            CancelAllScheduledNotifications();
+            
         }
+        
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                ScheduleOnQuit();
+                if (autoSchedule) AutoSchedule();
+            }
+            else
+            {
+                CancelAllScheduledNotifications();
+            }
+        }
+        
+        private void ScheduleOnQuit()
+        {
+            if (!scheduleOnQuit) return;
+            if (!Application.isMobilePlatform) return;
+            
+            foreach (var notification in notificationOnQuitVariables)
+            {
+                if (notification != null)
+                {
+                    notification.Schedule();
+                }
+            }
+        }
+        
+        private void CancelAllScheduledNotifications()
+        {
+            if (!Application.isMobilePlatform) return;
+            NotificationConsole.CancelAllScheduled();
+        }
+        
 #if UNITY_ANDROID
         private IEnumerator PrepareImage(string destDir, string filename)
         {
