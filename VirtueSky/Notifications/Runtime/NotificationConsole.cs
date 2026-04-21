@@ -65,6 +65,60 @@ namespace VirtueSky.Notifications
 #endif
         }
 
+        internal static void ScheduleAtSpecificTime(
+            string identifier,
+            string title,
+            string text,
+            DateTime fireTime,
+            string largeIcon = null,
+            string channelName = "Nova",
+            string channelDescription = "Newsletter Announcement",
+            string smallIcon = null,
+            bool bigPicture = false,
+            string namePicture = "",
+            bool repeat = false)
+        {
+            if (string.IsNullOrEmpty(smallIcon)) smallIcon = "icon_0";
+            if (string.IsNullOrEmpty(largeIcon)) largeIcon = "icon_1";
+
+#if UNITY_ANDROID && VIRTUESKY_NOTIFICATION
+            Unity.Notifications.Android.BigPictureStyle? bigPictureStyle = null;
+            if (bigPicture)
+            {
+                bigPictureStyle = new Unity.Notifications.Android.BigPictureStyle { Picture = namePicture, ContentTitle = title, ContentDescription = text };
+            }
+
+            NotificationAndroid.ScheduleAtSpecificTime(identifier,
+                title,
+                text,
+                fireTime,
+                largeIcon,
+                channelName,
+                channelDescription,
+                smallIcon,
+                bigPictureStyle,
+                repeat);
+#elif UNITY_IOS && VIRTUESKY_NOTIFICATION
+            // Lấy thời gian hiện tại
+            var now = DateTime.Now;
+
+            // Tạo thời gian fire cho hôm nay với giờ/phút/giây từ fireTime
+            var todayFireTime = new DateTime(now.Year, now.Month, now.Day,
+                fireTime.Hour, fireTime.Minute, fireTime.Second);
+
+            // Nếu thời gian hôm nay đã qua, schedule cho ngày mai
+            var adjustedFireTime = todayFireTime;
+            if (adjustedFireTime <= now)
+            {
+                adjustedFireTime = adjustedFireTime.AddDays(1);
+            }
+
+            // Tính timeOffset từ bây giờ đến thời gian fire
+            var timeOffset = adjustedFireTime - now;
+            NotificationIOS.Schedule(identifier, title, "", text, timeOffset, repeat);
+#endif
+        }
+
         internal static void CancelAllScheduled()
         {
 #if UNITY_ANDROID && VIRTUESKY_NOTIFICATION
