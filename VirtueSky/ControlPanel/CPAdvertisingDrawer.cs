@@ -94,7 +94,7 @@ namespace VirtueSky.ControlPanel.Editor
             CPUtility.DrawHeader("Define Symbols");
             GUILayout.Space(10);
             CPUtility.DrawButtonAddDefineSymbols(ConstantDefineSymbols.VIRTUESKY_ADS);
-            if (_adSetting.UseMax)
+            if (_adSetting.UseAppLovin)
             {
 #if !VIRTUESKY_ADS || !VIRTUESKY_APPLOVIN
             EditorGUILayout.HelpBox(
@@ -133,7 +133,7 @@ namespace VirtueSky.ControlPanel.Editor
             GUILayout.Space(10);
             CPUtility.DrawHeader("Install Sdk");
             GUILayout.Space(10);
-            if (_adSetting.UseMax)
+            if (_adSetting.UseAppLovin)
             {
                 GUILayout.Space(10);
                 if (GUILayout.Button("Install Max Sdk Plugin"))

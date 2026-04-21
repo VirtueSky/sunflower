@@ -12,7 +12,7 @@ namespace VirtueSky.Ads
     {
         private AdSetting _adSetting;
 
-        private SerializedProperty _useMax;
+        private SerializedProperty _useApplovin;
         private SerializedProperty _useAdmob;
         private SerializedProperty _useLevelPlay;
         private SerializedProperty _enableTrackAdRevenue;
@@ -53,7 +53,7 @@ namespace VirtueSky.Ads
         void Initialize()
         {
             _adSetting = target as AdSetting;
-            _useMax = serializedObject.FindProperty("useMax");
+            _useApplovin = serializedObject.FindProperty("useAppLovin");
             _useAdmob = serializedObject.FindProperty("useAdmob");
             _useLevelPlay = serializedObject.FindProperty("useLevelPlay");
             _enableTrackAdRevenue = serializedObject.FindProperty("enableTrackAdRevenue");
@@ -95,7 +95,7 @@ namespace VirtueSky.Ads
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_adCheckingInterval);
             EditorGUILayout.PropertyField(_adLoadingInterval);
-            EditorGUILayout.PropertyField(_useMax);
+            EditorGUILayout.PropertyField(_useApplovin);
             EditorGUILayout.PropertyField(_useAdmob);
             EditorGUILayout.PropertyField(_useLevelPlay);
             EditorGUILayout.PropertyField(_enableTrackAdRevenue);
@@ -106,7 +106,7 @@ namespace VirtueSky.Ads
             }
 
             GUILayout.Space(10);
-            if (_useMax.boolValue) SetupMax();
+            if (_useApplovin.boolValue) SetupMax();
             if (_useAdmob.boolValue) SetupAdmob();
             if (_useLevelPlay.boolValue) SetupIronSource();
 

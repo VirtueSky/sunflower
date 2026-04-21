@@ -22,7 +22,7 @@ namespace VirtueSky.Tracking
                     ad_platform = "Admob";
                     break;
 
-                case "max":
+                case "applovin":
                     ad_platform = "AppLovin";
                     break;
                 case "levelplay":

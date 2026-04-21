@@ -19,7 +19,7 @@ namespace VirtueSky.Tracking
                 case "admob":
                     source = "admob_sdk";
                     break;
-                case "max":
+                case "applovin":
                     source = "applovin_max_sdk";
                     break;
                 case "levelplay":

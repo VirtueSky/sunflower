@@ -16,7 +16,7 @@ namespace VirtueSky.Ads
 
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
 
-        [SerializeField] private bool useMax = true;
+        [SerializeField] private bool useAppLovin = true;
         [SerializeField] private bool useAdmob;
         [SerializeField] private bool useLevelPlay;
         [SerializeField] private bool enableTrackAdRevenue = true;
@@ -27,7 +27,7 @@ namespace VirtueSky.Ads
         [SerializeField] private bool enableGDPRTestMode;
         public float AdCheckingInterval => adCheckingInterval;
         public float AdLoadingInterval => adLoadingInterval;
-        public bool UseMax => useMax;
+        public bool UseAppLovin => useAppLovin;
         public bool UseAdmob => useAdmob;
         public bool UseLevelPlay => useLevelPlay;
         public bool EnableTrackAdRevenue => enableTrackAdRevenue;
@@ -134,7 +134,7 @@ namespace VirtueSky.Ads
 
     public enum AdMediation
     {
-        Max,
+        AppLovin,
         Admob,
         LevelPlay
     }
