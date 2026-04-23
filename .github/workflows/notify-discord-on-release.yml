@@ -1,21 +1,38 @@
-name: Notify Discord on Release
+name: Notify Discord on Release or Tag
 
 on:
   release:
     types: [published]
+  push:
+    tags:
+      - '*'
 
 jobs:
   notify-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Send release info to Discord
+      - name: Send release/tag info to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          EVENT_NAME: ${{ github.event_name }}
           RELEASE_TITLE: ${{ github.event.release.name }}
-          TAG_NAME: ${{ github.event.release.tag_name }}
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
           RELEASE_NOTE: ${{ github.event.release.body }}
+          PUSH_TAG_NAME: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+          ACTOR: ${{ github.actor }}
         run: |
-          NOTE="$RELEASE_NOTE"
+          if [ "$EVENT_NAME" = "release" ]; then
+            TITLE="${RELEASE_TITLE:-No release title}"
+            TAG="${RELEASE_TAG_NAME:-Unknown tag}"
+            NOTE="${RELEASE_NOTE}"
+            EVENT_LABEL="GitHub Release"
+          else
+            TITLE="Tag created"
+            TAG="${PUSH_TAG_NAME:-Unknown tag}"
+            NOTE="A new tag was pushed without creating a GitHub Release."
+            EVENT_LABEL="Git Tag"
+          fi
 
           if [ -z "$NOTE" ]; then
             NOTE="(empty)"
@@ -26,17 +43,22 @@ jobs:
           fi
 
           jq -n \
-            --arg title "$RELEASE_TITLE" \
-            --arg tag "$TAG_NAME" \
+            --arg event "$EVENT_LABEL" \
+            --arg title "$TITLE" \
+            --arg tag "$TAG" \
             --arg note "$NOTE" \
+            --arg repo "$REPO" \
+            --arg actor "$ACTOR" \
             '{
               embeds: [
                 {
-                  title: "GitHub Release",
+                  title: $event,
                   fields: [
-                    { "name": "Release Title", "value": $title, "inline": false },
+                    { "name": "Repository", "value": $repo, "inline": false },
+                    { "name": "Triggered By", "value": $actor, "inline": false },
+                    { "name": "Title", "value": $title, "inline": false },
                     { "name": "Tag Name", "value": $tag, "inline": false },
-                    { "name": "Release Note", "value": $note, "inline": false }
+                    { "name": "Note", "value": $note, "inline": false }
                   ]
                 }
               ]
