@@ -77,6 +77,37 @@ namespace VirtueSky.Notifications
                 timeTrigger).Forget();
         }
 
+        internal static void ScheduleAtSpecificTime(string identifier, string title, string subtitle, string text,
+            DateTime fireTime, bool repeat)
+        {
+            var now = DateTime.Now;
+
+            // Tạo thời gian fire cho hôm nay với giờ/phút/giây từ fireTime
+            var todayFireTime = new DateTime(now.Year, now.Month, now.Day,
+                fireTime.Hour, fireTime.Minute, fireTime.Second);
+
+            // Nếu thời gian hôm nay đã qua, schedule cho ngày mai
+            var adjustedFireTime = todayFireTime;
+            if (adjustedFireTime <= now)
+            {
+                adjustedFireTime = adjustedFireTime.AddDays(1);
+            }
+
+            // Tính timeOffset từ bây giờ đến thời gian fire
+            var timeOffset = adjustedFireTime - now;
+
+            var interval = timeOffset;
+            if (interval <= TimeSpan.Zero) interval = TimeSpan.FromSeconds(1);
+
+            var timeTrigger = new iOSNotificationTimeIntervalTrigger { TimeInterval = interval, Repeats = repeat };
+
+            RegisterNotificationChannel(identifier,
+                title,
+                subtitle,
+                text,
+                timeTrigger).Forget();
+        }
+
         internal static void CancelAllScheduled()
         {
             iOSNotificationCenter.RemoveAllScheduledNotifications();
@@ -88,4 +119,5 @@ namespace VirtueSky.Notifications
         }
     }
 }
+
 #endif

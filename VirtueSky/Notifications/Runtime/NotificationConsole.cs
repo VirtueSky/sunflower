@@ -47,7 +47,8 @@ namespace VirtueSky.Notifications
             Unity.Notifications.Android.BigPictureStyle? bigPictureStyle = null;
             if (bigPicture)
             {
-                bigPictureStyle = new Unity.Notifications.Android.BigPictureStyle { Picture = namePicture, ContentTitle = title, ContentDescription = text };
+                bigPictureStyle = new Unity.Notifications.Android.BigPictureStyle
+                    { Picture = namePicture, ContentTitle = title, ContentDescription = text };
             }
 
             NotificationAndroid.Schedule(identifier,
@@ -85,7 +86,8 @@ namespace VirtueSky.Notifications
             Unity.Notifications.Android.BigPictureStyle? bigPictureStyle = null;
             if (bigPicture)
             {
-                bigPictureStyle = new Unity.Notifications.Android.BigPictureStyle { Picture = namePicture, ContentTitle = title, ContentDescription = text };
+                bigPictureStyle = new Unity.Notifications.Android.BigPictureStyle
+                    { Picture = namePicture, ContentTitle = title, ContentDescription = text };
             }
 
             NotificationAndroid.ScheduleAtSpecificTime(identifier,
@@ -99,23 +101,7 @@ namespace VirtueSky.Notifications
                 bigPictureStyle,
                 repeat);
 #elif UNITY_IOS && VIRTUESKY_NOTIFICATION
-            // Lấy thời gian hiện tại
-            var now = DateTime.Now;
-
-            // Tạo thời gian fire cho hôm nay với giờ/phút/giây từ fireTime
-            var todayFireTime = new DateTime(now.Year, now.Month, now.Day,
-                fireTime.Hour, fireTime.Minute, fireTime.Second);
-
-            // Nếu thời gian hôm nay đã qua, schedule cho ngày mai
-            var adjustedFireTime = todayFireTime;
-            if (adjustedFireTime <= now)
-            {
-                adjustedFireTime = adjustedFireTime.AddDays(1);
-            }
-
-            // Tính timeOffset từ bây giờ đến thời gian fire
-            var timeOffset = adjustedFireTime - now;
-            NotificationIOS.Schedule(identifier, title, "", text, timeOffset, repeat);
+            NotificationIOS.ScheduleAtSpecificTime(identifier, title, "", text, fireTime, repeat);
 #endif
         }
 
