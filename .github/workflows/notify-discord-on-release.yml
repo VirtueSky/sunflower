@@ -18,6 +18,7 @@ jobs:
           RELEASE_TITLE: ${{ github.event.release.name }}
           RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
           RELEASE_NOTE: ${{ github.event.release.body }}
+          RELEASE_AUTHOR: ${{ github.event.release.author.login }}
           PUSH_TAG_NAME: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
           ACTOR: ${{ github.actor }}
@@ -26,11 +27,13 @@ jobs:
             TITLE="${RELEASE_TITLE:-No release title}"
             TAG="${RELEASE_TAG_NAME:-Unknown tag}"
             NOTE="${RELEASE_NOTE}"
+            AUTHOR="${RELEASE_AUTHOR:-$ACTOR}"
             EVENT_LABEL="GitHub Release"
           else
             TITLE="Tag created"
             TAG="${PUSH_TAG_NAME:-Unknown tag}"
             NOTE="A new tag was pushed without creating a GitHub Release."
+            AUTHOR="$ACTOR"
             EVENT_LABEL="Git Tag"
           fi
 
@@ -49,6 +52,7 @@ jobs:
             --arg note "$NOTE" \
             --arg repo "$REPO" \
             --arg actor "$ACTOR" \
+            --arg author "$AUTHOR" \
             '{
               embeds: [
                 {
@@ -56,6 +60,7 @@ jobs:
                   fields: [
                     { "name": "Repository", "value": $repo, "inline": false },
                     { "name": "Triggered By", "value": $actor, "inline": false },
+                    { "name": "Author", "value": $author, "inline": false },
                     { "name": "Title", "value": $title, "inline": false },
                     { "name": "Tag Name", "value": $tag, "inline": false },
                     { "name": "Note", "value": $note, "inline": false }
