@@ -9,7 +9,7 @@ namespace VirtueSky.Ads
         public double Revenue { get; private set; }
         public string AdMediation { get; private set; }
         public string AuctionId { get; private set; }
-        
+
 #if VIRTUESKY_APPLOVIN
         public AdsInfo(MaxSdkBase.AdInfo info)
         {
@@ -20,7 +20,7 @@ namespace VirtueSky.Ads
             Revenue = info.Revenue;
             AdMediation = Ads.AdMediation.AppLovin.ToString();
             AuctionId = "";
-        }    
+        }
 #endif
 
 #if VIRTUESKY_LEVELPLAY
@@ -35,7 +35,7 @@ namespace VirtueSky.Ads
             AuctionId = info.AuctionId;
         }
 #endif
-        
+
         public AdsInfo(string adUnitId, string adFormat, string placement, string adNetwork, double revenue, string adMediation, string auctionId)
         {
             AdUnitId = adUnitId;
@@ -46,18 +46,42 @@ namespace VirtueSky.Ads
             AdMediation = adMediation;
             AuctionId = auctionId;
         }
+
+        public AdsInfo()
+        {
+            AdUnitId = "";
+            AdFormat = "";
+            Placement = "";
+            AdNetwork = "";
+            Revenue = 0;
+            AdMediation = "";
+            AuctionId = "";
+        }
+
+        public AdsInfo(AdMediation adMediation)
+        {
+            AdUnitId = "";
+            AdFormat = "";
+            Placement = "";
+            AdNetwork = "";
+            Revenue = 0;
+            AdMediation = adMediation.ToString();
+            AuctionId = "";
+        }
     }
-    
+
     public class AdsError
     {
         public int ErrorCode { get; private set; }
         public string ErrorMessage { get; private set; }
-        
+        public string AdMediation { get; private set; }
+
 #if VIRTUESKY_APPLOVIN
         public AdsError(MaxSdkBase.ErrorInfo info)
         {
             ErrorCode = (int)info.Code;
             ErrorMessage = info.Message;
+            AdMediation = Ads.AdMediation.AppLovin.ToString();
         }
 #endif
 
@@ -66,6 +90,7 @@ namespace VirtueSky.Ads
         {
             ErrorCode = adError.ErrorCode;
             ErrorMessage = adError.ErrorMessage;
+            AdMediation = Ads.AdMediation.LevelPlay.ToString();
         }
 #endif
 
@@ -74,13 +99,28 @@ namespace VirtueSky.Ads
         {
             ErrorCode = adError.GetCode();
             ErrorMessage = adError.GetMessage();
+            AdMediation = Ads.AdMediation.Admob.ToString();
         }
 #endif
-        public AdsError(int errorCode, string errorMessage)
+        public AdsError(int errorCode, string errorMessage, string adMediation)
         {
             ErrorCode = errorCode;
             ErrorMessage = errorMessage;
+            AdMediation = adMediation;
         }
 
+        public AdsError()
+        {
+            ErrorCode = -1;
+            ErrorMessage = "";
+            AdMediation = "";
+        }
+
+        public AdsError(AdMediation adMediation)
+        {
+            ErrorCode = -1;
+            ErrorMessage = "";
+            AdMediation = adMediation.ToString();
+        }
     }
 }

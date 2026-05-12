@@ -32,37 +32,37 @@ namespace VirtueSky.Ads
         internal static Action waitAppOpenDisplayedAction;
         internal static Action waitAppOpenClosedAction;
 
-        public static AdUnitVariable OnDisplayed(this AdUnitVariable unit, Action onDisplayed)
+        public static AdUnitVariable OnDisplayed(this AdUnitVariable unit, Action<AdsInfo> onDisplayed)
         {
             unit.displayedCallback = onDisplayed;
             return unit;
         }
 
-        public static AdUnitVariable OnClosed(this AdUnitVariable unit, Action onClosed)
+        public static AdUnitVariable OnClosed(this AdUnitVariable unit, Action<AdsInfo> onClosed)
         {
             unit.closedCallback = onClosed;
             return unit;
         }
 
-        public static AdUnitVariable OnLoaded(this AdUnitVariable unit, Action onLoaded)
+        public static AdUnitVariable OnLoaded(this AdUnitVariable unit, Action<AdsInfo> onLoaded)
         {
             unit.loadedCallback = onLoaded;
             return unit;
         }
 
-        public static AdUnitVariable OnFailedToLoad(this AdUnitVariable unit, Action onFailedToLoad)
+        public static AdUnitVariable OnFailedToLoad(this AdUnitVariable unit, Action<AdsError> onFailedToLoad)
         {
             unit.failedToLoadCallback = onFailedToLoad;
             return unit;
         }
 
-        public static AdUnitVariable OnFailedToDisplay(this AdUnitVariable unit, Action onFailedToDisplay)
+        public static AdUnitVariable OnFailedToDisplay(this AdUnitVariable unit, Action<AdsError> onFailedToDisplay)
         {
             unit.failedToDisplayCallback = onFailedToDisplay;
             return unit;
         }
 
-        public static AdUnitVariable OnClicked(this AdUnitVariable unit, Action onClicked)
+        public static AdUnitVariable OnClicked(this AdUnitVariable unit, Action<AdsInfo> onClicked)
         {
             unit.clickedCallback = onClicked;
             return unit;
@@ -118,6 +118,27 @@ namespace VirtueSky.Ads
                     return unit;
                 case LevelPlayRewardVariable ironSourceRewardVariable:
                     ironSourceRewardVariable.skippedCallback = onSkipped;
+                    return unit;
+            }
+
+            return unit;
+        }
+
+        public static AdUnitVariable OnReceivedReward(this AdUnitVariable unit, Action onReceivedReward)
+        {
+            switch (unit)
+            {
+                case AdmobRewardVariable admobReward:
+                    admobReward.receivedRewardCallback = onReceivedReward;
+                    return unit;
+                case AdmobRewardInterVariable admobRewardInter:
+                    admobRewardInter.receivedRewardCallback = onReceivedReward;
+                    return unit;
+                case MaxRewardVariable maxReward:
+                    maxReward.receivedRewardCallback = onReceivedReward;
+                    return unit;
+                case LevelPlayRewardVariable ironSourceRewardVariable:
+                    ironSourceRewardVariable.receivedRewardCallback = onReceivedReward;
                     return unit;
             }
 

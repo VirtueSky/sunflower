@@ -16,6 +16,7 @@ namespace VirtueSky.Ads
         private bool _isBannerDestroyed = true;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
+        private string _placement;
 
         public override void Init()
         {
@@ -41,6 +42,11 @@ namespace VirtueSky.Ads
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             if (_isBannerDestroyed)
             {
+                if (!string.IsNullOrEmpty(_placement))
+                {
+                    MaxSdk.SetBannerPlacement(Id, _placement);
+                }
+
                 MaxSdk.CreateBanner(Id, ConvertPosition());
                 _isBannerDestroyed = false;
             }
@@ -52,7 +58,7 @@ namespace VirtueSky.Ads
             if (_previousBannerShowStatus)
             {
                 _previousBannerShowStatus = false;
-                Show();
+                Show(_placement);
             }
         }
 
@@ -71,11 +77,12 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl(string placement = null)
+        protected override void ShowImpl(string placement = "")
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             _isBannerShowing = true;
             IsShowing = true;
+            _placement = placement;
             AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
             AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
             Load();
@@ -135,33 +142,38 @@ namespace VirtueSky.Ads
 
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
-            Common.CallActionAndClean(ref loadedCallback);
-            OnLoadAdEvent?.Invoke();
+            var adsInfo = new AdsInfo(info);
+            Common.CallActionAndClean(ref loadedCallback, adsInfo);
+            OnLoadAdEvent?.Invoke(adsInfo);
         }
 
         private void OnAdExpanded(string unit, MaxSdkBase.AdInfo info)
         {
-            Common.CallActionAndClean(ref displayedCallback);
-            OnDisplayedAdEvent?.Invoke();
+            var adsInfo = new AdsInfo(info);
+            Common.CallActionAndClean(ref displayedCallback, adsInfo);
+            OnDisplayedAdEvent?.Invoke(adsInfo);
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
-            Common.CallActionAndClean(ref failedToLoadCallback);
-            OnFailedToLoadAdEvent?.Invoke(info.Message);
+            var errorInfo = new AdsError(info);
+            Common.CallActionAndClean(ref failedToLoadCallback, errorInfo);
+            OnFailedToLoadAdEvent?.Invoke(errorInfo);
             Destroy();
         }
 
         private void OnAdCollapsed(string unit, MaxSdkBase.AdInfo info)
         {
-            Common.CallActionAndClean(ref closedCallback);
-            OnClosedAdEvent?.Invoke();
+            var adsInfo = new AdsInfo(info);
+            Common.CallActionAndClean(ref closedCallback, adsInfo);
+            OnClosedAdEvent?.Invoke(adsInfo);
         }
 
         private void OnAdClicked(string arg1, MaxSdkBase.AdInfo arg2)
         {
-            Common.CallActionAndClean(ref clickedCallback);
-            OnClickedAdEvent?.Invoke();
+            var info = new AdsInfo(arg2);
+            Common.CallActionAndClean(ref clickedCallback, info);
+            OnClickedAdEvent?.Invoke(info);
         }
 
 #endif

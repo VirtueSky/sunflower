@@ -6,20 +6,20 @@ namespace VirtueSky.Ads
 {
     public abstract class AdUnitVariable : ScriptableObject, IAdUnit
     {
-        [NonSerialized] internal Action loadedCallback;
-        [NonSerialized] internal Action failedToLoadCallback;
-        [NonSerialized] internal Action displayedCallback;
-        [NonSerialized] internal Action failedToDisplayCallback;
-        [NonSerialized] internal Action closedCallback;
-        [NonSerialized] internal Action clickedCallback;
+        [NonSerialized] internal Action<AdsInfo> loadedCallback;
+        [NonSerialized] internal Action<AdsError> failedToLoadCallback;
+        [NonSerialized] internal Action<AdsInfo> displayedCallback;
+        [NonSerialized] internal Action<AdsError> failedToDisplayCallback;
+        [NonSerialized] internal Action<AdsInfo> closedCallback;
+        [NonSerialized] internal Action<AdsInfo> clickedCallback;
         [NonSerialized] public Action<double, string, string, string, string> paidedCallback;
 
-        public Action OnLoadAdEvent;
-        public Action<string> OnFailedToLoadAdEvent;
-        public Action OnDisplayedAdEvent;
-        public Action<string> OnFailedToDisplayAdEvent;
-        public Action OnClosedAdEvent;
-        public Action OnClickedAdEvent;
+        public Action<AdsInfo> OnLoadAdEvent;
+        public Action<AdsError> OnFailedToLoadAdEvent;
+        public Action<AdsInfo> OnDisplayedAdEvent;
+        public Action<AdsError> OnFailedToDisplayAdEvent;
+        public Action<AdsInfo> OnClosedAdEvent;
+        public Action<AdsInfo> OnClickedAdEvent;
 
         public abstract bool IsShowing { get; internal set; }
         public virtual string Id
@@ -27,7 +27,7 @@ namespace VirtueSky.Ads
             get => "";
         }
 
-        protected virtual void ShowImpl(string placement = null)
+        protected virtual void ShowImpl(string placement = "")
         {
         }
 
@@ -43,7 +43,7 @@ namespace VirtueSky.Ads
         {
         }
 
-        public abstract AdUnitVariable Show(string placement = null);
+        public abstract AdUnitVariable Show(string placement = "");
 
         public virtual void Init()
         {

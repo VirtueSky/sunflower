@@ -1,4 +1,5 @@
 using System;
+using VirtueSky.Core;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
 using GoogleMobileAds.Api;
 #endif
@@ -16,9 +17,13 @@ namespace VirtueSky.Ads
         public bool useTestId;
         [NonSerialized] internal Action completedCallback;
         [NonSerialized] internal Action skippedCallback;
+        [NonSerialized] internal Action receivedRewardCallback;
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private RewardedAd _rewardedAd;
 #endif
+        private const float FinalizeCloseDelay = 0.2f;
+        private DelayHandle _finalizeCloseHandle;
+
         public override void Init()
         {
             if (useTestId)
@@ -51,14 +56,14 @@ namespace VirtueSky.Ads
 #endif
         }
 
-        protected override void ShowImpl(string placement = null)
+        protected override void ShowImpl(string placement = "")
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
             _rewardedAd.Show(UserRewardEarnedCallback);
 #endif
         }
 
-        public override AdUnitVariable Show(string placement = null)
+        public override AdUnitVariable Show(string placement = "")
         {
             ResetChainCallback();
             if (!UnityEngine.Application.isMobilePlatform || string.IsNullOrEmpty(Id) || !IsReady())
@@ -72,6 +77,8 @@ namespace VirtueSky.Ads
             base.ResetChainCallback();
             completedCallback = null;
             skippedCallback = null;
+            receivedRewardCallback = null;
+            IsEarnRewarded = false;
         }
 
         public override void Destroy()
@@ -84,10 +91,15 @@ namespace VirtueSky.Ads
 #endif
         }
 
+        private void ResetFinalizeCloseHandle()
+        {
+            App.CancelDelay(_finalizeCloseHandle);
+            _finalizeCloseHandle = null;
+        }
+
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
         private void AdLoadCallback(RewardedAd ad, LoadAdError error)
         {
-            // if error is not null, the load request failed.
             if (error != null || ad == null)
             {
                 OnAdFailedToLoad(error);
@@ -105,8 +117,9 @@ namespace VirtueSky.Ads
 
         private void OnAdClicked()
         {
-            Common.CallActionAndClean(ref clickedCallback);
-            OnClickedAdEvent?.Invoke();
+            var info = new AdsInfo(AdMediation.Admob);
+            Common.CallActionAndClean(ref clickedCallback, info);
+            OnClickedAdEvent?.Invoke(info);
         }
 
         private void OnAdPaided(AdValue value)
@@ -121,48 +134,66 @@ namespace VirtueSky.Ads
         {
             AdStatic.IsShowingAd = true;
             IsShowing = true;
-            Common.CallActionAndClean(ref displayedCallback);
-            OnDisplayedAdEvent?.Invoke();
+            var info = new AdsInfo(AdMediation.Admob);
+            Common.CallActionAndClean(ref displayedCallback, info);
+            OnDisplayedAdEvent?.Invoke(info);
         }
 
         private void OnAdFailedToShow(AdError obj)
         {
-            Common.CallActionAndClean(ref failedToDisplayCallback);
-            OnFailedToDisplayAdEvent?.Invoke(obj.GetMessage());
+            var errorInfo = new AdsError(obj);
+            Common.CallActionAndClean(ref failedToDisplayCallback, errorInfo);
+            OnFailedToDisplayAdEvent?.Invoke(errorInfo);
         }
 
         private void OnAdClosed()
         {
             AdStatic.IsShowingAd = false;
             IsShowing = false;
-            Common.CallActionAndClean(ref closedCallback);
-            OnClosedAdEvent?.Invoke();
-            if (IsEarnRewarded)
-            {
-                Common.CallActionAndClean(ref completedCallback);
-                Destroy();
-                return;
-            }
-
-            Common.CallActionAndClean(ref skippedCallback);
-            Destroy();
+            var info = new AdsInfo(AdMediation.Admob);
+            Common.CallActionAndClean(ref closedCallback, info);
+            OnClosedAdEvent?.Invoke(info);
+            App.CancelDelay(_finalizeCloseHandle);
+            _finalizeCloseHandle = App.Delay(FinalizeCloseDelay, FinalizeClose);
         }
 
         private void OnAdLoaded()
         {
-            Common.CallActionAndClean(ref loadedCallback);
-            OnLoadAdEvent?.Invoke();
+            var info = new AdsInfo(AdMediation.Admob);
+            Common.CallActionAndClean(ref loadedCallback, info);
+            OnLoadAdEvent?.Invoke(info);
         }
 
         private void OnAdFailedToLoad(LoadAdError error)
         {
-            Common.CallActionAndClean(ref failedToLoadCallback);
-            OnFailedToLoadAdEvent?.Invoke(error.GetMessage());
+            var errorInfo = new AdsError(error);
+            Common.CallActionAndClean(ref failedToLoadCallback, errorInfo);
+            OnFailedToLoadAdEvent?.Invoke(errorInfo);
         }
 
         private void UserRewardEarnedCallback(Reward reward)
         {
             IsEarnRewarded = true;
+            Common.CallActionAndClean(ref receivedRewardCallback);
+        }
+
+        private void FinalizeClose()
+        {
+            _finalizeCloseHandle = null;
+            if (IsEarnRewarded)
+            {
+                Common.CallActionAndClean(ref completedCallback);
+                IsEarnRewarded = false;
+                ResetFinalizeCloseHandle();
+                Destroy();
+                Load();
+                return;
+            }
+
+            Common.CallActionAndClean(ref skippedCallback);
+            ResetFinalizeCloseHandle();
+            Destroy();
+            Load();
         }
 #endif
 
