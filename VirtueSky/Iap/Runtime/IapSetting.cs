@@ -31,6 +31,7 @@ namespace VirtueSky.Iap
     {
         public string androidId;
         public string iosId;
+        public string customProductName;
 
         public string Id 
         {
