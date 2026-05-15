@@ -57,13 +57,21 @@ namespace VirtueSky.Iap
             _iapSetting.Products.Clear();
             for (int i = 0; i < _iapSetting.SkusData.Count; i++)
             {
-                string itemName = _iapSetting.SkusData[i].Id.Split('.').Last();
+                bool isCustomName = false;
+                var data = _iapSetting.SkusData[i];
+                string itemName = data.Id.Split('.').Last();
+                if (!string.IsNullOrEmpty(data.customProductName))
+                {
+                    isCustomName = true;
+                    itemName = data.customProductName;
+                }
+
                 var itemDataVariable =
                     CreateAsset.CreateAndGetScriptableAssetByName<IapDataVariable>("/Iap/Products",
-                        $"iap_{itemName.ToLower()}");
-                itemDataVariable.androidId = _iapSetting.SkusData[i].androidId;
-                itemDataVariable.iosId = _iapSetting.SkusData[i].iosId;
-                itemDataVariable.productType = _iapSetting.SkusData[i].productType;
+                        isCustomName ? $"{itemName.ToLower()}" : $"iap_{itemName.ToLower()}");
+                itemDataVariable.androidId = data.androidId;
+                itemDataVariable.iosId = data.iosId;
+                itemDataVariable.productType = data.productType;
                 _iapSetting.Products.Add(itemDataVariable);
             }
 
