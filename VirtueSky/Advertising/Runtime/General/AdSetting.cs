@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using VirtueSky.DataStorage;
 using VirtueSky.Inspector;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
@@ -15,6 +16,10 @@ namespace VirtueSky.Ads
         [Range(5, 100), SerializeField] private float adCheckingInterval = 8f;
 
         [Range(5, 100), SerializeField] private float adLoadingInterval = 15f;
+        [SerializeField] private MediationLoadMode mediationLoadMode = MediationLoadMode.Multiple;
+
+        [SerializeField, Tooltip("Single mediation selected")]
+        private AdMediation currentMediation = AdMediation.AppLovin;
 
         [SerializeField] private bool useAppLovin = true;
         [SerializeField] private bool useAdmob;
@@ -27,6 +32,14 @@ namespace VirtueSky.Ads
         [SerializeField] private bool enableGDPRTestMode;
         public float AdCheckingInterval => adCheckingInterval;
         public float AdLoadingInterval => adLoadingInterval;
+        public MediationLoadMode MediationLoadMode => mediationLoadMode;
+
+        public AdMediation CurrentMediation
+        {
+            get => currentMediation;
+            set => currentMediation = value;
+        }
+
         public bool UseAppLovin => useAppLovin;
         public bool UseAdmob => useAdmob;
         public bool UseLevelPlay => useLevelPlay;
@@ -85,6 +98,7 @@ namespace VirtueSky.Ads
         [SerializeField] private string androidAppKey;
         [SerializeField] private string iOSAppKey;
         [SerializeField] private bool useTestAppKey;
+        [SerializeField] private bool enableTestSuiteDefault;
 
         [SerializeField] private LevelPlayBannerVariable levelPlayBannerVariable;
         [SerializeField] private LevelPlayInterVariable levelPlayInterVariable;
@@ -125,11 +139,48 @@ namespace VirtueSky.Ads
         }
 
         public bool UseTestAppKey => useTestAppKey;
+
+        public bool EnableTestSuite
+        {
+            get => GameData.Get("LevelPlayEnableTestSuiteRuntime", enableTestSuiteDefault);
+            set => GameData.Set("LevelPlayEnableTestSuiteRuntime", value);
+        }
+
         public LevelPlayBannerVariable LevelPlayBannerVariable => levelPlayBannerVariable;
         public LevelPlayInterVariable LevelPlayInterVariable => levelPlayInterVariable;
         public LevelPlayRewardVariable LevelPlayRewardVariable => levelPlayRewardVariable;
 
         #endregion
+
+        /// <summary>
+        /// Check if AppLovin is enabled based on the mediation load mode and selected mediations.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsApplovin()
+        {
+            return (MediationLoadMode == MediationLoadMode.Multiple && UseAppLovin) ||
+                   (MediationLoadMode == MediationLoadMode.Single && CurrentMediation == AdMediation.AppLovin);
+        }
+
+        /// <summary>
+        /// Check if Admob is enabled based on the mediation load mode and selected mediations.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsAdmob()
+        {
+            return (MediationLoadMode == MediationLoadMode.Multiple && UseAdmob) ||
+                   (MediationLoadMode == MediationLoadMode.Single && CurrentMediation == AdMediation.Admob);
+        }
+
+        /// <summary>
+        /// Check if LevelPlay is enabled based on the mediation load mode and selected mediations.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLevelPlay()
+        {
+            return (MediationLoadMode == MediationLoadMode.Multiple && UseLevelPlay) ||
+                   (MediationLoadMode == MediationLoadMode.Single && CurrentMediation == AdMediation.LevelPlay);
+        }
     }
 
     public enum AdMediation
@@ -158,5 +209,11 @@ namespace VirtueSky.Ads
         IABBanner = 2, // 468x60
         Leaderboard = 3, // 728x90
         // SmartBanner = 4,
+    }
+
+    public enum MediationLoadMode
+    {
+        Single = 0, // Load only the selected mediation
+        Multiple = 1 // Load multiple selected mediations simultaneously.
     }
 }

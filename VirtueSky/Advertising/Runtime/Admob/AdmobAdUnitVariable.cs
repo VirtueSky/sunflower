@@ -10,6 +10,7 @@ namespace VirtueSky.Ads
         [NonSerialized] private string idRuntime = string.Empty;
 
         public override bool IsShowing { get; internal set; }
+        public override bool IsLoading { get; internal set; }
 
         public override string Id
         {

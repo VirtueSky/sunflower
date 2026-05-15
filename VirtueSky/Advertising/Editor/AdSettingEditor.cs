@@ -11,7 +11,9 @@ namespace VirtueSky.Ads
     public class AdSettingEditor : Editor
     {
         private AdSetting _adSetting;
-
+        
+        private SerializedProperty _mediationLoadMode;
+        private SerializedProperty _currentMediation;
         private SerializedProperty _useApplovin;
         private SerializedProperty _useAdmob;
         private SerializedProperty _useLevelPlay;
@@ -42,6 +44,7 @@ namespace VirtueSky.Ads
         private SerializedProperty _androidAppKey;
         private SerializedProperty _iOSAppKey;
         private SerializedProperty _useTestAppKey;
+        private SerializedProperty _enableTestSuiteDefault;
         private SerializedProperty _levelPlayBannerVariable;
         private SerializedProperty _levelPlayInterVariable;
         private SerializedProperty _levelPlayRewardVariable;
@@ -49,10 +52,12 @@ namespace VirtueSky.Ads
         const string pathMax = "/Ads/Applovin";
         const string pathAdmob = "/Ads/Admob";
         const string pathIronSource = "/Ads/LevelPlay";
-
+        private bool isSingleMediation = false;
         void Initialize()
         {
             _adSetting = target as AdSetting;
+            _mediationLoadMode = serializedObject.FindProperty("mediationLoadMode");
+            _currentMediation = serializedObject.FindProperty("currentMediation");
             _useApplovin = serializedObject.FindProperty("useAppLovin");
             _useAdmob = serializedObject.FindProperty("useAdmob");
             _useLevelPlay = serializedObject.FindProperty("useLevelPlay");
@@ -81,6 +86,7 @@ namespace VirtueSky.Ads
             _androidAppKey = serializedObject.FindProperty("androidAppKey");
             _iOSAppKey = serializedObject.FindProperty("iOSAppKey");
             _useTestAppKey = serializedObject.FindProperty("useTestAppKey");
+            _enableTestSuiteDefault = serializedObject.FindProperty("enableTestSuiteDefault");
             _levelPlayBannerVariable = serializedObject.FindProperty("levelPlayBannerVariable");
             _levelPlayInterVariable = serializedObject.FindProperty("levelPlayInterVariable");
             _levelPlayRewardVariable = serializedObject.FindProperty("levelPlayRewardVariable");
@@ -95,9 +101,22 @@ namespace VirtueSky.Ads
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_adCheckingInterval);
             EditorGUILayout.PropertyField(_adLoadingInterval);
-            EditorGUILayout.PropertyField(_useApplovin);
-            EditorGUILayout.PropertyField(_useAdmob);
-            EditorGUILayout.PropertyField(_useLevelPlay);
+            EditorGUILayout.PropertyField(_mediationLoadMode);
+            GUILayout.Space(10);
+            GuiLine();
+            GUILayout.Space(10);
+            if ((MediationLoadMode)_mediationLoadMode.enumValueIndex == MediationLoadMode.Single)
+            {
+                isSingleMediation = true;
+                EditorGUILayout.PropertyField(_currentMediation);
+            }
+            else
+            {
+                isSingleMediation = false;
+                EditorGUILayout.PropertyField(_useApplovin);
+                EditorGUILayout.PropertyField(_useAdmob);
+                EditorGUILayout.PropertyField(_useLevelPlay);
+            }
             EditorGUILayout.PropertyField(_enableTrackAdRevenue);
             EditorGUILayout.PropertyField(_enableGDPR);
             if (_enableGDPR.boolValue)
@@ -106,9 +125,27 @@ namespace VirtueSky.Ads
             }
 
             GUILayout.Space(10);
-            if (_useApplovin.boolValue) SetupMax();
-            if (_useAdmob.boolValue) SetupAdmob();
-            if (_useLevelPlay.boolValue) SetupIronSource();
+            if (isSingleMediation)
+            {
+                switch ((AdMediation)_currentMediation.enumValueIndex)
+                {
+                    case AdMediation.AppLovin:
+                        SetupMax();
+                        break;
+                    case AdMediation.Admob:
+                        SetupAdmob();
+                        break;
+                    case AdMediation.LevelPlay:
+                        SetupIronSource();
+                        break;
+                }
+            }
+            else
+            {
+                if (_useApplovin.boolValue) SetupMax();
+                if (_useAdmob.boolValue) SetupAdmob();
+                if (_useLevelPlay.boolValue) SetupIronSource();
+            }
 
             EditorUtility.SetDirty(target);
             serializedObject.ApplyModifiedProperties();

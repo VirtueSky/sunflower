@@ -20,17 +20,31 @@ using VirtueSky.Inspector;
 using VirtueSky.Misc;
 using VirtueSky.Tracking;
 using VirtueSky.Utils;
+using VirtueSky.Variables;
 
 namespace VirtueSky.Ads
 {
     [EditorIcon("icon_controller"), HideMonoScript]
     public class Advertising : MonoBehaviour
     {
+        public enum InitType
+        {
+            InitOnAwake,
+            InitOnEnable,
+            InitOnStart,
+            Manual
+        }
+
         [Space] [SerializeField] private bool dontDestroyOnLoad = false;
+        [SerializeField] private InitType initType = InitType.InitOnAwake;
         [Tooltip("Require"), SerializeField] private AdSetting adSetting;
 
         [Tooltip("Allows nulls"), SerializeField]
         private BooleanEvent changePreventDisplayAppOpenEvent;
+
+        [SerializeField] private EventNoParam initializeAdEvent;
+        [SerializeField] private BooleanVariable isInitAdClientVariable;
+        [SerializeField] private StringEvent showAdDebugerEvent;
 
 #if VIRTUESKY_ADMOB
         [Space] [HeaderLine("Admob GDPR")] [Tooltip("Allows nulls"), SerializeField]
@@ -48,7 +62,8 @@ namespace VirtueSky.Ads
         // private AdClient currentAdClient;
         private AdClient maxAdClient;
         private AdClient admobAdClient;
-        private AdClient ironSourceAdClient;
+        private AdClient levelplayAdClient;
+        private bool isInititalization = false;
 
         private void Awake()
         {
@@ -56,19 +71,46 @@ namespace VirtueSky.Ads
             {
                 DontDestroyOnLoad(this.gameObject);
             }
-        }
-
-        private void OnEnable()
-        {
 #if VIRTUESKY_ADMOB
             if (callShowAgainGDPREvent != null)
             {
                 callShowAgainGDPREvent.AddListener(ShowPrivacyOptionsForm);
             }
 #endif
+            if (initializeAdEvent != null)
+            {
+                initializeAdEvent.AddListener(Initialization);
+            }
+
+            if (showAdDebugerEvent != null)
+            {
+                showAdDebugerEvent.AddListener(ShowAdDebuger);
+            }
+
+            isInititalization = false;
+            if (initType == InitType.InitOnAwake)
+            {
+                Initialization();
+            }
         }
 
-        private void OnDisable()
+        private void OnEnable()
+        {
+            if (initType == InitType.InitOnEnable)
+            {
+                Initialization();
+            }
+        }
+
+        private void Start()
+        {
+            if (initType == InitType.InitOnStart)
+            {
+                Initialization();
+            }
+        }
+
+        private void OnDestroy()
         {
 #if VIRTUESKY_ADMOB
             if (callShowAgainGDPREvent != null)
@@ -76,12 +118,23 @@ namespace VirtueSky.Ads
                 callShowAgainGDPREvent.RemoveListener(ShowPrivacyOptionsForm);
             }
 #endif
+            if (initializeAdEvent != null)
+            {
+                initializeAdEvent.RemoveListener(Initialization);
+            }
+
+            if (showAdDebugerEvent != null)
+            {
+                showAdDebugerEvent.RemoveListener(ShowAdDebuger);
+            }
         }
 
-        private void Start()
+        private void Initialization()
         {
-            if (changePreventDisplayAppOpenEvent != null)
-                changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
+            if (isInititalization) return;
+            isInititalization = true;
+            if (isInitAdClientVariable != null) isInitAdClientVariable.Value = false;
+            if (changePreventDisplayAppOpenEvent != null) changePreventDisplayAppOpenEvent.AddListener(OnChangePreventDisplayOpenAd);
             if (adSetting.EnableGDPR)
             {
 #if VIRTUESKY_ADMOB
@@ -99,7 +152,6 @@ namespace VirtueSky.Ads
                 InitGdpr();
 #endif
 
-
 #endif
             }
             else
@@ -111,27 +163,28 @@ namespace VirtueSky.Ads
         void InitAdClient()
         {
             AppTracking.Init(adSetting.EnableTrackAdRevenue);
-            if (adSetting.UseAppLovin)
+            if (adSetting.IsApplovin())
             {
                 maxAdClient = new MaxAdClient(adSetting);
                 maxAdClient.Initialize();
                 Debug.Log($"Use: {maxAdClient}".SetColor(CustomColor.Cyan));
             }
 
-            if (adSetting.UseAdmob)
+            if (adSetting.IsAdmob())
             {
                 admobAdClient = new AdmobAdClient(adSetting);
                 admobAdClient.Initialize();
                 Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
             }
 
-            if (adSetting.UseLevelPlay)
+            if (adSetting.IsLevelPlay())
             {
-                ironSourceAdClient = new LevelPlayAdClient(adSetting);
-                ironSourceAdClient.Initialize();
-                Debug.Log($"Use: {ironSourceAdClient}".SetColor(CustomColor.Cyan));
+                levelplayAdClient = new LevelPlayAdClient(adSetting);
+                levelplayAdClient.Initialize();
+                Debug.Log($"Use: {levelplayAdClient}".SetColor(CustomColor.Cyan));
             }
 
+            if (isInitAdClientVariable != null) isInitAdClientVariable.Value = true;
             InitAutoLoadAds();
         }
 
@@ -168,7 +221,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseAppLovin) maxAdClient.LoadInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadInterstitial();
-            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadInterstitial();
+            if (adSetting.UseLevelPlay) levelplayAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -178,7 +231,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseAppLovin) maxAdClient.LoadRewarded();
             if (adSetting.UseAdmob) admobAdClient.LoadRewarded();
-            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewarded();
+            if (adSetting.UseLevelPlay) levelplayAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -188,7 +241,7 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseAppLovin) maxAdClient.LoadRewardedInterstitial();
             if (adSetting.UseAdmob) admobAdClient.LoadRewardedInterstitial();
-            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadRewardedInterstitial();
+            if (adSetting.UseLevelPlay) levelplayAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -198,11 +251,27 @@ namespace VirtueSky.Ads
                 adSetting.AdLoadingInterval) return;
             if (adSetting.UseAppLovin) maxAdClient.LoadAppOpen();
             if (adSetting.UseAdmob) admobAdClient.LoadAppOpen();
-            if (adSetting.UseLevelPlay) ironSourceAdClient.LoadAppOpen();
+            if (adSetting.UseLevelPlay) levelplayAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
         }
 
         #endregion
+
+        private void ShowAdDebuger(string adMediation)
+        {
+            if (adMediation.Equals(AdMediation.AppLovin.ToString()))
+            {
+                maxAdClient.ShowAdMediationDebugger();
+            }
+            else if (adMediation.Equals(AdMediation.Admob.ToString()))
+            {
+                admobAdClient.ShowAdMediationDebugger();
+            }
+            else if (adMediation.Equals(AdMediation.LevelPlay.ToString()))
+            {
+                levelplayAdClient.ShowAdMediationDebugger();
+            }
+        }
 
         #region Admob GDPR
 
@@ -237,6 +306,13 @@ namespace VirtueSky.Ads
             if (consentError != null)
             {
                 Debug.Log("error consentError = " + consentError);
+                InitAdClient();
+                return;
+            }
+
+            if (ConsentInformation.CanRequestAds())
+            {
+                InitAdClient();
                 return;
             }
 
@@ -245,17 +321,14 @@ namespace VirtueSky.Ads
                     if (formError != null)
                     {
                         Debug.Log("error consentError = " + consentError);
+                        InitAdClient();
                         return;
                     }
 
                     Debug.Log("ConsentStatus = " + ConsentInformation.ConsentStatus.ToString());
                     Debug.Log("CanRequestAds = " + ConsentInformation.CanRequestAds());
 
-                    if (ConsentInformation.CanRequestAds())
-                    {
-                        MobileAds.RaiseAdEventsOnUnityMainThread = true;
-                        InitAdClient();
-                    }
+                    InitAdClient();
                 }
             );
         }

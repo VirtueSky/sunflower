@@ -6,11 +6,7 @@ namespace VirtueSky.Ads
     {
         protected AdSetting adSetting;
         protected bool statusAppOpenFirstIgnore;
-
-        // public AdClient(AdSetting _adSetting)
-        // {
-        //     adSetting = _adSetting;
-        // }
+        public bool SdkInitializationCompleted { get; internal set; }
 
         public void SetupAdSetting(AdSetting _adSetting)
         {
@@ -27,5 +23,6 @@ namespace VirtueSky.Ads
 
         //Currently, native overlay ads is only available for admob.
         public abstract void LoadNativeOverlay();
+        public abstract void ShowAdMediationDebugger();
     }
 }

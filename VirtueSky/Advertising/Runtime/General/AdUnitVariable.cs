@@ -22,6 +22,7 @@ namespace VirtueSky.Ads
         public Action<AdsInfo> OnClickedAdEvent;
 
         public abstract bool IsShowing { get; internal set; }
+        public abstract bool IsLoading { get; internal set; }
         public virtual string Id
         {
             get => "";
