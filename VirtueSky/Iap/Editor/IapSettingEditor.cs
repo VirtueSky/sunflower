@@ -15,6 +15,7 @@ namespace VirtueSky.Iap
         private SerializedProperty _products;
         private SerializedProperty _isValidatePurchase;
         private SerializedProperty _isCustomValidatePurchase;
+        private SerializedProperty _validatePurchase;
         private SerializedProperty _googlePlayStoreKey;
 
         void Initialize()
@@ -24,6 +25,7 @@ namespace VirtueSky.Iap
             _products = serializedObject.FindProperty("products");
             _isValidatePurchase = serializedObject.FindProperty("isValidatePurchase");
             _isCustomValidatePurchase = serializedObject.FindProperty("isCustomValidatePurchase");
+            _validatePurchase = serializedObject.FindProperty("validatePurchase");
             _googlePlayStoreKey = serializedObject.FindProperty("googlePlayStoreKey");
         }
 
@@ -37,15 +39,24 @@ namespace VirtueSky.Iap
             {
                 GenerateProduct();
             }
-
+            GUILayout.Space(10);
+            GuiLine(2);
+            GUILayout.Space(10);
             EditorGUILayout.PropertyField(_isValidatePurchase);
             if (_isValidatePurchase.boolValue)
             {
-                EditorGUILayout.PropertyField(_isCustomValidatePurchase);
+               
                 EditorGUILayout.PropertyField(_googlePlayStoreKey);
+                GUILayout.Space(10);
                 if (GUILayout.Button("Obfuscator Key"))
                 {
                     ObfuscatorKey();
+                }
+                GUILayout.Space(10);
+                EditorGUILayout.PropertyField(_isCustomValidatePurchase);
+                if (_isCustomValidatePurchase.boolValue)
+                {
+                    EditorGUILayout.PropertyField(_validatePurchase);
                 }
             }
 
@@ -114,6 +125,14 @@ namespace VirtueSky.Iap
             }
 
             AssetDatabase.ImportAsset(path);
+        }
+        void GuiLine(int i_height = 1)
+        {
+            Rect rect = EditorGUILayout.GetControlRect(false, i_height);
+
+            rect.height = i_height;
+
+            EditorGUI.DrawRect(rect, new Color32(0, 0, 0, 255));
         }
     }
 }

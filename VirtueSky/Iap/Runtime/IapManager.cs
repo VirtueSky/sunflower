@@ -27,7 +27,6 @@ namespace VirtueSky.Iap
         private IStoreController _controller;
         private IExtensionProvider _extensionProvider;
         private static event Action RestoreEvent;
-        public static event Func<bool> CustomValidatePurchaseEvent;
         public static bool IsInitialized { get; private set; }
         public static void Restore() => RestoreEvent?.Invoke();
 
@@ -108,9 +107,9 @@ namespace VirtueSky.Iap
         {
             if (iapSetting.IsValidatePurchase)
             {
-                if (iapSetting.IsCustomValidatePurchase)
+                if (iapSetting.IsCustomValidatePurchase && iapSetting.ValidatePurchase !=null)
                 {
-                    if ((bool)CustomValidatePurchaseEvent?.Invoke()) PurchaseVerified(purchaseEvent);
+                    if (iapSetting.ValidatePurchase.IsValidate()) PurchaseVerified(purchaseEvent);
                 }
                 else
                 {

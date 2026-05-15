@@ -15,6 +15,7 @@ namespace VirtueSky.Iap
 
         [Space, SerializeField] private bool isValidatePurchase;
         [SerializeField] private bool isCustomValidatePurchase;
+        [SerializeField] private ValidatePurchase validatePurchase;
 #if UNITY_EDITOR
         //[ShowIf(nameof(isValidatePurchase), true)] 
         [SerializeField, TextArea] private string googlePlayStoreKey;
@@ -24,6 +25,7 @@ namespace VirtueSky.Iap
         public List<IapDataVariable> Products => products;
         public bool IsValidatePurchase => isValidatePurchase;
         public bool IsCustomValidatePurchase => isCustomValidatePurchase;
+        public ValidatePurchase ValidatePurchase => validatePurchase;
     }
 
     [Serializable]
