@@ -18,10 +18,17 @@ namespace VirtueSky.Ads
         public AdsSize size;
         public AdsPosition position;
         public bool isShowOnLoad = false;
+        [Tooltip("Destroy and recreate the LevelPlay ad object when reloading ads.")]
+        public bool isDestroyAdOnReload = true;
         private bool _isBannerDestroyed = true;
         private bool _isBannerShowing;
         private bool _previousBannerShowStatus;
         private string _placement;
+        private string _configuredPlacement;
+        private AdsSize _configuredSize;
+        private AdsPosition _configuredPosition;
+        private bool _configuredShowOnLoad;
+        private bool _hasBannerConfig;
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
         private LevelPlayBannerAd bannerAd;
 #endif
@@ -43,22 +50,15 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             if (AdStatic.IsRemoveAd) return;
+            if (IsLoading) return;
+            if (bannerAd != null && IsBannerConfigChanged())
+            {
+                ResetBannerAd(true);
+            }
+
             if (_isBannerDestroyed || bannerAd == null)
             {
-                LevelPlayBannerAd.Config.Builder builder = new LevelPlayBannerAd.Config.Builder();
-                builder.SetPosition(ConvertBannerPosition());
-                builder.SetSize(ConvertBannerSize());
-                builder.SetDisplayOnLoad(isShowOnLoad);
-                builder.SetPlacementName(_placement);
-                var config = builder.Build();
-                bannerAd = new LevelPlayBannerAd(Id, config);
-                bannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
-                bannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
-                bannerAd.OnAdClicked += BannerOnAdClickedEvent;
-                bannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;
-                bannerAd.OnAdDisplayFailed += BannerOnAdDisplayFailedEvent;
-                bannerAd.OnAdLeftApplication += BannerOnAdLeftApplicationEvent;
-                _isBannerDestroyed = false;
+                CreateBannerAd();
             }
 
             IsLoading = true;
@@ -94,13 +94,16 @@ namespace VirtueSky.Ads
         protected override void ShowImpl(string placement = "")
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            _isBannerShowing = true;
-            IsShowing = true;
             _placement = placement;
             AdStatic.waitAppOpenClosedAction = OnWaitAppOpenClosed;
             AdStatic.waitAppOpenDisplayedAction = OnWaitAppOpenDisplayed;
             Load();
-            if (bannerAd != null) bannerAd.ShowAd();
+            if (bannerAd != null)
+            {
+                _isBannerShowing = true;
+                IsShowing = true;
+                bannerAd.ShowAd();
+            }
 #endif
         }
 
@@ -116,15 +119,10 @@ namespace VirtueSky.Ads
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
             _isBannerShowing = false;
-            _isBannerDestroyed = true;
             IsShowing = false;
             AdStatic.waitAppOpenClosedAction = null;
             AdStatic.waitAppOpenDisplayedAction = null;
-            if (bannerAd != null)
-            {
-                bannerAd.DestroyAd();
-                bannerAd = null;
-            }
+            ResetBannerAd(true);
 #endif
         }
 
@@ -140,6 +138,64 @@ namespace VirtueSky.Ads
 
 
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
+
+        private void CreateBannerAd()
+        {
+            LevelPlayBannerAd.Config.Builder builder = new LevelPlayBannerAd.Config.Builder();
+            builder.SetPosition(ConvertBannerPosition());
+            builder.SetSize(ConvertBannerSize());
+            builder.SetDisplayOnLoad(isShowOnLoad);
+            builder.SetPlacementName(_placement);
+            var config = builder.Build();
+            bannerAd = new LevelPlayBannerAd(Id, config);
+            bannerAd.OnAdLoaded += BannerOnAdLoadedEvent;
+            bannerAd.OnAdLoadFailed += BannerOnAdLoadFailedEvent;
+            bannerAd.OnAdClicked += BannerOnAdClickedEvent;
+            bannerAd.OnAdDisplayed += BannerOnAdDisplayedEvent;
+            bannerAd.OnAdDisplayFailed += BannerOnAdDisplayFailedEvent;
+            bannerAd.OnAdLeftApplication += BannerOnAdLeftApplicationEvent;
+            _configuredPlacement = _placement;
+            _configuredSize = size;
+            _configuredPosition = position;
+            _configuredShowOnLoad = isShowOnLoad;
+            _hasBannerConfig = true;
+            _isBannerDestroyed = false;
+        }
+
+        private bool IsBannerConfigChanged()
+        {
+            return _hasBannerConfig &&
+                   (_configuredPlacement != _placement ||
+                    _configuredSize != size ||
+                    _configuredPosition != position ||
+                    _configuredShowOnLoad != isShowOnLoad);
+        }
+
+        private void ResetBannerAd(bool isDestroy = false, bool keepObject = false)
+        {
+            IsLoading = false;
+            if (bannerAd == null)
+            {
+                _isBannerDestroyed = true;
+                _hasBannerConfig = false;
+                return;
+            }
+
+            if (keepObject) return;
+
+            _isBannerShowing = false;
+            IsShowing = false;
+            bannerAd.OnAdLoaded -= BannerOnAdLoadedEvent;
+            bannerAd.OnAdLoadFailed -= BannerOnAdLoadFailedEvent;
+            bannerAd.OnAdClicked -= BannerOnAdClickedEvent;
+            bannerAd.OnAdDisplayed -= BannerOnAdDisplayedEvent;
+            bannerAd.OnAdDisplayFailed -= BannerOnAdDisplayFailedEvent;
+            bannerAd.OnAdLeftApplication -= BannerOnAdLeftApplicationEvent;
+            if (isDestroy) bannerAd.DestroyAd();
+            bannerAd = null;
+            _isBannerDestroyed = true;
+            _hasBannerConfig = false;
+        }
 
         private LevelPlayAdSize ConvertBannerSize()
         {
@@ -193,6 +249,12 @@ namespace VirtueSky.Ads
                 Common.CallActionAndClean(ref failedToLoadCallback, errorInfo);
                 OnFailedToLoadAdEvent?.Invoke(errorInfo);
             });
+
+            if (!isDestroyAdOnReload)
+            {
+                ResetBannerAd(false, true);
+                return;
+            }
 
             Destroy();
         }
