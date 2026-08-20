@@ -18,6 +18,7 @@ namespace VirtueSky.Ads
         private SerializedProperty _useAdmob;
         private SerializedProperty _useLevelPlay;
         private SerializedProperty _enableTrackAdRevenue;
+        private SerializedProperty _excuteCallbackOnMainThread;
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
 
@@ -62,6 +63,7 @@ namespace VirtueSky.Ads
             _useAdmob = serializedObject.FindProperty("useAdmob");
             _useLevelPlay = serializedObject.FindProperty("useLevelPlay");
             _enableTrackAdRevenue = serializedObject.FindProperty("enableTrackAdRevenue");
+            _excuteCallbackOnMainThread = serializedObject.FindProperty("excuteCallbackOnMainThread");
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
 
@@ -118,6 +120,7 @@ namespace VirtueSky.Ads
                 EditorGUILayout.PropertyField(_useLevelPlay);
             }
             EditorGUILayout.PropertyField(_enableTrackAdRevenue);
+            EditorGUILayout.PropertyField(_excuteCallbackOnMainThread);
             EditorGUILayout.PropertyField(_enableGDPR);
             if (_enableGDPR.boolValue)
             {

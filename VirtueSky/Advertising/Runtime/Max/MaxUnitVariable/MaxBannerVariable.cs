@@ -56,6 +56,7 @@ namespace VirtueSky.Ads
                 {
                     IsAdaptive = size == AdsSize.Adaptive
                 };
+                OnRequestAdEvent?.Invoke();
                 MaxSdk.CreateBanner(Id, config);
                 _isBannerDestroyed = false;
             }
@@ -149,7 +150,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, adsInfo);
-                OnLoadAdEvent?.Invoke(adsInfo);
+                OnLoadedAdEvent?.Invoke(adsInfo);
             });
         }
 

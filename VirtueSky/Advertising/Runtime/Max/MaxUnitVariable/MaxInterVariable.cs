@@ -38,6 +38,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             MaxSdk.LoadInterstitial(Id);
 #endif
         }
@@ -143,7 +144,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, adsInfo);
-                OnLoadAdEvent?.Invoke(adsInfo);
+                OnLoadedAdEvent?.Invoke(adsInfo);
             });
         }
 #endif

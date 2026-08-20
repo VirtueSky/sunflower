@@ -8,7 +8,7 @@ namespace VirtueSky.Utils
 
         public static void Log(object message)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.Log(message);
 #else
             if (EnableLog)
@@ -20,7 +20,7 @@ namespace VirtueSky.Utils
 
         public static void Log(object message, Object context)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.Log(message, context);
 #else
             if (EnableLog) 
@@ -32,7 +32,7 @@ namespace VirtueSky.Utils
 
         public static void LogWarning(object message)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogWarning(message);
 #else
             if (EnableLog)
@@ -44,7 +44,7 @@ namespace VirtueSky.Utils
 
         public static void LogWarning(object message, Object context)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogWarning(message, context);
 #else
             if (EnableLog)
@@ -56,7 +56,7 @@ namespace VirtueSky.Utils
 
         public static void LogError(object message)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogError(message);
 #else
             if (EnableLog)            
@@ -68,7 +68,7 @@ namespace VirtueSky.Utils
 
         public static void LogError(object message, Object context)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogError(message, context);
 #else
             if (EnableLog)
@@ -80,7 +80,7 @@ namespace VirtueSky.Utils
 
         public static void LogException(System.Exception exception)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogException(exception);
 #else
             if (EnableLog)
@@ -92,7 +92,7 @@ namespace VirtueSky.Utils
 
         public static void LogException(System.Exception exception, Object context)
         {
-#if UNITY_EDITOR || VIRTUESKU_DEBUG_LOG
+#if UNITY_EDITOR || VIRTUESKY_DEBUG_LOG
             UnityEngine.Debug.LogException(exception, context);
 #else
             if (EnableLog)            

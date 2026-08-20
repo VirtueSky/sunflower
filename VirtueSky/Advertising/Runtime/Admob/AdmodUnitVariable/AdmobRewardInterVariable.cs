@@ -50,6 +50,7 @@ namespace VirtueSky.Ads
             if (string.IsNullOrEmpty(Id)) return;
             Destroy();
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             RewardedInterstitialAd.Load(Id, new AdRequest(), OnAdLoadCallback);
 #endif
         }
@@ -160,7 +161,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, cacheAdInfo);
-                OnLoadAdEvent?.Invoke(cacheAdInfo);
+                OnLoadedAdEvent?.Invoke(cacheAdInfo);
             });
         }
 

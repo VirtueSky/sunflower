@@ -16,7 +16,8 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action<AdsInfo> clickedCallback;
         [NonSerialized] public Action<AdsInfo> paidedCallback;
 
-        public Action<AdsInfo> OnLoadAdEvent;
+        public Action OnRequestAdEvent;
+        public Action<AdsInfo> OnLoadedAdEvent;
         public Action<AdsError> OnFailedToLoadAdEvent;
         public Action<AdsInfo> OnDisplayedAdEvent;
         public Action<AdsError> OnFailedToDisplayAdEvent;
@@ -71,7 +72,13 @@ namespace VirtueSky.Ads
         {
             if (action == null)
                 return;
-            App.RunOnMainThread(action);
+            if (adSetting == null || adSetting.ExcuteCallbackOnMainThread)
+            {
+                App.RunOnMainThread(action);
+                return;
+            }
+
+            action.Invoke();
         }
         protected void TrackRevenue(AdsInfo info)
         {

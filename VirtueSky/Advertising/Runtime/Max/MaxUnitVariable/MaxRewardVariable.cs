@@ -43,6 +43,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
             if (string.IsNullOrEmpty(Id)) return;
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             MaxSdk.LoadRewardedAd(Id);
 #endif
         }
@@ -145,7 +146,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, adsInfo);
-                OnLoadAdEvent?.Invoke(adsInfo);
+                OnLoadedAdEvent?.Invoke(adsInfo);
             });
         }
 
