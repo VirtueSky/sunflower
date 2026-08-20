@@ -26,6 +26,9 @@ namespace VirtueSky.Ads
         [SerializeField] private bool useLevelPlay;
         [SerializeField] private bool enableTrackAdRevenue = true;
 
+        [SerializeField, Tooltip("Excute callback on main thread")]
+        private bool excuteCallbackOnMainThread = true;
+
         [Tooltip("Install google-mobile-ads sdk to use GDPR"), SerializeField]
         private bool enableGDPR;
 
@@ -44,6 +47,7 @@ namespace VirtueSky.Ads
         public bool UseAdmob => useAdmob;
         public bool UseLevelPlay => useLevelPlay;
         public bool EnableTrackAdRevenue => enableTrackAdRevenue;
+        public bool ExcuteCallbackOnMainThread => excuteCallbackOnMainThread;
         public bool EnableGDPR => enableGDPR;
         public bool EnableGDPRTestMode => enableGDPRTestMode;
 
