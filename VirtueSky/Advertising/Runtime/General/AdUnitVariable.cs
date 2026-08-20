@@ -16,7 +16,8 @@ namespace VirtueSky.Ads
         [NonSerialized] internal Action<AdsInfo> clickedCallback;
         [NonSerialized] public Action<AdsInfo> paidedCallback;
 
-        public Action<AdsInfo> OnLoadAdEvent;
+        public Action OnRequestAdEvent;
+        public Action<AdsInfo> OnLoadedAdEvent;
         public Action<AdsError> OnFailedToLoadAdEvent;
         public Action<AdsInfo> OnDisplayedAdEvent;
         public Action<AdsError> OnFailedToDisplayAdEvent;

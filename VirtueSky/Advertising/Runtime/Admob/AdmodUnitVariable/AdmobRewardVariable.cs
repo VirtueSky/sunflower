@@ -63,6 +63,7 @@ namespace VirtueSky.Ads
 
             DestroyLoadedAd();
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             RewardedAd.Load(Id, new AdRequest(), AdLoadCallback);
 #endif
         }
@@ -183,6 +184,7 @@ namespace VirtueSky.Ads
             isPreloadStarted = true;
             IsLoading = true;
             Debug.Log($"Advertising: Preload RewardedAd: {Id}");
+            OnRequestAdEvent?.Invoke();
 
             var config = new PreloadConfiguration
             {
@@ -321,7 +323,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, cacheAdInfo);
-                OnLoadAdEvent?.Invoke(cacheAdInfo);
+                OnLoadedAdEvent?.Invoke(cacheAdInfo);
             });
         }
 

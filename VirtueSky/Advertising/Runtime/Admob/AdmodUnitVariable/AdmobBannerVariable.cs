@@ -68,6 +68,7 @@ namespace VirtueSky.Ads
                 adRequest.Extras.Add("collapsible", ConvertPlacementCollapsible());
             }
 
+            OnRequestAdEvent?.Invoke();
             _bannerView.LoadAd(adRequest);
 
 #endif
@@ -239,7 +240,7 @@ namespace VirtueSky.Ads
             adsInfo = _bannerView?.GetResponseInfo();
             CacheAdsInfo();
             Common.CallActionAndClean(ref loadedCallback, cacheAdInfo);
-            OnLoadAdEvent?.Invoke(cacheAdInfo);
+            OnLoadedAdEvent?.Invoke(cacheAdInfo);
         }
 
         private void OnAdFailedToLoad(LoadAdError error)

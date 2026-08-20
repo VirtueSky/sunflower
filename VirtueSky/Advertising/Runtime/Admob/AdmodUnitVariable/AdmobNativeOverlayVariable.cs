@@ -75,6 +75,7 @@ namespace VirtueSky.Ads
                 MediaAspectRatio = mediaAspectRatio,
                 VideoOptions = videoOptions
             };
+            OnRequestAdEvent?.Invoke();
             NativeOverlayAd.Load(Id, adRequest, option, AdLoadCallback);
 #endif
         }
@@ -328,7 +329,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, cacheAdInfo);
-                OnLoadAdEvent?.Invoke(cacheAdInfo);
+                OnLoadedAdEvent?.Invoke(cacheAdInfo);
             });
         }
 

@@ -51,6 +51,7 @@ namespace VirtueSky.Ads
 
             Destroy();
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             AppOpenAd.Load(Id, new AdRequest(), OnAdLoadCallback);
 #endif
         }
@@ -178,7 +179,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, cacheAdInfo);
-                OnLoadAdEvent?.Invoke(cacheAdInfo);
+                OnLoadedAdEvent?.Invoke(cacheAdInfo);
             });
         }
 

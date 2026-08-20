@@ -62,6 +62,7 @@ namespace VirtueSky.Ads
                 }
 
                 IsLoading = true;
+                OnRequestAdEvent?.Invoke();
                 rewardedAd.LoadAd();
             }
             catch (Exception e)
@@ -169,7 +170,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, info);
-                OnLoadAdEvent?.Invoke(info);
+                OnLoadedAdEvent?.Invoke(info);
             });
         }
 

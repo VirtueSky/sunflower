@@ -62,6 +62,7 @@ namespace VirtueSky.Ads
             }
 
             IsLoading = true;
+            OnRequestAdEvent?.Invoke();
             bannerAd.LoadAd();
 #endif
         }
@@ -179,7 +180,7 @@ namespace VirtueSky.Ads
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref loadedCallback, info);
-                OnLoadAdEvent?.Invoke(info);
+                OnLoadedAdEvent?.Invoke(info);
             });
         }
 
