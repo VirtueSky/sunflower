@@ -22,6 +22,10 @@ namespace VirtueSky.Ads
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
 
+        private SerializedProperty _appLovinInitDelay;
+        private SerializedProperty _admobInitDelay;
+        private SerializedProperty _levelPlayInitDelay;
+
         private SerializedProperty _sdkKey;
 
         private SerializedProperty _maxBannerVariable;
@@ -66,6 +70,10 @@ namespace VirtueSky.Ads
             _excuteCallbackOnMainThread = serializedObject.FindProperty("excuteCallbackOnMainThread");
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
+
+            _appLovinInitDelay = serializedObject.FindProperty("appLovinInitDelay");
+            _admobInitDelay = serializedObject.FindProperty("admobInitDelay");
+            _levelPlayInitDelay = serializedObject.FindProperty("levelPlayInitDelay");
 
             _sdkKey = serializedObject.FindProperty("sdkKey");
             _maxBannerVariable = serializedObject.FindProperty("maxBannerVariable");
@@ -165,6 +173,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Applovin - Max", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_appLovinInitDelay);
             EditorGUILayout.PropertyField(_sdkKey);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_maxBannerVariable);
@@ -226,6 +235,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Google - Admob", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_admobInitDelay);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_admobBannerVariable);
             if (_admobBannerVariable.objectReferenceValue == null)
@@ -325,6 +335,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Unity - LevelPlay", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_levelPlayInitDelay);
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);
             EditorGUILayout.PropertyField(_useTestAppKey);

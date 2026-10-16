@@ -53,12 +53,18 @@ namespace VirtueSky.Ads
 
         #region AppLovin
 
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing AppLovin. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float appLovinInitDelay;
+
         [TextArea, SerializeField] private string sdkKey;
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
         [SerializeField] private MaxAppOpenVariable maxAppOpenVariable;
 
+        public float AppLovinInitDelay => appLovinInitDelay;
         public string SdkKey => sdkKey;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
@@ -69,7 +75,12 @@ namespace VirtueSky.Ads
 
         #region Admob
 
-        // [HeaderLine("Admob")] 
+        // [HeaderLine("Admob")]
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing AdMob. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float admobInitDelay;
+
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
@@ -84,6 +95,7 @@ namespace VirtueSky.Ads
 
         [SerializeField] private bool admobEnableTestMode;
         [SerializeField] private List<string> admobDevicesTest;
+        public float AdmobInitDelay => admobInitDelay;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
@@ -99,6 +111,11 @@ namespace VirtueSky.Ads
 
         #region LevelPlay
 
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing LevelPlay. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float levelPlayInitDelay;
+
         [SerializeField] private string androidAppKey;
         [SerializeField] private string iOSAppKey;
         [SerializeField] private bool useTestAppKey;
@@ -107,6 +124,8 @@ namespace VirtueSky.Ads
         [SerializeField] private LevelPlayBannerVariable levelPlayBannerVariable;
         [SerializeField] private LevelPlayInterVariable levelPlayInterVariable;
         [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariable;
+
+        public float LevelPlayInitDelay => levelPlayInitDelay;
 
         public string AndroidAppKey
         {
