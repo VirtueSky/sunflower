@@ -11,6 +11,23 @@ namespace VirtueSky.InspectorUnityInternalBridge
             var handler = ScriptAttributeUtility.GetHandler(property);
             return new PropertyHandlerProxy(handler);
         }
+
+        public static DecoratorDrawer CreateDecoratorDrawer(PropertyAttribute attribute)
+        {
+#if UNITY_2023_3_OR_NEWER
+            var drawerType = ScriptAttributeUtility.GetDrawerTypeForType(attribute.GetType(), null);
+#else
+            var drawerType = ScriptAttributeUtility.GetDrawerTypeForType(attribute.GetType());
+#endif
+            if (drawerType == null || !typeof(DecoratorDrawer).IsAssignableFrom(drawerType))
+            {
+                return null;
+            }
+
+            var drawer = (DecoratorDrawer) System.Activator.CreateInstance(drawerType);
+            drawer.m_Attribute = attribute;
+            return drawer;
+        }
     }
 
     public readonly struct PropertyHandlerProxy
