@@ -24,6 +24,7 @@ namespace VirtueSky.Ads
 
         private SerializedProperty _appLovinInitDelay;
         private SerializedProperty _admobInitDelay;
+        private SerializedProperty _admobInitTimeout;
         private SerializedProperty _levelPlayInitDelay;
 
         private SerializedProperty _sdkKey;
@@ -73,6 +74,7 @@ namespace VirtueSky.Ads
 
             _appLovinInitDelay = serializedObject.FindProperty("appLovinInitDelay");
             _admobInitDelay = serializedObject.FindProperty("admobInitDelay");
+            _admobInitTimeout = serializedObject.FindProperty("admobInitTimeout");
             _levelPlayInitDelay = serializedObject.FindProperty("levelPlayInitDelay");
 
             _sdkKey = serializedObject.FindProperty("sdkKey");
@@ -236,6 +238,7 @@ namespace VirtueSky.Ads
             GuiLine(1);
             GUILayout.Space(10);
             EditorGUILayout.PropertyField(_admobInitDelay);
+            EditorGUILayout.PropertyField(_admobInitTimeout);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_admobBannerVariable);
             if (_admobBannerVariable.objectReferenceValue == null)

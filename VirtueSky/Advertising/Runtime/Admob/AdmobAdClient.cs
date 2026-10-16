@@ -9,6 +9,9 @@ namespace VirtueSky.Ads
 {
     public sealed class AdmobAdClient : AdClient
     {
+        private bool isInitializeCompleteHandled;
+        private DelayHandle initializeTimeoutHandle;
+
         public AdmobAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
@@ -25,6 +28,9 @@ namespace VirtueSky.Ads
 #endif
 
             TestMode();
+            isInitializeCompleteHandled = false;
+            App.CancelDelay(initializeTimeoutHandle);
+            initializeTimeoutHandle = App.Delay(adSetting.AdmobInitTimeout, OnInitializeTimeout, useRealTime: true);
             MobileAds.Initialize(OnInitializeComplete);
             FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
             adSetting.AdmobBannerVariable.Init(adSetting);
@@ -55,26 +61,40 @@ namespace VirtueSky.Ads
 
         private void OnInitializeComplete(InitializationStatus initStatus)
         {
-            App.RunOnMainThread(() =>
-            {
-                SdkInitializationCompleted = true;
-                if (adSetting.AdmobEnableTestMode)
-                {
-                    Debug.Log("AdMob SDK Initialization Complete");
-                    foreach (var keyValuePair in initStatus.getAdapterStatusMap())
-                    {
-                        Debug.Log(
-                            $"Adapter: {keyValuePair.Key}, Description: {keyValuePair.Value.Description}, Latency: {keyValuePair.Value.Latency}, State: {keyValuePair.Value.InitializationState}");
-                    }
-                }
+            App.RunOnMainThread(() => HandleInitializeComplete(initStatus));
+        }
 
-                LoadInterstitial();
-                LoadRewarded();
-                LoadRewardedInterstitial();
-                LoadAppOpen();
-                LoadNativeOverlay();
-                //LoadBanner();
-            });
+        private void OnInitializeTimeout()
+        {
+            Debug.LogWarning($"AdMob SDK Initialization timed out after {adSetting.AdmobInitTimeout}s, continue without waiting for callback");
+            HandleInitializeComplete(null);
+        }
+
+        // Always runs on main thread (DelayHandle callback or RunOnMainThread), so the flag check is race-free
+        private void HandleInitializeComplete(InitializationStatus initStatus)
+        {
+            if (isInitializeCompleteHandled) return;
+            isInitializeCompleteHandled = true;
+            App.CancelDelay(initializeTimeoutHandle);
+            initializeTimeoutHandle = null;
+
+            SdkInitializationCompleted = true;
+            if (adSetting.AdmobEnableTestMode && initStatus != null)
+            {
+                Debug.Log("AdMob SDK Initialization Complete");
+                foreach (var keyValuePair in initStatus.getAdapterStatusMap())
+                {
+                    Debug.Log(
+                        $"Adapter: {keyValuePair.Key}, Description: {keyValuePair.Value.Description}, Latency: {keyValuePair.Value.Latency}, State: {keyValuePair.Value.InitializationState}");
+                }
+            }
+
+            LoadInterstitial();
+            LoadRewarded();
+            LoadRewardedInterstitial();
+            LoadAppOpen();
+            LoadNativeOverlay();
+            //LoadBanner();
         }
 
         private void TestMode()

@@ -81,6 +81,11 @@ namespace VirtueSky.Ads
              "Delay in seconds before initializing AdMob. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
         private float admobInitDelay;
 
+        [Min(1f), SerializeField,
+         Tooltip(
+             "Max time in seconds to wait for the AdMob initialization callback. If it hasn't returned within this time, ads start loading anyway. Default 10s.")]
+        private float admobInitTimeout = 10f;
+
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
@@ -96,6 +101,7 @@ namespace VirtueSky.Ads
         [SerializeField] private bool admobEnableTestMode;
         [SerializeField] private List<string> admobDevicesTest;
         public float AdmobInitDelay => admobInitDelay;
+        public float AdmobInitTimeout => admobInitTimeout;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
