@@ -71,6 +71,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
         private void OnAdLoaded(string unit, MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             IsLoading = false;
             var adsInfo = new AdsInfo(info);
             ExcuteCallbackOnMainThread(() =>
@@ -82,11 +83,13 @@ namespace VirtueSky.Ads
 
         private void OnAdRevenuePaid(string unit, MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             paidedCallback?.Invoke(new AdsInfo(info));
         }
 
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
+            if (unit != Id) return;
             IsLoading = false;
             var errorInfo = new AdsError(info, Id);
             ExcuteCallbackOnMainThread(() =>
@@ -96,8 +99,9 @@ namespace VirtueSky.Ads
             });
         }
 
-        private void OnAdClicked(string arg1, MaxSdkBase.AdInfo info)
+        private void OnAdClicked(string unit, MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             var adInfo = new AdsInfo(info);
             ExcuteCallbackOnMainThread(() =>
             {
@@ -109,6 +113,7 @@ namespace VirtueSky.Ads
         private void OnAdDisplayFailed(string unit, MaxSdkBase.ErrorInfo errorInfo,
             MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             var error = new AdsError(errorInfo, Id);
             ExcuteCallbackOnMainThread(() =>
             {
@@ -119,6 +124,7 @@ namespace VirtueSky.Ads
 
         private void OnAdHidden(string unit, MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             AdStatic.waitAppOpenClosedAction?.Invoke();
             AdStatic.IsShowingAd = false;
             IsShowing = false;
@@ -134,6 +140,7 @@ namespace VirtueSky.Ads
 
         private void OnAdDisplayed(string unit, MaxSdkBase.AdInfo info)
         {
+            if (unit != Id) return;
             AdStatic.waitAppOpenDisplayedAction?.Invoke();
             AdStatic.IsShowingAd = true;
             IsShowing = true;
