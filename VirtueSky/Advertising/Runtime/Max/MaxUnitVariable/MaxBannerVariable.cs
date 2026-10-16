@@ -177,7 +177,7 @@ namespace VirtueSky.Ads
         private void OnAdLoadFailed(string unit, MaxSdkBase.ErrorInfo info)
         {
             IsLoading = false;
-            var errorInfo = new AdsError(info);
+            var errorInfo = new AdsError(info, Id);
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref failedToLoadCallback, errorInfo);

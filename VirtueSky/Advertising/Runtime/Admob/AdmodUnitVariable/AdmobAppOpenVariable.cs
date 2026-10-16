@@ -145,7 +145,7 @@ namespace VirtueSky.Ads
 
         private void OnAdFailedToShow(AdError obj)
         {
-            var error = new AdsError(obj);
+            var error = new AdsError(obj, Id);
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref failedToDisplayCallback, error);
@@ -186,7 +186,7 @@ namespace VirtueSky.Ads
         private void OnAdFailedToLoad(LoadAdError error)
         {
             IsLoading = false;
-            var errorInfo = new AdsError(error);
+            var errorInfo = new AdsError(error, Id);
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref failedToLoadCallback, errorInfo);
