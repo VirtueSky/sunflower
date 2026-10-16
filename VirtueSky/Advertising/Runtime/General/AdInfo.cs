@@ -89,13 +89,15 @@ namespace VirtueSky.Ads
 
     public class AdsError
     {
+        public string AdUnitId { get; internal set; }
         public int ErrorCode { get; internal set; }
         public string ErrorMessage { get; internal set; }
         public string AdMediation { get; internal set; }
 
 #if VIRTUESKY_APPLOVIN
-        public AdsError(MaxSdkBase.ErrorInfo info)
+        public AdsError(MaxSdkBase.ErrorInfo info, string adUnitId)
         {
+            AdUnitId = adUnitId;
             ErrorCode = (int)info.Code;
             ErrorMessage = info.Message;
             AdMediation = Ads.AdMediation.AppLovin.ToString();
@@ -105,6 +107,7 @@ namespace VirtueSky.Ads
 #if VIRTUESKY_LEVELPLAY
         public AdsError(Unity.Services.LevelPlay.LevelPlayAdError adError)
         {
+            AdUnitId = adError.AdUnitId;
             ErrorCode = adError.ErrorCode;
             ErrorMessage = adError.ErrorMessage;
             AdMediation = Ads.AdMediation.LevelPlay.ToString();
@@ -112,15 +115,17 @@ namespace VirtueSky.Ads
 #endif
 
 #if VIRTUESKY_ADMOB
-        public AdsError(GoogleMobileAds.Api.AdError adError)
+        public AdsError(GoogleMobileAds.Api.AdError adError, string adUnitId)
         {
+            AdUnitId = adUnitId;
             ErrorCode = adError.GetCode();
             ErrorMessage = adError.GetMessage();
             AdMediation = Ads.AdMediation.Admob.ToString();
         }
 #endif
-        public AdsError(int errorCode, string errorMessage, string adMediation)
+        public AdsError(string adUnitId, int errorCode, string errorMessage, string adMediation)
         {
+            AdUnitId = adUnitId;
             ErrorCode = errorCode;
             ErrorMessage = errorMessage;
             AdMediation = adMediation;
@@ -128,6 +133,7 @@ namespace VirtueSky.Ads
 
         public AdsError()
         {
+            AdUnitId = "";
             ErrorCode = -1;
             ErrorMessage = "";
             AdMediation = "";
@@ -135,6 +141,7 @@ namespace VirtueSky.Ads
 
         public AdsError(AdMediation adMediation)
         {
+            AdUnitId = "";
             ErrorCode = -1;
             ErrorMessage = "";
             AdMediation = adMediation.ToString();

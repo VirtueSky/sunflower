@@ -15,6 +15,7 @@ using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using VirtueSky.UtilsEditor;
 #endif
+using VirtueSky.Core;
 using VirtueSky.Events;
 using VirtueSky.Inspector;
 using VirtueSky.Misc;
@@ -64,6 +65,7 @@ namespace VirtueSky.Ads
         private AdClient admobAdClient;
         private AdClient levelplayAdClient;
         private bool isInititalization = false;
+        private int pendingAdClientInitializations;
 
         private void Awake()
         {
@@ -162,29 +164,80 @@ namespace VirtueSky.Ads
 
         void InitAdClient()
         {
-            if (adSetting.IsApplovin())
+            bool initializeAppLovin = adSetting.IsApplovin();
+            bool initializeAdmob = adSetting.IsAdmob();
+            bool initializeLevelPlay = adSetting.IsLevelPlay();
+
+            pendingAdClientInitializations = 0;
+            if (initializeAppLovin) pendingAdClientInitializations++;
+            if (initializeAdmob) pendingAdClientInitializations++;
+            if (initializeLevelPlay) pendingAdClientInitializations++;
+
+            if (pendingAdClientInitializations == 0)
             {
-                maxAdClient = new MaxAdClient(adSetting);
-                maxAdClient.Initialize();
-                Debug.Log($"Use: {maxAdClient}".SetColor(CustomColor.Cyan));
+                CompleteAdClientInitialization();
+                return;
             }
 
-            if (adSetting.IsAdmob())
+            if (initializeAppLovin)
+                ScheduleAdClientInitialization(adSetting.AppLovinInitDelay, InitApplovinClient, "AppLovin");
+            if (initializeAdmob)
+                ScheduleAdClientInitialization(adSetting.AdmobInitDelay, InitAdmobClient, "AdMob");
+            if (initializeLevelPlay)
+                ScheduleAdClientInitialization(adSetting.LevelPlayInitDelay, InitLevelPlayClient, "LevelPlay");
+        }
+
+        private void ScheduleAdClientInitialization(float delay, Action initialize, string mediationName)
+        {
+            if (delay <= 0f)
             {
-                admobAdClient = new AdmobAdClient(adSetting);
-                admobAdClient.Initialize();
-                Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
+                InitializeAdClient(initialize);
+                return;
             }
 
-            if (adSetting.IsLevelPlay())
-            {
-                levelplayAdClient = new LevelPlayAdClient(adSetting);
-                levelplayAdClient.Initialize();
-                Debug.Log($"Use: {levelplayAdClient}".SetColor(CustomColor.Cyan));
-            }
+            Debug.Log($"Initialize {mediationName} AdClient after {delay:0.##} seconds.".SetColor(CustomColor.Cyan));
+            App.Delay(this, delay, () => InitializeAdClient(initialize), useRealTime: true);
+        }
 
+        private void InitializeAdClient(Action initialize)
+        {
+            initialize();
+
+            // Start retries as soon as the first mediation begins initializing; delayed mediations load independently
+            // from their own SDK initialization callbacks.
+            if (autoLoadAdCoroutine == null) InitAutoLoadAds();
+
+            pendingAdClientInitializations--;
+            if (pendingAdClientInitializations == 0) CompleteAdClientInitialization();
+        }
+
+        /// <summary>
+        /// isInitAdClientVariable is set true after all enabled ad clients have started initialization, including their configured delays.
+        /// </summary>
+        private void CompleteAdClientInitialization()
+        {
             if (isInitAdClientVariable != null) isInitAdClientVariable.Value = true;
-            InitAutoLoadAds();
+        }
+
+        void InitApplovinClient()
+        {
+            maxAdClient = new MaxAdClient(adSetting);
+            maxAdClient.Initialize();
+            Debug.Log($"Use: {maxAdClient}".SetColor(CustomColor.Cyan));
+        }
+
+        void InitAdmobClient()
+        {
+            admobAdClient = new AdmobAdClient(adSetting);
+            admobAdClient.Initialize();
+            Debug.Log($"Use: {admobAdClient}".SetColor(CustomColor.Cyan));
+        }
+
+        void InitLevelPlayClient()
+        {
+            levelplayAdClient = new LevelPlayAdClient(adSetting);
+            levelplayAdClient.Initialize();
+            Debug.Log($"Use: {levelplayAdClient}".SetColor(CustomColor.Cyan));
         }
 
         private void InitAutoLoadAds()
@@ -218,9 +271,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseAppLovin) maxAdClient.LoadInterstitial();
-            if (adSetting.UseAdmob) admobAdClient.LoadInterstitial();
-            if (adSetting.UseLevelPlay) levelplayAdClient.LoadInterstitial();
+            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadInterstitial();
+            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadInterstitial();
+            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadInterstitial();
             _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -228,9 +281,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseAppLovin) maxAdClient.LoadRewarded();
-            if (adSetting.UseAdmob) admobAdClient.LoadRewarded();
-            if (adSetting.UseLevelPlay) levelplayAdClient.LoadRewarded();
+            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadRewarded();
+            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadRewarded();
+            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadRewarded();
             _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -238,9 +291,9 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseAppLovin) maxAdClient.LoadRewardedInterstitial();
-            if (adSetting.UseAdmob) admobAdClient.LoadRewardedInterstitial();
-            if (adSetting.UseLevelPlay) levelplayAdClient.LoadRewardedInterstitial();
+            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadRewardedInterstitial();
+            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadRewardedInterstitial();
+            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadRewardedInterstitial();
             _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
         }
 
@@ -248,10 +301,15 @@ namespace VirtueSky.Ads
         {
             if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
                 adSetting.AdLoadingInterval) return;
-            if (adSetting.UseAppLovin) maxAdClient.LoadAppOpen();
-            if (adSetting.UseAdmob) admobAdClient.LoadAppOpen();
-            if (adSetting.UseLevelPlay) levelplayAdClient.LoadAppOpen();
+            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadAppOpen();
+            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadAppOpen();
+            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadAppOpen();
             _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
+        }
+
+        private static bool IsAdClientReady(bool isEnabled, AdClient adClient)
+        {
+            return isEnabled && adClient != null && adClient.SdkInitializationCompleted;
         }
 
         #endregion

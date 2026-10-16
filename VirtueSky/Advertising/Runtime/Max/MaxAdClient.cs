@@ -19,7 +19,9 @@ namespace VirtueSky.Ads
             MaxSdk.InitializeSdk();
             adSetting.MaxBannerVariable.Init(adSetting);
             adSetting.MaxInterVariable.Init(adSetting);
+            if (adSetting.UseMaxInterBackup) adSetting.MaxInterVariableBackup.Init(adSetting);
             adSetting.MaxRewardVariable.Init(adSetting);
+            if (adSetting.UseMaxRewardBackup) adSetting.MaxRewardVariableBackup.Init(adSetting);
             adSetting.MaxAppOpenVariable.Init(adSetting);
             App.AddPauseCallback(OnAppStateChange);
 #endif
@@ -54,14 +56,14 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            if (adSetting.MaxInterVariable == null || adSetting.MaxInterVariable.IsShowing) return;
-            if (!adSetting.MaxInterVariable.IsReady() && !adSetting.MaxInterVariable.IsLoading) adSetting.MaxInterVariable.Load();
+            LoadAdUnit(adSetting.MaxInterVariable);
+            if (adSetting.UseMaxInterBackup) LoadAdUnit(adSetting.MaxInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
-            if (adSetting.MaxRewardVariable == null || adSetting.MaxRewardVariable.IsShowing) return;
-            if (!adSetting.MaxRewardVariable.IsReady() && !adSetting.MaxRewardVariable.IsLoading) adSetting.MaxRewardVariable.Load();
+            LoadAdUnit(adSetting.MaxRewardVariable);
+            if (adSetting.UseMaxRewardBackup) LoadAdUnit(adSetting.MaxRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()

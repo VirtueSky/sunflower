@@ -24,6 +24,9 @@ namespace VirtueSky.Ads
         public Action<AdsInfo> OnClosedAdEvent;
         public Action<AdsInfo> OnClickedAdEvent;
 
+        [Tooltip("Block all ad requests (Init and Load) for this ad unit.")]
+        public bool isBlockAdRequest = false;
+
         public abstract bool IsShowing { get; internal set; }
         public abstract bool IsLoading { get; internal set; }
 

@@ -9,6 +9,9 @@ namespace VirtueSky.Ads
 {
     public sealed class AdmobAdClient : AdClient
     {
+        private bool isInitializeCompleteHandled;
+        private DelayHandle initializeTimeoutHandle;
+
         public AdmobAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
@@ -25,11 +28,16 @@ namespace VirtueSky.Ads
 #endif
 
             TestMode();
+            isInitializeCompleteHandled = false;
+            App.CancelDelay(initializeTimeoutHandle);
+            initializeTimeoutHandle = App.Delay(adSetting.AdmobInitTimeout, OnInitializeTimeout, useRealTime: true);
             MobileAds.Initialize(OnInitializeComplete);
             FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
             adSetting.AdmobBannerVariable.Init(adSetting);
             adSetting.AdmobInterVariable.Init(adSetting);
+            if (adSetting.UseAdmobInterBackup) adSetting.AdmobInterVariableBackup.Init(adSetting);
             adSetting.AdmobRewardVariable.Init(adSetting);
+            if (adSetting.UseAdmobRewardBackup) adSetting.AdmobRewardVariableBackup.Init(adSetting);
             adSetting.AdmobRewardInterVariable.Init(adSetting);
             adSetting.AdmobAppOpenVariable.Init(adSetting);
             adSetting.AdmobNativeOverlayVariable.Init(adSetting);
@@ -55,26 +63,40 @@ namespace VirtueSky.Ads
 
         private void OnInitializeComplete(InitializationStatus initStatus)
         {
-            App.RunOnMainThread(() =>
-            {
-                SdkInitializationCompleted = true;
-                if (adSetting.AdmobEnableTestMode)
-                {
-                    Debug.Log("AdMob SDK Initialization Complete");
-                    foreach (var keyValuePair in initStatus.getAdapterStatusMap())
-                    {
-                        Debug.Log(
-                            $"Adapter: {keyValuePair.Key}, Description: {keyValuePair.Value.Description}, Latency: {keyValuePair.Value.Latency}, State: {keyValuePair.Value.InitializationState}");
-                    }
-                }
+            App.RunOnMainThread(() => HandleInitializeComplete(initStatus));
+        }
 
-                LoadInterstitial();
-                LoadRewarded();
-                LoadRewardedInterstitial();
-                LoadAppOpen();
-                LoadNativeOverlay();
-                //LoadBanner();
-            });
+        private void OnInitializeTimeout()
+        {
+            Debug.LogWarning($"AdMob SDK Initialization timed out after {adSetting.AdmobInitTimeout}s, continue without waiting for callback");
+            HandleInitializeComplete(null);
+        }
+
+        // Always runs on main thread (DelayHandle callback or RunOnMainThread), so the flag check is race-free
+        private void HandleInitializeComplete(InitializationStatus initStatus)
+        {
+            if (isInitializeCompleteHandled) return;
+            isInitializeCompleteHandled = true;
+            App.CancelDelay(initializeTimeoutHandle);
+            initializeTimeoutHandle = null;
+
+            SdkInitializationCompleted = true;
+            if (adSetting.AdmobEnableTestMode && initStatus != null)
+            {
+                Debug.Log("AdMob SDK Initialization Complete");
+                foreach (var keyValuePair in initStatus.getAdapterStatusMap())
+                {
+                    Debug.Log(
+                        $"Adapter: {keyValuePair.Key}, Description: {keyValuePair.Value.Description}, Latency: {keyValuePair.Value.Latency}, State: {keyValuePair.Value.InitializationState}");
+                }
+            }
+
+            LoadInterstitial();
+            LoadRewarded();
+            LoadRewardedInterstitial();
+            LoadAppOpen();
+            LoadNativeOverlay();
+            //LoadBanner();
         }
 
         private void TestMode()
@@ -93,21 +115,19 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            if (adSetting.AdmobInterVariable == null || adSetting.AdmobInterVariable.IsShowing) return;
-            if (!adSetting.AdmobInterVariable.IsReady() && !adSetting.AdmobInterVariable.IsLoading) adSetting.AdmobInterVariable.Load();
+            LoadAdUnit(adSetting.AdmobInterVariable);
+            if (adSetting.UseAdmobInterBackup) LoadAdUnit(adSetting.AdmobInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
-            if (adSetting.AdmobRewardVariable == null || adSetting.AdmobRewardVariable.IsShowing) return;
-            if (!adSetting.AdmobRewardVariable.IsReady() && !adSetting.AdmobRewardVariable.IsLoading) adSetting.AdmobRewardVariable.Load();
+            LoadAdUnit(adSetting.AdmobRewardVariable);
+            if (adSetting.UseAdmobRewardBackup) LoadAdUnit(adSetting.AdmobRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()
         {
-            if (adSetting.AdmobRewardInterVariable == null || adSetting.AdmobRewardInterVariable.IsShowing) return;
-            if (!adSetting.AdmobRewardInterVariable.IsReady() && !adSetting.AdmobRewardInterVariable.IsLoading)
-                adSetting.AdmobRewardInterVariable.Load();
+            LoadAdUnit(adSetting.AdmobRewardInterVariable);
         }
 
         public override void LoadAppOpen()

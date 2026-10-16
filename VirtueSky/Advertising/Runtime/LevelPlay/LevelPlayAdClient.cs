@@ -33,7 +33,9 @@ namespace VirtueSky.Ads
             LevelPlay.OnImpressionDataReady += ImpressionDataReadyEvent;
             adSetting.LevelPlayBannerVariable.Init(adSetting);
             adSetting.LevelPlayInterVariable.Init(adSetting);
+            if (adSetting.UseLevelPlayInterBackup) adSetting.LevelPlayInterVariableBackup.Init(adSetting);
             adSetting.LevelPlayRewardVariable.Init(adSetting);
+            if (adSetting.UseLevelPlayRewardBackup) adSetting.LevelPlayRewardVariableBackup.Init(adSetting);
             LevelPlay.ValidateIntegration();
             LevelPlay.Init(adSetting.AppKey);
 #endif
@@ -47,6 +49,9 @@ namespace VirtueSky.Ads
                 adSetting.LevelPlayBannerVariable.OnAdPaidEvent(impressionData);
                 adSetting.LevelPlayInterVariable.OnAdPaidEvent(impressionData);
                 adSetting.LevelPlayRewardVariable.OnAdPaidEvent(impressionData);
+                // Each ad unit filters by its own MediationAdUnitId, so the backups can safely listen too.
+                if (adSetting.UseLevelPlayInterBackup) adSetting.LevelPlayInterVariableBackup.OnAdPaidEvent(impressionData);
+                if (adSetting.UseLevelPlayRewardBackup) adSetting.LevelPlayRewardVariableBackup.OnAdPaidEvent(impressionData);
             }
         }
 
@@ -78,16 +83,15 @@ namespace VirtueSky.Ads
         public override void LoadInterstitial()
         {
             if (!SdkInitializationCompleted) return;
-            if (adSetting.LevelPlayInterVariable == null || adSetting.LevelPlayInterVariable.IsShowing) return;
-            if (!adSetting.LevelPlayInterVariable.IsReady() && !adSetting.LevelPlayInterVariable.IsLoading) adSetting.LevelPlayInterVariable.Load();
+            LoadAdUnit(adSetting.LevelPlayInterVariable);
+            if (adSetting.UseLevelPlayInterBackup) LoadAdUnit(adSetting.LevelPlayInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
             if (!SdkInitializationCompleted) return;
-            if (adSetting.LevelPlayRewardVariable == null || adSetting.LevelPlayRewardVariable.IsShowing) return;
-            if (!adSetting.LevelPlayRewardVariable.IsReady() && !adSetting.LevelPlayRewardVariable.IsLoading)
-                adSetting.LevelPlayRewardVariable.Load();
+            LoadAdUnit(adSetting.LevelPlayRewardVariable);
+            if (adSetting.UseLevelPlayRewardBackup) LoadAdUnit(adSetting.LevelPlayRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()

@@ -32,7 +32,7 @@ namespace VirtueSky.Ads
         {
             base.Init(_adSetting);
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            if (AdStatic.IsRemoveAd) return;
+            if (isBlockAdRequest) return;
             paidedCallback += TrackRevenue;
 #endif
         }
@@ -40,7 +40,7 @@ namespace VirtueSky.Ads
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_LEVELPLAY
-            if (AdStatic.IsRemoveAd) return;
+            if (isBlockAdRequest) return;
             if (string.IsNullOrEmpty(Id))
             {
                 UnityEngine.Debug.LogWarning("LevelPlay rewarded load skipped because ad unit id is empty.");

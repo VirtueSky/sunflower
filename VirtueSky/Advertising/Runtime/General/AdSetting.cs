@@ -53,26 +53,56 @@ namespace VirtueSky.Ads
 
         #region AppLovin
 
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing AppLovin. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float appLovinInitDelay;
+
         [TextArea, SerializeField] private string sdkKey;
+        [SerializeField] private bool useMaxInterBackup;
+        [SerializeField] private bool useMaxRewardBackup;
+
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
+        [SerializeField] private MaxInterVariable maxInterVariableBackup;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
+        [SerializeField] private MaxRewardVariable maxRewardVariableBackup;
         [SerializeField] private MaxAppOpenVariable maxAppOpenVariable;
 
+        public float AppLovinInitDelay => appLovinInitDelay;
         public string SdkKey => sdkKey;
+        public bool UseMaxInterBackup => useMaxInterBackup;
+        public bool UseMaxRewardBackup => useMaxRewardBackup;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
+        public MaxInterVariable MaxInterVariableBackup => maxInterVariableBackup;
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
+        public MaxRewardVariable MaxRewardVariableBackup => maxRewardVariableBackup;
         public MaxAppOpenVariable MaxAppOpenVariable => maxAppOpenVariable;
 
         #endregion
 
         #region Admob
 
-        // [HeaderLine("Admob")] 
+        // [HeaderLine("Admob")]
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing AdMob. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float admobInitDelay;
+
+        [Min(1f), SerializeField,
+         Tooltip(
+             "Max time in seconds to wait for the AdMob initialization callback. If it hasn't returned within this time, ads start loading anyway. Default 10s.")]
+        private float admobInitTimeout = 10f;
+
+        [SerializeField] private bool useAdmobInterBackup;
+        [SerializeField] private bool useAdmobRewardBackup;
+
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
+        [SerializeField] private AdmobInterVariable admobInterVariableBackup;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
+        [SerializeField] private AdmobRewardVariable admobRewardVariableBackup;
         [SerializeField] private AdmobRewardInterVariable admobRewardInterVariable;
         [SerializeField] private AdmobAppOpenVariable admobAppOpenVariable;
         [SerializeField] private AdmobNativeOverlayVariable admobNativeOverlayVariable;
@@ -84,9 +114,15 @@ namespace VirtueSky.Ads
 
         [SerializeField] private bool admobEnableTestMode;
         [SerializeField] private List<string> admobDevicesTest;
+        public float AdmobInitDelay => admobInitDelay;
+        public float AdmobInitTimeout => admobInitTimeout;
+        public bool UseAdmobInterBackup => useAdmobInterBackup;
+        public bool UseAdmobRewardBackup => useAdmobRewardBackup;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
+        public AdmobInterVariable AdmobInterVariableBackup => admobInterVariableBackup;
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
+        public AdmobRewardVariable AdmobRewardVariableBackup => admobRewardVariableBackup;
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
         public AdmobNativeOverlayVariable AdmobNativeOverlayVariable => admobNativeOverlayVariable;
@@ -99,14 +135,25 @@ namespace VirtueSky.Ads
 
         #region LevelPlay
 
+        [Min(0f), SerializeField,
+         Tooltip(
+             "Delay in seconds before initializing LevelPlay. Use different delays when multiple mediations are enabled to avoid initializing them in the same frame.")]
+        private float levelPlayInitDelay;
+
         [SerializeField] private string androidAppKey;
         [SerializeField] private string iOSAppKey;
         [SerializeField] private bool useTestAppKey;
         [SerializeField] private bool enableTestSuiteDefault;
+        [SerializeField] private bool useLevelPlayInterBackup;
+        [SerializeField] private bool useLevelPlayRewardBackup;
 
         [SerializeField] private LevelPlayBannerVariable levelPlayBannerVariable;
         [SerializeField] private LevelPlayInterVariable levelPlayInterVariable;
+        [SerializeField] private LevelPlayInterVariable levelPlayInterVariableBackup;
         [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariable;
+        [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariableBackup;
+
+        public float LevelPlayInitDelay => levelPlayInitDelay;
 
         public string AndroidAppKey
         {
@@ -150,9 +197,13 @@ namespace VirtueSky.Ads
             set => GameData.Set("LevelPlayEnableTestSuiteRuntime", value);
         }
 
+        public bool UseLevelPlayInterBackup => useLevelPlayInterBackup;
+        public bool UseLevelPlayRewardBackup => useLevelPlayRewardBackup;
         public LevelPlayBannerVariable LevelPlayBannerVariable => levelPlayBannerVariable;
         public LevelPlayInterVariable LevelPlayInterVariable => levelPlayInterVariable;
+        public LevelPlayInterVariable LevelPlayInterVariableBackup => levelPlayInterVariableBackup;
         public LevelPlayRewardVariable LevelPlayRewardVariable => levelPlayRewardVariable;
+        public LevelPlayRewardVariable LevelPlayRewardVariableBackup => levelPlayRewardVariableBackup;
 
         #endregion
 

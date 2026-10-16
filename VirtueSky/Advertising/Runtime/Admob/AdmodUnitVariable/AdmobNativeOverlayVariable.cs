@@ -54,7 +54,7 @@ namespace VirtueSky.Ads
             base.Init(_adSetting);
             if (useTestId) GetUnitTest();
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             paidedCallback += TrackRevenue;
 #endif
         }
@@ -65,7 +65,7 @@ namespace VirtueSky.Ads
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             if (_nativeOverlayAd != null) Destroy();
             IsLoading = true;
             var adRequest = new AdRequest();
@@ -381,7 +381,7 @@ namespace VirtueSky.Ads
         private void OnAdFailedToLoad(LoadAdError error)
         {
             IsLoading = false;
-            var info = new AdsError(error);
+            var info = new AdsError(error, Id);
             ExcuteCallbackOnMainThread(() =>
             {
                 Common.CallActionAndClean(ref failedToLoadCallback, info);

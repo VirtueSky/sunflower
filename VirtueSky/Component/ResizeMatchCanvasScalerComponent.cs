@@ -8,7 +8,14 @@ namespace VirtueSky.Component
     [EditorIcon("icon_csharp"), HideMonoScript]
     public class ResizeMatchCanvasScalerComponent : CacheComponent<CanvasScaler>
     {
-        [SerializeField, Range(0, 1)] private float aspectRatio = 0.6f;
+        [SerializeField] private bool isHorizontal;
+
+        [ShowIf("isHorizontal"), SerializeField, Range(0, 2)]
+        private float aspectRatioH = 16f / 9f;
+
+        [ShowIf("isHorizontal", false), SerializeField, Range(0, 1)]
+        private float aspectRatioV = 9f / 16f;
+
         [SerializeField] private Canvas canvas;
         [SerializeField, ReadOnly] private Camera camera;
 
@@ -18,11 +25,13 @@ namespace VirtueSky.Component
             GetCanvas();
             if (camera != null)
             {
+                float aspectRatio = isHorizontal ? aspectRatioH : aspectRatioV;
                 component.matchWidthOrHeight = camera.aspect > aspectRatio ? 1 : 0;
             }
             else
             {
-                float screenAspect = (float)Screen.width / Screen.height;
+                float screenAspect = isHorizontal ? (float)Screen.height / Screen.width : (float)Screen.width / Screen.height;
+                float aspectRatio = isHorizontal ? aspectRatioH : aspectRatioV;
                 component.matchWidthOrHeight = screenAspect > aspectRatio ? 1 : 0;
             }
         }

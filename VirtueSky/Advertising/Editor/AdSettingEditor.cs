@@ -22,7 +22,26 @@ namespace VirtueSky.Ads
         private SerializedProperty _adCheckingInterval;
         private SerializedProperty _adLoadingInterval;
 
+        private SerializedProperty _appLovinInitDelay;
+        private SerializedProperty _admobInitDelay;
+        private SerializedProperty _admobInitTimeout;
+        private SerializedProperty _levelPlayInitDelay;
+
         private SerializedProperty _sdkKey;
+        private SerializedProperty _useMaxInterBackup;
+        private SerializedProperty _useMaxRewardBackup;
+        private SerializedProperty _maxInterVariableBackup;
+        private SerializedProperty _maxRewardVariableBackup;
+
+        private SerializedProperty _useAdmobInterBackup;
+        private SerializedProperty _useAdmobRewardBackup;
+        private SerializedProperty _admobInterVariableBackup;
+        private SerializedProperty _admobRewardVariableBackup;
+
+        private SerializedProperty _useLevelPlayInterBackup;
+        private SerializedProperty _useLevelPlayRewardBackup;
+        private SerializedProperty _levelPlayInterVariableBackup;
+        private SerializedProperty _levelPlayRewardVariableBackup;
 
         private SerializedProperty _maxBannerVariable;
         private SerializedProperty _maxInterVariable;
@@ -67,7 +86,26 @@ namespace VirtueSky.Ads
             _adCheckingInterval = serializedObject.FindProperty("adCheckingInterval");
             _adLoadingInterval = serializedObject.FindProperty("adLoadingInterval");
 
+            _appLovinInitDelay = serializedObject.FindProperty("appLovinInitDelay");
+            _admobInitDelay = serializedObject.FindProperty("admobInitDelay");
+            _admobInitTimeout = serializedObject.FindProperty("admobInitTimeout");
+            _levelPlayInitDelay = serializedObject.FindProperty("levelPlayInitDelay");
+
             _sdkKey = serializedObject.FindProperty("sdkKey");
+            _useMaxInterBackup = serializedObject.FindProperty("useMaxInterBackup");
+            _useMaxRewardBackup = serializedObject.FindProperty("useMaxRewardBackup");
+            _maxInterVariableBackup = serializedObject.FindProperty("maxInterVariableBackup");
+            _maxRewardVariableBackup = serializedObject.FindProperty("maxRewardVariableBackup");
+
+            _useAdmobInterBackup = serializedObject.FindProperty("useAdmobInterBackup");
+            _useAdmobRewardBackup = serializedObject.FindProperty("useAdmobRewardBackup");
+            _admobInterVariableBackup = serializedObject.FindProperty("admobInterVariableBackup");
+            _admobRewardVariableBackup = serializedObject.FindProperty("admobRewardVariableBackup");
+
+            _useLevelPlayInterBackup = serializedObject.FindProperty("useLevelPlayInterBackup");
+            _useLevelPlayRewardBackup = serializedObject.FindProperty("useLevelPlayRewardBackup");
+            _levelPlayInterVariableBackup = serializedObject.FindProperty("levelPlayInterVariableBackup");
+            _levelPlayRewardVariableBackup = serializedObject.FindProperty("levelPlayRewardVariableBackup");
             _maxBannerVariable = serializedObject.FindProperty("maxBannerVariable");
             _maxInterVariable = serializedObject.FindProperty("maxInterVariable");
             _maxRewardVariable = serializedObject.FindProperty("maxRewardVariable");
@@ -165,6 +203,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Applovin - Max", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_appLovinInitDelay);
             EditorGUILayout.PropertyField(_sdkKey);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_maxBannerVariable);
@@ -218,6 +257,8 @@ namespace VirtueSky.Ads
             }
 
             EditorGUILayout.EndHorizontal();
+            DrawBackup<MaxInterVariable, MaxRewardVariable>(pathMax, _useMaxInterBackup, _useMaxRewardBackup,
+                _maxInterVariableBackup, _maxRewardVariableBackup);
             GUILayout.Space(10);
         }
 
@@ -226,6 +267,8 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Google - Admob", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_admobInitDelay);
+            EditorGUILayout.PropertyField(_admobInitTimeout);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(_admobBannerVariable);
             if (_admobBannerVariable.objectReferenceValue == null)
@@ -305,6 +348,8 @@ namespace VirtueSky.Ads
             }
 
             EditorGUILayout.EndHorizontal();
+            DrawBackup<AdmobInterVariable, AdmobRewardVariable>(pathAdmob, _useAdmobInterBackup, _useAdmobRewardBackup,
+                _admobInterVariableBackup, _admobRewardVariableBackup);
             EditorGUILayout.PropertyField(_autoTrackingAdImpressionAdmob);
             EditorGUILayout.PropertyField(_admobEnableTestMode);
             EditorGUILayout.PropertyField(_admobDevicesTest);
@@ -325,6 +370,7 @@ namespace VirtueSky.Ads
             EditorGUILayout.LabelField("Unity - LevelPlay", StyleLabel());
             GuiLine(1);
             GUILayout.Space(10);
+            EditorGUILayout.PropertyField(_levelPlayInitDelay);
             EditorGUILayout.PropertyField(_androidAppKey);
             EditorGUILayout.PropertyField(_iOSAppKey);
             EditorGUILayout.PropertyField(_useTestAppKey);
@@ -367,7 +413,40 @@ namespace VirtueSky.Ads
             }
 
             EditorGUILayout.EndHorizontal();
+            DrawBackup<LevelPlayInterVariable, LevelPlayRewardVariable>(pathIronSource, _useLevelPlayInterBackup,
+                _useLevelPlayRewardBackup, _levelPlayInterVariableBackup, _levelPlayRewardVariableBackup);
             GUILayout.Space(10);
+        }
+
+        void DrawBackup<TInter, TReward>(string path, SerializedProperty useInterBackup,
+            SerializedProperty useRewardBackup, SerializedProperty interBackup, SerializedProperty rewardBackup)
+            where TInter : AdUnitVariable where TReward : AdUnitVariable
+        {
+            GUILayout.Space(5);
+            EditorGUILayout.PropertyField(useInterBackup);
+            if (useInterBackup.boolValue)
+                DrawCreateByName<TInter>(interBackup, path, $"{typeof(TInter).Name}Backup");
+
+            EditorGUILayout.PropertyField(useRewardBackup);
+            if (useRewardBackup.boolValue)
+                DrawCreateByName<TReward>(rewardBackup, path, $"{typeof(TReward).Name}Backup");
+        }
+
+        // Backup assets share the type of the primary assets, so they must be created and found by name
+        void DrawCreateByName<T>(SerializedProperty property, string path, string assetName) where T : ScriptableObject
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(property);
+            if (property.objectReferenceValue == null)
+            {
+                GUILayout.Space(2);
+                if (GUILayout.Button("Create", GUILayout.Width(55)))
+                {
+                    property.objectReferenceValue = CreateAsset.CreateAndGetScriptableAssetByName<T>(path, assetName);
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         GUIStyle StyleLabel()
