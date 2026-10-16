@@ -24,5 +24,11 @@ namespace VirtueSky.Ads
         //Currently, native overlay ads is only available for admob.
         public abstract void LoadNativeOverlay();
         public abstract void ShowAdMediationDebugger();
+
+        protected static void LoadAdUnit(AdUnitVariable unit)
+        {
+            if (unit == null || unit.IsShowing) return;
+            if (!unit.IsReady() && !unit.IsLoading) unit.Load();
+        }
     }
 }

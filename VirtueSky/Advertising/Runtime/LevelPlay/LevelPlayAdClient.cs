@@ -9,18 +9,9 @@ namespace VirtueSky.Ads
 {
     public sealed class LevelPlayAdClient : AdClient
     {
-        private readonly BackupAdUnitGroup interGroup;
-        private readonly BackupAdUnitGroup rewardGroup;
-
         public LevelPlayAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
-            interGroup = BackupAdUnitGroup.Setup(adSetting.LevelPlayInterGroup, adSetting.LevelPlayInterVariable,
-                adSetting.LevelPlayInterVariableBackup, () => adSetting.UseLevelPlayInterBackup,
-                () => adSetting.LevelPlayBackupAdUnitExpireTime);
-            rewardGroup = BackupAdUnitGroup.Setup(adSetting.LevelPlayRewardGroup, adSetting.LevelPlayRewardVariable,
-                adSetting.LevelPlayRewardVariableBackup, () => adSetting.UseLevelPlayRewardBackup,
-                () => adSetting.LevelPlayBackupAdUnitExpireTime);
         }
 
         public override void Initialize()
@@ -41,8 +32,10 @@ namespace VirtueSky.Ads
             LevelPlay.OnInitSuccess += SdkInitializationCompletedEvent;
             LevelPlay.OnImpressionDataReady += ImpressionDataReadyEvent;
             adSetting.LevelPlayBannerVariable.Init(adSetting);
-            interGroup.Init(adSetting);
-            rewardGroup.Init(adSetting);
+            adSetting.LevelPlayInterVariable.Init(adSetting);
+            if (adSetting.UseLevelPlayInterBackup) adSetting.LevelPlayInterVariableBackup.Init(adSetting);
+            adSetting.LevelPlayRewardVariable.Init(adSetting);
+            if (adSetting.UseLevelPlayRewardBackup) adSetting.LevelPlayRewardVariableBackup.Init(adSetting);
             LevelPlay.ValidateIntegration();
             LevelPlay.Init(adSetting.AppKey);
 #endif
@@ -57,8 +50,8 @@ namespace VirtueSky.Ads
                 adSetting.LevelPlayInterVariable.OnAdPaidEvent(impressionData);
                 adSetting.LevelPlayRewardVariable.OnAdPaidEvent(impressionData);
                 // Each ad unit filters by its own MediationAdUnitId, so the backups can safely listen too.
-                if (interGroup.IsBackupEnabled) adSetting.LevelPlayInterVariableBackup.OnAdPaidEvent(impressionData);
-                if (rewardGroup.IsBackupEnabled) adSetting.LevelPlayRewardVariableBackup.OnAdPaidEvent(impressionData);
+                if (adSetting.UseLevelPlayInterBackup) adSetting.LevelPlayInterVariableBackup.OnAdPaidEvent(impressionData);
+                if (adSetting.UseLevelPlayRewardBackup) adSetting.LevelPlayRewardVariableBackup.OnAdPaidEvent(impressionData);
             }
         }
 
@@ -90,13 +83,15 @@ namespace VirtueSky.Ads
         public override void LoadInterstitial()
         {
             if (!SdkInitializationCompleted) return;
-            interGroup.Load();
+            LoadAdUnit(adSetting.LevelPlayInterVariable);
+            if (adSetting.UseLevelPlayInterBackup) LoadAdUnit(adSetting.LevelPlayInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
             if (!SdkInitializationCompleted) return;
-            rewardGroup.Load();
+            LoadAdUnit(adSetting.LevelPlayRewardVariable);
+            if (adSetting.UseLevelPlayRewardBackup) LoadAdUnit(adSetting.LevelPlayRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()

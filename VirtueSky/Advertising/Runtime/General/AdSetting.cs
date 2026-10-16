@@ -62,32 +62,22 @@ namespace VirtueSky.Ads
         [SerializeField] private bool useMaxInterBackup;
         [SerializeField] private bool useMaxRewardBackup;
 
-        [Min(60f), SerializeField,
-         Tooltip(
-             "Time in seconds a loaded backup ad unit is kept in cache. If it hasn't been shown within this time, it is discarded and loaded again. Default 3600s = 1 hour.")]
-        private float maxBackupAdUnitExpireTime = 3600f;
-
         [SerializeField] private MaxBannerVariable maxBannerVariable;
         [SerializeField] private MaxInterVariable maxInterVariable;
         [SerializeField] private MaxInterVariable maxInterVariableBackup;
-        [SerializeField] private BackupAdUnitGroup maxInterGroup;
         [SerializeField] private MaxRewardVariable maxRewardVariable;
         [SerializeField] private MaxRewardVariable maxRewardVariableBackup;
-        [SerializeField] private BackupAdUnitGroup maxRewardGroup;
         [SerializeField] private MaxAppOpenVariable maxAppOpenVariable;
 
         public float AppLovinInitDelay => appLovinInitDelay;
         public string SdkKey => sdkKey;
         public bool UseMaxInterBackup => useMaxInterBackup;
         public bool UseMaxRewardBackup => useMaxRewardBackup;
-        public float MaxBackupAdUnitExpireTime => maxBackupAdUnitExpireTime;
         public MaxBannerVariable MaxBannerVariable => maxBannerVariable;
         public MaxInterVariable MaxInterVariable => maxInterVariable;
         public MaxInterVariable MaxInterVariableBackup => maxInterVariableBackup;
-        public BackupAdUnitGroup MaxInterGroup => maxInterGroup;
         public MaxRewardVariable MaxRewardVariable => maxRewardVariable;
         public MaxRewardVariable MaxRewardVariableBackup => maxRewardVariableBackup;
-        public BackupAdUnitGroup MaxRewardGroup => maxRewardGroup;
         public MaxAppOpenVariable MaxAppOpenVariable => maxAppOpenVariable;
 
         #endregion
@@ -108,18 +98,11 @@ namespace VirtueSky.Ads
         [SerializeField] private bool useAdmobInterBackup;
         [SerializeField] private bool useAdmobRewardBackup;
 
-        [Min(60f), SerializeField,
-         Tooltip(
-             "Time in seconds a loaded backup ad unit is kept in cache. If it hasn't been shown within this time, it is discarded and loaded again. Default 3600s = 1 hour.")]
-        private float admobBackupAdUnitExpireTime = 3600f;
-
         [SerializeField] private AdmobBannerVariable admobBannerVariable;
         [SerializeField] private AdmobInterVariable admobInterVariable;
         [SerializeField] private AdmobInterVariable admobInterVariableBackup;
-        [SerializeField] private BackupAdUnitGroup admobInterGroup;
         [SerializeField] private AdmobRewardVariable admobRewardVariable;
         [SerializeField] private AdmobRewardVariable admobRewardVariableBackup;
-        [SerializeField] private BackupAdUnitGroup admobRewardGroup;
         [SerializeField] private AdmobRewardInterVariable admobRewardInterVariable;
         [SerializeField] private AdmobAppOpenVariable admobAppOpenVariable;
         [SerializeField] private AdmobNativeOverlayVariable admobNativeOverlayVariable;
@@ -135,14 +118,11 @@ namespace VirtueSky.Ads
         public float AdmobInitTimeout => admobInitTimeout;
         public bool UseAdmobInterBackup => useAdmobInterBackup;
         public bool UseAdmobRewardBackup => useAdmobRewardBackup;
-        public float AdmobBackupAdUnitExpireTime => admobBackupAdUnitExpireTime;
         public AdmobBannerVariable AdmobBannerVariable => admobBannerVariable;
         public AdmobInterVariable AdmobInterVariable => admobInterVariable;
         public AdmobInterVariable AdmobInterVariableBackup => admobInterVariableBackup;
-        public BackupAdUnitGroup AdmobInterGroup => admobInterGroup;
         public AdmobRewardVariable AdmobRewardVariable => admobRewardVariable;
         public AdmobRewardVariable AdmobRewardVariableBackup => admobRewardVariableBackup;
-        public BackupAdUnitGroup AdmobRewardGroup => admobRewardGroup;
         public AdmobRewardInterVariable AdmobRewardInterVariable => admobRewardInterVariable;
         public AdmobAppOpenVariable AdmobAppOpenVariable => admobAppOpenVariable;
         public AdmobNativeOverlayVariable AdmobNativeOverlayVariable => admobNativeOverlayVariable;
@@ -167,18 +147,11 @@ namespace VirtueSky.Ads
         [SerializeField] private bool useLevelPlayInterBackup;
         [SerializeField] private bool useLevelPlayRewardBackup;
 
-        [Min(60f), SerializeField,
-         Tooltip(
-             "Time in seconds a loaded backup ad unit is kept in cache. If it hasn't been shown within this time, it is discarded and loaded again. Default 3600s = 1 hour.")]
-        private float levelPlayBackupAdUnitExpireTime = 3600f;
-
         [SerializeField] private LevelPlayBannerVariable levelPlayBannerVariable;
         [SerializeField] private LevelPlayInterVariable levelPlayInterVariable;
         [SerializeField] private LevelPlayInterVariable levelPlayInterVariableBackup;
-        [SerializeField] private BackupAdUnitGroup levelPlayInterGroup;
         [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariable;
         [SerializeField] private LevelPlayRewardVariable levelPlayRewardVariableBackup;
-        [SerializeField] private BackupAdUnitGroup levelPlayRewardGroup;
 
         public float LevelPlayInitDelay => levelPlayInitDelay;
 
@@ -226,14 +199,11 @@ namespace VirtueSky.Ads
 
         public bool UseLevelPlayInterBackup => useLevelPlayInterBackup;
         public bool UseLevelPlayRewardBackup => useLevelPlayRewardBackup;
-        public float LevelPlayBackupAdUnitExpireTime => levelPlayBackupAdUnitExpireTime;
         public LevelPlayBannerVariable LevelPlayBannerVariable => levelPlayBannerVariable;
         public LevelPlayInterVariable LevelPlayInterVariable => levelPlayInterVariable;
         public LevelPlayInterVariable LevelPlayInterVariableBackup => levelPlayInterVariableBackup;
-        public BackupAdUnitGroup LevelPlayInterGroup => levelPlayInterGroup;
         public LevelPlayRewardVariable LevelPlayRewardVariable => levelPlayRewardVariable;
         public LevelPlayRewardVariable LevelPlayRewardVariableBackup => levelPlayRewardVariableBackup;
-        public BackupAdUnitGroup LevelPlayRewardGroup => levelPlayRewardGroup;
 
         #endregion
 

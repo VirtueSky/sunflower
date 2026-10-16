@@ -5,18 +5,9 @@ namespace VirtueSky.Ads
 {
     public sealed class MaxAdClient : AdClient
     {
-        private readonly BackupAdUnitGroup interGroup;
-        private readonly BackupAdUnitGroup rewardGroup;
-
         public MaxAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
-            interGroup = BackupAdUnitGroup.Setup(adSetting.MaxInterGroup, adSetting.MaxInterVariable,
-                adSetting.MaxInterVariableBackup, () => adSetting.UseMaxInterBackup,
-                () => adSetting.MaxBackupAdUnitExpireTime);
-            rewardGroup = BackupAdUnitGroup.Setup(adSetting.MaxRewardGroup, adSetting.MaxRewardVariable,
-                adSetting.MaxRewardVariableBackup, () => adSetting.UseMaxRewardBackup,
-                () => adSetting.MaxBackupAdUnitExpireTime);
         }
 
         public override void Initialize()
@@ -27,8 +18,10 @@ namespace VirtueSky.Ads
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitialized;
             MaxSdk.InitializeSdk();
             adSetting.MaxBannerVariable.Init(adSetting);
-            interGroup.Init(adSetting);
-            rewardGroup.Init(adSetting);
+            adSetting.MaxInterVariable.Init(adSetting);
+            if (adSetting.UseMaxInterBackup) adSetting.MaxInterVariableBackup.Init(adSetting);
+            adSetting.MaxRewardVariable.Init(adSetting);
+            if (adSetting.UseMaxRewardBackup) adSetting.MaxRewardVariableBackup.Init(adSetting);
             adSetting.MaxAppOpenVariable.Init(adSetting);
             App.AddPauseCallback(OnAppStateChange);
 #endif
@@ -63,12 +56,14 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            interGroup.Load();
+            LoadAdUnit(adSetting.MaxInterVariable);
+            if (adSetting.UseMaxInterBackup) LoadAdUnit(adSetting.MaxInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
-            rewardGroup.Load();
+            LoadAdUnit(adSetting.MaxRewardVariable);
+            if (adSetting.UseMaxRewardBackup) LoadAdUnit(adSetting.MaxRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()

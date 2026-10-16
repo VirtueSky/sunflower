@@ -30,27 +30,18 @@ namespace VirtueSky.Ads
         private SerializedProperty _sdkKey;
         private SerializedProperty _useMaxInterBackup;
         private SerializedProperty _useMaxRewardBackup;
-        private SerializedProperty _maxBackupAdUnitExpireTime;
         private SerializedProperty _maxInterVariableBackup;
-        private SerializedProperty _maxInterGroup;
         private SerializedProperty _maxRewardVariableBackup;
-        private SerializedProperty _maxRewardGroup;
 
         private SerializedProperty _useAdmobInterBackup;
         private SerializedProperty _useAdmobRewardBackup;
-        private SerializedProperty _admobBackupAdUnitExpireTime;
         private SerializedProperty _admobInterVariableBackup;
-        private SerializedProperty _admobInterGroup;
         private SerializedProperty _admobRewardVariableBackup;
-        private SerializedProperty _admobRewardGroup;
 
         private SerializedProperty _useLevelPlayInterBackup;
         private SerializedProperty _useLevelPlayRewardBackup;
-        private SerializedProperty _levelPlayBackupAdUnitExpireTime;
         private SerializedProperty _levelPlayInterVariableBackup;
-        private SerializedProperty _levelPlayInterGroup;
         private SerializedProperty _levelPlayRewardVariableBackup;
-        private SerializedProperty _levelPlayRewardGroup;
 
         private SerializedProperty _maxBannerVariable;
         private SerializedProperty _maxInterVariable;
@@ -103,27 +94,18 @@ namespace VirtueSky.Ads
             _sdkKey = serializedObject.FindProperty("sdkKey");
             _useMaxInterBackup = serializedObject.FindProperty("useMaxInterBackup");
             _useMaxRewardBackup = serializedObject.FindProperty("useMaxRewardBackup");
-            _maxBackupAdUnitExpireTime = serializedObject.FindProperty("maxBackupAdUnitExpireTime");
             _maxInterVariableBackup = serializedObject.FindProperty("maxInterVariableBackup");
-            _maxInterGroup = serializedObject.FindProperty("maxInterGroup");
             _maxRewardVariableBackup = serializedObject.FindProperty("maxRewardVariableBackup");
-            _maxRewardGroup = serializedObject.FindProperty("maxRewardGroup");
 
             _useAdmobInterBackup = serializedObject.FindProperty("useAdmobInterBackup");
             _useAdmobRewardBackup = serializedObject.FindProperty("useAdmobRewardBackup");
-            _admobBackupAdUnitExpireTime = serializedObject.FindProperty("admobBackupAdUnitExpireTime");
             _admobInterVariableBackup = serializedObject.FindProperty("admobInterVariableBackup");
-            _admobInterGroup = serializedObject.FindProperty("admobInterGroup");
             _admobRewardVariableBackup = serializedObject.FindProperty("admobRewardVariableBackup");
-            _admobRewardGroup = serializedObject.FindProperty("admobRewardGroup");
 
             _useLevelPlayInterBackup = serializedObject.FindProperty("useLevelPlayInterBackup");
             _useLevelPlayRewardBackup = serializedObject.FindProperty("useLevelPlayRewardBackup");
-            _levelPlayBackupAdUnitExpireTime = serializedObject.FindProperty("levelPlayBackupAdUnitExpireTime");
             _levelPlayInterVariableBackup = serializedObject.FindProperty("levelPlayInterVariableBackup");
-            _levelPlayInterGroup = serializedObject.FindProperty("levelPlayInterGroup");
             _levelPlayRewardVariableBackup = serializedObject.FindProperty("levelPlayRewardVariableBackup");
-            _levelPlayRewardGroup = serializedObject.FindProperty("levelPlayRewardGroup");
             _maxBannerVariable = serializedObject.FindProperty("maxBannerVariable");
             _maxInterVariable = serializedObject.FindProperty("maxInterVariable");
             _maxRewardVariable = serializedObject.FindProperty("maxRewardVariable");
@@ -276,8 +258,7 @@ namespace VirtueSky.Ads
 
             EditorGUILayout.EndHorizontal();
             DrawBackup<MaxInterVariable, MaxRewardVariable>(pathMax, _useMaxInterBackup, _useMaxRewardBackup,
-                _maxBackupAdUnitExpireTime, _maxInterVariableBackup, _maxInterGroup, _maxRewardVariableBackup,
-                _maxRewardGroup);
+                _maxInterVariableBackup, _maxRewardVariableBackup);
             GUILayout.Space(10);
         }
 
@@ -368,8 +349,7 @@ namespace VirtueSky.Ads
 
             EditorGUILayout.EndHorizontal();
             DrawBackup<AdmobInterVariable, AdmobRewardVariable>(pathAdmob, _useAdmobInterBackup, _useAdmobRewardBackup,
-                _admobBackupAdUnitExpireTime, _admobInterVariableBackup, _admobInterGroup, _admobRewardVariableBackup,
-                _admobRewardGroup);
+                _admobInterVariableBackup, _admobRewardVariableBackup);
             EditorGUILayout.PropertyField(_autoTrackingAdImpressionAdmob);
             EditorGUILayout.PropertyField(_admobEnableTestMode);
             EditorGUILayout.PropertyField(_admobDevicesTest);
@@ -434,36 +414,25 @@ namespace VirtueSky.Ads
 
             EditorGUILayout.EndHorizontal();
             DrawBackup<LevelPlayInterVariable, LevelPlayRewardVariable>(pathIronSource, _useLevelPlayInterBackup,
-                _useLevelPlayRewardBackup, _levelPlayBackupAdUnitExpireTime, _levelPlayInterVariableBackup,
-                _levelPlayInterGroup, _levelPlayRewardVariableBackup, _levelPlayRewardGroup);
+                _useLevelPlayRewardBackup, _levelPlayInterVariableBackup, _levelPlayRewardVariableBackup);
             GUILayout.Space(10);
         }
 
         void DrawBackup<TInter, TReward>(string path, SerializedProperty useInterBackup,
-            SerializedProperty useRewardBackup, SerializedProperty expireTime, SerializedProperty interBackup,
-            SerializedProperty interGroup, SerializedProperty rewardBackup, SerializedProperty rewardGroup)
+            SerializedProperty useRewardBackup, SerializedProperty interBackup, SerializedProperty rewardBackup)
             where TInter : AdUnitVariable where TReward : AdUnitVariable
         {
             GUILayout.Space(5);
             EditorGUILayout.PropertyField(useInterBackup);
-            EditorGUILayout.PropertyField(useRewardBackup);
-            if (!useInterBackup.boolValue && !useRewardBackup.boolValue) return;
-
-            EditorGUILayout.PropertyField(expireTime);
             if (useInterBackup.boolValue)
-            {
                 DrawCreateByName<TInter>(interBackup, path, $"{typeof(TInter).Name}Backup");
-                DrawCreateByName<BackupAdUnitGroup>(interGroup, path, $"{typeof(TInter).Name}Group");
-            }
 
+            EditorGUILayout.PropertyField(useRewardBackup);
             if (useRewardBackup.boolValue)
-            {
                 DrawCreateByName<TReward>(rewardBackup, path, $"{typeof(TReward).Name}Backup");
-                DrawCreateByName<BackupAdUnitGroup>(rewardGroup, path, $"{typeof(TReward).Name}Group");
-            }
         }
 
-        // Backup/group assets share the type of other assets, so they must be created and found by name
+        // Backup assets share the type of the primary assets, so they must be created and found by name
         void DrawCreateByName<T>(SerializedProperty property, string path, string assetName) where T : ScriptableObject
         {
             EditorGUILayout.BeginHorizontal();

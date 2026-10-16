@@ -12,18 +12,9 @@ namespace VirtueSky.Ads
         private bool isInitializeCompleteHandled;
         private DelayHandle initializeTimeoutHandle;
 
-        private readonly BackupAdUnitGroup interGroup;
-        private readonly BackupAdUnitGroup rewardGroup;
-
         public AdmobAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
-            interGroup = BackupAdUnitGroup.Setup(adSetting.AdmobInterGroup, adSetting.AdmobInterVariable,
-                adSetting.AdmobInterVariableBackup, () => adSetting.UseAdmobInterBackup,
-                () => adSetting.AdmobBackupAdUnitExpireTime);
-            rewardGroup = BackupAdUnitGroup.Setup(adSetting.AdmobRewardGroup, adSetting.AdmobRewardVariable,
-                adSetting.AdmobRewardVariableBackup, () => adSetting.UseAdmobRewardBackup,
-                () => adSetting.AdmobBackupAdUnitExpireTime);
         }
 
         public override void Initialize()
@@ -43,8 +34,10 @@ namespace VirtueSky.Ads
             MobileAds.Initialize(OnInitializeComplete);
             FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
             adSetting.AdmobBannerVariable.Init(adSetting);
-            interGroup.Init(adSetting);
-            rewardGroup.Init(adSetting);
+            adSetting.AdmobInterVariable.Init(adSetting);
+            if (adSetting.UseAdmobInterBackup) adSetting.AdmobInterVariableBackup.Init(adSetting);
+            adSetting.AdmobRewardVariable.Init(adSetting);
+            if (adSetting.UseAdmobRewardBackup) adSetting.AdmobRewardVariableBackup.Init(adSetting);
             adSetting.AdmobRewardInterVariable.Init(adSetting);
             adSetting.AdmobAppOpenVariable.Init(adSetting);
             adSetting.AdmobNativeOverlayVariable.Init(adSetting);
@@ -122,19 +115,19 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            interGroup.Load();
+            LoadAdUnit(adSetting.AdmobInterVariable);
+            if (adSetting.UseAdmobInterBackup) LoadAdUnit(adSetting.AdmobInterVariableBackup);
         }
 
         public override void LoadRewarded()
         {
-            rewardGroup.Load();
+            LoadAdUnit(adSetting.AdmobRewardVariable);
+            if (adSetting.UseAdmobRewardBackup) LoadAdUnit(adSetting.AdmobRewardVariableBackup);
         }
 
         public override void LoadRewardedInterstitial()
         {
-            if (adSetting.AdmobRewardInterVariable == null || adSetting.AdmobRewardInterVariable.IsShowing) return;
-            if (!adSetting.AdmobRewardInterVariable.IsReady() && !adSetting.AdmobRewardInterVariable.IsLoading)
-                adSetting.AdmobRewardInterVariable.Load();
+            LoadAdUnit(adSetting.AdmobRewardInterVariable);
         }
 
         public override void LoadAppOpen()
