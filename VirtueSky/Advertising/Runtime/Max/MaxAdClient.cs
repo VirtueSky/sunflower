@@ -5,9 +5,18 @@ namespace VirtueSky.Ads
 {
     public sealed class MaxAdClient : AdClient
     {
+        private readonly BackupAdUnitGroup interGroup;
+        private readonly BackupAdUnitGroup rewardGroup;
+
         public MaxAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
+            interGroup = BackupAdUnitGroup.Setup(adSetting.MaxInterGroup, adSetting.MaxInterVariable,
+                adSetting.MaxInterVariableBackup, () => adSetting.UseMaxInterBackup,
+                () => adSetting.MaxBackupAdUnitExpireTime);
+            rewardGroup = BackupAdUnitGroup.Setup(adSetting.MaxRewardGroup, adSetting.MaxRewardVariable,
+                adSetting.MaxRewardVariableBackup, () => adSetting.UseMaxRewardBackup,
+                () => adSetting.MaxBackupAdUnitExpireTime);
         }
 
         public override void Initialize()
@@ -18,8 +27,8 @@ namespace VirtueSky.Ads
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitialized;
             MaxSdk.InitializeSdk();
             adSetting.MaxBannerVariable.Init(adSetting);
-            adSetting.MaxInterVariable.Init(adSetting);
-            adSetting.MaxRewardVariable.Init(adSetting);
+            interGroup.Init(adSetting);
+            rewardGroup.Init(adSetting);
             adSetting.MaxAppOpenVariable.Init(adSetting);
             App.AddPauseCallback(OnAppStateChange);
 #endif
@@ -54,14 +63,12 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            if (adSetting.MaxInterVariable == null || adSetting.MaxInterVariable.IsShowing) return;
-            if (!adSetting.MaxInterVariable.IsReady() && !adSetting.MaxInterVariable.IsLoading) adSetting.MaxInterVariable.Load();
+            interGroup.Load();
         }
 
         public override void LoadRewarded()
         {
-            if (adSetting.MaxRewardVariable == null || adSetting.MaxRewardVariable.IsShowing) return;
-            if (!adSetting.MaxRewardVariable.IsReady() && !adSetting.MaxRewardVariable.IsLoading) adSetting.MaxRewardVariable.Load();
+            rewardGroup.Load();
         }
 
         public override void LoadRewardedInterstitial()

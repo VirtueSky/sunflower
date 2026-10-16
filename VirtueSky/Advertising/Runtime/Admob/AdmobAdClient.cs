@@ -12,9 +12,18 @@ namespace VirtueSky.Ads
         private bool isInitializeCompleteHandled;
         private DelayHandle initializeTimeoutHandle;
 
+        private readonly BackupAdUnitGroup interGroup;
+        private readonly BackupAdUnitGroup rewardGroup;
+
         public AdmobAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
+            interGroup = BackupAdUnitGroup.Setup(adSetting.AdmobInterGroup, adSetting.AdmobInterVariable,
+                adSetting.AdmobInterVariableBackup, () => adSetting.UseAdmobInterBackup,
+                () => adSetting.AdmobBackupAdUnitExpireTime);
+            rewardGroup = BackupAdUnitGroup.Setup(adSetting.AdmobRewardGroup, adSetting.AdmobRewardVariable,
+                adSetting.AdmobRewardVariableBackup, () => adSetting.UseAdmobRewardBackup,
+                () => adSetting.AdmobBackupAdUnitExpireTime);
         }
 
         public override void Initialize()
@@ -34,8 +43,8 @@ namespace VirtueSky.Ads
             MobileAds.Initialize(OnInitializeComplete);
             FirebaseAnalyticTrackingRevenue.autoTrackAdImpressionAdmob = adSetting.AutoTrackingAdImpressionAdmob;
             adSetting.AdmobBannerVariable.Init(adSetting);
-            adSetting.AdmobInterVariable.Init(adSetting);
-            adSetting.AdmobRewardVariable.Init(adSetting);
+            interGroup.Init(adSetting);
+            rewardGroup.Init(adSetting);
             adSetting.AdmobRewardInterVariable.Init(adSetting);
             adSetting.AdmobAppOpenVariable.Init(adSetting);
             adSetting.AdmobNativeOverlayVariable.Init(adSetting);
@@ -113,14 +122,12 @@ namespace VirtueSky.Ads
 
         public override void LoadInterstitial()
         {
-            if (adSetting.AdmobInterVariable == null || adSetting.AdmobInterVariable.IsShowing) return;
-            if (!adSetting.AdmobInterVariable.IsReady() && !adSetting.AdmobInterVariable.IsLoading) adSetting.AdmobInterVariable.Load();
+            interGroup.Load();
         }
 
         public override void LoadRewarded()
         {
-            if (adSetting.AdmobRewardVariable == null || adSetting.AdmobRewardVariable.IsShowing) return;
-            if (!adSetting.AdmobRewardVariable.IsReady() && !adSetting.AdmobRewardVariable.IsLoading) adSetting.AdmobRewardVariable.Load();
+            rewardGroup.Load();
         }
 
         public override void LoadRewardedInterstitial()
