@@ -43,7 +43,7 @@ namespace VirtueSky.Ads
                 GetUnitTest();
             }
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             paidedCallback += TrackRevenue;
 #endif
         }
@@ -51,7 +51,7 @@ namespace VirtueSky.Ads
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_ADMOB
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             CancelBannerReload();
             DestroyBannerView();
             IsLoading = true;

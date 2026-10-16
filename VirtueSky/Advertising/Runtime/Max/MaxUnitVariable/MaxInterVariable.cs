@@ -21,7 +21,7 @@ namespace VirtueSky.Ads
         {
             base.Init(_adSetting);
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             paidedCallback += TrackRevenue;
             MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnAdLoaded;
             MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnAdLoadFailed;
@@ -36,7 +36,7 @@ namespace VirtueSky.Ads
         public override void Load()
         {
 #if VIRTUESKY_ADS && VIRTUESKY_APPLOVIN
-            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id)) return;
+            if (AdStatic.IsRemoveAd || string.IsNullOrEmpty(Id) || isBlockAdRequest) return;
             IsLoading = true;
             OnRequestAdEvent?.Invoke();
             MaxSdk.LoadInterstitial(Id);
