@@ -24,7 +24,7 @@
     "versionDefines": [
         {
             "name": "com.unity.purchasing",
-            "expression": "4.11.0",
+            "expression": "5.0.0",
             "define": "VIRTUESKY_IAP"
         }
     ],
