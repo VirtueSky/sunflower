@@ -12,20 +12,7 @@ namespace VirtueSky.Iap
         private const string m_GeneratedCredentialsTemplateFilename = "IAPGeneratedCredentials.cs.template";
         private const string m_GeneratedCredentialsTemplateFilenameNoExtension = "IAPGeneratedCredentials.cs";
 
-        private const string k_AppleCertPath = "Packages/com.unity.purchasing/Editor/AppleIncRootCertificate.cer";
-        private const string k_AppleStoreKitTestCertPath = "Packages/com.unity.purchasing/Editor/StoreKitTestCertificate.cer";
-
-        private const string k_AppleClassIncompleteErr = "Invalid Apple Root Certificate";
-        private const string k_AppleStoreKitTestClassIncompleteErr = "Invalid Apple StoreKit Test Certificate";
-
-        internal static string ObfuscateAppleSecrets()
-        {
-            var appleError = WriteObfuscatedAppleClassAsAsset();
-
-            AssetDatabase.Refresh();
-
-            return appleError;
-        }
+        // IAP v5: Apple uses StoreKit 2 (transactions are verified by the store), AppleTangle is no longer generated.
 
         internal static string ObfuscateGoogleSecrets(string googlePlayPublicKey)
         {
@@ -39,13 +26,10 @@ namespace VirtueSky.Iap
         /// <summary>
         /// Generates specified obfuscated class files.
         /// </summary>
-        internal static void ObfuscateSecrets(bool includeGoogle, ref string appleError, ref string googleError, string googlePlayPublicKey)
+        internal static void ObfuscateSecrets(bool includeGoogle, ref string googleError, string googlePlayPublicKey)
         {
             try
             {
-                // First things first! Obfuscate! XHTLOA!
-                appleError = WriteObfuscatedAppleClassAsAsset();
-
                 if (includeGoogle)
                 {
                     googleError = WriteObfuscatedGooglePlayClassAsAsset(googlePlayPublicKey);
@@ -74,50 +58,6 @@ namespace VirtueSky.Iap
             }
 
             AssetDatabase.Refresh();
-        }
-
-        private static string WriteObfuscatedAppleClassAsAsset()
-        {
-            var err = WriteObfuscatedAppleClassAsAsset(k_AppleCertPath, k_AppleClassIncompleteErr, TangleFileConsts.k_AppleClassPrefix);
-
-            if (err == null)
-            {
-                err = WriteObfuscatedAppleClassAsAsset(k_AppleStoreKitTestCertPath,
-                    k_AppleStoreKitTestClassIncompleteErr,
-                    TangleFileConsts.k_AppleStoreKitTestClassPrefix);
-            }
-
-            return err;
-        }
-
-        private static string WriteObfuscatedAppleClassAsAsset(string certPath, string classIncompleteErr, string classPrefix)
-        {
-            string appleError = null;
-            var key = 0;
-            var order = new int[0];
-            var tangled = new byte[0];
-            try
-            {
-                var bytes = File.ReadAllBytes(certPath);
-                order = new int[bytes.Length / 20 + 1];
-
-                // TODO: Integrate with upgraded Tangle!
-
-                tangled = TangleObfuscator.Obfuscate(bytes, order, out key);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning($"{classIncompleteErr}. Generating incomplete credentials file. " + e);
-                appleError = $"  {classIncompleteErr}";
-            }
-
-            WriteObfuscatedClassAsAsset(classPrefix,
-                key,
-                order,
-                tangled,
-                tangled.Length != 0);
-
-            return appleError;
         }
 
         private static string WriteObfuscatedGooglePlayClassAsAsset(string googlePlayPublicKey)
@@ -151,11 +91,6 @@ namespace VirtueSky.Iap
         private static string FullPathForTangleClass(string classnamePrefix)
         {
             return Path.Combine(TangleFileConsts.k_OutputPath, string.Format($"{classnamePrefix}{TangleFileConsts.k_ObfuscationClassSuffix}"));
-        }
-
-        internal static bool DoesAppleTangleClassExist()
-        {
-            return ObfuscatedClassExists(TangleFileConsts.k_AppleClassPrefix) && ObfuscatedClassExists(TangleFileConsts.k_AppleStoreKitTestClassPrefix);
         }
 
         internal static bool DoesGooglePlayTangleClassExist()
