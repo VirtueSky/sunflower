@@ -145,9 +145,11 @@ namespace VirtueSky.Audio
         private void FinishSfx(SoundCache soundCache)
         {
             var soundComponent = GetSoundComponent(soundCache);
-            if (soundComponent == null || !soundComponent.IsPlaying) return;
-            soundComponent.Finish();
+            // Finish only makes sense for looping SFX; non-looping ones already have the handler.
+            if (soundComponent == null || !soundComponent.IsPlaying || !soundComponent.IsLooping) return;
+            soundComponent.OnCompleted -= OnFinishPlayingAudio; // avoid double subscription
             soundComponent.OnCompleted += OnFinishPlayingAudio;
+            soundComponent.Finish();
         }
 
         private void StopAllSfx()
@@ -159,9 +161,8 @@ namespace VirtueSky.Audio
             }
 
             listCacheSfx.Clear();
-            listTemp.Clear();
-
-            key = 0;
+            // Do NOT reset key: keys must increase monotonically so old SoundCache handles
+            // can never match a newly played SFX.
         }
 
         #endregion
@@ -177,6 +178,7 @@ namespace VirtueSky.Audio
 
             music.FadePlayMusic(soundData.GetAudioClip(), soundData.loop, soundData.volume * musicVolume.Value,
                 soundData.isMusicFadeVolume, soundData.fadeOutDuration, soundData.fadeInDuration);
+            music.OnCompleted -= StopAudioMusic; // same component may be reused across PlayMusic calls
             music.OnCompleted += StopAudioMusic;
         }
 
@@ -186,6 +188,8 @@ namespace VirtueSky.Audio
             {
                 music.Stop();
                 music.gameObject.DeSpawn();
+                // Drop the reference: the pooled object may be reused as an SFX afterwards.
+                music = null;
             }
         }
 
@@ -215,11 +219,7 @@ namespace VirtueSky.Audio
 
         void StopAndCleanAudioComponent(SoundComponent soundComponent)
         {
-            if (!soundComponent.IsLooping)
-            {
-                soundComponent.OnCompleted -= OnFinishPlayingAudio;
-            }
-
+            soundComponent.OnCompleted -= OnFinishPlayingAudio; // always unsubscribe, regardless of IsLooping
             soundComponent.Stop();
             soundComponent.gameObject.DeSpawn();
             if (listCacheSfx.Contains(soundComponent)) listCacheSfx.Remove(soundComponent);
@@ -229,6 +229,7 @@ namespace VirtueSky.Audio
         {
             soundComponent.OnCompleted -= StopAudioMusic;
             soundComponent.gameObject.DeSpawn();
+            if (music == soundComponent) music = null;
         }
 
         SoundComponent GetSoundComponent(SoundCache soundCache)
