@@ -7,8 +7,10 @@ using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
-    public sealed class AdmobAdClient : AdClient
+    public sealed class AdmobAdClient : AdClient, IBannerClient, IInterstitialClient, IRewardClient,
+        IRewardedInterstitialClient, IAppOpenClient, INativeOverlayClient
     {
+        private bool statusAppOpenFirstIgnore;
         private bool isInitializeCompleteHandled;
         private DelayHandle initializeTimeoutHandle;
 
@@ -107,42 +109,42 @@ namespace VirtueSky.Ads
             MobileAds.SetRequestConfiguration(configuration);
         }
 #endif
-        public override void LoadBanner()
+        public void LoadBanner()
         {
             if (adSetting.AdmobBannerVariable == null) return;
             adSetting.AdmobBannerVariable.Load();
         }
 
-        public override void LoadInterstitial()
+        public void LoadInterstitial()
         {
             LoadAdUnit(adSetting.AdmobInterVariable);
             if (adSetting.UseAdmobInterBackup) LoadAdUnit(adSetting.AdmobInterVariableBackup);
         }
 
-        public override void LoadRewarded()
+        public void LoadRewarded()
         {
             LoadAdUnit(adSetting.AdmobRewardVariable);
             if (adSetting.UseAdmobRewardBackup) LoadAdUnit(adSetting.AdmobRewardVariableBackup);
         }
 
-        public override void LoadRewardedInterstitial()
+        public void LoadRewardedInterstitial()
         {
             LoadAdUnit(adSetting.AdmobRewardInterVariable);
         }
 
-        public override void LoadAppOpen()
+        public void LoadAppOpen()
         {
             if (adSetting.AdmobAppOpenVariable == null) return;
             if (!adSetting.AdmobAppOpenVariable.IsReady() && !adSetting.AdmobAppOpenVariable.IsLoading) adSetting.AdmobAppOpenVariable.Load();
         }
 
-        public override void ShowAppOpen()
+        public void ShowAppOpen()
         {
             if (statusAppOpenFirstIgnore) adSetting.AdmobAppOpenVariable.Show();
             statusAppOpenFirstIgnore = true;
         }
 
-        public override void LoadNativeOverlay()
+        public void LoadNativeOverlay()
         {
             if (adSetting.AdmobNativeOverlayVariable == null) return;
             if (!adSetting.AdmobNativeOverlayVariable.IsReady()) adSetting.AdmobNativeOverlayVariable.Load();

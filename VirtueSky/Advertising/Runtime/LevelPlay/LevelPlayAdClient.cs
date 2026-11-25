@@ -7,7 +7,7 @@ using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
-    public sealed class LevelPlayAdClient : AdClient
+    public sealed class LevelPlayAdClient : AdClient, IBannerClient, IInterstitialClient, IRewardClient
     {
         public LevelPlayAdClient(AdSetting _adSetting)
         {
@@ -73,41 +73,25 @@ namespace VirtueSky.Ads
 #endif
 
 
-        public override void LoadBanner()
+        public void LoadBanner()
         {
             if (!SdkInitializationCompleted) return;
             if (adSetting.LevelPlayBannerVariable == null) return;
             adSetting.LevelPlayBannerVariable.Load();
         }
 
-        public override void LoadInterstitial()
+        public void LoadInterstitial()
         {
             if (!SdkInitializationCompleted) return;
             LoadAdUnit(adSetting.LevelPlayInterVariable);
             if (adSetting.UseLevelPlayInterBackup) LoadAdUnit(adSetting.LevelPlayInterVariableBackup);
         }
 
-        public override void LoadRewarded()
+        public void LoadRewarded()
         {
             if (!SdkInitializationCompleted) return;
             LoadAdUnit(adSetting.LevelPlayRewardVariable);
             if (adSetting.UseLevelPlayRewardBackup) LoadAdUnit(adSetting.LevelPlayRewardVariableBackup);
-        }
-
-        public override void LoadRewardedInterstitial()
-        {
-        }
-
-        public override void LoadAppOpen()
-        {
-        }
-
-        public override void ShowAppOpen()
-        {
-        }
-
-        public override void LoadNativeOverlay()
-        {
         }
 
         public override void ShowAdMediationDebugger()
