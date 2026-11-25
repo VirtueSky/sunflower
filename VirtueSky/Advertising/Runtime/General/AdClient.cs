@@ -2,27 +2,17 @@ using VirtueSky.Tracking;
 
 namespace VirtueSky.Ads
 {
+    /// <summary>
+    /// Base class for every mediation client. Only holds what all mediations share.
+    /// Ad formats are opt-in through capability interfaces (see AdClientCapabilities.cs),
+    /// e.g. <see cref="IInterstitialClient"/>, <see cref="IAppOpenClient"/>, <see cref="INativeOverlayClient"/>.
+    /// </summary>
     public abstract class AdClient
     {
         protected AdSetting adSetting;
-        protected bool statusAppOpenFirstIgnore;
         public bool SdkInitializationCompleted { get; internal set; }
 
-        public void SetupAdSetting(AdSetting _adSetting)
-        {
-            this.adSetting = _adSetting;
-        }
-
         public abstract void Initialize();
-        public abstract void LoadBanner();
-        public abstract void LoadInterstitial();
-        public abstract void LoadRewarded();
-        public abstract void LoadRewardedInterstitial();
-        public abstract void LoadAppOpen();
-        public abstract void ShowAppOpen();
-
-        //Currently, native overlay ads is only available for admob.
-        public abstract void LoadNativeOverlay();
         public abstract void ShowAdMediationDebugger();
 
         protected static void LoadAdUnit(AdUnitVariable unit)

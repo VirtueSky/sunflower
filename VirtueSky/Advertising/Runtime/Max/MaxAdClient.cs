@@ -3,8 +3,10 @@ using VirtueSky.Core;
 
 namespace VirtueSky.Ads
 {
-    public sealed class MaxAdClient : AdClient
+    public sealed class MaxAdClient : AdClient, IBannerClient, IInterstitialClient, IRewardClient, IAppOpenClient
     {
+        private bool statusAppOpenFirstIgnore;
+
         public MaxAdClient(AdSetting _adSetting)
         {
             adSetting = _adSetting;
@@ -42,48 +44,39 @@ namespace VirtueSky.Ads
             SdkInitializationCompleted = true;
             LoadInterstitial();
             LoadRewarded();
-            LoadRewardedInterstitial();
             LoadAppOpen();
            // LoadBanner();
         }
 #endif
 
-        public override void LoadBanner()
+        public void LoadBanner()
         {
             if (adSetting.MaxBannerVariable == null) return;
             adSetting.MaxBannerVariable.Load();
         }
 
-        public override void LoadInterstitial()
+        public void LoadInterstitial()
         {
             LoadAdUnit(adSetting.MaxInterVariable);
             if (adSetting.UseMaxInterBackup) LoadAdUnit(adSetting.MaxInterVariableBackup);
         }
 
-        public override void LoadRewarded()
+        public void LoadRewarded()
         {
             LoadAdUnit(adSetting.MaxRewardVariable);
             if (adSetting.UseMaxRewardBackup) LoadAdUnit(adSetting.MaxRewardVariableBackup);
         }
 
-        public override void LoadRewardedInterstitial()
-        {
-        }
-
-        public override void LoadAppOpen()
+        public void LoadAppOpen()
         {
             if (adSetting.MaxAppOpenVariable == null) return;
             if (!adSetting.MaxAppOpenVariable.IsReady() && !adSetting.MaxAppOpenVariable.IsLoading) adSetting.MaxAppOpenVariable.Load();
         }
 
-        public override void ShowAppOpen()
+        public void ShowAppOpen()
         {
             if (statusAppOpenFirstIgnore) adSetting.MaxAppOpenVariable.Show();
             statusAppOpenFirstIgnore = true;
-        }
-
-        public override void LoadNativeOverlay()
-        {
         }
 
         public override void ShowAdMediationDebugger()

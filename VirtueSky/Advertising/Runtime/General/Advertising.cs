@@ -277,67 +277,63 @@ namespace VirtueSky.Ads
 
         #region Func Load Ads
 
-        void AutoLoadInterAds()
+        void AutoLoadInterAds() =>
+            AutoLoad<IInterstitialClient>(ref _lastTimeLoadInterstitialAdTimestamp, c => c.LoadInterstitial());
+
+        void AutoLoadRewardAds() =>
+            AutoLoad<IRewardClient>(ref _lastTimeLoadRewardedTimestamp, c => c.LoadRewarded());
+
+        void AutoLoadRewardInterAds() =>
+            AutoLoad<IRewardedInterstitialClient>(ref _lastTimeLoadRewardedInterstitialTimestamp, c => c.LoadRewardedInterstitial());
+
+        void AutoLoadAppOpenAds() =>
+            AutoLoad<IAppOpenClient>(ref _lastTimeLoadAppOpenTimestamp, c => c.LoadAppOpen());
+
+        /// <summary>
+        /// Calls <paramref name="load"/> on every enabled, SDK-ready client that supports <typeparamref name="TCapability"/>.
+        /// </summary>
+        private void AutoLoad<TCapability>(ref float lastLoadTimestamp, Action<TCapability> load) where TCapability : class
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadInterstitialAdTimestamp <
-                adSetting.AdLoadingInterval) return;
-            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadInterstitial();
-            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadInterstitial();
-            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadInterstitial();
-            _lastTimeLoadInterstitialAdTimestamp = Time.realtimeSinceStartup;
+            if (Time.realtimeSinceStartup - lastLoadTimestamp < adSetting.AdLoadingInterval) return;
+            LoadIfReady(adSetting.IsApplovin(), maxAdClient, load);
+            LoadIfReady(adSetting.IsAdmob(), admobAdClient, load);
+            LoadIfReady(adSetting.IsLevelPlay(), levelplayAdClient, load);
+            lastLoadTimestamp = Time.realtimeSinceStartup;
         }
 
-        void AutoLoadRewardAds()
+        private static void LoadIfReady<TCapability>(bool isEnabled, AdClient client, Action<TCapability> load) where TCapability : class
         {
-            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedTimestamp <
-                adSetting.AdLoadingInterval) return;
-            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadRewarded();
-            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadRewarded();
-            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadRewarded();
-            _lastTimeLoadRewardedTimestamp = Time.realtimeSinceStartup;
-        }
-
-        void AutoLoadRewardInterAds()
-        {
-            if (Time.realtimeSinceStartup - _lastTimeLoadRewardedInterstitialTimestamp <
-                adSetting.AdLoadingInterval) return;
-            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadRewardedInterstitial();
-            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadRewardedInterstitial();
-            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadRewardedInterstitial();
-            _lastTimeLoadRewardedInterstitialTimestamp = Time.realtimeSinceStartup;
-        }
-
-        void AutoLoadAppOpenAds()
-        {
-            if (Time.realtimeSinceStartup - _lastTimeLoadAppOpenTimestamp <
-                adSetting.AdLoadingInterval) return;
-            if (IsAdClientReady(adSetting.IsApplovin(), maxAdClient)) maxAdClient.LoadAppOpen();
-            if (IsAdClientReady(adSetting.IsAdmob(), admobAdClient)) admobAdClient.LoadAppOpen();
-            if (IsAdClientReady(adSetting.IsLevelPlay(), levelplayAdClient)) levelplayAdClient.LoadAppOpen();
-            _lastTimeLoadAppOpenTimestamp = Time.realtimeSinceStartup;
-        }
-
-        private static bool IsAdClientReady(bool isEnabled, AdClient adClient)
-        {
-            return isEnabled && adClient != null && adClient.SdkInitializationCompleted;
+            if (isEnabled && client is { SdkInitializationCompleted: true } && client is TCapability capability) load(capability);
         }
 
         #endregion
 
+        private AdClient GetAdClient(AdMediation adMediation)
+        {
+            return adMediation switch
+            {
+                AdMediation.AppLovin => maxAdClient,
+                AdMediation.Admob => admobAdClient,
+                _ => levelplayAdClient
+            };
+        }
+
         private void ShowAdDebuger(string adMediation)
         {
-            if (adMediation.Equals(AdMediation.AppLovin.ToString()))
+            if (!Enum.TryParse(adMediation, out AdMediation mediation) || !Enum.IsDefined(typeof(AdMediation), mediation))
             {
-                maxAdClient.ShowAdMediationDebugger();
+                Debug.LogWarning($"Unknown ad mediation: {adMediation}, can't show ad mediation debugger.");
+                return;
             }
-            else if (adMediation.Equals(AdMediation.Admob.ToString()))
+
+            var client = GetAdClient(mediation);
+            if (client == null)
             {
-                admobAdClient.ShowAdMediationDebugger();
+                Debug.LogWarning($"{mediation} AdClient is not initialized, can't show {mediation} ad mediation debugger.");
+                return;
             }
-            else if (adMediation.Equals(AdMediation.LevelPlay.ToString()))
-            {
-                levelplayAdClient.ShowAdMediationDebugger();
-            }
+
+            client.ShowAdMediationDebugger();
         }
 
         #region Admob GDPR
